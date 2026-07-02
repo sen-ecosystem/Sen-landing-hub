@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEN ECOSYSTEM — Bientôt Disponible</title>
+<meta name="description" content="Une plateforme digitale panafricaine en préparation. Restez informés du lancement officiel.">
+<meta name="robots" content="noindex, nofollow">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+body{background:linear-gradient(135deg,#0A4D38 0%,#0F6B4E 50%,#0A0A0A 100%);min-height:100vh;color:white;overflow-x:hidden;position:relative}
+body::before{content:'';position:fixed;top:-50%;right:-50%;width:100%;height:100%;background:radial-gradient(circle,rgba(212,165,116,0.15) 0%,transparent 70%);border-radius:50%;animation:float 20s ease-in-out infinite}
+body::after{content:'';position:fixed;bottom:-50%;left:-50%;width:100%;height:100%;background:radial-gradient(circle,rgba(15,107,78,0.2) 0%,transparent 70%);border-radius:50%;animation:float 25s ease-in-out infinite reverse}
+@keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(-50px,50px)}}
+.container{max-width:800px;margin:0 auto;padding:40px 20px;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;z-index:2}
+
+/* Symbole décoratif à la place du logo */
+.symbol{width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#D4A574,#E8C9A1);display:flex;align-items:center;justify-content:center;font-size:56px;margin-bottom:32px;box-shadow:0 20px 60px rgba(212,165,116,0.4);animation:fadeInDown 1s ease, glow 3s ease-in-out infinite}
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes glow{0%,100%{box-shadow:0 20px 60px rgba(212,165,116,0.4)}50%{box-shadow:0 20px 80px rgba(212,165,116,0.7)}}
+
+.badge{display:inline-block;background:linear-gradient(135deg,#D4A574,#E8C9A1);color:#0A0A0A;padding:10px 24px;border-radius:30px;font-size:14px;font-weight:800;margin-bottom:24px;letter-spacing:1px;box-shadow:0 8px 24px rgba(212,165,116,0.4);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 8px 24px rgba(212,165,116,0.4)}50%{box-shadow:0 8px 32px rgba(212,165,116,0.7)}}
+h1{font-size:56px;font-weight:900;margin-bottom:16px;line-height:1.1;animation:fadeIn 1.2s ease;letter-spacing:2px}
+h1 .gold{background:linear-gradient(135deg,#D4A574,#E8C9A1);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.tagline{font-size:20px;color:rgba(255,255,255,0.9);margin-bottom:40px;max-width:600px;line-height:1.6;animation:fadeIn 1.4s ease}
+.info-box{background:rgba(255,255,255,0.08);backdrop-filter:blur(10px);border:1px solid rgba(212,165,116,0.3);border-radius:20px;padding:32px;margin-bottom:40px;max-width:600px;animation:fadeInUp 1.6s ease}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.info-box h2{font-size:22px;color:#D4A574;margin-bottom:16px;font-weight:800}
+.info-box p{color:rgba(255,255,255,0.85);line-height:1.7;font-size:15px}
+.dots{display:flex;justify-content:center;gap:12px;margin:32px 0}
+.dot{width:12px;height:12px;border-radius:50%;background:#D4A574;animation:bounce 1.4s ease-in-out infinite}
+.dot:nth-child(2){animation-delay:0.2s}
+.dot:nth-child(3){animation-delay:0.4s}
+@keyframes bounce{0%,80%,100%{transform:scale(0.6);opacity:0.5}40%{transform:scale(1);opacity:1}}
+.newsletter{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:32px;max-width:500px;width:100%;margin-bottom:32px;animation:fadeInUp 1.8s ease}
+.newsletter h3{font-size:18px;margin-bottom:16px;color:#D4A574}
+.newsletter p{font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:20px}
+.newsletter form{display:flex;gap:10px;flex-wrap:wrap}
+.newsletter input{flex:1;min-width:200px;padding:14px 18px;border-radius:10px;border:none;font-size:14px;font-family:inherit}
+.newsletter input:focus{outline:2px solid #D4A574}
+.newsletter button{background:linear-gradient(135deg,#D4A574,#B88B5A);color:#0A0A0A;border:none;padding:14px 24px;border-radius:10px;font-weight:800;cursor:pointer;font-size:14px;transition:all 0.3s}
+.newsletter button:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,165,116,0.5)}
+.contact{color:rgba(255,255,255,0.7);font-size:14px;margin-top:20px;line-height:1.8}
+.contact a{color:#D4A574;text-decoration:none;font-weight:600}
+.contact a:hover{text-decoration:underline}
+.footer{margin-top:40px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);font-size:13px;width:100%;max-width:600px}
+.flag{font-size:18px}
+@media(max-width:600px){h1{font-size:36px}.tagline{font-size:16px}.symbol{width:90px;height:90px;font-size:42px}.info-box,.newsletter{padding:24px 20px}}
+</style>
+</head>
+<body oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+
+<div class="container">
+  
+  <div class="symbol">🌍</div>
+  
+  <span class="badge">🚀 BIENTÔT DISPONIBLE</span>
+  
+  <h1>SEN <span class="gold">ECOSYSTEM</span></h1>
+  
+  <p class="tagline">
+    Une plateforme digitale panafricaine innovante en préparation.<br>
+    <strong>Une Afrique unifiée.</strong>
+  </p>
+  
+  <div class="dots">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+  
+  <div class="info-box">
+    <h2>🔐 Site en préparation</h2>
+    <p>
+      Nous travaillons actuellement sur une solution digitale révolutionnaire pour le Sénégal, l'Afrique et sa diaspora. 
+      Notre plateforme sera bientôt dévoilée avec des services innovants pensés pour <strong>1,4 milliard d'Africains</strong>. 
+      Restez à l'écoute pour le lancement officiel.
+    </p>
+  </div>
+  
+  <div class="newsletter">
+    <h3>📩 Soyez les premiers informés</h3>
+    <p>Inscrivez-vous pour recevoir une notification exclusive lors du lancement officiel.</p>
+    <form onsubmit="event.preventDefault(); alert('✅ Merci ! Vous serez notifié dès le lancement officiel.'); this.reset();">
+      <input type="email" placeholder="votre@email.com" required>
+      <button type="submit">M'informer</button>
+    </form>
+  </div>
+  
+  <div class="contact">
+    📧 Contact professionnel : <a href="mailto:hello.senecosystem@gmail.com">hello.senecosystem@gmail.com</a><br>
+    📍 Dakar, Sénégal <span class="flag">🇸🇳</span>
+  </div>
+  
+  <div class="footer">
+    © 2026 SEN ECOSYSTEM. Tous droits réservés.<br>
+    Projet en cours de développement et de protection juridique.
+  </div>
+  
+</div>
+
+<script>
+// Protection anti-copie
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'F12' || 
+      (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+      (e.ctrlKey && e.key === 'u') ||
+      (e.metaKey && e.altKey && (e.key === 'i' || e.key === 'j'))) {
+    e.preventDefault();
+    return false;
+  }
+});
+</script>
+
+</body>
+</html>
