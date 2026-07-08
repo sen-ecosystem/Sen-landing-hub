@@ -31,33 +31,201 @@ input,textarea{user-select:text;-webkit-user-select:text}
 
 .product-stats{background:var(--bg-light);padding:50px 0;border-bottom:1px solid var(--gray-light)}
 
-/* ============ ALERTES FRAUDE ============ */
-.fraud-alert-section{background:linear-gradient(180deg,#FFF8E1 0%,#FFECB3 100%);padding:80px 0}
-.fraud-alert-box{
-  background:white;border-radius:24px;padding:48px;
-  border:3px solid #FFA726;
-  box-shadow:0 20px 60px rgba(255,167,38,0.2);
-  display:grid;grid-template-columns:80px 1fr;gap:32px;align-items:start
+/* ============================================
+   ALERTES SÉCURITÉ - VERSION DISCRÈTE v2
+   ============================================ */
+
+.fraud-alerts-section {
+  background: linear-gradient(135deg, #FAFAF7 0%, #FFFFFF 100%);
+  padding: 40px 0;
+  border-top: 1px solid #E5E7EB;
+  border-bottom: 1px solid #E5E7EB;
 }
-.fraud-icon{
-  font-size:60px;background:linear-gradient(135deg,#FFA726,#FF6F00);
-  width:80px;height:80px;border-radius:20px;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 10px 30px rgba(255,111,0,0.3)
+
+.security-banner {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border: 1px solid #D4A574;
+  border-radius: 14px;
+  padding: 20px 28px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 4px 12px rgba(212, 165, 116, 0.15);
+  transition: all 0.3s;
 }
-.fraud-content h2{font-size:28px;font-weight:800;color:#E65100;margin-bottom:12px}
-.fraud-content>p{color:var(--black);font-size:16px;margin-bottom:28px;line-height:1.6}
-.fraud-tips{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px}
-.fraud-tip{
-  background:#FFF8E1;border-radius:14px;padding:20px;
-  display:flex;gap:14px;align-items:flex-start;
-  border-left:4px solid #FFA726;transition:all 0.3s
+
+.security-banner:hover {
+  box-shadow: 0 8px 24px rgba(212, 165, 116, 0.25);
+  transform: translateY(-2px);
 }
-.fraud-tip:hover{background:#FFECB3;transform:translateX(4px)}
-.fraud-tip>span{font-size:28px;flex-shrink:0}
-.fraud-tip strong{display:block;font-size:15px;color:#E65100;margin-bottom:6px}
-.fraud-tip p{color:var(--black);font-size:13px;line-height:1.5;margin:0}
-.fraud-tip em{color:var(--emerald);font-style:normal;font-weight:700}
+
+.security-icon {
+  font-size: 36px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #D4E9DD, #B8DDC9);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.security-content {
+  flex: 1;
+}
+
+.security-content h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0F6B4E;
+  margin-bottom: 4px;
+}
+
+.security-content p {
+  font-size: 14px;
+  color: #6B7280;
+  line-height: 1.5;
+}
+
+.security-btn {
+  background: linear-gradient(135deg, #0F6B4E, #0A4D38);
+  color: white;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  white-space: nowrap;
+  transition: all 0.3s;
+  font-family: inherit;
+}
+
+.security-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(15, 107, 78, 0.3);
+}
+
+/* ============ MODAL SÉCURITÉ ============ */
+.security-modal {
+  display: none !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.security-modal.active {
+  display: flex !important;
+  animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  background: white;
+  border-radius: 20px;
+  max-width: 700px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 40px;
+  position: relative;
+  animation: modalSlideUp 0.4s ease;
+}
+
+@keyframes modalSlideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: #F3F4F6;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #0A0A0A;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close:hover {
+  background: #EF4444;
+  color: white;
+  transform: rotate(90deg);
+}
+
+.modal-content h2 {
+  color: #0F6B4E;
+  font-size: 24px;
+  margin-bottom: 8px;
+  padding-right: 50px;
+}
+
+.modal-content .subtitle {
+  color: #6B7280;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.alert-item {
+  background: #FAFAF7;
+  border-left: 3px solid #D4A574;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.alert-item:hover {
+  background: #F3F4F6;
+  border-left-color: #0F6B4E;
+}
+
+.alert-item h4 {
+  color: #0A0A0A;
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.alert-item p {
+  color: #6B7280;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .security-banner {
+    flex-direction: column;
+    text-align: center;
+  }
+  .modal-content {
+    padding: 24px 20px;
+  }
+}
+
 
 /* ============ TOOLTIPS ℹ️ ============ */
 .info-tip{
