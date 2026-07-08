@@ -56,62 +56,36 @@
 </section>
 
 <!-- ALERTE SÉCURITÉ FRAUDE -->
-<section class="fraud-alert-section">
+<section class="fraud-alerts-section">
   <div class="container">
-    <div class="fraud-alert-box">
-      <div class="fraud-icon">🚨</div>
-      <div class="fraud-content">
-        <h2>Alertes Anti-Arnaque Crypto — Restez vigilant !</h2>
-        <p>Le monde de la crypto attire beaucoup d'arnaqueurs. SENCRYPT ne vous demandera <strong>JAMAIS</strong> vos clés privées, seed phrases ou codes 2FA.</p>
-        <div class="fraud-tips">
-          <div class="fraud-tip">
-            <span>🔑</span>
-            <div>
-              <strong>Clés privées & Seed phrases</strong>
-              <p>Ne partagez JAMAIS votre seed phrase (12/24 mots). Personne de légitime ne vous la demandera. Écrivez-la sur papier, gardez-la offline.</p>
-            </div>
-          </div>
-          <div class="fraud-tip">
-            <span>📧</span>
-            <div>
-              <strong>Emails phishing crypto</strong>
-              <p>Emails prétendant que "votre compte est bloqué" ou "réclamez votre airdrop" sont souvent des arnaques. Vérifiez toujours <em>@sen-ecosystem.com</em></p>
-            </div>
-          </div>
-          <div class="fraud-tip">
-            <span>💬</span>
-            <div>
-              <strong>Faux groupes Telegram/WhatsApp</strong>
-              <p>SENCRYPT n'a pas de groupe Telegram/WhatsApp "VIP" où l'on garantit des gains. Fuyez les promesses de "x10 en 24h".</p>
-            </div>
-          </div>
-          <div class="fraud-tip">
-            <span>📞</span>
-            <div>
-              <strong>Faux support technique</strong>
-              <p>Notre support ne vous appellera JAMAIS pour "récupérer" vos fonds. Utilisez uniquement le chat officiel dans l'app SENCRYPT.</p>
-            </div>
-          </div>
-          <div class="fraud-tip">
-            <span>💰</span>
-            <div>
-              <strong>Mobile Money crypto irréversible</strong>
-              <p>Un achat crypto via Mobile Money est irréversible une fois validé. Vérifiez TOUJOURS l'adresse crypto et le montant avant de confirmer avec votre code PIN.</p>
-            </div>
-          </div>
-          <div class="fraud-tip">
-            <span>🎯</span>
-            <div>
-              <strong>Faux investissements & Ponzi</strong>
-              <p>Méfiez-vous des "opportunités" promettant des gains fixes. SENCRYPT ne fait pas de "trading géré" avec garantie de rendement.</p>
-            </div>
-          </div>
-        </div>
-        <a href="mailto:security@sen-ecosystem.com" class="btn-primary">🛡️ Signaler une arnaque</a>
+    <div class="security-banner">
+      <div class="security-icon">🔒</div>
+      <div class="security-content">
+        <h3>Trader en toute sécurité</h3>
+        <p>SENCRYPT ne vous demandera jamais vos clés privées, mnémoniques ou codes 2FA. Restez vigilant face aux arnaques crypto.</p>
       </div>
+      <button class="security-btn" onclick="document.getElementById('securityModalCrypt').classList.add('active')">
+        Voir les conseils
+      </button>
     </div>
   </div>
 </section>
+
+<div id="securityModalCrypt" class="security-modal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="document.getElementById('securityModalCrypt').classList.remove('active')">×</button>
+    <h2>🔒 Conseils de sécurité SENCRYPT</h2>
+    <p class="subtitle">Protégez-vous contre les arnaques crypto</p>
+    
+    <div class="alert-item"><h4>🔑 Clés privées</h4><p>Ne partagez JAMAIS vos clés privées ou phrase mnémonique de 12/24 mots. SENCRYPT ne vous les demandera jamais.</p></div>
+    <div class="alert-item"><h4>🎣 Phishing crypto</h4><p>Vérifiez toujours l'URL : sen-ecosystem.com. Attention aux faux sites imitant SENCRYPT.</p></div>
+    <div class="alert-item"><h4>👥 Faux groupes Telegram/WhatsApp</h4><p>Les groupes officiels sont vérifiés uniquement via notre site. Méfiez-vous des "conseillers" privés.</p></div>
+    <div class="alert-item"><h4>🎭 Faux support technique</h4><p>Le support SENCRYPT vous répond uniquement via l'application ou hello.senecosystem@gmail.com.</p></div>
+    <div class="alert-item"><h4>💳 Mobile Money irréversible</h4><p>⚠️ Les achats crypto en Mobile Money sont définitifs. Vérifiez le montant et le destinataire avant confirmation.</p></div>
+    <div class="alert-item"><h4>🚫 Schémas Ponzi</h4><p>Méfiez-vous des promesses de rendements garantis "100% en 24h". Aucun investissement légitime ne garantit de tels gains.</p></div>
+  </div>
+</div>
+
 
 <!-- FONCTIONS DÉTAILLÉES -->
 <section class="features-section" id="features">
