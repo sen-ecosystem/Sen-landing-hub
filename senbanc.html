@@ -55,49 +55,68 @@
   </div>
 </section>
 
-<!-- ALERTE SÉCURITÉ FRAUDE -->
-<section class="fraud-alert-section">
+  <!-- ALERTES SÉCURITÉ (Version discrète) -->
+<section class="fraud-alerts-section">
   <div class="container">
-    <div class="fraud-alert-box">
-      <div class="fraud-icon">🚨</div>
-      <div class="fraud-content">
-        <h2>Alertes Anti-Arnaque — Restez vigilant !</h2>
-        <p>SENBANC ne vous demandera <strong>JAMAIS</strong> votre mot de passe, code PIN ou code de sécurité par email, SMS ou téléphone.</p>
-        <div class="fraud-tips">
-          <div class="fraud-tip">
-            <span>📧</span>
-            <div>
-              <strong>Emails suspects</strong>
-              <p>Ne cliquez jamais sur des liens dans un email prétendant être SENBANC. Vérifiez toujours le domaine expéditeur : <em>@sen-ecosystem.com</em></p>
-            </div>
-          </div>
-          <div class="fraud-tip">
-            <span>💬</span>
-            <div>
-              <strong>SMS/Messages frauduleux</strong>
-              <p>SENBANC n'envoie pas de liens de "vérification urgente" par SMS. Signalez tout message suspect au 200 (gratuit).</p>
-            </div>
-          </div>
-          <div class="fraud-tip">
-            <span>📞</span>
-            <div>
-              <strong>Appels d'arnaque</strong>
-              <p>Un conseiller SENBANC ne demandera JAMAIS votre code d'accès. Raccrochez et appelez-nous vous-même au 200.</p>
-            </div>
-          </div>
-          <div class="fraud-tip">
-            <span>💰</span>
-            <div>
-              <strong>Mobile Money irréversible</strong>
-              <p>Une fois confirmée, une transaction Mobile Money ne peut être annulée. Vérifiez TOUJOURS le montant et le destinataire avant de valider avec votre code PIN.</p>
-            </div>
-          </div>
-        </div>
-        <a href="mailto:security@sen-ecosystem.com" class="btn-primary">🛡️ Signaler une fraude</a>
+    <div class="security-banner">
+      <div class="security-icon">🛡️</div>
+      <div class="security-content">
+        <h3>Votre sécurité, notre priorité</h3>
+        <p>SENBANC ne vous demandera jamais votre code PIN, mot de passe ou code de confirmation par email, SMS ou téléphone.</p>
       </div>
+      <button class="security-btn" onclick="document.getElementById('securityModal').classList.add('active')">
+        Voir les conseils
+      </button>
     </div>
   </div>
 </section>
+
+
+  <!-- MODAL SÉCURITÉ -->
+<div id="securityModal" class="security-modal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="document.getElementById('securityModal').classList.remove('active')">×</button>
+    <h2>🛡️ Conseils de sécurité SENBANC</h2>
+    <p class="subtitle">Protégez-vous contre les arnaques bancaires</p>
+    
+    <div class="alert-item">
+      <h4>📧 Emails frauduleux</h4>
+      <p>Ne cliquez jamais sur les liens d'emails suspects prétendant venir de SENBANC. Vérifiez toujours l'adresse expéditeur : elle doit se terminer par @sen-ecosystem.com.</p>
+    </div>
+    
+    <div class="alert-item">
+      <h4>📱 SMS d'arnaque</h4>
+      <p>SENBANC n'envoie jamais de SMS demandant votre code PIN ou OTP. En cas de doute, appelez le service client au numéro officiel.</p>
+    </div>
+    
+    <div class="alert-item">
+      <h4>📞 Faux appels</h4>
+      <p>Aucun agent SENBANC ne vous demandera votre mot de passe par téléphone. Raccrochez immédiatement en cas de demande suspecte.</p>
+    </div>
+    
+    <div class="alert-item">
+      <h4>💳 Mobile Money irréversible</h4>
+      <p>⚠️ Toute transaction Mobile Money confirmée est définitive. Vérifiez toujours le destinataire avant de valider un paiement.</p>
+    </div>
+    
+    <div class="alert-item">
+      <h4>🎣 Phishing (hameçonnage)</h4>
+      <p>Vérifiez toujours l'URL du site : https://sen-ecosystem.com. Aucun autre site ne peut vous demander vos identifiants.</p>
+    </div>
+    
+    <div class="alert-item">
+      <h4>🔐 Code PIN confidentiel</h4>
+      <p>Ne partagez JAMAIS votre code PIN, même avec un proche. Ne l'écrivez pas et changez-le tous les 3 mois.</p>
+    </div>
+    
+    <div class="alert-item">
+      <h4>🚨 En cas de fraude</h4>
+      <p>Contactez immédiatement notre équipe : <strong>hello.senecosystem@gmail.com</strong> ou bloquez votre compte via l'application.</p>
+    </div>
+  </div>
+</div>
+
+
 
 <!-- FONCTIONS DÉTAILLÉES -->
 <section class="features-section" id="features">
