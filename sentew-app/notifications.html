@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notifications - SEN TEW</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="css/app.css">
+<style>
+body{background:#0A1F17;color:#fff;font-family:-apple-system,sans-serif;margin:0;padding-bottom:100px}
+.header{background:#0F6B4E;padding:16px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
+.back-btn{background:rgba(255,255,255,.15);border:none;color:#fff;width:40px;height:40px;border-radius:50%;font-size:20px;cursor:pointer}
+.header h1{font-size:16px;margin:0;flex:1}
+.tabs{display:flex;background:rgba(255,255,255,.05);padding:8px;margin:16px;border-radius:12px;gap:6px}
+.tab{flex:1;padding:10px;text-align:center;border-radius:8px;font-size:13px;cursor:pointer;color:rgba(255,255,255,.6)}
+.tab.active{background:#D4A574;color:#0A1F17;font-weight:700}
+.notif-list{padding:0 16px}
+.notif-item{background:rgba(255,255,255,.05);border-radius:12px;padding:14px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start;border-left:3px solid #D4A574}
+.notif-item.unread{background:rgba(212,165,116,.1);border-left-color:#0F6B4E}
+.notif-icon{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#0F6B4E,#D4A574);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.notif-content{flex:1}
+.notif-title{font-size:14px;font-weight:700;margin:0 0 4px}
+.notif-desc{font-size:13px;color:rgba(255,255,255,.7);margin:0 0 6px;line-height:1.4}
+.notif-time{font-size:11px;color:#D4A574}
+.notif-dot{width:8px;height:8px;background:#ef4444;border-radius:50%;margin-top:8px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#0F6B4E;display:flex;justify-content:space-around;padding:10px 0;box-shadow:0 -4px 12px rgba(0,0,0,.3);z-index:99}
+.bottom-nav a{color:rgba(255,255,255,.6);text-decoration:none;font-size:11px;text-align:center;display:flex;flex-direction:column;gap:4px;font-size:22px}
+.bottom-nav a span{font-size:10px}
+.bottom-nav a.active{color:#D4A574}
+</style>
+</head>
+<body oncontextmenu="return false">
+<div class="header">
+  <button class="back-btn" onclick="history.back()">←</button>
+  <h1>🔔 Notifications</h1>
+  <button class="back-btn" onclick="markAllRead()" title="Tout marquer lu">✓</button>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="filterNotif('all', this)">Tout</div>
+  <div class="tab" onclick="filterNotif('order', this)">Commandes</div>
+  <div class="tab" onclick="filterNotif('promo', this)">Promos</div>
+  <div class="tab" onclick="filterNotif('msg', this)">Messages</div>
+</div>
+
+<div class="notif-list" id="notifList"></div>
+
+<div class="bottom-nav">
+  <a href="index.html">🏠<span>Accueil</span></a>
+  <a href="categories.html">📊<span>Catégories</span></a>
+  <a href="panier.html">🛒<span>Panier</span></a>
+  <a href="messages.html">💬<span>Messages</span></a>
+  <a href="profil.html">👤<span>Profil</span></a>
+</div>
+
+<script>
+const notifs = [
+  {type:'order',icon:'📦',title:'Commande expédiée',desc:'Votre sac cuir africain est en route (Livraison estimée : demain)',time:'Il y a 12 min',unread:true},
+  {type:'promo',icon:'🔥',title:'Vente flash -30%',desc:'Écouteurs sans fil Pro à 8 400 FCFA seulement pendant 2h !',time:'Il y a 1h',unread:true},
+  {type:'msg',icon:'💬',title:'Nouveau message',desc:'Aminata Diop : "Bonjour, le produit est-il toujours disponible ?"',time:'Il y a 2h',unread:true},
+  {type:'order',icon:'✅',title:'Paiement confirmé',desc:'Wave : 15 000 FCFA - Transaction #SEN2026-0847',time:'Il y a 3h',unread:false},
+  {type:'promo',icon:'🎁',title:'Cadeau de bienvenue',desc:'Vous avez gagné 500 FCFA de crédit SEN TEW !',time:'Hier',unread:false},
+  {type:'msg',icon:'⭐',title:'Nouvel avis',desc:'Moussa Sall a laissé un avis 5 étoiles sur votre produit',time:'Hier',unread:false},
+  {type:'order',icon:'🚚',title:'Livraison programmée',desc:'Boubou wax premium arrive vendredi entre 14h-16h',time:'Il y a 2 jours',unread:false},
+  {type:'promo',icon:'🎉',title:'Programme fidélité',desc:'Vous êtes maintenant SEN TEW GOLD ! -10% sur tout',time:'Il y a 3 jours',unread:false}
+];
+
+function render(filter='all'){
+  const list = filter==='all' ? notifs : notifs.filter(n=>n.type===filter);
+  document.getElementById('notifList').innerHTML = list.map(n=>`
+    <div class="notif-item ${n.unread?'unread':''}">
+      <div class="notif-icon">${n.icon}</div>
+      <div class="notif-content">
+        <p class="notif-title">${n.title}</p>
+        <p class="notif-desc">${n.desc}</p>
+        <span class="notif-time">${n.time}</span>
+      </div>
+      ${n.unread?'<div class="notif-dot"></div>':''}
+    </div>
+  `).join('') || '<p style="text-align:center;color:#D4A574;padding:40px;">Aucune notification</p>';
+}
+function filterNotif(type,el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  render(type);
+}
+function markAllRead(){
+  notifs.forEach(n=>n.unread=false);
+  render();
+  alert('✅ Toutes les notifications marquées comme lues');
+}
+render();
+</script>
+</body>
+</html>
