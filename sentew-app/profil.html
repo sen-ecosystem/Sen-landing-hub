@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon Profil - SEN TEW</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0A1F17">
+<link rel="stylesheet" href="css/app.css">
+<style>
+.profile-hero{background:linear-gradient(135deg,var(--emerald-dark),var(--emerald));padding:30px 20px 60px;position:relative;overflow:hidden}
+.profile-hero::before{content:'';position:absolute;top:-50%;right:-30%;width:80%;height:150%;background:radial-gradient(circle,rgba(212,165,116,0.15),transparent 60%);border-radius:50%}
+.profile-avatar-row{display:flex;align-items:center;gap:16px;position:relative;z-index:2}
+.profile-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:900;color:var(--bg-darker);border:3px solid var(--gold);flex-shrink:0}
+.profile-name{font-size:22px;font-weight:800;color:var(--text-primary);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.profile-badge{background:var(--gold);color:var(--bg-darker);padding:3px 10px;border-radius:8px;font-size:10px;font-weight:800;letter-spacing:0.5px}
+.profile-email{font-size:13px;color:var(--gold-light);margin-bottom:2px}
+.profile-since{font-size:11px;color:var(--text-muted)}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:-30px 20px 20px;background:var(--bg-card);border:1px solid var(--gold-dark);border-radius:16px;padding:16px;box-shadow:var(--shadow-gold);position:relative;z-index:3}
+.stat{text-align:center}
+.stat-val{font-size:20px;font-weight:900;color:var(--gold)}
+.stat-label{font-size:10px;color:var(--text-muted);margin-top:2px;text-transform:uppercase;letter-spacing:0.5px}
+.menu-section{margin:20px 20px 10px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.5px}
+.menu-list{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;margin:0 20px 12px;overflow:hidden}
+.menu-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:1px solid var(--border);cursor:pointer;text-decoration:none;color:var(--text-primary);transition:all 0.2s}
+.menu-item:last-child{border-bottom:none}
+.menu-item:hover{background:var(--bg-card-hover)}
+.menu-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--emerald-dark),var(--emerald));display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--gold);flex-shrink:0}
+.menu-text{flex:1;font-size:14px;font-weight:600}
+.menu-sub{font-size:11px;color:var(--text-muted);margin-top:2px;font-weight:400}
+.menu-arrow{color:var(--gold);font-size:18px}
+.menu-badge{background:var(--red);color:white;font-size:10px;font-weight:800;padding:2px 8px;border-radius:10px}
+.logout-btn{width:calc(100% - 40px);margin:20px;padding:16px;background:transparent;border:1px solid var(--red);color:var(--red);border-radius:12px;font-weight:700;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+</style>
+</head>
+<body oncontextmenu="return false" onselectstart="return false">
+
+<div class="app" style="padding-bottom:100px">
+
+  <!-- HERO PROFIL -->
+  <div class="profile-hero">
+    <div class="profile-avatar-row">
+      <div class="profile-avatar">OL</div>
+      <div>
+        <div class="profile-name">Ousseynou Lam <span class="profile-badge">GOLD</span></div>
+        <div class="profile-email">hello.senecosystem@gmail.com</div>
+        <div class="profile-since">Membre depuis Janvier 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat">
+      <div class="stat-val">12</div>
+      <div class="stat-label">Commandes</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">8</div>
+      <div class="stat-label">Favoris</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">4.9★</div>
+      <div class="stat-label">Note</div>
+    </div>
+  </div>
+
+  <!-- MES COMMANDES -->
+  <div class="menu-section">📦 Mes achats</div>
+  <div class="menu-list">
+    <a href="#" class="menu-item">
+      <div class="menu-icon">📦</div>
+      <div class="menu-text">
+        Mes commandes
+        <div class="menu-sub">12 commandes • 2 en cours</div>
+      </div>
+      <span class="menu-badge">2</span>
+      <span class="menu-arrow">›</span>
+    </a>
+    <a href="#" class="menu-item">
+      <div class="menu-icon">❤️</div>
+      <div class="menu-text">
+        Mes favoris
+        <div class="menu-sub">8 produits enregistrés</div>
+      </div>
+      <span class="menu-arrow">›</span>
+    </a>
+    <a href="#" class="menu-item">
+      <div class="menu-icon">⭐</div>
+      <div class="menu-text">
+        Mes avis
+        <div class="menu-sub">4 avis publiés</div>
+      </div>
+      <span class="menu-arrow">›</span>
+    </a>
+    <a href="#" class="menu-item">
+      <div class="menu-icon">🎁</div>
+      <div class="menu-text">
+        Bons cadeaux & Coupons
+        <div class="menu-sub">2 coupons disponibles</div>
+      </div>
+      <span class="menu-arrow">›</span>
+    </a>
+  </div>
+
+  <!-- COMPTE -->
+  <div class="menu-section">👤 Mon compte</div>
+  <div class="menu-list">
+    <a href="#" class="menu-item">
+      <div class="menu-icon">📍</div>
+      <div class="menu-text">
+        Mes adresses
+        <div class="menu-sub">Dakar, Sicap Liberté 6</div>
+      </div>
+      <span class="menu-arrow">›</span>
+    </a>
+    <a href="#" class="menu-item">
+      <div class="menu-icon">💳</div>
+      <div class="menu-text">
+        Moyens de paiement
+        <div class="menu-sub">Wave, Orange Money, Visa</div>
+      </div>
+      <span class="menu-arrow">›</span>
+    </a>
+    <a href="#" class="menu-item">
+      <div class="menu-icon">🏪</div>
+      <div class="menu-text">
+        Devenir vendeur
+        <div class="menu-sub">Vendez vos produits sur SEN TEW</div>
+      </div>
+      <span class="menu-badge" style="background:var(--gold);color:var(--bg-darker)">Nouveau</span>
+      <span class="menu-arrow">›</span>
+    </a>
+  </div>
+
+  <!-- SÉCURITÉ -->
+  <div class="menu-section">🔒 Sécurité & Confidentialité</div>
+  <div class="menu-list">
+    <a href="../confidentialite.html" class="menu-item">
+      <div class="menu-icon">🛡️</div>
+      <div class="menu-text">
+        Confidentialité (RGPD)
+        <div class="menu-sub">Gérer mes données personnelles</div>
+      </div>
+      <span class="menu-arrow">›</span>
+    </a>
+    <a href="#" class="menu-item">
+      <div class="menu-icon">🔑</div>
+      <div class="menu-text">
+        Sécurité du compte
+        <div class="menu-sub">Mot de passe, 2FA, biométrie</div>
+      </div>
+      <span class="menu-arrow">›</span>
+    </a>
+    <a href="#" class="menu-item">
+      <div class="menu-icon">🌐</div>
+      <div class="menu-text">
+        Langue & Région
+        <div class="menu-sub">Français • Sénégal 🇸🇳</div>
+      </div>
+      <span class="menu-arrow">›</span>
+    </a>
+    <a href="#" class="menu-item">
+      <div class="menu-icon">🔔</div>
+      <div class="menu-text">
+        Notifications
+        <div class="menu-sub">Push, email, SMS</div>
+      </div>
+      <span class="menu-arrow">›</span>
+    </a>
+  </div>
+
+  <!-- SUPPORT -->
+  <div class="menu-section">💬 Aide & Support</div>
+  <div class="menu-list">
+    <a href="messages.html" class="menu-item">
+      <div class="menu-icon">💬</div>
+      <div class="menu-text">
+        Contacter le support
+        <div class="menu-sub">Support disponible 24/7</div>
+      </div>
+      <span class="menu-arrow">›</span>
+    </a>
+    <a href="#" class="menu-item">
+      <div class="menu-icon">❓</div>
+      <div class="menu-text">
+        Centre d'aide FAQ
+        <div class="menu-sub">Réponses aux questions courantes</div>
+      </div>
+      <span class="menu-arrow">›</span>
+    </a>
+    <a href="../cgu.html" class="menu-item">
+      <div class="menu-icon">📜</div>
+      <div class="menu-text">
+        Conditions d'utilisation
+        <div class="menu-sub">CGU, CGV, mentions légales</div>
+      </div>
+      <span class="menu-arrow">›</span>
+    </a>
+    <a href="#" class="menu-item">
+      <div class="menu-icon">ℹ️</div>
+      <div class="menu-text">
+        À propos de SEN TEW
+        <div class="menu-sub">Version 1.0 - Made in Dakar 🇸🇳</div>
+      </div>
+      <span class="menu-arrow">›</span>
+    </a>
+  </div>
+
+  <button class="logout-btn" onclick="if(confirm('Voulez-vous vous déconnecter ?')) alert('Déconnexion (démo)')">
+    🚪 Se déconnecter
+  </button>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span><span>Accueil</span></a>
+    <a href="categories.html" class="nav-item"><span class="nav-icon">📊</span><span>Catégories</span></a>
+    <a href="panier.html" class="nav-item"><span class="nav-icon">🛒</span><span>Panier</span><span class="nav-badge nav-badge-cart" style="display:none">0</span></a>
+    <a href="messages.html" class="nav-item"><span class="nav-icon">💬</span><span>Messages</span></a>
+    <a href="profil.html" class="nav-item active"><span class="nav-icon">👤</span><span>Profil</span></a>
+  </nav>
+
+</div>
+
+<script src="js/data.js"></script>
+
+</body>
+</html>
