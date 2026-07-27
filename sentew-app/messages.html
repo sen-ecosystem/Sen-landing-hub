@@ -5,126 +5,154 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Messages - SEN TEW</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0A1F17">
 <link rel="stylesheet" href="css/app.css">
 <style>
-.tabs-msg{display:flex;background:var(--bg-card);border-radius:12px;padding:4px;margin:0 20px 16px;border:1px solid var(--border)}
-.tab-msg{flex:1;padding:10px;text-align:center;font-size:13px;font-weight:600;color:var(--text-muted);cursor:pointer;border-radius:8px;background:transparent;border:none}
-.tab-msg.active{background:var(--emerald);color:white}
-.msg-item{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:14px;margin:0 20px 10px;display:flex;gap:12px;cursor:pointer;text-decoration:none;color:var(--text-primary);transition:all 0.3s}
-.msg-item:hover{border-color:var(--gold-dark);transform:translateY(-1px)}
-.msg-item.unread{border-color:var(--gold-dark);background:linear-gradient(135deg,rgba(212,165,116,0.05),var(--bg-card))}
-.msg-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--bg-darker);font-size:20px;flex-shrink:0;position:relative}
-.msg-avatar.online::after{content:'';position:absolute;bottom:2px;right:2px;width:12px;height:12px;background:var(--green-success);border-radius:50%;border:2px solid var(--bg-card)}
-.msg-body{flex:1;min-width:0}
-.msg-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
-.msg-name{font-size:14px;font-weight:700;color:var(--text-primary);display:flex;align-items:center;gap:6px}
-.msg-time{font-size:11px;color:var(--text-muted)}
-.msg-preview{font-size:12px;color:var(--text-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.msg-badge{background:var(--gold);color:var(--bg-darker);font-size:10px;font-weight:800;min-width:20px;height:20px;border-radius:10px;display:flex;align-items:center;justify-content:center;padding:0 6px;margin-left:6px}
-.section-msg{padding:20px 20px 10px;font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.5px}
+body{background:#0A1F17;color:#fff;font-family:-apple-system,sans-serif;margin:0;padding-bottom:100px}
+.header{background:#0F6B4E;padding:16px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
+.back-btn{background:rgba(255,255,255,.15);border:none;color:#fff;width:40px;height:40px;border-radius:50%;font-size:20px;cursor:pointer}
+.header h1{font-size:16px;margin:0;flex:1}
+.search-bar{padding:12px 16px}
+.search-bar input{width:100%;padding:12px 16px;border-radius:12px;border:none;background:rgba(255,255,255,.08);color:#fff;font-size:14px;box-sizing:border-box}
+.msg-list{padding:0 16px}
+.msg-item{background:rgba(255,255,255,.05);border-radius:12px;padding:14px;margin-bottom:10px;display:flex;gap:12px;align-items:center;cursor:pointer;transition:.2s}
+.msg-item:hover{background:rgba(255,255,255,.1)}
+.msg-avatar{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid #D4A574}
+.msg-content{flex:1;min-width:0}
+.msg-header{display:flex;justify-content:space-between;margin-bottom:4px}
+.msg-name{font-weight:700;font-size:14px}
+.msg-time{font-size:11px;color:#D4A574}
+.msg-preview{font-size:13px;color:rgba(255,255,255,.7);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.msg-badge{background:#ef4444;color:#fff;border-radius:12px;padding:2px 8px;font-size:11px;font-weight:700;margin-left:8px}
+.online-dot{width:12px;height:12px;background:#22c55e;border-radius:50%;border:2px solid #0A1F17;position:absolute;bottom:0;right:0}
+.avatar-wrap{position:relative}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#0F6B4E;display:flex;justify-content:space-around;padding:10px 0;z-index:99}
+.bottom-nav a{color:rgba(255,255,255,.6);text-decoration:none;text-align:center;display:flex;flex-direction:column;gap:4px;font-size:22px}
+.bottom-nav a span{font-size:10px}
+.bottom-nav a.active{color:#D4A574}
+/* Chat modal */
+.chat-modal{display:none;position:fixed;inset:0;background:#0A1F17;z-index:1000;flex-direction:column}
+.chat-modal.active{display:flex}
+.chat-header{background:#0F6B4E;padding:14px 16px;display:flex;align-items:center;gap:12px}
+.chat-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+.bubble{max-width:75%;padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.4}
+.bubble.them{background:rgba(255,255,255,.1);align-self:flex-start;border-bottom-left-radius:4px}
+.bubble.me{background:#0F6B4E;align-self:flex-end;border-bottom-right-radius:4px}
+.chat-input{display:flex;padding:12px;background:rgba(255,255,255,.05);gap:8px}
+.chat-input input{flex:1;padding:12px;border-radius:24px;border:none;background:rgba(255,255,255,.1);color:#fff}
+.chat-input button{background:#D4A574;color:#0A1F17;border:none;padding:12px 20px;border-radius:24px;font-weight:700;cursor:pointer}
 </style>
 </head>
-<body oncontextmenu="return false" onselectstart="return false">
-
-<div class="app" style="padding-bottom:100px">
-
-  <div class="header-back">
-    <a href="index.html" class="back-btn">←</a>
-    <div class="header-title">Messages</div>
-    <button class="notif-btn" style="color:var(--gold)">🔍</button>
-  </div>
-
-  <!-- ONGLETS -->
-  <div class="tabs-msg" style="margin-top:16px">
-    <button class="tab-msg active" onclick="setTabMsg('all', this)">Tous</button>
-    <button class="tab-msg" onclick="setTabMsg('unread', this)">Non lus (3)</button>
-    <button class="tab-msg" onclick="setTabMsg('support', this)">Support</button>
-  </div>
-
-  <!-- ASSISTANT IA -->
-  <div class="section-msg">✨ Assistant IA</div>
-  <a href="assistant-ia.html" class="msg-item">
-    <div class="msg-avatar" style="background:linear-gradient(135deg,var(--emerald),var(--emerald-dark));color:var(--gold)">✨</div>
-    <div class="msg-body">
-      <div class="msg-header">
-        <div class="msg-name">Assistant SEN TEW <span style="color:var(--gold);font-size:11px">IA</span></div>
-        <div class="msg-time">En ligne</div>
-      </div>
-      <div class="msg-preview">Comment puis-je vous aider aujourd'hui ?</div>
-    </div>
-    <span style="color:var(--gold);font-size:20px">›</span>
-  </a>
-
-  <!-- VENDEURS -->
-  <div class="section-msg">🏪 Conversations avec vendeurs</div>
-  <div id="sellerMsgs"></div>
-
-  <!-- SUPPORT -->
-  <div class="section-msg">🛡️ Support SEN TEW</div>
-  <a href="#" class="msg-item unread">
-    <div class="msg-avatar online" style="background:linear-gradient(135deg,var(--emerald),var(--emerald-dark));color:var(--gold)">🛡️</div>
-    <div class="msg-body">
-      <div class="msg-header">
-        <div class="msg-name">Support SEN TEW <span class="verified" style="color:var(--gold)">✓</span></div>
-        <div class="msg-time">14:20</div>
-      </div>
-      <div class="msg-preview">Votre demande de remboursement a été acceptée. Le montant sera crédité...</div>
-    </div>
-    <span class="msg-badge">1</span>
-  </a>
-
-  <nav class="bottom-nav">
-    <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span><span>Accueil</span></a>
-    <a href="categories.html" class="nav-item"><span class="nav-icon">📊</span><span>Catégories</span></a>
-    <a href="panier.html" class="nav-item"><span class="nav-icon">🛒</span><span>Panier</span><span class="nav-badge nav-badge-cart" style="display:none">0</span></a>
-    <a href="messages.html" class="nav-item active"><span class="nav-icon">💬</span><span>Messages</span></a>
-    <a href="profil.html" class="nav-item"><span class="nav-icon">👤</span><span>Profil</span></a>
-  </nav>
-
+<body oncontextmenu="return false">
+<div class="header">
+  <button class="back-btn" onclick="history.back()">←</button>
+  <h1>💬 Messages</h1>
 </div>
 
-<script src="js/data.js"></script>
+<div class="search-bar">
+  <input type="text" placeholder="🔍 Rechercher une conversation..." oninput="searchMsg(this.value)">
+</div>
+
+<div class="msg-list" id="msgList"></div>
+
+<!-- Chat modal -->
+<div class="chat-modal" id="chatModal">
+  <div class="chat-header">
+    <button class="back-btn" onclick="closeChat()">←</button>
+    <img id="chatAvatar" class="msg-avatar" style="width:40px;height:40px;">
+    <div>
+      <div id="chatName" style="font-weight:700;font-size:14px;"></div>
+      <div style="font-size:11px;color:#D4A574;">● En ligne</div>
+    </div>
+  </div>
+  <div class="chat-msgs" id="chatMsgs"></div>
+  <div class="chat-input">
+    <input id="msgInput" type="text" placeholder="Écrire un message..." onkeypress="if(event.key==='Enter')sendMsg()">
+    <button onclick="sendMsg()">➤</button>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <a href="index.html">🏠<span>Accueil</span></a>
+  <a href="categories.html">📊<span>Catégories</span></a>
+  <a href="panier.html">🛒<span>Panier</span></a>
+  <a href="messages.html" class="active">💬<span>Messages</span></a>
+  <a href="profil.html">👤<span>Profil</span></a>
+</div>
+
 <script>
-// Générer conversations vendeurs (basé sur data.js)
 const conversations = [
-  {seller:"Aïcha Couture", avatar:"A", verified:true, online:true, time:"09:30", msg:"Bonjour, votre robe Wax est prête. Livraison prévue demain matin.", unread:2, product:"Robe Wax Premium"},
-  {seller:"Tech Store Sénégal", avatar:"T", verified:true, online:false, time:"Hier", msg:"Merci pour votre commande ! Les écouteurs seront expédiés aujourd'hui.", unread:0, product:"Écouteurs Pro"},
-  {seller:"Artisanat Dakar", avatar:"AR", verified:true, online:true, time:"Hier", msg:"Le vase est disponible en 3 tailles différentes. Quelle taille préférez-vous ?", unread:0, product:"Vase bogolan"},
-  {seller:"Naturelle Sénégal", avatar:"N", verified:false, online:false, time:"12/07", msg:"Votre commande a été livrée. Merci pour votre confiance !", unread:0, product:"Beurre karité"},
-  {seller:"Boubou Elite", avatar:"B", verified:true, online:true, time:"11/07", msg:"Nous avons reçu votre paiement Wave. Merci !", unread:0, product:"Boubou Prestige"},
+  {id:1,name:'Aminata Diop',avatar:'https://i.pravatar.cc/100?img=47',last:'Bonjour, le sac est-il toujours disponible ?',time:'12:34',unread:2,online:true,msgs:[
+    {from:'them',text:'Bonjour ! 👋'},
+    {from:'them',text:'J\'ai vu votre sac à main cuir sur SEN TEW'},
+    {from:'them',text:'Bonjour, le sac est-il toujours disponible ?'}
+  ]},
+  {id:2,name:'Moussa Sall',avatar:'https://i.pravatar.cc/100?img=68',last:'Merci beaucoup pour la livraison rapide 🙏',time:'10:22',unread:0,online:true,msgs:[
+    {from:'me',text:'Bonjour, votre commande a été expédiée'},
+    {from:'them',text:'Merci beaucoup pour la livraison rapide 🙏'}
+  ]},
+  {id:3,name:'Fatou Ndiaye',avatar:'https://i.pravatar.cc/100?img=45',last:'Le boubou wax est magnifique !',time:'Hier',unread:1,online:false,msgs:[
+    {from:'them',text:'Le boubou wax est magnifique !'}
+  ]},
+  {id:4,name:'SEN TEW Support',avatar:'https://i.pravatar.cc/100?img=15',last:'Nous restons à votre disposition',time:'Hier',unread:0,online:true,msgs:[
+    {from:'them',text:'Bonjour, comment pouvons-nous vous aider ?'},
+    {from:'them',text:'Nous restons à votre disposition'}
+  ]},
+  {id:5,name:'Ibrahima Ba',avatar:'https://i.pravatar.cc/100?img=52',last:'Pouvez-vous baisser le prix ?',time:'Lun',unread:0,online:false,msgs:[
+    {from:'them',text:'Pouvez-vous baisser le prix ?'}
+  ]},
+  {id:6,name:'Awa Mbaye',avatar:'https://i.pravatar.cc/100?img=44',last:'Livraison à Thiès possible ?',time:'Dim',unread:0,online:false,msgs:[
+    {from:'them',text:'Livraison à Thiès possible ?'}
+  ]}
 ];
 
-let currentTab = 'all';
-function renderConversations(){
-  let list = conversations;
-  if(currentTab === 'unread') list = list.filter(c => c.unread > 0);
-  
-  document.getElementById('sellerMsgs').innerHTML = list.map(c => `
-    <a href="assistant-ia.html" class="msg-item ${c.unread>0?'unread':''}">
-      <div class="msg-avatar ${c.online?'online':''}">${c.avatar}</div>
-      <div class="msg-body">
-        <div class="msg-header">
-          <div class="msg-name">${c.seller} ${c.verified?'<span class="verified" style="color:var(--gold)">✓</span>':''}</div>
-          <div class="msg-time">${c.time}</div>
-        </div>
-        <div class="msg-preview">${c.msg}</div>
-        <div style="font-size:10px;color:var(--gold);margin-top:2px">📦 ${c.product}</div>
+let currentChat = null;
+
+function render(list=conversations){
+  document.getElementById('msgList').innerHTML = list.map(c=>`
+    <div class="msg-item" onclick="openChat(${c.id})">
+      <div class="avatar-wrap">
+        <img class="msg-avatar" src="${c.avatar}" alt="${c.name}">
+        ${c.online?'<span class="online-dot"></span>':''}
       </div>
-      ${c.unread>0 ? `<span class="msg-badge">${c.unread}</span>` : ''}
-    </a>
-  `).join('') || '<div style="text-align:center;padding:40px;color:var(--text-muted)">Aucun message</div>';
+      <div class="msg-content">
+        <div class="msg-header">
+          <span class="msg-name">${c.name}</span>
+          <span class="msg-time">${c.time}</span>
+        </div>
+        <div class="msg-preview">${c.last}</div>
+      </div>
+      ${c.unread?`<span class="msg-badge">${c.unread}</span>`:''}
+    </div>
+  `).join('');
 }
 
-function setTabMsg(tab, btn){
-  currentTab = tab;
-  document.querySelectorAll('.tab-msg').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderConversations();
+function openChat(id){
+  currentChat = conversations.find(c=>c.id===id);
+  document.getElementById('chatAvatar').src = currentChat.avatar;
+  document.getElementById('chatName').textContent = currentChat.name;
+  document.getElementById('chatMsgs').innerHTML = currentChat.msgs.map(m=>`<div class="bubble ${m.from}">${m.text}</div>`).join('');
+  document.getElementById('chatModal').classList.add('active');
+  currentChat.unread = 0;
+  render();
 }
-
-renderConversations();
+function closeChat(){document.getElementById('chatModal').classList.remove('active')}
+function sendMsg(){
+  const input = document.getElementById('msgInput');
+  if(!input.value.trim())return;
+  currentChat.msgs.push({from:'me',text:input.value});
+  currentChat.last = input.value;
+  input.value = '';
+  openChat(currentChat.id);
+  setTimeout(()=>{
+    currentChat.msgs.push({from:'them',text:'Message reçu ! Je vous réponds sous peu 👍'});
+    openChat(currentChat.id);
+  },1500);
+}
+function searchMsg(q){
+  const filtered = conversations.filter(c=>c.name.toLowerCase().includes(q.toLowerCase()));
+  render(filtered);
+}
+render();
 </script>
-
 </body>
 </html>
