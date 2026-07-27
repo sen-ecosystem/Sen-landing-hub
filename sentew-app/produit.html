@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiche Produit - SEN TEW</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0A1F17">
+<link rel="stylesheet" href="css/app.css">
+<style>
+.prod-hero{position:relative;height:400px;background:var(--bg-card)}
+.prod-hero img{width:100%;height:100%;object-fit:cover}
+.prod-hero .photo-count{position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,0.7);color:white;padding:6px 12px;border-radius:12px;font-size:12px;font-weight:600}
+.prod-hero .photo-dots{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
+.prod-hero .dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.5)}
+.prod-hero .dot.active{background:var(--gold);width:20px;border-radius:3px}
+.prod-header{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:16px 20px;z-index:10}
+.prod-header .icon-btn{background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:20px;border:none;cursor:pointer;text-decoration:none}
+.prod-body{padding:20px}
+.prod-title{font-size:22px;font-weight:800;color:var(--text-primary);margin-bottom:12px;line-height:1.3}
+.prod-price-row{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.prod-price{font-size:28px;font-weight:900;color:var(--gold)}
+.prod-price-old{font-size:15px;color:var(--text-muted);text-decoration:line-through}
+.prod-discount{background:var(--red);color:white;padding:4px 10px;border-radius:8px;font-size:12px;font-weight:800}
+.seller-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:20px;text-decoration:none;color:var(--text-primary)}
+.seller-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gold-light),var(--gold));display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--bg-darker);font-size:18px;flex-shrink:0}
+.seller-info{flex:1}
+.seller-name{font-size:14px;font-weight:700;color:var(--text-primary);display:flex;align-items:center;gap:6px}
+.verified{color:var(--gold)}
+.seller-rating{font-size:12px;color:var(--text-muted);margin-top:2px}
+.tabs{display:flex;background:var(--bg-card);border-radius:12px;padding:4px;margin-bottom:16px;border:1px solid var(--border)}
+.tab{flex:1;padding:10px;text-align:center;font-size:13px;font-weight:600;color:var(--text-muted);cursor:pointer;border-radius:8px;transition:all 0.3s;background:transparent;border:none}
+.tab.active{background:var(--emerald);color:white}
+.tab-content{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px;color:var(--text-secondary);font-size:14px;line-height:1.6}
+.option-group{margin-bottom:16px}
+.option-label{font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:8px}
+.size-options{display:flex;gap:8px;flex-wrap:wrap}
+.size-btn{width:48px;height:48px;border-radius:10px;background:var(--bg-card);border:1px solid var(--border);color:var(--text-primary);font-weight:700;cursor:pointer;transition:all 0.3s}
+.size-btn.active{background:var(--emerald);border-color:var(--gold);color:white}
+.color-options{display:flex;gap:10px}
+.color-btn{width:36px;height:36px;border-radius:50%;border:2px solid var(--border);cursor:pointer;transition:all 0.3s}
+.color-btn.active{border-color:var(--gold);transform:scale(1.1)}
+.delivery-info{background:linear-gradient(135deg,var(--emerald-dark),var(--bg-card));border:1px solid var(--gold-dark);border-radius:14px;padding:14px;margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.delivery-icon{background:var(--gold);width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--bg-darker)}
+.delivery-text h4{font-size:13px;font-weight:700;color:var(--text-primary);margin-bottom:2px}
+.delivery-text p{font-size:11px;color:var(--text-muted)}
+.action-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.payment-methods{display:flex;align-items:center;gap:10px;padding:14px 0;font-size:11px;color:var(--text-muted);flex-wrap:wrap}
+.pay-badge{background:var(--bg-card);border:1px solid var(--border);padding:4px 10px;border-radius:6px;font-size:10px;font-weight:700;color:var(--text-primary)}
+</style>
+</head>
+<body oncontextmenu="return false" onselectstart="return false">
+
+<div class="app" style="padding-bottom:120px">
+
+  <div class="prod-hero" id="prodHero">
+    <div class="prod-header">
+      <a href="produits.html" class="icon-btn">←</a>
+      <div style="display:flex;gap:8px">
+        <button class="icon-btn">📤</button>
+        <button class="icon-btn" id="favBtn" onclick="this.textContent=this.textContent==='♡'?'❤':'♡'">♡</button>
+      </div>
+    </div>
+    <img id="prodImg" alt="Produit">
+    <div class="photo-dots">
+      <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
+      <span class="dot"></span><span class="dot"></span>
+    </div>
+    <span class="photo-count">1/5</span>
+  </div>
+
+  <div class="prod-body">
+    <h1 class="prod-title" id="prodTitle">Chargement...</h1>
+    <div class="prod-price-row">
+      <span class="prod-price" id="prodPrice"></span>
+      <span class="prod-price-old" id="prodPriceOld"></span>
+      <span class="prod-discount" id="prodDiscount"></span>
+    </div>
+
+    <a href="#" class="seller-card">
+      <div class="seller-avatar" id="sellerAvatar">A</div>
+      <div class="seller-info">
+        <div class="seller-name">
+          <span id="sellerName">Vendeur</span>
+          <span class="verified">✓</span>
+        </div>
+        <div class="seller-rating" id="sellerRating">⭐ 4.8 (234 avis)</div>
+      </div>
+      <span style="color:var(--gold);font-size:20px">›</span>
+    </a>
+
+    <div class="tabs">
+      <button class="tab active" onclick="setTab('desc')">Description</button>
+      <button class="tab" onclick="setTab('avis')">Avis</button>
+      <button class="tab" onclick="setTab('livraison')">Livraison</button>
+    </div>
+    <div class="tab-content" id="tabContent">Description du produit...</div>
+
+    <div class="option-group" id="sizeGroup" style="display:none">
+      <div class="option-label">Taille</div>
+      <div class="size-options" id="sizeOptions"></div>
+    </div>
+
+    <div class="option-group" id="colorGroup" style="display:none">
+      <div class="option-label">Couleur</div>
+      <div class="color-options" id="colorOptions"></div>
+    </div>
+
+    <div class="delivery-info">
+      <div class="delivery-icon">🚚</div>
+      <div class="delivery-text">
+        <h4>Livraison gratuite à Dakar</h4>
+        <p>Recevez votre commande en 24h - 48h</p>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-secondary" onclick="addProdToCart()">🛒 Ajouter au panier</button>
+      <button class="btn-primary" onclick="buyNow()" style="font-size:14px">Acheter maintenant</button>
+    </div>
+
+    <div class="payment-methods">
+      <span>🔒 Paiement sécurisé</span>
+      <span class="pay-badge">Wave</span>
+      <span class="pay-badge">Orange Money</span>
+      <span class="pay-badge">Visa</span>
+      <span class="pay-badge">Mastercard</span>
+    </div>
+  </div>
+
+  <a href="assistant-ia.html" class="ai-fab" style="bottom:110px">
+    <span class="ai-icon">💬</span>
+  </a>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span><span>Accueil</span></a>
+    <a href="categories.html" class="nav-item"><span class="nav-icon">📊</span><span>Catégories</span></a>
+    <a href="panier.html" class="nav-item"><span class="nav-icon">🛒</span><span>Panier</span><span class="nav-badge nav-badge-cart" style="display:none">0</span></a>
+    <a href="#" class="nav-item"><span class="nav-icon">💬</span><span>Messages</span></a>
+    <a href="#" class="nav-item"><span class="nav-icon">👤</span><span>Profil</span></a>
+  </nav>
+
+</div>
+
+<script src="js/data.js"></script>
+<script>
+const productId = parseInt(new URLSearchParams(window.location.search).get('id') || '5');
+const product = PRODUCTS.find(p => p.id === productId) || PRODUCTS[4];
+
+document.getElementById('prodImg').src = product.photo;
+document.getElementById('prodTitle').textContent = product.name;
+document.getElementById('prodPrice').textContent = formatPrice(product.price);
+if(product.priceOld){
+  document.getElementById('prodPriceOld').textContent = formatPrice(product.priceOld);
+  document.getElementById('prodDiscount').textContent = '-' + product.discount + '%';
+}
+document.getElementById('sellerName').textContent = product.seller;
+document.getElementById('sellerAvatar').textContent = product.seller.charAt(0);
+document.getElementById('sellerRating').textContent = `⭐ ${product.sellerRating || 4.8} (${product.reviews} avis)`;
+document.getElementById('tabContent').textContent = product.description || 'Description du produit.';
+
+if(product.sizes){
+  document.getElementById('sizeGroup').style.display = 'block';
+  document.getElementById('sizeOptions').innerHTML = product.sizes.map((s,i) => 
+    `<button class="size-btn ${i===1?'active':''}" onclick="document.querySelectorAll('.size-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">${s}</button>`
+  ).join('');
+}
+if(product.colors){
+  document.getElementById('colorGroup').style.display = 'block';
+  const colorMap = {'Vert':'#0F6B4E','Rouge':'#DC2626','Or':'#D4A574','Violet':'#7C3AED','Bleu':'#2563EB','Noir':'#1F2937','Blanc':'#F3F4F6','Champagne':'#F4E4C1'};
+  document.getElementById('colorOptions').innerHTML = product.colors.map((c,i) => 
+    `<button class="color-btn ${i===0?'active':''}" style="background:${colorMap[c]||'#0F6B4E'}" onclick="document.querySelectorAll('.color-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')" title="${c}"></button>`
+  ).join('');
+}
+
+function setTab(t){
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  const contents = {
+    'desc': product.description || 'Description du produit.',
+    'avis': `⭐ ${product.rating}/5 - ${product.reviews} avis clients<br><br>"Excellent produit, livraison rapide !" - Fatou D.<br><br>"Conforme à la description" - Moussa F.<br><br>"Je recommande vivement" - Awa N.`,
+    'livraison': `🚚 Dakar : 24h-48h (gratuit dès 20 000 FCFA)<br>🇸🇳 National : 3-5 jours (2 500 FCFA)<br>🌍 Panafricain : 5-10 jours (5 000 FCFA)<br>✈️ Diaspora : 15-30 jours (variable)`
+  };
+  document.getElementById('tabContent').innerHTML = contents[t];
+}
+
+function addProdToCart(){
+  addToCart(product.id, 1);
+  alert('✅ Ajouté au panier !');
+}
+
+function buyNow(){
+  addToCart(product.id, 1);
+  window.location.href = 'panier.html';
+}
+</script>
+
+</body>
+</html>
