@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Avis - SEN TEW</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0F6B4E">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body oncontextmenu="return false">
+<div class="app">
+  <header class="app-header">
+    <button class="header-btn" onclick="history.back()">←</button>
+    <div class="app-logo" style="text-align:center;">⭐ Avis clients</div>
+    <button class="header-btn" onclick="alert('✏️ Écrire un avis')">✏️</button>
+  </header>
+
+  <main class="app-content">
+    <!-- Stats -->
+    <div style="margin:16px;background:rgba(255,255,255,.05);border-radius:14px;padding:16px;display:flex;gap:16px;align-items:center;">
+      <div style="text-align:center;">
+        <div style="font-size:36px;font-weight:800;color:#D4A574;">4.9</div>
+        <div style="color:#D4A574;font-size:14px;">⭐⭐⭐⭐⭐</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.6);margin-top:4px;">127 avis</div>
+      </div>
+      <div style="flex:1;">
+        ${[5,4,3,2,1].map(n=>`
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+            <span style="font-size:11px;width:14px;">${n}★</span>
+            <div style="flex:1;height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;">
+              <div style="height:100%;width:${[85,10,3,1,1][5-n]}%;background:#D4A574;"></div>
+            </div>
+            <span style="font-size:10px;color:rgba(255,255,255,.6);width:25px;">${[85,10,3,1,1][5-n]}%</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="chips">
+      <button class="chip active">Tous</button>
+      <button class="chip">📸 Avec photos</button>
+      <button class="chip">⭐ 5 étoiles</button>
+      <button class="chip">🆕 Récents</button>
+    </div>
+
+    <div id="reviews" style="padding:0 16px;"></div>
+    <div style="height:20px;"></div>
+  </main>
+
+  <nav class="app-nav">
+    <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
+    <a href="categories.html"><div class="nav-icon">📊</div><div class="nav-label">Catégories</div></a>
+    <a href="panier.html"><div class="nav-icon">🛒</div><div class="nav-label">Panier</div></a>
+    <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
+    <a href="profil.html" class="active"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
+  </nav>
+</div>
+
+<script>
+const reviews=[
+  {name:'Aminata Diop',avatar:'https://i.pravatar.cc/100?img=47',rating:5,date:'26 juil 2026',text:'Produit magnifique, livraison ultra rapide ! Je recommande à 100% 👍',photos:2,likes:24,product:'Boubou wax premium'},
+  {name:'Moussa Sall',avatar:'https://i.pravatar.cc/100?img=68',rating:5,date:'24 juil 2026',text:'Excellente qualité, exactement comme sur la photo. Vendeur très professionnel.',photos:0,likes:18,product:'Sac cuir africain'},
+  {name:'Fatou Ndiaye',avatar:'https://i.pravatar.cc/100?img=45',rating:5,date:'22 juil 2026',text:'Wow ! Superbe finition, tissu authentique. Merci beaucoup 🙏',photos:3,likes:31,product:'Boubou wax'},
+  {name:'Ibrahima Ba',avatar:'https://i.pravatar.cc/100?img=52',rating:4,date:'20 juil 2026',text:'Bon produit, livraison un peu lente mais qualité au rendez-vous.',photos:1,likes:12,product:'Écouteurs Pro'},
+  {name:'Awa Mbaye',avatar:'https://i.pravatar.cc/100?img=44',rating:5,date:'18 juil 2026',text:'Parfait ! Emballage soigné, produit conforme. Je reviendrai !',photos:0,likes:9,product:'Bracelet ethnique'},
+  {name:'Cheikh Diouf',avatar:'https://i.pravatar.cc/100?img=60',rating:5,date:'15 juil 2026',text:'Vraiment top ! SEN TEW mérite d\'être connu partout en Afrique 🌍',photos:2,likes:45,product:'Sandales cuir'}
+];
+
+document.getElementById('reviews').innerHTML=reviews.map(r=>`
+  <div style="background:rgba(255,255,255,.05);border-radius:14px;padding:14px;margin-bottom:10px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+      <img src="${r.avatar}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid #D4A574;pointer-events:auto;">
+      <div style="flex:1;">
+        <div style="font-weight:700;font-size:13px;">${r.name}</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.6);">${r.date} · ${r.product}</div>
+      </div>
+      <div style="color:#D4A574;font-size:12px;">${'⭐'.repeat(r.rating)}</div>
+    </div>
+    <div style="font-size:13px;color:rgba(255,255,255,.9);line-height:1.5;margin-bottom:8px;">${r.text}</div>
+    ${r.photos?`<div style="display:flex;gap:6px;margin-bottom:8px;">${Array(r.photos).fill(0).map(()=>`<div style="width:60px;height:60px;background:linear-gradient(135deg,#0F6B4E,#D4A574);border-radius:8px;"></div>`).join('')}</div>`:''}
+    <div style="display:flex;gap:12px;font-size:11px;color:rgba(255,255,255,.6);">
+      <span style="cursor:pointer;">👍 ${r.likes}</span>
+      <span style="cursor:pointer;">💬 Répondre</span>
+      <span style="cursor:pointer;">🚩 Signaler</span>
+    </div>
+  </div>
+`).join('');
+</script>
+</body>
+</html>
