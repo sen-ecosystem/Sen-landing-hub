@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Connexion - SEN TEW</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0F6B4E">
+<link rel="stylesheet" href="css/app.css">
+<style>
+.login-hero{background:linear-gradient(135deg,#0F6B4E,#D4A574);padding:40px 20px 60px;text-align:center;color:#fff;border-radius:0 0 30px 30px}
+.login-logo{font-size:36px;font-weight:900;color:#fff;letter-spacing:2px}
+.login-tagline{font-size:13px;opacity:.9;margin-top:4px}
+.login-card{margin:-40px 20px 0;background:rgba(255,255,255,.08);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:24px;position:relative;z-index:2}
+.tab-switch{display:flex;background:rgba(0,0,0,.3);border-radius:12px;padding:4px;margin-bottom:20px}
+.tab-switch button{flex:1;background:none;border:none;color:rgba(255,255,255,.6);padding:10px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;transition:.2s}
+.tab-switch button.active{background:#D4A574;color:#0A1F17}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:11px;color:#D4A574;font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px}
+.field input{width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(212,165,116,.3);color:#fff;padding:12px 14px;border-radius:10px;font-size:14px;box-sizing:border-box}
+.field input:focus{outline:none;border-color:#D4A574;background:rgba(0,0,0,.5)}
+.phone-input{display:flex;gap:6px}
+.phone-input select{background:rgba(0,0,0,.3);border:1px solid rgba(212,165,116,.3);color:#fff;padding:12px 8px;border-radius:10px;font-size:13px}
+.phone-input input{flex:1}
+.social-btns{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.social-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;padding:10px;border-radius:10px;font-size:20px;cursor:pointer;transition:.2s}
+.social-btn:active{transform:scale(.95)}
+.otp-input{display:flex;gap:8px;justify-content:center;margin:20px 0}
+.otp-input input{width:44px;height:52px;text-align:center;font-size:20px;font-weight:800;background:rgba(0,0,0,.3);border:2px solid rgba(212,165,116,.3);color:#fff;border-radius:10px}
+.otp-input input:focus{outline:none;border-color:#D4A574}
+.divider{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.4);font-size:11px;margin:16px 0;text-transform:uppercase;letter-spacing:1px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.1)}
+.link{color:#D4A574;text-decoration:none;font-size:12px}
+</style>
+</head>
+<body oncontextmenu="return false">
+<div class="app">
+  <main class="app-content" style="padding-bottom:20px;">
+    <div class="login-hero">
+      <div class="login-logo">SEN TEW</div>
+      <div class="login-tagline">La marketplace africaine 🇸🇳</div>
+    </div>
+
+    <div class="login-card" id="stepPhone">
+      <div class="tab-switch">
+        <button class="active" onclick="switchTab('login',this)">Connexion</button>
+        <button onclick="switchTab('signup',this)">Inscription</button>
+      </div>
+
+      <div id="signupFields" style="display:none;">
+        <div class="field">
+          <label>Nom complet</label>
+          <input type="text" placeholder="Ex: Ousseynou Lam">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>📱 Numéro de téléphone</label>
+        <div class="phone-input">
+          <select>
+            <option>🇸🇳 +221</option>
+            <option>🇨🇮 +225</option>
+            <option>🇲🇱 +223</option>
+            <option>🇨🇲 +237</option>
+            <option>🇧🇫 +226</option>
+            <option>🇬🇳 +224</option>
+          </select>
+          <input type="tel" id="phone" placeholder="77 123 45 67" maxlength="12">
+        </div>
+      </div>
+
+      <button class="btn btn-gold btn-full" onclick="sendOTP()">📩 Recevoir le code SMS</button>
+
+      <div class="divider">Ou continuer avec</div>
+
+      <div class="social-btns">
+        <button class="social-btn" onclick="alert('🌊 Wave login')">🌊<br><span style="font-size:10px;">Wave</span></button>
+        <button class="social-btn" onclick="alert('🍊 Orange Money login')">🍊<br><span style="font-size:10px;">Orange</span></button>
+        <button class="social-btn" onclick="alert('Google login')">🔴<br><span style="font-size:10px;">Google</span></button>
+      </div>
+
+      <div style="text-align:center;margin-top:16px;font-size:11px;color:rgba(255,255,255,.6);">
+        En continuant, vous acceptez nos <a href="../cgu.html" class="link">CGU</a> et notre <a href="../confidentialite.html" class="link">Politique RGPD</a>
+      </div>
+    </div>
+
+    <!-- Étape OTP -->
+    <div class="login-card" id="stepOTP" style="display:none;">
+      <div style="text-align:center;font-size:40px;margin-bottom:12px;">🔐</div>
+      <div style="text-align:center;font-weight:800;font-size:16px;margin-bottom:6px;">Vérification SMS</div>
+      <div style="text-align:center;font-size:12px;color:rgba(255,255,255,.7);margin-bottom:8px;">
+        Code envoyé au <span id="phoneDisplay" style="color:#D4A574;font-weight:700;"></span>
+      </div>
+
+      <div class="otp-input">
+        <input type="text" maxlength="1" oninput="nextOTP(this,0)">
+        <input type="text" maxlength="1" oninput="nextOTP(this,1)">
+        <input type="text" maxlength="1" oninput="nextOTP(this,2)">
+        <input type="text" maxlength="1" oninput="nextOTP(this,3)">
+        <input type="text" maxlength="1" oninput="nextOTP(this,4)">
+        <input type="text" maxlength="1" oninput="nextOTP(this,5)">
+      </div>
+
+      <div style="text-align:center;font-size:12px;color:rgba(255,255,255,.6);margin-bottom:16px;">
+        Code renvoyé dans <span id="timer" style="color:#D4A574;font-weight:700;">60s</span>
+      </div>
+
+      <button class="btn btn-gold btn-full" onclick="verify()">✓ Vérifier & continuer</button>
+
+      <div style="text-align:center;margin-top:12px;">
+        <a onclick="back()" style="color:#D4A574;font-size:12px;cursor:pointer;">← Modifier le numéro</a>
+      </div>
+    </div>
+
+    <div style="text-align:center;padding:20px;font-size:11px;color:rgba(255,255,255,.4);">
+      SEN TEW v1.0 · Sécurisé par 2FA<br>
+      🔒 Données protégées RGPD · Serveurs Sénégal
+    </div>
+  </main>
+</div>
+
+<script>
+let mode='login';
+function switchTab(m,el){
+  mode=m;
+  document.querySelectorAll('.tab-switch button').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('signupFields').style.display = m==='signup'?'block':'none';
+}
+function sendOTP(){
+  const p=document.getElementById('phone').value.trim();
+  if(p.length<8){alert('❌ Numéro invalide');return}
+  document.getElementById('phoneDisplay').textContent='+221 '+p;
+  document.getElementById('stepPhone').style.display='none';
+  document.getElementById('stepOTP').style.display='block';
+  startTimer();
+  // Simuler envoi SMS
+  setTimeout(()=>{
+    alert('📩 Code SMS envoyé : 123456 (démo)');
+  },500);
+}
+function nextOTP(el,i){
+  if(el.value.length===1){
+    const inputs=document.querySelectorAll('.otp-input input');
+    if(i<5)inputs[i+1].focus();
+    else verify();
+  }
+}
+function verify(){
+  const inputs=document.querySelectorAll('.otp-input input');
+  const code=Array.from(inputs).map(i=>i.value).join('');
+  if(code.length!==6){alert('❌ Code incomplet');return}
+  alert('✅ Connexion réussie !\nBienvenue sur SEN TEW');
+  setTimeout(()=>window.location.href='index.html',800);
+}
+function back(){
+  document.getElementById('stepOTP').style.display='none';
+  document.getElementById('stepPhone').style.display='block';
+}
+function startTimer(){
+  let s=60;
+  const t=document.getElementById('timer');
+  const iv=setInterval(()=>{
+    s--;
+    if(s<=0){clearInterval(iv);t.innerHTML='<a onclick="startTimer()" style="cursor:pointer;">Renvoyer</a>';return}
+    t.textContent=s+'s';
+  },1000);
+}
+</script>
+</body>
+</html>
