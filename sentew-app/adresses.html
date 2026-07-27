@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Adresses - SEN TEW</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0F6B4E">
+<link rel="stylesheet" href="css/app.css">
+<style>
+.map-box{margin:16px;height:200px;border-radius:16px;background:linear-gradient(135deg,#0F6B4E 0%,#164e3a 40%,#D4A574 100%);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.map-box::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,transparent 1px 30px),repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 1px,transparent 1px 30px)}
+.map-pin{position:relative;z-index:2;text-align:center;color:#fff}
+.map-pin .pin{font-size:36px;animation:bounce 1.5s infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.addr-card{background:rgba(255,255,255,.05);border-radius:14px;padding:14px;margin:8px 16px;border-left:3px solid transparent;cursor:pointer;transition:.2s}
+.addr-card.active{border-left-color:#D4A574;background:rgba(212,165,116,.1)}
+.addr-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.addr-badge{background:#0F6B4E;color:#fff;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700}
+.addr-title{font-weight:700;font-size:14px}
+.addr-lines{font-size:12px;color:rgba(255,255,255,.7);line-height:1.5}
+.addr-actions{display:flex;gap:6px;margin-top:10px}
+.addr-btn{flex:1;background:rgba(212,165,116,.15);border:1px solid rgba(212,165,116,.3);color:#D4A574;padding:6px;border-radius:8px;font-size:11px;cursor:pointer}
+</style>
+</head>
+<body oncontextmenu="return false">
+<div class="app">
+  <header class="app-header">
+    <button class="header-btn" onclick="history.back()">←</button>
+    <div class="app-logo" style="text-align:center;">📍 Mes adresses</div>
+    <button class="header-btn" onclick="addAddr()">➕</button>
+  </header>
+
+  <main class="app-content">
+    <div class="map-box">
+      <div class="map-pin">
+        <div class="pin">📍</div>
+        <div style="font-size:13px;font-weight:700;margin-top:4px;">52 Rue Mohamed V</div>
+        <div style="font-size:11px;opacity:.9;">Dakar-Plateau, Sénégal</div>
+      </div>
+    </div>
+
+    <button class="btn btn-ghost btn-full" style="margin:0 16px 16px;width:calc(100% - 32px);" onclick="detect()">
+      📡 Utiliser ma position actuelle
+    </button>
+
+    <div class="card-title">📌 Mes adresses enregistrées</div>
+
+    <div class="addr-card active">
+      <div class="addr-header">
+        <span class="addr-title">🏠 Maison</span>
+        <span class="addr-badge">Par défaut</span>
+      </div>
+      <div class="addr-lines">
+        Ousseynou Lam<br>
+        52 Rue Mohamed V, App. 4B<br>
+        Dakar-Plateau, 11000<br>
+        🇸🇳 Sénégal · +221 77 123 45 67
+      </div>
+      <div class="addr-actions">
+        <button class="addr-btn" onclick="edit(1)">✏️ Modifier</button>
+        <button class="addr-btn" onclick="alert('Déjà par défaut')">✓ Défaut</button>
+        <button class="addr-btn" onclick="del(1)">🗑 Supprimer</button>
+      </div>
+    </div>
+
+    <div class="addr-card">
+      <div class="addr-header">
+        <span class="addr-title">💼 Bureau</span>
+      </div>
+      <div class="addr-lines">
+        Ousseynou Lam<br>
+        Immeuble Fahd, Bd Djily Mbaye<br>
+        Dakar-Plateau, 12500<br>
+        🇸🇳 Sénégal · +221 33 849 05 55
+      </div>
+      <div class="addr-actions">
+        <button class="addr-btn" onclick="edit(2)">✏️ Modifier</button>
+        <button class="addr-btn" onclick="setDefault(2)">Défaut</button>
+        <button class="addr-btn" onclick="del(2)">🗑</button>
+      </div>
+    </div>
+
+    <div class="addr-card">
+      <div class="addr-header">
+        <span class="addr-title">👨‍👩‍👧 Famille</span>
+      </div>
+      <div class="addr-lines">
+        Fatou Lam (Mère)<br>
+        Cité Keur Gorgui, Villa 42<br>
+        Dakar-Mermoz, 14200<br>
+        🇸🇳 Sénégal · +221 76 456 78 90
+      </div>
+      <div class="addr-actions">
+        <button class="addr-btn" onclick="edit(3)">✏️ Modifier</button>
+        <button class="addr-btn" onclick="setDefault(3)">Défaut</button>
+        <button class="addr-btn" onclick="del(3)">🗑</button>
+      </div>
+    </div>
+
+    <div class="card-title">🚚 Points relais proches</div>
+    <div class="card">
+      <div class="list-item">
+        <div class="list-icon">📮</div>
+        <div class="list-text"><div class="list-title">Point Relais Sandaga</div><div class="list-sub">450m · Ouvert jusqu'à 20h</div></div>
+        <div class="list-arrow">›</div>
+      </div>
+      <div class="list-item">
+        <div class="list-icon">📮</div>
+        <div class="list-text"><div class="list-title">Wave Point Plateau</div><div class="list-sub">720m · Ouvert 24/7</div></div>
+        <div class="list-arrow">›</div>
+      </div>
+      <div class="list-item">
+        <div class="list-icon">📮</div>
+        <div class="list-text"><div class="list-title">Orange Boutique Kermel</div><div class="list-sub">1.2km · Ouvert jusqu'à 19h</div></div>
+        <div class="list-arrow">›</div>
+      </div>
+    </div>
+
+    <div style="height:20px;"></div>
+  </main>
+
+  <nav class="app-nav">
+    <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
+    <a href="categories.html"><div class="nav-icon">📊</div><div class="nav-label">Catégories</div></a>
+    <a href="panier.html"><div class="nav-icon">🛒</div><div class="nav-label">Panier</div></a>
+    <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
+    <a href="profil.html" class="active"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
+  </nav>
+</div>
+
+<script>
+function detect(){
+  if(!navigator.geolocation){alert('Géolocalisation non supportée');return}
+  navigator.geolocation.getCurrentPosition(
+    p=>alert(`📍 Position détectée\nLat: ${p.coords.latitude.toFixed(4)}\nLon: ${p.coords.longitude.toFixed(4)}`),
+    ()=>alert('❌ Permission refusée')
+  );
+}
+function addAddr(){alert('➕ Formulaire nouvelle adresse')}
+function edit(i){alert('✏️ Édition adresse #'+i)}
+function del(i){if(confirm('Supprimer cette adresse ?'))alert('✅ Supprimée')}
+function setDefault(i){alert('✓ Définie par défaut')}
+</script>
+</body>
+</html>
