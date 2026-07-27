@@ -2,156 +2,112 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Messages - SEN TEW</title>
 <meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0F6B4E">
 <link rel="stylesheet" href="css/app.css">
 <style>
-body{background:#0A1F17;color:#fff;font-family:-apple-system,sans-serif;margin:0;padding-bottom:100px}
-.header{background:#0F6B4E;padding:16px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
-.back-btn{background:rgba(255,255,255,.15);border:none;color:#fff;width:40px;height:40px;border-radius:50%;font-size:20px;cursor:pointer}
-.header h1{font-size:16px;margin:0;flex:1}
-.search-bar{padding:12px 16px}
-.search-bar input{width:100%;padding:12px 16px;border-radius:12px;border:none;background:rgba(255,255,255,.08);color:#fff;font-size:14px;box-sizing:border-box}
-.msg-list{padding:0 16px}
-.msg-item{background:rgba(255,255,255,.05);border-radius:12px;padding:14px;margin-bottom:10px;display:flex;gap:12px;align-items:center;cursor:pointer;transition:.2s}
-.msg-item:hover{background:rgba(255,255,255,.1)}
-.msg-avatar{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid #D4A574}
-.msg-content{flex:1;min-width:0}
-.msg-header{display:flex;justify-content:space-between;margin-bottom:4px}
-.msg-name{font-weight:700;font-size:14px}
-.msg-time{font-size:11px;color:#D4A574}
-.msg-preview{font-size:13px;color:rgba(255,255,255,.7);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.msg-badge{background:#ef4444;color:#fff;border-radius:12px;padding:2px 8px;font-size:11px;font-weight:700;margin-left:8px}
-.online-dot{width:12px;height:12px;background:#22c55e;border-radius:50%;border:2px solid #0A1F17;position:absolute;bottom:0;right:0}
-.avatar-wrap{position:relative}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#0F6B4E;display:flex;justify-content:space-around;padding:10px 0;z-index:99}
-.bottom-nav a{color:rgba(255,255,255,.6);text-decoration:none;text-align:center;display:flex;flex-direction:column;gap:4px;font-size:22px}
-.bottom-nav a span{font-size:10px}
-.bottom-nav a.active{color:#D4A574}
-/* Chat modal */
-.chat-modal{display:none;position:fixed;inset:0;background:#0A1F17;z-index:1000;flex-direction:column}
+.chat-modal{position:absolute;inset:0;background:#0A1F17;z-index:200;display:none;flex-direction:column}
 .chat-modal.active{display:flex}
-.chat-header{background:#0F6B4E;padding:14px 16px;display:flex;align-items:center;gap:12px}
-.chat-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+.chat-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:8px;background:#0A1F17}
 .bubble{max-width:75%;padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.4}
-.bubble.them{background:rgba(255,255,255,.1);align-self:flex-start;border-bottom-left-radius:4px}
+.bubble.them{background:rgba(255,255,255,.08);align-self:flex-start;border-bottom-left-radius:4px}
 .bubble.me{background:#0F6B4E;align-self:flex-end;border-bottom-right-radius:4px}
-.chat-input{display:flex;padding:12px;background:rgba(255,255,255,.05);gap:8px}
-.chat-input input{flex:1;padding:12px;border-radius:24px;border:none;background:rgba(255,255,255,.1);color:#fff}
-.chat-input button{background:#D4A574;color:#0A1F17;border:none;padding:12px 20px;border-radius:24px;font-weight:700;cursor:pointer}
+.chat-input{display:flex;padding:12px;gap:8px;background:rgba(0,0,0,.3);border-top:1px solid rgba(255,255,255,.05)}
+.chat-input input{flex:1;padding:12px 16px;border-radius:24px;border:none;background:rgba(255,255,255,.1);color:#fff;font-size:14px}
+.chat-input button{background:#D4A574;color:#0A1F17;border:none;width:48px;height:48px;border-radius:50%;font-weight:800;cursor:pointer;font-size:16px}
 </style>
 </head>
 <body oncontextmenu="return false">
-<div class="header">
-  <button class="back-btn" onclick="history.back()">←</button>
-  <h1>💬 Messages</h1>
-</div>
+<div class="app">
+  <header class="app-header">
+    <div class="app-logo">💬 Messages</div>
+    <button class="header-btn" onclick="alert('Nouveau message')">✏️</button>
+  </header>
 
-<div class="search-bar">
-  <input type="text" placeholder="🔍 Rechercher une conversation..." oninput="searchMsg(this.value)">
-</div>
+  <main class="app-content">
+    <div class="search-box">
+      <input type="text" placeholder="Rechercher..." oninput="search(this.value)">
+    </div>
+    <div id="msgList" style="padding:0 8px;"></div>
+    <div style="height:20px;"></div>
+  </main>
 
-<div class="msg-list" id="msgList"></div>
-
-<!-- Chat modal -->
-<div class="chat-modal" id="chatModal">
-  <div class="chat-header">
-    <button class="back-btn" onclick="closeChat()">←</button>
-    <img id="chatAvatar" class="msg-avatar" style="width:40px;height:40px;">
-    <div>
-      <div id="chatName" style="font-weight:700;font-size:14px;"></div>
-      <div style="font-size:11px;color:#D4A574;">● En ligne</div>
+  <div class="chat-modal" id="chatModal">
+    <header class="app-header">
+      <button class="header-btn" onclick="closeChat()">←</button>
+      <img id="chatAvatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;pointer-events:auto;">
+      <div style="flex:1;">
+        <div id="chatName" style="font-weight:700;font-size:14px;"></div>
+        <div style="font-size:11px;color:#D4A574;">● En ligne</div>
+      </div>
+      <button class="header-btn" onclick="alert('Appel vidéo')">📹</button>
+      <button class="header-btn" onclick="alert('Appel voix')">📞</button>
+    </header>
+    <div class="chat-msgs" id="chatMsgs"></div>
+    <div class="chat-input">
+      <input id="msgInput" placeholder="Message..." onkeypress="if(event.key==='Enter')sendMsg()">
+      <button onclick="sendMsg()">➤</button>
     </div>
   </div>
-  <div class="chat-msgs" id="chatMsgs"></div>
-  <div class="chat-input">
-    <input id="msgInput" type="text" placeholder="Écrire un message..." onkeypress="if(event.key==='Enter')sendMsg()">
-    <button onclick="sendMsg()">➤</button>
-  </div>
-</div>
 
-<div class="bottom-nav">
-  <a href="index.html">🏠<span>Accueil</span></a>
-  <a href="categories.html">📊<span>Catégories</span></a>
-  <a href="panier.html">🛒<span>Panier</span></a>
-  <a href="messages.html" class="active">💬<span>Messages</span></a>
-  <a href="profil.html">👤<span>Profil</span></a>
+  <nav class="app-nav">
+    <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
+    <a href="categories.html"><div class="nav-icon">📊</div><div class="nav-label">Catégories</div></a>
+    <a href="panier.html"><div class="nav-icon">🛒</div><div class="nav-label">Panier</div></a>
+    <a href="messages.html" class="active"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
+    <a href="profil.html"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
+  </nav>
 </div>
 
 <script>
-const conversations = [
-  {id:1,name:'Aminata Diop',avatar:'https://i.pravatar.cc/100?img=47',last:'Bonjour, le sac est-il toujours disponible ?',time:'12:34',unread:2,online:true,msgs:[
-    {from:'them',text:'Bonjour ! 👋'},
-    {from:'them',text:'J\'ai vu votre sac à main cuir sur SEN TEW'},
-    {from:'them',text:'Bonjour, le sac est-il toujours disponible ?'}
-  ]},
-  {id:2,name:'Moussa Sall',avatar:'https://i.pravatar.cc/100?img=68',last:'Merci beaucoup pour la livraison rapide 🙏',time:'10:22',unread:0,online:true,msgs:[
-    {from:'me',text:'Bonjour, votre commande a été expédiée'},
-    {from:'them',text:'Merci beaucoup pour la livraison rapide 🙏'}
-  ]},
-  {id:3,name:'Fatou Ndiaye',avatar:'https://i.pravatar.cc/100?img=45',last:'Le boubou wax est magnifique !',time:'Hier',unread:1,online:false,msgs:[
-    {from:'them',text:'Le boubou wax est magnifique !'}
-  ]},
-  {id:4,name:'SEN TEW Support',avatar:'https://i.pravatar.cc/100?img=15',last:'Nous restons à votre disposition',time:'Hier',unread:0,online:true,msgs:[
-    {from:'them',text:'Bonjour, comment pouvons-nous vous aider ?'},
-    {from:'them',text:'Nous restons à votre disposition'}
-  ]},
-  {id:5,name:'Ibrahima Ba',avatar:'https://i.pravatar.cc/100?img=52',last:'Pouvez-vous baisser le prix ?',time:'Lun',unread:0,online:false,msgs:[
-    {from:'them',text:'Pouvez-vous baisser le prix ?'}
-  ]},
-  {id:6,name:'Awa Mbaye',avatar:'https://i.pravatar.cc/100?img=44',last:'Livraison à Thiès possible ?',time:'Dim',unread:0,online:false,msgs:[
-    {from:'them',text:'Livraison à Thiès possible ?'}
-  ]}
+const convos = [
+  {id:1,name:'Aminata Diop',avatar:'https://i.pravatar.cc/100?img=47',last:'Le sac est-il toujours dispo ?',time:'12:34',unread:2,online:true,msgs:[{f:'them',t:'Bonjour ! 👋'},{f:'them',t:'J\'ai vu votre sac cuir africain'},{f:'them',t:'Le sac est-il toujours dispo ?'}]},
+  {id:2,name:'Moussa Sall',avatar:'https://i.pravatar.cc/100?img=68',last:'Merci pour la livraison rapide 🙏',time:'10:22',unread:0,online:true,msgs:[{f:'me',t:'Votre commande a été expédiée'},{f:'them',t:'Merci pour la livraison rapide 🙏'}]},
+  {id:3,name:'Fatou Ndiaye',avatar:'https://i.pravatar.cc/100?img=45',last:'Le boubou wax est magnifique !',time:'Hier',unread:1,online:false,msgs:[{f:'them',t:'Le boubou wax est magnifique !'}]},
+  {id:4,name:'SEN TEW Support',avatar:'https://i.pravatar.cc/100?img=15',last:'Nous restons disponibles 24/7',time:'Hier',unread:0,online:true,msgs:[{f:'them',t:'Bonjour, comment vous aider ?'}]},
+  {id:5,name:'Ibrahima Ba',avatar:'https://i.pravatar.cc/100?img=52',last:'Pouvez-vous baisser le prix ?',time:'Lun',unread:0,online:false,msgs:[{f:'them',t:'Pouvez-vous baisser le prix ?'}]},
+  {id:6,name:'Awa Mbaye',avatar:'https://i.pravatar.cc/100?img=44',last:'Livraison à Thiès possible ?',time:'Dim',unread:0,online:false,msgs:[{f:'them',t:'Livraison à Thiès possible ?'}]},
+  {id:7,name:'Cheikh Diouf',avatar:'https://i.pravatar.cc/100?img=60',last:'Vous avez d\'autres modèles ?',time:'Sam',unread:0,online:false,msgs:[{f:'them',t:'Vous avez d\'autres modèles ?'}]}
 ];
+let current=null;
 
-let currentChat = null;
-
-function render(list=conversations){
-  document.getElementById('msgList').innerHTML = list.map(c=>`
-    <div class="msg-item" onclick="openChat(${c.id})">
-      <div class="avatar-wrap">
-        <img class="msg-avatar" src="${c.avatar}" alt="${c.name}">
-        ${c.online?'<span class="online-dot"></span>':''}
+function render(l=convos){
+  document.getElementById('msgList').innerHTML = l.map(c=>`
+    <div onclick="openChat(${c.id})" style="display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;cursor:pointer;transition:.2s;" onmouseover="this.style.background='rgba(255,255,255,.05)'" onmouseout="this.style.background='transparent'">
+      <div style="position:relative;">
+        <img src="${c.avatar}" style="width:52px;height:52px;border-radius:50%;border:2px solid #D4A574;object-fit:cover;pointer-events:auto;">
+        ${c.online?'<div style="position:absolute;bottom:0;right:0;width:14px;height:14px;background:#22c55e;border-radius:50%;border:2px solid #0A1F17;"></div>':''}
       </div>
-      <div class="msg-content">
-        <div class="msg-header">
-          <span class="msg-name">${c.name}</span>
-          <span class="msg-time">${c.time}</span>
+      <div style="flex:1;min-width:0;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="font-weight:700;font-size:14px;">${c.name}</span>
+          <span style="font-size:11px;color:#D4A574;">${c.time}</span>
         </div>
-        <div class="msg-preview">${c.last}</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.7);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${c.last}</div>
       </div>
-      ${c.unread?`<span class="msg-badge">${c.unread}</span>`:''}
+      ${c.unread?`<span style="background:#ef4444;color:#fff;border-radius:12px;padding:2px 8px;font-size:11px;font-weight:700;">${c.unread}</span>`:''}
     </div>
   `).join('');
 }
-
 function openChat(id){
-  currentChat = conversations.find(c=>c.id===id);
-  document.getElementById('chatAvatar').src = currentChat.avatar;
-  document.getElementById('chatName').textContent = currentChat.name;
-  document.getElementById('chatMsgs').innerHTML = currentChat.msgs.map(m=>`<div class="bubble ${m.from}">${m.text}</div>`).join('');
+  current=convos.find(c=>c.id===id);
+  document.getElementById('chatAvatar').src=current.avatar;
+  document.getElementById('chatName').textContent=current.name;
+  document.getElementById('chatMsgs').innerHTML=current.msgs.map(m=>`<div class="bubble ${m.f}">${m.t}</div>`).join('');
   document.getElementById('chatModal').classList.add('active');
-  currentChat.unread = 0;
-  render();
+  current.unread=0;render();
 }
 function closeChat(){document.getElementById('chatModal').classList.remove('active')}
 function sendMsg(){
-  const input = document.getElementById('msgInput');
-  if(!input.value.trim())return;
-  currentChat.msgs.push({from:'me',text:input.value});
-  currentChat.last = input.value;
-  input.value = '';
-  openChat(currentChat.id);
-  setTimeout(()=>{
-    currentChat.msgs.push({from:'them',text:'Message reçu ! Je vous réponds sous peu 👍'});
-    openChat(currentChat.id);
-  },1500);
+  const i=document.getElementById('msgInput');
+  if(!i.value.trim())return;
+  current.msgs.push({f:'me',t:i.value});current.last=i.value;
+  i.value='';openChat(current.id);
+  setTimeout(()=>{current.msgs.push({f:'them',t:'Merci ! Je vous réponds sous peu 👍'});openChat(current.id)},1500);
 }
-function searchMsg(q){
-  const filtered = conversations.filter(c=>c.name.toLowerCase().includes(q.toLowerCase()));
-  render(filtered);
-}
+function search(q){render(convos.filter(c=>c.name.toLowerCase().includes(q.toLowerCase())))}
 render();
 </script>
 </body>
