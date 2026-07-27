@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Commandes - SEN TEW</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0F6B4E">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body oncontextmenu="return false">
+<div class="app">
+  <header class="app-header">
+    <button class="header-btn" onclick="history.back()">←</button>
+    <div class="app-logo" style="text-align:center;">📦 Mes commandes</div>
+    <a href="notifications.html" class="header-btn">🔔</a>
+  </header>
+
+  <main class="app-content">
+    <div class="chips">
+      <button class="chip active" onclick="filt('all',this)">Toutes</button>
+      <button class="chip" onclick="filt('pending',this)">⏱ En cours</button>
+      <button class="chip" onclick="filt('delivered',this)">✅ Livrées</button>
+      <button class="chip" onclick="filt('cancel',this)">❌ Annulées</button>
+    </div>
+
+    <div id="orders" style="padding:0 16px;"></div>
+    <div style="height:20px;"></div>
+  </main>
+
+  <nav class="app-nav">
+    <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
+    <a href="categories.html"><div class="nav-icon">📊</div><div class="nav-label">Catégories</div></a>
+    <a href="panier.html"><div class="nav-icon">🛒</div><div class="nav-label">Panier</div></a>
+    <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
+    <a href="profil.html" class="active"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
+  </nav>
+</div>
+
+<script>
+const orders=[
+  {id:'SEN2026-0847',status:'pending',statusLabel:'📦 Expédié',date:'26 juil 2026',product:'Boubou wax premium',price:18000,image:'https://images.unsplash.com/photo-1596902852634-fc2d10a1cc11?w=200',progress:75},
+  {id:'SEN2026-0846',status:'pending',statusLabel:'🚚 En livraison',date:'25 juil 2026',product:'Sac cuir africain',price:15000,image:'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=200',progress:90},
+  {id:'SEN2026-0845',status:'delivered',statusLabel:'✅ Livrée',date:'22 juil 2026',product:'Écouteurs sans fil Pro',price:12000,image:'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=200',progress:100},
+  {id:'SEN2026-0844',status:'delivered',statusLabel:'✅ Livrée',date:'18 juil 2026',product:'Bracelet ethnique',price:5500,image:'https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=200',progress:100},
+  {id:'SEN2026-0843',status:'cancel',statusLabel:'❌ Annulée',date:'15 juil 2026',product:'Ordinateur portable',price:280000,image:'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=200',progress:0}
+];
+
+function render(f='all'){
+  const l=f==='all'?orders:orders.filter(o=>o.status===f);
+  document.getElementById('orders').innerHTML=l.map(o=>`
+    <div style="background:rgba(255,255,255,.05);border-radius:14px;padding:12px;margin-bottom:10px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:11px;">
+        <span style="color:#D4A574;">${o.id}</span>
+        <span style="color:rgba(255,255,255,.6);">${o.date}</span>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <img src="${o.image}" style="width:70px;height:70px;object-fit:cover;border-radius:10px;pointer-events:auto;">
+        <div style="flex:1;">
+          <div style="font-weight:600;font-size:13px;margin-bottom:4px;">${o.product}</div>
+          <div style="color:#D4A574;font-weight:800;font-size:14px;">${o.price.toLocaleString()} FCFA</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:4px;">${o.statusLabel}</div>
+        </div>
+      </div>
+      ${o.status==='pending'?`
+        <div style="margin-top:12px;height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;">
+          <div style="height:100%;width:${o.progress}%;background:linear-gradient(90deg,#0F6B4E,#D4A574);transition:.3s;"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:rgba(255,255,255,.6);">
+          <span>Confirmée</span><span>Expédiée</span><span>En route</span><span>Livrée</span>
+        </div>
+      `:''}
+      <div style="display:flex;gap:6px;margin-top:12px;">
+        ${o.status==='pending'?`<button class="btn btn-ghost" style="flex:1;padding:8px;font-size:12px;" onclick="alert('📍 Suivi en temps réel')">📍 Suivre</button>`:''}
+        <button class="btn btn-ghost" style="flex:1;padding:8px;font-size:12px;" onclick="window.location.href='messages.html'">💬 Contact</button>
+        ${o.status==='delivered'?`<button class="btn btn-gold" style="flex:1;padding:8px;font-size:12px;" onclick="window.location.href='avis.html'">⭐ Avis</button>`:''}
+      </div>
+    </div>
+  `).join('') || '<p style="text-align:center;color:#D4A574;padding:40px;">Aucune commande</p>';
+}
+function filt(f,el){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');render(f)}
+render();
+</script>
+</body>
+</html>
