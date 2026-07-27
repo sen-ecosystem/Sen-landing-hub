@@ -2,157 +2,82 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Assistant IA - SEN TEW</title>
 <meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0F6B4E">
+<link rel="stylesheet" href="css/app.css">
 <style>
-body{background:#0A1F17;color:#fff;font-family:-apple-system,sans-serif;margin:0;height:100vh;display:flex;flex-direction:column}
-.header{background:linear-gradient(135deg,#0F6B4E,#D4A574);padding:16px 20px;display:flex;align-items:center;gap:12px}
-.back-btn{background:rgba(255,255,255,.2);border:none;color:#fff;width:40px;height:40px;border-radius:50%;font-size:20px;cursor:pointer}
-.ai-avatar{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:22px}
-.header-info{flex:1}
-.header-title{font-weight:800;font-size:15px}
-.header-sub{font-size:11px;opacity:.9}
-.lang-select{background:rgba(0,0,0,.3);color:#fff;border:none;padding:6px 10px;border-radius:8px;font-size:12px}
-.chat{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
-.bubble{max-width:80%;padding:12px 16px;border-radius:18px;font-size:14px;line-height:1.5;animation:slideIn .3s}
-@keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.bubble.ai{background:rgba(255,255,255,.08);align-self:flex-start;border-bottom-left-radius:6px}
-.bubble.user{background:linear-gradient(135deg,#0F6B4E,#0A4D38);align-self:flex-end;border-bottom-right-radius:6px}
-.bubble.typing{background:rgba(255,255,255,.08);align-self:flex-start;padding:16px 20px}
-.typing-dots span{display:inline-block;width:8px;height:8px;background:#D4A574;border-radius:50%;margin:0 2px;animation:bounce 1.4s infinite}
-.typing-dots span:nth-child(2){animation-delay:.2s}
-.typing-dots span:nth-child(3){animation-delay:.4s}
-@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-8px)}}
-.suggestions{padding:0 16px 12px;display:flex;gap:8px;overflow-x:auto}
-.suggestion{background:rgba(212,165,116,.15);color:#D4A574;border:1px solid #D4A574;padding:8px 14px;border-radius:20px;font-size:12px;white-space:nowrap;cursor:pointer;flex-shrink:0}
-.input-area{background:rgba(255,255,255,.05);padding:12px;display:flex;gap:8px;border-top:1px solid rgba(255,255,255,.05)}
-.input-area input{flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(212,165,116,.3);color:#fff;padding:12px 16px;border-radius:24px;font-size:14px}
-.send-btn{background:linear-gradient(135deg,#0F6B4E,#D4A574);border:none;color:#fff;width:48px;height:48px;border-radius:50%;font-size:20px;cursor:pointer}
-.voice-btn{background:rgba(212,165,116,.15);border:1px solid #D4A574;color:#D4A574;width:48px;height:48px;border-radius:50%;font-size:20px;cursor:pointer}
+.chat{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+.bubble{max-width:80%;padding:12px 16px;border-radius:16px;font-size:14px;line-height:1.5;animation:fadeIn .3s;white-space:pre-wrap}
+.bubble.ai{background:rgba(255,255,255,.08);align-self:flex-start;border-bottom-left-radius:4px}
+.bubble.user{background:linear-gradient(135deg,#0F6B4E,#0A4D38);align-self:flex-end;border-bottom-right-radius:4px}
+.typing{background:rgba(255,255,255,.08);align-self:flex-start;padding:14px 18px;border-radius:16px}
+.dots span{display:inline-block;width:6px;height:6px;background:#D4A574;border-radius:50%;margin:0 2px;animation:bounce 1.4s infinite}
+.dots span:nth-child(2){animation-delay:.2s}
+.dots span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.sugg{padding:0 12px 8px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.sugg::-webkit-scrollbar{display:none}
+.sugg .chip{background:rgba(212,165,116,.12);color:#D4A574;border:1px solid #D4A574;font-size:11px;flex-shrink:0}
+.input-bar{background:rgba(0,0,0,.3);padding:10px;display:flex;gap:6px;border-top:1px solid rgba(255,255,255,.05)}
+.input-bar input{flex:1;background:rgba(255,255,255,.1);border:1px solid rgba(212,165,116,.3);color:#fff;padding:11px 15px;border-radius:22px;font-size:13px}
+.mic-btn{background:rgba(212,165,116,.15);border:1px solid #D4A574;color:#D4A574;width:44px;height:44px;border-radius:50%;font-size:18px;cursor:pointer}
+.send{background:linear-gradient(135deg,#0F6B4E,#D4A574);border:none;color:#fff;width:44px;height:44px;border-radius:50%;font-size:16px;cursor:pointer}
 </style>
 </head>
 <body oncontextmenu="return false">
-<div class="header">
-  <button class="back-btn" onclick="history.back()">←</button>
-  <div class="ai-avatar">🤖</div>
-  <div class="header-info">
-    <div class="header-title">Assistant SEN TEW</div>
-    <div class="header-sub">● En ligne · Réponse instantanée</div>
+<div class="app">
+  <header class="app-header" style="background:linear-gradient(135deg,#0F6B4E,#D4A574);">
+    <button class="header-btn" onclick="history.back()">←</button>
+    <div style="width:38px;height:38px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;">🤖</div>
+    <div style="flex:1;">
+      <div style="font-weight:800;font-size:14px;">Assistant SEN TEW</div>
+      <div style="font-size:10px;opacity:.9;">● En ligne · 24/7</div>
+    </div>
+    <select class="select" id="lang" onchange="changeLang()">
+      <option value="fr">🇫🇷</option>
+      <option value="wo">🇸🇳</option>
+      <option value="en">🇬🇧</option>
+      <option value="ar">🇸🇦</option>
+    </select>
+  </header>
+
+  <div class="chat" id="chat"></div>
+
+  <div class="sugg" id="sugg"></div>
+
+  <div class="input-bar">
+    <button class="mic-btn" onclick="alert('🎙 Voice (bientôt)')">🎙</button>
+    <input id="in" placeholder="Écrire..." onkeypress="if(event.key==='Enter')send()">
+    <button class="send" onclick="send()">➤</button>
   </div>
-  <select class="lang-select" id="lang" onchange="changeLang()">
-    <option value="fr">🇫🇷 FR</option>
-    <option value="wo">🇸🇳 Wolof</option>
-    <option value="en">🇬🇧 EN</option>
-    <option value="ar">🇸🇦 AR</option>
-  </select>
-</div>
 
-<div class="chat" id="chat"></div>
-
-<div class="suggestions" id="suggestions"></div>
-
-<div class="input-area">
-  <button class="voice-btn" onclick="alert('🎙 Enregistrement vocal (bientôt)')">🎙</button>
-  <input id="msgInput" placeholder="Écrire un message..." onkeypress="if(event.key==='Enter')send()">
-  <button class="send-btn" onclick="send()">➤</button>
+  <nav class="app-nav">
+    <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
+    <a href="categories.html"><div class="nav-icon">📊</div><div class="nav-label">Catégories</div></a>
+    <a href="panier.html"><div class="nav-icon">🛒</div><div class="nav-label">Panier</div></a>
+    <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
+    <a href="profil.html"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
+  </nav>
 </div>
 
 <script>
-const responses = {
-  fr: {
-    greeting: "Bonjour Ousseynou ! 👋 Je suis l'assistant SEN TEW. Comment puis-je vous aider aujourd'hui ?",
-    suggestions: ['📦 Suivre ma commande','💰 Voir mes points','🎁 Promotions du jour','🔒 Sécurité compte','📱 Modes de paiement'],
-    default: "Je comprends ! Voici ce que je peux faire pour vous : 📦 suivi commande, 💰 portefeuille, 🎁 offres, 🤝 aide vendeur. Que souhaitez-vous ?",
-    commande: "📦 Votre commande #SEN2026-0847 : Boubou wax expédié hier, livraison prévue demain 27 juillet entre 10h-14h à Dakar-Plateau. Suivi Wave en temps réel.",
-    points: "💰 Vous avez actuellement 1 250 points fidélité SEN TEW GOLD. Utilisables comme 12 500 FCFA de réduction. Prochaine palier PLATINE à 2000 points (10% cashback permanent) !",
-    promo: "🎁 Promotions du 27 juillet 2026 :\n• -30% sur Écouteurs Pro\n• -25% Sacs cuir africain\n• LIVE 20h - Boubou wax jusqu'à -40%\n• Cashback 5% avec Wave"
-  },
-  wo: {
-    greeting: "Asalaa malekum Ousseynou ! 👋 Man moy assistant SEN TEW. Naka mën naa la jappale tay ?",
-    suggestions: ['📦 Suivre commande','💰 Sama points','🎁 Rëy yi tay','🔒 Sûreté','📱 Paiement'],
-    default: "Dégg naa la ! Man ci ni : 📦 commande, 💰 xaalis, 🎁 offer. Loo bëgg ?",
-    commande: "📦 Sa commande #SEN2026-0847 : Boubou wax bi dañu ko yebbi démb, dinañu la ko indi ëllëg 27 juillet ci diggante 10h ak 14h ci Dakar-Plateau.",
-    points: "💰 Am nga 1 250 points SEN TEW GOLD. Mën nga ko jëfandiku ni 12 500 FCFA remise !",
-    promo: "🎁 Rëy yi tay 27 juillet 2026 :\n• -30% ci écouteurs\n• -25% ci sacs cuir\n• LIVE 20h - Boubou wax ba -40%"
-  },
-  en: {
-    greeting: "Hello Ousseynou! 👋 I'm the SEN TEW assistant. How can I help you today?",
-    suggestions: ['📦 Track order','💰 My points','🎁 Today deals','🔒 Security','📱 Payment'],
-    default: "I understand! I can help with: 📦 tracking, 💰 wallet, 🎁 offers. What do you need?",
-    commande: "📦 Your order #SEN2026-0847: African wax boubou shipped yesterday, delivery tomorrow July 27 between 10am-2pm in Dakar-Plateau.",
-    points: "💰 You have 1,250 SEN TEW GOLD loyalty points = 12,500 FCFA discount available!",
-    promo: "🎁 July 27, 2026 promos:\n• -30% on Pro Earbuds\n• -25% Leather bags\n• LIVE 8pm - Wax boubou up to -40%"
-  },
-  ar: {
-    greeting: "مرحبا Ousseynou ! 👋 أنا مساعد SEN TEW. كيف يمكنني مساعدتك اليوم؟",
-    suggestions: ['📦 تتبع الطلب','💰 نقاطي','🎁 عروض اليوم','🔒 الأمان','📱 الدفع'],
-    default: "فهمت! يمكنني مساعدتك في: 📦 التتبع، 💰 المحفظة، 🎁 العروض.",
-    commande: "📦 طلبك #SEN2026-0847: بوبو واكس تم شحنه أمس، التسليم غدا 27 يوليو بين 10 صباحا و 2 مساء في داكار.",
-    points: "💰 لديك 1250 نقطة SEN TEW GOLD = خصم 12500 FCFA!",
-    promo: "🎁 عروض 27 يوليو 2026:\n• -30% سماعات\n• -25% حقائب جلد\n• بث مباشر 8 مساء"
-  }
+const R={
+  fr:{g:"Bonjour Ousseynou ! 👋 Je suis l'assistant SEN TEW. Comment puis-je vous aider ?",s:['📦 Suivre commande','💰 Mes points','🎁 Promos du jour','🔒 Sécurité','📱 Paiement'],d:"Voici ce que je peux faire : 📦 suivi commande, 💰 portefeuille, 🎁 offres, 🤝 aide vendeur.",cmd:"📦 Commande #SEN2026-0847 : Boubou wax expédié hier, livraison demain 27 juillet 10h-14h Dakar-Plateau.",pts:"💰 Vous avez 1 250 points SEN TEW GOLD = 12 500 FCFA de réduction !",prm:"🎁 Aujourd'hui 27 juillet 2026 :\n• -30% Écouteurs Pro\n• -25% Sacs cuir\n• LIVE 20h - Boubou -40%\n• Cashback 5% Wave"},
+  wo:{g:"Asalaa malekum Ousseynou ! 👋 Man moy assistant SEN TEW. Naka mën naa la jappale ?",s:['📦 Commande','💰 Sama points','🎁 Rëy yi','🔒 Sûreté','📱 Paiement'],d:"Man ci ni : 📦 commande, 💰 xaalis, 🎁 offer.",cmd:"📦 Sa commande #SEN2026-0847 : Boubou wax dañu ko yebbi démb, ëllëg 27 juillet.",pts:"💰 Am nga 1 250 points GOLD = 12 500 FCFA !",prm:"🎁 Tay 27 juillet 2026 :\n• -30% écouteurs\n• -25% sacs\n• LIVE 20h -40%"},
+  en:{g:"Hello Ousseynou! 👋 I'm SEN TEW assistant. How can I help?",s:['📦 Track order','💰 My points','🎁 Deals','🔒 Security','📱 Payment'],d:"I can help with: 📦 tracking, 💰 wallet, 🎁 offers.",cmd:"📦 Order #SEN2026-0847: Wax boubou shipped yesterday, delivery July 27.",pts:"💰 You have 1,250 GOLD points = 12,500 FCFA discount!",prm:"🎁 July 27, 2026:\n• -30% Earbuds\n• -25% Bags\n• LIVE 8pm -40%"},
+  ar:{g:"مرحبا! 👋 أنا مساعد SEN TEW. كيف يمكنني مساعدتك؟",s:['📦 تتبع','💰 نقاط','🎁 عروض','🔒 أمان','📱 دفع'],d:"يمكنني: 📦 التتبع، 💰 المحفظة، 🎁 العروض.",cmd:"📦 طلب #SEN2026-0847: تم الشحن، التسليم غدا 27 يوليو.",pts:"💰 لديك 1250 نقطة = 12500 FCFA!",prm:"🎁 27 يوليو 2026:\n• -30% سماعات\n• -25% حقائب"}
 };
-
-let currentLang = 'fr';
-
-function addMsg(text, from){
-  const chat = document.getElementById('chat');
-  const div = document.createElement('div');
-  div.className = 'bubble ' + from;
-  div.textContent = text;
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
-}
-
-function showTyping(){
-  const chat = document.getElementById('chat');
-  const div = document.createElement('div');
-  div.id = 'typing';
-  div.className = 'bubble typing';
-  div.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
-}
-function removeTyping(){const t=document.getElementById('typing');if(t)t.remove()}
-
-function respond(text){
-  const r = responses[currentLang];
-  const lower = text.toLowerCase();
-  if(lower.includes('command') || lower.includes('livrai') || lower.includes('track')) return r.commande;
-  if(lower.includes('point') || lower.includes('fidél') || lower.includes('cashback')) return r.points;
-  if(lower.includes('promo') || lower.includes('offer') || lower.includes('deal') || lower.includes('rëy')) return r.promo;
-  return r.default;
-}
-
-function send(customText){
-  const input = document.getElementById('msgInput');
-  const text = customText || input.value.trim();
-  if(!text) return;
-  addMsg(text, 'user');
-  input.value = '';
-  showTyping();
-  setTimeout(()=>{
-    removeTyping();
-    addMsg(respond(text), 'ai');
-  }, 1200);
-}
-
-function loadSuggestions(){
-  const s = responses[currentLang].suggestions;
-  document.getElementById('suggestions').innerHTML = s.map(x=>`<div class="suggestion" onclick="send('${x.replace(/'/g,"\\'")}')">${x}</div>`).join('');
-}
-
-function changeLang(){
-  currentLang = document.getElementById('lang').value;
-  document.getElementById('chat').innerHTML = '';
-  addMsg(responses[currentLang].greeting, 'ai');
-  loadSuggestions();
-}
-
-// Init
-addMsg(responses.fr.greeting, 'ai');
-loadSuggestions();
+let L='fr';
+function add(t,f){const c=document.getElementById('chat');const d=document.createElement('div');d.className='bubble '+f;d.textContent=t;c.appendChild(d);c.scrollTop=c.scrollHeight}
+function typing(){const c=document.getElementById('chat');const d=document.createElement('div');d.id='t';d.className='typing';d.innerHTML='<div class="dots"><span></span><span></span><span></span></div>';c.appendChild(d);c.scrollTop=c.scrollHeight}
+function noType(){const t=document.getElementById('t');if(t)t.remove()}
+function resp(t){const r=R[L],l=t.toLowerCase();if(l.match(/command|livrai|track|suiv/))return r.cmd;if(l.match(/point|fidél|cashback/))return r.pts;if(l.match(/promo|offer|deal|rëy/))return r.prm;return r.d}
+function send(text){const i=document.getElementById('in');const t=text||i.value.trim();if(!t)return;add(t,'user');i.value='';typing();setTimeout(()=>{noType();add(resp(t),'ai')},1200)}
+function suggs(){document.getElementById('sugg').innerHTML=R[L].s.map(x=>`<button class="chip" onclick="send('${x.replace(/'/g,"\\'")}')">${x}</button>`).join('')}
+function changeLang(){L=document.getElementById('lang').value;document.getElementById('chat').innerHTML='';add(R[L].g,'ai');suggs()}
+add(R.fr.g,'ai');suggs();
 </script>
 </body>
 </html>
