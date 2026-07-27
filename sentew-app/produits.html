@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produits - SEN TEW</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0A1F17">
+<link rel="stylesheet" href="css/app.css">
+<style>
+.prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0 20px 100px}
+.filter-bar{display:flex;gap:10px;padding:0 20px 14px;overflow-x:auto;scrollbar-width:none}
+.filter-bar::-webkit-scrollbar{display:none}
+.filter-chip{background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);padding:8px 14px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer;transition:all 0.3s}
+.filter-chip.active{background:var(--gold);color:var(--bg-darker);border-color:var(--gold)}
+.empty-state{text-align:center;padding:60px 20px;color:var(--text-muted)}
+.empty-state .icon{font-size:64px;margin-bottom:16px}
+</style>
+</head>
+<body oncontextmenu="return false" onselectstart="return false">
+
+<div class="app">
+
+  <div class="header-back">
+    <a href="index.html" class="back-btn">←</a>
+    <div class="header-title" id="pageTitle">Tous les produits</div>
+    <button class="notif-btn" style="color:var(--gold)">⚙️</button>
+  </div>
+
+  <div class="search-bar">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchProd" placeholder="Rechercher...">
+  </div>
+
+  <div class="filter-bar" id="filterBar"></div>
+
+  <div class="prod-grid" id="prodGrid"></div>
+
+  <a href="assistant-ia.html" class="ai-fab">
+    <span class="ai-icon">✨</span>
+    <span>Assistant IA</span>
+  </a>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span><span>Accueil</span></a>
+    <a href="categories.html" class="nav-item"><span class="nav-icon">📊</span><span>Catégories</span></a>
+    <a href="panier.html" class="nav-item"><span class="nav-icon">🛒</span><span>Panier</span><span class="nav-badge nav-badge-cart" style="display:none">0</span></a>
+    <a href="#" class="nav-item"><span class="nav-icon">💬</span><span>Messages</span></a>
+    <a href="#" class="nav-item"><span class="nav-icon">👤</span><span>Profil</span></a>
+  </nav>
+
+</div>
+
+<script src="js/data.js"></script>
+<script>
+const params = new URLSearchParams(window.location.search);
+const catSlug = params.get('cat') || '';
+const query = params.get('q') || '';
+
+// Titre
+if(catSlug){
+  const cat = CATEGORIES.find(c => c.slug === catSlug);
+  if(cat) document.getElementById('pageTitle').textContent = cat.name;
+}
+if(query){
+  document.getElementById('pageTitle').textContent = `"${query}"`;
+  document.getElementById('searchProd').value = query;
+}
+
+// Filtres
+let activeFilter = 'all';
+const filters = ['all','promo','neuf','occasion','premium'];
+const filterLabels = {'all':'Tous','promo':'🔥 En promo','neuf':'Neuf','occasion':'Occasion','premium':'⭐ Premium'};
+
+function renderFilters(){
+  document.getElementById('filterBar').innerHTML = filters.map(f => 
+    `<button class="filter-chip ${f===activeFilter?'active':''}" onclick="setFilter('${f}')">${filterLabels[f]}</button>`
+  ).join('');
+}
+function setFilter(f){ activeFilter = f; renderFilters(); renderProds(); }
+
+function renderProds(){
+  let list = [...PRODUCTS];
+  if(catSlug){
+    const cat = CATEGORIES.find(c => c.slug === catSlug);
+    if(cat) list = list.filter(p => p.category === cat.name);
+  }
+  const q = document.getElementById('searchProd').value.toLowerCase();
+  if(q) list = list.filter(p => p.name.toLowerCase().includes(q) || p.seller.toLowerCase().includes(q));
+  if(activeFilter === 'promo') list = list.filter(p => p.promo);
+  if(activeFilter === 'neuf') list = list.filter(p => p.condition === 'neuf');
+  if(activeFilter === 'occasion') list = list.filter(p => p.condition === 'occasion' || p.condition === 'reconditionné');
+  if(activeFilter === 'premium') list = list.filter(p => p.featured);
+  
+  if(list.length === 0){
+    document.getElementById('prodGrid').innerHTML = `
+      <div class="empty-state" style="grid-column:1/-1">
+        <div class="icon">🔍</div>
+        <p>Aucun produit trouvé</p>
+      </div>`;
+    return;
+  }
+  
+  document.getElementById('prodGrid').innerHTML = list.map(p => `
+    <a href="produit.html?id=${p.id}" class="product-card" style="min-width:auto;text-decoration:none">
+      <div class="product-image">
+        <img src="${p.photo}" alt="${p.name}" onerror="this.style.display='none';this.parentElement.innerHTML='🛍️'">
+        ${p.promo ? '<span class="promo-tag">-'+p.discount+'%</span>' : ''}
+        <button class="fav-btn" onclick="event.preventDefault();this.classList.toggle('active');this.textContent=this.textContent==='♡'?'❤':'♡'">♡</button>
+      </div>
+      <div class="product-info">
+        <h4>${p.name}</h4>
+        <div style="margin:6px 0"><span class="product-price">${formatPrice(p.price)}</span></div>
+        <div style="font-size:11px;color:var(--text-muted)">⭐ ${p.rating} (${p.reviews})</div>
+      </div>
+    </a>
+  `).join('');
+}
+
+renderFilters();
+renderProds();
+document.getElementById('searchProd').addEventListener('input', renderProds);
+</script>
+
+</body>
+</html>
