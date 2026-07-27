@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Stories - SEN TEW</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#000">
+<link rel="stylesheet" href="css/app.css">
+<style>
+.app{background:#000}
+.story-view{position:absolute;inset:0;background:#000;display:flex;flex-direction:column;z-index:200}
+.story-bar{display:flex;gap:4px;padding:12px 12px 6px;z-index:10}
+.story-bar div{flex:1;height:3px;background:rgba(255,255,255,.3);border-radius:2px;overflow:hidden;position:relative}
+.story-bar div.active::after{content:'';position:absolute;inset:0;background:#fff;animation:progress 5s linear forwards}
+.story-bar div.done::after{content:'';position:absolute;inset:0;background:#fff}
+@keyframes progress{from{width:0}to{width:100%}}
+.story-header{display:flex;align-items:center;gap:10px;padding:0 16px 12px;z-index:10}
+.story-header img{width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid #D4A574;pointer-events:auto}
+.story-media{flex:1;background-size:cover;background-position:center;position:relative;display:flex;align-items:flex-end;padding:20px}
+.story-caption{background:rgba(0,0,0,.6);backdrop-filter:blur(8px);border-radius:12px;padding:12px;width:100%}
+.story-actions{position:absolute;top:50%;left:0;right:0;display:flex;justify-content:space-between;transform:translateY(-50%);padding:0 20px;pointer-events:none}
+.story-actions button{pointer-events:auto;background:none;border:none;font-size:32px;color:rgba(255,255,255,.3);cursor:pointer}
+.story-bottom{padding:12px;display:flex;gap:8px;background:rgba(0,0,0,.5)}
+.story-bottom input{flex:1;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);color:#fff;padding:10px 16px;border-radius:22px;font-size:13px}
+</style>
+</head>
+<body oncontextmenu="return false">
+<div class="app">
+  <header class="app-header">
+    <button class="header-btn" onclick="history.back()">←</button>
+    <div class="app-logo" style="text-align:center;">🎬 Stories & Vidéos</div>
+    <button class="header-btn" onclick="alert('➕ Créer story')">➕</button>
+  </header>
+
+  <main class="app-content">
+    <!-- Stories carousel -->
+    <div style="padding:12px 16px;color:#D4A574;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">✨ Stories du jour</div>
+    <div style="display:flex;gap:12px;padding:0 16px 8px;overflow-x:auto;scrollbar-width:none;">
+      <div onclick="alert('➕ Ajouter votre story')" style="flex-shrink:0;text-align:center;cursor:pointer;">
+        <div style="width:70px;height:70px;border-radius:50%;background:rgba(212,165,116,.15);border:2px dashed #D4A574;display:flex;align-items:center;justify-content:center;font-size:28px;color:#D4A574;">＋</div>
+        <div style="font-size:10px;margin-top:4px;">Votre story</div>
+      </div>
+      ${[
+        {name:'Aminata',avatar:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&auto=format&fit=crop&face',bg:'https://images.unsplash.com/photo-1595777216528-071e0127ccbf?w=800'},
+        {name:'Moussa',avatar:'https://images.unsplash.com/photo-1552058544-f2b08422138a?w=200&auto=format&fit=crop&face',bg:'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=800'},
+        {name:'Fatou',avatar:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&auto=format&fit=crop&face',bg:'https://images.unsplash.com/photo-1618354691792-d1d42acfd860?w=800'},
+        {name:'Cheikh',avatar:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&auto=format&fit=crop&face',bg:'https://images.unsplash.com/photo-1610889556528-9a770e32642f?w=800'},
+        {name:'Awa',avatar:'https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=200&auto=format&fit=crop&face',bg:'https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=800'}
+      ].map((s,i)=>`
+        <div onclick="openStory(${i})" style="flex-shrink:0;text-align:center;cursor:pointer;">
+          <div style="width:70px;height:70px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#D4A574,#ef4444,#8B5CF6);">
+            <img src="${s.avatar}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #000;pointer-events:auto;">
+          </div>
+          <div style="font-size:10px;margin-top:4px;">${s.name}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <!-- Vidéos produits -->
+    <div class="card-title">🎬 Vidéos produits</div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 16px;">
+      ${[
+        {name:'Sac cuir en démo',views:'2.3K',dur:'0:45',thumb:'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=500'},
+        {name:'Comment porter le boubou',views:'5.1K',dur:'1:20',thumb:'https://images.unsplash.com/photo-1595777216528-071e0127ccbf?w=500'},
+        {name:'Test écouteurs Pro',views:'3.7K',dur:'2:15',thumb:'https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=500'},
+        {name:'Bracelet artisanal',views:'1.9K',dur:'0:38',thumb:'https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=500'}
+      ].map(v=>`
+        <div onclick="alert('▶ Lecture ${v.name}')" style="background:rgba(255,255,255,.05);border-radius:12px;overflow:hidden;cursor:pointer;">
+          <div style="position:relative;height:180px;overflow:hidden;">
+            <img src="${v.thumb}" style="width:100%;height:100%;object-fit:cover;pointer-events:auto;">
+            <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.7));display:flex;align-items:center;justify-content:center;">
+              <div style="width:44px;height:44px;background:rgba(212,165,116,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;">▶</div>
+            </div>
+            <div style="position:absolute;bottom:6px;right:6px;background:rgba(0,0,0,.7);color:#fff;padding:2px 6px;border-radius:4px;font-size:10px;">${v.dur}</div>
+          </div>
+          <div style="padding:10px;">
+            <div style="font-size:12px;font-weight:600;line-height:1.3;margin-bottom:4px;">${v.name}</div>
+            <div style="font-size:10px;color:#D4A574;">👁 ${v.views} vues</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+
+    <!-- Reels -->
+    <div class="card-title">🎥 Reels tendance</div>
+    <div style="display:flex;gap:8px;padding:0 16px;overflow-x:auto;scrollbar-width:none;">
+      ${[
+        {thumb:'https://images.unsplash.com/photo-1618354691792-d1d42acfd860?w=400',views:'12K'},
+        {thumb:'https://images.unsplash.com/photo-1603487742131-4160ec999306?w=400',views:'8.7K'},
+        {thumb:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400',views:'15K'},
+        {thumb:'https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=400',views:'6.4K'}
+      ].map(r=>`
+        <div style="flex-shrink:0;width:120px;height:200px;border-radius:12px;overflow:hidden;position:relative;cursor:pointer;">
+          <img src="${r.thumb}" style="width:100%;height:100%;object-fit:cover;pointer-events:auto;">
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:8px;background:linear-gradient(transparent,rgba(0,0,0,.8));color:#fff;">
+            <div style="font-size:10px;">👁 ${r.views}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div style="height:20px;"></div>
+  </main>
+
+  <!-- Story viewer -->
+  <div class="story-view" id="storyView" style="display:none;">
+    <div class="story-bar" id="storyBar"></div>
+    <div class="story-header">
+      <img id="storyAvatar" src="">
+      <div style="flex:1;">
+        <div id="storyName" style="font-size:13px;font-weight:700;color:#fff;"></div>
+        <div style="font-size:10px;color:rgba(255,255,255,.7);">Il y a 2h</div>
+      </div>
+      <button style="background:none;border:none;color:#fff;font-size:24px;cursor:pointer;" onclick="closeStory()">✕</button>
+    </div>
+    <div class="story-media" id="storyMedia">
+      <div class="story-caption">
+        <div id="storyText" style="color:#fff;font-size:14px;line-height:1.5;"></div>
+        <button class="btn btn-gold btn-full" style="margin-top:10px;padding:10px;" onclick="window.location.href='produit.html?id=1'">🛒 Voir le produit</button>
+      </div>
+    </div>
+    <div class="story-actions">
+      <button onclick="prevStory()">‹</button>
+      <button onclick="nextStory()">›</button>
+    </div>
+    <div class="story-bottom">
+      <input placeholder="Envoyer un message...">
+      <button style="background:none;border:none;color:#fff;font-size:22px;cursor:pointer;">❤️</button>
+      <button style="background:none;border:none;color:#fff;font-size:22px;cursor:pointer;">↗</button>
+    </div>
+  </div>
+
+  <nav class="app-nav">
+    <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
+    <a href="categories.html"><div class="nav-icon">📊</div><div class="nav-label">Catégories</div></a>
+    <a href="panier.html"><div class="nav-icon">🛒</div><div class="nav-label">Panier</div></a>
+    <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
+    <a href="profil.html"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
+  </nav>
+</div>
+
+<script>
+const stories=[
+  {name:'Aminata Diop',avatar:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&auto=format&fit=crop&face',bg:'https://images.unsplash.com/photo-1595777216528-071e0127ccbf?w=800',text:'✨ Nouvelle collection Boubou wax été 2026 disponible ! -30% cette semaine seulement.'},
+  {name:'Moussa Sall',avatar:'https://images.unsplash.com/photo-1552058544-f2b08422138a?w=200&auto=format&fit=crop&face',bg:'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=800',text:'🎁 Restock ! Sacs cuir africain premium à nouveau disponibles. Édition limitée.'},
+  {name:'Fatou Ndiaye',avatar:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&auto=format&fit=crop&face',bg:'https://images.unsplash.com/photo-1618354691792-d1d42acfd860?w=800',text:'👗 Merci pour tous les retours sur notre robe wax mariage ! Vous êtes magnifiques 💛'}
+];
+let idx=0;
+
+function openStory(i){
+  idx=i;
+  document.getElementById('storyView').style.display='flex';
+  render();
+}
+function render(){
+  const s=stories[idx];
+  document.getElementById('storyAvatar').src=s.avatar;
+  document.getElementById('storyName').textContent=s.name;
+  document.getElementById('storyMedia').style.backgroundImage=`url(${s.bg})`;
+  document.getElementById('storyText').textContent=s.text;
+  document.getElementById('storyBar').innerHTML=stories.map((_,i)=>`<div class="${i<idx?'done':i===idx?'active':''}"></div>`).join('');
+  setTimeout(()=>{if(idx===stories.indexOf(s)&&document.getElementById('storyView').style.display!=='none')nextStory()},5000);
+}
+function nextStory(){if(idx<stories.length-1){idx++;render()}else closeStory()}
+function prevStory(){if(idx>0){idx--;render()}}
+function closeStory(){document.getElementById('storyView').style.display='none'}
+</script>
+</body>
+</html>
