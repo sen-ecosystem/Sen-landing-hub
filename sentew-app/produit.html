@@ -8,9 +8,10 @@
 <meta name="theme-color" content="#0A1F17">
 <link rel="stylesheet" href="css/app.css">
 <style>
-.prod-hero{position:relative;height:400px;background:var(--bg-card)}
+.prod-hero{position:relative;height:400px;background:var(--bg-card);cursor:pointer}
 .prod-hero img{width:100%;height:100%;object-fit:cover}
 .prod-hero .photo-count{position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,0.7);color:white;padding:6px 12px;border-radius:12px;font-size:12px;font-weight:600}
+.prod-hero .zoom-badge{position:absolute;top:80px;left:20px;background:rgba(0,0,0,0.7);color:white;padding:6px 12px;border-radius:12px;font-size:11px;display:flex;align-items:center;gap:4px}
 .prod-hero .photo-dots{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
 .prod-hero .dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.5)}
 .prod-hero .dot.active{background:var(--gold);width:20px;border-radius:3px}
@@ -22,12 +23,14 @@
 .prod-price{font-size:28px;font-weight:900;color:var(--gold)}
 .prod-price-old{font-size:15px;color:var(--text-muted);text-decoration:line-through}
 .prod-discount{background:var(--red);color:white;padding:4px 10px;border-radius:8px;font-size:12px;font-weight:800}
+
+/* Vendeur africain */
 .seller-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:20px;text-decoration:none;color:var(--text-primary)}
-.seller-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gold-light),var(--gold));display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--bg-darker);font-size:18px;flex-shrink:0}
+.seller-avatar-img{width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);flex-shrink:0}
 .seller-info{flex:1}
 .seller-name{font-size:14px;font-weight:700;color:var(--text-primary);display:flex;align-items:center;gap:6px}
-.verified{color:var(--gold)}
-.seller-rating{font-size:12px;color:var(--text-muted);margin-top:2px}
+.verified{color:var(--gold);display:inline-flex;align-items:center}
+.seller-rating{font-size:12px;color:var(--text-muted);margin-top:2px;display:flex;align-items:center;gap:4px}
 .tabs{display:flex;background:var(--bg-card);border-radius:12px;padding:4px;margin-bottom:16px;border:1px solid var(--border)}
 .tab{flex:1;padding:10px;text-align:center;font-size:13px;font-weight:600;color:var(--text-muted);cursor:pointer;border-radius:8px;transition:all 0.3s;background:transparent;border:none}
 .tab.active{background:var(--emerald);color:white}
@@ -41,34 +44,60 @@
 .color-btn{width:36px;height:36px;border-radius:50%;border:2px solid var(--border);cursor:pointer;transition:all 0.3s}
 .color-btn.active{border-color:var(--gold);transform:scale(1.1)}
 .delivery-info{background:linear-gradient(135deg,var(--emerald-dark),var(--bg-card));border:1px solid var(--gold-dark);border-radius:14px;padding:14px;margin-bottom:20px;display:flex;align-items:center;gap:12px}
-.delivery-icon{background:var(--gold);width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--bg-darker)}
+.delivery-icon{background:var(--gold);width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--bg-darker)}
 .delivery-text h4{font-size:13px;font-weight:700;color:var(--text-primary);margin-bottom:2px}
 .delivery-text p{font-size:11px;color:var(--text-muted)}
 .action-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
 .payment-methods{display:flex;align-items:center;gap:10px;padding:14px 0;font-size:11px;color:var(--text-muted);flex-wrap:wrap}
 .pay-badge{background:var(--bg-card);border:1px solid var(--border);padding:4px 10px;border-radius:6px;font-size:10px;font-weight:700;color:var(--text-primary)}
+
+/* PRODUITS SIMILAIRES */
+.similar-section{padding:20px 0;background:var(--bg-darker);margin:20px -20px 0}
+.similar-title{padding:0 20px 14px;font-size:16px;font-weight:800;color:var(--text-primary);display:flex;justify-content:space-between;align-items:center}
+.similar-title .link{color:var(--gold);font-size:12px;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:4px}
+.similar-scroll{display:flex;gap:12px;padding:0 20px 10px;overflow-x:auto;scrollbar-width:none}
+.similar-scroll::-webkit-scrollbar{display:none}
+.similar-card{min-width:140px;background:var(--bg-card);border-radius:12px;overflow:hidden;border:1px solid var(--border);cursor:pointer;transition:all 0.3s;text-decoration:none;color:var(--text-primary)}
+.similar-card:hover{transform:translateY(-3px);border-color:var(--gold-dark)}
+.similar-img{width:100%;height:140px;background:var(--bg-card-hover);position:relative;overflow:hidden}
+.similar-img img{width:100%;height:100%;object-fit:cover}
+.similar-info{padding:10px}
+.similar-info h5{font-size:12px;font-weight:600;line-height:1.3;margin-bottom:6px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;min-height:32px}
+.similar-info .price{color:var(--gold);font-weight:800;font-size:13px}
+.similar-info .rating{font-size:10px;color:var(--text-muted);margin-top:4px;display:flex;align-items:center;gap:3px}
+.similar-badge{position:absolute;top:6px;left:6px;background:var(--gold);color:var(--bg-darker);padding:2px 6px;border-radius:4px;font-size:9px;font-weight:800}
+
+/* Vendus récemment */
+.recent-buyers{display:flex;align-items:center;gap:8px;padding:12px 14px;background:linear-gradient(135deg,rgba(15,107,78,0.1),transparent);border:1px solid var(--emerald-dark);border-radius:12px;margin-bottom:16px}
+.buyer-avatars{display:flex}
+.buyer-avatar{width:28px;height:28px;border-radius:50%;object-fit:cover;border:2px solid var(--bg-dark);margin-left:-8px}
+.buyer-avatar:first-child{margin-left:0}
+.buyer-text{font-size:12px;color:var(--text-secondary)}
+.buyer-text strong{color:var(--gold);font-weight:700}
 </style>
 </head>
 <body oncontextmenu="return false" onselectstart="return false">
 
 <div class="app" style="padding-bottom:120px">
 
-  <div class="prod-hero" id="prodHero">
+  <a href="#" id="panoLink" class="prod-hero" style="display:block;text-decoration:none">
     <div class="prod-header">
-      <a href="produits.html" class="icon-btn">←</a>
+      <a href="produits.html" class="icon-btn" onclick="event.stopPropagation()"><span id="backIcon"></span></a>
       <div style="display:flex;gap:8px">
-        <button class="icon-btn">📤</button>
-        <button class="icon-btn" id="favBtn" onclick="this.textContent=this.textContent==='♡'?'❤':'♡'">♡</button>
+        <button class="icon-btn" onclick="event.preventDefault();event.stopPropagation();navigator.share&&navigator.share({title:'SEN TEW',url:location.href})">📤</button>
+        <button class="icon-btn" id="favBtn" onclick="event.preventDefault();event.stopPropagation();this.textContent=this.textContent==='♡'?'❤':'♡'">♡</button>
       </div>
     </div>
-    <a href="panoramique.html" id="panoLink" style="display:block;height:100%"><img id="prodImg" alt="Produit" style="width:100%;height:100%;object-fit:cover"></a>
-
+    <img id="prodImg" alt="Produit">
+    <div class="zoom-badge">
+      <span>🔍</span><span>Toucher pour agrandir</span>
+    </div>
     <div class="photo-dots">
       <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
       <span class="dot"></span><span class="dot"></span>
     </div>
     <span class="photo-count">1/5</span>
-  </div>
+  </a>
 
   <div class="prod-body">
     <h1 class="prod-title" id="prodTitle">Chargement...</h1>
@@ -78,12 +107,25 @@
       <span class="prod-discount" id="prodDiscount"></span>
     </div>
 
+    <!-- Preuve sociale : acheteurs récents -->
+    <div class="recent-buyers">
+      <div class="buyer-avatars">
+        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face" class="buyer-avatar" alt="Acheteur">
+        <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100&h=100&fit=crop&crop=face" class="buyer-avatar" alt="Acheteur">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" class="buyer-avatar" alt="Acheteur">
+      </div>
+      <div class="buyer-text">
+        <strong>12 personnes</strong> ont acheté ce produit ce mois
+      </div>
+    </div>
+
+    <!-- Vendeur avec photo africaine -->
     <a href="#" class="seller-card">
-      <div class="seller-avatar" id="sellerAvatar">A</div>
+      <img id="sellerAvatar" class="seller-avatar-img" src="" alt="Vendeur">
       <div class="seller-info">
         <div class="seller-name">
           <span id="sellerName">Vendeur</span>
-          <span class="verified">✓</span>
+          <span class="verified" title="Vendeur vérifié">✓</span>
         </div>
         <div class="seller-rating" id="sellerRating">⭐ 4.8 (234 avis)</div>
       </div>
@@ -91,9 +133,9 @@
     </a>
 
     <div class="tabs">
-      <button class="tab active" onclick="setTab('desc')">Description</button>
-      <button class="tab" onclick="setTab('avis')">Avis</button>
-      <button class="tab" onclick="setTab('livraison')">Livraison</button>
+      <button class="tab active" onclick="setTab('desc',this)">Description</button>
+      <button class="tab" onclick="setTab('avis',this)">Avis</button>
+      <button class="tab" onclick="setTab('livraison',this)">Livraison</button>
     </div>
     <div class="tab-content" id="tabContent">Description du produit...</div>
 
@@ -129,16 +171,43 @@
     </div>
   </div>
 
+  <!-- ⭐ ARTICLES SIMILAIRES -->
+  <div class="similar-section">
+    <div class="similar-title">
+      <span>🎯 Vous pourriez aussi aimer</span>
+      <a href="produits.html" class="link">Voir tout ›</a>
+    </div>
+    <div class="similar-scroll" id="similarProducts"></div>
+  </div>
+
+  <!-- MÊME VENDEUR -->
+  <div class="similar-section" style="background:var(--bg-dark);border-top:1px solid var(--border)">
+    <div class="similar-title">
+      <span>🏪 Autres produits du vendeur</span>
+      <a href="produits.html" class="link">Voir tout ›</a>
+    </div>
+    <div class="similar-scroll" id="sellerProducts"></div>
+  </div>
+
+  <!-- TENDANCES -->
+  <div class="similar-section" style="background:var(--bg-darker);border-top:1px solid var(--border)">
+    <div class="similar-title">
+      <span>🔥 Tendances de la semaine</span>
+      <a href="produits.html" class="link">Voir tout ›</a>
+    </div>
+    <div class="similar-scroll" id="trendingProducts"></div>
+  </div>
+
   <a href="assistant-ia.html" class="ai-fab" style="bottom:110px">
-    <span class="ai-icon">💬</span>
+    <span class="ai-icon">✨</span>
   </a>
 
   <nav class="bottom-nav">
     <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span><span>Accueil</span></a>
     <a href="categories.html" class="nav-item"><span class="nav-icon">📊</span><span>Catégories</span></a>
     <a href="panier.html" class="nav-item"><span class="nav-icon">🛒</span><span>Panier</span><span class="nav-badge nav-badge-cart" style="display:none">0</span></a>
-    <a href="#" class="nav-item"><span class="nav-icon">💬</span><span>Messages</span></a>
-    <a href="#" class="nav-item"><span class="nav-icon">👤</span><span>Profil</span></a>
+    <a href="messages.html" class="nav-item"><span class="nav-icon">💬</span><span>Messages</span></a>
+    <a href="profil.html" class="nav-item"><span class="nav-icon">👤</span><span>Profil</span></a>
   </nav>
 
 </div>
@@ -149,16 +218,21 @@ const productId = parseInt(new URLSearchParams(window.location.search).get('id')
 const product = PRODUCTS.find(p => p.id === productId) || PRODUCTS[4];
 
 document.getElementById('prodImg').src = product.photo;
-document.getElementById('panoLink').href = 'panoramique.html?id=' + product.id;
 document.getElementById('prodTitle').textContent = product.name;
 document.getElementById('prodPrice').textContent = formatPrice(product.price);
+document.getElementById('panoLink').href = 'panoramique.html?id=' + product.id;
+
 if(product.priceOld){
   document.getElementById('prodPriceOld').textContent = formatPrice(product.priceOld);
   document.getElementById('prodDiscount').textContent = '-' + product.discount + '%';
 }
+
+// Vendeur avec avatar africain
+const seller = SELLERS.find(s => s.name === product.seller) || SELLERS[0];
 document.getElementById('sellerName').textContent = product.seller;
-document.getElementById('sellerAvatar').textContent = product.seller.charAt(0);
-document.getElementById('sellerRating').textContent = `⭐ ${product.sellerRating || 4.8} (${product.reviews} avis)`;
+document.getElementById('sellerAvatar').src = seller.avatar;
+document.getElementById('sellerRating').innerHTML = `⭐ ${product.sellerRating || seller.rating} (${product.reviews} avis) • ${seller.sales || 234} ventes`;
+
 document.getElementById('tabContent').textContent = product.description || 'Description du produit.';
 
 if(product.sizes){
@@ -175,26 +249,88 @@ if(product.colors){
   ).join('');
 }
 
-function setTab(t){
+function setTab(t, btn){
   document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
+  btn.classList.add('active');
   const contents = {
     'desc': product.description || 'Description du produit.',
-    'avis': `⭐ ${product.rating}/5 - ${product.reviews} avis clients<br><br>"Excellent produit, livraison rapide !" - Fatou D.<br><br>"Conforme à la description" - Moussa F.<br><br>"Je recommande vivement" - Awa N.`,
-    'livraison': `🚚 Dakar : 24h-48h (gratuit dès 20 000 FCFA)<br>🇸🇳 National : 3-5 jours (2 500 FCFA)<br>🌍 Panafricain : 5-10 jours (5 000 FCFA)<br>✈️ Diaspora : 15-30 jours (variable)`
+    'avis': `<strong>⭐ ${product.rating}/5 - ${product.reviews} avis</strong><br><br>
+    <div style="border-left:3px solid var(--gold);padding-left:10px;margin-bottom:12px"><strong>Fatou D.</strong> ⭐⭐⭐⭐⭐<br>"Excellent produit, livraison rapide !"</div>
+    <div style="border-left:3px solid var(--gold);padding-left:10px;margin-bottom:12px"><strong>Moussa F.</strong> ⭐⭐⭐⭐⭐<br>"Conforme à la description, qualité premium."</div>
+    <div style="border-left:3px solid var(--gold);padding-left:10px"><strong>Awa N.</strong> ⭐⭐⭐⭐⭐<br>"Je recommande vivement ! Merci Aïcha."</div>`,
+    'livraison': `🚚 <strong>Dakar :</strong> 24h-48h (gratuit dès 20 000 FCFA)<br>🇸🇳 <strong>National :</strong> 3-5 jours (2 500 FCFA)<br>🌍 <strong>Panafricain :</strong> 5-10 jours (5 000 FCFA)<br>✈️ <strong>Diaspora :</strong> 15-30 jours (variable)`
   };
   document.getElementById('tabContent').innerHTML = contents[t];
 }
 
 function addProdToCart(){
   addToCart(product.id, 1);
-  alert('✅ Ajouté au panier !');
+  const btn = event.target;
+  const orig = btn.innerHTML;
+  btn.innerHTML = '✅ Ajouté !';
+  btn.style.background = 'var(--green-success)';
+  setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; }, 1500);
 }
 
 function buyNow(){
   addToCart(product.id, 1);
   window.location.href = 'panier.html';
 }
+
+// ============ PRODUITS SIMILAIRES ============
+function renderSimilar(){
+  // Similaires (même catégorie)
+  const similar = getSimilarProducts(product.id, 8);
+  document.getElementById('similarProducts').innerHTML = similar.map(p => `
+    <a href="produit.html?id=${p.id}" class="similar-card">
+      <div class="similar-img">
+        ${p.promo ? '<span class="similar-badge">-'+p.discount+'%</span>' : ''}
+        <img src="${p.photo}" alt="${p.name}" onerror="this.style.display='none'">
+      </div>
+      <div class="similar-info">
+        <h5>${p.name}</h5>
+        <div class="price">${formatPrice(p.price)}</div>
+        <div class="rating">⭐ ${p.rating} (${p.reviews})</div>
+      </div>
+    </a>
+  `).join('');
+
+  // Même vendeur
+  const sameSeller = PRODUCTS.filter(p => p.seller === product.seller && p.id !== product.id).slice(0, 6);
+  if(sameSeller.length > 0){
+    document.getElementById('sellerProducts').innerHTML = sameSeller.map(p => `
+      <a href="produit.html?id=${p.id}" class="similar-card">
+        <div class="similar-img">
+          <img src="${p.photo}" alt="${p.name}" onerror="this.style.display='none'">
+        </div>
+        <div class="similar-info">
+          <h5>${p.name}</h5>
+          <div class="price">${formatPrice(p.price)}</div>
+        </div>
+      </a>
+    `).join('');
+  } else {
+    document.querySelector('.similar-section:nth-of-type(2)').style.display = 'none';
+  }
+
+  // Tendances (produits featured)
+  const trending = PRODUCTS.filter(p => p.featured && p.id !== product.id).slice(0, 6);
+  document.getElementById('trendingProducts').innerHTML = trending.map(p => `
+    <a href="produit.html?id=${p.id}" class="similar-card">
+      <div class="similar-img">
+        <span class="similar-badge" style="background:var(--red);color:white">🔥 HOT</span>
+        <img src="${p.photo}" alt="${p.name}" onerror="this.style.display='none'">
+      </div>
+      <div class="similar-info">
+        <h5>${p.name}</h5>
+        <div class="price">${formatPrice(p.price)}</div>
+        <div class="rating">⭐ ${p.rating}</div>
+      </div>
+    </a>
+  `).join('');
+}
+
+renderSimilar();
 </script>
 
 </body>
