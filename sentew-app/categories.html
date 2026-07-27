@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catégories - SEN TEW</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0A1F17">
+<link rel="stylesheet" href="css/app.css">
+<style>
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0 20px}
+.cat-big-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;transition:all 0.3s;text-decoration:none;color:var(--text-primary);position:relative}
+.cat-big-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:var(--shadow-gold)}
+.cat-big-card.featured{border-color:var(--gold);background:linear-gradient(135deg,rgba(212,165,116,0.1),rgba(15,107,78,0.05))}
+.cat-big-card .star{position:absolute;top:8px;right:8px;background:var(--gold);color:var(--bg-darker);width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;z-index:2}
+.cat-badge{position:absolute;top:8px;left:8px;background:var(--gold);color:var(--bg-darker);padding:3px 10px;border-radius:8px;font-size:10px;font-weight:800;z-index:2}
+.cat-img{width:100%;height:130px;object-fit:cover;background:var(--bg-card-hover)}
+.cat-body{padding:12px}
+.cat-body h3{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:4px;line-height:1.3}
+.cat-body p{font-size:11px;color:var(--gold);font-weight:600}
+</style>
+</head>
+<body oncontextmenu="return false" onselectstart="return false">
+
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="header-back">
+    <a href="index.html" class="back-btn">←</a>
+    <div class="logo-brand">
+      <span class="logo-mask">🎭</span>
+      <h1 style="font-size:18px">SEN TEW</h1>
+    </div>
+    <button class="notif-btn" style="border:1px solid var(--gold-dark);color:var(--gold)">🔍</button>
+  </div>
+
+  <div class="page-title">
+    <h1>Catégories</h1>
+    <p>Explorez tous nos produits</p>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-bar">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchCat" placeholder="Rechercher une catégorie...">
+  </div>
+
+  <!-- GRID CATEGORIES -->
+  <div class="cat-grid" id="catGrid" style="padding-bottom:100px"></div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span><span>Accueil</span></a>
+    <a href="categories.html" class="nav-item active"><span class="nav-icon">📊</span><span>Catégories</span></a>
+    <a href="panier.html" class="nav-item"><span class="nav-icon">🛒</span><span>Panier</span><span class="nav-badge nav-badge-cart" style="display:none">0</span></a>
+    <a href="#" class="nav-item"><span class="nav-icon">💬</span><span>Messages</span></a>
+    <a href="#" class="nav-item"><span class="nav-icon">👤</span><span>Profil</span></a>
+  </nav>
+
+</div>
+
+<script src="js/data.js"></script>
+<script>
+function renderCats(filter=''){
+  const cats = CATEGORIES.filter(c => c.name.toLowerCase().includes(filter.toLowerCase()));
+  document.getElementById('catGrid').innerHTML = cats.map(cat => `
+    <a href="produits.html?cat=${cat.slug}" class="cat-big-card ${cat.featured?'featured':''}">
+      ${cat.featured ? '<span class="cat-badge">À la une</span>' : ''}
+      ${cat.featured ? '<span class="star">⭐</span>' : ''}
+      <img src="${cat.img}" alt="${cat.name}" class="cat-img" onerror="this.style.display='none'">
+      <div class="cat-body">
+        <h3>${cat.name}</h3>
+        <p>${cat.count.toLocaleString('fr-FR')} produits</p>
+      </div>
+    </a>
+  `).join('');
+}
+renderCats();
+document.getElementById('searchCat').addEventListener('input', e => renderCats(e.target.value));
+</script>
+
+</body>
+</html>
