@@ -149,6 +149,7 @@ const productId = parseInt(new URLSearchParams(window.location.search).get('id')
 const product = PRODUCTS.find(p => p.id === productId) || PRODUCTS[4];
 
 document.getElementById('prodImg').src = product.photo;
+document.getElementById('panoLink').href = 'panoramique.html?id=' + product.id;
 document.getElementById('prodTitle').textContent = product.name;
 document.getElementById('prodPrice').textContent = formatPrice(product.price);
 if(product.priceOld){
