@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paramètres - SEN TEW</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0A1F17">
+<link rel="stylesheet" href="css/app.css">
+<style>
+.settings-section{margin:20px 20px 10px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.5px}
+.settings-list{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;margin:0 20px 12px;overflow:hidden}
+.setting-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:1px solid var(--border);color:var(--text-primary);cursor:pointer}
+.setting-item:last-child{border-bottom:none}
+.setting-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--emerald-dark),var(--emerald));display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--gold);flex-shrink:0}
+.setting-text{flex:1;font-size:14px;font-weight:600}
+.setting-sub{font-size:11px;color:var(--text-muted);margin-top:2px;font-weight:400}
+
+/* Toggle switch */
+.toggle{position:relative;width:44px;height:26px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:var(--border);border-radius:13px;transition:0.3s}
+.slider::before{position:absolute;content:'';height:20px;width:20px;left:3px;bottom:3px;background:white;border-radius:50%;transition:0.3s}
+.toggle input:checked+.slider{background:var(--emerald)}
+.toggle input:checked+.slider.gold{background:var(--gold)}
+.toggle input:checked+.slider::before{transform:translateX(18px)}
+
+.compliance-banner{background:linear-gradient(135deg,rgba(212,165,116,0.1),rgba(15,107,78,0.05));border:1px solid var(--gold);border-radius:14px;padding:14px;margin:20px;display:flex;align-items:center;gap:12px}
+.compliance-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px}
+.compliance-text{flex:1;font-size:12px;color:var(--text-primary);line-height:1.4}
+.compliance-text strong{color:var(--gold)}
+
+.lang-list{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;margin:0 20px 12px;overflow:hidden}
+.lang-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;color:var(--text-primary);font-size:14px}
+.lang-item:last-child{border-bottom:none}
+.lang-item .flag{font-size:22px}
+.lang-item .lang-name{flex:1;font-weight:600}
+.lang-item .lang-local{font-size:11px;color:var(--text-muted);margin-top:2px}
+.lang-item .check{color:var(--gold);font-size:18px;opacity:0}
+.lang-item.active{background:linear-gradient(135deg,rgba(212,165,116,0.08),transparent)}
+.lang-item.active .check{opacity:1}
+
+.tab-nav{display:flex;background:var(--bg-card);border-radius:12px;padding:4px;margin:0 20px 16px;border:1px solid var(--border)}
+.tab-nav button{flex:1;padding:10px;text-align:center;font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;border-radius:8px;background:transparent;border:none}
+.tab-nav button.active{background:var(--emerald);color:white}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+.danger-btn{color:var(--red)!important}
+.danger-btn .setting-icon{background:linear-gradient(135deg,#7F1D1D,#DC2626);color:white}
+</style>
+</head>
+<body oncontextmenu="return false" onselectstart="return false">
+
+<div class="app" style="padding-bottom:100px">
+
+  <div class="header-back">
+    <a href="profil.html" class="back-btn">←</a>
+    <div class="header-title">Paramètres</div>
+    <button class="notif-btn" style="color:var(--gold)">💾</button>
+  </div>
+
+  <!-- ONGLETS -->
+  <div class="tab-nav" style="margin-top:16px">
+    <button class="active" onclick="setTab('lang', this)">🌐 Langue</button>
+    <button onclick="setTab('notif', this)">🔔 Notifs</button>
+    <button onclick="setTab('privacy', this)">🔒 Vie privée</button>
+  </div>
+
+  <!-- =========== ONGLET LANGUE =========== -->
+  <div class="tab-panel active" id="langPanel">
+
+    <div class="compliance-banner">
+      <div class="compliance-icon">🌍</div>
+      <div class="compliance-text">
+        <strong>SEN TEW en 21 langues</strong><br>
+        Support multilingue africain et international pour la diaspora
+      </div>
+    </div>
+
+    <div class="settings-section">🌍 Langues africaines</div>
+    <div class="lang-list">
+      <div class="lang-item active" onclick="selectLang(this)">
+        <span class="flag">🇫🇷</span>
+        <div>
+          <div class="lang-name">Français</div>
+          <div class="lang-local">Langue officielle</div>
+        </div>
+        <span class="check">✓</span>
+      </div>
+      <div class="lang-item" onclick="selectLang(this)">
+        <span class="flag">🇸🇳</span>
+        <div>
+          <div class="lang-name">Wolof</div>
+          <div class="lang-local">Waa Senegaal</div>
+        </div>
+        <span class="check">✓</span>
+      </div>
+      <div class="lang-item" onclick="selectLang(this)">
+        <span class="flag">🇲🇱</span>
+        <div>
+          <div class="lang-name">Bambara</div>
+          <div class="lang-local">Bamanankan</div>
+        </div>
+        <span class="check">✓</span>
+      </div>
+      <div class="lang-item" onclick="selectLang(this)">
+        <span class="flag">🇬🇳</span>
+        <div>
+          <div class="lang-name">Peul</div>
+          <div class="lang-local">Fulfulde</div>
+        </div>
+        <span class="check">✓</span>
+      </div>
+      <div class="lang-item" onclick="selectLang(this)">
+        <span class="flag">🇳🇬</span>
+        <div>
+          <div class="lang-name">Haoussa</div>
+          <div class="lang-local">Hausa</div>
+        </div>
+        <span class="check">✓</span>
+      </div>
+      <div class="lang-item" onclick="selectLang(this)">
+        <span class="flag">🇰🇪</span>
+        <div>
+          <div class="lang-name">Swahili</div>
+          <div class="lang-local">Kiswahili</div>
+        </div>
+        <span class="check">✓</span>
+      </div>
+      <div class="lang-item" onclick="selectLang(this)">
+        <span class="flag">🇳🇬</span>
+        <div>
+          <div class="lang-name">Yoruba</div>
+          <div class="lang-local">Èdè Yorùbá</div>
+        </div>
+        <span class="check">✓</span>
+      </div>
+      <div class="lang-item" onclick="selectLang(this)">
+        <span class="flag">🇪🇹</span>
+        <div>
+          <div class="lang-name">Amharique</div>
+          <div class="lang-local">አማርኛ</div>
+        </div>
+        <span class="check">✓</span>
+      </div>
+      <div class="lang-item" onclick="selectLang(this)">
+        <span class="flag">🇿🇦</span>
+        <div>
+          <div class="lang-name">Zulu</div>
+          <div class="lang-local">isiZulu</div>
+        </div>
+        <span class="check">✓</span>
+      </div>
+      <div class="lang-item" onclick="selectLang(this)">
+        <span class="flag">🇨🇩</span>
+        <div>
+          <div class="lang-name">Lingala</div>
+          <div class="lang-local">Lingála</div>
+        </div>
+        <span class="check">✓</span>
+      </div>
+      <div class="lang-item" onclick="selectLang(this)">
+        <span class="flag">🇩🇿</span>
+        <div>
+          <div class="lang-name">Berbère</div>
+          <div class="lang-local">ⵜⴰⵎⴰⵣⵉⵖⵜ</div>
+        </div>
+        <span class="check">✓</span>
+      </div>
+    </div>
+
+    <div class="settings-section">🌐 Langues internationales</div>
+    <div class="lang-list">
+      <div class="lang-item" onclick="selectLang(this)">
+        <span class="flag">🇬🇧</span>
+        <div><div class="lang-name">English</div><div class="lang-local">Anglais</div></div>
+        <span class="check">✓</span>
+      </div>
+      <div class="lang-item" onclick="selectLang(this)">
+        <span class="flag">🇸🇦</span>
+        <div><div class="lang-name">العربية</div><div class="lang-local">Arabe</div></div>
+        <span class="check">✓</span>
+      </div>
+      <div class="lang-item" onclick="selectLang(this)">
+        <span class="flag">🇪🇸</span>
+        <div><div class="lang-name">Español</div><div class="lang-local">Espagnol</div></div>
+        <span class="check">✓</span>
+      </div>
+      <div class="lang-item" onclick="selectLang(this)">
+        <span class="flag">🇵🇹</span>
+        <div><div class="lang-name">Português</div><div class="lang-local">Portugais</div></div>
+        <span class="check">✓</span>
+      </div>
+      <div class="lang-item" onclick="selectLang(this)">
+        <span class="flag">🇮🇹</span>
+        <div><div class="lang-name">Italiano</div><div class="lang-local">Italien</div></div>
+        <span class="check">✓</span>
+      </div>
+      <div class="lang-item" onclick="selectLang(this)">
+        <span class="flag">🇩🇪</span>
+        <div><div class="lang-name">Deutsch</div><div class="lang-local">Allemand</div></div>
+        <span class="check">✓</span>
+      </div>
+      <div class="lang-item" onclick="selectLang(this)">
+        <span class="flag">🇮🇳</span>
+        <div><div class="lang-name">हिन्दी</div><div class="lang-local">Hindi</div></div>
+        <span class="check">✓</span>
+      </div>
+      <div class="lang-item" onclick="selectLang(this)">
+        <span class="flag">🇨🇳</span>
+        <div><div class="lang-name">中文</div><div class="lang-local">Chinois</div></div>
+        <span class="check">✓</span>
+      </div>
+      <div class="lang-item" onclick="selectLang(this)">
+        <span class="flag">🇷🇺</span>
+        <div><div class="lang-name">Русский</div><div class="lang-local">Russe</div></div>
+        <span class="check">✓</span>
+      </div>
+      <div class="lang-item" onclick="selectLang(this)">
+        <span class="flag">🇹🇷</span>
+        <div><div class="lang-name">Türkçe</div><div class="lang-local">Turc</div></div>
+        <span class="check">✓</span>
+      </div>
+    </div>
+
+    <div class="settings-section">💱 Devise & Région</div>
+    <div class="settings-list">
+      <div class="setting-item">
+        <div class="setting-icon">💰</div>
+        <div class="setting-text">Devise principale<div class="setting-sub">FCFA (Franc CFA)</div></div>
+        <span style="color:var(--gold);font-size:18px">›</span>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon">📍</div>
+        <div class="setting-text">Pays / Région<div class="setting-sub">🇸🇳 Sénégal</div></div>
+        <span style="color:var(--gold);font-size:18px">›</span>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon">🕐</div>
+        <div class="setting-text">Fuseau horaire<div class="setting-sub">GMT+0 (Dakar)</div></div>
+        <span style="color:var(--gold);font-size:18px">›</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========== ONGLET NOTIFICATIONS =========== -->
+  <div class="tab-panel" id="notifPanel">
+
+    <div class="compliance-banner">
+      <div class="compliance-icon">🔔</div>
+      <div class="compliance-text">
+        <strong>Notifications intelligentes</strong><br>
+        Gérez précisément les alertes que vous recevez sur SEN TEW
+      </div>
+    </div>
+
+    <div class="settings-section">📱 Notifications push (Application)</div>
+    <div class="settings-list">
+      <div class="setting-item">
+        <div class="setting-icon">📦</div>
+        <div class="setting-text">Suivi de commande<div class="setting-sub">Livraison, préparation, expédition</div></div>
+        <label class="toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon">💬</div>
+        <div class="setting-text">Messages vendeurs<div class="setting-sub">Réponses aux questions</div></div>
+        <label class="toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon">💰</div>
+        <div class="setting-text">Paiements & remboursements<div class="setting-sub">Confirmations, échecs</div></div>
+        <label class="toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon">🔥</div>
+        <div class="setting-text">Promos flash<div class="setting-sub">Offres limitées 24h</div></div>
+        <label class="toggle"><input type="checkbox" checked><span class="slider gold"></span></label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon">🎁</div>
+        <div class="setting-text">Bons cadeaux & coupons<div class="setting-sub">Nouveaux codes promos</div></div>
+        <label class="toggle"><input type="checkbox" checked><span class="slider gold"></span></label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon">🎥</div>
+        <div class="setting-text">Live shopping<div class="setting-sub">Alerte lors des lives</div></div>
+        <label class="toggle"><input type="checkbox"><span class="slider"></span></label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon">🛡️</div>
+        <div class="setting-text">Alertes anti-fraude<div class="setting-sub">Connexions suspectes (recommandé)</div></div>
+        <label class="toggle"><input type="checkbox" checked disabled><span class="slider" style="background:var(--emerald)"></span></label>
+      </div>
+    </div>
+
+    <div class="settings-section">📧 Notifications email</div>
+    <div class="settings-list">
+      <div class="setting-item">
+        <div class="setting-icon">📨</div>
+        <div class="setting-text">Résumé hebdomadaire<div class="setting-sub">Chaque lundi à 9h</div></div>
+        <label class="toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon">🏷️</div>
+        <div class="setting-text">Newsletter promotions<div class="setting-sub">2-3 emails par semaine</div></div>
+        <label class="toggle"><input type="checkbox"><span class="slider"></span></label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon">🤝</div>
+        <div class="setting-text">Offres partenaires SEN<div class="setting-sub">SENBANC, SENCRYPT</div></div>
+        <label class="toggle"><input type="checkbox"><span class="slider"></span></label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon">📊</div>
+        <div class="setting-text">Newsletter mensuelle<div class="setting-sub">Actualités marketplace</div></div>
+        <label class="toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+    </div>
+
+    <div class="settings-section">📩 Notifications SMS</div>
+    <div class="settings-list">
+      <div class="setting-item">
+        <div class="setting-icon">🚚</div>
+        <div class="setting-text">Livraisons SMS<div class="setting-sub">Alerte livreur en route</div></div>
+        <label class="toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon">🔐</div>
+        <div class="setting-text">Codes de sécurité (OTP)<div class="setting-sub">Vérification 2FA</div></div>
+        <label class="toggle"><input type="checkbox" checked disabled><span class="slider" style="background:var(--emerald)"></span></label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon">💳</div>
+        <div class="setting-text">Confirmations paiement<div class="setting-sub">Mobile Money, cartes</div></div>
+        <label class="toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+    </div>
+
+    <div class="settings-section">🔕 Mode silencieux</div>
+    <div class="settings-list">
+      <div class="setting-item">
+        <div class="setting-icon">🌙</div>
+        <div class="setting-text">Ne pas déranger la nuit<div class="setting-sub">22h - 07h (Dakar)</div></div>
+        <label class="toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon">🙏</div>
+        <div class="setting-text">Mode prière<div class="setting-sub">Pause auto 5 fois/jour</div></div>
+        <label class="toggle"><input type="checkbox"><span class="slider"></span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========== ONGLET VIE PRIVÉE =========== -->
+  <div class="tab-panel" id="privacyPanel">
+
+    <div class="compliance-banner">
+      <div class="compliance-icon">🛡️</div>
+      <div class="compliance-text">
+        <strong>Conformité RGPD (UE) - CCPA (USA) - Loi 2008-12 (Sénégal)</strong><br>
+        Vos données sont chiffrées et protégées
+      </div>
+    </div>
+
+    <div class="settings-section">🔐 Authentification</div>
+    <div class="settings-list">
+      <div class="setting-item">
+        <div class="setting-icon">👆</div>
+        <div class="setting-text">Authentification biométrique<div class="setting-sub">Face ID / Touch ID</div></div>
+        <label class="toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon">🔒</div>
+        <div class="setting-text">Double authentification (2FA)<div class="setting-sub">SMS + Google Authenticator</div></div>
+        <label class="toggle"><input type="checkbox" checked><span class="slider gold"></span></label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon">📱</div>
+        <div class="setting-text">Sessions actives<div class="setting-sub">3 appareils connectés</div></div>
+        <span style="color:var(--gold);font-size:18px">›</span>
+      </div>
+    </div>
+
+    <div class="settings-section">🕵️ Confidentialité des données</div>
+    <div class="settings-list">
+      <div class="setting-item">
+        <div class="setting-icon">📊</div>
+        <div class="setting-text">Analytics anonymes<div class="setting-sub">Amélioration de l'app</div></div>
+        <label class="toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon">📍</div>
+        <div class="setting-text">Géolocalisation<div class="setting-sub">Livraison, magasins proches</div></div>
+        <label class="toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon">🎯</div>
+        <div class="setting-text">Publicités personnalisées<div class="setting-sub">Basées sur mes recherches</div></div>
+        <label class="toggle"><input type="checkbox"><span class="slider"></span></label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon">🤝</div>
+        <div class="setting-text">Partage avec partenaires<div class="setting-sub">SENBANC, SENCRYPT (SSO)</div></div>
+        <label class="toggle"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+    </div>
+
+    <div class="settings-section">📥 Mes droits RGPD</div>
+    <div class="settings-list">
+      <a href="#" class="setting-item" style="text-decoration:none">
+        <div class="setting-icon">☁️</div>
+        <div class="setting-text">Télécharger mes données<div class="setting-sub">Export JSON / PDF</div></div>
+        <span style="color:var(--gold);font-size:18px">›</span>
+      </a>
+      <a href="../confidentialite.html" class="setting-item" style="text-decoration:none">
+        <div class="setting-icon">📜</div>
+        <div class="setting-text">Politique de confidentialité<div class="setting-sub">Loi 2008-12 Sénégal + RGPD</div></div>
+        <span style="color:var(--gold);font-size:18px">›</span>
+      </a>
+      <a href="#" class="setting-item danger-btn" style="text-decoration:none">
+        <div class="setting-icon">🗑️</div>
+        <div class="setting-text">Supprimer mon compte<div class="setting-sub" style="color:var(--red)">Action irréversible</div></div>
+        <span style="color:var(--red);font-size:18px">›</span>
+      </a>
+    </div>
+
+    <div class="settings-section">🚨 Sécurité anti-hacking</div>
+    <div class="settings-list">
+      <div class="setting-item">
+        <div class="setting-icon">🔔</div>
+        <div class="setting-text">Alerte connexion suspecte<div class="setting-sub">SMS + email immédiat</div></div>
+        <label class="toggle"><input type="checkbox" checked disabled><span class="slider" style="background:var(--emerald)"></span></label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon">📱</div>
+        <div class="setting-text">Liste appareils autorisés<div class="setting-sub">Gérer mes appareils</div></div>
+        <span style="color:var(--gold);font-size:18px">›</span>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon">🔍</div>
+        <div class="setting-text">Historique de connexion<div class="setting-sub">30 derniers jours</div></div>
+        <span style="color:var(--gold);font-size:18px">›</span>
+      </div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span><span>Accueil</span></a>
+    <a href="categories.html" class="nav-item"><span class="nav-icon">📊</span><span>Catégories</span></a>
+    <a href="panier.html" class="nav-item"><span class="nav-icon">🛒</span><span>Panier</span><span class="nav-badge nav-badge-cart" style="display:none">0</span></a>
+    <a href="messages.html" class="nav-item"><span class="nav-icon">💬</span><span>Messages</span></a>
+    <a href="profil.html" class="nav-item active"><span class="nav-icon">👤</span><span>Profil</span></a>
+  </nav>
+
+</div>
+
+<script src="js/data.js"></script>
+<script>
+function setTab(tab, btn){
+  document.querySelectorAll('.tab-nav button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(tab+'Panel').classList.add('active');
+}
+function selectLang(el){
+  document.querySelectorAll('.lang-item').forEach(l => l.classList.remove('active'));
+  el.classList.add('active');
+  const name = el.querySelector('.lang-name').textContent;
+  alert('✅ Langue changée : ' + name);
+}
+</script>
+
+</body>
+</html>
