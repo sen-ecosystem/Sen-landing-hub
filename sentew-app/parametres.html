@@ -2,196 +2,146 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Paramètres - SEN TEW</title>
 <meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0F6B4E">
 <link rel="stylesheet" href="css/app.css">
-<style>
-body{background:#0A1F17;color:#fff;font-family:-apple-system,sans-serif;margin:0;padding-bottom:100px}
-.header{background:#0F6B4E;padding:16px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
-.back-btn{background:rgba(255,255,255,.15);border:none;color:#fff;width:40px;height:40px;border-radius:50%;font-size:20px;cursor:pointer}
-.header h1{font-size:16px;margin:0;flex:1}
-.section{padding:16px}
-.section-title{font-size:12px;color:#D4A574;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin:10px 0}
-.card{background:rgba(255,255,255,.05);border-radius:14px;overflow:hidden}
-.row{display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.05)}
-.row:last-child{border-bottom:none}
-.row-icon{width:36px;height:36px;border-radius:10px;background:rgba(212,165,116,.15);display:flex;align-items:center;justify-content:center;font-size:18px;margin-right:12px}
-.row-text{flex:1}
-.row-title{font-size:14px;font-weight:600}
-.row-sub{font-size:12px;color:rgba(255,255,255,.6);margin-top:2px}
-/* Toggle */
-.toggle{position:relative;width:48px;height:26px;background:rgba(255,255,255,.15);border-radius:13px;cursor:pointer;transition:.3s}
-.toggle.on{background:#0F6B4E}
-.toggle::after{content:'';position:absolute;width:22px;height:22px;background:#fff;border-radius:50%;top:2px;left:2px;transition:.3s}
-.toggle.on::after{left:24px;background:#D4A574}
-.select{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(212,165,116,.3);padding:6px 10px;border-radius:8px;font-size:13px}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#0F6B4E;display:flex;justify-content:space-around;padding:10px 0;z-index:99}
-.bottom-nav a{color:rgba(255,255,255,.6);text-decoration:none;text-align:center;display:flex;flex-direction:column;gap:4px;font-size:22px}
-.bottom-nav a span{font-size:10px}
-.bottom-nav a.active{color:#D4A574}
-.save-btn{background:linear-gradient(135deg,#0F6B4E,#D4A574);color:#fff;border:none;padding:14px;border-radius:12px;font-weight:700;font-size:15px;width:calc(100% - 32px);margin:16px;cursor:pointer;position:sticky;bottom:80px}
-</style>
 </head>
 <body oncontextmenu="return false">
-<div class="header">
-  <button class="back-btn" onclick="history.back()">←</button>
-  <h1>⚙️ Paramètres</h1>
-</div>
+<div class="app">
+  <header class="app-header">
+    <button class="header-btn" onclick="history.back()">←</button>
+    <div class="app-logo" style="text-align:center;">⚙️ Paramètres</div>
+    <button class="header-btn" onclick="save()">💾</button>
+  </header>
 
-<div class="section">
-  <div class="section-title">🌍 Langue & Région</div>
-  <div class="card">
-    <div class="row">
-      <div class="row-icon">🌐</div>
-      <div class="row-text"><div class="row-title">Langue</div><div class="row-sub">Choisir votre langue préférée</div></div>
-      <select class="select" onchange="saveLang(this.value)">
-        <option>Français</option>
-        <option>Wolof</option>
-        <option>English</option>
-        <option>العربية</option>
-        <option>Español</option>
-      </select>
+  <main class="app-content">
+    <div class="card-title">🌍 Langue & Région</div>
+    <div class="card">
+      <div class="list-item">
+        <div class="list-icon">🌐</div>
+        <div class="list-text"><div class="list-title">Langue</div></div>
+        <select class="select"><option>Français</option><option>Wolof</option><option>English</option><option>العربية</option><option>Español</option></select>
+      </div>
+      <div class="list-item">
+        <div class="list-icon">📍</div>
+        <div class="list-text"><div class="list-title">Pays</div></div>
+        <select class="select"><option>🇸🇳 Sénégal</option><option>🇨🇮 CI</option><option>🇲🇱 Mali</option><option>🇨🇲 CM</option></select>
+      </div>
+      <div class="list-item">
+        <div class="list-icon">💰</div>
+        <div class="list-text"><div class="list-title">Devise</div></div>
+        <select class="select"><option>FCFA</option><option>EUR</option><option>USD</option></select>
+      </div>
     </div>
-    <div class="row">
-      <div class="row-icon">📍</div>
-      <div class="row-text"><div class="row-title">Pays</div><div class="row-sub">Région de livraison</div></div>
-      <select class="select">
-        <option>🇸🇳 Sénégal</option>
-        <option>🇨🇮 Côte d'Ivoire</option>
-        <option>🇲🇱 Mali</option>
-        <option>🇨🇲 Cameroun</option>
-        <option>🇧🇫 Burkina Faso</option>
-      </select>
-    </div>
-    <div class="row">
-      <div class="row-icon">💰</div>
-      <div class="row-text"><div class="row-title">Devise</div><div class="row-sub">Monnaie d'affichage</div></div>
-      <select class="select">
-        <option>FCFA</option>
-        <option>EUR</option>
-        <option>USD</option>
-      </select>
-    </div>
-  </div>
-</div>
 
-<div class="section">
-  <div class="section-title">🔔 Notifications</div>
-  <div class="card">
-    <div class="row">
-      <div class="row-icon">📱</div>
-      <div class="row-text"><div class="row-title">Notifications push</div><div class="row-sub">Alertes commandes, promos</div></div>
-      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+    <div class="card-title">🔔 Notifications</div>
+    <div class="card">
+      <div class="list-item">
+        <div class="list-icon">📱</div>
+        <div class="list-text"><div class="list-title">Push</div><div class="list-sub">Commandes, promos</div></div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="list-item">
+        <div class="list-icon">📧</div>
+        <div class="list-text"><div class="list-title">Email</div><div class="list-sub">Newsletter</div></div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="list-item">
+        <div class="list-icon">💬</div>
+        <div class="list-text"><div class="list-title">SMS</div><div class="list-sub">Confirmations livraison</div></div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="list-item">
+        <div class="list-icon">🔊</div>
+        <div class="list-text"><div class="list-title">Sons</div></div>
+        <div class="toggle" onclick="this.classList.toggle('on')"></div>
+      </div>
     </div>
-    <div class="row">
-      <div class="row-icon">📧</div>
-      <div class="row-text"><div class="row-title">Email</div><div class="row-sub">Newsletter et offres</div></div>
-      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-    </div>
-    <div class="row">
-      <div class="row-icon">💬</div>
-      <div class="row-text"><div class="row-title">SMS</div><div class="row-sub">Confirmations livraison</div></div>
-      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-    </div>
-    <div class="row">
-      <div class="row-icon">🔊</div>
-      <div class="row-text"><div class="row-title">Sons</div><div class="row-sub">Alertes sonores</div></div>
-      <div class="toggle" onclick="this.classList.toggle('on')"></div>
-    </div>
-  </div>
-</div>
 
-<div class="section">
-  <div class="section-title">🔒 Confidentialité (RGPD)</div>
-  <div class="card">
-    <div class="row">
-      <div class="row-icon">🍪</div>
-      <div class="row-text"><div class="row-title">Cookies</div><div class="row-sub">Traceurs analytiques</div></div>
-      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+    <div class="card-title">🔒 Confidentialité RGPD</div>
+    <div class="card">
+      <div class="list-item">
+        <div class="list-icon">🍪</div>
+        <div class="list-text"><div class="list-title">Cookies analytiques</div></div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="list-item">
+        <div class="list-icon">📊</div>
+        <div class="list-text"><div class="list-title">Publicités ciblées</div></div>
+        <div class="toggle" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="list-item">
+        <div class="list-icon">📍</div>
+        <div class="list-text"><div class="list-title">Géolocalisation</div></div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="list-item" onclick="alert('📥 Vos données seront téléchargées (RGPD Art.20)')">
+        <div class="list-icon">📥</div>
+        <div class="list-text"><div class="list-title">Télécharger mes données</div><div class="list-sub">Article 20 RGPD</div></div>
+        <div class="list-arrow">›</div>
+      </div>
+      <div class="list-item" onclick="if(confirm('Supprimer compte définitivement ?'))alert('Demande enregistrée')">
+        <div class="list-icon" style="background:rgba(239,68,68,.15);">🗑</div>
+        <div class="list-text"><div class="list-title" style="color:#ef4444;">Supprimer le compte</div><div class="list-sub">Droit à l'oubli</div></div>
+        <div class="list-arrow" style="color:#ef4444;">›</div>
+      </div>
     </div>
-    <div class="row">
-      <div class="row-icon">📊</div>
-      <div class="row-text"><div class="row-title">Publicités ciblées</div><div class="row-sub">Basées sur vos préférences</div></div>
-      <div class="toggle" onclick="this.classList.toggle('on')"></div>
-    </div>
-    <div class="row">
-      <div class="row-icon">📍</div>
-      <div class="row-text"><div class="row-title">Géolocalisation</div><div class="row-sub">Trouver produits proches</div></div>
-      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-    </div>
-    <div class="row" onclick="alert('Vos données seront téléchargées (RGPD Art.20)')" style="cursor:pointer;">
-      <div class="row-icon">📥</div>
-      <div class="row-text"><div class="row-title">Télécharger mes données</div><div class="row-sub">Droit RGPD Article 20</div></div>
-      <span style="color:#D4A574;">›</span>
-    </div>
-    <div class="row" onclick="if(confirm('Supprimer votre compte définitivement ?'))alert('Demande enregistrée')" style="cursor:pointer;">
-      <div class="row-icon" style="background:rgba(239,68,68,.15);">🗑</div>
-      <div class="row-text"><div class="row-title" style="color:#ef4444;">Supprimer mon compte</div><div class="row-sub">Droit à l'oubli (RGPD)</div></div>
-      <span style="color:#ef4444;">›</span>
-    </div>
-  </div>
-</div>
 
-<div class="section">
-  <div class="section-title">🛡 Sécurité</div>
-  <div class="card">
-    <div class="row" onclick="alert('Modification du mot de passe')" style="cursor:pointer;">
-      <div class="row-icon">🔑</div>
-      <div class="row-text"><div class="row-title">Changer mot de passe</div><div class="row-sub">Dernière modif: il y a 3 mois</div></div>
-      <span style="color:#D4A574;">›</span>
+    <div class="card-title">🛡 Sécurité</div>
+    <div class="card">
+      <div class="list-item" onclick="alert('🔑 Modification mot de passe')">
+        <div class="list-icon">🔑</div>
+        <div class="list-text"><div class="list-title">Mot de passe</div><div class="list-sub">Modifié il y a 3 mois</div></div>
+        <div class="list-arrow">›</div>
+      </div>
+      <div class="list-item">
+        <div class="list-icon">🔐</div>
+        <div class="list-text"><div class="list-title">Double authentification</div><div class="list-sub">SMS + Email</div></div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="list-item">
+        <div class="list-icon">👆</div>
+        <div class="list-text"><div class="list-title">Face ID / Touch ID</div></div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="list-item" onclick="alert('💻 Sessions:\n• iPhone 15 (actuel)\n• Chrome Windows')">
+        <div class="list-icon">💻</div>
+        <div class="list-text"><div class="list-title">Sessions actives</div><div class="list-sub">2 appareils</div></div>
+        <div class="list-arrow">›</div>
+      </div>
     </div>
-    <div class="row">
-      <div class="row-icon">🔐</div>
-      <div class="row-text"><div class="row-title">Double authentification</div><div class="row-sub">SMS + Email</div></div>
-      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-    </div>
-    <div class="row">
-      <div class="row-icon">👆</div>
-      <div class="row-text"><div class="row-title">Face ID / Touch ID</div><div class="row-sub">Connexion biométrique</div></div>
-      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-    </div>
-    <div class="row" onclick="alert('Sessions actives:\n• iPhone 15 - Dakar (actuel)\n• Chrome Windows - 12/07/2026')" style="cursor:pointer;">
-      <div class="row-icon">💻</div>
-      <div class="row-text"><div class="row-title">Sessions actives</div><div class="row-sub">2 appareils connectés</div></div>
-      <span style="color:#D4A574;">›</span>
-    </div>
-  </div>
-</div>
 
-<div class="section">
-  <div class="section-title">🎨 Apparence</div>
-  <div class="card">
-    <div class="row">
-      <div class="row-icon">🌙</div>
-      <div class="row-text"><div class="row-title">Mode sombre</div><div class="row-sub">Automatique</div></div>
-      <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+    <div class="card-title">🎨 Apparence</div>
+    <div class="card">
+      <div class="list-item">
+        <div class="list-icon">🌙</div>
+        <div class="list-text"><div class="list-title">Mode sombre</div></div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="list-item">
+        <div class="list-icon">🔤</div>
+        <div class="list-text"><div class="list-title">Taille du texte</div></div>
+        <select class="select"><option>Petit</option><option selected>Normal</option><option>Grand</option></select>
+      </div>
     </div>
-    <div class="row">
-      <div class="row-icon">🔤</div>
-      <div class="row-text"><div class="row-title">Taille du texte</div><div class="row-sub">Normal</div></div>
-      <select class="select">
-        <option>Petit</option>
-        <option selected>Normal</option>
-        <option>Grand</option>
-        <option>Très grand</option>
-      </select>
-    </div>
-  </div>
-</div>
 
-<button class="save-btn" onclick="alert('✅ Paramètres enregistrés');history.back()">💾 Enregistrer les modifications</button>
+    <button class="btn btn-primary btn-full" style="margin:16px;width:calc(100% - 32px);" onclick="save()">💾 Enregistrer</button>
+    <div style="height:20px;"></div>
+  </main>
 
-<div class="bottom-nav">
-  <a href="index.html">🏠<span>Accueil</span></a>
-  <a href="categories.html">📊<span>Catégories</span></a>
-  <a href="panier.html">🛒<span>Panier</span></a>
-  <a href="messages.html">💬<span>Messages</span></a>
-  <a href="profil.html">👤<span>Profil</span></a>
+  <nav class="app-nav">
+    <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
+    <a href="categories.html"><div class="nav-icon">📊</div><div class="nav-label">Catégories</div></a>
+    <a href="panier.html"><div class="nav-icon">🛒</div><div class="nav-label">Panier</div></a>
+    <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
+    <a href="profil.html"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
+  </nav>
 </div>
 
 <script>
-function saveLang(l){alert('Langue changée: '+l)}
+function save(){alert('✅ Paramètres enregistrés');history.back()}
 </script>
 </body>
 </html>
