@@ -2,82 +2,96 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Catégories - SEN TEW</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0A1F17">
+<meta name="theme-color" content="#0F6B4E">
 <link rel="stylesheet" href="css/app.css">
-<style>
-.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0 20px}
-.cat-big-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;transition:all 0.3s;text-decoration:none;color:var(--text-primary);position:relative}
-.cat-big-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:var(--shadow-gold)}
-.cat-big-card.featured{border-color:var(--gold);background:linear-gradient(135deg,rgba(212,165,116,0.1),rgba(15,107,78,0.05))}
-.cat-big-card .star{position:absolute;top:8px;right:8px;background:var(--gold);color:var(--bg-darker);width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;z-index:2}
-.cat-badge{position:absolute;top:8px;left:8px;background:var(--gold);color:var(--bg-darker);padding:3px 10px;border-radius:8px;font-size:10px;font-weight:800;z-index:2}
-.cat-img{width:100%;height:130px;object-fit:cover;background:var(--bg-card-hover)}
-.cat-body{padding:12px}
-.cat-body h3{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:4px;line-height:1.3}
-.cat-body p{font-size:11px;color:var(--gold);font-weight:600}
-</style>
 </head>
-<body oncontextmenu="return false" onselectstart="return false">
-
+<body oncontextmenu="return false">
 <div class="app">
+  <header class="app-header">
+    <div class="app-logo">📊 Catégories</div>
+    <a href="notifications.html" class="header-btn">🔔<span class="badge">3</span></a>
+  </header>
 
-  <!-- HEADER -->
-  <div class="header-back">
-    <a href="index.html" class="back-btn">←</a>
-    <div class="logo-brand">
-      <span class="logo-mask">🎭</span>
-      <h1 style="font-size:18px">SEN TEW</h1>
+  <main class="app-content">
+    <div class="search-box">
+      <input type="text" placeholder="Rechercher dans les catégories...">
     </div>
-    <button class="notif-btn" style="border:1px solid var(--gold-dark);color:var(--gold)">🔍</button>
-  </div>
 
-  <div class="page-title">
-    <h1>Catégories</h1>
-    <p>Explorez tous nos produits</p>
-  </div>
+    <div class="chips">
+      <button class="chip active">Tout</button>
+      <button class="chip">🔥 Populaire</button>
+      <button class="chip">🆕 Nouveau</button>
+      <button class="chip">💰 Promo</button>
+    </div>
 
-  <!-- SEARCH -->
-  <div class="search-bar">
-    <span class="search-icon">🔍</span>
-    <input type="text" id="searchCat" placeholder="Rechercher une catégorie...">
-  </div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:12px 16px;">
+      <a href="produits.html?cat=mode" style="background:linear-gradient(135deg,#0F6B4E,#164e3a);border-radius:14px;padding:18px;text-decoration:none;color:#fff;display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:32px;">👗</div>
+        <div style="font-weight:800;font-size:15px;">Mode</div>
+        <div style="font-size:11px;color:#D4A574;">245 produits</div>
+      </a>
+      <a href="produits.html?cat=tech" style="background:linear-gradient(135deg,#0F6B4E,#164e3a);border-radius:14px;padding:18px;text-decoration:none;color:#fff;display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:32px;">📱</div>
+        <div style="font-weight:800;font-size:15px;">Technologie</div>
+        <div style="font-size:11px;color:#D4A574;">180 produits</div>
+      </a>
+      <a href="produits.html?cat=maison" style="background:linear-gradient(135deg,#0F6B4E,#164e3a);border-radius:14px;padding:18px;text-decoration:none;color:#fff;display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:32px;">🏠</div>
+        <div style="font-weight:800;font-size:15px;">Maison</div>
+        <div style="font-size:11px;color:#D4A574;">156 produits</div>
+      </a>
+      <a href="produits.html?cat=beaute" style="background:linear-gradient(135deg,#0F6B4E,#164e3a);border-radius:14px;padding:18px;text-decoration:none;color:#fff;display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:32px;">💄</div>
+        <div style="font-weight:800;font-size:15px;">Beauté</div>
+        <div style="font-size:11px;color:#D4A574;">98 produits</div>
+      </a>
+      <a href="produits.html?cat=food" style="background:linear-gradient(135deg,#0F6B4E,#164e3a);border-radius:14px;padding:18px;text-decoration:none;color:#fff;display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:32px;">🍲</div>
+        <div style="font-weight:800;font-size:15px;">Alimentation</div>
+        <div style="font-size:11px;color:#D4A574;">124 produits</div>
+      </a>
+      <a href="produits.html?cat=sport" style="background:linear-gradient(135deg,#0F6B4E,#164e3a);border-radius:14px;padding:18px;text-decoration:none;color:#fff;display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:32px;">⚽</div>
+        <div style="font-weight:800;font-size:15px;">Sport</div>
+        <div style="font-size:11px;color:#D4A574;">87 produits</div>
+      </a>
+      <a href="produits.html?cat=art" style="background:linear-gradient(135deg,#0F6B4E,#164e3a);border-radius:14px;padding:18px;text-decoration:none;color:#fff;display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:32px;">🎨</div>
+        <div style="font-weight:800;font-size:15px;">Art & Culture</div>
+        <div style="font-size:11px;color:#D4A574;">65 produits</div>
+      </a>
+      <a href="produits.html?cat=auto" style="background:linear-gradient(135deg,#0F6B4E,#164e3a);border-radius:14px;padding:18px;text-decoration:none;color:#fff;display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:32px;">🚗</div>
+        <div style="font-weight:800;font-size:15px;">Automobile</div>
+        <div style="font-size:11px;color:#D4A574;">43 produits</div>
+      </a>
+      <a href="produits.html?cat=bebe" style="background:linear-gradient(135deg,#0F6B4E,#164e3a);border-radius:14px;padding:18px;text-decoration:none;color:#fff;display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:32px;">👶</div>
+        <div style="font-weight:800;font-size:15px;">Bébé & Enfant</div>
+        <div style="font-size:11px;color:#D4A574;">72 produits</div>
+      </a>
+      <a href="produits.html?cat=livre" style="background:linear-gradient(135deg,#0F6B4E,#164e3a);border-radius:14px;padding:18px;text-decoration:none;color:#fff;display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:32px;">📚</div>
+        <div style="font-weight:800;font-size:15px;">Livres</div>
+        <div style="font-size:11px;color:#D4A574;">54 produits</div>
+      </a>
+    </div>
 
-  <!-- GRID CATEGORIES -->
-  <div class="cat-grid" id="catGrid" style="padding-bottom:100px"></div>
+    <div style="height:20px;"></div>
+  </main>
 
-  <!-- BOTTOM NAV -->
-  <nav class="bottom-nav">
-    <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span><span>Accueil</span></a>
-    <a href="categories.html" class="nav-item active"><span class="nav-icon">📊</span><span>Catégories</span></a>
-    <a href="panier.html" class="nav-item"><span class="nav-icon">🛒</span><span>Panier</span><span class="nav-badge nav-badge-cart" style="display:none">0</span></a>
-    <a href="#" class="nav-item"><span class="nav-icon">💬</span><span>Messages</span></a>
-    <a href="#" class="nav-item"><span class="nav-icon">👤</span><span>Profil</span></a>
+  <a href="assistant-ia.html" class="fab-ia">🤖</a>
+
+  <nav class="app-nav">
+    <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
+    <a href="categories.html" class="active"><div class="nav-icon">📊</div><div class="nav-label">Catégories</div></a>
+    <a href="panier.html"><div class="nav-icon">🛒</div><div class="nav-label">Panier</div></a>
+    <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
+    <a href="profil.html"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
   </nav>
-
 </div>
-
-<script src="js/data.js"></script>
-<script>
-function renderCats(filter=''){
-  const cats = CATEGORIES.filter(c => c.name.toLowerCase().includes(filter.toLowerCase()));
-  document.getElementById('catGrid').innerHTML = cats.map(cat => `
-    <a href="produits.html?cat=${cat.slug}" class="cat-big-card ${cat.featured?'featured':''}">
-      ${cat.featured ? '<span class="cat-badge">À la une</span>' : ''}
-      ${cat.featured ? '<span class="star">⭐</span>' : ''}
-      <img src="${cat.img}" alt="${cat.name}" class="cat-img" onerror="this.style.display='none'">
-      <div class="cat-body">
-        <h3>${cat.name}</h3>
-        <p>${cat.count.toLocaleString('fr-FR')} produits</p>
-      </div>
-    </a>
-  `).join('');
-}
-renderCats();
-document.getElementById('searchCat').addEventListener('input', e => renderCats(e.target.value));
-</script>
-
 </body>
 </html>
