@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assistant IA - SEN TEW</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0A1F17">
+<link rel="stylesheet" href="css/app.css">
+<style>
+.ai-header{background:var(--bg-card);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
+.ai-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--emerald),var(--emerald-dark));display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:22px;border:2px solid var(--gold-dark)}
+.ai-info h3{font-size:15px;font-weight:700;color:var(--text-primary);display:flex;align-items:center;gap:6px}
+.ai-status{font-size:11px;color:var(--green-success);display:flex;align-items:center;gap:5px;margin-top:2px}
+.ai-status::before{content:'';width:6px;height:6px;background:var(--green-success);border-radius:50%}
+.chat-area{padding:20px;padding-bottom:180px;min-height:calc(100vh - 200px)}
+.msg-bubble{max-width:80%;margin-bottom:14px;position:relative;animation:fadeInUp 0.3s ease}
+.msg-user{margin-left:auto;background:var(--emerald);color:white;padding:12px 16px;border-radius:18px 18px 4px 18px;font-size:14px;line-height:1.5}
+.msg-ai{background:var(--bg-card);border:1px solid var(--gold-dark);color:var(--text-primary);padding:14px 16px;border-radius:18px 18px 18px 4px;font-size:14px;line-height:1.5;position:relative}
+.msg-ai::before{content:'✨';position:absolute;left:-38px;top:0;width:28px;height:28px;background:linear-gradient(135deg,var(--emerald),var(--emerald-dark));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--gold);border:1px solid var(--gold-dark)}
+.msg-ai{margin-left:38px}
+.msg-time{font-size:10px;color:var(--text-muted);margin-top:4px;text-align:right}
+.msg-ai .msg-time{text-align:left}
+.suggested-products{display:flex;gap:10px;margin:12px 0;overflow-x:auto;scrollbar-width:none}
+.suggested-products::-webkit-scrollbar{display:none}
+.sug-prod{min-width:140px;background:var(--bg-darker);border:1px solid var(--gold-dark);border-radius:12px;overflow:hidden;text-decoration:none;color:var(--text-primary);cursor:pointer}
+.sug-prod img{width:100%;height:100px;object-fit:cover}
+.sug-prod-info{padding:8px}
+.sug-prod-info h4{font-size:11px;font-weight:700;margin-bottom:4px}
+.sug-prod-info .price{color:var(--gold);font-weight:800;font-size:12px}
+.action-buttons{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.action-btn{background:transparent;border:1px solid var(--gold-dark);color:var(--gold);padding:8px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all 0.3s}
+.action-btn:hover{background:var(--bg-card-hover);border-color:var(--gold)}
+.chat-input-bar{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--bg-darker);border-top:1px solid var(--border);padding:12px 20px;z-index:99}
+.input-row{display:flex;gap:8px;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:24px;padding:6px 6px 6px 16px}
+.input-row input{flex:1;background:transparent;border:none;color:var(--text-primary);font-size:14px;outline:none;padding:8px 0}
+.input-icon{background:transparent;border:none;color:var(--gold);cursor:pointer;font-size:20px;padding:6px}
+.send-btn{background:linear-gradient(135deg,var(--emerald),var(--emerald-dark));color:var(--gold);border:none;width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center}
+.lang-switcher{display:flex;align-items:center;justify-content:center;gap:8px;padding:8px;background:var(--bg-card);border-top:1px solid var(--border);font-size:12px}
+.lang-switcher .lang-item{color:var(--gold);font-weight:700;padding:4px 8px;border-radius:6px;cursor:pointer}
+.lang-switcher .lang-item.active{background:var(--emerald-dark)}
+.lang-switcher .lang-item:not(.active){color:var(--text-muted)}
+</style>
+</head>
+<body oncontextmenu="return false" onselectstart="return false">
+
+<div class="app" style="padding-bottom:180px">
+
+  <!-- HEADER -->
+  <div class="ai-header">
+    <a href="index.html" class="back-btn" style="width:36px;height:36px;font-size:18px">←</a>
+    <div class="ai-avatar">✨</div>
+    <div class="ai-info">
+      <h3>Assistant SEN TEW <span style="color:var(--gold);font-size:11px">AI</span></h3>
+      <div class="ai-status">En ligne</div>
+    </div>
+  </div>
+
+  <!-- CHAT -->
+  <div class="chat-area" id="chatArea">
+    <!-- Message initial IA -->
+    <div class="msg-bubble">
+      <div class="msg-ai">
+        Bonjour Ousseynou ! 👋<br><br>
+        Je suis votre assistant SEN TEW. Je peux vous aider à :
+        <ul style="margin:8px 0 0 20px;font-size:13px">
+          <li>Trouver des produits</li>
+          <li>Comparer des articles</li>
+          <li>Vérifier le stock</li>
+          <li>Suivre vos commandes</li>
+        </ul>
+        <div class="msg-time">Il y a 1 min</div>
+      </div>
+    </div>
+
+    <!-- Message utilisateur -->
+    <div class="msg-bubble">
+      <div class="msg-user">
+        Je cherche un boubou homme pour mariage
+        <div class="msg-time" style="color:rgba(255,255,255,0.7)">09:30 ✓✓</div>
+      </div>
+    </div>
+
+    <!-- Réponse IA avec produits -->
+    <div class="msg-bubble">
+      <div class="msg-ai">
+        Voici 3 boubous traditionnels parfaits pour un mariage, livraison sous <strong style="color:var(--gold)">48h à Dakar</strong> :
+        
+        <div class="suggested-products" id="sugProducts"></div>
+        
+        <div class="msg-time">09:31</div>
+      </div>
+    </div>
+
+    <!-- User -->
+    <div class="msg-bubble">
+      <div class="msg-user">
+        Le premier en taille L
+        <div class="msg-time" style="color:rgba(255,255,255,0.7)">09:32 ✓✓</div>
+      </div>
+    </div>
+
+    <!-- IA avec actions -->
+    <div class="msg-bubble">
+      <div class="msg-ai">
+        Parfait ! Il reste <strong style="color:var(--gold)">2 en stock</strong> en taille L.<br>
+        Voulez-vous l'ajouter au panier ?
+        
+        <div class="action-buttons">
+          <button class="action-btn" onclick="addBoubou()">🛒 Oui, ajouter</button>
+          <a href="produit.html?id=6" class="action-btn">📋 Voir détails</a>
+          <button class="action-btn" onclick="alert('Comparaison en cours...')">⚖️ Comparer</button>
+        </div>
+        
+        <div class="msg-time">09:33</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INPUT BAR -->
+  <div class="chat-input-bar">
+    <div class="input-row">
+      <input type="text" id="msgInput" placeholder="Tapez votre message...">
+      <button class="input-icon">📷</button>
+      <button class="input-icon">🎤</button>
+      <button class="send-btn" onclick="sendMsg()">➤</button>
+    </div>
+    <div class="lang-switcher">
+      <span style="color:var(--gold)">🌐</span>
+      <span class="lang-item active">FR</span>
+      <span style="color:var(--text-muted)">/</span>
+      <span class="lang-item">Wolof</span>
+      <span style="color:var(--text-muted)">/</span>
+      <span class="lang-item">EN</span>
+      <span style="color:var(--gold);font-size:14px">▾</span>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span><span>Accueil</span></a>
+    <a href="categories.html" class="nav-item"><span class="nav-icon">📊</span><span>Catégories</span></a>
+    <a href="panier.html" class="nav-item"><span class="nav-icon">🛒</span><span>Panier</span><span class="nav-badge nav-badge-cart" style="display:none">0</span></a>
+    <a href="messages.html" class="nav-item"><span class="nav-icon">💬</span><span>Messages</span></a>
+    <a href="profil.html" class="nav-item"><span class="nav-icon">👤</span><span>Profil</span></a>
+  </nav>
+
+</div>
+
+<script src="js/data.js"></script>
+<script>
+// Générer les 3 boubous suggérés
+const boubouIds = [6, 7, 8];
+const boubous = boubouIds.map(id => PRODUCTS.find(p => p.id === id)).filter(Boolean);
+document.getElementById('sugProducts').innerHTML = boubous.map(b => `
+  <a href="produit.html?id=${b.id}" class="sug-prod">
+    <img src="${b.photo}" alt="${b.name}" onerror="this.style.display='none'">
+    <div class="sug-prod-info">
+      <h4>${b.name}</h4>
+      <div class="price">${formatPrice(b.price)}</div>
+    </div>
+  </a>
+`).join('');
+
+function addBoubou(){
+  addToCart(6, 1);
+  alert('✅ Boubou Royal Bleu Ciel ajouté au panier !');
+}
+
+function sendMsg(){
+  const input = document.getElementById('msgInput');
+  const msg = input.value.trim();
+  if(!msg) return;
+  
+  // Ajouter message user
+  const chatArea = document.getElementById('chatArea');
+  chatArea.insertAdjacentHTML('beforeend', `
+    <div class="msg-bubble">
+      <div class="msg-user">
+        ${msg}
+        <div class="msg-time" style="color:rgba(255,255,255,0.7)">Maintenant ✓✓</div>
+      </div>
+    </div>
+  `);
+  input.value = '';
+  chatArea.scrollTop = chatArea.scrollHeight;
+  
+  // Réponse IA après 1s
+  setTimeout(() => {
+    const responses = [
+      "Je cherche cela pour vous... 🔍",
+      "Voici quelques suggestions pour votre demande.",
+      "Excellente idée ! Je vous propose ces produits.",
+      "Un instant, je vérifie le stock disponible.",
+    ];
+    const resp = responses[Math.floor(Math.random()*responses.length)];
+    chatArea.insertAdjacentHTML('beforeend', `
+      <div class="msg-bubble">
+        <div class="msg-ai">
+          ${resp}
+          <div class="action-buttons">
+            <a href="produits.html" class="action-btn">🛍️ Voir produits</a>
+            <a href="categories.html" class="action-btn">📊 Explorer catégories</a>
+          </div>
+          <div class="msg-time">Maintenant</div>
+        </div>
+      </div>
+    `);
+    chatArea.scrollTop = chatArea.scrollHeight;
+  }, 1000);
+}
+
+// Enter pour envoyer
+document.getElementById('msgInput').addEventListener('keydown', e => {
+  if(e.key === 'Enter') sendMsg();
+});
+
+// Switch langues
+document.querySelectorAll('.lang-item').forEach(el => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('.lang-item').forEach(l => l.classList.remove('active'));
+    el.classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>
