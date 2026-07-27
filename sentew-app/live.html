@@ -2,174 +2,138 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>LIVE - SEN TEW</title>
 <meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#000">
+<link rel="stylesheet" href="css/app.css">
 <style>
-body{background:#000;color:#fff;font-family:-apple-system,sans-serif;margin:0;overflow:hidden;height:100vh}
-.live-container{position:relative;height:100vh}
-.live-video{width:100%;height:100%;object-fit:cover;background:linear-gradient(135deg,#0F6B4E,#D4A574,#7c2d12)}
-.live-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.6) 0%,transparent 25%,transparent 60%,rgba(0,0,0,.9) 100%);padding:16px;display:flex;flex-direction:column;justify-content:space-between}
-/* Top bar */
-.live-top{display:flex;justify-content:space-between;align-items:flex-start}
-.seller-info{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.5);padding:6px 12px 6px 6px;border-radius:24px;backdrop-filter:blur(8px)}
-.seller-info img{width:36px;height:36px;border-radius:50%;border:2px solid #D4A574;object-fit:cover}
-.seller-info .name{font-size:13px;font-weight:700}
-.seller-info .followers{font-size:11px;color:#D4A574}
-.follow-btn{background:#ef4444;color:#fff;border:none;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;margin-left:8px;cursor:pointer}
-.live-badge{background:#ef4444;color:#fff;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:800;display:flex;align-items:center;gap:4px}
+.app{background:#000}
+.live-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0F6B4E,#D4A574,#7c2d12)}
+.live-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.5) 0%,transparent 25%,transparent 55%,rgba(0,0,0,.85) 100%);padding:12px;display:flex;flex-direction:column;justify-content:space-between}
+.live-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.seller-info{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.5);padding:5px 12px 5px 5px;border-radius:24px;backdrop-filter:blur(8px)}
+.seller-info img{width:34px;height:34px;border-radius:50%;border:2px solid #D4A574;object-fit:cover;pointer-events:auto}
+.follow-btn{background:#ef4444;color:#fff;border:none;padding:5px 12px;border-radius:16px;font-size:11px;font-weight:800;cursor:pointer}
+.live-badge{background:#ef4444;color:#fff;padding:3px 8px;border-radius:5px;font-size:10px;font-weight:800;display:inline-flex;align-items:center;gap:4px}
 .live-badge::before{content:'●';animation:blink 1s infinite}
 @keyframes blink{50%{opacity:.3}}
-.viewers{background:rgba(0,0,0,.5);padding:4px 10px;border-radius:6px;font-size:12px;margin-top:6px}
-.close-btn{background:rgba(0,0,0,.5);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:20px;cursor:pointer}
-/* Product card floating */
-.live-product{background:rgba(0,0,0,.7);backdrop-filter:blur(12px);border-radius:14px;padding:12px;display:flex;gap:12px;align-items:center;border:2px solid #D4A574;margin-bottom:12px;animation:slideIn .5s}
-@keyframes slideIn{from{transform:translateX(-100%);opacity:0}to{transform:translateX(0);opacity:1}}
-.live-product img{width:60px;height:60px;border-radius:10px;object-fit:cover}
-.lp-info{flex:1}
-.lp-name{font-size:13px;font-weight:700;margin:0 0 4px}
-.lp-price{color:#D4A574;font-weight:800;font-size:15px}
-.lp-old{color:#999;text-decoration:line-through;font-size:12px;margin-left:6px}
-.lp-buy{background:#D4A574;color:#0A1F17;border:none;padding:10px 16px;border-radius:20px;font-weight:800;font-size:13px;cursor:pointer;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-/* Chat */
-.chat-feed{max-height:280px;overflow:hidden;margin-bottom:12px;padding:0 4px}
-.chat-msg{background:rgba(0,0,0,.4);backdrop-filter:blur(6px);padding:6px 12px;border-radius:16px;margin-bottom:6px;font-size:12px;display:inline-block;max-width:80%;animation:fadeIn .3s}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.chat-msg .user{color:#D4A574;font-weight:700;margin-right:6px}
-/* Bottom actions */
-.live-actions{display:flex;gap:8px;align-items:center}
-.action-input{flex:1;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.2);color:#fff;padding:10px 16px;border-radius:24px;font-size:13px;backdrop-filter:blur(8px)}
-.action-input::placeholder{color:rgba(255,255,255,.5)}
-.icon-btn{background:rgba(0,0,0,.5);border:none;width:44px;height:44px;border-radius:50%;font-size:20px;cursor:pointer;color:#fff;backdrop-filter:blur(8px)}
-.reactions{position:absolute;right:16px;bottom:120px;display:flex;flex-direction:column;gap:10px}
-.reactions button{background:rgba(0,0,0,.5);border:none;width:44px;height:44px;border-radius:50%;font-size:20px;cursor:pointer;backdrop-filter:blur(8px)}
-/* Floating hearts */
-.heart{position:absolute;font-size:24px;pointer-events:none;animation:float 3s ease-out forwards}
-@keyframes float{0%{transform:translateY(0) scale(0);opacity:1}20%{transform:translateY(-40px) scale(1.2)}100%{transform:translateY(-400px) scale(.5);opacity:0}}
+.viewers-tag{background:rgba(0,0,0,.5);padding:3px 8px;border-radius:5px;font-size:11px}
+.live-product{background:rgba(0,0,0,.75);backdrop-filter:blur(12px);border-radius:12px;padding:10px;display:flex;gap:10px;align-items:center;border:2px solid #D4A574;margin-bottom:10px}
+.live-product img{width:52px;height:52px;border-radius:8px;object-fit:cover;pointer-events:auto}
+.lp-buy{background:#D4A574;color:#0A1F17;border:none;padding:8px 14px;border-radius:16px;font-weight:800;font-size:12px;cursor:pointer;animation:btnPulse 2s infinite}
+@keyframes btnPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.chat-feed{max-height:200px;overflow:hidden;margin-bottom:10px}
+.chat-msg{background:rgba(0,0,0,.4);backdrop-filter:blur(6px);padding:5px 10px;border-radius:14px;margin-bottom:5px;font-size:11px;display:inline-block;max-width:80%;animation:fadeIn .3s}
+.chat-msg .user{color:#D4A574;font-weight:700;margin-right:5px}
+.live-actions{display:flex;gap:6px;align-items:center}
+.action-input{flex:1;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.2);color:#fff;padding:9px 14px;border-radius:22px;font-size:12px;backdrop-filter:blur(8px)}
+.icon-btn{background:rgba(0,0,0,.5);border:none;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;color:#fff;backdrop-filter:blur(8px)}
+.reactions{position:absolute;right:12px;bottom:130px;display:flex;flex-direction:column;gap:8px}
+.reactions button{background:rgba(0,0,0,.5);border:none;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;backdrop-filter:blur(8px)}
+.heart{position:absolute;font-size:22px;pointer-events:none;animation:float 3s ease-out forwards}
+@keyframes float{0%{transform:translateY(0) scale(0);opacity:1}20%{transform:translateY(-30px) scale(1.2)}100%{transform:translateY(-350px) scale(.5);opacity:0}}
 </style>
 </head>
 <body oncontextmenu="return false">
-<div class="live-container">
-  <div class="live-video" id="video">
-    <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;">
-      <div style="font-size:80px;">🎥</div>
-      <div style="color:rgba(255,255,255,.7);margin-top:12px;">Simulation LIVE - Aminata Diop</div>
-      <div style="color:#D4A574;margin-top:6px;font-size:13px;">Boubou wax collection été 2026</div>
-    </div>
+<div class="app">
+  <div class="live-bg" style="display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;">
+    <div style="font-size:60px;">🎥</div>
+    <div style="color:rgba(255,255,255,.8);margin-top:12px;font-weight:700;">LIVE - Aminata Diop</div>
+    <div style="color:#D4A574;margin-top:4px;font-size:12px;">Boubou wax collection été 2026</div>
   </div>
 
   <div class="live-overlay">
-    <!-- Top -->
     <div class="live-top">
       <div>
         <div class="seller-info">
-          <img src="https://i.pravatar.cc/100?img=47" alt="Vendeuse">
+          <img src="https://i.pravatar.cc/100?img=47" alt="">
           <div>
-            <div class="name">Aminata Diop</div>
-            <div class="followers">12.5K abonnés</div>
+            <div style="font-size:12px;font-weight:700;">Aminata Diop</div>
+            <div style="font-size:10px;color:#D4A574;">12.5K abonnés</div>
           </div>
-          <button class="follow-btn" onclick="this.textContent=this.textContent==='+ Suivre'?'Suivi ✓':'+ Suivre'">+ Suivre</button>
+          <button class="follow-btn" onclick="this.textContent=this.textContent==='+ Suivre'?'✓ Suivi':'+ Suivre'">+ Suivre</button>
         </div>
-        <div style="display:flex;gap:6px;margin-top:8px;">
+        <div style="display:flex;gap:5px;margin-top:6px;">
           <span class="live-badge">EN DIRECT</span>
-          <span class="viewers">👁 <span id="viewers">1 247</span></span>
+          <span class="viewers-tag">👁 <span id="viewers">1 247</span></span>
         </div>
       </div>
-      <button class="close-btn" onclick="window.location.href='index.html'">✕</button>
+      <a href="index.html" class="icon-btn" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">✕</a>
     </div>
 
-    <!-- Bottom -->
     <div>
-      <!-- Product en cours -->
       <div class="live-product">
         <img src="https://images.unsplash.com/photo-1596902852634-fc2d10a1cc11?w=200" alt="">
-        <div class="lp-info">
-          <p class="lp-name">🔥 Boubou wax premium</p>
-          <div><span class="lp-price">18 000 FCFA</span><span class="lp-old">25 000 FCFA</span></div>
-          <div style="font-size:11px;color:#ef4444;margin-top:2px;">⏱ Offre live - 5 min restantes</div>
+        <div style="flex:1;">
+          <div style="font-size:12px;font-weight:700;margin-bottom:2px;">🔥 Boubou wax premium</div>
+          <div><span style="color:#D4A574;font-weight:800;font-size:14px;">18 000 FCFA</span><span style="color:#999;text-decoration:line-through;font-size:11px;margin-left:5px;">25 000</span></div>
+          <div style="font-size:10px;color:#ef4444;margin-top:2px;">⏱ Offre live - 5min</div>
         </div>
         <button class="lp-buy" onclick="buyNow()">Acheter</button>
       </div>
 
-      <!-- Chat -->
       <div class="chat-feed" id="chatFeed"></div>
 
-      <!-- Input -->
       <div class="live-actions">
-        <input class="action-input" id="chatInput" placeholder="💬 Poser une question..." onkeypress="if(event.key==='Enter')sendChat()">
+        <input class="action-input" id="chatInput" placeholder="Poser une question..." onkeypress="if(event.key==='Enter')sendChat()">
         <button class="icon-btn" onclick="sendHeart()">❤️</button>
-        <button class="icon-btn" onclick="alert('Lien copié !')">🔗</button>
+        <button class="icon-btn" onclick="alert('🔗 Lien copié')">🔗</button>
       </div>
     </div>
   </div>
 
-  <!-- Réactions latérales -->
   <div class="reactions">
-    <button onclick="sendReaction('❤️')">❤️</button>
-    <button onclick="sendReaction('🔥')">🔥</button>
-    <button onclick="sendReaction('👏')">👏</button>
-    <button onclick="sendReaction('😍')">😍</button>
+    <button onclick="reaction('❤️')">❤️</button>
+    <button onclick="reaction('🔥')">🔥</button>
+    <button onclick="reaction('👏')">👏</button>
+    <button onclick="reaction('😍')">😍</button>
   </div>
 </div>
 
 <script>
-const users = ['Moussa','Fatou','Ibrahima','Awa','Cheikh','Mariama','Ousmane','Khady'];
-const msgs = ['Trop beau ce boubou !','Combien pour le rouge ?','J\'achète !','Livraison à Thiès ?','Magnifique !','Tissu wax authentique ?','Vous avez ma taille ?','😍😍😍','Je prends 2','Merci pour le live !'];
+const users=['Moussa','Fatou','Ibrahima','Awa','Cheikh','Mariama','Ousmane','Khady','Aissatou'];
+const msgs=['Trop beau !','Combien pour le rouge ?','J\'achète !','Livraison à Thiès ?','Magnifique !','Tissu authentique ?','Ma taille dispo ?','😍😍😍','Je prends 2','Merci pour le live !'];
 
-// Chat simulé
-function addChat(user, msg){
-  const feed = document.getElementById('chatFeed');
-  const div = document.createElement('div');
-  div.className = 'chat-msg';
-  div.innerHTML = `<span class="user">${user}:</span>${msg}`;
-  feed.appendChild(div);
-  feed.scrollTop = feed.scrollHeight;
-  if(feed.children.length > 8) feed.removeChild(feed.firstChild);
+function addChat(u,m){
+  const f=document.getElementById('chatFeed');
+  const d=document.createElement('div');
+  d.className='chat-msg';
+  d.innerHTML=`<span class="user">${u}:</span>${m}`;
+  f.appendChild(d);
+  if(f.children.length>5)f.removeChild(f.firstChild);
 }
-setInterval(()=>{
-  addChat(users[Math.floor(Math.random()*users.length)], msgs[Math.floor(Math.random()*msgs.length)]);
-}, 2500);
+setInterval(()=>{addChat(users[Math.floor(Math.random()*users.length)],msgs[Math.floor(Math.random()*msgs.length)])},2500);
 
 function sendChat(){
-  const input = document.getElementById('chatInput');
-  if(!input.value.trim())return;
-  addChat('Vous', input.value);
-  input.value='';
+  const i=document.getElementById('chatInput');
+  if(!i.value.trim())return;
+  addChat('Vous',i.value);i.value='';
 }
 function sendHeart(){
   for(let i=0;i<5;i++){
     setTimeout(()=>{
-      const h = document.createElement('div');
-      h.className='heart';
-      h.textContent='❤️';
-      h.style.left = (60 + Math.random()*20) + '%';
-      h.style.bottom = '100px';
+      const h=document.createElement('div');
+      h.className='heart';h.textContent='❤️';
+      h.style.left=(50+Math.random()*30)+'%';h.style.bottom='90px';
       document.body.appendChild(h);
       setTimeout(()=>h.remove(),3000);
-    }, i*100);
+    },i*100);
   }
 }
-function sendReaction(emoji){
-  const h = document.createElement('div');
-  h.className='heart';
-  h.textContent=emoji;
-  h.style.right='30px';
-  h.style.bottom='150px';
-  h.style.fontSize='32px';
+function reaction(e){
+  const h=document.createElement('div');
+  h.className='heart';h.textContent=e;
+  h.style.right='30px';h.style.bottom='150px';h.style.fontSize='28px';
   document.body.appendChild(h);
   setTimeout(()=>h.remove(),3000);
 }
-function buyNow(){
-  if(confirm('🛒 Acheter Boubou wax premium à 18 000 FCFA ?'))
-    window.location.href='panier.html';
-}
-// Compteur viewers
+function buyNow(){if(confirm('🛒 Acheter Boubou wax à 18 000 FCFA ?'))window.location.href='panier.html'}
 setInterval(()=>{
-  const el = document.getElementById('viewers');
-  const n = parseInt(el.textContent.replace(/\s/g,'')) + Math.floor(Math.random()*10-3);
-  el.textContent = n.toLocaleString('fr-FR');
-}, 3000);
+  const el=document.getElementById('viewers');
+  const n=parseInt(el.textContent.replace(/\s/g,''))+Math.floor(Math.random()*10-3);
+  el.textContent=n.toLocaleString('fr-FR');
+},3000);
 </script>
 </body>
 </html>
