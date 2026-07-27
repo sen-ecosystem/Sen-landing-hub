@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panoramique Produit - SEN TEW</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#000000">
+<link rel="stylesheet" href="css/app.css">
+<style>
+body{background:#000;overflow:hidden}
+.app{background:#000;padding-bottom:0;max-width:100%}
+
+.pano-container{position:fixed;top:0;left:0;right:0;bottom:0;background:#000;z-index:1}
+.pano-header{position:absolute;top:0;left:0;right:0;padding:20px;display:flex;justify-content:space-between;align-items:center;z-index:100;background:linear-gradient(180deg,rgba(0,0,0,0.8),transparent)}
+.pano-btn{background:rgba(0,0,0,0.6);backdrop-filter:blur(10px);width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:22px;border:1px solid rgba(212,165,116,0.3);cursor:pointer;text-decoration:none}
+.pano-title{color:white;font-size:14px;font-weight:600;text-align:center;flex:1;padding:0 12px}
+.pano-counter{background:rgba(0,0,0,0.6);backdrop-filter:blur(10px);padding:8px 14px;border-radius:20px;color:white;font-size:13px;font-weight:600;border:1px solid rgba(212,165,116,0.3)}
+
+.pano-viewer{width:100%;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.pano-img{max-width:100%;max-height:100%;object-fit:contain;transition:transform 0.3s;cursor:zoom-in;user-select:none;pointer-events:none}
+.pano-img.zoomed{transform:scale(2);cursor:zoom-out}
+
+.pano-nav{position:absolute;top:50%;transform:translateY(-50%);width:50px;height:50px;background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:26px;cursor:pointer;border:1px solid rgba(212,165,116,0.3);z-index:50}
+.pano-nav.prev{left:15px}
+.pano-nav.next{right:15px}
+.pano-nav:disabled{opacity:0.3;cursor:not-allowed}
+
+.pano-footer{position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(0deg,rgba(0,0,0,0.9),transparent);z-index:100}
+.pano-thumbs{display:flex;gap:8px;overflow-x:auto;padding:12px 0;scrollbar-width:none;margin-bottom:12px}
+.pano-thumbs::-webkit-scrollbar{display:none}
+.pano-thumb{width:60px;height:60px;border-radius:10px;overflow:hidden;flex-shrink:0;border:2px solid transparent;cursor:pointer;opacity:0.6;transition:all 0.3s}
+.pano-thumb.active{border-color:var(--gold);opacity:1;transform:scale(1.05)}
+.pano-thumb img{width:100%;height:100%;object-fit:cover}
+
+.pano-info-card{background:rgba(0,0,0,0.7);backdrop-filter:blur(20px);border:1px solid rgba(212,165,116,0.3);border-radius:14px;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.pano-prod-name{color:white;font-size:15px;font-weight:700;margin-bottom:4px}
+.pano-prod-price{color:var(--gold);font-size:20px;font-weight:900}
+.pano-buy-btn{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--bg-darker);padding:10px 20px;border-radius:20px;font-weight:800;font-size:13px;border:none;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+
+/* Dots */
+.pano-dots{display:flex;justify-content:center;gap:8px;margin-bottom:14px}
+.pano-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.3);transition:all 0.3s;cursor:pointer}
+.pano-dot.active{background:var(--gold);width:24px;border-radius:4px}
+
+@keyframes shine{
+  0%,100%{opacity:0.3}
+  50%{opacity:1}
+}
+.zoom-hint{position:absolute;top:80px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.6);color:white;padding:8px 16px;border-radius:20px;font-size:12px;border:1px solid rgba(212,165,116,0.3);animation:shine 2s infinite}
+</style>
+</head>
+<body oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+
+<div class="pano-container">
+
+  <!-- HEADER -->
+  <div class="pano-header">
+    <a href="produit.html" class="pano-btn" id="backBtn">←</a>
+    <div class="pano-title" id="prodTitle">Chargement...</div>
+    <div class="pano-counter"><span id="currentIdx">1</span>/<span id="totalIdx">5</span></div>
+  </div>
+
+  <!-- HINT ZOOM -->
+  <div class="zoom-hint">🔍 Touchez pour zoomer</div>
+
+  <!-- IMAGE VIEWER -->
+  <div class="pano-viewer">
+    <button class="pano-nav prev" onclick="prevImg()">‹</button>
+    <img class="pano-img" id="mainImg" src="" alt="Produit" onclick="this.classList.toggle('zoomed')">
+    <button class="pano-nav next" onclick="nextImg()">›</button>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="pano-footer">
+    <!-- Dots -->
+    <div class="pano-dots" id="dotsRow"></div>
+
+    <!-- Thumbnails -->
+    <div class="pano-thumbs" id="thumbsRow"></div>
+
+    <!-- Info + Buy -->
+    <div class="pano-info-card">
+      <div>
+        <div class="pano-prod-name" id="prodName">Nom du produit</div>
+        <div class="pano-prod-price" id="prodPrice">0 FCFA</div>
+      </div>
+      <a href="#" class="pano-buy-btn" id="buyBtn">🛒 Acheter</a>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/data.js"></script>
+<script>
+const productId = parseInt(new URLSearchParams(window.location.search).get('id') || '5');
+const product = PRODUCTS.find(p => p.id === productId) || PRODUCTS[4];
+
+// Générer 5 photos (dupliquer la photo principale avec variations)
+const photos = [
+  product.photo,
+  product.photo + '&sat=-100',
+  product.photo + '&blur=10',
+  product.photo,
+  product.photo
+];
+
+let currentIdx = 0;
+
+document.getElementById('prodTitle').textContent = product.name;
+document.getElementById('prodName').textContent = product.name;
+document.getElementById('prodPrice').textContent = formatPrice(product.price);
+document.getElementById('totalIdx').textContent = photos.length;
+document.getElementById('backBtn').href = 'produit.html?id=' + product.id;
+document.getElementById('buyBtn').href = 'produit.html?id=' + product.id;
+
+function updateImg(){
+  document.getElementById('mainImg').src = photos[currentIdx];
+  document.getElementById('mainImg').classList.remove('zoomed');
+  document.getElementById('currentIdx').textContent = currentIdx + 1;
+  renderDots();
+  renderThumbs();
+}
+
+function prevImg(){ if(currentIdx > 0){ currentIdx--; updateImg(); } }
+function nextImg(){ if(currentIdx < photos.length - 1){ currentIdx++; updateImg(); } }
+function goTo(idx){ currentIdx = idx; updateImg(); }
+
+function renderDots(){
+  document.getElementById('dotsRow').innerHTML = photos.map((_, i) => 
+    `<div class="pano-dot ${i===currentIdx?'active':''}" onclick="goTo(${i})"></div>`
+  ).join('');
+}
+
+function renderThumbs(){
+  document.getElementById('thumbsRow').innerHTML = photos.map((p, i) => 
+    `<div class="pano-thumb ${i===currentIdx?'active':''}" onclick="goTo(${i})">
+      <img src="${p}" alt="Miniature ${i+1}">
+    </div>`
+  ).join('');
+}
+
+updateImg();
+
+// Swipe gestures
+let touchStartX = 0;
+document.querySelector('.pano-viewer').addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+document.querySelector('.pano-viewer').addEventListener('touchend', e => {
+  const diff = e.changedTouches[0].clientX - touchStartX;
+  if(diff > 50) prevImg();
+  if(diff < -50) nextImg();
+});
+
+// Keyboard
+document.addEventListener('keydown', e => {
+  if(e.key === 'ArrowLeft') prevImg();
+  if(e.key === 'ArrowRight') nextImg();
+  if(e.key === 'Escape') window.location.href = 'produit.html?id=' + product.id;
+});
+
+// Hide hint après 3s
+setTimeout(() => document.querySelector('.zoom-hint').style.display = 'none', 3000);
+</script>
+
+</body>
+</html>
