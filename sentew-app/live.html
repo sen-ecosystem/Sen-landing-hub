@@ -2,138 +2,246 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>LIVE - SEN TEW</title>
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#000">
 <link rel="stylesheet" href="css/app.css">
 <style>
-.app{background:#000}
-.live-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0F6B4E,#D4A574,#7c2d12)}
-.live-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.5) 0%,transparent 25%,transparent 55%,rgba(0,0,0,.85) 100%);padding:12px;display:flex;flex-direction:column;justify-content:space-between}
+body{background:#000;overflow:hidden}
+.app{background:#000;color:#fff;position:fixed;inset:0}
+.live-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;background:#000}
+.live-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.6) 0%,transparent 20%,transparent 50%,rgba(0,0,0,.9) 100%);padding:12px;display:flex;flex-direction:column;justify-content:space-between;z-index:10}
 .live-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-.seller-info{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.5);padding:5px 12px 5px 5px;border-radius:24px;backdrop-filter:blur(8px)}
-.seller-info img{width:34px;height:34px;border-radius:50%;border:2px solid #D4A574;object-fit:cover;pointer-events:auto}
-.follow-btn{background:#ef4444;color:#fff;border:none;padding:5px 12px;border-radius:16px;font-size:11px;font-weight:800;cursor:pointer}
-.live-badge{background:#ef4444;color:#fff;padding:3px 8px;border-radius:5px;font-size:10px;font-weight:800;display:inline-flex;align-items:center;gap:4px}
-.live-badge::before{content:'●';animation:blink 1s infinite}
+.seller-info{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.5);padding:5px 12px 5px 5px;border-radius:24px;backdrop-filter:blur(12px)}
+.seller-info img{width:36px;height:36px;border-radius:50%;border:2px solid #D4A574;object-fit:cover;pointer-events:auto}
+.follow-btn{background:#ef4444;color:#fff;border:none;padding:6px 14px;border-radius:16px;font-size:11px;font-weight:800;cursor:pointer}
+.live-badge{background:#ef4444;color:#fff;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:4px}
+.live-badge::before{content:'●';animation:blink 1s infinite;font-size:8px}
 @keyframes blink{50%{opacity:.3}}
-.viewers-tag{background:rgba(0,0,0,.5);padding:3px 8px;border-radius:5px;font-size:11px}
-.live-product{background:rgba(0,0,0,.75);backdrop-filter:blur(12px);border-radius:12px;padding:10px;display:flex;gap:10px;align-items:center;border:2px solid #D4A574;margin-bottom:10px}
+.viewers-tag{background:rgba(0,0,0,.5);padding:4px 10px;border-radius:6px;font-size:11px;backdrop-filter:blur(8px);color:#fff}
+.close-btn{background:rgba(0,0,0,.5);border:none;color:#fff;width:38px;height:38px;border-radius:50%;font-size:20px;cursor:pointer;backdrop-filter:blur(8px);text-decoration:none;display:flex;align-items:center;justify-content:center}
+.live-product{background:rgba(0,0,0,.75);backdrop-filter:blur(16px);border-radius:12px;padding:10px;display:flex;gap:10px;align-items:center;border:2px solid #D4A574;margin-bottom:8px;box-shadow:0 4px 20px rgba(212,165,116,.3)}
 .live-product img{width:52px;height:52px;border-radius:8px;object-fit:cover;pointer-events:auto}
-.lp-buy{background:#D4A574;color:#0A1F17;border:none;padding:8px 14px;border-radius:16px;font-weight:800;font-size:12px;cursor:pointer;animation:btnPulse 2s infinite}
-@keyframes btnPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-.chat-feed{max-height:200px;overflow:hidden;margin-bottom:10px}
-.chat-msg{background:rgba(0,0,0,.4);backdrop-filter:blur(6px);padding:5px 10px;border-radius:14px;margin-bottom:5px;font-size:11px;display:inline-block;max-width:80%;animation:fadeIn .3s}
-.chat-msg .user{color:#D4A574;font-weight:700;margin-right:5px}
+.lp-info{flex:1;min-width:0}
+.lp-name{font-size:12px;font-weight:700;color:#fff;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lp-price{color:#D4A574;font-weight:900;font-size:14px}
+.lp-old{color:rgba(255,255,255,.5);text-decoration:line-through;font-size:11px;margin-left:5px}
+.lp-buy{background:linear-gradient(135deg,#D4A574,#B8945F);color:#0A1F17;border:none;padding:8px 14px;border-radius:16px;font-weight:900;font-size:11px;cursor:pointer;flex-shrink:0}
+.chat-feed{max-height:220px;overflow:hidden;margin-bottom:8px;padding:0 4px}
+.chat-msg{background:rgba(0,0,0,.5);backdrop-filter:blur(8px);padding:6px 12px;border-radius:16px;margin-bottom:5px;font-size:12px;display:inline-block;max-width:80%;animation:fadeIn .3s;color:#fff}
+.chat-msg .user{color:#D4A574;font-weight:800;margin-right:5px}
+.chat-msg .heart{color:#ef4444}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .live-actions{display:flex;gap:6px;align-items:center}
-.action-input{flex:1;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.2);color:#fff;padding:9px 14px;border-radius:22px;font-size:12px;backdrop-filter:blur(8px)}
-.icon-btn{background:rgba(0,0,0,.5);border:none;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;color:#fff;backdrop-filter:blur(8px)}
-.reactions{position:absolute;right:12px;bottom:130px;display:flex;flex-direction:column;gap:8px}
-.reactions button{background:rgba(0,0,0,.5);border:none;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;backdrop-filter:blur(8px)}
-.heart{position:absolute;font-size:22px;pointer-events:none;animation:float 3s ease-out forwards}
-@keyframes float{0%{transform:translateY(0) scale(0);opacity:1}20%{transform:translateY(-30px) scale(1.2)}100%{transform:translateY(-350px) scale(.5);opacity:0}}
+.action-input{flex:1;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.2);color:#fff;padding:10px 14px;border-radius:22px;font-size:12px;backdrop-filter:blur(8px);outline:none}
+.action-input::placeholder{color:rgba(255,255,255,.6)}
+.icon-btn{background:rgba(0,0,0,.5);border:none;width:42px;height:42px;border-radius:50%;font-size:18px;cursor:pointer;color:#fff;backdrop-filter:blur(8px);flex-shrink:0}
+.reactions{position:absolute;right:12px;bottom:180px;display:flex;flex-direction:column;gap:8px;z-index:15}
+.reactions button{background:rgba(0,0,0,.5);border:none;width:42px;height:42px;border-radius:50%;font-size:20px;cursor:pointer;backdrop-filter:blur(8px);color:#fff}
+.heart{position:absolute;font-size:24px;pointer-events:none;animation:float 3s ease-out forwards;z-index:20}
+@keyframes float{0%{transform:translateY(0) scale(0);opacity:1}20%{transform:translateY(-40px) scale(1.2)}100%{transform:translateY(-400px) scale(.5);opacity:0}}
+.video-switcher{position:absolute;top:70px;right:12px;display:flex;flex-direction:column;gap:6px;z-index:15}
+.video-switcher button{background:rgba(0,0,0,.5);color:#fff;border:1px solid rgba(212,165,116,.4);padding:6px 12px;border-radius:16px;font-size:10px;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)}
+.video-switcher button.active{background:linear-gradient(135deg,#D4A574,#B8945F);color:#0A1F17;border-color:#D4A574}
+.live-cart{position:absolute;bottom:76px;right:12px;background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;text-decoration:none;box-shadow:0 6px 20px rgba(15,107,78,.5);z-index:15}
+.live-cart .cart-badge{position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;font-size:10px;font-weight:900;padding:2px 6px;border-radius:10px;border:2px solid #000}
 </style>
 </head>
 <body oncontextmenu="return false">
 <div class="app">
-  <div class="live-bg" style="display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;">
-    <div style="font-size:60px;">🎥</div>
-    <div style="color:rgba(255,255,255,.8);margin-top:12px;font-weight:700;">LIVE - Aminata Diop</div>
-    <div style="color:#D4A574;margin-top:4px;font-size:12px;">Boubou wax collection été 2026</div>
-  </div>
+  <!-- Vidéos MOV en boucle -->
+  <video id="liveVideo" class="live-video" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=800">
+    <source id="videoSrc" src="https://www.genspark.ai/api/files/s/qjMihjFt" type="video/quicktime">
+    <source src="https://www.genspark.ai/api/files/s/qjMihjFt" type="video/mp4">
+    Votre navigateur ne supporte pas la vidéo.
+  </video>
 
   <div class="live-overlay">
+    <!-- Header LIVE -->
     <div class="live-top">
       <div>
         <div class="seller-info">
-          <img src="https://i.pravatar.cc/100?img=47" alt="">
+          <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200" alt="Aïcha">
           <div>
-            <div style="font-size:12px;font-weight:700;">Aminata Diop</div>
+            <div style="font-size:12px;font-weight:800;color:#fff;">Aïcha Couture ✓</div>
             <div style="font-size:10px;color:#D4A574;">12.5K abonnés</div>
           </div>
-          <button class="follow-btn" onclick="this.textContent=this.textContent==='+ Suivre'?'✓ Suivi':'+ Suivre'">+ Suivre</button>
+          <button class="follow-btn" onclick="toggleFollow(this)">+ Suivre</button>
         </div>
-        <div style="display:flex;gap:5px;margin-top:6px;">
+        <div style="display:flex;gap:6px;margin-top:8px;">
           <span class="live-badge">EN DIRECT</span>
-          <span class="viewers-tag">👁 <span id="viewers">1 247</span></span>
+          <span class="viewers-tag">👁 <span id="viewers">2 847</span></span>
         </div>
       </div>
-      <a href="index.html" class="icon-btn" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">✕</a>
+      <a href="index.html" class="close-btn">✕</a>
     </div>
 
+    <!-- Bottom -->
     <div>
+      <!-- Produits en vente LIVE -->
       <div class="live-product">
-        <img src="https://images.unsplash.com/photo-1596902852634-fc2d10a1cc11?w=200" alt="">
-        <div style="flex:1;">
-          <div style="font-size:12px;font-weight:700;margin-bottom:2px;">🔥 Boubou wax premium</div>
-          <div><span style="color:#D4A574;font-weight:800;font-size:14px;">18 000 FCFA</span><span style="color:#999;text-decoration:line-through;font-size:11px;margin-left:5px;">25 000</span></div>
-          <div style="font-size:10px;color:#ef4444;margin-top:2px;">⏱ Offre live - 5min</div>
+        <img src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=200" alt="">
+        <div class="lp-info">
+          <div class="lp-name">🔥 Sac cuir Élégance</div>
+          <div><span class="lp-price">24 500 FCFA</span><span class="lp-old">35 000</span></div>
+          <div style="font-size:10px;color:#ef4444;margin-top:2px;font-weight:700;">⏱ -30% LIVE · 4min restantes</div>
         </div>
-        <button class="lp-buy" onclick="buyNow()">Acheter</button>
+        <button class="lp-buy" onclick="buyLive('Sac cuir Élégance', 24500)">Acheter</button>
       </div>
 
+      <div class="live-product" style="border-color:rgba(212,165,116,.4);opacity:.85;">
+        <img src="https://images.unsplash.com/photo-1595777216528-071e0127ccbf?w=200" alt="">
+        <div class="lp-info">
+          <div class="lp-name">Robe Wax Prestige</div>
+          <div><span class="lp-price">18 900 FCFA</span><span class="lp-old">27 000</span></div>
+          <div style="font-size:10px;color:#D4A574;margin-top:2px;font-weight:600;">Stock: 5 · Livraison 24h</div>
+        </div>
+        <button class="lp-buy" onclick="buyLive('Robe Wax', 18900)">Acheter</button>
+      </div>
+
+      <!-- Chat live -->
       <div class="chat-feed" id="chatFeed"></div>
 
+      <!-- Input + réactions -->
       <div class="live-actions">
-        <input class="action-input" id="chatInput" placeholder="Poser une question..." onkeypress="if(event.key==='Enter')sendChat()">
+        <input class="action-input" id="chatInput" placeholder="💬 Poser une question..." onkeypress="if(event.key==='Enter')sendChat()">
         <button class="icon-btn" onclick="sendHeart()">❤️</button>
-        <button class="icon-btn" onclick="alert('🔗 Lien copié')">🔗</button>
+        <button class="icon-btn" onclick="shareLive()">🔗</button>
       </div>
     </div>
   </div>
 
+  <!-- Sélecteur vidéo (démo) -->
+  <div class="video-switcher">
+    <button class="active" onclick="switchVideo(1,this)">🎥 Vidéo 1</button>
+    <button onclick="switchVideo(2,this)">🎥 Vidéo 2</button>
+  </div>
+
+  <!-- Réactions latérales -->
   <div class="reactions">
     <button onclick="reaction('❤️')">❤️</button>
     <button onclick="reaction('🔥')">🔥</button>
     <button onclick="reaction('👏')">👏</button>
     <button onclick="reaction('😍')">😍</button>
+    <button onclick="reaction('🙏')">🙏</button>
   </div>
+
+  <!-- Panier flottant -->
+  <a href="panier.html" class="live-cart">
+    🛒<span class="cart-badge" id="cartCount">0</span>
+  </a>
 </div>
 
 <script>
-const users=['Moussa','Fatou','Ibrahima','Awa','Cheikh','Mariama','Ousmane','Khady','Aissatou'];
-const msgs=['Trop beau !','Combien pour le rouge ?','J\'achète !','Livraison à Thiès ?','Magnifique !','Tissu authentique ?','Ma taille dispo ?','😍😍😍','Je prends 2','Merci pour le live !'];
+const videos = {
+  1: 'https://www.genspark.ai/api/files/s/qjMihjFt',
+  2: 'https://www.genspark.ai/api/files/s/LfQFxiQm'
+};
+let cartLive = 0;
 
-function addChat(u,m){
-  const f=document.getElementById('chatFeed');
-  const d=document.createElement('div');
-  d.className='chat-msg';
-  d.innerHTML=`<span class="user">${u}:</span>${m}`;
-  f.appendChild(d);
-  if(f.children.length>5)f.removeChild(f.firstChild);
+function switchVideo(n, el) {
+  document.querySelectorAll('.video-switcher button').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  const video = document.getElementById('liveVideo');
+  video.querySelector('#videoSrc').src = videos[n];
+  video.load();
+  video.play().catch(()=>{});
 }
-setInterval(()=>{addChat(users[Math.floor(Math.random()*users.length)],msgs[Math.floor(Math.random()*msgs.length)])},2500);
 
-function sendChat(){
-  const i=document.getElementById('chatInput');
-  if(!i.value.trim())return;
-  addChat('Vous',i.value);i.value='';
+// Chat auto simulé
+const users = ['Moussa_SN','Fatou_style','Ibrahima_D','Awa_92','Cheikh_B','Mariama_K','Ousmane_L','Khady_N','BayeFall_94','Xalass_221'];
+const msgs = ['Trop belle 😍','Combien pour le rouge?','J\'achète maintenant!','Livraison Thiès?','Magnifique 🔥','Tissu authentique?','Ma taille dispo?','😍😍😍','Je prends 2','Nio far!','Yaay diaraama!','Est-ce livraison Kaolack?','Continue Aïcha!','Superbe collection','Je vais commander','Trop belle robe','Wawww ❤️'];
+
+function addChat(user, msg, isHeart) {
+  const feed = document.getElementById('chatFeed');
+  const div = document.createElement('div');
+  div.className = 'chat-msg';
+  div.innerHTML = '<span class="user">'+user+':</span> '+msg;
+  feed.appendChild(div);
+  feed.scrollTop = feed.scrollHeight;
+  if (feed.children.length > 6) feed.removeChild(feed.firstChild);
 }
-function sendHeart(){
-  for(let i=0;i<5;i++){
-    setTimeout(()=>{
-      const h=document.createElement('div');
-      h.className='heart';h.textContent='❤️';
-      h.style.left=(50+Math.random()*30)+'%';h.style.bottom='90px';
+
+setInterval(() => {
+  addChat(users[Math.floor(Math.random()*users.length)], msgs[Math.floor(Math.random()*msgs.length)]);
+}, 2500);
+
+function sendChat() {
+  const i = document.getElementById('chatInput');
+  if (!i.value.trim()) return;
+  addChat('Vous', i.value);
+  i.value = '';
+}
+
+function sendHeart() {
+  for (let k = 0; k < 5; k++) {
+    setTimeout(() => {
+      const h = document.createElement('div');
+      h.className = 'heart';
+      h.textContent = '❤️';
+      h.style.left = (50 + Math.random()*30) + '%';
+      h.style.bottom = '90px';
       document.body.appendChild(h);
-      setTimeout(()=>h.remove(),3000);
-    },i*100);
+      setTimeout(() => h.remove(), 3000);
+    }, k*100);
   }
 }
-function reaction(e){
-  const h=document.createElement('div');
-  h.className='heart';h.textContent=e;
-  h.style.right='30px';h.style.bottom='150px';h.style.fontSize='28px';
+
+function reaction(emoji) {
+  const h = document.createElement('div');
+  h.className = 'heart';
+  h.textContent = emoji;
+  h.style.right = '20px';
+  h.style.bottom = '200px';
+  h.style.fontSize = '30px';
   document.body.appendChild(h);
-  setTimeout(()=>h.remove(),3000);
+  setTimeout(() => h.remove(), 3000);
 }
-function buyNow(){if(confirm('🛒 Acheter Boubou wax à 18 000 FCFA ?'))window.location.href='panier.html'}
-setInterval(()=>{
-  const el=document.getElementById('viewers');
-  const n=parseInt(el.textContent.replace(/\s/g,''))+Math.floor(Math.random()*10-3);
-  el.textContent=n.toLocaleString('fr-FR');
-},3000);
+
+function buyLive(name, price) {
+  if (confirm('🛒 Acheter "'+name+'" à '+price.toLocaleString()+' FCFA ?\n\n🎁 Offre LIVE exclusive !')) {
+    cartLive++;
+    document.getElementById('cartCount').textContent = cartLive;
+    addChat('Vous', '🛒 Vient d\'acheter '+name+' !');
+    setTimeout(() => {
+      if (confirm('Aller au panier maintenant ?')) window.location.href = 'panier.html';
+    }, 800);
+  }
+}
+
+function toggleFollow(el) {
+  if (el.textContent.includes('Suivre')) {
+    el.textContent = '✓ Suivi';
+    el.style.background = 'rgba(212,165,116,.9)';
+    el.style.color = '#0A1F17';
+    addChat('Vous', '❤️ commence à suivre Aïcha Couture');
+  } else {
+    el.textContent = '+ Suivre';
+    el.style.background = '#ef4444';
+    el.style.color = '#fff';
+  }
+}
+
+function shareLive() {
+  if (navigator.share) {
+    navigator.share({title:'LIVE Aïcha Couture', text:'Rejoins le LIVE sur SEN TEW !', url:window.location.href});
+  } else {
+    alert('🔗 Lien copié : sen-ecosystem.com/sentew-app/live.html');
+  }
+}
+
+// Compteur viewers dynamique
+setInterval(() => {
+  const el = document.getElementById('viewers');
+  const n = parseInt(el.textContent.replace(/\s/g,'')) + Math.floor(Math.random()*20-5);
+  el.textContent = Math.max(2000, n).toLocaleString('fr-FR');
+}, 3000);
+
+// Autoplay avec fallback si bloqué
+document.getElementById('liveVideo').play().catch(() => {
+  console.log('Autoplay bloqué - tap pour lancer');
+});
 </script>
 </body>
 </html>
