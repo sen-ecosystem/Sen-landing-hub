@@ -144,14 +144,29 @@
 <script src="js/data.js"></script>
 <script>
 const list = (typeof products !== 'undefined' ? products : []);
-document.getElementById('productsGrid').innerHTML = list.slice(0,4).map(p => `
+<script src="js/data.js"></script>
+<script>
+const list = (typeof products !== 'undefined' ? products : []);
+
+// Trier : LIVE en premier
+const sortedList = [...list].sort((a,b) => (b.sellerLive?1:0) - (a.sellerLive?1:0));
+
+document.getElementById('productsGrid').innerHTML = sortedList.slice(0,6).map(p => `
   <a href="produit.html?id=${p.id}" class="product-card fade-in">
     <div class="card-image-wrap">
-      ${p.discount ? `<span class="card-badge">PROMO</span>` : ''}
+      ${p.sellerLive ? `
+        <span style="position:absolute;top:8px;left:8px;background:#ef4444;color:#fff;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:900;animation:livePulse 2s infinite;display:flex;align-items:center;gap:3px;z-index:2;">
+          🔴 LIVE
+        </span>
+      ` : (p.discount ? `<span class="card-badge">PROMO</span>` : '')}
       <span class="card-fav">🤍</span>
       <img src="${p.image}" alt="${p.name}">
     </div>
     <div class="card-info">
+      <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;">
+        <img src="${p.sellerAvatar}" style="width:16px;height:16px;border-radius:50%;object-fit:cover;pointer-events:auto;">
+        <span style="font-size:10px;color:var(--text-soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.seller}</span>
+      </div>
       <div class="card-name">${p.name}</div>
       <div>
         <span class="card-price">${Number(p.price).toLocaleString()} FCFA</span>
@@ -161,5 +176,3 @@ document.getElementById('productsGrid').innerHTML = list.slice(0,4).map(p => `
   </a>
 `).join('');
 </script>
-</body>
-</html>
