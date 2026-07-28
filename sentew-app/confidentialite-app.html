@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Confidentialité - SEN TEW</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0A1F17">
+<link rel="stylesheet" href="css/app.css">
+<style>
+body{background:#0A1F17}
+.app{background:#0A1F17;color:#fff}
+.app-header{background:#0A1F17;border-bottom-color:rgba(212,165,116,.2)}
+.app-header .header-btn{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.1)}
+.compliance-banner{background:linear-gradient(135deg,rgba(212,165,116,.15),rgba(15,107,78,.1));border:2px solid var(--gold);border-radius:14px;padding:14px;margin:12px 16px;display:flex;align-items:center;gap:12px}
+.section-header-dark{color:var(--gold);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;padding:16px 16px 8px}
+.setting-row{display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.05)}
+.setting-row:last-child{border-bottom:none}
+.setting-icon{width:32px;height:32px;background:rgba(15,107,78,.2);color:var(--emerald-light);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;margin-right:12px;flex-shrink:0}
+.setting-text{flex:1;font-size:13px;color:#fff;font-weight:500}
+.dark-card{background:rgba(255,255,255,.04);border:1px solid rgba(212,165,116,.15);border-radius:14px;margin:8px 16px;overflow:hidden}
+</style>
+</head>
+<body oncontextmenu="return false">
+<div class="app">
+  <header class="app-header">
+    <button class="header-btn" onclick="history.back()">←</button>
+    <div style="flex:1;text-align:center;font-weight:800;color:#fff;font-size:14px;">Confidentialité et Paramètres</div>
+    <div style="width:38px;"></div>
+  </header>
+
+  <main class="app-content">
+    <div class="compliance-banner">
+      <div style="font-size:36px;">🛡</div>
+      <div style="flex:1;">
+        <div style="font-weight:800;font-size:13px;color:var(--gold);">Conformité RGPD (UE)</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.85);margin-top:2px;font-weight:500;">CCPA (USA) · Loi 2008-12 (Sénégal)</div>
+      </div>
+      <div style="font-size:24px;">🌍</div>
+    </div>
+
+    <div class="dark-card">
+      <div class="setting-row">
+        <div class="setting-icon">📧</div>
+        <div class="setting-text">Recevoir nos publicités par email</div>
+        <div class="toggle" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-icon">👥</div>
+        <div class="setting-text">Notifications partenaires</div>
+        <div class="toggle" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-icon">🏷</div>
+        <div class="setting-text">Notifications promos quotidiennes (2-3x/jour)</div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-icon">📨</div>
+        <div class="setting-text">Notifications email résumé</div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-icon">📊</div>
+        <div class="setting-text">Partage données analytics anonymes</div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-icon">📍</div>
+        <div class="setting-text">Géolocalisation</div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-icon">🏪</div>
+        <div class="setting-text">Dashboard vendeur activé</div>
+        <div class="toggle on" style="background:var(--gold);" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-icon">👆</div>
+        <div class="setting-text">Authentification biométrique</div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-icon">🔐</div>
+        <div class="setting-text">Double authentification 2FA</div>
+        <div class="toggle on" style="background:var(--gold);" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="setting-row" onclick="alert('💻 Sessions:\n• iPhone 15 (actuel)\n• MacBook Pro\n• Chrome Windows')">
+        <div class="setting-icon">💻</div>
+        <div class="setting-text">Sessions actives (3 appareils)</div>
+        <div style="color:var(--gold);">›</div>
+      </div>
+    </div>
+
+    <div class="section-header-dark">Mes droits RGPD</div>
+    <div class="dark-card">
+      <div class="setting-row" onclick="alert('📥 Téléchargement de vos données en cours (RGPD Art.20)')">
+        <div class="setting-icon">☁️</div>
+        <div class="setting-text">Télécharger mes données</div>
+        <div style="color:var(--gold);">›</div>
+      </div>
+      <div class="setting-row" onclick="if(confirm('Supprimer votre compte définitivement ?'))alert('Demande enregistrée')">
+        <div class="setting-icon" style="background:rgba(239,68,68,.15);color:#ef4444;">🗑</div>
+        <div class="setting-text" style="color:#ef4444;">Supprimer mon compte</div>
+        <div style="color:#ef4444;">›</div>
+      </div>
+      <div class="setting-row" onclick="window.location.href='../confidentialite.html'">
+        <div class="setting-icon">📄</div>
+        <div class="setting-text">Politique de confidentialité</div>
+        <div style="color:var(--gold);">›</div>
+      </div>
+    </div>
+
+    <div class="section-header-dark">Sécurité anti-hacking</div>
+    <div class="dark-card">
+      <div class="setting-row" onclick="alert('⚠️ Aucune connexion suspecte détectée')">
+        <div class="setting-icon">⚠️</div>
+        <div class="setting-text">Alerte connexion suspecte</div>
+        <div style="color:var(--gold);">›</div>
+      </div>
+      <div class="setting-row" onclick="alert('📋 iPhone 15 · MacBook Pro · Chrome Windows')">
+        <div class="setting-icon">📋</div>
+        <div class="setting-text">Liste appareils autorisés</div>
+        <div style="color:var(--gold);">›</div>
+      </div>
+    </div>
+
+    <div style="height:20px;"></div>
+  </main>
+
+  <nav class="app-nav">
+    <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
+    <a href="categories.html"><div class="nav-icon">🧭</div><div class="nav-label">Explorer</div></a>
+    <a href="vendeur.html" class="center"><div class="nav-icon">👑<span style="font-size:8px;">SEN TEW</span></div><div class="nav-label" style="visibility:hidden;">.</div></a>
+    <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
+    <a href="profil.html" class="active"><div class="nav-icon">👤</div><div class="nav-label">Compte</div></a>
+  </nav>
+</div>
+</body>
+</html>
