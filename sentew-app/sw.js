@@ -9,7 +9,12 @@ const urls = [
   '/sentew-app/categories.html',
   '/sentew-app/panier.html',
   '/sentew-app/messages.html',
-  '/sentew-app/profil.html'
+'/sentew-app/profil.html',
+'/sentew-app/produit.html',
+'/sentew-app/boutique.html',
+'/sentew-app/live.html',
+'/sentew-app/vendeur.html'
+
 ];
 
 self.addEventListener('install', e => {
