@@ -7,6 +7,21 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#FAFAF7">
 <link rel="stylesheet" href="css/app.css">
+<style>
+/* Icônes colorées premium */
+.icon-emerald{background:linear-gradient(135deg,#0F6B4E,#0A4D38)!important;color:#fff!important}
+.icon-gold{background:linear-gradient(135deg,#D4A574,#B8945F)!important;color:#0A1F17!important}
+.icon-red{background:linear-gradient(135deg,#ef4444,#dc2626)!important;color:#fff!important}
+.icon-blue{background:linear-gradient(135deg,#3b82f6,#1e40af)!important;color:#fff!important}
+.icon-purple{background:linear-gradient(135deg,#8b5cf6,#6d28d9)!important;color:#fff!important}
+.icon-orange{background:linear-gradient(135deg,#f59e0b,#d97706)!important;color:#fff!important}
+/* Quick access grid */
+.quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:8px 16px 12px}
+.quick-item{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:12px 6px;text-align:center;text-decoration:none;color:var(--text);box-shadow:var(--shadow);cursor:pointer;transition:.2s}
+.quick-item:active{transform:scale(.95)}
+.quick-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 6px;color:#fff}
+.quick-label{font-size:10px;font-weight:700;color:var(--text);line-height:1.2}
+</style>
 </head>
 <body oncontextmenu="return false">
 <div class="app">
@@ -19,10 +34,11 @@
   </header>
 
   <main class="app-content">
+    <!-- Hero profil -->
     <div style="background:linear-gradient(135deg,var(--emerald),var(--emerald-dark));padding:24px 20px 60px;text-align:center;position:relative;overflow:hidden;">
       <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(212,165,116,.08) 0 15px,transparent 15px 30px);"></div>
       <div style="position:relative;z-index:2;">
-        <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=200" style="width:100px;height:100px;border-radius:50%;border:4px solid var(--gold);object-fit:cover;pointer-events:auto;box-shadow:0 4px 20px rgba(0,0,0,.2);">
+        <img src="https://images.unsplash.com/photo-1552058544-f2b08422138a?w=200&h=200&fit=crop&crop=faces" style="width:100px;height:100px;border-radius:50%;border:4px solid var(--gold);object-fit:cover;pointer-events:auto;box-shadow:0 4px 20px rgba(0,0,0,.2);">
         <div style="font-size:22px;font-weight:900;margin-top:12px;color:#fff;">Ousseynou Lam</div>
         <div style="color:rgba(255,255,255,.95);font-size:13px;margin-top:4px;font-weight:500;">📍 Dakar, Sénégal</div>
         <div style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--emerald-dark);padding:6px 16px;border-radius:20px;font-size:12px;font-weight:900;margin-top:10px;box-shadow:0 4px 10px rgba(212,165,116,.4);">
@@ -31,6 +47,7 @@
       </div>
     </div>
 
+    <!-- Stats -->
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:-30px 16px 12px;background:var(--white);border-radius:16px;padding:16px;position:relative;z-index:2;box-shadow:var(--shadow-lg);border:1px solid var(--border);">
       <div style="text-align:center;">
         <div style="font-size:22px;font-weight:900;color:var(--gold-dark);">24</div>
@@ -46,114 +63,155 @@
       </div>
     </div>
 
+    <!-- ⭐ ACCÈS RAPIDE VENDEUR (bien visible) -->
+    <div class="card-title">🏪 Espace vendeur - Accès rapide</div>
+    <div class="quick-grid">
+      <a href="vendeur.html" class="quick-item">
+        <div class="quick-icon icon-emerald">🏪</div>
+        <div class="quick-label">Ma boutique</div>
+      </a>
+      <a href="verified.html" class="quick-item">
+        <div class="quick-icon icon-gold">👑</div>
+        <div class="quick-label">SEN Verified</div>
+      </a>
+      <a href="retouche-ia.html" class="quick-item">
+        <div class="quick-icon icon-purple">✨</div>
+        <div class="quick-label">Retouche IA</div>
+      </a>
+      <a href="logistique.html" class="quick-item">
+        <div class="quick-icon icon-orange">🚚</div>
+        <div class="quick-label">Logistique</div>
+      </a>
+    </div>
+
+    <!-- 🛍 Mes achats -->
     <div class="card-title">🛍 Mes achats</div>
     <div class="card">
       <a class="list-item" href="commandes.html">
-        <div class="list-icon">📦</div>
+        <div class="list-icon icon-emerald">📦</div>
         <div class="list-text"><div class="list-title">Mes commandes</div><div class="list-sub">24 commandes · 2 en cours</div></div>
         <div class="list-arrow">›</div>
       </a>
       <a class="list-item" href="favoris.html">
-        <div class="list-icon red">❤️</div>
+        <div class="list-icon icon-red">❤️</div>
         <div class="list-text"><div class="list-title">Mes favoris</div><div class="list-sub">12 produits sauvegardés</div></div>
         <div class="list-arrow">›</div>
       </a>
       <a class="list-item" href="avis.html">
-        <div class="list-icon gold">⭐</div>
+        <div class="list-icon icon-gold">⭐</div>
         <div class="list-text"><div class="list-title">Mes avis</div><div class="list-sub">8 avis publiés</div></div>
         <div class="list-arrow">›</div>
       </a>
     </div>
 
+    <!-- 💰 Portefeuille -->
     <div class="card-title">💰 Portefeuille</div>
     <div class="card">
       <a class="list-item" href="portefeuille.html">
-        <div class="list-icon gold">💳</div>
+        <div class="list-icon icon-gold">💳</div>
         <div class="list-text"><div class="list-title">Solde SEN TEW</div><div class="list-sub" style="color:var(--gold-dark);font-weight:800;">45 500 FCFA</div></div>
         <div class="list-arrow">›</div>
       </a>
       <a class="list-item" href="fidelite.html">
-        <div class="list-icon gold">🎁</div>
+        <div class="list-icon icon-gold">🎁</div>
         <div class="list-text"><div class="list-title">Programme fidélité</div><div class="list-sub">GOLD · 1 250 points</div></div>
         <div class="list-arrow">›</div>
       </a>
       <a class="list-item" href="bons-promo.html">
-        <div class="list-icon gold">🏷</div>
+        <div class="list-icon icon-gold">🏷</div>
         <div class="list-text"><div class="list-title">Bons cadeaux & Promos</div><div class="list-sub">2 bons actifs · 5 codes</div></div>
+        <div class="list-arrow">›</div>
+      </a>
+      <a class="list-item" href="paiement-2x.html">
+        <div class="list-icon icon-blue">💳</div>
+        <div class="list-text"><div class="list-title">Payer en plusieurs fois</div><div class="list-sub">2x/3x sans frais</div></div>
         <div class="list-arrow">›</div>
       </a>
     </div>
 
-    <div class="card-title">🏪 Espace Vendeur</div>
+    <!-- 🏪 Espace Vendeur détaillé -->
+    <div class="card-title">🏪 Espace Vendeur détaillé</div>
     <div class="card">
       <a class="list-item" href="vendeur.html">
-        <div class="list-icon">🏪</div>
+        <div class="list-icon icon-emerald">🏪</div>
         <div class="list-text"><div class="list-title">Ma boutique</div><div class="list-sub">Boutique Ousseynou · 47 ventes ce mois</div></div>
         <div class="list-arrow">›</div>
       </a>
       <a class="list-item" href="verified.html">
-        <div class="list-icon gold">👑</div>
-        <div class="list-text"><div class="list-title">SEN Verified</div><div class="list-sub">Passez vendeur premium</div></div>
+        <div class="list-icon icon-gold">👑</div>
+        <div class="list-text"><div class="list-title">SEN Verified Premium</div><div class="list-sub">Passez vendeur Bronze/Gold/Platinum</div></div>
         <div class="list-arrow">›</div>
       </a>
       <a class="list-item" href="retouche-ia.html">
-        <div class="list-icon">✨</div>
+        <div class="list-icon icon-purple">✨</div>
         <div class="list-text"><div class="list-title">Retouche photo IA</div><div class="list-sub">Améliorer vos photos produits</div></div>
         <div class="list-arrow">›</div>
       </a>
       <a class="list-item" href="logistique.html">
-        <div class="list-icon">🚚</div>
-        <div class="list-text"><div class="list-title">Logistique & Livraison</div><div class="list-sub">Yobante · DHL · Aramex</div></div>
+        <div class="list-icon icon-orange">🚚</div>
+        <div class="list-text"><div class="list-title">Logistique & Livraison</div><div class="list-sub">Yobante · DHL · Aramex · Orange</div></div>
+        <div class="list-arrow">›</div>
+      </a>
+      <a class="list-item" href="stories.html">
+        <div class="list-icon icon-purple">🎬</div>
+        <div class="list-text"><div class="list-title">Stories & Reels</div><div class="list-sub">Créer contenu vidéo</div></div>
         <div class="list-arrow">›</div>
       </a>
     </div>
 
+    <!-- ⚙️ Paramètres -->
     <div class="card-title">⚙️ Paramètres & Sécurité</div>
     <div class="card">
       <a class="list-item" href="parametres.html">
-        <div class="list-icon">🌍</div>
+        <div class="list-icon icon-blue">🌍</div>
         <div class="list-text"><div class="list-title">Langue & Région</div><div class="list-sub">Français · Sénégal</div></div>
         <div class="list-arrow">›</div>
       </a>
       <a class="list-item" href="notifications.html">
-        <div class="list-icon red">🔔</div>
+        <div class="list-icon icon-red">🔔</div>
         <div class="list-text"><div class="list-title">Notifications</div><div class="list-sub">Push, Email, SMS · 3 non lues</div></div>
         <div class="list-arrow">›</div>
       </a>
       <a class="list-item" href="confidentialite-app.html">
-        <div class="list-icon">🔒</div>
+        <div class="list-icon icon-emerald">🔒</div>
         <div class="list-text"><div class="list-title">Confidentialité RGPD</div><div class="list-sub">Vos données protégées</div></div>
         <div class="list-arrow">›</div>
       </a>
       <a class="list-item" href="adresses.html">
-        <div class="list-icon">📍</div>
+        <div class="list-icon icon-orange">📍</div>
         <div class="list-text"><div class="list-title">Mes adresses</div><div class="list-sub">3 adresses enregistrées</div></div>
         <div class="list-arrow">›</div>
       </a>
     </div>
 
+    <!-- 🤝 Support -->
     <div class="card-title">🤝 Aide & Support</div>
     <div class="card">
       <a class="list-item" href="assistant-ia.html">
-        <div class="list-icon">🤖</div>
+        <div class="list-icon icon-purple">🤖</div>
         <div class="list-text"><div class="list-title">Assistant IA</div><div class="list-sub">FR/Wolof/EN/AR · 24/7</div></div>
         <div class="list-arrow">›</div>
       </a>
       <a class="list-item" href="remboursement.html">
-        <div class="list-icon red">💸</div>
+        <div class="list-icon icon-red">💸</div>
         <div class="list-text"><div class="list-title">Demande de remboursement</div><div class="list-sub">Escrow protection SEN TEW</div></div>
         <div class="list-arrow">›</div>
       </a>
       <a class="list-item" href="messages.html">
-        <div class="list-icon">💬</div>
+        <div class="list-icon icon-emerald">💬</div>
         <div class="list-text"><div class="list-title">Contacter le support</div><div class="list-sub">Réponse sous 1h</div></div>
+        <div class="list-arrow">›</div>
+      </a>
+      <a class="list-item" href="audit.html">
+        <div class="list-icon icon-emerald">🔍</div>
+        <div class="list-text"><div class="list-title">Audit application</div><div class="list-sub">Score 94/100 · 32 pages</div></div>
         <div class="list-arrow">›</div>
       </a>
     </div>
 
     <div class="card">
-      <div class="list-item" onclick="if(confirm('Se déconnecter ?'))window.location.href='../index.html'">
-        <div class="list-icon red">🚪</div>
+      <div class="list-item" onclick="if(confirm('Se déconnecter ?'))window.location.href='login.html'">
+        <div class="list-icon icon-red">🚪</div>
         <div class="list-text"><div class="list-title" style="color:#ef4444;">Se déconnecter</div></div>
       </div>
     </div>
