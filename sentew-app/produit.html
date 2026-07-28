@@ -2,155 +2,301 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Produit - SEN TEW</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0A1F17">
+<meta name="theme-color" content="#FAFAF7">
 <link rel="stylesheet" href="css/app.css">
 <style>
-body{background:#0A1F17;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:0;padding-bottom:100px}
-.header{background:#0F6B4E;padding:16px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.3)}
-.back-btn{background:rgba(255,255,255,.15);border:none;color:#fff;width:40px;height:40px;border-radius:50%;font-size:20px;cursor:pointer}
-.header h1{font-size:16px;margin:0;flex:1}
-.product-container{max-width:600px;margin:0 auto;padding:16px}
-.product-image-wrapper{width:100%;height:350px;max-height:45vh;overflow:hidden;border-radius:16px;margin-bottom:16px;position:relative;background:#0A1F17;cursor:zoom-in}
-.product-image-wrapper img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
-.zoom-hint{position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,.7);color:#D4A574;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600;backdrop-filter:blur(8px)}
-@media(max-width:480px){.product-image-wrapper{height:300px;max-height:40vh}}
-.product-info{background:rgba(255,255,255,.05);border-radius:16px;padding:20px;margin-bottom:16px}
-.product-name{font-size:22px;font-weight:700;margin:0 0 8px 0;color:#fff}
-.product-price{font-size:28px;font-weight:800;color:#D4A574;margin:12px 0}
-.product-stock{display:inline-block;background:rgba(212,165,116,.15);color:#D4A574;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;margin-bottom:12px}
-.stock-limited{background:rgba(239,68,68,.15);color:#ef4444;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
-.countdown{background:linear-gradient(135deg,#dc2626,#7f1d1d);padding:12px 16px;border-radius:12px;margin:12px 0;font-weight:600;text-align:center}
-.product-desc{color:rgba(255,255,255,.8);line-height:1.6;font-size:14px}
-.seller-card{background:rgba(255,255,255,.05);border-radius:16px;padding:16px;margin-bottom:16px;display:flex;align-items:center;gap:12px}
-.seller-avatar{width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid #D4A574}
-.seller-info{flex:1}
-.seller-name{font-weight:700;margin:0}
-.seller-rating{color:#D4A574;font-size:13px}
-.action-buttons{display:flex;gap:10px;margin-bottom:20px}
-.btn-primary,.btn-secondary{flex:1;padding:14px;border-radius:12px;border:none;font-weight:700;font-size:15px;cursor:pointer}
-.btn-primary{background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:white}
-.btn-secondary{background:rgba(212,165,116,.15);color:#D4A574;border:1px solid #D4A574}
-.similar-section h3{color:#D4A574;font-size:18px;margin:24px 0 12px 0}
-.similar-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.similar-card{background:rgba(255,255,255,.05);border-radius:12px;overflow:hidden;cursor:pointer;text-decoration:none;color:#fff}
-.similar-card img{width:100%;height:130px;object-fit:cover;object-position:center}
-.similar-info{padding:10px}
-.similar-name{font-size:13px;font-weight:600;margin:0 0 4px 0}
-.similar-price{font-size:14px;color:#D4A574;font-weight:700}
-.error-box{text-align:center;padding:40px 20px;color:#D4A574}
+.product-hero{width:100%;height:340px;overflow:hidden;position:relative;background:#f5f5f5}
+.product-hero img{width:100%;height:100%;object-fit:cover;pointer-events:auto}
+.product-hero .live-corner{position:absolute;top:16px;left:16px;background:#ef4444;color:#fff;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:800;display:flex;align-items:center;gap:6px;animation:livePulse 2s infinite;text-decoration:none}
+.product-hero .live-corner::before{content:'●';animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.3}}
+.pager{position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,.6);color:#fff;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;backdrop-filter:blur(6px)}
+.info-box{padding:16px}
+.p-name{font-size:22px;font-weight:800;color:var(--text);margin-bottom:8px}
+.p-price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.p-price{font-size:28px;font-weight:900;color:var(--gold-dark)}
+.p-old{font-size:14px;color:var(--text-soft);text-decoration:line-through}
+.p-discount{background:#ef4444;color:#fff;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:800}
+.stock-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(212,165,116,.15);color:var(--gold-dark);padding:6px 12px;border-radius:20px;font-size:12px;font-weight:700}
+.stock-limited{background:rgba(239,68,68,.1);color:#ef4444;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+.countdown-box{background:linear-gradient(135deg,#dc2626,#7f1d1d);padding:12px 16px;border-radius:12px;margin:12px 0;color:#fff;font-weight:700;text-align:center;font-size:13px}
+.seller-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:12px;margin:12px 16px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow);position:relative;cursor:pointer;text-decoration:none;color:var(--text)}
+.seller-card .seller-avatar-wrap{position:relative;flex-shrink:0}
+.seller-card .seller-avatar-wrap img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);pointer-events:auto}
+.live-ring{position:absolute;inset:-4px;border:2px solid #ef4444;border-radius:50%;animation:livePulse 2s infinite;pointer-events:none}
+.live-tag-small{position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);background:#ef4444;color:#fff;font-size:8px;font-weight:900;padding:1px 6px;border-radius:6px}
+.tabs{display:flex;background:var(--white);border-radius:14px;padding:4px;margin:12px 16px;border:1px solid var(--border);box-shadow:var(--shadow)}
+.tab{flex:1;padding:10px;text-align:center;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;color:var(--text-soft);transition:.2s}
+.tab.active{background:var(--emerald);color:#fff}
+.tab-content{background:var(--white);border-radius:14px;padding:14px;margin:0 16px;box-shadow:var(--shadow);border:1px solid var(--border);font-size:13px;line-height:1.6;color:var(--text)}
+.chips-selector{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 16px}
+.chip-select{padding:8px 16px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-weight:700;background:var(--white);cursor:pointer;color:var(--text)}
+.chip-select.active{border-color:var(--emerald);background:rgba(15,107,78,.1);color:var(--emerald)}
+.color-dot{width:32px;height:32px;border-radius:50%;border:3px solid var(--white);box-shadow:0 0 0 2px transparent;cursor:pointer;transition:.2s}
+.color-dot.active{box-shadow:0 0 0 2px var(--emerald)}
+.delivery-info{background:linear-gradient(135deg,rgba(15,107,78,.08),rgba(212,165,116,.08));border-radius:14px;padding:14px;margin:12px 16px;display:flex;gap:12px;align-items:center;border:1px solid rgba(212,165,116,.2)}
+.action-buttons{position:sticky;bottom:0;background:var(--white);padding:12px 16px;display:flex;gap:8px;border-top:1px solid var(--border);box-shadow:0 -4px 12px rgba(0,0,0,.05)}
+.pay-icons{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--white);border-top:1px solid var(--border)}
+.pay-icons .pay-mini{background:#f5f5f5;padding:4px 8px;border-radius:6px;font-size:10px;font-weight:700}
+.chat-fab{position:fixed;bottom:20px;right:16px;background:linear-gradient(135deg,var(--emerald),var(--emerald-dark));color:#fff;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 6px 16px rgba(15,107,78,.3);cursor:pointer;z-index:50;text-decoration:none}
 </style>
 </head>
-<body oncontextmenu="return false" onselectstart="return false">
+<body oncontextmenu="return false">
 
-<div class="header">
-  <button class="back-btn" onclick="history.back()">←</button>
-  <h1>Détails du produit</h1>
-</div>
+<div class="app">
+  <header class="app-header">
+    <button class="header-btn" onclick="history.back()">←</button>
+    <div class="app-logo" style="justify-content:center;">
+      <div class="logo-icon" style="width:28px;height:28px;font-size:14px;">👑</div>
+      <div>
+        <div class="logo-text" style="font-size:16px;">SEN TEW</div>
+        <div class="logo-sub" style="font-size:8px;">LE MEILLEUR DU SÉNÉGAL</div>
+      </div>
+    </div>
+    <button class="header-btn" onclick="alert('📤 Partager')">📤</button>
+    <button class="header-btn" onclick="toggleFav(this)">🤍</button>
+  </header>
 
-<div class="product-container" id="productContainer">
-  <p style="text-align:center;color:#D4A574;">Chargement...</p>
+  <main class="app-content" id="content">
+    <p style="text-align:center;color:var(--gold-dark);padding:40px;">Chargement...</p>
+  </main>
 </div>
 
 <script src="js/data.js"></script>
 <script>
-// Détection automatique de la variable produits (products OU produits OU PRODUCTS)
-const productsList = 
-  (typeof products !== 'undefined' ? products : null) ||
-  (typeof produits !== 'undefined' ? produits : null) ||
-  (typeof PRODUCTS !== 'undefined' ? PRODUCTS : null) ||
-  (typeof data !== 'undefined' ? data : null) ||
-  [];
+const params = new URLSearchParams(window.location.search);
+const pid = parseInt(params.get('id')) || 1;
+const product = (products || []).find(p => p.id === pid) || products[0];
+const seller = (sellers || []).find(s => s.id === product.sellerId) || {name:product.seller,avatar:product.sellerAvatar,live:product.sellerLive,verified:true,rating:4.8,reviews:127,followers:'2.4K'};
 
-const container = document.getElementById('productContainer');
+const isLimited = product.stock <= 5;
+const endTime = Date.now() + 5*3600000;
 
-if (!productsList || productsList.length === 0) {
-  container.innerHTML = `
-    <div class="error-box">
-      <h2>⚠️ Données non trouvées</h2>
-      <p>Impossible de charger les produits.</p>
-      <a href="index.html" style="color:#D4A574;">← Retour accueil</a>
-    </div>`;
-} else {
-  const params = new URLSearchParams(window.location.search);
-  const productId = parseInt(params.get('id')) || productsList[0].id;
-  const product = productsList.find(p => p.id === productId) || productsList[0];
+// Produits même vendeur (boutique)
+const shopProducts = products.filter(p => p.sellerId === product.sellerId && p.id !== pid).slice(0,6);
 
-  const stockLeft = product.stock || Math.floor(Math.random() * 15) + 1;
-  const isLimited = stockLeft <= 5;
-  const endTime = Date.now() + (Math.floor(Math.random() * 24) + 1) * 3600000;
+// Produits similaires (même catégorie, autres vendeurs)
+const similar = products.filter(p => p.category === product.category && p.sellerId !== product.sellerId).slice(0,6);
 
-  const imgSrc = product.image || product.img || product.photo || 'https://via.placeholder.com/500x350/0A1F17/D4A574?text=SEN+TEW';
-  const name = product.name || product.nom || product.title || 'Produit';
-  const price = product.price || product.prix || 0;
-  const desc = product.description || product.desc || 'Produit authentique du Sénégal, qualité premium garantie.';
-  const seller = product.seller || product.vendeur || 'Vendeur SEN TEW';
-  const avatar = product.sellerAvatar || 'https://i.pravatar.cc/100?img=12';
+// Fréquemment achetés ensemble
+const bundle = products.filter(p => p.id !== pid).sort(()=>Math.random()-0.5).slice(0,3);
 
-  container.innerHTML = `
-    <a href="panoramique.html?id=${product.id}" style="text-decoration:none;">
-      <div class="product-image-wrapper">
-        <img src="${imgSrc}" alt="${name}">
-        <span class="zoom-hint">🔍 Voir en grand</span>
-      </div>
-    </a>
+document.getElementById('content').innerHTML = `
+  <!-- HERO IMAGE + BADGE LIVE -->
+  <div class="product-hero">
+    ${seller.live ? `<a href="live.html?seller=${seller.id}" class="live-corner">EN DIRECT</a>` : ''}
+    <img src="${product.image}" alt="${product.name}">
+    <div class="pager">1/5</div>
+  </div>
 
-    <div class="product-info">
-      <span class="product-stock ${isLimited ? 'stock-limited' : ''}">
-        ${isLimited ? '🔥 Plus que ' + stockLeft + ' en stock !' : '✅ En stock (' + stockLeft + ')'}
+  <div class="info-box">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+      <span class="stock-badge ${isLimited?'stock-limited':''}">
+        ${isLimited ? '🔥 Plus que '+product.stock+' en stock !' : '✅ En stock'}
       </span>
-      ${isLimited ? '<div class="countdown">⏱ <span id="timer">Calcul...</span></div>' : ''}
-      <h2 class="product-name">${name}</h2>
-      <div class="product-price">${Number(price).toLocaleString()} FCFA</div>
-      <p class="product-desc">${desc}</p>
+      <div style="color:var(--gold-dark);font-size:12px;font-weight:700;">⭐ ${product.rating} (${product.reviews})</div>
     </div>
 
-    <div class="seller-card">
-      <img class="seller-avatar" src="${avatar}" alt="Vendeur">
-      <div class="seller-info">
-        <p class="seller-name">${seller}</p>
-        <div class="seller-rating">⭐ 4.8 (127 avis)</div>
+    ${isLimited ? `<div class="countdown-box">⏱ <span id="timer">Calcul...</span></div>` : ''}
+
+    <h1 class="p-name">${product.name}</h1>
+    <div class="p-price-row">
+      <span class="p-price">${product.price.toLocaleString()} FCFA</span>
+      ${product.oldPrice ? `<span class="p-old">${product.oldPrice.toLocaleString()} FCFA</span>` : ''}
+      ${product.discount ? `<span class="p-discount">-${product.discount}%</span>` : ''}
+    </div>
+  </div>
+
+  <!-- ⭐ CARTE VENDEUR AVEC BADGE LIVE ⭐ -->
+  <a href="boutique.html?id=${seller.id}" class="seller-card">
+    <div class="seller-avatar-wrap">
+      ${seller.live ? '<div class="live-ring"></div>' : ''}
+      <img src="${seller.avatar}" alt="${seller.name}">
+      ${seller.live ? '<div class="live-tag-small">LIVE</div>' : ''}
+    </div>
+    <div style="flex:1;">
+      <div style="display:flex;align-items:center;gap:4px;">
+        <span style="font-weight:700;font-size:14px;">${seller.name}</span>
+        ${seller.verified ? '<span style="color:var(--emerald);font-size:14px;" title="Vendeur vérifié">✓</span>' : ''}
       </div>
-      <a href="messages.html" style="color:#D4A574;text-decoration:none;font-weight:700;font-size:24px;">💬</a>
+      <div style="font-size:12px;color:var(--text-soft);margin-top:2px;">
+        ⭐ ${seller.rating} · ${seller.reviews} avis · ${seller.followers} abonnés
+      </div>
+      ${seller.live ? `<div style="font-size:11px;color:#ef4444;font-weight:800;margin-top:4px;">🔴 En direct maintenant · ${seller.liveViewers||1200} spectateurs</div>` : ''}
     </div>
+    <div style="color:var(--gold-dark);font-size:20px;">›</div>
+  </a>
 
-    <div class="action-buttons">
-      <button class="btn-secondary" onclick="alert('✅ Ajouté au panier !')">🛒 Panier</button>
-      <button class="btn-primary" onclick="window.location.href='panier.html'">Acheter maintenant</button>
-    </div>
-
-    <div class="similar-section">
-      <h3>🎯 Produits similaires</h3>
-      <div class="similar-grid" id="similarGrid"></div>
-    </div>
-  `;
-
-  const similar = productsList.filter(p => p.id !== productId).sort(() => Math.random() - 0.5).slice(0, 4);
-  document.getElementById('similarGrid').innerHTML = similar.map(p => `
-    <a href="produit.html?id=${p.id}" class="similar-card">
-      <img src="${p.image || p.img || ''}" alt="${p.name || p.nom || ''}">
-      <div class="similar-info">
-        <p class="similar-name">${p.name || p.nom || 'Produit'}</p>
-        <div class="similar-price">${Number(p.price || p.prix || 0).toLocaleString()} FCFA</div>
+  ${seller.live ? `
+    <a href="live.html?seller=${seller.id}" style="display:block;margin:0 16px 12px;text-decoration:none;">
+      <div style="background:linear-gradient(135deg,#ef4444,#dc2626);border-radius:14px;padding:14px;color:#fff;display:flex;align-items:center;gap:12px;box-shadow:0 4px 12px rgba(239,68,68,.3);">
+        <div style="font-size:28px;">🎥</div>
+        <div style="flex:1;">
+          <div style="font-weight:800;font-size:14px;">Rejoindre le LIVE de ${seller.name}</div>
+          <div style="font-size:11px;opacity:.9;">Ce produit présenté maintenant en direct · Achetez avec -30%</div>
+        </div>
+        <div style="font-size:24px;">›</div>
       </div>
     </a>
-  `).join('');
+  ` : ''}
 
-  if (isLimited) {
-    setInterval(() => {
-      const remaining = endTime - Date.now();
-      if (remaining <= 0) { document.getElementById('timer').textContent = 'Offre expirée'; return; }
-      const h = Math.floor(remaining / 3600000);
-      const m = Math.floor((remaining % 3600000) / 60000);
-      const s = Math.floor((remaining % 60000) / 1000);
-      const el = document.getElementById('timer');
-      if (el) el.textContent = `Offre expire dans ${h}h ${m}m ${s}s`;
-    }, 1000);
-  }
+  <!-- Onglets Description / Avis / Livraison -->
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('desc',this)">Description</div>
+    <div class="tab" onclick="switchTab('rev',this)">Avis (${product.reviews})</div>
+    <div class="tab" onclick="switchTab('del',this)">Livraison</div>
+  </div>
+
+  <div class="tab-content" id="tabContent">
+    ${product.description}
+  </div>
+
+  <!-- Sélection taille/couleur (si mode) -->
+  ${product.category === 'mode' ? `
+    <div style="padding:16px;">
+      <div style="font-weight:700;font-size:13px;margin-bottom:8px;">Taille</div>
+      <div class="chips-selector">
+        <div class="chip-select">S</div>
+        <div class="chip-select active">M</div>
+        <div class="chip-select">L</div>
+        <div class="chip-select">XL</div>
+      </div>
+      <div style="font-weight:700;font-size:13px;margin-bottom:8px;">Couleur</div>
+      <div style="display:flex;gap:10px;">
+        <div class="color-dot active" style="background:radial-gradient(#0F6B4E,#D4A574);"></div>
+        <div class="color-dot" style="background:radial-gradient(#dc2626,#7c2d12);"></div>
+        <div class="color-dot" style="background:radial-gradient(#D4A574,#B8945F);"></div>
+        <div class="color-dot" style="background:radial-gradient(#7c3aed,#4c1d95);"></div>
+      </div>
+    </div>
+  ` : ''}
+
+  <div class="delivery-info">
+    <div style="font-size:32px;">🚚</div>
+    <div style="flex:1;">
+      <div style="font-weight:700;font-size:13px;color:var(--emerald);">Livraison gratuite à Dakar</div>
+      <div style="font-size:11px;color:var(--text-soft);">Recevez votre commande en 24h - 48h</div>
+    </div>
+  </div>
+
+  <!-- 🏪 BOUTIQUE DU VENDEUR -->
+  ${shopProducts.length ? `
+    <div class="section-header" style="margin-top:8px;">
+      <div class="section-title" style="display:flex;align-items:center;gap:8px;">
+        🏪 Autres articles de ${seller.name}
+      </div>
+      <a href="boutique.html?id=${seller.id}" class="section-link">Boutique ›</a>
+    </div>
+    <div style="display:flex;gap:10px;padding:0 16px 8px;overflow-x:auto;scrollbar-width:none;">
+      ${shopProducts.map(p => `
+        <a href="produit.html?id=${p.id}" style="flex-shrink:0;width:150px;background:var(--white);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--border);text-decoration:none;color:var(--text);">
+          <div style="height:120px;overflow:hidden;position:relative;">
+            <img src="${p.image}" style="width:100%;height:100%;object-fit:cover;pointer-events:auto;">
+            ${p.discount ? `<span style="position:absolute;top:6px;left:6px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--emerald-dark);padding:2px 8px;border-radius:6px;font-size:9px;font-weight:900;">PROMO</span>` : ''}
+          </div>
+          <div style="padding:8px;">
+            <div style="font-size:11px;font-weight:600;line-height:1.3;height:28px;overflow:hidden;">${p.name}</div>
+            <div style="font-size:13px;font-weight:900;color:var(--gold-dark);margin-top:4px;">${p.price.toLocaleString()} FCFA</div>
+          </div>
+        </a>
+      `).join('')}
+    </div>
+  ` : ''}
+
+  <!-- 🎯 PRODUITS SIMILAIRES -->
+  <div class="section-header">
+    <div class="section-title">🎯 Produits similaires</div>
+    <a href="categories.html?cat=${product.category}" class="section-link">Voir plus ›</a>
+  </div>
+  <div class="grid">
+    ${similar.map(p => `
+      <a href="produit.html?id=${p.id}" class="product-card">
+        <div class="card-image-wrap">
+          ${p.discount ? `<span class="card-badge">PROMO</span>` : ''}
+          <span class="card-fav">🤍</span>
+          <img src="${p.image}" alt="${p.name}">
+        </div>
+        <div class="card-info">
+          <div class="card-name">${p.name}</div>
+          <div class="card-price">${p.price.toLocaleString()} FCFA</div>
+          <div class="card-rating">⭐ ${p.rating} (${p.reviews})</div>
+        </div>
+      </a>
+    `).join('')}
+  </div>
+
+  <!-- 📦 SOUVENT ACHETÉS ENSEMBLE -->
+  <div class="section-header" style="margin-top:16px;">
+    <div class="section-title">📦 Souvent achetés ensemble</div>
+  </div>
+  <div style="margin:0 16px;background:var(--white);border-radius:14px;padding:14px;box-shadow:var(--shadow);border:1px solid var(--border);">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <img src="${product.image}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;border:2px solid var(--emerald);pointer-events:auto;">
+      ${bundle.map((p,i) => `
+        <div style="font-size:20px;color:var(--gold-dark);">+</div>
+        <a href="produit.html?id=${p.id}"><img src="${p.image}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;pointer-events:auto;"></a>
+      `).slice(0,3).join('')}
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid var(--border);">
+      <div>
+        <div style="font-size:11px;color:var(--text-soft);">Prix bundle</div>
+        <div style="font-size:16px;font-weight:900;color:var(--gold-dark);">
+          ${(product.price + bundle.reduce((s,p)=>s+p.price,0)).toLocaleString()} FCFA
+        </div>
+      </div>
+      <button class="btn btn-gold" style="padding:10px 16px;font-size:12px;" onclick="alert('✅ Bundle ajouté au panier')">Ajouter tout</button>
+    </div>
+  </div>
+
+  <!-- Paiements acceptés -->
+  <div class="pay-icons">
+    <div style="font-size:11px;color:var(--text-soft);">🔒 Paiement sécurisé</div>
+    <div style="display:flex;gap:4px;">
+      <div class="pay-mini" style="background:#1BA5E0;color:#fff;">wave</div>
+      <div class="pay-mini" style="background:#F57C00;color:#fff;">OM</div>
+      <div class="pay-mini" style="background:#003399;color:#fff;">VISA</div>
+      <div class="pay-mini" style="background:#EB001B;color:#fff;">MC</div>
+    </div>
+  </div>
+
+  <div style="height:20px;"></div>
+
+  <!-- Actions sticky -->
+  <div class="action-buttons">
+    <button class="btn btn-outline" style="flex:1;" onclick="addCart()">🛒 Ajouter au panier</button>
+    <button class="btn btn-gold" style="flex:1;" onclick="buyNow()">Acheter maintenant</button>
+  </div>
+`;
+
+if (isLimited) {
+  setInterval(()=>{
+    const r = endTime - Date.now();
+    if (r <= 0) { const el=document.getElementById('timer'); if(el)el.textContent='Offre expirée'; return; }
+    const h = Math.floor(r/3600000);
+    const m = Math.floor((r%3600000)/60000);
+    const s = Math.floor((r%60000)/1000);
+    const el = document.getElementById('timer');
+    if(el) el.textContent = `Offre expire dans ${h}h ${m}m ${s}s`;
+  }, 1000);
 }
+
+function switchTab(t,el){
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  const c = document.getElementById('tabContent');
+  if(t==='desc') c.innerHTML = product.description;
+  if(t==='rev') c.innerHTML = `⭐ ${product.rating}/5 (${product.reviews} avis)<br><br>• Aminata D. ⭐⭐⭐⭐⭐ "Produit magnifique !"<br>• Moussa S. ⭐⭐⭐⭐⭐ "Livraison rapide"<br>• Fatou N. ⭐⭐⭐⭐⭐ "Qualité au top"<br><br><a href="avis.html" style="color:var(--emerald);font-weight:700;">Voir tous les avis ›</a>`;
+  if(t==='del') c.innerHTML = `🚚 Livraison Dakar : 24h-48h (gratuit)<br>🚚 Livraison régions : 3-5 jours (2 000 FCFA)<br>📦 Emballage soigné<br>✅ Retour possible sous 7 jours<br>🛡 Escrow SEN TEW - argent bloqué jusqu'à réception`;
+}
+function toggleFav(el){el.textContent=el.textContent==='🤍'?'❤️':'🤍'}
+function addCart(){alert('✅ Ajouté au panier !');setTimeout(()=>window.location.href='panier.html',600)}
+function buyNow(){window.location.href='panier.html'}
 </script>
+
+<a href="messages.html" class="chat-fab">💬</a>
 </body>
 </html>
