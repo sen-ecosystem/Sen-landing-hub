@@ -2,125 +2,101 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Produits - SEN TEW</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0A1F17">
+<meta name="theme-color" content="#FAFAF7">
 <link rel="stylesheet" href="css/app.css">
-<style>
-.prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0 20px 100px}
-.filter-bar{display:flex;gap:10px;padding:0 20px 14px;overflow-x:auto;scrollbar-width:none}
-.filter-bar::-webkit-scrollbar{display:none}
-.filter-chip{background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);padding:8px 14px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer;transition:all 0.3s}
-.filter-chip.active{background:var(--gold);color:var(--bg-darker);border-color:var(--gold)}
-.empty-state{text-align:center;padding:60px 20px;color:var(--text-muted)}
-.empty-state .icon{font-size:64px;margin-bottom:16px}
-</style>
 </head>
-<body oncontextmenu="return false" onselectstart="return false">
-
+<body oncontextmenu="return false">
 <div class="app">
+  <header class="app-header">
+    <button class="header-btn" onclick="history.back()">←</button>
+    <div style="flex:1;text-align:center;font-weight:800;color:var(--text);font-size:16px;" id="pageTitle">Tous les produits</div>
+    <button class="header-btn" onclick="alert('⚙ Filtres avancés')">⚙</button>
+  </header>
 
-  <div class="header-back">
-    <a href="index.html" class="back-btn">←</a>
-    <div class="header-title" id="pageTitle">Tous les produits</div>
-    <button class="notif-btn" style="color:var(--gold)">⚙️</button>
-  </div>
+  <main class="app-content">
+    <div class="search-box">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Rechercher..." oninput="search(this.value)">
+      </div>
+    </div>
 
-  <div class="search-bar">
-    <span class="search-icon">🔍</span>
-    <input type="text" id="searchProd" placeholder="Rechercher...">
-  </div>
+    <div class="chips">
+      <button class="chip active" onclick="filt('all',this)">Tous</button>
+      <button class="chip" onclick="filt('live',this)">🔴 LIVE</button>
+      <button class="chip" onclick="filt('promo',this)">🔥 Promo</button>
+      <button class="chip" onclick="filt('new',this)">🆕 Nouveau</button>
+      <button class="chip" onclick="filt('top',this)">⭐ Top</button>
+    </div>
 
-  <div class="filter-bar" id="filterBar"></div>
+    <div style="padding:8px 16px;color:var(--text-soft);font-size:12px;font-weight:600;" id="count">Chargement...</div>
 
-  <div class="prod-grid" id="prodGrid"></div>
+    <div class="grid" id="grid"></div>
 
-  <a href="assistant-ia.html" class="ai-fab">
-    <span class="ai-icon">✨</span>
-    <span>Assistant IA</span>
-  </a>
+    <div style="height:100px;"></div>
+  </main>
 
-  <nav class="bottom-nav">
-    <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span><span>Accueil</span></a>
-    <a href="categories.html" class="nav-item"><span class="nav-icon">📊</span><span>Catégories</span></a>
-    <a href="panier.html" class="nav-item"><span class="nav-icon">🛒</span><span>Panier</span><span class="nav-badge nav-badge-cart" style="display:none">0</span></a>
-    <a href="#" class="nav-item"><span class="nav-icon">💬</span><span>Messages</span></a>
-    <a href="#" class="nav-item"><span class="nav-icon">👤</span><span>Profil</span></a>
+  <a href="assistant-ia.html" class="fab-ia">✨<br><span style="font-size:9px;">IA</span></a>
+
+  <nav class="app-nav">
+    <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
+    <a href="categories.html" class="active"><div class="nav-icon">▦</div><div class="nav-label">Catégories</div></a>
+    <a href="panier.html"><div class="nav-icon">🛒</div><div class="nav-label">Panier</div></a>
+    <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
+    <a href="profil.html"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
   </nav>
-
 </div>
 
 <script src="js/data.js"></script>
 <script>
 const params = new URLSearchParams(window.location.search);
-const catSlug = params.get('cat') || '';
-const query = params.get('q') || '';
+const cat = params.get('cat');
+let currentList = products;
 
-// Titre
-if(catSlug){
-  const cat = CATEGORIES.find(c => c.slug === catSlug);
-  if(cat) document.getElementById('pageTitle').textContent = cat.name;
-}
-if(query){
-  document.getElementById('pageTitle').textContent = `"${query}"`;
-  document.getElementById('searchProd').value = query;
+if (cat) {
+  currentList = products.filter(p => p.category === cat);
+  document.getElementById('pageTitle').textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
 }
 
-// Filtres
-let activeFilter = 'all';
-const filters = ['all','promo','neuf','occasion','premium'];
-const filterLabels = {'all':'Tous','promo':'🔥 En promo','neuf':'Neuf','occasion':'Occasion','premium':'⭐ Premium'};
-
-function renderFilters(){
-  document.getElementById('filterBar').innerHTML = filters.map(f => 
-    `<button class="filter-chip ${f===activeFilter?'active':''}" onclick="setFilter('${f}')">${filterLabels[f]}</button>`
-  ).join('');
-}
-function setFilter(f){ activeFilter = f; renderFilters(); renderProds(); }
-
-function renderProds(){
-  let list = [...PRODUCTS];
-  if(catSlug){
-    const cat = CATEGORIES.find(c => c.slug === catSlug);
-    if(cat) list = list.filter(p => p.category === cat.name);
-  }
-  const q = document.getElementById('searchProd').value.toLowerCase();
-  if(q) list = list.filter(p => p.name.toLowerCase().includes(q) || p.seller.toLowerCase().includes(q));
-  if(activeFilter === 'promo') list = list.filter(p => p.promo);
-  if(activeFilter === 'neuf') list = list.filter(p => p.condition === 'neuf');
-  if(activeFilter === 'occasion') list = list.filter(p => p.condition === 'occasion' || p.condition === 'reconditionné');
-  if(activeFilter === 'premium') list = list.filter(p => p.featured);
-  
-  if(list.length === 0){
-    document.getElementById('prodGrid').innerHTML = `
-      <div class="empty-state" style="grid-column:1/-1">
-        <div class="icon">🔍</div>
-        <p>Aucun produit trouvé</p>
-      </div>`;
-    return;
-  }
-  
-  document.getElementById('prodGrid').innerHTML = list.map(p => `
-    <a href="produit.html?id=${p.id}" class="product-card" style="min-width:auto;text-decoration:none">
-      <div class="product-image">
-        <img src="${p.photo}" alt="${p.name}" onerror="this.style.display='none';this.parentElement.innerHTML='🛍️'">
-        ${p.promo ? '<span class="promo-tag">-'+p.discount+'%</span>' : ''}
-        <button class="fav-btn" onclick="event.preventDefault();this.classList.toggle('active');this.textContent=this.textContent==='♡'?'❤':'♡'">♡</button>
+function render(list){
+  document.getElementById('count').textContent = `${list.length} produit${list.length>1?'s':''} trouvé${list.length>1?'s':''}`;
+  document.getElementById('grid').innerHTML = list.length ? list.map(p => `
+    <a href="produit.html?id=${p.id}" class="product-card">
+      <div class="card-image-wrap">
+        ${p.sellerLive ? `<span class="card-badge" style="background:#ef4444;color:#fff;animation:livePulse 2s infinite;">🔴 LIVE</span>` : (p.discount ? `<span class="card-badge">-${p.discount}%</span>` : '')}
+        <span class="card-fav">🤍</span>
+        <img src="${p.image}" alt="${p.name}">
       </div>
-      <div class="product-info">
-        <h4>${p.name}</h4>
-        <div style="margin:6px 0"><span class="product-price">${formatPrice(p.price)}</span></div>
-        <div style="font-size:11px;color:var(--text-muted)">⭐ ${p.rating} (${p.reviews})</div>
+      <div class="card-info">
+        <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;">
+          <img src="${p.sellerAvatar}" style="width:16px;height:16px;border-radius:50%;object-fit:cover;pointer-events:auto;">
+          <span style="font-size:10px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;">${p.seller}</span>
+        </div>
+        <div class="card-name">${p.name}</div>
+        <div class="card-price">${p.price.toLocaleString()} FCFA</div>
+        ${p.oldPrice ? `<div><span class="card-old">${p.oldPrice.toLocaleString()} FCFA</span></div>` : ''}
+        <div class="card-rating">⭐ ${p.rating} (${p.reviews})</div>
       </div>
     </a>
-  `).join('');
+  `).join('') : '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted);">Aucun produit trouvé</div>';
 }
 
-renderFilters();
-renderProds();
-document.getElementById('searchProd').addEventListener('input', renderProds);
+function filt(t,el){
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  let l = currentList;
+  if(t==='live') l = currentList.filter(p=>p.sellerLive);
+  if(t==='promo') l = currentList.filter(p=>p.discount);
+  if(t==='top') l = currentList.filter(p=>p.rating>=4.8);
+  render(l);
+}
+function search(q){
+  render(currentList.filter(p=>p.name.toLowerCase().includes(q.toLowerCase())));
+}
+render(currentList);
 </script>
-
 </body>
 </html>
