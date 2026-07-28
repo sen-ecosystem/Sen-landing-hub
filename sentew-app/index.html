@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="https://images.unsplash.com/photo-1601925243085-9c9e4c86b0e2?w=192&h=192&fit=crop">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="SEN TEW">
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>SEN TEW - Marketplace Africaine</title>
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#FAFAF7">
 <link rel="stylesheet" href="css/app.css">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="https://images.unsplash.com/photo-1601925243085-9c9e4c86b0e2?w=192&h=192&fit=crop">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SEN TEW">
 </head>
 <body oncontextmenu="return false" onselectstart="return false">
 
 <div class="app">
-  <!-- HEADER PREMIUM -->
+  <!-- HEADER -->
   <header class="app-header">
     <div class="app-logo">
       <div class="logo-icon">👑</div>
@@ -28,11 +27,11 @@
     </div>
     <div class="lang-pill">
       <span>🇫🇷</span>
-      <select onchange="location.href=this.value">
-        <option value="#" selected>FR</option>
-        <option value="#">WO</option>
-        <option value="#">EN</option>
-        <option value="#">AR</option>
+      <select>
+        <option value="fr" selected>FR</option>
+        <option value="wo">WO</option>
+        <option value="en">EN</option>
+        <option value="ar">AR</option>
       </select>
     </div>
     <a href="notifications.html" class="header-btn">🔔<span class="badge">3</span></a>
@@ -48,25 +47,25 @@
       </div>
     </div>
 
-    <!-- CATÉGORIES CERCLES VERTS -->
+    <!-- CATÉGORIES CERCLES -->
     <div class="cats-row">
-      <a href="categories.html?cat=mode" class="cat-icon">
+      <a href="produits.html?cat=mode" class="cat-icon">
         <div class="cat-circle">👕</div>
         <div class="cat-label">Mode</div>
       </a>
-      <a href="categories.html?cat=tech" class="cat-icon">
+      <a href="produits.html?cat=tech" class="cat-icon">
         <div class="cat-circle">🎧</div>
         <div class="cat-label">Électronique</div>
       </a>
-      <a href="categories.html?cat=maison" class="cat-icon">
+      <a href="produits.html?cat=maison" class="cat-icon">
         <div class="cat-circle">🛋</div>
         <div class="cat-label">Maison</div>
       </a>
-      <a href="categories.html?cat=beauty" class="cat-icon">
+      <a href="produits.html?cat=beauty" class="cat-icon">
         <div class="cat-circle">💄</div>
         <div class="cat-label">Beauté</div>
       </a>
-      <a href="categories.html?cat=food" class="cat-icon">
+      <a href="produits.html?cat=food" class="cat-icon">
         <div class="cat-circle">🧺</div>
         <div class="cat-label">Alimentation</div>
       </a>
@@ -93,7 +92,7 @@
     <!-- OFFRES DU MOMENT -->
     <div class="section-header">
       <div class="section-title">Nos offres du moment</div>
-      <a href="categories.html" class="section-link">Voir tout ›</a>
+      <a href="produits.html" class="section-link">Voir tout ›</a>
     </div>
     <div class="grid" id="productsGrid"></div>
 
@@ -119,10 +118,8 @@
     <div style="height:20px;"></div>
   </main>
 
-  <!-- BOUTON IA FLOATING -->
   <a href="assistant-ia.html" class="fab-ia">✨<br><span style="font-size:9px;">Assistant IA</span></a>
 
-  <!-- BOTTOM NAV PREMIUM avec centre -->
   <nav class="app-nav">
     <a href="index.html" class="active">
       <div class="nav-icon">🏠</div>
@@ -150,35 +147,48 @@
 <script src="js/data.js"></script>
 <script>
 const list = (typeof products !== 'undefined' ? products : []);
-<script src="js/data.js"></script>
-<script>
-const list = (typeof products !== 'undefined' ? products : []);
-
-// Trier : LIVE en premier
 const sortedList = [...list].sort((a,b) => (b.sellerLive?1:0) - (a.sellerLive?1:0));
 
 document.getElementById('productsGrid').innerHTML = sortedList.slice(0,6).map(p => `
   <a href="produit.html?id=${p.id}" class="product-card fade-in">
     <div class="card-image-wrap">
-      ${p.sellerLive ? `
-        <span style="position:absolute;top:8px;left:8px;background:#ef4444;color:#fff;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:900;animation:livePulse 2s infinite;display:flex;align-items:center;gap:3px;z-index:2;">
-          🔴 LIVE
-        </span>
-      ` : (p.discount ? `<span class="card-badge">PROMO</span>` : '')}
+      ${p.sellerLive ? `<span style="position:absolute;top:8px;left:8px;background:#ef4444;color:#fff;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:900;animation:livePulse 2s infinite;z-index:2;">🔴 LIVE</span>` : (p.discount ? `<span class="card-badge">PROMO</span>` : '')}
       <span class="card-fav">🤍</span>
       <img src="${p.image}" alt="${p.name}">
     </div>
     <div class="card-info">
       <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;">
         <img src="${p.sellerAvatar}" style="width:16px;height:16px;border-radius:50%;object-fit:cover;pointer-events:auto;">
-        <span style="font-size:10px;color:var(--text-soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.seller}</span>
+        <span style="font-size:10px;color:#6B7280;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;">${p.seller}</span>
       </div>
       <div class="card-name">${p.name}</div>
-      <div>
-        <span class="card-price">${Number(p.price).toLocaleString()} FCFA</span>
-      </div>
+      <div><span class="card-price">${Number(p.price).toLocaleString()} FCFA</span></div>
       ${p.oldPrice ? `<div style="margin-top:2px;"><span class="card-old">${Number(p.oldPrice).toLocaleString()} FCFA</span></div>` : ''}
     </div>
   </a>
 `).join('');
+
+// PWA Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sentew-app/sw.js').catch(err => console.log('SW error:', err));
+  });
+}
+
+// Bouton "Installer l'app"
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const btn = document.createElement('div');
+  btn.innerHTML = '📱 Installer';
+  btn.style.cssText = 'position:fixed;top:70px;right:12px;background:linear-gradient(135deg,#D4A574,#B8945F);color:#0A1F17;padding:8px 14px;border-radius:20px;font-size:12px;font-weight:900;box-shadow:0 4px 12px rgba(212,165,116,.5);z-index:1000;cursor:pointer;';
+  btn.onclick = () => {
+    deferredPrompt.prompt();
+    btn.remove();
+  };
+  document.body.appendChild(btn);
+});
 </script>
+</body>
+</html>
