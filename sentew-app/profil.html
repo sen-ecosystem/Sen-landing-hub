@@ -5,104 +5,143 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Profil - SEN TEW</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0F6B4E">
+<meta name="theme-color" content="#FAFAF7">
 <link rel="stylesheet" href="css/app.css">
 </head>
 <body oncontextmenu="return false">
 <div class="app">
   <header class="app-header">
-    <div class="app-logo">👤 Mon Profil</div>
+    <div style="flex:1;font-weight:800;color:var(--text);font-size:18px;display:flex;align-items:center;gap:6px;">
+      <span style="color:var(--emerald);">👤</span> Mon Profil
+    </div>
     <a href="notifications.html" class="header-btn">🔔<span class="badge">3</span></a>
     <a href="parametres.html" class="header-btn">⚙️</a>
   </header>
 
   <main class="app-content">
-    <!-- Hero -->
-    <div style="background:linear-gradient(135deg,#0F6B4E,#0A4D38);padding:24px 20px;text-align:center;">
-      <img src="https://i.pravatar.cc/200?img=68" style="width:90px;height:90px;border-radius:50%;border:4px solid #D4A574;object-fit:cover;pointer-events:auto;">
-      <div style="font-size:20px;font-weight:800;margin-top:10px;">Ousseynou Lam</div>
-      <div style="color:rgba(255,255,255,.8);font-size:13px;margin-top:2px;">📍 Dakar, Sénégal</div>
-      <div style="display:inline-block;background:#D4A574;color:#0A1F17;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:800;margin-top:8px;">⭐ GOLD MEMBER</div>
+    <div style="background:linear-gradient(135deg,var(--emerald),var(--emerald-dark));padding:24px 20px 60px;text-align:center;position:relative;overflow:hidden;">
+      <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(212,165,116,.08) 0 15px,transparent 15px 30px);"></div>
+      <div style="position:relative;z-index:2;">
+        <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=200" style="width:100px;height:100px;border-radius:50%;border:4px solid var(--gold);object-fit:cover;pointer-events:auto;box-shadow:0 4px 20px rgba(0,0,0,.2);">
+        <div style="font-size:22px;font-weight:900;margin-top:12px;color:#fff;">Ousseynou Lam</div>
+        <div style="color:rgba(255,255,255,.95);font-size:13px;margin-top:4px;font-weight:500;">📍 Dakar, Sénégal</div>
+        <div style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--emerald-dark);padding:6px 16px;border-radius:20px;font-size:12px;font-weight:900;margin-top:10px;box-shadow:0 4px 10px rgba(212,165,116,.4);">
+          ⭐ GOLD MEMBER
+        </div>
+      </div>
     </div>
 
-    <!-- Stats -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:-16px 16px 8px;background:rgba(255,255,255,.05);border-radius:14px;padding:14px;position:relative;z-index:2;">
-      <div style="text-align:center;"><div style="font-size:18px;font-weight:800;color:#D4A574;">24</div><div style="font-size:10px;color:rgba(255,255,255,.7);">Commandes</div></div>
-      <div style="text-align:center;border-left:1px solid rgba(255,255,255,.1);border-right:1px solid rgba(255,255,255,.1);"><div style="font-size:18px;font-weight:800;color:#D4A574;">4.9</div><div style="font-size:10px;color:rgba(255,255,255,.7);">Note</div></div>
-      <div style="text-align:center;"><div style="font-size:18px;font-weight:800;color:#D4A574;">1 250</div><div style="font-size:10px;color:rgba(255,255,255,.7);">Points</div></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:-30px 16px 12px;background:var(--white);border-radius:16px;padding:16px;position:relative;z-index:2;box-shadow:var(--shadow-lg);border:1px solid var(--border);">
+      <div style="text-align:center;">
+        <div style="font-size:22px;font-weight:900;color:var(--gold-dark);">24</div>
+        <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-top:2px;">Commandes</div>
+      </div>
+      <div style="text-align:center;border-left:1px solid var(--border);border-right:1px solid var(--border);">
+        <div style="font-size:22px;font-weight:900;color:var(--gold-dark);">4.9</div>
+        <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-top:2px;">Note</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:22px;font-weight:900;color:var(--gold-dark);">1 250</div>
+        <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-top:2px;">Points</div>
+      </div>
     </div>
 
-    <!-- 🛍 Achats -->
     <div class="card-title">🛍 Mes achats</div>
     <div class="card">
       <a class="list-item" href="commandes.html">
         <div class="list-icon">📦</div>
-        <div class="list-text"><div class="list-title">Mes commandes</div><div class="list-sub">24 - 2 en cours</div></div>
+        <div class="list-text"><div class="list-title">Mes commandes</div><div class="list-sub">24 commandes · 2 en cours</div></div>
         <div class="list-arrow">›</div>
       </a>
       <a class="list-item" href="favoris.html">
-        <div class="list-icon">❤️</div>
+        <div class="list-icon red">❤️</div>
         <div class="list-text"><div class="list-title">Mes favoris</div><div class="list-sub">12 produits sauvegardés</div></div>
         <div class="list-arrow">›</div>
       </a>
       <a class="list-item" href="avis.html">
-        <div class="list-icon">⭐</div>
+        <div class="list-icon gold">⭐</div>
         <div class="list-text"><div class="list-title">Mes avis</div><div class="list-sub">8 avis publiés</div></div>
         <div class="list-arrow">›</div>
       </a>
     </div>
 
-    <!-- 💰 Portefeuille -->
     <div class="card-title">💰 Portefeuille</div>
     <div class="card">
       <a class="list-item" href="portefeuille.html">
-        <div class="list-icon">💳</div>
-        <div class="list-text"><div class="list-title">Solde SEN TEW</div><div class="list-sub" style="color:#D4A574;font-weight:700;">45 500 FCFA</div></div>
+        <div class="list-icon gold">💳</div>
+        <div class="list-text"><div class="list-title">Solde SEN TEW</div><div class="list-sub" style="color:var(--gold-dark);font-weight:800;">45 500 FCFA</div></div>
         <div class="list-arrow">›</div>
       </a>
       <a class="list-item" href="fidelite.html">
-        <div class="list-icon">🎁</div>
-        <div class="list-text"><div class="list-title">Programme fidélité</div><div class="list-sub">GOLD - 1 250 points</div></div>
+        <div class="list-icon gold">🎁</div>
+        <div class="list-text"><div class="list-title">Programme fidélité</div><div class="list-sub">GOLD · 1 250 points</div></div>
         <div class="list-arrow">›</div>
       </a>
-      <a class="list-item" href="portefeuille.html">
-        <div class="list-icon">📱</div>
-        <div class="list-text"><div class="list-title">Wave / Orange Money / Free</div><div class="list-sub">3 méthodes actives</div></div>
+      <a class="list-item" href="bons-promo.html">
+        <div class="list-icon gold">🏷</div>
+        <div class="list-text"><div class="list-title">Bons cadeaux & Promos</div><div class="list-sub">2 bons actifs · 5 codes</div></div>
         <div class="list-arrow">›</div>
       </a>
     </div>
 
-    <!-- ⚙️ Paramètres -->
+    <div class="card-title">🏪 Espace Vendeur</div>
+    <div class="card">
+      <a class="list-item" href="vendeur.html">
+        <div class="list-icon">🏪</div>
+        <div class="list-text"><div class="list-title">Ma boutique</div><div class="list-sub">Boutique Ousseynou · 47 ventes ce mois</div></div>
+        <div class="list-arrow">›</div>
+      </a>
+      <a class="list-item" href="verified.html">
+        <div class="list-icon gold">👑</div>
+        <div class="list-text"><div class="list-title">SEN Verified</div><div class="list-sub">Passez vendeur premium</div></div>
+        <div class="list-arrow">›</div>
+      </a>
+      <a class="list-item" href="retouche-ia.html">
+        <div class="list-icon">✨</div>
+        <div class="list-text"><div class="list-title">Retouche photo IA</div><div class="list-sub">Améliorer vos photos produits</div></div>
+        <div class="list-arrow">›</div>
+      </a>
+      <a class="list-item" href="logistique.html">
+        <div class="list-icon">🚚</div>
+        <div class="list-text"><div class="list-title">Logistique & Livraison</div><div class="list-sub">Yobante · DHL · Aramex</div></div>
+        <div class="list-arrow">›</div>
+      </a>
+    </div>
+
     <div class="card-title">⚙️ Paramètres & Sécurité</div>
     <div class="card">
       <a class="list-item" href="parametres.html">
         <div class="list-icon">🌍</div>
-        <div class="list-text"><div class="list-title">Langue & Région</div><div class="list-sub">Français - Sénégal</div></div>
+        <div class="list-text"><div class="list-title">Langue & Région</div><div class="list-sub">Français · Sénégal</div></div>
         <div class="list-arrow">›</div>
       </a>
       <a class="list-item" href="notifications.html">
-        <div class="list-icon">🔔</div>
+        <div class="list-icon red">🔔</div>
         <div class="list-text"><div class="list-title">Notifications</div><div class="list-sub">Push, Email, SMS · 3 non lues</div></div>
         <div class="list-arrow">›</div>
       </a>
-      <a class="list-item" href="parametres.html">
+      <a class="list-item" href="confidentialite-app.html">
         <div class="list-icon">🔒</div>
-        <div class="list-text"><div class="list-title">Confidentialité RGPD</div><div class="list-sub">Gérer vos données</div></div>
+        <div class="list-text"><div class="list-title">Confidentialité RGPD</div><div class="list-sub">Vos données protégées</div></div>
         <div class="list-arrow">›</div>
       </a>
-      <a class="list-item" href="parametres.html">
-        <div class="list-icon">🛡️</div>
-        <div class="list-text"><div class="list-title">Sécurité du compte</div><div class="list-sub">2FA activé</div></div>
+      <a class="list-item" href="adresses.html">
+        <div class="list-icon">📍</div>
+        <div class="list-text"><div class="list-title">Mes adresses</div><div class="list-sub">3 adresses enregistrées</div></div>
         <div class="list-arrow">›</div>
       </a>
     </div>
 
-    <!-- 🤝 Support -->
     <div class="card-title">🤝 Aide & Support</div>
     <div class="card">
       <a class="list-item" href="assistant-ia.html">
         <div class="list-icon">🤖</div>
-        <div class="list-text"><div class="list-title">Assistant IA</div><div class="list-sub">FR / Wolof / EN / AR - 24/7</div></div>
+        <div class="list-text"><div class="list-title">Assistant IA</div><div class="list-sub">FR/Wolof/EN/AR · 24/7</div></div>
+        <div class="list-arrow">›</div>
+      </a>
+      <a class="list-item" href="remboursement.html">
+        <div class="list-icon red">💸</div>
+        <div class="list-text"><div class="list-title">Demande de remboursement</div><div class="list-sub">Escrow protection SEN TEW</div></div>
         <div class="list-arrow">›</div>
       </a>
       <a class="list-item" href="messages.html">
@@ -110,29 +149,24 @@
         <div class="list-text"><div class="list-title">Contacter le support</div><div class="list-sub">Réponse sous 1h</div></div>
         <div class="list-arrow">›</div>
       </a>
-      <a class="list-item" href="../cgu.html">
-        <div class="list-icon">📄</div>
-        <div class="list-text"><div class="list-title">Conditions & mentions légales</div><div class="list-sub">CGU, CGV, RGPD</div></div>
-        <div class="list-arrow">›</div>
-      </a>
     </div>
 
-    <!-- Déconnexion -->
     <div class="card">
       <div class="list-item" onclick="if(confirm('Se déconnecter ?'))window.location.href='../index.html'">
-        <div class="list-icon" style="background:rgba(239,68,68,.15);">🚪</div>
+        <div class="list-icon red">🚪</div>
         <div class="list-text"><div class="list-title" style="color:#ef4444;">Se déconnecter</div></div>
       </div>
     </div>
 
-    <div style="text-align:center;padding:16px;font-size:10px;color:rgba(255,255,255,.4);">
-      SEN TEW v1.0.0 · 27 juillet 2026<br>© SEN ECOSYSTEM · Dakar
+    <div style="text-align:center;padding:16px;font-size:11px;color:var(--text-muted);font-weight:500;">
+      SEN TEW v1.0.0 · 28 juillet 2026<br>© SEN ECOSYSTEM · Dakar
     </div>
+    <div style="height:20px;"></div>
   </main>
 
   <nav class="app-nav">
     <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
-    <a href="categories.html"><div class="nav-icon">📊</div><div class="nav-label">Catégories</div></a>
+    <a href="categories.html"><div class="nav-icon">▦</div><div class="nav-label">Catégories</div></a>
     <a href="panier.html"><div class="nav-icon">🛒</div><div class="nav-label">Panier</div></a>
     <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
     <a href="profil.html" class="active"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
