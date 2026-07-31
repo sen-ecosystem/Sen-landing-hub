@@ -4,91 +4,131 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Catégories - SEN TEW</title>
-<meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#FAFAF7">
 <link rel="stylesheet" href="css/app.css">
+<meta name="theme-color" content="#FAFAF7">
 </head>
 <body oncontextmenu="return false">
 <div class="app">
   <header class="app-header">
-    <div class="app-logo">
-      <div class="logo-icon">👑</div>
-      <div>
-        <div class="logo-text">SEN TEW</div>
-        <div class="logo-sub">Le marché de chez nous</div>
-      </div>
-    </div>
-    <button class="btn btn-primary" style="padding:8px 16px;font-size:12px;">⚙ Filtrer</button>
+    <button class="header-btn" onclick="history.back()">←</button>
+    <div style="flex:1;text-align:center;font-weight:900;color:#0A4D38;">Catégories</div>
+    <a href="recherche-ia.html" class="header-btn">🔍</a>
   </header>
 
   <main class="app-content">
-    <div style="padding:16px;">
-      <h1 style="font-size:28px;font-weight:900;color:var(--text);margin-bottom:12px;">Catégories</h1>
-    </div>
-
-    <div class="search-box" style="padding:0 16px 12px;">
-      <div class="search-wrap">
-        <span class="search-icon">🔍</span>
-        <input type="text" placeholder="Rechercher une catégorie...">
-      </div>
-    </div>
-
-    <!-- GRID catégories avec images -->
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:0 16px;" id="catGrid"></div>
-
-    <div style="height:100px;"></div>
+    <div id="catList" style="padding:12px;"></div>
   </main>
 
-  <!-- BOTTOM NAV avec bouton central SEN TEW -->
   <nav class="app-nav">
-    <a href="index.html">
-      <div class="nav-icon">🏠</div>
-      <div class="nav-label">Accueil</div>
-    </a>
-    <a href="categories.html" class="active">
-      <div class="nav-icon">▦</div>
-      <div class="nav-label">Catégories</div>
-    </a>
-    <a href="vendeur.html" class="center">
-      <div class="nav-icon">👑<span class="center-txt">SEN TEW</span></div>
-      <div class="nav-label" style="visibility:hidden;">.</div>
-    </a>
-    <a href="favoris.html">
-      <div class="nav-icon">❤</div>
-      <div class="nav-label">Favoris</div>
-    </a>
-    <a href="profil.html">
-      <div class="nav-icon">👤</div>
-      <div class="nav-label">Compte</div>
-    </a>
+    <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
+    <a href="categories.html" class="active"><div class="nav-icon">▦</div><div class="nav-label">Catégories</div></a>
+    <a href="panier.html"><div class="nav-icon">🛒<span class="badge">3</span></div><div class="nav-label">Panier</div></a>
+    <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
+    <a href="profil.html"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
   </nav>
 </div>
 
 <script>
-const cats=[
-  {name:'Mode & Vêtements',count:'1 245',img:'https://images.unsplash.com/photo-1595777216528-071e0127ccbf?w=400',featured:false},
-  {name:'Électronique',count:'2 345',img:'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400',featured:false},
-  {name:'Maison & Déco',count:'1 876',img:'https://images.unsplash.com/photo-1600166898405-da9535204843?w=400',featured:false},
-  {name:'Beauté & Cosmétique',count:'1 234',img:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400',featured:false},
-  {name:'Alimentation & Boissons',count:'2 987',img:'https://images.unsplash.com/photo-1607532941433-304659e8198a?w=400',featured:false},
-  {name:'Bébé & Enfant',count:'1 654',img:'https://images.unsplash.com/photo-1618842676088-c4d48a6a7c9d?w=400',featured:false},
-  {name:'Sport & Loisirs',count:'987',img:'https://images.unsplash.com/photo-1614632537190-23e4146777db?w=400',featured:false},
-  {name:'Auto & Moto',count:'1 234',img:'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400',featured:false},
-  {name:'Artisanat Africain',count:'2 456',img:'https://images.unsplash.com/photo-1590069261209-f8e9b8642343?w=400',featured:true},
-  {name:'Livres',count:'1 245',img:'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=400',featured:false},
-  {name:'Santé',count:'1 034',img:'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=400',featured:false},
-  {name:'Bijoux',count:'1 145',img:'https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=400',featured:false}
+const CATEGORIES = [
+  { id:'mode', name:'Mode & Vêtements', icon:'👕', color:'#EC4899', count:1240, sub:[
+    { name:'Homme', icon:'🧑', tags:['T-shirts','Chemises','Pantalons','Costumes','Boubous'] },
+    { name:'Femme', icon:'👩', tags:['Robes','Tops','Jupes','Boubous','Ensembles'] },
+    { name:'Enfant', icon:'🧒', tags:['0-2 ans','3-6 ans','7-12 ans','Ados'] },
+    { name:'Chaussures', icon:'👟', tags:['Sneakers','Escarpins','Sandales','Babouches'] },
+    { name:'Accessoires', icon:'👜', tags:['Sacs','Ceintures','Bijoux','Montres'] },
+    { name:'Traditionnel', icon:'🌍', tags:['Wax','Bogolan','Bazin','Kente'] }
+  ]},
+  { id:'tech', name:'Électronique', icon:'📱', color:'#3B82F6', count:856, sub:[
+    { name:'Téléphones', icon:'📱', tags:['iPhone','Samsung','Xiaomi','Huawei','Tecno'] },
+    { name:'Ordinateurs', icon:'💻', tags:['PC portables','Bureau','Tablettes','Accessoires'] },
+    { name:'Audio', icon:'🎧', tags:['Écouteurs','Enceintes','Casques','Micros'] },
+    { name:'TV & Vidéo', icon:'📺', tags:['Smart TV','Décodeurs','Projecteurs'] },
+    { name:'Gaming', icon:'🎮', tags:['Consoles','Jeux','Manettes','Accessoires'] },
+    { name:'Photo', icon:'📷', tags:['Appareils','Objectifs','Trépieds','Éclairage'] }
+  ]},
+  { id:'maison', name:'Maison & Déco', icon:'🛋', color:'#F59E0B', count:642, sub:[
+    { name:'Meubles', icon:'🛏', tags:['Salon','Chambre','Bureau','Cuisine'] },
+    { name:'Électroménager', icon:'🍳', tags:['Frigo','Machine à laver','Micro-ondes','Blender'] },
+    { name:'Décoration', icon:'🖼', tags:['Tableaux','Vases','Coussins','Tapis'] },
+    { name:'Linge maison', icon:'🛏', tags:['Draps','Serviettes','Rideaux'] },
+    { name:'Jardin', icon:'🌱', tags:['Plantes','Outils','Mobilier extérieur'] }
+  ]},
+  { id:'beauty', name:'Beauté & Cosmétique', icon:'💄', color:'#EC4899', count:498, sub:[
+    { name:'Soins visage', icon:'✨', tags:['Crèmes','Sérums','Masques','Nettoyants'] },
+    { name:'Maquillage', icon:'💋', tags:['Fond de teint','Rouge à lèvres','Palette','Mascara'] },
+    { name:'Cheveux', icon:'💇🏾‍♀️', tags:['Extensions','Perruques','Soins','Coloration'] },
+    { name:'Parfums', icon:'🌸', tags:['Femme','Homme','Oud','Bakhoor'] },
+    { name:'Corps', icon:'🧴', tags:['Beurres karité','Huiles','Gommages','Savons'] }
+  ]},
+  { id:'food', name:'Alimentation', icon:'🧺', color:'#10B981', count:387, sub:[
+    { name:'Épices & Assaisonnements', icon:'🌶', tags:['Ndiar','Yet','Sel','Poivre'] },
+    { name:'Céréales', icon:'🌾', tags:['Riz','Mil','Fonio','Sorgho'] },
+    { name:'Boissons', icon:'🥤', tags:['Bissap','Bouye','Gingembre','Jus'] },
+    { name:'Poisson séché', icon:'🐟', tags:['Yeet','Guedj','Kong','Kethiakh'] },
+    { name:'Fruits & Légumes', icon:'🥭', tags:['Mangue','Papaye','Manioc','Patate'] }
+  ]},
+  { id:'sport', name:'Sport & Fitness', icon:'⚽', color:'#EF4444', count:234, sub:[
+    { name:'Vêtements sport', icon:'🎽', tags:['Maillots','Shorts','Survêtements'] },
+    { name:'Équipement', icon:'🏋', tags:['Poids','Tapis','Vélo appart'] },
+    { name:'Ballons', icon:'⚽', tags:['Football','Basket','Volley'] },
+    { name:'Chaussures sport', icon:'👟', tags:['Running','Football','Salle'] }
+  ]},
+  { id:'bebe', name:'Bébé & Enfant', icon:'👶', color:'#F97316', count:189, sub:[
+    { name:'Couches', icon:'🧷', tags:['0-6 mois','6-12 mois','1-2 ans','2-3 ans'] },
+    { name:'Alimentation bébé', icon:'🍼', tags:['Lait','Biberons','Céréales'] },
+    { name:'Vêtements', icon:'👕', tags:['0-6 mois','6-12 mois','1-2 ans'] },
+    { name:'Jouets', icon:'🧸', tags:['Éveil','Peluches','Jeux éducatifs'] }
+  ]},
+  { id:'auto', name:'Auto & Moto', icon:'🚗', color:'#6366F1', count:156, sub:[
+    { name:'Pièces auto', icon:'⚙', tags:['Moteur','Freins','Filtres','Batterie'] },
+    { name:'Accessoires', icon:'🚗', tags:['Housses','Tapis','GPS','Autoradio'] },
+    { name:'Moto', icon:'🏍', tags:['Casques','Gants','Pièces'] }
+  ]},
+  { id:'artisanat', name:'Artisanat Sénégalais', icon:'🎨', color:'#8B5CF6', count:145, sub:[
+    { name:'Bijoux', icon:'💍', tags:['Or','Argent','Perles','Filigrane'] },
+    { name:'Sculpture', icon:'🗿', tags:['Bois','Bronze','Terre cuite'] },
+    { name:'Vannerie', icon:'🧺', tags:['Paniers','Chapeaux','Tapis'] },
+    { name:'Tissage', icon:'🧵', tags:['Pagnes','Nappes','Serviettes'] }
+  ]},
+  { id:'services', name:'Services', icon:'🛠', color:'#14B8A6', count:98, sub:[
+    { name:'Coiffure & Beauté', icon:'💇', tags:['Domicile','Salon','Événements'] },
+    { name:'Traiteur', icon:'🍽', tags:['Événements','Repas','Pâtisserie'] },
+    { name:'Réparation', icon:'🔧', tags:['Téléphone','Électroménager','Auto'] },
+    { name:'Cours particuliers', icon:'📚', tags:['Maths','Langues','Musique'] }
+  ]}
 ];
-document.getElementById('catGrid').innerHTML=cats.map(c=>`
-  <a href="produits.html?cat=${c.name}" style="background:var(--white);border-radius:16px;overflow:hidden;text-decoration:none;color:var(--text);box-shadow:var(--shadow);border:1px solid var(--border);${c.featured?'border:2px solid var(--gold);position:relative;':''}">
-    ${c.featured?'<div style="position:absolute;top:6px;left:6px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--emerald-dark);padding:3px 8px;border-radius:8px;font-size:9px;font-weight:900;z-index:2;">⭐ À la une</div>':''}
-    <div style="height:110px;background:url(${c.img}) center/cover;"></div>
-    <div style="padding:10px;">
-      <div style="font-size:13px;font-weight:700;line-height:1.3;margin-bottom:4px;">${c.name}</div>
-      <div style="font-size:11px;color:var(--gold-dark);font-weight:600;">${c.count} produits</div>
+
+document.getElementById('catList').innerHTML = CATEGORIES.map(cat => `
+  <details class="cat-details" style="background:#fff;border-radius:14px;margin-bottom:10px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05);">
+    <summary style="padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;list-style:none;">
+      <div style="width:48px;height:48px;background:${cat.color}22;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;">${cat.icon}</div>
+      <div style="flex:1;">
+        <div style="font-weight:800;color:#0A4D38;">${cat.name}</div>
+        <div style="font-size:11px;color:#6B7280;">${cat.count} produits · ${cat.sub.length} sous-catégories</div>
+      </div>
+      <div style="color:${cat.color};font-size:20px;">▸</div>
+    </summary>
+    <div style="padding:0 14px 14px;">
+      ${cat.sub.map(s => `
+        <div style="padding:12px;background:#F9FAFB;border-radius:10px;margin-top:8px;">
+          <a href="produits.html?cat=${cat.id}&sub=${encodeURIComponent(s.name)}" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;margin-bottom:8px;">
+            <span style="font-size:18px;">${s.icon}</span>
+            <strong style="color:#0A4D38;">${s.name}</strong>
+            <span style="margin-left:auto;color:#6B7280;">›</span>
+          </a>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            ${s.tags.map(t => `<a href="produits.html?cat=${cat.id}&tag=${encodeURIComponent(t)}" style="background:#fff;padding:4px 10px;border-radius:12px;font-size:11px;color:${cat.color};text-decoration:none;border:1px solid ${cat.color}33;">${t}</a>`).join('')}
+          </div>
+        </div>
+      `).join('')}
     </div>
-  </a>
+  </details>
 `).join('');
 </script>
+
+<style>
+.cat-details[open] summary > div:last-child { transform: rotate(90deg); }
+.cat-details summary::-webkit-details-marker { display: none; }
+</style>
 </body>
 </html>
