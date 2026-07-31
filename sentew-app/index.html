@@ -296,6 +296,18 @@ window.addEventListener('beforeinstallprompt', e => {
 
 })();
 </script>
+<script src="js/paydunya.js"></script>
+<script src="js/push.js"></script>
+<script>
+// Prompt push après 30s
+setTimeout(() => {
+  if ('Notification' in window && Notification.permission === 'default') {
+    if (confirm('🔔 Activer les notifications pour être averti des livraisons et LIVE ?')) {
+      window.askForPushPermission && window.askForPushPermission();
+    }
+  }
+}, 30000);
+</script>
 
 </body>
 </html>
