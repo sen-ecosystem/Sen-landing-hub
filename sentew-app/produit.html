@@ -103,6 +103,58 @@
 
   <main class="app-content" id="content">
     <p style="text-align:center;color:#B8945F;padding:40px;">Chargement...</p>
+    <!-- BUNDLE SOUVENT ACHETÉS ENSEMBLE -->
+<section id="bundleSection" style="background:#fff;margin:16px;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
+  <h3 style="margin:0 0 12px;color:#0A4D38;">🎁 Souvent achetés ensemble</h3>
+  <div id="bundleItems" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;margin-bottom:14px;"></div>
+  <div style="background:#F0FDF4;padding:12px;border-radius:12px;text-align:center;margin-bottom:12px;">
+    <div style="font-size:12px;color:#6B7280;">Prix total du pack</div>
+    <div style="font-size:22px;font-weight:900;color:#0F6B4E;" id="bundleTotal">0 FCFA</div>
+    <div style="font-size:11px;color:#10B981;font-weight:700;" id="bundleSaving">Économisez 0 FCFA</div>
+  </div>
+  <button onclick="addBundleToCart()" style="width:100%;padding:14px;background:linear-gradient(135deg,#0F6B4E,#D4A574);color:#fff;border:none;border-radius:12px;font-weight:800;font-size:14px;">
+    🛒 Ajouter le pack complet (-15%)
+  </button>
+</section>
+
+<script>
+(function(){
+  const list = (typeof products !== 'undefined' ? products : (typeof PRODUCTS !== 'undefined' ? PRODUCTS : []));
+  const currentId = new URLSearchParams(location.search).get('id') || (list[0] && list[0].id);
+  const current = list.find(p=>p.id==currentId) || list[0];
+  if(!current)return;
+  const bundle = [current, ...list.filter(p=>p.id!=current.id).slice(0,2)];
+  const total = bundle.reduce((s,p)=>s+Number(p.price||0),0);
+  const discounted = Math.round(total*0.85);
+  const saving = total - discounted;
+
+  document.getElementById('bundleItems').innerHTML = bundle.map((p,i)=>`
+    <div style="text-align:center;">
+      <img src="${p.image||p.img}" style="width:70px;height:70px;object-fit:cover;border-radius:10px;border:2px solid #0F6B4E33;">
+      <div style="font-size:10px;font-weight:700;max-width:70px;margin-top:4px;">${(p.name||'').slice(0,20)}</div>
+      <div style="font-size:10px;color:#0F6B4E;font-weight:900;">${Number(p.price).toLocaleString()}</div>
+    </div>
+    ${i<bundle.length-1?'<span style="font-size:24px;color:#D4A574;font-weight:900;">+</span>':''}
+  `).join('');
+
+  document.getElementById('bundleTotal').innerHTML = `<span style="text-decoration:line-through;color:#9CA3AF;font-size:14px;">${total.toLocaleString()}</span> ${discounted.toLocaleString()} FCFA`;
+  document.getElementById('bundleSaving').textContent = `💰 Économisez ${saving.toLocaleString()} FCFA (-15%)`;
+
+  window.addBundleToCart = function(){
+    const cart = JSON.parse(localStorage.getItem('cart')||'[]');
+    bundle.forEach(p=>cart.push({
+      id:p.id, name:p.name, price:Math.round(p.price*0.85), image:p.image||p.img,
+      qty:1, bundle:true, ts:Date.now()
+    }));
+    localStorage.setItem('cart',JSON.stringify(cart));
+    navigator.vibrate&&navigator.vibrate([50,30,50]);
+    if(confirm(`✅ Pack de ${bundle.length} articles ajouté au panier avec -15%\n\nAller au panier maintenant ?`)){
+      location.href='panier.html';
+    }
+  };
+})();
+</script>
+
   </main>
 
   <!-- Actions bar FIXE (ne bouge plus jamais) -->
