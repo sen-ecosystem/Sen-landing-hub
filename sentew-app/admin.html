@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Admin - SEN TEW</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="css/app.css">
+<style>
+.admin-login{position:fixed;inset:0;background:linear-gradient(135deg,#0A1F17,#0F6B4E);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px}
+.admin-login.hidden{display:none}
+.admin-form{background:#fff;padding:32px;border-radius:20px;max-width:380px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.admin-form h1{color:#0F6B4E;font-size:24px;font-weight:900;margin-bottom:6px;text-align:center}
+.admin-form input{width:100%;padding:14px;border:2px solid #E5E7EB;border-radius:10px;font-size:14px;margin-bottom:12px;outline:none}
+.admin-form input:focus{border-color:#D4A574}
+.stat-card{background:linear-gradient(135deg,#fff,#F9F5EF);border-radius:14px;padding:14px;box-shadow:var(--shadow);border:1px solid #E5E7EB}
+.period-tab{padding:10px 18px;background:#fff;border:2px solid #E5E7EB;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;color:#6B7280}
+.period-tab.active{background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;border-color:transparent}
+.metric-row{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #E5E7EB}
+.metric-row:last-child{border-bottom:none}
+.system-status{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#fff;border-radius:10px;border:1px solid #E5E7EB;margin-bottom:6px}
+.status-dot{width:10px;height:10px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,.6);animation:pulse 2s infinite}
+.status-dot.warn{background:#f59e0b;box-shadow:0 0 8px rgba(245,158,11,.6)}
+.status-dot.down{background:#ef4444;box-shadow:0 0 8px rgba(239,68,68,.6)}
+.chart-line{height:120px;background:linear-gradient(180deg,rgba(15,107,78,.15),transparent);border-radius:8px;position:relative;margin-top:10px}
+.chart-svg{width:100%;height:100%}
+</style>
+</head>
+<body>
+
+<!-- Login sécurisé -->
+<div class="admin-login" id="loginBox">
+  <div class="admin-form">
+    <div style="text-align:center;font-size:48px;margin-bottom:6px;">🔐</div>
+    <h1>Admin SEN TEW</h1>
+    <div style="text-align:center;color:#6B7280;font-size:12px;margin-bottom:24px;">Accès réservé administrateurs</div>
+    <input type="text" id="user" placeholder="Nom d'utilisateur">
+    <input type="password" id="pwd" placeholder="Mot de passe">
+    <input type="text" id="otp" placeholder="Code 2FA (6 chiffres)" maxlength="6">
+    <button class="btn btn-primary btn-full" onclick="login()" style="padding:14px;">🔓 Se connecter</button>
+    <div style="text-align:center;font-size:11px;color:#6B7280;margin-top:12px;">🛡 Protection 2FA · SSL 256 bits · Logs IP</div>
+    <div style="text-align:center;font-size:10px;color:#B8945F;margin-top:8px;font-weight:600;">Demo : admin / admin123 / 123456</div>
+  </div>
+</div>
+
+<div class="app" id="adminApp" style="display:none;">
+  <header class="app-header" style="background:linear-gradient(135deg,#0F6B4E,#0A4D38);">
+    <button class="header-btn" onclick="logout()" style="background:rgba(255,255,255,.15);color:#fff;border:none;">🚪</button>
+    <div style="flex:1;text-align:center;color:#fff;font-weight:900;font-size:16px;">🔐 Admin Dashboard</div>
+    <button class="header-btn" style="background:rgba(255,255,255,.15);color:#fff;border:none;" onclick="alert('🔔 3 alertes: 1 fraude détectée, 2 KYC en attente')">🔔<span class="badge">3</span></button>
+  </header>
+
+  <main class="app-content">
+    <!-- Périodes -->
+    <div style="display:flex;gap:6px;padding:12px 16px;overflow-x:auto;">
+      <button class="period-tab" onclick="setPeriod('today',this)">📅 Aujourd'hui</button>
+      <button class="period-tab active" onclick="setPeriod('week',this)">📆 Semaine</button>
+      <button class="period-tab" onclick="setPeriod('month',this)">🗓 Mois</button>
+      <button class="period-tab" onclick="setPeriod('year',this)">📊 Année</button>
+      <button class="period-tab" onclick="setPeriod('all',this)">∞ Total</button>
+    </div>
+
+    <!-- Stats principales -->
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 16px;">
+      <div class="stat-card">
+        <div style="font-size:10px;color:#6B7280;font-weight:700;">💰 CHIFFRE D'AFFAIRES</div>
+        <div style="font-size:22px;font-weight:900;color:#B8945F;margin:6px 0;" id="statCA">2 458 500</div>
+        <div style="font-size:10px;color:#22c55e;font-weight:700;">↑ +34% vs sem. dernière</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:10px;color:#6B7280;font-weight:700;">📦 COMMANDES</div>
+        <div style="font-size:22px;font-weight:900;color:#0F6B4E;margin:6px 0;" id="statOrders">147</div>
+        <div style="font-size:10px;color:#22c55e;font-weight:700;">↑ +28%</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:10px;color:#6B7280;font-weight:700;">👥 UTILISATEURS ACTIFS</div>
+        <div style="font-size:22px;font-weight:900;color:#0F6B4E;margin:6px 0;" id="statUsers">3 421</div>
+        <div style="font-size:10px;color:#22c55e;font-weight:700;">↑ +18%</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:10px;color:#6B7280;font-weight:700;">🏪 VENDEURS ACTIFS</div>
+        <div style="font-size:22px;font-weight:900;color:#0F6B4E;margin:6px 0;" id="statSellers">89</div>
+        <div style="font-size:10px;color:#22c55e;font-weight:700;">↑ +12 ce mois</div>
+      </div>
+    </div>
+
+    <!-- Graphique -->
+    <div class="stat-card" style="margin:12px 16px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+        <span style="font-weight:800;font-size:13px;color:#000;">📈 Évolution CA (7 derniers jours)</span>
+        <span style="color:#0F6B4E;font-size:11px;font-weight:700;">Détails ›</span>
+      </div>
+      <div class="chart-line">
+        <svg class="chart-svg" viewBox="0 0 300 120">
+          <polyline points="0,90 43,75 86,60 129,68 172,45 215,50 258,30 300,20" fill="none" stroke="#0F6B4E" stroke-width="3"/>
+          <polyline points="0,90 43,75 86,60 129,68 172,45 215,50 258,30 300,20 300,120 0,120" fill="url(#grad)" opacity=".3"/>
+          <defs><linearGradient id="grad" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#D4A574"/><stop offset="1" stop-color="#0F6B4E" stop-opacity="0"/></linearGradient></defs>
+        </svg>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:9px;color:#6B7280;font-weight:600;">
+        <span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Dim</span>
+      </div>
+    </div>
+
+    <!-- État systèmes -->
+    <div class="card-title" style="color:#0F6B4E;">🖥 État des systèmes (temps réel)</div>
+    <div style="padding:0 16px;">
+      <div class="system-status">
+        <div class="status-dot"></div>
+        <div style="flex:1;"><div style="font-weight:700;font-size:12px;color:#000;">🛒 Marketplace SEN TEW</div><div style="font-size:10px;color:#6B7280;">API v8.168.0 · 99.9% uptime</div></div>
+        <span style="color:#22c55e;font-weight:700;font-size:11px;">✓ OK</span>
+      </div>
+      <div class="system-status">
+        <div class="status-dot"></div>
+        <div style="flex:1;"><div style="font-weight:700;font-size:12px;color:#000;">🏦 SENBANC</div><div style="font-size:10px;color:#6B7280;">Wave/Orange/Free actifs</div></div>
+        <span style="color:#22c55e;font-weight:700;font-size:11px;">✓ OK</span>
+      </div>
+      <div class="system-status">
+        <div class="status-dot"></div>
+        <div style="flex:1;"><div style="font-weight:700;font-size:12px;color:#000;">🪙 SENCRYPT</div><div style="font-size:10px;color:#6B7280;">BTC/USDT en ligne</div></div>
+        <span style="color:#22c55e;font-weight:700;font-size:11px;">✓ OK</span>
+      </div>
+      <div class="system-status">
+        <div class="status-dot warn"></div>
+        <div style="flex:1;"><div style="font-weight:700;font-size:12px;color:#000;">🚚 Yobante Express</div><div style="font-size:10px;color:#6B7280;">Latence 2.3s (normal &lt;1s)</div></div>
+        <span style="color:#f59e0b;font-weight:700;font-size:11px;">⚠ Lent</span>
+      </div>
+      <div class="system-status">
+        <div class="status-dot"></div>
+        <div style="flex:1;"><div style="font-weight:700;font-size:12px;color:#000;">🎥 LIVE Streaming (WebRTC)</div><div style="font-size:10px;color:#6B7280;">3 LIVES actifs</div></div>
+        <span style="color:#22c55e;font-weight:700;font-size:11px;">✓ OK</span>
+      </div>
+      <div class="system-status">
+        <div class="status-dot"></div>
+        <div style="flex:1;"><div style="font-weight:700;font-size:12px;color:#000;">🤖 Assistant IA (Gemini)</div><div style="font-size:10px;color:#6B7280;">2 341 requêtes/jour</div></div>
+        <span style="color:#22c55e;font-weight:700;font-size:11px;">✓ OK</span>
+      </div>
+      <div class="system-status">
+        <div class="status-dot"></div>
+        <div style="flex:1;"><div style="font-weight:700;font-size:12px;color:#000;">📱 PayTech / CinetPay</div><div style="font-size:10px;color:#6B7280;">API v2.1 · 100% opérationnel</div></div>
+        <span style="color:#22c55e;font-weight:700;font-size:11px;">✓ OK</span>
+      </div>
+    </div>
+
+    <!-- Métriques détaillées -->
+    <div class="card-title" style="color:#0F6B4E;">📊 Métriques détaillées</div>
+    <div class="card">
+      <div class="metric-row">
+        <div><div style="font-weight:700;font-size:13px;color:#000;">📱 Sessions actives</div><div style="font-size:11px;color:#6B7280;">Dernières 15 min</div></div>
+        <div style="font-weight:900;color:#0F6B4E;">427</div>
+      </div>
+      <div class="metric-row">
+        <div><div style="font-weight:700;font-size:13px;color:#000;">💳 Panier moyen</div><div style="font-size:11px;color:#6B7280;">Cette semaine</div></div>
+        <div style="font-weight:900;color:#B8945F;">16 700 FCFA</div>
+      </div>
+      <div class="metric-row">
+        <div><div style="font-weight:700;font-size:13px;color:#000;">🔄 Taux conversion</div><div style="font-size:11px;color:#6B7280;">Visite → Achat</div></div>
+        <div style="font-weight:900;color:#0F6B4E;">4.2%</div>
+      </div>
+      <div class="metric-row">
+        <div><div style="font-weight:700;font-size:13px;color:#000;">🎥 LIVE ventes</div><div style="font-size:11px;color:#6B7280;">Conversion 3x plus élevée</div></div>
+        <div style="font-weight:900;color:#ef4444;">12.8%</div>
+      </div>
+      <div class="metric-row">
+        <div><div style="font-weight:700;font-size:13px;color:#000;">🚚 Livraisons J+1</div><div style="font-weight:700;font-size:11px;color:#6B7280;">Dakar / total</div></div>
+        <div style="font-weight:900;color:#22c55e;">94%</div>
+      </div>
+      <div class="metric-row">
+        <div><div style="font-weight:700;font-size:13px;color:#000;">💰 TVA collectée (mois)</div><div style="font-size:11px;color:#6B7280;">Reversée à l'État</div></div>
+        <div style="font-weight:900;color:#B8945F;">443 000 FCFA</div>
+      </div>
+    </div>
+
+    <!-- Sécurité -->
+    <div class="card-title" style="color:#ef4444;">🛡 Sécurité & Alertes</div>
+    <div class="card">
+      <div class="metric-row" onclick="alert('⚠️ Tentative de fraude détectée:\n• IP 41.82.XX.XX\n• Compte: buyer_9847\n• Action: Bloqué automatiquement')" style="cursor:pointer;">
+        <div><div style="font-weight:700;font-size:13px;color:#ef4444;">⚠️ Fraude détectée</div><div style="font-size:11px;color:#6B7280;">Il y a 12 min · Bloqué auto</div></div>
+        <div style="color:#B8945F;">›</div>
+      </div>
+      <div class="metric-row" onclick="alert('📋 KYC en attente:\n• 2 vendeurs\n• 3 livreurs\nAction requise')" style="cursor:pointer;">
+        <div><div style="font-weight:700;font-size:13px;color:#f59e0b;">📋 KYC en attente</div><div style="font-size:11px;color:#6B7280;">5 dossiers à valider</div></div>
+        <div style="color:#B8945F;">›</div>
+      </div>
+      <div class="metric-row">
+        <div><div style="font-weight:700;font-size:13px;color:#000;">🔒 Tentatives login échouées</div><div style="font-size:11px;color:#6B7280;">24 dernières heures</div></div>
+        <div style="font-weight:900;color:#f59e0b;">17</div>
+      </div>
+      <div class="metric-row">
+        <div><div style="font-weight:700;font-size:13px;color:#000;">🛡 Blocages IP auto</div><div style="font-size:11px;color:#6B7280;">Fail2ban actif</div></div>
+        <div style="font-weight:900;color:#0F6B4E;">3</div>
+      </div>
+    </div>
+
+    <!-- Top vendeurs / produits -->
+    <div class="card-title" style="color:#0F6B4E;">🏆 Top vendeurs (semaine)</div>
+    <div class="card">
+      <div class="metric-row">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:20px;">🥇</span>
+          <div><div style="font-weight:700;font-size:13px;color:#000;">Aïcha Couture</div><div style="font-size:11px;color:#6B7280;">47 ventes</div></div>
+        </div>
+        <div style="font-weight:900;color:#B8945F;">547 500 FCFA</div>
+      </div>
+      <div class="metric-row">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:20px;">🥈</span>
+          <div><div style="font-weight:700;font-size:13px;color:#000;">Fatou Ndiaye Fashion</div><div style="font-size:11px;color:#6B7280;">38 ventes</div></div>
+        </div>
+        <div style="font-weight:900;color:#B8945F;">421 800 FCFA</div>
+      </div>
+      <div class="metric-row">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:20px;">🥉</span>
+          <div><div style="font-weight:700;font-size:13px;color:#000;">TechSen Store</div><div style="font-size:11px;color:#6B7280;">29 ventes</div></div>
+        </div>
+        <div style="font-weight:900;color:#B8945F;">378 200 FCFA</div>
+      </div>
+    </div>
+
+    <!-- Actions admin -->
+    <div class="card-title" style="color:#0F6B4E;">⚙️ Actions administratives</div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 16px 20px;">
+      <button class="btn btn-primary" style="padding:14px;font-size:12px;" onclick="alert('📊 Rapport téléchargé')">📊 Rapport PDF</button>
+      <button class="btn btn-gold" style="padding:14px;font-size:12px;" onclick="alert('📧 Newsletter envoyée')">📧 Newsletter</button>
+      <button class="btn btn-outline" style="padding:14px;font-size:12px;color:#0F6B4E;border:2px solid #0F6B4E;" onclick="alert('🛡 Backup sécurité créé')">🛡 Backup</button>
+      <button class="btn btn-outline" style="padding:14px;font-size:12px;color:#ef4444;border:2px solid #ef4444;" onclick="alert('⚠️ Mode maintenance activé')">🔧 Maintenance</button>
+    </div>
+
+    <div style="text-align:center;padding:16px;font-size:10px;color:#6B7280;">
+      SEN TEW Admin v8.168.0 · Serveur Dakar<br>
+      Dernière MAJ: 31 juillet 2026 · IP: masquée
+    </div>
+  </main>
+</div>
+
+<script>
+function login() {
+  const u = document.getElementById('user').value;
+  const p = document.getElementById('pwd').value;
+  const o = document.getElementById('otp').value;
+  if (u === 'admin' && p === 'admin123' && o === '123456') {
+    sessionStorage.setItem('sentew_admin', '1');
+    document.getElementById('loginBox').classList.add('hidden');
+    document.getElementById('adminApp').style.display = 'flex';
+  } else {
+    alert('❌ Identifiants invalides');
+  }
+}
+function logout() {
+  sessionStorage.removeItem('sentew_admin');
+  location.reload();
+}
+function setPeriod(p, el) {
+  document.querySelectorAll('.period-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const data = {
+    today: {ca:'245 800', o:'23', u:'421', s:'89'},
+    week: {ca:'2 458 500', o:'147', u:'3 421', s:'89'},
+    month: {ca:'12 458 700', o:'687', u:'8 947', s:'112'},
+    year: {ca:'87 654 200', o:'4 231', u:'34 521', s:'234'},
+    all: {ca:'145 892 400', o:'8 947', u:'52 341', s:'287'}
+  };
+  document.getElementById('statCA').textContent = data[p].ca;
+  document.getElementById('statOrders').textContent = data[p].o;
+  document.getElementById('statUsers').textContent = data[p].u;
+  document.getElementById('statSellers').textContent = data[p].s;
+}
+// Auto login si déjà connecté
+if (sessionStorage.getItem('sentew_admin') === '1') {
+  document.getElementById('loginBox').classList.add('hidden');
+  document.getElementById('adminApp').style.display = 'flex';
+}
+</script>
+</body>
+</html>
