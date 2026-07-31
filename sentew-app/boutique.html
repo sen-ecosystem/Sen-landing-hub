@@ -4,152 +4,195 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Boutique - SEN TEW</title>
-<meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#FAFAF7">
 <link rel="stylesheet" href="css/app.css">
-<style>
-.shop-hero{position:relative;height:180px;background:linear-gradient(135deg,var(--emerald),var(--emerald-dark));overflow:hidden}
-.shop-hero::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(212,165,116,.05) 0 15px,transparent 15px 30px)}
-.shop-avatar{position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);width:100px;height:100px;border-radius:50%;border:4px solid var(--white);object-fit:cover;box-shadow:0 4px 20px rgba(0,0,0,.15);pointer-events:auto}
-.live-ring-big{position:absolute;bottom:-44px;left:50%;transform:translateX(-50%);width:108px;height:108px;border:3px solid #ef4444;border-radius:50%;animation:livePulse 2s infinite;pointer-events:none}
-.shop-info{text-align:center;padding:52px 16px 20px}
-.shop-name{font-size:22px;font-weight:900;color:var(--text);display:flex;align-items:center;justify-content:center;gap:6px}
-.verified{color:var(--emerald);font-size:18px}
-.shop-stats{display:flex;justify-content:center;gap:20px;margin:12px 0;padding:12px;background:var(--white);border-radius:16px;box-shadow:var(--shadow);border:1px solid var(--border)}
-.stat-mini{text-align:center}
-.stat-mini .val{font-size:18px;font-weight:900;color:var(--gold-dark)}
-.stat-mini .lbl{font-size:10px;color:var(--text-soft);margin-top:2px}
-.shop-actions{display:flex;gap:8px;padding:0 16px 16px}
-.live-banner-big{margin:0 16px 16px;background:linear-gradient(135deg,#ef4444,#dc2626);border-radius:16px;padding:14px;color:#fff;display:flex;align-items:center;gap:12px;box-shadow:0 6px 16px rgba(239,68,68,.3);text-decoration:none;animation:livePulse 3s infinite}
-</style>
+<meta name="theme-color" content="#0F6B4E">
 </head>
 <body oncontextmenu="return false">
-
 <div class="app">
   <header class="app-header">
     <button class="header-btn" onclick="history.back()">←</button>
-    <div style="flex:1;text-align:center;font-weight:700;">Boutique</div>
-    <button class="header-btn" onclick="alert('📤 Partager la boutique')">📤</button>
+    <div style="flex:1;text-align:center;font-weight:900;color:#0A4D38;" id="shopName">Boutique</div>
+    <button class="header-btn" onclick="shareBoutique()">📤</button>
   </header>
 
-  <main class="app-content" id="content">
-    <p style="text-align:center;color:var(--gold-dark);padding:40px;">Chargement...</p>
+  <main class="app-content">
+    <!-- Header vendeur -->
+    <div style="background:linear-gradient(135deg,#0F6B4E,#0A4D38);padding:20px 16px;color:#fff;position:relative;">
+      <div style="display:flex;gap:14px;align-items:center;">
+        <img id="shopAvatar" src="" style="width:80px;height:80px;border-radius:50%;border:3px solid #D4A574;object-fit:cover;">
+        <div style="flex:1;">
+          <div style="font-size:20px;font-weight:900;" id="shopTitle">—</div>
+          <div style="font-size:12px;opacity:.9;" id="shopBio">—</div>
+          <div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;">
+            <span style="background:#D4A574;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:900;">✅ SEN VERIFIED</span>
+            <span id="liveBadge" style="background:#ef4444;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:900;display:none;">🔴 EN LIVE</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px;text-align:center;">
+        <div><div style="font-weight:900;font-size:16px;" id="stFollowers">0</div><div style="font-size:10px;opacity:.8;">Abonnés</div></div>
+        <div><div style="font-weight:900;font-size:16px;" id="stProducts">0</div><div style="font-size:10px;opacity:.8;">Produits</div></div>
+        <div><div style="font-weight:900;font-size:16px;" id="stSales">0</div><div style="font-size:10px;opacity:.8;">Ventes</div></div>
+        <div><div style="font-weight:900;font-size:16px;">⭐ <span id="stRating">4.8</span></div><div style="font-size:10px;opacity:.8;">Note</div></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px;">
+        <button id="btnFollow" onclick="toggleFollow()" style="flex:1;padding:10px;background:#D4A574;color:#fff;border:none;border-radius:10px;font-weight:800;">+ Suivre</button>
+        <button onclick="messageShop()" style="flex:1;padding:10px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:10px;font-weight:800;backdrop-filter:blur(10px);">💬 Message</button>
+        <button id="btnLive" onclick="watchLive()" style="padding:10px 14px;background:#ef4444;color:#fff;border:none;border-radius:10px;font-weight:800;display:none;">🔴 LIVE</button>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div style="display:flex;gap:0;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.05);position:sticky;top:56px;z-index:5;">
+      <button class="shop-tab active" data-tab="products">🛍 Produits</button>
+      <button class="shop-tab" data-tab="promos">🎁 Promos</button>
+      <button class="shop-tab" data-tab="reviews">⭐ Avis</button>
+      <button class="shop-tab" data-tab="about">ℹ️ Infos</button>
+    </div>
+
+    <!-- Contenu tabs -->
+    <div id="tabProducts" class="tab-content" style="padding:12px;"></div>
+    <div id="tabPromos" class="tab-content" style="padding:12px;display:none;"></div>
+    <div id="tabReviews" class="tab-content" style="padding:12px;display:none;"></div>
+    <div id="tabAbout" class="tab-content" style="padding:12px;display:none;"></div>
   </main>
 
   <nav class="app-nav">
     <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
     <a href="categories.html"><div class="nav-icon">▦</div><div class="nav-label">Catégories</div></a>
-    <a href="panier.html"><div class="nav-icon">🛒</div><div class="nav-label">Panier</div></a>
+    <a href="panier.html"><div class="nav-icon">🛒<span class="badge">3</span></div><div class="nav-label">Panier</div></a>
     <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
     <a href="profil.html"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
   </nav>
 </div>
 
+<style>
+.shop-tab{flex:1;padding:12px 4px;background:none;border:none;border-bottom:3px solid transparent;font-weight:700;font-size:12px;color:#6B7280;cursor:pointer;}
+.shop-tab.active{color:#0F6B4E;border-bottom-color:#0F6B4E;}
+</style>
+
 <script src="js/data.js"></script>
 <script>
-const params = new URLSearchParams(window.location.search);
-const sid = parseInt(params.get('id')) || 1;
-const seller = (sellers || []).find(s => s.id === sid) || sellers[0];
-const shopProducts = (products || []).filter(p => p.sellerId === sid);
+const params = new URLSearchParams(location.search);
+const shopId = params.get('id') || params.get('seller') || '1';
+const list = (typeof products !== 'undefined' ? products : (typeof PRODUCTS !== 'undefined' ? PRODUCTS : []));
 
-document.getElementById('content').innerHTML = `
-  <div class="shop-hero">
-    ${seller.live ? '<div class="live-ring-big"></div>' : ''}
-    <img class="shop-avatar" src="${seller.avatar}" alt="${seller.name}">
-  </div>
+// Données boutique
+const SHOPS = {
+  '1': { name:'Aïcha Boutique', bio:'Mode africaine premium · Dakar', avatar:'https://i.pravatar.cc/200?img=1', followers:12400, sales:3200, rating:4.9, live:true },
+  '2': { name:'Moussa Tech', bio:'Électronique & Smartphones · Plateau', avatar:'https://i.pravatar.cc/200?img=11', followers:8900, sales:2100, rating:4.7, live:false },
+  '3': { name:'Fatou Beauté', bio:'Cosmétiques bio · Almadies', avatar:'https://i.pravatar.cc/200?img=5', followers:5600, sales:1400, rating:4.8, live:false },
+  'default': { name:'Boutique SEN', bio:'Vendeur SEN TEW', avatar:'https://i.pravatar.cc/200', followers:1200, sales:340, rating:4.6, live:false }
+};
 
-  <div class="shop-info">
-    <div class="shop-name">
-      ${seller.name}
-      ${seller.verified ? '<span class="verified" title="Vérifié">✓</span>' : ''}
+const shop = SHOPS[shopId] || SHOPS.default;
+const shopProducts = list.slice(0, 12);
+
+document.getElementById('shopName').textContent = shop.name;
+document.getElementById('shopTitle').textContent = shop.name;
+document.getElementById('shopBio').textContent = shop.bio;
+document.getElementById('shopAvatar').src = shop.avatar;
+document.getElementById('stFollowers').textContent = shop.followers.toLocaleString();
+document.getElementById('stProducts').textContent = shopProducts.length;
+document.getElementById('stSales').textContent = shop.sales.toLocaleString();
+document.getElementById('stRating').textContent = shop.rating;
+if (shop.live) {
+  document.getElementById('liveBadge').style.display = 'inline-block';
+  document.getElementById('btnLive').style.display = 'block';
+}
+
+// Follow status
+const followed = JSON.parse(localStorage.getItem('followed')||'[]');
+if (followed.includes(shopId)) {
+  document.getElementById('btnFollow').textContent = '✓ Suivi';
+  document.getElementById('btnFollow').style.background = 'rgba(255,255,255,.2)';
+}
+
+// Products tab
+document.getElementById('tabProducts').innerHTML = `<div class="grid">${shopProducts.map(p=>`
+  <a href="produit.html?id=${p.id}" class="product-card">
+    <div class="card-image-wrap"><img src="${p.image}" alt=""></div>
+    <div class="card-info">
+      <div class="card-name">${p.name}</div>
+      <div class="card-price">${Number(p.price).toLocaleString()} FCFA</div>
     </div>
-    <div style="color:var(--text-soft);font-size:12px;margin-top:4px;">
-      📍 ${seller.city} · Membre depuis ${seller.joined || 'Février 2024'}
-    </div>
-    ${seller.live ? '<div style="display:inline-block;background:#ef4444;color:#fff;padding:4px 12px;border-radius:16px;font-size:11px;font-weight:800;margin-top:8px;animation:livePulse 2s infinite;">🔴 EN DIRECT MAINTENANT</div>' : ''}
-  </div>
+  </a>`).join('')}</div>`;
 
-  <div class="shop-stats">
-    <div class="stat-mini"><div class="val">${shopProducts.length}</div><div class="lbl">Produits</div></div>
-    <div class="stat-mini"><div class="val">${seller.rating}</div><div class="lbl">Note</div></div>
-    <div class="stat-mini"><div class="val">${seller.reviews}</div><div class="lbl">Avis</div></div>
-    <div class="stat-mini"><div class="val">${seller.followers}</div><div class="lbl">Abonnés</div></div>
+// Promos tab
+document.getElementById('tabPromos').innerHTML = `
+  <div style="background:linear-gradient(135deg,#ef4444,#f97316);padding:20px;border-radius:14px;color:#fff;margin-bottom:12px;">
+    <div style="font-size:12px;opacity:.9;">Code promo exclusif</div>
+    <div style="font-size:28px;font-weight:900;">-20%</div>
+    <div>Sur toute la boutique · Code: <strong>${shop.name.split(' ')[0].toUpperCase()}20</strong></div>
   </div>
-
-  <div class="shop-actions">
-    <button class="btn btn-primary" style="flex:1;" onclick="follow(this)">➕ Suivre</button>
-    <button class="btn btn-outline" style="flex:1;" onclick="window.location.href='messages.html'">💬 Message</button>
-  </div>
-
-  ${seller.live ? `
-    <a href="live.html?seller=${seller.id}" class="live-banner-big">
-      <div style="font-size:36px;">🎥</div>
-      <div style="flex:1;">
-        <div style="font-weight:800;font-size:15px;">Rejoindre le LIVE</div>
-        <div style="font-size:11px;opacity:.9;">👁 ${(seller.liveViewers||1200).toLocaleString()} spectateurs · Offres exclusives -30%</div>
+  <div class="grid">${shopProducts.slice(0,4).map(p=>`
+    <a href="produit.html?id=${p.id}" class="product-card">
+      <div class="card-image-wrap"><span class="card-badge">PROMO</span><img src="${p.image}" alt=""></div>
+      <div class="card-info">
+        <div class="card-name">${p.name}</div>
+        <div class="card-price">${Math.round(p.price*0.8).toLocaleString()} FCFA</div>
+        <div style="text-decoration:line-through;font-size:11px;color:#9CA3AF;">${Number(p.price).toLocaleString()}</div>
       </div>
-      <div style="font-size:24px;">›</div>
-    </a>
-  ` : ''}
+    </a>`).join('')}</div>`;
 
-  <div style="padding:0 16px 12px;">
-    <div style="background:var(--white);border-radius:14px;padding:14px;box-shadow:var(--shadow);border:1px solid var(--border);">
-      <div style="font-size:12px;font-weight:700;color:var(--gold-dark);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">À propos</div>
-      <div style="font-size:13px;color:var(--text);line-height:1.5;">${seller.description || 'Boutique de confiance sur SEN TEW.'}</div>
+// Reviews tab
+document.getElementById('tabReviews').innerHTML = `
+  <div style="background:#fff;padding:16px;border-radius:14px;text-align:center;margin-bottom:12px;">
+    <div style="font-size:36px;font-weight:900;color:#D4A574;">${shop.rating}</div>
+    <div style="color:#D4A574;font-size:20px;">${'⭐'.repeat(Math.round(shop.rating))}</div>
+    <div style="font-size:12px;color:#6B7280;">Basé sur ${shop.sales} ventes</div>
+  </div>
+  ${[
+    {u:'Awa D.',s:5,t:'Excellent vendeur, livraison rapide !'},
+    {u:'Moussa',s:5,t:'Produits conformes à la description'},
+    {u:'Fatou',s:4,t:'Bonne qualité, je recommande'}
+  ].map(r=>`
+    <div style="background:#fff;padding:14px;border-radius:12px;margin-bottom:8px;">
+      <div style="display:flex;justify-content:space-between;">
+        <strong>${r.u}</strong>
+        <span style="color:#D4A574;">${'⭐'.repeat(r.s)}</span>
+      </div>
+      <div style="font-size:13px;color:#374151;margin-top:6px;">${r.t}</div>
+    </div>`).join('')}`;
+
+// About tab
+document.getElementById('tabAbout').innerHTML = `
+  <div style="background:#fff;padding:16px;border-radius:14px;">
+    <div style="display:grid;gap:12px;">
+      <div><strong>📍 Adresse</strong><br><span style="color:#6B7280;">Dakar, Sénégal</span></div>
+      <div><strong>📱 Téléphone</strong><br><a href="tel:+221771234567" style="color:#0F6B4E;">+221 77 123 45 67</a></div>
+      <div><strong>⏰ Horaires</strong><br><span style="color:#6B7280;">Lun-Sam : 9h-20h · Dim : 10h-18h</span></div>
+      <div><strong>🚚 Livraison</strong><br><span style="color:#6B7280;">Dakar 24h · Régions 2-5j</span></div>
+      <div><strong>💳 Paiement</strong><br><span style="color:#6B7280;">Wave · Orange Money · Free Money · CB</span></div>
+      <div><strong>🛡 Politique</strong><br><span style="color:#6B7280;">Retour 7j · Garantie qualité</span></div>
     </div>
-  </div>
+  </div>`;
 
-  <div class="chips">
-    <button class="chip active">Tous (${shopProducts.length})</button>
-    <button class="chip">🔥 Populaires</button>
-    <button class="chip">🆕 Nouveautés</button>
-    <button class="chip">💰 Promos</button>
-    <button class="chip">⭐ Top notés</button>
-  </div>
+document.querySelectorAll('.shop-tab').forEach(t=>{
+  t.onclick = ()=>{
+    document.querySelectorAll('.shop-tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(x=>x.style.display='none');
+    t.classList.add('active');
+    document.getElementById('tab'+t.dataset.tab.charAt(0).toUpperCase()+t.dataset.tab.slice(1)).style.display='block';
+  };
+});
 
-  <div class="section-header">
-    <div class="section-title">🛍 Produits de la boutique</div>
-    <span style="color:var(--text-soft);font-size:12px;">${shopProducts.length} articles</span>
-  </div>
+function toggleFollow(){
+  const followed = JSON.parse(localStorage.getItem('followed')||'[]');
+  const idx = followed.indexOf(shopId);
+  const btn = document.getElementById('btnFollow');
+  if (idx > -1) { followed.splice(idx,1); btn.textContent='+ Suivre'; btn.style.background='#D4A574'; }
+  else { followed.push(shopId); btn.textContent='✓ Suivi'; btn.style.background='rgba(255,255,255,.2)'; }
+  localStorage.setItem('followed',JSON.stringify(followed));
+  navigator.vibrate&&navigator.vibrate(30);
+}
 
-  <div class="grid">
-    ${shopProducts.length ? shopProducts.map(p => `
-      <a href="produit.html?id=${p.id}" class="product-card">
-        <div class="card-image-wrap">
-          ${seller.live ? '<span style="position:absolute;top:8px;left:8px;background:#ef4444;color:#fff;padding:3px 8px;border-radius:6px;font-size:9px;font-weight:900;animation:livePulse 2s infinite;z-index:2;">🔴 LIVE</span>' : (p.discount ? '<span class="card-badge">PROMO</span>' : '')}
-          <span class="card-fav">🤍</span>
-          <img src="${p.image}" alt="${p.name}">
-        </div>
-        <div class="card-info">
-          <div class="card-name">${p.name}</div>
-          <div class="card-price">${p.price.toLocaleString()} FCFA</div>
-          ${p.oldPrice ? `<div><span class="card-old">${p.oldPrice.toLocaleString()} FCFA</span></div>` : ''}
-          <div class="card-rating">⭐ ${p.rating} (${p.reviews})</div>
-        </div>
-      </a>
-    `).join('') : '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-soft);">Aucun produit</div>'}
-  </div>
-
-  <div style="text-align:center;padding:20px;">
-    <div style="display:inline-flex;align-items:center;gap:8px;background:var(--white);padding:10px 20px;border-radius:20px;border:1px solid var(--border);box-shadow:var(--shadow);">
-      <span style="color:var(--emerald);font-size:16px;">🛡</span>
-      <span style="font-size:12px;font-weight:600;">Vendeur certifié SEN TEW · Paiement escrow garanti</span>
-    </div>
-  </div>
-
-  <div style="height:20px;"></div>
-`;
-
-function follow(el){
-  if(el.textContent.includes('Suivre')){
-    el.innerHTML = '✓ Suivi';
-    el.classList.remove('btn-primary');
-    el.classList.add('btn-gold');
-  } else {
-    el.innerHTML = '➕ Suivre';
-    el.classList.remove('btn-gold');
-    el.classList.add('btn-primary');
-  }
+function messageShop(){ location.href='messages.html?seller='+shopId; }
+function watchLive(){ location.href='live.html?seller='+shopId; }
+function shareBoutique(){
+  const url = location.href;
+  if(navigator.share)navigator.share({title:shop.name,url});
+  else{navigator.clipboard.writeText(url);alert('Lien copié');}
 }
 </script>
 </body>
