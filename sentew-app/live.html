@@ -243,5 +243,136 @@ document.getElementById('liveVideo').play().catch(() => {
   console.log('Autoplay bloqué - tap pour lancer');
 });
 </script>
+  <script>
+// SEN TEW LIVE Shopping — WebRTC + Chat temps réel
+class LiveShopping {
+  constructor() {
+    this.viewers = 0;
+    this.messages = [];
+    this.reactions = [];
+    this.currentProduct = null;
+    this.init();
+  }
+
+  init() {
+    // Simulation compteur viewers temps réel
+    this.viewers = Math.floor(Math.random() * 500) + 50;
+    this.updateViewerCount();
+    setInterval(() => {
+      const delta = Math.floor(Math.random() * 10) - 3;
+      this.viewers = Math.max(10, this.viewers + delta);
+      this.updateViewerCount();
+    }, 3000);
+
+    // Messages chat simulés
+    const fakeMessages = [
+      { user: 'Awa D.', text: 'Trop belle cette robe 😍', avatar: '👩🏾' },
+      { user: 'Moussa', text: 'Prix svp ?', avatar: '👨🏾' },
+      { user: 'Fatou', text: 'J\'achète !', avatar: '👩🏾‍🦱' },
+      { user: 'Ibrahima', text: '🔥🔥🔥', avatar: '🧔🏾' },
+      { user: 'Aminata', text: 'Livraison Dakar ?', avatar: '👩🏾‍🦰' },
+      { user: 'Ousmane', text: 'Combien la couleur bleue ?', avatar: '👨🏾‍🦱' }
+    ];
+    setInterval(() => {
+      const msg = fakeMessages[Math.floor(Math.random()*fakeMessages.length)];
+      this.addMessage(msg);
+    }, 4000);
+
+    // Réactions volantes
+    setInterval(() => this.floatReaction(), 1500);
+  }
+
+  updateViewerCount() {
+    const el = document.getElementById('viewerCount');
+    if (el) el.textContent = this.viewers.toLocaleString();
+  }
+
+  addMessage(msg) {
+    const chat = document.getElementById('liveChat');
+    if (!chat) return;
+    const div = document.createElement('div');
+    div.className = 'chat-msg';
+    div.innerHTML = `<span class="chat-avatar">${msg.avatar}</span><strong>${msg.user}</strong> ${msg.text}`;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+    if (chat.children.length > 30) chat.removeChild(chat.firstChild);
+  }
+
+  sendMessage() {
+    const input = document.getElementById('liveMsgInput');
+    if (!input || !input.value.trim()) return;
+    this.addMessage({ user: 'Vous', text: input.value, avatar: '😎' });
+    input.value = '';
+  }
+
+  reaction(emoji) {
+    this.floatReaction(emoji);
+  }
+
+  floatReaction(emoji) {
+    const emojis = ['❤️','🔥','😍','👏','🎉','💯'];
+    const e = emoji || emojis[Math.floor(Math.random()*emojis.length)];
+    const el = document.createElement('div');
+    el.className = 'float-reaction';
+    el.textContent = e;
+    el.style.left = (60 + Math.random()*30) + '%';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 3000);
+  }
+
+  flashBuy(productId) {
+    if (confirm('🛒 Achat flash à -30% ?\n\nProduit ajouté au panier avec réduction LIVE.')) {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      cart.push({ id: productId, flashDiscount: 30, ts: Date.now() });
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert('✅ Ajouté au panier avec -30% flash LIVE !');
+    }
+  }
+}
+
+window.liveShow = new LiveShopping();
+
+// Init caméra si vendeur (host)
+async function startBroadcast() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    const video = document.getElementById('liveVideo');
+    if (video) video.srcObject = stream;
+  } catch(e) {
+    console.log('Camera access denied or not available');
+  }
+}
+</script>
+
+<style>
+.float-reaction {
+  position: fixed;
+  bottom: 100px;
+  font-size: 32px;
+  animation: floatUp 3s ease-out forwards;
+  z-index: 9999;
+  pointer-events: none;
+}
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-400px) scale(1.5); opacity: 0; }
+}
+.chat-msg {
+  padding: 6px 10px;
+  background: rgba(0,0,0,.6);
+  color: #fff;
+  border-radius: 12px;
+  margin: 4px 0;
+  font-size: 13px;
+  backdrop-filter: blur(10px);
+  animation: slideIn .3s ease;
+}
+.chat-avatar { margin-right: 6px; }
+@keyframes slideIn {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+</style>
+
 </body>
 </html>
