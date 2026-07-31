@@ -237,5 +237,37 @@ window.addEventListener('beforeinstallprompt', e => {
   document.body.appendChild(btn);
 });
 </script>
+  <script>
+// Accès admin caché — 7 taps sur le logo en moins de 3 secondes
+(function(){
+  let taps = 0;
+  let timer = null;
+  const trigger = document.getElementById('adminTrigger');
+  if (!trigger) return;
+
+  trigger.addEventListener('click', () => {
+    taps++;
+    clearTimeout(timer);
+    timer = setTimeout(() => taps = 0, 3000);
+
+    if (taps === 5) {
+      // Feedback discret au 5e tap
+      navigator.vibrate && navigator.vibrate(50);
+    }
+    if (taps >= 7) {
+      taps = 0;
+      // Prompt code d'accès admin
+      const code = prompt('🔐 Code d\'accès administrateur :');
+      if (code === 'SENADMIN2026') {
+        sessionStorage.setItem('admin_pre_auth', '1');
+        window.location.href = 'admin.html';
+      } else if (code !== null) {
+        alert('❌ Code incorrect');
+      }
+    }
+  });
+})();
+</script>
+
 </body>
 </html>
