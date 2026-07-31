@@ -191,12 +191,35 @@ document.getElementById('productsGrid').innerHTML = sortedList.slice(0,6).map(p 
   </a>
 `).join('');
 
-// PWA Service Worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sentew-app/sw.js').catch(err => console.log('SW error:', err));
+    navigator.serviceWorker.register('/sentew-app/sw.js').then(reg => {
+      // Force check for update every load
+      reg.update();
+      reg.addEventListener('updatefound', () => {
+        const nw = reg.installing;
+        nw.addEventListener('statechange', () => {
+          if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+            // Nouvelle version dispo → prompt user
+            if (confirm('🔄 Nouvelle version disponible. Recharger maintenant ?')) {
+              nw.postMessage({type:'SKIP_WAITING'});
+              window.location.reload();
+            }
+          }
+        });
+      });
+    }).catch(err => console.log('SW error:', err));
+
+    // Reload auto si nouveau SW prend contrôle
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (refreshing) return;
+      refreshing = true;
+      window.location.reload();
+    });
   });
 }
+
 
 // Bouton "Installer l'app"
 let deferredPrompt;
