@@ -2,101 +2,99 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Produits - SEN TEW</title>
-<meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#FAFAF7">
 <link rel="stylesheet" href="css/app.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#FAFAF7">
 </head>
 <body oncontextmenu="return false">
 <div class="app">
   <header class="app-header">
     <button class="header-btn" onclick="history.back()">←</button>
-    <div style="flex:1;text-align:center;font-weight:800;color:var(--text);font-size:16px;" id="pageTitle">Tous les produits</div>
-    <button class="header-btn" onclick="alert('⚙ Filtres avancés')">⚙</button>
+    <div style="flex:1;text-align:center;font-weight:900;color:#0A4D38;" id="pageTitle">Tous les produits</div>
+    <a href="panier.html" class="header-btn">🛒<span class="badge">3</span></a>
   </header>
 
   <main class="app-content">
-    <div class="search-box">
-      <div class="search-wrap">
-        <span class="search-icon">🔍</span>
-        <input type="text" placeholder="Rechercher..." oninput="search(this.value)">
-      </div>
+    <div style="display:flex;gap:8px;overflow-x:auto;padding:12px;background:#fff;position:sticky;top:56px;z-index:5;box-shadow:0 2px 8px rgba(0,0,0,.04);">
+      <button class="filter-chip active" data-cat="all">Tous</button>
+      <button class="filter-chip" data-cat="mode">👕 Mode</button>
+      <button class="filter-chip" data-cat="tech">🎧 Tech</button>
+      <button class="filter-chip" data-cat="maison">🛋 Maison</button>
+      <button class="filter-chip" data-cat="beauty">💄 Beauté</button>
+      <button class="filter-chip" data-cat="food">🧺 Alim.</button>
     </div>
 
-    <div class="chips">
-      <button class="chip active" onclick="filt('all',this)">Tous</button>
-      <button class="chip" onclick="filt('live',this)">🔴 LIVE</button>
-      <button class="chip" onclick="filt('promo',this)">🔥 Promo</button>
-      <button class="chip" onclick="filt('new',this)">🆕 Nouveau</button>
-      <button class="chip" onclick="filt('top',this)">⭐ Top</button>
+    <div style="display:flex;justify-content:space-between;padding:8px 12px;font-size:12px;color:#6B7280;">
+      <span id="resultCount">0 résultats</span>
+      <select id="sortSelect" style="border:none;background:transparent;font-weight:700;color:#0A4D38;">
+        <option value="default">Trier par</option>
+        <option value="price-asc">Prix ↑</option>
+        <option value="price-desc">Prix ↓</option>
+        <option value="live">LIVE d'abord</option>
+      </select>
     </div>
 
-    <div style="padding:8px 16px;color:var(--text-soft);font-size:12px;font-weight:600;" id="count">Chargement...</div>
-
-    <div class="grid" id="grid"></div>
-
-    <div style="height:100px;"></div>
+    <div class="grid" id="prodGrid" style="padding:12px;"></div>
   </main>
-
-  <a href="assistant-ia.html" class="fab-ia">✨<br><span style="font-size:9px;">IA</span></a>
 
   <nav class="app-nav">
     <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
     <a href="categories.html" class="active"><div class="nav-icon">▦</div><div class="nav-label">Catégories</div></a>
-    <a href="panier.html"><div class="nav-icon">🛒</div><div class="nav-label">Panier</div></a>
+    <a href="panier.html"><div class="nav-icon">🛒<span class="badge">3</span></div><div class="nav-label">Panier</div></a>
     <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
     <a href="profil.html"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
   </nav>
 </div>
 
+<style>
+.filter-chip{background:#F3F4F6;border:none;padding:8px 14px;border-radius:20px;font-weight:700;font-size:12px;white-space:nowrap;color:#374151;cursor:pointer;}
+.filter-chip.active{background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;}
+</style>
+
 <script src="js/data.js"></script>
 <script>
-const params = new URLSearchParams(window.location.search);
-const cat = params.get('cat');
-let currentList = products;
+const params = new URLSearchParams(location.search);
+let currentCat = params.get('cat') || 'all';
+const list = (typeof products !== 'undefined' ? products : (typeof PRODUCTS !== 'undefined' ? PRODUCTS : []));
+const titles = {all:'Tous les produits',mode:'Mode',tech:'Électronique',maison:'Maison',beauty:'Beauté',food:'Alimentation'};
 
-if (cat) {
-  currentList = products.filter(p => p.category === cat);
-  document.getElementById('pageTitle').textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
-}
+function render(cat, sort='default') {
+  currentCat = cat;
+  document.getElementById('pageTitle').textContent = titles[cat] || 'Produits';
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c.dataset.cat === cat));
 
-function render(list){
-  document.getElementById('count').textContent = `${list.length} produit${list.length>1?'s':''} trouvé${list.length>1?'s':''}`;
-  document.getElementById('grid').innerHTML = list.length ? list.map(p => `
-    <a href="produit.html?id=${p.id}" class="product-card">
+  let filtered = cat === 'all' ? [...list] : list.filter(p => p.cat === cat || p.category === cat);
+  if (sort === 'price-asc') filtered.sort((a,b) => a.price - b.price);
+  if (sort === 'price-desc') filtered.sort((a,b) => b.price - a.price);
+  if (sort === 'live') filtered.sort((a,b) => (b.sellerLive?1:0) - (a.sellerLive?1:0));
+
+  document.getElementById('resultCount').textContent = `${filtered.length} résultats`;
+  document.getElementById('prodGrid').innerHTML = filtered.map(p => `
+    <a href="produit.html?id=${p.id}" class="product-card fade-in">
       <div class="card-image-wrap">
-        ${p.sellerLive ? `<span class="card-badge" style="background:#ef4444;color:#fff;animation:livePulse 2s infinite;">🔴 LIVE</span>` : (p.discount ? `<span class="card-badge">-${p.discount}%</span>` : '')}
+        ${p.sellerLive ? `<span style="position:absolute;top:8px;left:8px;background:#ef4444;color:#fff;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:900;z-index:2;">🔴 LIVE</span>` : (p.discount ? `<span class="card-badge">PROMO</span>` : '')}
         <span class="card-fav">🤍</span>
         <img src="${p.image}" alt="${p.name}">
       </div>
       <div class="card-info">
         <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;">
-          <img src="${p.sellerAvatar}" style="width:16px;height:16px;border-radius:50%;object-fit:cover;pointer-events:auto;">
-          <span style="font-size:10px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;">${p.seller}</span>
+          <img src="${p.sellerAvatar||''}" style="width:16px;height:16px;border-radius:50%;object-fit:cover;">
+          <span style="font-size:10px;color:#6B7280;font-weight:600;">${p.seller||''}</span>
         </div>
         <div class="card-name">${p.name}</div>
-        <div class="card-price">${p.price.toLocaleString()} FCFA</div>
-        ${p.oldPrice ? `<div><span class="card-old">${p.oldPrice.toLocaleString()} FCFA</span></div>` : ''}
-        <div class="card-rating">⭐ ${p.rating} (${p.reviews})</div>
+        <div><span class="card-price">${Number(p.price).toLocaleString()} FCFA</span></div>
+        ${p.oldPrice ? `<div><span class="card-old">${Number(p.oldPrice).toLocaleString()} FCFA</span></div>` : ''}
       </div>
     </a>
-  `).join('') : '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted);">Aucun produit trouvé</div>';
+  `).join('') || '<div style="padding:40px;text-align:center;color:#6B7280;">Aucun produit dans cette catégorie</div>';
 }
 
-function filt(t,el){
-  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');
-  let l = currentList;
-  if(t==='live') l = currentList.filter(p=>p.sellerLive);
-  if(t==='promo') l = currentList.filter(p=>p.discount);
-  if(t==='top') l = currentList.filter(p=>p.rating>=4.8);
-  render(l);
-}
-function search(q){
-  render(currentList.filter(p=>p.name.toLowerCase().includes(q.toLowerCase())));
-}
-render(currentList);
+document.querySelectorAll('.filter-chip').forEach(c => c.onclick = () => render(c.dataset.cat, document.getElementById('sortSelect').value));
+document.getElementById('sortSelect').onchange = e => render(currentCat, e.target.value);
+
+render(currentCat);
 </script>
 </body>
 </html>
