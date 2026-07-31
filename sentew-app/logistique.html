@@ -3,138 +3,171 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Logistique - SEN TEW</title>
-<meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0A1F17">
+<title>Logistique & Livraison - SEN TEW</title>
 <link rel="stylesheet" href="css/app.css">
-<style>body{background:#0A1F17}.app{background:#0A1F17;color:#fff}.app-header{background:linear-gradient(135deg,#0F6B4E,#0A4D38);border-bottom-color:rgba(212,165,116,.2)}.app-header .header-btn{background:rgba(255,255,255,.15);color:#fff;border:none}.stat-mini-card{background:rgba(255,255,255,.05);border:1px solid rgba(212,165,116,.15);border-radius:12px;padding:12px;text-align:center}.carrier-card{background:rgba(255,255,255,.04);border:2px solid rgba(212,165,116,.15);border-radius:14px;padding:12px;text-align:center;cursor:pointer;transition:.2s}.carrier-card.active{border-color:var(--gold);background:rgba(212,165,116,.08)}.carrier-name{font-size:12px;font-weight:800;color:#fff;margin:4px 0}.carrier-desc{font-size:9px;color:rgba(255,255,255,.6);margin-bottom:6px}.carrier-price{background:linear-gradient(135deg,var(--emerald),var(--emerald-dark));color:#fff;padding:4px 8px;border-radius:6px;font-size:10px;font-weight:800;display:inline-block}</style>
+<meta name="theme-color" content="#0F6B4E">
 </head>
 <body oncontextmenu="return false">
 <div class="app">
   <header class="app-header">
-    <div class="app-logo">
-      <div class="logo-icon" style="width:28px;height:28px;font-size:14px;">👑</div>
-      <div>
-        <div class="logo-text" style="font-size:14px;">SEN TEW</div>
-        <div class="logo-sub" style="font-size:7px;color:rgba(255,255,255,.7);">MARKETPLACE</div>
-      </div>
-    </div>
-    <div style="flex:1;text-align:center;color:#fff;font-weight:800;font-size:14px;">Logistique & Livraison</div>
-    <a href="notifications.html" class="header-btn">🔔<span class="badge">3</span></a>
+    <button class="header-btn" onclick="history.back()">←</button>
+    <div style="flex:1;text-align:center;font-weight:900;color:#0A4D38;">🚚 Logistique & Livraison</div>
+    <button class="header-btn" onclick="location.href='notifications.html'">🔔<span class="badge" id="notifBadge">2</span></button>
   </header>
 
-  <main class="app-content">
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 16px;">
-      <div class="stat-mini-card"><div style="color:var(--emerald-light);font-size:18px;">📦</div><div style="font-size:22px;font-weight:900;color:#fff;margin:4px 0;">8</div><div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:600;">Colis à expédier</div></div>
-      <div class="stat-mini-card"><div style="color:var(--emerald-light);font-size:18px;">🚚</div><div style="font-size:22px;font-weight:900;color:#fff;margin:4px 0;">5</div><div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:600;">En transit</div></div>
-      <div class="stat-mini-card"><div style="color:var(--emerald-light);font-size:18px;">✅</div><div style="font-size:22px;font-weight:900;color:#fff;margin:4px 0;">142</div><div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:600;">Livrés ce mois</div></div>
+  <main class="app-content" style="padding:12px;">
+    <!-- Stats rapides -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;">
+      <div class="stat-card" style="background:#0F6B4E;color:#fff;"><div style="font-size:20px;font-weight:900;" id="pendingCount">3</div><div style="font-size:10px;">À expédier</div></div>
+      <div class="stat-card" style="background:#F59E0B;color:#fff;"><div style="font-size:20px;font-weight:900;" id="shippingCount">5</div><div style="font-size:10px;">En cours</div></div>
+      <div class="stat-card" style="background:#3B82F6;color:#fff;"><div style="font-size:20px;font-weight:900;" id="deliveredCount">12</div><div style="font-size:10px;">Livrés</div></div>
+      <div class="stat-card" style="background:#D4A574;color:#fff;"><div style="font-size:20px;font-weight:900;">98%</div><div style="font-size:10px;">Satisf.</div></div>
     </div>
 
-    <div style="padding:8px 16px;color:#fff;font-size:14px;font-weight:800;">Choisir un transporteur</div>
-
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 16px 12px;">
-      <div class="carrier-card active">
-        <div style="font-size:20px;">📦</div>
-        <div class="carrier-name">Yobante</div>
-        <div class="carrier-desc">Sénégal local</div>
-        <div class="carrier-price">1500 FCFA</div>
-      </div>
-      <div class="carrier-card">
-        <div style="font-size:20px;color:#FFCC00;">✈️</div>
-        <div class="carrier-name">DHL</div>
-        <div class="carrier-desc">International</div>
-        <div class="carrier-price" style="background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--emerald-dark);">Premium</div>
-      </div>
-      <div class="carrier-card">
-        <div style="font-size:20px;">🚛</div>
-        <div class="carrier-name">Aramex</div>
-        <div class="carrier-desc">Panafricain</div>
-        <div class="carrier-price">2500 FCFA</div>
-      </div>
-      <div class="carrier-card">
-        <div style="font-size:20px;">📮</div>
-        <div class="carrier-name">La Poste</div>
-        <div class="carrier-desc">Économique</div>
-        <div class="carrier-price">1000 FCFA</div>
-      </div>
-      <div class="carrier-card">
-        <div style="font-size:20px;">🍊</div>
-        <div class="carrier-name">Orange Logistics</div>
-        <div class="carrier-desc">Rapide</div>
-        <div class="carrier-price">2000 FCFA</div>
-      </div>
-      <div class="carrier-card">
-        <div style="font-size:20px;">🚲</div>
-        <div class="carrier-name">MaxiMobility</div>
-        <div class="carrier-desc">Jour même</div>
-        <div class="carrier-price">1800 FCFA</div>
-      </div>
-      <div class="carrier-card">
-        <div style="font-size:20px;">🌍</div>
-        <div class="carrier-name">M-Pesa</div>
-        <div class="carrier-desc">Afrique Est</div>
-        <div class="carrier-price">2200 FCFA</div>
-      </div>
-      <div class="carrier-card">
-        <div style="font-size:20px;color:#22c55e;">⚡</div>
-        <div class="carrier-name">Bolt Delivery</div>
-        <div class="carrier-desc">Flexible</div>
-        <div class="carrier-price">1600 FCFA</div>
-      </div>
+    <!-- Tabs -->
+    <div style="display:flex;gap:0;background:#fff;border-radius:12px;padding:4px;margin-bottom:12px;">
+      <button class="log-tab active" data-tab="orders">📦 Commandes</button>
+      <button class="log-tab" data-tab="shipping">🚚 Livraisons</button>
+      <button class="log-tab" data-tab="options">⚙️ Options</button>
     </div>
 
-    <div style="padding:8px 16px;display:flex;justify-content:space-between;align-items:center;">
-      <span style="color:#fff;font-weight:800;font-size:14px;">Expédition active</span>
-      <a href="commandes.html" style="color:var(--emerald-light);font-size:12px;font-weight:700;text-decoration:none;">Voir tous ›</a>
-    </div>
-
-    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(212,165,116,.15);border-radius:14px;margin:0 16px;padding:14px;display:flex;gap:12px;align-items:center;">
-      <div style="background:rgba(15,107,78,.2);color:var(--emerald-light);width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">📦</div>
-      <div style="flex:1;">
-        <div style="font-weight:800;font-size:13px;color:#fff;">Colis #SEN-8472</div>
-        <div style="font-size:11px;color:rgba(255,255,255,.7);">Aïcha → Mamadou</div>
-        <div style="font-size:10px;color:var(--gold);margin-top:2px;font-weight:600;">📍 Dakar Sicap Liberté · 🏃 Yobante Express</div>
+    <!-- COMMANDES À EXPÉDIER -->
+    <div id="tabOrders" class="log-content">
+      <div style="background:#FEF3C7;padding:12px;border-radius:10px;margin-bottom:12px;font-size:13px;">
+        <strong>💡 Nouveau workflow :</strong> Dès qu'un client passe commande, elle apparaît ici. Choisissez le mode de livraison → un livreur est automatiquement notifié.
       </div>
-      <div style="text-align:right;">
-        <div style="font-size:10px;color:rgba(255,255,255,.6);">Est. livraison</div>
-        <div style="font-size:12px;font-weight:800;color:var(--gold);">28 juil 2026</div>
-        <div style="background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--emerald-dark);padding:2px 8px;border-radius:6px;font-size:9px;font-weight:900;margin-top:4px;">EN COURS</div>
+      <div id="ordersList"></div>
+    </div>
+
+    <!-- LIVRAISONS EN COURS -->
+    <div id="tabShipping" class="log-content" style="display:none;">
+      <div id="shippingList"></div>
+    </div>
+
+    <!-- OPTIONS LIVREUR -->
+    <div id="tabOptions" class="log-content" style="display:none;">
+      <div style="background:#fff;border-radius:14px;padding:16px;margin-bottom:12px;">
+        <h3 style="margin:0 0 12px;color:#0A4D38;">🚚 Modes de livraison disponibles</h3>
+        <div style="display:grid;gap:10px;">
+          <label class="delivery-opt"><input type="checkbox" checked> <div><strong>🏍 SEN TEW Express</strong><div style="font-size:11px;color:#6B7280;">2h Dakar · 2000 FCFA</div></div></label>
+          <label class="delivery-opt"><input type="checkbox" checked> <div><strong>🚗 Livraison standard</strong><div style="font-size:11px;color:#6B7280;">24h Dakar · 1500 FCFA</div></div></label>
+          <label class="delivery-opt"><input type="checkbox" checked> <div><strong>🚚 Régions</strong><div style="font-size:11px;color:#6B7280;">2-5 jours · 3500-8000 FCFA</div></div></label>
+          <label class="delivery-opt"><input type="checkbox"> <div><strong>✈️ International</strong><div style="font-size:11px;color:#6B7280;">7-15 jours · Sur devis</div></div></label>
+          <label class="delivery-opt"><input type="checkbox"> <div><strong>🏪 Point relais</strong><div style="font-size:11px;color:#6B7280;">Gratuit · Retrait en boutique</div></div></label>
+        </div>
       </div>
-    </div>
 
-    <div style="padding:12px 16px 8px;color:#fff;font-weight:800;font-size:14px;">Suivi en temps réel</div>
-    <div style="margin:0 16px;height:180px;border-radius:14px;background:linear-gradient(135deg,#164e3a,#0A4D38);position:relative;overflow:hidden;">
-      <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,transparent 1px 20px),repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 1px,transparent 1px 20px);"></div>
-      <div style="position:absolute;top:12px;left:12px;background:rgba(0,0,0,.5);color:#fff;padding:4px 10px;border-radius:6px;font-size:10px;backdrop-filter:blur(6px);">🟢 MAJ il y a 2 min</div>
-      <div style="position:absolute;top:50%;left:20%;transform:translateY(-50%);">🏍</div>
-      <div style="position:absolute;top:50%;right:20%;transform:translateY(-50%);color:var(--gold);font-size:22px;">📍</div>
-      <svg style="position:absolute;inset:0;" viewBox="0 0 400 180"><path d="M80 90 Q 200 40 320 90" stroke="var(--gold)" stroke-width="2" fill="none" stroke-dasharray="6"/></svg>
-      <div style="position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,.7);color:#fff;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;">🎯</div>
-    </div>
-
-    <div style="background:rgba(15,107,78,.15);border:1px solid rgba(15,107,78,.3);border-radius:12px;margin:12px 16px;padding:12px;display:flex;align-items:center;gap:10px;">
-      <div style="color:var(--emerald-light);font-size:20px;">🛡</div>
-      <div style="flex:1;">
-        <div style="font-weight:800;font-size:12px;color:#fff;">Assurance colis activée</div>
-        <div style="font-size:10px;color:rgba(255,255,255,.7);font-weight:500;">Votre colis est couvert en cas de perte ou dommage.</div>
+      <div style="background:#fff;border-radius:14px;padding:16px;">
+        <h3 style="margin:0 0 12px;color:#0A4D38;">👥 Livreurs partenaires</h3>
+        <div id="driversList"></div>
       </div>
-      <div style="color:var(--gold);font-weight:800;font-size:11px;">+500 FCFA</div>
-      <div class="toggle on" style="background:var(--gold);"></div>
-    </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px 16px 20px;">
-      <button class="btn btn-gold" style="padding:12px;font-size:12px;" onclick="alert('🖨 Impression étiquette...')">🖨 Étiquette</button>
-      <button class="btn btn-outline" style="padding:12px;font-size:12px;color:#fff;border-color:rgba(212,165,116,.4);background:rgba(212,165,116,.08);" onclick="alert('📦 Expédition en lot')">📦 En lot</button>
     </div>
   </main>
 
   <nav class="app-nav">
-    <a href="vendeur.html"><div class="nav-icon">📊</div><div class="nav-label">Dashboard</div></a>
-    <a href="commandes.html"><div class="nav-icon">📋</div><div class="nav-label">Commandes</div></a>
+    <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
+    <a href="vendeur.html"><div class="nav-icon">🏪</div><div class="nav-label">Vendeur</div></a>
     <a href="logistique.html" class="active"><div class="nav-icon">🚚</div><div class="nav-label">Logistique</div></a>
-    <a href="messages.html"><div class="nav-icon">💬<span class="badge">5</span></div><div class="nav-label">Messages</div></a>
+    <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
     <a href="profil.html"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
   </nav>
 </div>
+
+<style>
+.stat-card{padding:12px 8px;border-radius:12px;text-align:center;}
+.log-tab{flex:1;padding:10px;background:none;border:none;border-radius:8px;font-weight:700;font-size:12px;color:#6B7280;cursor:pointer;}
+.log-tab.active{background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;}
+.delivery-opt{display:flex;gap:10px;align-items:center;padding:10px;background:#F9FAFB;border-radius:10px;cursor:pointer;}
+.order-card{background:#fff;border-radius:12px;padding:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+</style>
+
+<script>
+const ORDERS = [
+  { id:'ST24071', client:'Awa Diop', product:'Robe wax premium', addr:'Sacré-Cœur, Dakar', amount:15000, ts:Date.now()-3600000, status:'pending' },
+  { id:'ST24072', client:'Moussa Fall', product:'iPhone 15 Pro', addr:'Plateau, Dakar', amount:750000, ts:Date.now()-7200000, status:'pending' },
+  { id:'ST24073', client:'Fatou Ndiaye', product:'Palette maquillage', addr:'Almadies', amount:8500, ts:Date.now()-1800000, status:'pending' }
+];
+
+const SHIPPING = [
+  { id:'ST24068', driver:'Cheikh (🏍)', client:'Ibrahima B.', status:'En route', eta:'15min', progress:65 },
+  { id:'ST24069', driver:'Aliou (🚗)', client:'Mariama S.', status:'Livré', eta:'Terminé', progress:100 },
+  { id:'ST24070', driver:'Modou (🏍)', client:'Ndeye K.', status:'Ramassage', eta:'5min', progress:20 }
+];
+
+const DRIVERS = [
+  { name:'Cheikh Diop', vehicle:'🏍 Moto', zone:'Dakar centre', rating:4.9, deliveries:340, avatar:'https://i.pravatar.cc/60?img=12' },
+  { name:'Aliou Ba', vehicle:'🚗 Voiture', zone:'Grand Dakar', rating:4.8, deliveries:520, avatar:'https://i.pravatar.cc/60?img=14' },
+  { name:'Modou Sarr', vehicle:'🏍 Moto', zone:'Banlieue', rating:4.7, deliveries:210, avatar:'https://i.pravatar.cc/60?img=15' }
+];
+
+document.getElementById('ordersList').innerHTML = ORDERS.map(o=>`
+  <div class="order-card">
+    <div style="display:flex;justify-content:space-between;">
+      <strong style="color:#0F6B4E;">#${o.id}</strong>
+      <span style="font-size:11px;color:#6B7280;">${Math.round((Date.now()-o.ts)/60000)}min</span>
+    </div>
+    <div style="margin:6px 0;">
+      <div style="font-weight:700;">${o.product}</div>
+      <div style="font-size:12px;color:#6B7280;">👤 ${o.client} · 📍 ${o.addr}</div>
+      <div style="font-size:14px;color:#0F6B4E;font-weight:900;margin-top:4px;">${o.amount.toLocaleString()} FCFA</div>
+    </div>
+    <div style="display:flex;gap:6px;margin-top:10px;">
+      <button onclick="chooseDelivery('${o.id}')" style="flex:1;padding:10px;background:linear-gradient(135deg,#0F6B4E,#D4A574);color:#fff;border:none;border-radius:8px;font-weight:800;font-size:12px;">🚚 Choisir livreur</button>
+      <button onclick="location.href='messages.html?order=${o.id}'" style="padding:10px 14px;background:#F0FDF4;color:#0F6B4E;border:1px solid #0F6B4E33;border-radius:8px;font-weight:700;font-size:12px;">💬</button>
+    </div>
+  </div>
+`).join('');
+
+document.getElementById('shippingList').innerHTML = SHIPPING.map(s=>`
+  <div class="order-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <strong>#${s.id}</strong> · ${s.driver}
+        <div style="font-size:12px;color:#6B7280;">Client: ${s.client}</div>
+      </div>
+      <span style="background:${s.progress===100?'#10B981':'#F59E0B'};color:#fff;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:700;">${s.status}</span>
+    </div>
+    <div style="background:#E5E7EB;height:6px;border-radius:3px;margin:10px 0;overflow:hidden;">
+      <div style="width:${s.progress}%;height:100%;background:linear-gradient(90deg,#0F6B4E,#D4A574);"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:12px;">
+      <span>⏱ ${s.eta}</span>
+      <a href="panoramique.html?order=${s.id}" style="color:#0F6B4E;font-weight:700;text-decoration:none;">📍 Voir sur carte →</a>
+    </div>
+  </div>
+`).join('');
+
+document.getElementById('driversList').innerHTML = DRIVERS.map(d=>`
+  <div style="display:flex;gap:12px;padding:10px;background:#F9FAFB;border-radius:10px;margin-bottom:8px;align-items:center;">
+    <img src="${d.avatar}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;">
+    <div style="flex:1;">
+      <strong>${d.name}</strong> · ⭐ ${d.rating}
+      <div style="font-size:11px;color:#6B7280;">${d.vehicle} · ${d.zone} · ${d.deliveries} livraisons</div>
+    </div>
+    <button onclick="alert('📞 Appel à ${d.name}...')" style="width:36px;height:36px;background:#0F6B4E;color:#fff;border:none;border-radius:50%;">📞</button>
+  </div>
+`).join('');
+
+function chooseDelivery(orderId){
+  const options = ['SEN TEW Express (2h)','Standard 24h','Régions','Point relais'];
+  const choice = prompt(`🚚 Choisir mode de livraison pour #${orderId} :\n\n${options.map((o,i)=>`${i+1}. ${o}`).join('\n')}\n\nEntrez 1-4 :`);
+  if (options[parseInt(choice)-1]) {
+    alert(`✅ ${options[parseInt(choice)-1]} sélectionné.\n\n📨 Notification envoyée aux livreurs disponibles.\nLe premier qui accepte prendra la commande.`);
+    // Notification livreurs
+    const notifs = JSON.parse(localStorage.getItem('driver_notifs')||'[]');
+    notifs.push({ id:orderId, mode:options[parseInt(choice)-1], ts:Date.now() });
+    localStorage.setItem('driver_notifs', JSON.stringify(notifs));
+  }
+}
+
+document.querySelectorAll('.log-tab').forEach(t=>{
+  t.onclick = ()=>{
+    document.querySelectorAll('.log-tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.log-content').forEach(x=>x.style.display='none');
+    t.classList.add('active');
+    document.getElementById('tab'+t.dataset.tab.charAt(0).toUpperCase()+t.dataset.tab.slice(1)).style.display='block';
+  };
+});
+</script>
 </body>
 </html>
