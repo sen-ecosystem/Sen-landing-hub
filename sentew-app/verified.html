@@ -102,6 +102,116 @@ body{background:#0A1F17}
       <div style="color:var(--emerald-light);font-weight:800;font-size:14px;">SEN TEW Verified, la confiance qui vend.</div>
       <div style="color:rgba(255,255,255,.75);font-size:11px;margin-top:6px;font-weight:500;">Plus de visibilité. Plus de clients. Plus de ventes.</div>
     </div>
+    <!-- SECTION AVANTAGES ABONNÉS -->
+<section style="margin:16px;">
+  <h3 style="color:#0A4D38;margin-bottom:12px;">✨ Outils IA réservés aux abonnés SEN Verified</h3>
+
+  <div style="display:grid;gap:12px;">
+    <!-- Retouche photo IA -->
+    <div class="verified-tool" style="background:linear-gradient(135deg,#0F6B4E,#D4A574);color:#fff;padding:16px;border-radius:14px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:8px;right:8px;background:#fff;color:#0F6B4E;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:900;">PREMIUM</div>
+      <div style="display:flex;gap:14px;align-items:center;">
+        <div style="font-size:40px;">🎨</div>
+        <div style="flex:1;">
+          <div style="font-weight:900;font-size:16px;">Retouche IA Nano Banana</div>
+          <div style="font-size:11px;opacity:.9;">Améliorez vos photos produits en 1 clic</div>
+          <div style="font-size:11px;margin-top:4px;">💎 <strong>3 crédits</strong> par photo · Gratuit illimité si Gold/Platinum</div>
+        </div>
+      </div>
+      <button onclick="useToolIA('retouche')" style="width:100%;margin-top:12px;padding:12px;background:#fff;color:#0F6B4E;border:none;border-radius:10px;font-weight:800;">🎨 Utiliser</button>
+    </div>
+
+    <!-- Flash Vidéo LIVE -->
+    <div class="verified-tool" style="background:linear-gradient(135deg,#ef4444,#f97316);color:#fff;padding:16px;border-radius:14px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:8px;right:8px;background:#fff;color:#ef4444;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:900;">GOLD</div>
+      <div style="display:flex;gap:14px;align-items:center;">
+        <div style="font-size:40px;">🎥</div>
+        <div style="flex:1;">
+          <div style="font-weight:900;font-size:16px;">Flash Vidéo LIVE</div>
+          <div style="font-size:11px;opacity:.9;">Vidéos 15s promotionnelles automatiques IA</div>
+          <div style="font-size:11px;margin-top:4px;">💎 <strong>10 crédits</strong> par vidéo · Illimité Platinum</div>
+        </div>
+      </div>
+      <button onclick="useToolIA('flash-video')" style="width:100%;margin-top:12px;padding:12px;background:#fff;color:#ef4444;border:none;border-radius:10px;font-weight:800;">🎥 Créer une vidéo</button>
+    </div>
+
+    <!-- Boost visibilité -->
+    <div class="verified-tool" style="background:linear-gradient(135deg,#8B5CF6,#EC4899);color:#fff;padding:16px;border-radius:14px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:8px;right:8px;background:#fff;color:#8B5CF6;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:900;">PLATINUM</div>
+      <div style="display:flex;gap:14px;align-items:center;">
+        <div style="font-size:40px;">🚀</div>
+        <div style="flex:1;">
+          <div style="font-weight:900;font-size:16px;">Boost Visibilité IA</div>
+          <div style="font-size:11px;opacity:.9;">Vos produits en TOP recherche 24h</div>
+          <div style="font-size:11px;margin-top:4px;">💎 <strong>50 crédits</strong> par boost</div>
+        </div>
+      </div>
+      <button onclick="useToolIA('boost')" style="width:100%;margin-top:12px;padding:12px;background:#fff;color:#8B5CF6;border:none;border-radius:10px;font-weight:800;">🚀 Booster</button>
+    </div>
+  </div>
+
+  <!-- Solde crédits -->
+  <div style="background:#fff;border-radius:14px;padding:16px;margin-top:16px;display:flex;justify-content:space-between;align-items:center;">
+    <div>
+      <div style="font-size:11px;color:#6B7280;">Vos crédits IA</div>
+      <div style="font-size:24px;font-weight:900;color:#D4A574;" id="creditBalance">💎 25</div>
+    </div>
+    <button onclick="buyCredits()" style="padding:10px 16px;background:#0F6B4E;color:#fff;border:none;border-radius:10px;font-weight:800;">+ Recharger</button>
+  </div>
+</section>
+
+<script>
+const userTier = localStorage.getItem('user_tier') || 'bronze'; // bronze / gold / platinum
+let credits = parseInt(localStorage.getItem('ai_credits') || '25');
+document.getElementById('creditBalance').textContent = '💎 ' + credits;
+
+function useToolIA(tool){
+  const costs = {'retouche':3,'flash-video':10,'boost':50};
+  const tierReq = {'retouche':'bronze','flash-video':'gold','boost':'platinum'};
+  const tiers = {'bronze':0,'gold':1,'platinum':2};
+
+  if (tiers[userTier] < tiers[tierReq[tool]]) {
+    if(confirm(`🔒 Cet outil est réservé aux abonnés ${tierReq[tool].toUpperCase()}.\n\nUpgrader maintenant ?`)){
+      location.href = 'verified.html#abonnement';
+    }
+    return;
+  }
+
+  const isUnlimited = (tool==='retouche' && userTier!=='bronze') ||
+                      (tool==='flash-video' && userTier==='platinum');
+
+  if (isUnlimited || credits >= costs[tool]) {
+    if(!isUnlimited){
+      credits -= costs[tool];
+      localStorage.setItem('ai_credits', credits);
+      document.getElementById('creditBalance').textContent = '💎 ' + credits;
+    }
+    if(tool==='retouche') location.href='retouche-ia.html';
+    else if(tool==='flash-video') alert('🎥 Studio Flash Vidéo IA ouvert !\n\nVotre vidéo 15s sera prête dans 2min.');
+    else alert('🚀 Boost activé pour 24h ! Vos produits sont maintenant en TOP.');
+  } else {
+    if(confirm(`❌ Crédits insuffisants (${credits}/${costs[tool]} 💎)\n\nRecharger maintenant ?`)) buyCredits();
+  }
+}
+
+function buyCredits(){
+  const packs = [
+    {credits:10,price:500},
+    {credits:50,price:2000},
+    {credits:200,price:5000},
+    {credits:1000,price:15000}
+  ];
+  const choice = prompt(`💎 Choisir un pack de crédits :\n\n${packs.map((p,i)=>`${i+1}. ${p.credits} crédits = ${p.price} FCFA`).join('\n')}\n\nEntrez le numéro (1-4) :`);
+  const idx = parseInt(choice)-1;
+  if (packs[idx]) {
+    credits += packs[idx].credits;
+    localStorage.setItem('ai_credits', credits);
+    document.getElementById('creditBalance').textContent = '💎 ' + credits;
+    alert(`✅ ${packs[idx].credits} crédits ajoutés !`);
+  }
+}
+</script>
+
   </main>
 </div>
 </body>
