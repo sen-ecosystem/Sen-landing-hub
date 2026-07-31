@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Espace Livreur - SEN TEW</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="css/app.css">
+<style>
+.driver-hero{background:linear-gradient(135deg,#0F6B4E,#0A4D38);padding:20px 16px 60px;text-align:center;color:#fff;position:relative;overflow:hidden}
+.driver-hero::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(212,165,116,.08) 0 15px,transparent 15px 30px)}
+.driver-avatar{width:80px;height:80px;border-radius:50%;border:4px solid #D4A574;object-fit:cover;pointer-events:auto;margin:0 auto 8px}
+.stat-mini{background:#fff;border-radius:12px;padding:14px 10px;text-align:center;box-shadow:var(--shadow);border:1px solid #E5E7EB}
+.mission-card{background:#fff;border-radius:14px;padding:14px;margin:8px 16px;box-shadow:var(--shadow);border:1px solid #E5E7EB}
+.mission-card.urgent{border-left:4px solid #ef4444}
+.mission-card.active{border-left:4px solid #22c55e;background:linear-gradient(90deg,rgba(34,197,94,.05),#fff)}
+.kyc-item{display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid #E5E7EB}
+.kyc-badge{background:#22c55e;color:#fff;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:800}
+.kyc-badge.pending{background:#f59e0b}
+.kyc-badge.missing{background:#ef4444}
+</style>
+</head>
+<body oncontextmenu="return false">
+<div class="app">
+  <header class="app-header">
+    <button class="header-btn" onclick="history.back()">←</button>
+    <div style="flex:1;text-align:center;font-weight:800;color:#000;font-size:16px;">🛵 Espace Livreur</div>
+    <a href="notifications.html" class="header-btn">🔔<span class="badge">2</span></a>
+  </header>
+
+  <main class="app-content">
+    <!-- Hero -->
+    <div class="driver-hero">
+      <img class="driver-avatar" src="https://images.unsplash.com/photo-1507081323647-4d250478b919?w=200&h=200&fit=crop&crop=faces">
+      <div style="font-size:18px;font-weight:900;position:relative;z-index:2;">Mamadou Diop</div>
+      <div style="font-size:12px;opacity:.95;position:relative;z-index:2;">🛵 Livreur SEN TEW · Dakar</div>
+      <div style="display:inline-flex;gap:6px;margin-top:8px;position:relative;z-index:2;">
+        <span style="background:linear-gradient(135deg,#D4A574,#B8945F);color:#0A4D38;padding:4px 12px;border-radius:16px;font-size:11px;font-weight:900;">✓ KYC Validé</span>
+        <span style="background:#22c55e;color:#fff;padding:4px 12px;border-radius:16px;font-size:11px;font-weight:900;">🟢 En ligne</span>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:-30px 16px 12px;position:relative;z-index:2;">
+      <div class="stat-mini">
+        <div style="font-size:20px;font-weight:900;color:#0F6B4E;">128</div>
+        <div style="font-size:9px;color:#6B7280;font-weight:600;margin-top:2px;">Livraisons</div>
+      </div>
+      <div class="stat-mini">
+        <div style="font-size:20px;font-weight:900;color:#0F6B4E;">4.9</div>
+        <div style="font-size:9px;color:#6B7280;font-weight:600;margin-top:2px;">Note ⭐</div>
+      </div>
+      <div class="stat-mini">
+        <div style="font-size:20px;font-weight:900;color:#B8945F;">92%</div>
+        <div style="font-size:9px;color:#6B7280;font-weight:600;margin-top:2px;">Ponctuel</div>
+      </div>
+      <div class="stat-mini">
+        <div style="font-size:20px;font-weight:900;color:#B8945F;">45 200</div>
+        <div style="font-size:9px;color:#6B7280;font-weight:600;margin-top:2px;">FCFA sem.</div>
+      </div>
+    </div>
+
+    <!-- Toggle disponibilité -->
+    <div style="margin:8px 16px;background:linear-gradient(135deg,rgba(34,197,94,.1),rgba(15,107,78,.05));border:1px solid rgba(34,197,94,.3);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;">
+      <div style="font-size:28px;">🟢</div>
+      <div style="flex:1;">
+        <div style="font-weight:800;font-size:13px;color:#000;">Disponible pour livraisons</div>
+        <div style="font-size:11px;color:#6B7280;">Vous recevrez les nouvelles courses</div>
+      </div>
+      <div class="toggle on" onclick="this.classList.toggle('on');alert('Statut modifié')"></div>
+    </div>
+
+    <!-- Mission active -->
+    <div class="card-title" style="color:#22c55e;">🎯 Mission en cours</div>
+    <div class="mission-card active">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+        <span style="font-size:11px;color:#B8945F;font-weight:800;">#SEN-8472</span>
+        <span style="background:#22c55e;color:#fff;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:800;">🏃 En route</span>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <img src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=200" style="width:60px;height:60px;object-fit:cover;border-radius:8px;pointer-events:auto;">
+        <div style="flex:1;">
+          <div style="font-weight:700;font-size:13px;color:#000;">Sac cuir africain premium</div>
+          <div style="font-size:11px;color:#6B7280;">De: Aïcha Couture (Plateau)</div>
+          <div style="font-size:11px;color:#6B7280;">À: Sicap Liberté 6, Villa 42</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;padding-top:10px;border-top:1px solid #E5E7EB;display:flex;justify-content:space-between;font-size:12px;">
+        <div>💰 <strong style="color:#B8945F;">1 500 FCFA</strong> commission</div>
+        <div>📍 <strong>2.4 km · 8 min</strong></div>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:10px;">
+        <a href="tel:+221771234567" class="btn btn-outline" style="flex:1;padding:8px;font-size:11px;color:#0F6B4E;border:1px solid #0F6B4E;">📞 Appeler client</a>
+        <button class="btn btn-primary" style="flex:1;padding:8px;font-size:11px;" onclick="alert('📍 GPS activé')">📍 Navigation GPS</button>
+      </div>
+      <button class="btn btn-gold btn-full" style="margin-top:8px;padding:10px;font-size:12px;" onclick="alert('✅ Marqué livré. Signature client demandée.')">✓ Marquer livré</button>
+    </div>
+
+    <!-- Missions disponibles -->
+    <div class="card-title" style="color:#B8945F;">📥 Missions disponibles (5)</div>
+    
+    <div class="mission-card urgent">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+        <span style="font-size:11px;color:#ef4444;font-weight:800;">🔥 URGENT · #SEN-8478</span>
+        <span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:800;">Prime +500</span>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <img src="https://images.unsplash.com/photo-1595777216528-071e0127ccbf?w=200" style="width:50px;height:50px;object-fit:cover;border-radius:8px;pointer-events:auto;">
+        <div style="flex:1;">
+          <div style="font-weight:700;font-size:13px;color:#000;">Boubou wax + Sandales</div>
+          <div style="font-size:11px;color:#6B7280;">Fatou Ndiaye → Mermoz</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11px;">
+        <div>💰 <strong style="color:#B8945F;">2 500 FCFA</strong></div>
+        <div>📍 3.8 km</div>
+      </div>
+      <button class="btn btn-gold btn-full" style="margin-top:8px;padding:10px;font-size:12px;" onclick="alert('✅ Mission acceptée')">✅ Accepter</button>
+    </div>
+
+    <div class="mission-card">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+        <span style="font-size:11px;color:#B8945F;font-weight:800;">#SEN-8479</span>
+        <span style="background:#f5f5f5;color:#000;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;">Standard</span>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <img src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=200" style="width:50px;height:50px;object-fit:cover;border-radius:8px;pointer-events:auto;">
+        <div style="flex:1;">
+          <div style="font-weight:700;font-size:13px;color:#000;">Écouteurs sans fil Pro</div>
+          <div style="font-size:11px;color:#6B7280;">TechSen → Almadies</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11px;">
+        <div>💰 <strong style="color:#B8945F;">1 800 FCFA</strong></div>
+        <div>📍 6.2 km</div>
+      </div>
+      <button class="btn btn-outline btn-full" style="margin-top:8px;padding:10px;font-size:12px;color:#0F6B4E;border:1px solid #0F6B4E;" onclick="alert('✅ Mission acceptée')">Accepter</button>
+    </div>
+
+    <!-- Portefeuille livreur -->
+    <div class="card-title" style="color:#B8945F;">💰 Mon portefeuille</div>
+    <div style="margin:8px 16px;background:linear-gradient(135deg,#D4A574,#B8945F);border-radius:16px;padding:20px;color:#0A4D38;text-align:center;">
+      <div style="font-size:11px;font-weight:700;">Solde disponible</div>
+      <div style="font-size:28px;font-weight:900;margin:4px 0;">125 400 <span style="font-size:14px;">FCFA</span></div>
+      <div style="font-size:11px;opacity:.8;">Prochain retrait: Vendredi</div>
+      <button class="btn" style="background:#0A4D38;color:#fff;margin-top:12px;padding:10px 20px;font-size:12px;" onclick="alert('💸 Retrait vers Wave en cours...')">💸 Retirer maintenant</button>
+    </div>
+
+    <!-- KYC / Documents -->
+    <div class="card-title" style="color:#0F6B4E;">📋 Documents KYC</div>
+    <div class="card">
+      <div class="kyc-item">
+        <div style="width:32px;height:32px;background:rgba(15,107,78,.1);color:#0F6B4E;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-right:12px;">🪪</div>
+        <div style="flex:1;"><div style="font-weight:700;font-size:13px;color:#000;">Carte d'identité</div><div style="font-size:11px;color:#6B7280;">Valide jusqu'au 12/2028</div></div>
+        <span class="kyc-badge">✓ Validé</span>
+      </div>
+      <div class="kyc-item">
+        <div style="width:32px;height:32px;background:rgba(15,107,78,.1);color:#0F6B4E;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-right:12px;">🚘</div>
+        <div style="flex:1;"><div style="font-weight:700;font-size:13px;color:#000;">Permis de conduire</div><div style="font-size:11px;color:#6B7280;">A · Moto/Scooter</div></div>
+        <span class="kyc-badge">✓ Validé</span>
+      </div>
+      <div class="kyc-item">
+        <div style="width:32px;height:32px;background:rgba(15,107,78,.1);color:#0F6B4E;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-right:12px;">📄</div>
+        <div style="flex:1;"><div style="font-weight:700;font-size:13px;color:#000;">Carte grise</div><div style="font-size:11px;color:#6B7280;">Yamaha YBR 125 · DK 4587 A</div></div>
+        <span class="kyc-badge">✓ Validé</span>
+      </div>
+      <div class="kyc-item">
+        <div style="width:32px;height:32px;background:rgba(15,107,78,.1);color:#0F6B4E;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-right:12px;">🤳</div>
+        <div style="flex:1;"><div style="font-weight:700;font-size:13px;color:#000;">Selfie vérification</div><div style="font-size:11px;color:#6B7280;">Photo prise le 15/07/2026</div></div>
+        <span class="kyc-badge">✓ Validé</span>
+      </div>
+      <div class="kyc-item">
+        <div style="width:32px;height:32px;background:rgba(245,158,11,.15);color:#f59e0b;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-right:12px;">🛡</div>
+        <div style="flex:1;"><div style="font-weight:700;font-size:13px;color:#000;">Assurance moto</div><div style="font-size:11px;color:#6B7280;">Expire dans 30 jours</div></div>
+        <span class="kyc-badge pending">⚠ À renouveler</span>
+      </div>
+      <div class="kyc-item">
+        <div style="width:32px;height:32px;background:rgba(15,107,78,.1);color:#0F6B4E;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-right:12px;">📍</div>
+        <div style="flex:1;"><div style="font-weight:700;font-size:13px;color:#000;">Adresse vérifiée</div><div style="font-size:11px;color:#6B7280;">Parcelles Assainies U19</div></div>
+        <span class="kyc-badge">✓ Validé</span>
+      </div>
+    </div>
+
+    <!-- Historique -->
+    <div class="card-title" style="color:#0F6B4E;">📊 Historique récent</div>
+    <div class="card">
+      <div style="padding:12px 16px;border-bottom:1px solid #E5E7EB;">
+        <div style="display:flex;justify-content:space-between;">
+          <div><div style="font-weight:700;font-size:13px;color:#000;">Course #SEN-8471</div><div style="font-size:11px;color:#6B7280;">Livré à Moussa Sall · 4.9 ⭐</div></div>
+          <div style="color:#22c55e;font-weight:800;">+1 500 FCFA</div>
+        </div>
+      </div>
+      <div style="padding:12px 16px;border-bottom:1px solid #E5E7EB;">
+        <div style="display:flex;justify-content:space-between;">
+          <div><div style="font-weight:700;font-size:13px;color:#000;">Course #SEN-8470</div><div style="font-size:11px;color:#6B7280;">Livré à Fatou N. · 5.0 ⭐</div></div>
+          <div style="color:#22c55e;font-weight:800;">+2 200 FCFA</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:20px;"></div>
+  </main>
+
+  <nav class="app-nav">
+    <a href="livreur.html" class="active"><div class="nav-icon">🏠</div><div class="nav-label">Missions</div></a>
+    <a href="#" onclick="alert('Carte GPS temps réel')"><div class="nav-icon">🗺</div><div class="nav-label">Carte</div></a>
+    <a href="#" onclick="alert('Historique complet')"><div class="nav-icon">📋</div><div class="nav-label">Historique</div></a>
+    <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
+    <a href="profil.html"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
+  </nav>
+</div>
+</body>
+</html>
