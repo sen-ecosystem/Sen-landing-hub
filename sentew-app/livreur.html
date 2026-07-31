@@ -209,5 +209,60 @@
     <a href="profil.html"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
   </nav>
 </div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script>
+// GPS Livreur SEN TEW
+class DriverGPS {
+  constructor() {
+    this.watchId = null;
+    this.map = null;
+    this.marker = null;
+    this.route = null;
+    this.deliveries = JSON.parse(localStorage.getItem('driver_deliveries') || '[]');
+  }
+
+  initMap(containerId) {
+    if (!document.getElementById(containerId)) return;
+    this.map = L.map(containerId).setView([14.6928, -17.4467], 13); // Dakar
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap'
+    }).addTo(this.map);
+    this.startTracking();
+  }
+
+  startTracking() {
+    if (!navigator.geolocation) { alert('GPS non supporté'); return; }
+    this.watchId = navigator.geolocation.watchPosition(
+      pos => this.updatePosition(pos),
+      err => console.log('GPS error:', err),
+      { enableHighAccuracy: true, maximumAge: 5000, timeout: 10000 }
+    );
+  }
+
+  updatePosition(pos) {
+    const { latitude, longitude, speed } = pos.coords;
+    if (this.marker) this.map.removeLayer(this.marker);
+    this.marker = L.marker([latitude, longitude], {
+      icon: L.divIcon({ html:'🏍', className:'', iconSize:[40,40] })
+    }).addTo(this.map);
+    this.map.setView([latitude, longitude], 15);
+    // Envoyer position au backend
+    fetch('/api/driver/position', {
+      method:'POST',
+      body: JSON.stringify({ lat: latitude, lng: longitude, speed, ts: Date.now() })
+    }).catch(()=>{});
+    const info = document.getElementById('gpsInfo');
+    if (info) info.textContent = `📍 ${latitude.toFixed(4)}, ${longitude.toFixed(4)} · ${(speed*3.6||0).toFixed(0)} km/h`;
+  }
+
+  stopTracking() {
+    if (this.watchId) navigator.geolocation.clearWatch(this.watchId);
+  }
+}
+window.driverGPS = new DriverGPS();
+document.addEventListener('DOMContentLoaded', () => window.driverGPS.initMap('gpsMap'));
+</script>
+
 </body>
 </html>
