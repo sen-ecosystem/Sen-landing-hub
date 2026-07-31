@@ -2,377 +2,175 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>LIVE - SEN TEW</title>
-<meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#000">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>LIVE Shopping - SEN TEW</title>
 <link rel="stylesheet" href="css/app.css">
 <style>
-body{background:#000;overflow:hidden}
-.app{background:#000;color:#fff;position:fixed;inset:0}
-.live-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;background:#000}
-.live-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.6) 0%,transparent 20%,transparent 50%,rgba(0,0,0,.9) 100%);padding:12px;display:flex;flex-direction:column;justify-content:space-between;z-index:10}
-.live-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-.seller-info{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.5);padding:5px 12px 5px 5px;border-radius:24px;backdrop-filter:blur(12px)}
-.seller-info img{width:36px;height:36px;border-radius:50%;border:2px solid #D4A574;object-fit:cover;pointer-events:auto}
-.follow-btn{background:#ef4444;color:#fff;border:none;padding:6px 14px;border-radius:16px;font-size:11px;font-weight:800;cursor:pointer}
-.live-badge{background:#ef4444;color:#fff;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:4px}
-.live-badge::before{content:'●';animation:blink 1s infinite;font-size:8px}
-@keyframes blink{50%{opacity:.3}}
-.viewers-tag{background:rgba(0,0,0,.5);padding:4px 10px;border-radius:6px;font-size:11px;backdrop-filter:blur(8px);color:#fff}
-.close-btn{background:rgba(0,0,0,.5);border:none;color:#fff;width:38px;height:38px;border-radius:50%;font-size:20px;cursor:pointer;backdrop-filter:blur(8px);text-decoration:none;display:flex;align-items:center;justify-content:center}
-.live-product{background:rgba(0,0,0,.75);backdrop-filter:blur(16px);border-radius:12px;padding:10px;display:flex;gap:10px;align-items:center;border:2px solid #D4A574;margin-bottom:8px;box-shadow:0 4px 20px rgba(212,165,116,.3)}
-.live-product img{width:52px;height:52px;border-radius:8px;object-fit:cover;pointer-events:auto}
-.lp-info{flex:1;min-width:0}
-.lp-name{font-size:12px;font-weight:700;color:#fff;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.lp-price{color:#D4A574;font-weight:900;font-size:14px}
-.lp-old{color:rgba(255,255,255,.5);text-decoration:line-through;font-size:11px;margin-left:5px}
-.lp-buy{background:linear-gradient(135deg,#D4A574,#B8945F);color:#0A1F17;border:none;padding:8px 14px;border-radius:16px;font-weight:900;font-size:11px;cursor:pointer;flex-shrink:0}
-.chat-feed{max-height:220px;overflow:hidden;margin-bottom:8px;padding:0 4px}
-.chat-msg{background:rgba(0,0,0,.5);backdrop-filter:blur(8px);padding:6px 12px;border-radius:16px;margin-bottom:5px;font-size:12px;display:inline-block;max-width:80%;animation:fadeIn .3s;color:#fff}
-.chat-msg .user{color:#D4A574;font-weight:800;margin-right:5px}
-.chat-msg .heart{color:#ef4444}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.live-actions{display:flex;gap:6px;align-items:center}
-.action-input{flex:1;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.2);color:#fff;padding:10px 14px;border-radius:22px;font-size:12px;backdrop-filter:blur(8px);outline:none}
-.action-input::placeholder{color:rgba(255,255,255,.6)}
-.icon-btn{background:rgba(0,0,0,.5);border:none;width:42px;height:42px;border-radius:50%;font-size:18px;cursor:pointer;color:#fff;backdrop-filter:blur(8px);flex-shrink:0}
-.reactions{position:absolute;right:12px;bottom:180px;display:flex;flex-direction:column;gap:8px;z-index:15}
-.reactions button{background:rgba(0,0,0,.5);border:none;width:42px;height:42px;border-radius:50%;font-size:20px;cursor:pointer;backdrop-filter:blur(8px);color:#fff}
-.heart{position:absolute;font-size:24px;pointer-events:none;animation:float 3s ease-out forwards;z-index:20}
-@keyframes float{0%{transform:translateY(0) scale(0);opacity:1}20%{transform:translateY(-40px) scale(1.2)}100%{transform:translateY(-400px) scale(.5);opacity:0}}
-.video-switcher{position:absolute;top:70px;right:12px;display:flex;flex-direction:column;gap:6px;z-index:15}
-.video-switcher button{background:rgba(0,0,0,.5);color:#fff;border:1px solid rgba(212,165,116,.4);padding:6px 12px;border-radius:16px;font-size:10px;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)}
-.video-switcher button.active{background:linear-gradient(135deg,#D4A574,#B8945F);color:#0A1F17;border-color:#D4A574}
-.live-cart{position:absolute;bottom:76px;right:12px;background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;text-decoration:none;box-shadow:0 6px 20px rgba(15,107,78,.5);z-index:15}
-.live-cart .cart-badge{position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;font-size:10px;font-weight:900;padding:2px 6px;border-radius:10px;border:2px solid #000}
+body{margin:0;background:#000;overflow:hidden;height:100vh;}
+.live-feed{position:fixed;inset:0;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.live-feed::-webkit-scrollbar{display:none;}
+.live-slide{height:100vh;width:100vw;scroll-snap-align:start;position:relative;background:#000;}
+.live-video{width:100%;height:100%;object-fit:cover;}
+.live-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.5) 0%,transparent 30%,transparent 60%,rgba(0,0,0,.8) 100%);pointer-events:none;}
+.live-top{position:absolute;top:0;left:0;right:0;padding:50px 16px 16px;display:flex;gap:12px;align-items:center;}
+.live-badge{background:#ef4444;padding:4px 10px;border-radius:6px;color:#fff;font-weight:900;font-size:11px;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.live-viewers{background:rgba(0,0,0,.5);color:#fff;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:700;backdrop-filter:blur(10px);}
+.live-close{margin-left:auto;background:rgba(0,0,0,.5);color:#fff;border:none;width:36px;height:36px;border-radius:50%;font-size:18px;}
+.live-seller{position:absolute;bottom:180px;left:16px;right:80px;color:#fff;}
+.live-seller-row{display:flex;gap:10px;align-items:center;margin-bottom:8px;}
+.live-avatar{width:44px;height:44px;border-radius:50%;border:2px solid #fff;object-fit:cover;}
+.live-name{font-weight:900;font-size:15px;}
+.live-title{font-size:13px;opacity:.9;margin-bottom:10px;}
+.live-follow{background:#ef4444;color:#fff;padding:6px 14px;border-radius:6px;border:none;font-weight:800;font-size:12px;}
+.live-actions{position:absolute;right:12px;bottom:180px;display:flex;flex-direction:column;gap:16px;align-items:center;}
+.live-action{width:48px;height:48px;background:rgba(0,0,0,.4);border-radius:50%;color:#fff;border:none;font-size:22px;backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;flex-direction:column;}
+.live-action span{font-size:10px;margin-top:2px;}
+.live-product{position:absolute;bottom:80px;left:16px;right:16px;background:rgba(255,255,255,.95);border-radius:14px;padding:10px;display:flex;gap:10px;align-items:center;backdrop-filter:blur(20px);}
+.live-product img{width:60px;height:60px;border-radius:10px;object-fit:cover;}
+.live-product-info{flex:1;}
+.live-product-name{font-weight:800;font-size:13px;color:#0A4D38;}
+.live-product-price{color:#ef4444;font-weight:900;font-size:15px;}
+.live-buy{background:linear-gradient(135deg,#0F6B4E,#D4A574);color:#fff;border:none;padding:10px 16px;border-radius:10px;font-weight:800;font-size:12px;}
+.live-chat{position:absolute;bottom:150px;left:16px;right:80px;max-height:150px;overflow:hidden;display:flex;flex-direction:column;gap:4px;pointer-events:none;}
+.chat-msg{background:rgba(0,0,0,.5);color:#fff;padding:6px 10px;border-radius:12px;font-size:12px;max-width:80%;backdrop-filter:blur(10px);animation:slideIn .3s;}
+@keyframes slideIn{from{transform:translateX(-30px);opacity:0}to{transform:translateX(0);opacity:1}}
+.live-input{position:absolute;bottom:20px;left:16px;right:16px;display:flex;gap:8px;}
+.live-input input{flex:1;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;padding:10px 14px;border-radius:20px;backdrop-filter:blur(10px);}
+.live-input input::placeholder{color:rgba(255,255,255,.7);}
+.live-input button{background:#ef4444;color:#fff;border:none;width:40px;border-radius:20px;font-size:16px;}
+.swipe-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;text-align:center;pointer-events:none;animation:fadeOut 3s forwards;}
+@keyframes fadeOut{0%,60%{opacity:1}100%{opacity:0}}
+.float-emoji{position:absolute;bottom:200px;right:40px;font-size:24px;animation:floatUp 3s ease-out forwards;pointer-events:none;}
+@keyframes floatUp{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-300px) translateX(-20px);opacity:0}}
 </style>
 </head>
-<body oncontextmenu="return false">
-<div class="app">
-  <!-- Vidéos MOV en boucle -->
-  <video id="liveVideo" class="live-video" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=800">
-    <source id="videoSrc" src="https://www.genspark.ai/api/files/s/qjMihjFt" type="video/quicktime">
-    <source src="https://www.genspark.ai/api/files/s/qjMihjFt" type="video/mp4">
-    Votre navigateur ne supporte pas la vidéo.
-  </video>
+<body>
+<div class="live-feed" id="feed"></div>
 
-  <div class="live-overlay">
-    <!-- Header LIVE -->
-    <div class="live-top">
-      <div>
-        <div class="seller-info">
-          <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200" alt="Aïcha">
-          <div>
-            <div style="font-size:12px;font-weight:800;color:#fff;">Aïcha Couture ✓</div>
-            <div style="font-size:10px;color:#D4A574;">12.5K abonnés</div>
-          </div>
-          <button class="follow-btn" onclick="toggleFollow(this)">+ Suivre</button>
-        </div>
-        <div style="display:flex;gap:6px;margin-top:8px;">
-          <span class="live-badge">EN DIRECT</span>
-          <span class="viewers-tag">👁 <span id="viewers">2 847</span></span>
-        </div>
-      </div>
-      <a href="index.html" class="close-btn">✕</a>
-    </div>
-
-    <!-- Bottom -->
-    <div>
-      <!-- Produits en vente LIVE -->
-      <div class="live-product">
-        <img src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=200" alt="">
-        <div class="lp-info">
-          <div class="lp-name">🔥 Sac cuir Élégance</div>
-          <div><span class="lp-price">24 500 FCFA</span><span class="lp-old">35 000</span></div>
-          <div style="font-size:10px;color:#ef4444;margin-top:2px;font-weight:700;">⏱ -30% LIVE · 4min restantes</div>
-        </div>
-        <button class="lp-buy" onclick="buyLive('Sac cuir Élégance', 24500)">Acheter</button>
-      </div>
-
-      <div class="live-product" style="border-color:rgba(212,165,116,.4);opacity:.85;">
-        <img src="https://images.unsplash.com/photo-1595777216528-071e0127ccbf?w=200" alt="">
-        <div class="lp-info">
-          <div class="lp-name">Robe Wax Prestige</div>
-          <div><span class="lp-price">18 900 FCFA</span><span class="lp-old">27 000</span></div>
-          <div style="font-size:10px;color:#D4A574;margin-top:2px;font-weight:600;">Stock: 5 · Livraison 24h</div>
-        </div>
-        <button class="lp-buy" onclick="buyLive('Robe Wax', 18900)">Acheter</button>
-      </div>
-
-      <!-- Chat live -->
-      <div class="chat-feed" id="chatFeed"></div>
-
-      <!-- Input + réactions -->
-      <div class="live-actions">
-        <input class="action-input" id="chatInput" placeholder="💬 Poser une question..." onkeypress="if(event.key==='Enter')sendChat()">
-        <button class="icon-btn" onclick="sendHeart()">❤️</button>
-        <button class="icon-btn" onclick="shareLive()">🔗</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Sélecteur vidéo (démo) -->
-  <div class="video-switcher">
-    <button class="active" onclick="switchVideo(1,this)">🎥 Vidéo 1</button>
-    <button onclick="switchVideo(2,this)">🎥 Vidéo 2</button>
-  </div>
-
-  <!-- Réactions latérales -->
-  <div class="reactions">
-    <button onclick="reaction('❤️')">❤️</button>
-    <button onclick="reaction('🔥')">🔥</button>
-    <button onclick="reaction('👏')">👏</button>
-    <button onclick="reaction('😍')">😍</button>
-    <button onclick="reaction('🙏')">🙏</button>
-  </div>
-
-  <!-- Panier flottant -->
-  <a href="panier.html" class="live-cart">
-    🛒<span class="cart-badge" id="cartCount">0</span>
-  </a>
-</div>
-
+<script src="js/data.js"></script>
 <script>
-const videos = {
-  1: 'https://www.genspark.ai/api/files/s/qjMihjFt',
-  2: 'https://www.genspark.ai/api/files/s/LfQFxiQm'
-};
-let cartLive = 0;
+const LIVES = [
+  { id:1, seller:'Aïcha Boutique', avatar:'https://i.pravatar.cc/100?img=1', title:'🔥 SOLDES -50% robes wax', viewers:1247, product:{img:'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=200',name:'Robe wax premium',price:15000,oldPrice:30000} },
+  { id:2, seller:'Moussa Tech', avatar:'https://i.pravatar.cc/100?img:11', title:'📱 iPhone 15 Pro déballage', viewers:892, product:{img:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=200',name:'iPhone 15 Pro 256GB',price:750000,oldPrice:850000} },
+  { id:3, seller:'Fatou Beauté', avatar:'https://i.pravatar.cc/100?img=5', title:'💄 Démo maquillage soirée', viewers:634, product:{img:'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=200',name:'Palette 24 couleurs',price:8500,oldPrice:12000} },
+  { id:4, seller:'Ibrahima Sport', avatar:'https://i.pravatar.cc/100?img=13', title:'⚽ Maillots officiels 2026', viewers:456, product:{img:'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=200',name:'Maillot Sénégal 2026',price:18000,oldPrice:25000} },
+  { id:5, seller:'Awa Cosmétique', avatar:'https://i.pravatar.cc/100?img=9', title:'✨ Karité pur Bio', viewers:389, product:{img:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=200',name:'Karité 500g',price:4500,oldPrice:6000} }
+];
 
-function switchVideo(n, el) {
-  document.querySelectorAll('.video-switcher button').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  const video = document.getElementById('liveVideo');
-  video.querySelector('#videoSrc').src = videos[n];
-  video.load();
-  video.play().catch(()=>{});
-}
+const messages = ['🔥🔥🔥','Trop belle !','Prix svp?','J\'achète !','😍😍','Livraison Dakar?','Combien?','❤️','Wow','C\'est encore dispo?'];
+const emojis = ['❤️','🔥','😍','👏','🎉','💯'];
+
+document.getElementById('feed').innerHTML = LIVES.map((L,i)=>`
+  <div class="live-slide" data-id="${L.id}">
+    <video class="live-video" autoplay muted loop playsinline poster="${L.product.img.replace('w=200','w=800')}">
+      <source src="https://cdn.pixabay.com/vimeo/${['427259099','412418543','421534334'][i%3]}/live.mp4" type="video/mp4">
+    </video>
+    <div class="live-overlay"></div>
+    <div class="live-top">
+      <span class="live-badge">🔴 LIVE</span>
+      <span class="live-viewers">👁 <span class="vc">${L.viewers.toLocaleString()}</span></span>
+      <button class="live-close" onclick="location.href='index.html'">✕</button>
+    </div>
+    <div class="live-seller">
+      <div class="live-seller-row">
+        <img src="${L.avatar}" class="live-avatar" alt="">
+        <div style="flex:1;">
+          <div class="live-name">${L.seller}</div>
+          <div style="font-size:11px;opacity:.8;">✅ SEN Verified</div>
+        </div>
+        <button class="live-follow" onclick="alert('✅ Vous suivez maintenant ${L.seller}')">+ Suivre</button>
+      </div>
+      <div class="live-title">${L.title}</div>
+      <button onclick="location.href='boutique.html?id=${L.id}'" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;backdrop-filter:blur(10px);">🏪 Voir la boutique</button>
+    </div>
+    <div class="live-chat" id="chat${L.id}"></div>
+    <div class="live-actions">
+      <button class="live-action" onclick="reactEmoji(${L.id},'❤️')">❤️<span>${(L.viewers*8).toLocaleString()}</span></button>
+      <button class="live-action" onclick="reactEmoji(${L.id},'🔥')">🔥<span>${(L.viewers*3).toLocaleString()}</span></button>
+      <button class="live-action" onclick="reactEmoji(${L.id},'😍')">😍<span>${L.viewers.toLocaleString()}</span></button>
+      <button class="live-action" onclick="shareLive(${L.id})">📤<span>Partager</span></button>
+    </div>
+    <div class="live-product">
+      <img src="${L.product.img}" alt="">
+      <div class="live-product-info">
+        <div class="live-product-name">${L.product.name}</div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <span class="live-product-price">${L.product.price.toLocaleString()} FCFA</span>
+          <span style="text-decoration:line-through;color:#9CA3AF;font-size:11px;">${L.product.oldPrice.toLocaleString()}</span>
+          <span style="background:#ef4444;color:#fff;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:900;">-${Math.round((1-L.product.price/L.product.oldPrice)*100)}%</span>
+        </div>
+      </div>
+      <button class="live-buy" onclick="flashBuy(${L.id})">🛒 ACHAT<br><span style="font-size:10px;">FLASH</span></button>
+    </div>
+    <div class="live-input">
+      <input type="text" placeholder="Envoyer un message..." onkeypress="if(event.key==='Enter')sendMsg(${L.id},this)">
+      <button onclick="sendMsg(${L.id},this.previousElementSibling)">➤</button>
+    </div>
+    ${i===0?'<div class="swipe-hint">👆<br>Glissez vers le haut<br>pour d\'autres LIVEs</div>':''}
+  </div>
+`).join('');
 
 // Chat auto simulé
-const users = ['Moussa_SN','Fatou_style','Ibrahima_D','Awa_92','Cheikh_B','Mariama_K','Ousmane_L','Khady_N','BayeFall_94','Xalass_221'];
-const msgs = ['Trop belle 😍','Combien pour le rouge?','J\'achète maintenant!','Livraison Thiès?','Magnifique 🔥','Tissu authentique?','Ma taille dispo?','😍😍😍','Je prends 2','Nio far!','Yaay diaraama!','Est-ce livraison Kaolack?','Continue Aïcha!','Superbe collection','Je vais commander','Trop belle robe','Wawww ❤️'];
+setInterval(()=>{
+  const slide = document.querySelector('.live-slide:nth-child(1)');
+  LIVES.forEach(L=>{
+    const chat = document.getElementById('chat'+L.id);
+    if(!chat)return;
+    const m = document.createElement('div');
+    m.className='chat-msg';
+    const users=['Awa','Moussa','Fatou','Ibrahima','Aminata','Ousmane'];
+    m.innerHTML=`<strong>${users[Math.floor(Math.random()*users.length)]}</strong> ${messages[Math.floor(Math.random()*messages.length)]}`;
+    chat.appendChild(m);
+    if(chat.children.length>5)chat.removeChild(chat.firstChild);
+  });
+},2500);
 
-function addChat(user, msg, isHeart) {
-  const feed = document.getElementById('chatFeed');
-  const div = document.createElement('div');
-  div.className = 'chat-msg';
-  div.innerHTML = '<span class="user">'+user+':</span> '+msg;
-  feed.appendChild(div);
-  feed.scrollTop = feed.scrollHeight;
-  if (feed.children.length > 6) feed.removeChild(feed.firstChild);
+// Viewers count animation
+setInterval(()=>{
+  document.querySelectorAll('.vc').forEach(vc=>{
+    const n = parseInt(vc.textContent.replace(/\D/g,''))+Math.floor(Math.random()*10)-3;
+    vc.textContent = Math.max(50,n).toLocaleString();
+  });
+},3000);
+
+function reactEmoji(id,emoji){
+  const slide = document.querySelector(`.live-slide[data-id="${id}"]`);
+  const e = document.createElement('div');
+  e.className='float-emoji';
+  e.textContent=emoji;
+  e.style.right = (30+Math.random()*40)+'px';
+  slide.appendChild(e);
+  setTimeout(()=>e.remove(),3000);
+  navigator.vibrate&&navigator.vibrate(20);
 }
 
-setInterval(() => {
-  addChat(users[Math.floor(Math.random()*users.length)], msgs[Math.floor(Math.random()*msgs.length)]);
-}, 2500);
-
-function sendChat() {
-  const i = document.getElementById('chatInput');
-  if (!i.value.trim()) return;
-  addChat('Vous', i.value);
-  i.value = '';
+function sendMsg(id,input){
+  if(!input.value.trim())return;
+  const chat=document.getElementById('chat'+id);
+  const m=document.createElement('div');
+  m.className='chat-msg';
+  m.style.background='rgba(15,107,78,.8)';
+  m.innerHTML=`<strong>Vous</strong> ${input.value}`;
+  chat.appendChild(m);
+  input.value='';
 }
 
-function sendHeart() {
-  for (let k = 0; k < 5; k++) {
-    setTimeout(() => {
-      const h = document.createElement('div');
-      h.className = 'heart';
-      h.textContent = '❤️';
-      h.style.left = (50 + Math.random()*30) + '%';
-      h.style.bottom = '90px';
-      document.body.appendChild(h);
-      setTimeout(() => h.remove(), 3000);
-    }, k*100);
-  }
-}
-
-function reaction(emoji) {
-  const h = document.createElement('div');
-  h.className = 'heart';
-  h.textContent = emoji;
-  h.style.right = '20px';
-  h.style.bottom = '200px';
-  h.style.fontSize = '30px';
-  document.body.appendChild(h);
-  setTimeout(() => h.remove(), 3000);
-}
-
-function buyLive(name, price) {
-  if (confirm('🛒 Acheter "'+name+'" à '+price.toLocaleString()+' FCFA ?\n\n🎁 Offre LIVE exclusive !')) {
-    cartLive++;
-    document.getElementById('cartCount').textContent = cartLive;
-    addChat('Vous', '🛒 Vient d\'acheter '+name+' !');
-    setTimeout(() => {
-      if (confirm('Aller au panier maintenant ?')) window.location.href = 'panier.html';
-    }, 800);
+function flashBuy(id){
+  const L = LIVES.find(x=>x.id===id);
+  if(confirm(`🛒 Achat FLASH -30% supplémentaire\n\n${L.product.name}\nPrix LIVE: ${Math.round(L.product.price*0.7).toLocaleString()} FCFA\n\nAjouter au panier ?`)){
+    const cart=JSON.parse(localStorage.getItem('cart')||'[]');
+    cart.push({...L.product,flashDiscount:30,ts:Date.now()});
+    localStorage.setItem('cart',JSON.stringify(cart));
+    alert('✅ Ajouté au panier avec -30% flash !');
   }
 }
 
-function toggleFollow(el) {
-  if (el.textContent.includes('Suivre')) {
-    el.textContent = '✓ Suivi';
-    el.style.background = 'rgba(212,165,116,.9)';
-    el.style.color = '#0A1F17';
-    addChat('Vous', '❤️ commence à suivre Aïcha Couture');
-  } else {
-    el.textContent = '+ Suivre';
-    el.style.background = '#ef4444';
-    el.style.color = '#fff';
-  }
-}
-
-function shareLive() {
-  if (navigator.share) {
-    navigator.share({title:'LIVE Aïcha Couture', text:'Rejoins le LIVE sur SEN TEW !', url:window.location.href});
-  } else {
-    alert('🔗 Lien copié : sen-ecosystem.com/sentew-app/live.html');
-  }
-}
-
-// Compteur viewers dynamique
-setInterval(() => {
-  const el = document.getElementById('viewers');
-  const n = parseInt(el.textContent.replace(/\s/g,'')) + Math.floor(Math.random()*20-5);
-  el.textContent = Math.max(2000, n).toLocaleString('fr-FR');
-}, 3000);
-
-// Autoplay avec fallback si bloqué
-document.getElementById('liveVideo').play().catch(() => {
-  console.log('Autoplay bloqué - tap pour lancer');
-});
-</script>
-  <script>
-// SEN TEW LIVE Shopping — WebRTC + Chat temps réel
-class LiveShopping {
-  constructor() {
-    this.viewers = 0;
-    this.messages = [];
-    this.reactions = [];
-    this.currentProduct = null;
-    this.init();
-  }
-
-  init() {
-    // Simulation compteur viewers temps réel
-    this.viewers = Math.floor(Math.random() * 500) + 50;
-    this.updateViewerCount();
-    setInterval(() => {
-      const delta = Math.floor(Math.random() * 10) - 3;
-      this.viewers = Math.max(10, this.viewers + delta);
-      this.updateViewerCount();
-    }, 3000);
-
-    // Messages chat simulés
-    const fakeMessages = [
-      { user: 'Awa D.', text: 'Trop belle cette robe 😍', avatar: '👩🏾' },
-      { user: 'Moussa', text: 'Prix svp ?', avatar: '👨🏾' },
-      { user: 'Fatou', text: 'J\'achète !', avatar: '👩🏾‍🦱' },
-      { user: 'Ibrahima', text: '🔥🔥🔥', avatar: '🧔🏾' },
-      { user: 'Aminata', text: 'Livraison Dakar ?', avatar: '👩🏾‍🦰' },
-      { user: 'Ousmane', text: 'Combien la couleur bleue ?', avatar: '👨🏾‍🦱' }
-    ];
-    setInterval(() => {
-      const msg = fakeMessages[Math.floor(Math.random()*fakeMessages.length)];
-      this.addMessage(msg);
-    }, 4000);
-
-    // Réactions volantes
-    setInterval(() => this.floatReaction(), 1500);
-  }
-
-  updateViewerCount() {
-    const el = document.getElementById('viewerCount');
-    if (el) el.textContent = this.viewers.toLocaleString();
-  }
-
-  addMessage(msg) {
-    const chat = document.getElementById('liveChat');
-    if (!chat) return;
-    const div = document.createElement('div');
-    div.className = 'chat-msg';
-    div.innerHTML = `<span class="chat-avatar">${msg.avatar}</span><strong>${msg.user}</strong> ${msg.text}`;
-    chat.appendChild(div);
-    chat.scrollTop = chat.scrollHeight;
-    if (chat.children.length > 30) chat.removeChild(chat.firstChild);
-  }
-
-  sendMessage() {
-    const input = document.getElementById('liveMsgInput');
-    if (!input || !input.value.trim()) return;
-    this.addMessage({ user: 'Vous', text: input.value, avatar: '😎' });
-    input.value = '';
-  }
-
-  reaction(emoji) {
-    this.floatReaction(emoji);
-  }
-
-  floatReaction(emoji) {
-    const emojis = ['❤️','🔥','😍','👏','🎉','💯'];
-    const e = emoji || emojis[Math.floor(Math.random()*emojis.length)];
-    const el = document.createElement('div');
-    el.className = 'float-reaction';
-    el.textContent = e;
-    el.style.left = (60 + Math.random()*30) + '%';
-    document.body.appendChild(el);
-    setTimeout(() => el.remove(), 3000);
-  }
-
-  flashBuy(productId) {
-    if (confirm('🛒 Achat flash à -30% ?\n\nProduit ajouté au panier avec réduction LIVE.')) {
-      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-      cart.push({ id: productId, flashDiscount: 30, ts: Date.now() });
-      localStorage.setItem('cart', JSON.stringify(cart));
-      alert('✅ Ajouté au panier avec -30% flash LIVE !');
-    }
-  }
-}
-
-window.liveShow = new LiveShopping();
-
-// Init caméra si vendeur (host)
-async function startBroadcast() {
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-    const video = document.getElementById('liveVideo');
-    if (video) video.srcObject = stream;
-  } catch(e) {
-    console.log('Camera access denied or not available');
-  }
+function shareLive(id){
+  const L = LIVES.find(x=>x.id===id);
+  if(navigator.share)navigator.share({title:'LIVE '+L.seller,text:L.title,url:location.href+'?live='+id});
+  else{navigator.clipboard.writeText(location.href+'?live='+id);alert('Lien copié');}
 }
 </script>
-
-<style>
-.float-reaction {
-  position: fixed;
-  bottom: 100px;
-  font-size: 32px;
-  animation: floatUp 3s ease-out forwards;
-  z-index: 9999;
-  pointer-events: none;
-}
-@keyframes floatUp {
-  0% { transform: translateY(0) scale(1); opacity: 1; }
-  100% { transform: translateY(-400px) scale(1.5); opacity: 0; }
-}
-.chat-msg {
-  padding: 6px 10px;
-  background: rgba(0,0,0,.6);
-  color: #fff;
-  border-radius: 12px;
-  margin: 4px 0;
-  font-size: 13px;
-  backdrop-filter: blur(10px);
-  animation: slideIn .3s ease;
-}
-.chat-avatar { margin-right: 6px; }
-@keyframes slideIn {
-  from { transform: translateX(-20px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-</style>
-
 </body>
 </html>
