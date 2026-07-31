@@ -2,134 +2,33 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Recherche IA - SEN TEW</title>
-<meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="css/app.css">
-<style>
-.search-hero{background:linear-gradient(135deg,#0F6B4E,#D4A574);padding:24px 16px;text-align:center;color:#fff}
-.search-hero .ia-icon{width:70px;height:70px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 12px;backdrop-filter:blur(8px)}
-.big-search{background:#fff;border-radius:16px;padding:14px;margin:12px 16px;box-shadow:var(--shadow);border:1px solid #E5E7EB;display:flex;align-items:center;gap:8px}
-.big-search input{flex:1;border:none;font-size:14px;outline:none;color:#000}
-.big-btn{width:56px;height:56px;background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;border:none;border-radius:14px;font-size:24px;cursor:pointer;box-shadow:0 4px 12px rgba(15,107,78,.3)}
-.big-btn.gold{background:linear-gradient(135deg,#D4A574,#B8945F);color:#0A4D38}
-.action-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0 16px 16px}
-.action-item{background:#fff;border-radius:14px;padding:16px 8px;text-align:center;box-shadow:var(--shadow);border:1px solid #E5E7EB;cursor:pointer;transition:.2s}
-.action-item:active{transform:scale(.95)}
-.action-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 8px;color:#fff}
-.upload-zone{background:#F9F5EF;border:2px dashed #D4A574;border-radius:14px;padding:24px;margin:12px 16px;text-align:center;cursor:pointer}
-.recent-search{display:flex;gap:6px;flex-wrap:wrap;padding:0 16px}
-.recent-chip{background:#fff;border:1px solid #E5E7EB;padding:6px 12px;border-radius:16px;font-size:12px;color:#000;cursor:pointer;font-weight:600}
-</style>
 </head>
-<body oncontextmenu="return false">
+<body>
 <div class="app">
   <header class="app-header">
     <button class="header-btn" onclick="history.back()">←</button>
-    <div style="flex:1;text-align:center;font-weight:800;color:#000;font-size:16px;">🔍 Recherche IA</div>
-    <button class="header-btn" onclick="alert('❓ Aide')">❓</button>
+    <div style="flex:1;text-align:center;font-weight:900;color:#0A4D38;">🔍 Recherche IA</div>
   </header>
-
-  <main class="app-content">
-    <div class="search-hero">
-      <div class="ia-icon">✨</div>
-      <div style="font-size:20px;font-weight:900;">Trouvez tout, plus vite</div>
-      <div style="font-size:13px;opacity:.95;margin-top:4px;">IA · Photo · Voix · Recherche visuelle</div>
+  <main class="app-content" style="padding:16px;">
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <input type="text" id="txtSearch" placeholder="Rechercher..." style="flex:1;padding:12px;border:1px solid #E5E7EB;border-radius:12px;">
+      <button onclick="voiceSearch()" style="width:44px;background:#0F6B4E;color:#fff;border:none;border-radius:12px;">🎤</button>
     </div>
-
-    <!-- Recherche texte + IA -->
-    <div class="big-search">
-      <span style="color:#0F6B4E;font-size:20px;">🔍</span>
-      <input type="text" placeholder="Décrivez ce que vous cherchez..." id="searchInput">
-      <button class="big-btn" onclick="searchIA()" style="width:44px;height:44px;border-radius:12px;font-size:18px;">✨</button>
-    </div>
-
-    <!-- Actions caméra/photo/voix -->
-    <div class="action-grid">
-      <div class="action-item" onclick="takePhoto()">
-        <div class="action-icon" style="background:linear-gradient(135deg,#0F6B4E,#0A4D38);">📷</div>
-        <div style="font-size:12px;font-weight:800;color:#000;">Photo</div>
-        <div style="font-size:9px;color:#6B7280;margin-top:2px;">Prendre en direct</div>
-      </div>
-      <div class="action-item" onclick="uploadPhoto()">
-        <div class="action-icon" style="background:linear-gradient(135deg,#D4A574,#B8945F);">🖼</div>
-        <div style="font-size:12px;font-weight:800;color:#000;">Galerie</div>
-        <div style="font-size:9px;color:#6B7280;margin-top:2px;">Depuis mobile</div>
-      </div>
-      <div class="action-item" onclick="voiceSearch()">
-        <div class="action-icon" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9);">🎙</div>
-        <div style="font-size:12px;font-weight:800;color:#000;">Vocal</div>
-        <div style="font-size:9px;color:#6B7280;margin-top:2px;">FR/Wolof/EN</div>
+    <div style="background:#fff;border-radius:16px;padding:20px;text-align:center;margin-bottom:16px;">
+      <div style="font-size:48px;">📷</div>
+      <h3 style="color:#0A4D38;">Recherche par image</h3>
+      <p style="font-size:13px;color:#6B7280;">Prenez ou choisissez une photo pour trouver des produits similaires</p>
+      <input type="file" id="imgInput" accept="image/*" capture="environment" style="display:none;" onchange="searchByImage(event)">
+      <div style="display:flex;gap:10px;margin-top:16px;">
+        <button onclick="document.getElementById('imgInput').click()" style="flex:1;padding:14px;background:#0F6B4E;color:#fff;border:none;border-radius:12px;font-weight:700;">📷 Photo</button>
+        <button onclick="document.getElementById('imgInput').click()" style="flex:1;padding:14px;background:#D4A574;color:#fff;border:none;border-radius:12px;font-weight:700;">🖼 Galerie</button>
       </div>
     </div>
-
-    <!-- Zone drag & drop -->
-    <div class="upload-zone" onclick="uploadPhoto()">
-      <div style="font-size:48px;">📸</div>
-      <div style="font-weight:800;color:#0F6B4E;margin-top:8px;">Recherche visuelle</div>
-      <div style="font-size:12px;color:#6B7280;margin-top:4px;">Photographiez un article pour trouver des produits similaires</div>
-      <button class="btn btn-gold" style="margin-top:12px;padding:10px 20px;font-size:13px;">📷 Ouvrir appareil photo</button>
-      <input type="file" id="photoInput" accept="image/*" capture="environment" style="display:none;" onchange="handlePhoto(this)">
-    </div>
-
-    <!-- Suggestions IA -->
-    <div class="card-title" style="color:#0F6B4E;">✨ L'IA vous suggère</div>
-    <div style="padding:0 16px 8px;">
-      <div style="background:linear-gradient(135deg,rgba(212,165,116,.1),rgba(15,107,78,.05));border-radius:14px;padding:14px;border:1px solid rgba(212,165,116,.3);margin-bottom:8px;cursor:pointer;" onclick="doSearch('boubou wax mariage')">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div style="font-size:28px;">👗</div>
-          <div style="flex:1;">
-            <div style="font-weight:800;font-size:13px;color:#000;">"Un boubou pour un mariage ce weekend"</div>
-            <div style="font-size:11px;color:#6B7280;margin-top:2px;">Basé sur votre historique</div>
-          </div>
-          <div style="color:#B8945F;">›</div>
-        </div>
-      </div>
-      <div style="background:linear-gradient(135deg,rgba(212,165,116,.1),rgba(15,107,78,.05));border-radius:14px;padding:14px;border:1px solid rgba(212,165,116,.3);margin-bottom:8px;cursor:pointer;" onclick="doSearch('cadeau anniversaire femme')">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div style="font-size:28px;">🎁</div>
-          <div style="flex:1;">
-            <div style="font-weight:800;font-size:13px;color:#000;">"Idées cadeaux pour ma mère"</div>
-            <div style="font-size:11px;color:#6B7280;margin-top:2px;">Bijoux, karité, boubou</div>
-          </div>
-          <div style="color:#B8945F;">›</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Recherches récentes -->
-    <div class="card-title" style="color:#0F6B4E;">🕐 Recherches récentes</div>
-    <div class="recent-search">
-      <div class="recent-chip" onclick="doSearch('sac cuir')">🔍 sac cuir africain</div>
-      <div class="recent-chip" onclick="doSearch('écouteurs')">🔍 écouteurs sans fil</div>
-      <div class="recent-chip" onclick="doSearch('boubou')">🔍 boubou wax</div>
-      <div class="recent-chip" onclick="doSearch('karité')">🔍 huile karité</div>
-      <div class="recent-chip" onclick="doSearch('smartphone')">🔍 smartphone</div>
-    </div>
-
-    <!-- Tendances -->
-    <div class="card-title" style="color:#0F6B4E;">🔥 Tendances du moment</div>
-    <div style="padding:0 16px 20px;">
-      <div style="display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;">
-        <div style="flex-shrink:0;background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;padding:14px;border-radius:12px;min-width:140px;cursor:pointer;" onclick="doSearch('promo été')">
-          <div style="font-size:24px;">🔥</div>
-          <div style="font-weight:800;font-size:12px;margin-top:6px;">Promo été -40%</div>
-          <div style="font-size:10px;opacity:.9;margin-top:2px;">2 458 recherches</div>
-        </div>
-        <div style="flex-shrink:0;background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;padding:14px;border-radius:12px;min-width:140px;cursor:pointer;" onclick="doSearch('mariage 2026')">
-          <div style="font-size:24px;">💍</div>
-          <div style="font-weight:800;font-size:12px;margin-top:6px;">Mariage 2026</div>
-          <div style="font-size:10px;opacity:.9;margin-top:2px;">1 892 recherches</div>
-        </div>
-        <div style="flex-shrink:0;background:linear-gradient(135deg,#D4A574,#B8945F);color:#0A4D38;padding:14px;border-radius:12px;min-width:140px;cursor:pointer;" onclick="doSearch('tabaski 2026')">
-          <div style="font-size:24px;">🐑</div>
-          <div style="font-weight:800;font-size:12px;margin-top:6px;">Tabaski 2026</div>
-          <div style="font-size:10px;opacity:.9;margin-top:2px;">3 421 recherches</div>
-        </div>
-      </div>
-    </div>
+    <div id="results"></div>
   </main>
-
   <nav class="app-nav">
     <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
     <a href="categories.html"><div class="nav-icon">▦</div><div class="nav-label">Catégories</div></a>
@@ -138,49 +37,44 @@
     <a href="profil.html"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
   </nav>
 </div>
-
+<script src="js/data.js"></script>
 <script>
-function takePhoto() {
-  document.getElementById('photoInput').setAttribute('capture', 'environment');
-  document.getElementById('photoInput').click();
-}
-function uploadPhoto() {
-  document.getElementById('photoInput').removeAttribute('capture');
-  document.getElementById('photoInput').click();
-}
-function handlePhoto(input) {
-  if (input.files && input.files[0]) {
-    const reader = new FileReader();
-    reader.onload = e => {
-      alert('✨ Photo analysée par IA !\n\nRésultats trouvés :\n• 12 produits similaires\n• 3 vendeurs recommandés\n• Prix moyen: 15 000 FCFA\n\nRedirection vers les résultats...');
-      setTimeout(() => window.location.href = 'produits.html?ia=photo', 1000);
-    };
-    reader.readAsDataURL(input.files[0]);
-  }
-}
-function voiceSearch() {
-  if (!('webkitSpeechRecognition' in window)) {
-    alert('🎙 Reconnaissance vocale non supportée sur ce navigateur');
-    return;
-  }
-  const recognition = new webkitSpeechRecognition();
-  recognition.lang = 'fr-FR';
-  recognition.onresult = e => {
-    const text = e.results[0][0].transcript;
-    document.getElementById('searchInput').value = text;
-    setTimeout(() => searchIA(), 500);
+function searchByImage(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = evt => {
+    document.getElementById('results').innerHTML = `
+      <div style="background:#fff;border-radius:16px;padding:16px;margin-bottom:16px;">
+        <img src="${evt.target.result}" style="width:100%;max-height:200px;object-fit:contain;border-radius:12px;">
+        <div style="text-align:center;padding:20px;"><div style="font-size:32px;">⏳</div>Analyse IA en cours...</div>
+      </div>`;
+    setTimeout(() => {
+      const list = (typeof products !== 'undefined' ? products : []).slice(0,6);
+      document.getElementById('results').innerHTML = `
+        <h3 style="color:#0A4D38;">✨ Produits similaires trouvés</h3>
+        <div class="grid">
+          ${list.map(p=>`
+            <a href="produit.html?id=${p.id}" class="product-card">
+              <div class="card-image-wrap"><img src="${p.image}" alt=""></div>
+              <div class="card-info">
+                <div class="card-name">${p.name}</div>
+                <div class="card-price">${Number(p.price).toLocaleString()} FCFA</div>
+                <div style="font-size:10px;color:#0F6B4E;font-weight:700;margin-top:4px;">🎯 ${85+Math.floor(Math.random()*15)}% similaire</div>
+              </div>
+            </a>`).join('')}
+        </div>`;
+    }, 1500);
   };
-  recognition.onerror = () => alert('❌ Erreur reconnaissance vocale');
-  recognition.start();
-  alert('🎙 Parlez maintenant...');
+  reader.readAsDataURL(file);
 }
-function searchIA() {
-  const q = document.getElementById('searchInput').value.trim();
-  if (!q) { alert('Entrez votre recherche'); return; }
-  window.location.href = 'produits.html?q=' + encodeURIComponent(q);
-}
-function doSearch(q) {
-  window.location.href = 'produits.html?q=' + encodeURIComponent(q);
+
+function voiceSearch() {
+  if (!('webkitSpeechRecognition' in window)) { alert('Recherche vocale non supportée'); return; }
+  const rec = new webkitSpeechRecognition();
+  rec.lang = 'fr-FR';
+  rec.onresult = e => document.getElementById('txtSearch').value = e.results[0][0].transcript;
+  rec.start();
 }
 </script>
 </body>
