@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Connexion - SEN TEW</title>
+<link rel="stylesheet" href="css/app.css">
+<style>
+.hero{background:linear-gradient(135deg,#0F6B4E,#D4A574);padding:40px 20px 50px;text-align:center;color:#fff;border-radius:0 0 30px 30px}
+.type-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px}
+.type-card{background:#fff;border:2px solid #E5E7EB;border-radius:14px;padding:16px 8px;text-align:center;cursor:pointer;transition:.2s}
+.type-card.active{border-color:#D4A574;background:#FFFAF0;box-shadow:0 4px 12px rgba(212,165,116,.2)}
+.type-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 6px;color:#fff}
+.form-input{width:100%;padding:14px;border:2px solid #E5E7EB;border-radius:12px;font-size:14px;margin-bottom:10px;outline:none;background:#fff;color:#000}
+.form-input:focus{border-color:#0F6B4E}
+</style>
+</head>
+<body>
+<div class="app">
+  <main class="app-content" style="padding-bottom:20px;">
+    <div class="hero">
+      <div style="font-size:36px;">👑</div>
+      <div style="font-size:22px;font-weight:900;letter-spacing:1.5px;">SEN TEW</div>
+      <div style="font-size:12px;opacity:.95;margin-top:4px;">Bienvenue !</div>
+    </div>
+
+    <!-- Choix type de compte -->
+    <div style="padding:16px;text-align:center;">
+      <div style="font-size:14px;font-weight:800;color:#000;">Je suis un(e) ?</div>
+    </div>
+
+    <div class="type-selector">
+      <div class="type-card active" onclick="selectType('buyer', this)">
+        <div class="type-icon" style="background:linear-gradient(135deg,#0F6B4E,#0A4D38);">🛍</div>
+        <div style="font-size:12px;font-weight:800;color:#000;">Acheteur</div>
+        <div style="font-size:9px;color:#6B7280;margin-top:2px;">Gratuit</div>
+      </div>
+      <div class="type-card" onclick="selectType('seller', this)">
+        <div class="type-icon" style="background:linear-gradient(135deg,#D4A574,#B8945F);color:#0A4D38;">🏪</div>
+        <div style="font-size:12px;font-weight:800;color:#000;">Vendeur</div>
+        <div style="font-size:9px;color:#6B7280;margin-top:2px;">KYC requis</div>
+      </div>
+      <div class="type-card" onclick="selectType('driver', this)">
+        <div class="type-icon" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9);">🛵</div>
+        <div style="font-size:12px;font-weight:800;color:#000;">Livreur</div>
+        <div style="font-size:9px;color:#6B7280;margin-top:2px;">KYC + Permis</div>
+      </div>
+    </div>
+
+    <!-- Continuer en invité (visible pour buyer uniquement) -->
+    <div id="guestOption" style="margin:8px 16px 16px;background:linear-gradient(135deg,rgba(15,107,78,.05),rgba(212,165,116,.05));border:1px solid rgba(15,107,78,.2);border-radius:12px;padding:14px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="font-size:24px;">🌍</div>
+        <div style="flex:1;">
+          <div style="font-weight:800;font-size:13px;color:#000;">Continuer en invité</div>
+          <div style="font-size:11px;color:#6B7280;">Parcourir librement · Achat requiert un compte</div>
+        </div>
+      </div>
+      <button class="btn btn-outline btn-full" style="margin-top:10px;padding:10px;color:#0F6B4E;border:2px solid #0F6B4E;font-size:12px;" onclick="continueAsGuest()">
+        👀 Explorer sans compte
+      </button>
+    </div>
+
+    <div style="padding:16px;">
+      <div id="loginForm">
+        <div style="font-size:16px;font-weight:800;color:#000;margin-bottom:12px;">Connexion / Inscription</div>
+        
+        <!-- Choix pays -->
+        <select class="form-input" id="country">
+          <option value="+221">🇸🇳 Sénégal (+221)</option>
+          <option value="+225">🇨🇮 Côte d'Ivoire (+225)</option>
+          <option value="+223">🇲🇱 Mali (+223)</option>
+          <option value="+237">🇨🇲 Cameroun (+237)</option>
+          <option value="+33">🇫🇷 France Diaspora (+33)</option>
+          <option value="+1">🇺🇸 USA Diaspora (+1)</option>
+          <option value="+44">🇬🇧 UK Diaspora (+44)</option>
+          <option value="+34">🇪🇸 Espagne Diaspora (+34)</option>
+          <option value="+39">🇮🇹 Italie Diaspora (+39)</option>
+          <option value="+49">🇩🇪 Allemagne Diaspora (+49)</option>
+        </select>
+
+        <input type="tel" class="form-input" placeholder="📱 Numéro de téléphone" id="phone">
+
+        <button class="btn btn-primary btn-full" style="padding:14px;margin-top:6px;" onclick="sendOTP()">
+          📩 Recevoir le code SMS
+        </button>
+
+        <div style="text-align:center;margin:16px 0;color:#6B7280;font-size:11px;">— Ou —</div>
+
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+          <button style="background:#1BA5E0;color:#fff;border:none;padding:12px 6px;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer;" onclick="socialLogin('wave')">🌊 Wave</button>
+          <button style="background:#F57C00;color:#fff;border:none;padding:12px 6px;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer;" onclick="socialLogin('orange')">🍊 Orange</button>
+          <button style="background:#fff;color:#000;border:2px solid #E5E7EB;padding:12px 6px;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer;" onclick="socialLogin('google')">🔴 Google</button>
+        </div>
+
+        <div style="text-align:center;font-size:10px;color:#6B7280;margin-top:16px;">
+          🔒 Vos données sont protégées (RGPD)<br>
+          En continuant vous acceptez nos <a href="../cgu.html" style="color:#0F6B4E;">CGU</a>
+        </div>
+      </div>
+
+      <div id="otpForm" style="display:none;">
+        <div style="text-align:center;font-size:40px;margin-bottom:12px;">🔐</div>
+        <div style="text-align:center;font-weight:800;color:#000;margin-bottom:6px;">Vérification SMS</div>
+        <div style="text-align:center;font-size:12px;color:#6B7280;margin-bottom:16px;">Code envoyé au <span id="phoneDisp" style="color:#B8945F;font-weight:700;"></span></div>
+        <div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px;">
+          <input type="text" maxlength="1" class="otp" style="width:44px;height:52px;text-align:center;font-size:20px;font-weight:800;border:2px solid #E5E7EB;border-radius:10px;">
+          <input type="text" maxlength="1" class="otp" style="width:44px;height:52px;text-align:center;font-size:20px;font-weight:800;border:2px solid #E5E7EB;border-radius:10px;">
+          <input type="text" maxlength="1" class="otp" style="width:44px;height:52px;text-align:center;font-size:20px;font-weight:800;border:2px solid #E5E7EB;border-radius:10px;">
+          <input type="text" maxlength="1" class="otp" style="width:44px;height:52px;text-align:center;font-size:20px;font-weight:800;border:2px solid #E5E7EB;border-radius:10px;">
+          <input type="text" maxlength="1" class="otp" style="width:44px;height:52px;text-align:center;font-size:20px;font-weight:800;border:2px solid #E5E7EB;border-radius:10px;">
+          <input type="text" maxlength="1" class="otp" style="width:44px;height:52px;text-align:center;font-size:20px;font-weight:800;border:2px solid #E5E7EB;border-radius:10px;">
+        </div>
+        <button class="btn btn-gold btn-full" style="padding:14px;" onclick="verifyOTP()">✓ Vérifier</button>
+        <div style="text-align:center;margin-top:12px;">
+          <a onclick="back()" style="color:#0F6B4E;font-size:12px;cursor:pointer;font-weight:700;">← Modifier</a>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+let userType = 'buyer';
+const redirect = new URLSearchParams(window.location.search).get('redirect') || 'index.html';
+
+function selectType(type, el) {
+  userType = type;
+  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('guestOption').style.display = type === 'buyer' ? 'block' : 'none';
+}
+
+function continueAsGuest() {
+  localStorage.setItem('sentew_guest', '1');
+  alert('👀 Mode invité activé - Vous pouvez explorer !');
+  window.location.href = 'index.html';
+}
+
+function sendOTP() {
+  const country = document.getElementById('country').value;
+  const phone = document.getElementById('phone').value;
+  if (phone.length < 8) { alert('❌ Numéro invalide'); return; }
+  document.getElementById('phoneDisp').textContent = country + ' ' + phone;
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('otpForm').style.display = 'block';
+  setTimeout(() => alert('📩 Code SMS envoyé : 123456 (démo)'), 500);
+}
+
+function verifyOTP() {
+  const code = Array.from(document.querySelectorAll('.otp')).map(i => i.value).join('');
+  if (code.length !== 6) { alert('❌ Code incomplet'); return; }
+  
+  // Créer compte
+  localStorage.setItem('sentew_user', JSON.stringify({type: userType, phone: document.getElementById('phone').value}));
+  localStorage.removeItem('sentew_guest');
+  
+  alert('✅ Connexion réussie !\nBienvenue sur SEN TEW');
+  setTimeout(() => {
+    if (userType === 'seller') window.location.href = 'vendeur.html';
+    else if (userType === 'driver') window.location.href = 'livreur.html';
+    else window.location.href = redirect;
+  }, 800);
+}
+
+function back() {
+  document.getElementById('otpForm').style.display = 'none';
+  document.getElementById('loginForm').style.display = 'block';
+}
+
+function socialLogin(provider) {
+  alert('🔐 Connexion ' + provider + ' en cours...');
+  setTimeout(() => {
+    localStorage.setItem('sentew_user', JSON.stringify({type:userType, provider}));
+    window.location.href = redirect;
+  }, 1000);
+}
+
+// Auto-focus OTP
+document.querySelectorAll('.otp').forEach((input, i, arr) => {
+  input.addEventListener('input', () => {
+    if (input.value.length === 1 && i < arr.length - 1) arr[i+1].focus();
+  });
+});
+</script>
+</body>
+</html>
