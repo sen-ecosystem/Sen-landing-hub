@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Parrainage - SEN TEW</title>
+<link rel="stylesheet" href="css/app.css">
+<meta name="theme-color" content="#0F6B4E">
+</head>
+<body>
+<div class="app">
+  <header class="app-header">
+    <button class="header-btn" onclick="history.back()">←</button>
+    <div style="flex:1;text-align:center;font-weight:900;color:#0A4D38;">🎁 Parrainage</div>
+    <a href="profil.html" class="header-btn">👤</a>
+  </header>
+
+  <main class="app-content">
+    <div style="background:linear-gradient(135deg,#0F6B4E,#D4A574);padding:30px 20px;color:#fff;text-align:center;border-radius:0 0 20px 20px;">
+      <div style="font-size:64px;">🎁</div>
+      <h1 style="margin:10px 0;">Gagnez 500 FCFA</h1>
+      <p style="opacity:.9;">Par ami qui fait sa 1ère commande</p>
+    </div>
+
+    <div style="padding:20px;">
+      <div style="background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,.06);margin-bottom:16px;">
+        <div style="font-size:12px;color:#6B7280;text-align:center;">Votre code de parrainage</div>
+        <div id="refCode" style="font-size:32px;font-weight:900;color:#0F6B4E;text-align:center;letter-spacing:4px;margin:10px 0;">SENTEW-XXXX</div>
+        <div style="display:flex;gap:8px;">
+          <button onclick="copyCode()" style="flex:1;padding:12px;background:#0F6B4E;color:#fff;border:none;border-radius:10px;font-weight:700;">📋 Copier</button>
+          <button onclick="shareCode()" style="flex:1;padding:12px;background:#D4A574;color:#fff;border:none;border-radius:10px;font-weight:700;">📤 Partager</button>
+        </div>
+      </div>
+
+      <div style="background:#fff;border-radius:16px;padding:20px;margin-bottom:16px;">
+        <h3 style="margin:0 0 12px;color:#0A4D38;">💰 Mes gains</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div style="background:#F0FDF4;padding:16px;border-radius:12px;text-align:center;">
+            <div style="font-size:24px;font-weight:900;color:#0F6B4E;" id="totalEarned">0</div>
+            <div style="font-size:11px;color:#6B7280;">FCFA gagnés</div>
+          </div>
+          <div style="background:#FEF3C7;padding:16px;border-radius:12px;text-align:center;">
+            <div style="font-size:24px;font-weight:900;color:#D97706;" id="totalRefs">0</div>
+            <div style="font-size:11px;color:#6B7280;">Amis inscrits</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:#fff;border-radius:16px;padding:20px;">
+        <h3 style="margin:0 0 12px;color:#0A4D38;">📋 Comment ça marche</h3>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;gap:12px;"><div style="width:32px;height:32px;background:#0F6B4E;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">1</div><div><strong>Partagez</strong> votre code à vos amis</div></div>
+          <div style="display:flex;gap:12px;"><div style="width:32px;height:32px;background:#0F6B4E;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">2</div><div>Votre ami <strong>s'inscrit</strong> avec le code</div></div>
+          <div style="display:flex;gap:12px;"><div style="width:32px;height:32px;background:#0F6B4E;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">3</div><div>Il fait sa <strong>1ère commande</strong></div></div>
+          <div style="display:flex;gap:12px;"><div style="width:32px;height:32px;background:#D4A574;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">💰</div><div><strong>500 FCFA</strong> crédités sur votre portefeuille</div></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <nav class="app-nav">
+    <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
+    <a href="categories.html"><div class="nav-icon">▦</div><div class="nav-label">Catégories</div></a>
+    <a href="panier.html"><div class="nav-icon">🛒</div><div class="nav-label">Panier</div></a>
+    <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
+    <a href="profil.html" class="active"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
+  </nav>
+</div>
+
+<script>
+const userId = localStorage.getItem('user_id') || 'USR' + Math.random().toString(36).substr(2,4).toUpperCase();
+localStorage.setItem('user_id', userId);
+const refCode = 'SENTEW-' + userId.slice(-4);
+document.getElementById('refCode').textContent = refCode;
+
+const refs = JSON.parse(localStorage.getItem('referrals') || '[]');
+document.getElementById('totalRefs').textContent = refs.length;
+document.getElementById('totalEarned').textContent = (refs.filter(r=>r.purchased).length * 500).toLocaleString();
+
+function copyCode() {
+  navigator.clipboard.writeText(refCode);
+  alert('✅ Code copié : ' + refCode);
+}
+
+function shareCode() {
+  const msg = `🎁 Rejoins-moi sur SEN TEW ! Le marketplace africain #1.\n\nUtilise mon code : ${refCode}\nEt on gagne tous les deux 500 FCFA !\n\nhttps://sen-ecosystem.com/sentew-app/`;
+  if (navigator.share) navigator.share({ title:'SEN TEW - Parrainage', text: msg });
+  else {
+    navigator.clipboard.writeText(msg);
+    alert('✅ Message copié, collez-le à vos amis !');
+  }
+}
+</script>
+</body>
+</html>
