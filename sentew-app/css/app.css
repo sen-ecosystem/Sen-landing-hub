@@ -267,3 +267,43 @@ body.dark-theme .chip.active{background:linear-gradient(135deg,#D4A574,#B8945F);
 /* Priorité abonnement */
 .priority-badge{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;padding:2px 6px;border-radius:5px;font-size:9px;font-weight:900;margin-left:4px}
 .priority-badge.gold{background:linear-gradient(135deg,#D4A574,#B8945F);color:#0A4D38}
+/* ===== FIX CATÉGORIES - PANNEAU STABLE ===== */
+.cat-details{
+  background:#fff !important;
+  border-radius:14px !important;
+  margin-bottom:10px !important;
+  overflow:hidden !important;
+  box-shadow:0 2px 10px rgba(0,0,0,.05) !important;
+  transform:none !important;
+  transition:none !important;
+  animation:none !important;
+  position:relative !important;
+  will-change:auto !important;
+}
+.cat-details summary{
+  transform:none !important;
+  transition:background .15s ease !important;
+  animation:none !important;
+}
+.cat-details summary:active{
+  background:#F9FAFB !important;
+}
+.cat-details[open] > summary > div:last-child{
+  transform:rotate(90deg) !important;
+  transition:transform .2s ease !important;
+}
+.cat-details summary::-webkit-details-marker{display:none;}
+.cat-details summary::marker{display:none;}
+
+/* Bloquer scroll horizontal parasite */
+body, .app, .app-content{
+  overflow-x:hidden !important;
+  position:relative;
+}
+
+/* Empêcher glissements involontaires */
+.app-content{
+  overscroll-behavior:contain;
+  touch-action:pan-y;
+}
+
