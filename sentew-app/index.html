@@ -257,15 +257,43 @@ window.addEventListener('beforeinstallprompt', e => {
     if (taps >= 7) {
       taps = 0;
       // Prompt code d'accès admin
-      const code = prompt('🔐 Code d\'accès administrateur :');
-      if (code === 'SENADMIN2026') {
-        sessionStorage.setItem('admin_pre_auth', '1');
-        window.location.href = 'admin.html';
-      } else if (code !== null) {
-        alert('❌ Code incorrect');
-      }
+     trigger.addEventListener('click', () => {
+  taps++;
+  clearTimeout(timer);
+  timer = setTimeout(() => taps = 0, 3000);
+
+  if (taps === 5) {
+    navigator.vibrate && navigator.vibrate(50);
+  }
+  if (taps >= 7) {
+    taps = 0;
+    const raw = prompt('🔐 Code d\'accès administrateur :');
+    if (raw === null) return;
+
+    // Nettoyage : trim + retire espaces invisibles + uppercase
+    const code = raw
+      .trim()
+      .replace(/[\s\u00A0\u200B\u202F\uFEFF]/g, '')
+      .toUpperCase();
+
+    // Codes acceptés (multiples pour flexibilité)
+    const validCodes = [
+      'SENADMIN2026',
+      'ADMIN2026',
+      'SENTEW2026',
+      'SUPERADMIN'
+    ];
+
+    if (validCodes.includes(code)) {
+      sessionStorage.setItem('admin_pre_auth', '1');
+      navigator.vibrate && navigator.vibrate([100,50,100]);
+      window.location.href = 'admin.html';
+    } else {
+      alert('❌ Code incorrect\n\nCode saisi : "' + raw + '"\nCode nettoyé : "' + code + '"\n\nCode attendu : SENADMIN2026');
     }
-  });
+  }
+});
+
 })();
 </script>
 
