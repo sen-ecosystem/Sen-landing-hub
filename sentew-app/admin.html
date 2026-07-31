@@ -233,6 +233,36 @@
     </div>
   </main>
 </div>
+// Vérification pré-auth (venir du logo tap secret)
+if (!sessionStorage.getItem('admin_pre_auth')) {
+  // Accès direct → demande code d'urgence
+  const emergency = prompt('🔒 Accès administrateur restreint\n\nCode d\'urgence :');
+  if (emergency !== 'SENADMIN2026') {
+    document.body.innerHTML = '<div style="text-align:center;padding:80px 20px;font-family:sans-serif;"><div style="font-size:64px;">🚫</div><h1 style="color:#dc2626;">Accès refusé</h1><p style="color:#6B7280;">Cette zone est réservée aux administrateurs autorisés.</p><a href="index.html" style="display:inline-block;margin-top:20px;padding:12px 24px;background:#0F6B4E;color:#fff;text-decoration:none;border-radius:8px;font-weight:700;">← Retour à l\'accueil</a></div>';
+    throw new Error('Unauthorized');
+  }
+  sessionStorage.setItem('admin_pre_auth', '1');
+}
+
+// Identifiants admin (À CHANGER EN PRODUCTION)
+const ADMIN_CREDENTIALS = {
+  email: 'admin@sentew.com',
+  password: 'SenTew2026!',
+  totp: '123456'  // Remplacer par vraie TOTP (Google Authenticator) en prod
+};
+
+// Log tentatives (envoyer à backend en prod)
+function logAdminAttempt(success, email) {
+  const attempts = JSON.parse(localStorage.getItem('admin_logs') || '[]');
+  attempts.push({
+    ts: new Date().toISOString(),
+    ip: 'client-side',
+    ua: navigator.userAgent.slice(0,80),
+    email: email,
+    success: success
+  });
+  localStorage.setItem('admin_logs', JSON.stringify(attempts.slice(-50)));
+}
 
 <script>
 function login() {
