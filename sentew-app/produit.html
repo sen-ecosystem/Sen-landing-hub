@@ -2,21 +2,41 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
 <title>Produit - SEN TEW</title>
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#FAFAF7">
 <link rel="stylesheet" href="css/app.css">
 <style>
-.product-hero{width:100%;height:340px;overflow:hidden;position:relative;background:#f5f5f5}
-.product-hero img{width:100%;height:100%;object-fit:cover;pointer-events:auto}
-.live-corner{position:absolute;top:16px;left:16px;background:#ef4444;color:#fff;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:800;display:flex;align-items:center;gap:6px;text-decoration:none;animation:livePulse 2s infinite;z-index:2}
-.live-corner::before{content:'●';animation:blink 1s infinite}
+/* Layout fixe pour éviter bouton sautant */
+.app{display:flex;flex-direction:column;height:100vh;height:100dvh}
+.app-header{flex-shrink:0;z-index:100}
+.app-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:0}
+.action-bar-fixed{flex-shrink:0;background:#fff;padding:10px 12px;display:flex;gap:8px;border-top:1px solid #E5E7EB;box-shadow:0 -4px 12px rgba(0,0,0,.08);position:sticky;bottom:0;z-index:99}
+.app-nav{flex-shrink:0}
+
+/* Gallery multi-photos */
+.gallery{position:relative;width:100%;height:340px;overflow:hidden;background:#f5f5f5}
+.gallery-track{display:flex;height:100%;scroll-snap-type:x mandatory;overflow-x:auto;scrollbar-width:none}
+.gallery-track::-webkit-scrollbar{display:none}
+.gallery-slide{flex:0 0 100%;height:100%;scroll-snap-align:start}
+.gallery-slide img{width:100%;height:100%;object-fit:cover;pointer-events:auto}
+.gallery-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:2}
+.gallery-dot{width:8px;height:8px;background:rgba(255,255,255,.5);border-radius:50%;transition:.2s}
+.gallery-dot.active{background:#fff;width:24px;border-radius:4px}
+.gallery-count{position:absolute;top:16px;right:16px;background:rgba(0,0,0,.6);color:#fff;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:700;backdrop-filter:blur(6px);z-index:2}
+
+.live-corner{position:absolute;top:16px;left:16px;background:#ef4444;color:#fff;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:800;text-decoration:none;animation:livePulse 2s infinite;z-index:3}
+.live-corner::before{content:'●';animation:blink 1s infinite;margin-right:4px}
 @keyframes blink{50%{opacity:.3}}
-.pager{position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,.6);color:#fff;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;backdrop-filter:blur(6px)}
+
+/* Multi-devise pills */
+.currency-pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;padding:8px;background:#F9F5EF;border-radius:10px;border:1px solid #E5E7EB}
+.currency-pill{background:#fff;border:1px solid #E5E7EB;padding:4px 10px;border-radius:8px;font-size:11px;font-weight:700;color:#000;display:flex;align-items:center;gap:4px}
+.currency-pill.main{background:linear-gradient(135deg,#D4A574,#B8945F);color:#0A4D38;border:none}
+
 .info-box{padding:16px;background:#fff}
 .p-name{font-size:22px;font-weight:800;color:#000;margin-bottom:8px}
-.p-price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:12px;flex-wrap:wrap}
 .p-price{font-size:28px;font-weight:900;color:#B8945F}
 .p-old{font-size:14px;color:#6B7280;text-decoration:line-through}
 .p-discount{background:#ef4444;color:#fff;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:800}
@@ -24,41 +44,45 @@
 .stock-limited{background:rgba(239,68,68,.1);color:#ef4444;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
 .countdown-box{background:linear-gradient(135deg,#dc2626,#7f1d1d);padding:12px 16px;border-radius:12px;margin:12px 0;color:#fff;font-weight:700;text-align:center;font-size:13px}
-.seller-card{background:#fff;border:1px solid #E5E7EB;border-radius:14px;padding:12px;margin:12px 16px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow);cursor:pointer;text-decoration:none;color:#000}
+
+.seller-card{background:#fff;border:1px solid #E5E7EB;border-radius:14px;padding:12px;margin:12px 16px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow);text-decoration:none;color:#000}
 .seller-avatar-wrap{position:relative;flex-shrink:0}
-.seller-avatar-wrap img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid #D4A574;pointer-events:auto}
-.live-ring{position:absolute;inset:-4px;border:2px solid #ef4444;border-radius:50%;animation:livePulse 2s infinite;pointer-events:none}
-.live-tag-small{position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);background:#ef4444;color:#fff;font-size:8px;font-weight:900;padding:1px 6px;border-radius:6px}
+.seller-avatar-wrap img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:3px solid #D4A574;pointer-events:auto}
+.live-ring{position:absolute;inset:-5px;border:3px solid #ef4444;border-radius:50%;animation:livePulse 2s infinite;pointer-events:none}
+.live-tag-small{position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);background:#ef4444;color:#fff;font-size:9px;font-weight:900;padding:2px 7px;border-radius:6px;box-shadow:0 2px 6px rgba(239,68,68,.4);white-space:nowrap}
+.verified-badge{background:linear-gradient(135deg,#0F6B4E,#D4A574);color:#fff;font-size:9px;font-weight:900;padding:2px 6px;border-radius:5px;margin-left:4px}
+
 .live-banner-big{display:block;margin:0 16px 12px;text-decoration:none}
-.live-banner-inner{background:linear-gradient(135deg,#ef4444,#dc2626);border-radius:14px;padding:14px;color:#fff;display:flex;align-items:center;gap:12px;box-shadow:0 4px 12px rgba(239,68,68,.3);animation:livePulse 3s infinite}
+.live-banner-inner{background:linear-gradient(135deg,#ef4444,#dc2626);border-radius:14px;padding:14px;color:#fff;display:flex;align-items:center;gap:12px;box-shadow:0 4px 12px rgba(239,68,68,.3)}
+
 .tabs{display:flex;background:#fff;border-radius:14px;padding:4px;margin:12px 16px;border:1px solid #E5E7EB;box-shadow:var(--shadow)}
-.tab{flex:1;padding:10px;text-align:center;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;color:#6B7280;transition:.2s}
+.tab{flex:1;padding:10px;text-align:center;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;color:#6B7280}
 .tab.active{background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff}
 .tab-content{background:#fff;border-radius:14px;padding:14px;margin:0 16px;box-shadow:var(--shadow);border:1px solid #E5E7EB;font-size:13px;line-height:1.6;color:#000;font-weight:500}
+
 .chips-selector{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 16px}
 .chip-select{padding:8px 16px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:13px;font-weight:700;background:#fff;cursor:pointer;color:#000}
 .chip-select.active{border-color:#0F6B4E;background:rgba(15,107,78,.1);color:#0F6B4E}
-.color-dot{width:32px;height:32px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px transparent;cursor:pointer;transition:.2s}
+.color-dot{width:32px;height:32px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px transparent;cursor:pointer}
 .color-dot.active{box-shadow:0 0 0 2px #0F6B4E}
+
 .delivery-info{background:linear-gradient(135deg,rgba(15,107,78,.08),rgba(212,165,116,.08));border-radius:14px;padding:14px;margin:12px 16px;display:flex;gap:12px;align-items:center;border:1px solid rgba(212,165,116,.2)}
-.action-buttons{position:sticky;bottom:0;background:#fff;padding:12px 16px;display:flex;gap:8px;border-top:1px solid #E5E7EB;box-shadow:0 -4px 12px rgba(0,0,0,.05);z-index:10}
-.pay-icons{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#fff;border-top:1px solid #E5E7EB}
-.pay-mini{background:#f5f5f5;padding:4px 8px;border-radius:6px;font-size:10px;font-weight:700}
-.chat-fab{position:fixed;bottom:80px;right:16px;background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 6px 16px rgba(15,107,78,.35);z-index:50;text-decoration:none}
+
 .shop-scroll{display:flex;gap:10px;padding:0 16px 8px;overflow-x:auto;scrollbar-width:none}
 .shop-scroll::-webkit-scrollbar{display:none}
 .shop-item{flex-shrink:0;width:150px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);border:1px solid #E5E7EB;text-decoration:none;color:#000}
 .shop-item-img{height:120px;overflow:hidden;position:relative}
 .shop-item-img img{width:100%;height:100%;object-fit:cover;pointer-events:auto}
-.shop-item-badge{position:absolute;top:6px;left:6px;background:linear-gradient(135deg,#D4A574,#B8945F);color:#0A4D38;padding:2px 8px;border-radius:6px;font-size:9px;font-weight:900}
-.shop-item-info{padding:8px}
-.shop-item-name{font-size:11px;font-weight:600;line-height:1.3;height:28px;overflow:hidden;color:#000}
-.shop-item-price{font-size:13px;font-weight:900;color:#B8945F;margin-top:4px}
-.bundle-card{margin:0 16px;background:#fff;border-radius:14px;padding:14px;box-shadow:var(--shadow);border:1px solid #E5E7EB}
+
+.bundle-card{margin:0 16px 16px;background:#fff;border-radius:14px;padding:14px;box-shadow:var(--shadow);border:1px solid #E5E7EB}
 .bundle-row{display:flex;align-items:center;gap:6px;margin-bottom:12px;flex-wrap:wrap}
 .bundle-row img{width:52px;height:52px;object-fit:cover;border-radius:8px;pointer-events:auto}
-.bundle-row .plus{font-size:16px;color:#B8945F;font-weight:900}
-.bundle-total{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid #E5E7EB}
+.plus{font-size:16px;color:#B8945F;font-weight:900}
+
+.pay-icons{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#fff;border-top:1px solid #E5E7EB}
+.pay-mini{background:#f5f5f5;padding:4px 8px;border-radius:6px;font-size:10px;font-weight:700}
+
+.chat-fab{position:fixed;bottom:150px;right:14px;background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 6px 16px rgba(15,107,78,.35);z-index:60;text-decoration:none}
 </style>
 </head>
 <body oncontextmenu="return false">
@@ -70,16 +94,22 @@
       <div class="logo-icon" style="width:28px;height:28px;font-size:14px;">👑</div>
       <div>
         <div class="logo-text" style="font-size:16px;">SEN TEW</div>
-        <div class="logo-sub" style="font-size:8px;">LE MEILLEUR DU SÉNÉGAL</div>
+        <div class="logo-sub" style="font-size:8px;">MEILLEUR DU SÉNÉGAL</div>
       </div>
     </div>
     <button class="header-btn" onclick="alert('📤 Partagé')">📤</button>
     <button class="header-btn" onclick="toggleFav(this)">🤍</button>
   </header>
 
-  <main class="app-content" id="content" style="padding-bottom:80px;">
+  <main class="app-content" id="content">
     <p style="text-align:center;color:#B8945F;padding:40px;">Chargement...</p>
   </main>
+
+  <!-- Actions bar FIXE (ne bouge plus jamais) -->
+  <div class="action-bar-fixed" id="actionBar" style="display:none;">
+    <button class="btn btn-outline" style="flex:1;padding:14px;color:#0F6B4E;border:2px solid #0F6B4E;background:#fff;font-weight:800;" onclick="addCart()">🛒 Panier</button>
+    <button class="btn btn-gold" style="flex:1;padding:14px;" onclick="buyNow()">Acheter maintenant</button>
+  </div>
 
   <a href="messages.html" class="chat-fab">💬</a>
 
@@ -94,52 +124,57 @@
 
 <script src="js/data.js"></script>
 <script>
-// Récupération produit
+// Taux de conversion (à mettre à jour via API en prod)
+const RATES = { FCFA: 1, EUR: 0.00152, USD: 0.00165 };
+function convert(fcfa, cur) {
+  if (cur === 'FCFA') return Math.round(fcfa).toLocaleString('fr-FR') + ' FCFA';
+  if (cur === 'EUR') return (fcfa * RATES.EUR).toFixed(2) + ' €';
+  if (cur === 'USD') return '$' + (fcfa * RATES.USD).toFixed(2);
+}
+
 const params = new URLSearchParams(window.location.search);
 const pid = parseInt(params.get('id')) || 1;
 const productsList = (typeof products !== 'undefined' ? products : []);
 const sellersList = (typeof sellers !== 'undefined' ? sellers : []);
-
 const product = productsList.find(p => p.id === pid) || productsList[0];
 
 if (!product) {
-  document.getElementById('content').innerHTML = '<div style="text-align:center;padding:60px 20px;color:#B8945F;"><div style="font-size:60px;">❌</div><div style="margin-top:12px;font-weight:700;">Produit introuvable</div><a href="index.html" style="display:inline-block;margin-top:16px;color:#0F6B4E;font-weight:700;">← Retour accueil</a></div>';
+  document.getElementById('content').innerHTML = '<div style="text-align:center;padding:60px 20px;color:#B8945F;"><div style="font-size:60px;">❌</div><div>Produit introuvable</div></div>';
 } else {
   const seller = sellersList.find(s => s.id === product.sellerId) || {
-    id: product.sellerId || 1,
-    name: product.seller || 'Vendeur',
-    avatar: product.sellerAvatar || 'https://i.pravatar.cc/100',
-    live: product.sellerLive || false,
-    verified: true,
-    rating: 4.8,
-    reviews: 127,
-    followers: '2.4K',
-    liveViewers: 1200,
-    city: 'Dakar'
+    id: product.sellerId || 1, name: product.seller || 'Vendeur',
+    avatar: product.sellerAvatar, live: product.sellerLive,
+    verified: true, rating: 4.8, reviews: 127, followers: '2.4K',
+    liveViewers: 1200, city: 'Dakar'
   };
-
   const isLimited = product.stock <= 5;
   const endTime = Date.now() + 5 * 3600000;
-
-  // Autres articles du vendeur
   const shopProducts = productsList.filter(p => p.sellerId === product.sellerId && p.id !== pid).slice(0, 6);
-
-  // Similaires (même catégorie, autres vendeurs)
   const similar = productsList.filter(p => p.category === product.category && p.sellerId !== product.sellerId).slice(0, 6);
-
-  // Bundle
   const bundle = productsList.filter(p => p.id !== pid).sort(() => Math.random() - 0.5).slice(0, 3);
+  
+  // 5 photos produit (même image ou galerie)
+  const photos = product.photos || [product.image, product.image, product.image, product.image, product.image];
 
   let html = '';
 
-  // HERO IMAGE
-  html += '<div class="product-hero">';
+  // Gallery multi-photos avec swipe
+  html += '<div class="gallery">';
   if (seller.live) html += '<a href="live.html?seller=' + seller.id + '" class="live-corner">EN DIRECT</a>';
-  html += '<img src="' + product.image + '" alt="' + product.name + '">';
-  html += '<div class="pager">1/5</div>';
+  html += '<div class="gallery-count" id="galCount">1/' + photos.length + '</div>';
+  html += '<div class="gallery-track" id="galTrack">';
+  for (let i = 0; i < photos.length; i++) {
+    html += '<div class="gallery-slide"><img src="' + photos[i] + '" alt="Photo ' + (i+1) + '"></div>';
+  }
+  html += '</div>';
+  html += '<div class="gallery-dots" id="galDots">';
+  for (let i = 0; i < photos.length; i++) {
+    html += '<div class="gallery-dot ' + (i === 0 ? 'active' : '') + '"></div>';
+  }
+  html += '</div>';
   html += '</div>';
 
-  // Info produit
+  // Info produit avec multi-devise
   html += '<div class="info-box">';
   html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">';
   html += '<span class="stock-badge ' + (isLimited ? 'stock-limited' : '') + '">';
@@ -147,67 +182,74 @@ if (!product) {
   html += '</span>';
   html += '<div style="color:#B8945F;font-size:12px;font-weight:700;">⭐ ' + product.rating + ' (' + product.reviews + ')</div>';
   html += '</div>';
-
   if (isLimited) html += '<div class="countdown-box">⏱ <span id="timer">Calcul...</span></div>';
-
   html += '<h1 class="p-name">' + product.name + '</h1>';
-  html += '<div class="p-price-row">';
-  html += '<span class="p-price">' + product.price.toLocaleString() + ' FCFA</span>';
+  
+  // Prix avec devise
+  html += '<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:6px;flex-wrap:wrap;">';
+  html += '<span class="p-price" id="mainPrice">' + product.price.toLocaleString() + ' FCFA</span>';
   if (product.oldPrice) html += '<span class="p-old">' + product.oldPrice.toLocaleString() + ' FCFA</span>';
   if (product.discount) html += '<span class="p-discount">-' + product.discount + '%</span>';
   html += '</div>';
+  
+  // Multi-devise (diaspora)
+  html += '<div class="currency-pills">';
+  html += '<div class="currency-pill main">🇸🇳 ' + convert(product.price, 'FCFA') + '</div>';
+  html += '<div class="currency-pill">🇪🇺 ' + convert(product.price, 'EUR') + '</div>';
+  html += '<div class="currency-pill">🇺🇸 ' + convert(product.price, 'USD') + '</div>';
+  html += '<div class="currency-pill" style="background:#F9F5EF;font-size:9px;">💡 Diaspora</div>';
+  html += '</div>';
+  
+  // TVA
+  html += '<div style="margin-top:8px;font-size:11px;color:#6B7280;">📊 TVA 18% incluse · Livraison HT calculée au panier</div>';
   html += '</div>';
 
-  // Carte vendeur avec badge LIVE
+  // Carte vendeur (bien encadrée maintenant)
   html += '<a href="boutique.html?id=' + seller.id + '" class="seller-card">';
   html += '<div class="seller-avatar-wrap">';
   if (seller.live) html += '<div class="live-ring"></div>';
   html += '<img src="' + seller.avatar + '" alt="' + seller.name + '">';
-  if (seller.live) html += '<div class="live-tag-small">LIVE</div>';
+  if (seller.live) html += '<div class="live-tag-small">🔴 LIVE</div>';
   html += '</div>';
-  html += '<div style="flex:1;">';
-  html += '<div style="display:flex;align-items:center;gap:4px;">';
+  html += '<div style="flex:1;min-width:0;">';
+  html += '<div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;">';
   html += '<span style="font-weight:700;font-size:14px;color:#000;">' + seller.name + '</span>';
-  if (seller.verified) html += '<span style="color:#0F6B4E;font-size:14px;">✓</span>';
+  if (seller.verified) html += '<span class="verified-badge">✓ SEN Verified</span>';
   html += '</div>';
   html += '<div style="font-size:12px;color:#6B7280;margin-top:2px;font-weight:500;">⭐ ' + seller.rating + ' · ' + seller.reviews + ' avis · ' + seller.followers + ' abonnés</div>';
-  if (seller.live) html += '<div style="font-size:11px;color:#ef4444;font-weight:800;margin-top:4px;">🔴 En direct · ' + (seller.liveViewers || 1200) + ' spectateurs</div>';
+  if (seller.live) html += '<div style="font-size:11px;color:#ef4444;font-weight:800;margin-top:4px;">🔴 En direct · ' + (seller.liveViewers || 1200).toLocaleString() + ' spectateurs · Achats -30%</div>';
   html += '</div>';
   html += '<div style="color:#B8945F;font-size:20px;">›</div>';
   html += '</a>';
 
-  // Bannière LIVE si vendeur en direct
+  // Bannière LIVE fonctionnelle
   if (seller.live) {
     html += '<a href="live.html?seller=' + seller.id + '" class="live-banner-big">';
     html += '<div class="live-banner-inner">';
     html += '<div style="font-size:28px;">🎥</div>';
     html += '<div style="flex:1;">';
     html += '<div style="font-weight:800;font-size:14px;">Rejoindre le LIVE de ' + seller.name + '</div>';
-    html += '<div style="font-size:11px;opacity:.9;">Ce produit présenté maintenant · Achetez avec -30%</div>';
+    html += '<div style="font-size:11px;opacity:.9;">Voir ce produit présenté en direct + Autres LIVE</div>';
     html += '</div>';
     html += '<div style="font-size:22px;">›</div>';
     html += '</div>';
     html += '</a>';
   }
 
-  // Onglets Description / Avis / Livraison
+  // Tabs
   html += '<div class="tabs">';
   html += '<div class="tab active" onclick="switchTab(\'desc\',this)">Description</div>';
   html += '<div class="tab" onclick="switchTab(\'rev\',this)">Avis (' + product.reviews + ')</div>';
   html += '<div class="tab" onclick="switchTab(\'del\',this)">Livraison</div>';
   html += '</div>';
-
   html += '<div class="tab-content" id="tabContent">' + product.description + '</div>';
 
-  // Sélection taille/couleur (si mode)
+  // Taille/couleur si mode
   if (product.category === 'mode') {
     html += '<div style="padding:16px;">';
     html += '<div style="font-weight:800;font-size:13px;margin-bottom:8px;color:#000;">Taille</div>';
     html += '<div class="chips-selector">';
-    html += '<div class="chip-select">S</div>';
-    html += '<div class="chip-select active">M</div>';
-    html += '<div class="chip-select">L</div>';
-    html += '<div class="chip-select">XL</div>';
+    html += '<div class="chip-select">S</div><div class="chip-select active">M</div><div class="chip-select">L</div><div class="chip-select">XL</div>';
     html += '</div>';
     html += '<div style="font-weight:800;font-size:13px;margin-bottom:8px;color:#000;">Couleur</div>';
     html += '<div style="display:flex;gap:10px;">';
@@ -219,39 +261,37 @@ if (!product) {
     html += '</div>';
   }
 
-  // Info livraison
   html += '<div class="delivery-info">';
   html += '<div style="font-size:32px;">🚚</div>';
   html += '<div style="flex:1;">';
   html += '<div style="font-weight:700;font-size:13px;color:#0F6B4E;">Livraison gratuite à Dakar</div>';
-  html += '<div style="font-size:11px;color:#6B7280;font-weight:500;">Recevez votre commande en 24h - 48h</div>';
+  html += '<div style="font-size:11px;color:#6B7280;font-weight:500;">Recevez en 24h-48h · International disponible</div>';
   html += '</div>';
   html += '</div>';
 
-  // 🏪 Boutique du vendeur
+  // Autres articles vendeur
   if (shopProducts.length > 0) {
     html += '<div class="section-header" style="margin-top:8px;">';
-    html += '<div class="section-title" style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;color:#000;">🏪 Autres articles de ' + seller.name + '</div>';
+    html += '<div class="section-title" style="font-size:15px;font-weight:800;color:#000;">🏪 Autres articles de ' + seller.name + '</div>';
     html += '<a href="boutique.html?id=' + seller.id + '" style="color:#0F6B4E;font-size:12px;font-weight:700;text-decoration:none;">Voir boutique ›</a>';
     html += '</div>';
     html += '<div class="shop-scroll">';
     for (let i = 0; i < shopProducts.length; i++) {
       const p = shopProducts[i];
       html += '<a href="produit.html?id=' + p.id + '" class="shop-item">';
-      html += '<div class="shop-item-img">';
-      html += '<img src="' + p.image + '">';
-      if (p.discount) html += '<span class="shop-item-badge">-' + p.discount + '%</span>';
+      html += '<div class="shop-item-img"><img src="' + p.image + '">';
+      if (p.discount) html += '<span style="position:absolute;top:6px;left:6px;background:linear-gradient(135deg,#D4A574,#B8945F);color:#0A4D38;padding:2px 8px;border-radius:6px;font-size:9px;font-weight:900;">-' + p.discount + '%</span>';
       html += '</div>';
-      html += '<div class="shop-item-info">';
-      html += '<div class="shop-item-name">' + p.name + '</div>';
-      html += '<div class="shop-item-price">' + p.price.toLocaleString() + ' FCFA</div>';
+      html += '<div style="padding:8px;">';
+      html += '<div style="font-size:11px;font-weight:600;line-height:1.3;height:28px;overflow:hidden;color:#000;">' + p.name + '</div>';
+      html += '<div style="font-size:13px;font-weight:900;color:#B8945F;margin-top:4px;">' + p.price.toLocaleString() + ' FCFA</div>';
       html += '</div>';
       html += '</a>';
     }
     html += '</div>';
   }
 
-  // 🎯 Produits similaires
+  // Similaires
   html += '<div class="section-header">';
   html += '<div class="section-title" style="font-size:15px;font-weight:800;color:#000;">🎯 Produits similaires</div>';
   html += '<a href="produits.html?cat=' + product.category + '" style="color:#0F6B4E;font-size:12px;font-weight:700;text-decoration:none;">Voir plus ›</a>';
@@ -275,7 +315,7 @@ if (!product) {
   }
   html += '</div>';
 
-  // 📦 Souvent achetés ensemble
+  // Bundle
   html += '<div class="section-header" style="margin-top:16px;">';
   html += '<div class="section-title" style="font-size:15px;font-weight:800;color:#000;">📦 Souvent achetés ensemble</div>';
   html += '</div>';
@@ -288,15 +328,14 @@ if (!product) {
   }
   html += '</div>';
   const bundleTotal = product.price + bundle.reduce((s, p) => s + p.price, 0);
-  html += '<div class="bundle-total">';
-  html += '<div><div style="font-size:11px;color:#6B7280;font-weight:600;">Prix bundle total</div><div style="font-size:16px;font-weight:900;color:#B8945F;">' + bundleTotal.toLocaleString() + ' FCFA</div></div>';
-  html += '<button class="btn btn-gold" style="padding:10px 16px;font-size:12px;" onclick="alert(\'✅ Bundle ajouté au panier\')">Ajouter tout</button>';
+  html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid #E5E7EB;">';
+  html += '<div><div style="font-size:11px;color:#6B7280;font-weight:600;">Prix bundle -15%</div><div style="font-size:16px;font-weight:900;color:#B8945F;">' + Math.round(bundleTotal * 0.85).toLocaleString() + ' FCFA</div></div>';
+  html += '<button class="btn btn-gold" style="padding:10px 16px;font-size:12px;" onclick="alert(\'✅ Bundle ajouté\')">Ajouter tout</button>';
   html += '</div>';
   html += '</div>';
 
-  // Paiements acceptés
-  html += '<div class="pay-icons" style="margin-top:12px;">';
-  html += '<div style="font-size:11px;color:#6B7280;font-weight:600;">🔒 Paiement sécurisé</div>';
+  html += '<div class="pay-icons">';
+  html += '<div style="font-size:11px;color:#6B7280;font-weight:600;">🔒 Paiement sécurisé PayTech</div>';
   html += '<div style="display:flex;gap:4px;">';
   html += '<div class="pay-mini" style="background:#1BA5E0;color:#fff;">wave</div>';
   html += '<div class="pay-mini" style="background:#F57C00;color:#fff;">OM</div>';
@@ -305,54 +344,52 @@ if (!product) {
   html += '</div>';
   html += '</div>';
 
-  html += '<div style="height:80px;"></div>';
-
-  // Actions sticky (boutons Ajouter panier / Acheter)
-  html += '<div class="action-buttons">';
-  html += '<button class="btn btn-outline" style="flex:1;padding:14px;color:#0F6B4E;border-color:#0F6B4E;background:#fff;font-weight:800;" onclick="addCart()">🛒 Ajouter au panier</button>';
-  html += '<button class="btn btn-gold" style="flex:1;padding:14px;" onclick="buyNow()">Acheter maintenant</button>';
-  html += '</div>';
-
   document.getElementById('content').innerHTML = html;
+  document.getElementById('actionBar').style.display = 'flex';
 
-  // Chronomètre stock limité
+  // Gallery swipe
+  const track = document.getElementById('galTrack');
+  const dots = document.getElementById('galDots');
+  const count = document.getElementById('galCount');
+  track.addEventListener('scroll', () => {
+    const idx = Math.round(track.scrollLeft / track.clientWidth);
+    dots.querySelectorAll('.gallery-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+    count.textContent = (idx + 1) + '/' + photos.length;
+  });
+
   if (isLimited) {
-    setInterval(function() {
+    setInterval(() => {
       const r = endTime - Date.now();
-      if (r <= 0) {
-        const el = document.getElementById('timer');
-        if (el) el.textContent = 'Offre expirée';
-        return;
-      }
-      const h = Math.floor(r / 3600000);
-      const m = Math.floor((r % 3600000) / 60000);
-      const s = Math.floor((r % 60000) / 1000);
+      if (r <= 0) { const el = document.getElementById('timer'); if(el) el.textContent = 'Expirée'; return; }
+      const h = Math.floor(r/3600000), m = Math.floor((r%3600000)/60000), s = Math.floor((r%60000)/1000);
       const el = document.getElementById('timer');
       if (el) el.textContent = 'Offre expire dans ' + h + 'h ' + m + 'm ' + s + 's';
     }, 1000);
   }
 }
 
-// Fonctions
 function switchTab(t, el) {
   document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
   el.classList.add('active');
   const c = document.getElementById('tabContent');
   if (t === 'desc') c.innerHTML = product.description;
-  if (t === 'rev') c.innerHTML = '⭐ ' + product.rating + '/5 (' + product.reviews + ' avis)<br><br>• Aminata D. ⭐⭐⭐⭐⭐ "Produit magnifique !"<br>• Moussa S. ⭐⭐⭐⭐⭐ "Livraison rapide"<br>• Fatou N. ⭐⭐⭐⭐⭐ "Qualité au top"<br><br><a href="avis.html" style="color:#0F6B4E;font-weight:700;">Voir tous les avis ›</a>';
-  if (t === 'del') c.innerHTML = '🚚 Livraison Dakar : 24h-48h (gratuit)<br>🚚 Livraison régions : 3-5 jours (2 000 FCFA)<br>📦 Emballage soigné<br>✅ Retour possible sous 7 jours<br>🛡 Escrow SEN TEW - argent bloqué jusqu\'à réception';
+  if (t === 'rev') c.innerHTML = '⭐ ' + product.rating + '/5<br><br>• Aminata D. ⭐⭐⭐⭐⭐ "Magnifique!"<br>• Moussa S. ⭐⭐⭐⭐⭐ "Livraison rapide"<br><br><a href="avis.html" style="color:#0F6B4E;font-weight:700;">Voir tous ›</a>';
+  if (t === 'del') c.innerHTML = '🚚 Dakar: 24-48h gratuit<br>🚚 Régions: 3-5j (2000 FCFA)<br>🌍 International: 5-10j (variable)<br>📦 Emballage soigné<br>✅ Retour 7 jours<br>🛡 Escrow SEN TEW';
 }
-
-function toggleFav(el) {
-  el.textContent = el.textContent === '🤍' ? '❤️' : '🤍';
-}
-
+function toggleFav(el) { el.textContent = el.textContent === '🤍' ? '❤️' : '🤍' }
 function addCart() {
+  if (!localStorage.getItem('sentew_user')) {
+    if (confirm('🔒 Connexion requise pour ajouter au panier.\n\nSe connecter maintenant ?')) window.location.href = 'login-guest.html?redirect=produit.html?id=' + pid;
+    return;
+  }
   alert('✅ Ajouté au panier !');
   setTimeout(() => window.location.href = 'panier.html', 600);
 }
-
 function buyNow() {
+  if (!localStorage.getItem('sentew_user')) {
+    if (confirm('🔒 Connexion requise pour acheter.\n\nSe connecter maintenant ?')) window.location.href = 'login-guest.html?redirect=panier.html';
+    return;
+  }
   window.location.href = 'panier.html';
 }
 </script>
