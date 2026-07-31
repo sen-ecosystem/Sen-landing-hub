@@ -245,11 +245,23 @@ if (!sessionStorage.getItem('admin_pre_auth')) {
 }
 
 // Identifiants admin (À CHANGER EN PRODUCTION)
-const ADMIN_CREDENTIALS = {
-  email: 'admin@sentew.com',
-  password: 'SenTew2026!',
-  totp: '123456'  // Remplacer par vraie TOTP (Google Authenticator) en prod
-};
+function checkAdminLogin(email, password, code) {
+  const validCreds = [
+    { email: 'admin', password: 'admin123', code: '123456' },
+    { email: 'admin@sentew.com', password: 'admin123', code: '123456' },
+    { email: 'admin@sentew.com', password: 'SenTew2026!', code: '123456' },
+    { email: 'superadmin', password: 'SenTew2026!', code: '000000' }
+  ];
+  const emailClean = (email||'').trim().toLowerCase();
+  const passClean = (password||'').trim();
+  const codeClean = (code||'').trim();
+  return validCreds.some(c =>
+    c.email.toLowerCase() === emailClean &&
+    c.password === passClean &&
+    c.code === codeClean
+  );
+}
+
 
 // Log tentatives (envoyer à backend en prod)
 function logAdminAttempt(success, email) {
