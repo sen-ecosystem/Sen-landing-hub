@@ -263,6 +263,87 @@ class DriverGPS {
 window.driverGPS = new DriverGPS();
 document.addEventListener('DOMContentLoaded', () => window.driverGPS.initMap('gpsMap'));
 </script>
+  
+<script>
+// ===== NOTIFICATIONS LIVREUR TEMPS RÉEL =====
+(function(){
+  // Récupère les notifications déposées par les vendeurs
+  function checkNewMissions(){
+    const notifs = JSON.parse(localStorage.getItem('driver_notifs')||'[]');
+    const seen = JSON.parse(localStorage.getItem('driver_seen')||'[]');
+    const newOnes = notifs.filter(n => !seen.includes(n.id));
+
+    if (newOnes.length > 0) {
+      newOnes.forEach(n => {
+        // Notification navigateur
+        if (Notification.permission === 'granted') {
+          const notif = new Notification('🚚 Nouvelle mission de livraison', {
+            body: `Commande #${n.id} · ${n.mode}\nAcceptez rapidement !`,
+            icon: 'https://sen-ecosystem.com/sentew-app/icon-192.png',
+            vibrate: [300,100,300],
+            requireInteraction: true,
+            tag: 'mission-'+n.id
+          });
+          notif.onclick = () => { window.focus(); showMissionModal(n); };
+        }
+        // Modal in-app
+        showMissionModal(n);
+        seen.push(n.id);
+      });
+      localStorage.setItem('driver_seen', JSON.stringify(seen));
+    }
+  }
+
+  function showMissionModal(mission){
+    if (document.querySelector('.mission-modal')) return;
+    const modal = document.createElement('div');
+    modal.className='mission-modal';
+    modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
+    modal.innerHTML=`
+      <div style="background:#fff;border-radius:20px;padding:24px;max-width:400px;width:100%;text-align:center;">
+        <div style="font-size:48px;">🚚</div>
+        <h2 style="color:#0F6B4E;margin:10px 0;">Nouvelle mission !</h2>
+        <div style="background:#F0FDF4;padding:14px;border-radius:12px;text-align:left;margin:16px 0;">
+          <div><strong>Commande #${mission.id}</strong></div>
+          <div style="color:#6B7280;font-size:13px;">Mode: ${mission.mode}</div>
+          <div style="color:#6B7280;font-size:13px;">Rémunération estimée: <strong style="color:#0F6B4E;">2500 FCFA</strong></div>
+          <div style="color:#6B7280;font-size:13px;">Il y a ${Math.round((Date.now()-mission.ts)/60000)}min</div>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button onclick="this.closest('.mission-modal').remove()" style="flex:1;padding:12px;background:#F3F4F6;border:none;border-radius:10px;font-weight:700;">Refuser</button>
+          <button onclick="acceptMission('${mission.id}');this.closest('.mission-modal').remove()" style="flex:2;padding:12px;background:linear-gradient(135deg,#0F6B4E,#D4A574);color:#fff;border:none;border-radius:10px;font-weight:800;">✅ Accepter</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    navigator.vibrate&&navigator.vibrate([300,100,300,100,300]);
+  }
+
+  window.acceptMission = function(id){
+    const missions = JSON.parse(localStorage.getItem('driver_missions')||'[]');
+    missions.push({ id, acceptedAt: Date.now(), status:'accepted' });
+    localStorage.setItem('driver_missions', JSON.stringify(missions));
+    alert(`✅ Mission #${id} acceptée !\n\n📍 Adresse du vendeur envoyée par SMS.\nGPS activé automatiquement.`);
+    // Notifier le vendeur
+    const sellerNotifs = JSON.parse(localStorage.getItem('seller_notifs')||'[]');
+    sellerNotifs.push({ type:'driver_accepted', orderId:id, driver:'Cheikh D.', ts:Date.now() });
+    localStorage.setItem('seller_notifs', JSON.stringify(sellerNotifs));
+  };
+
+  // Demander permission notifications
+  if (Notification.permission === 'default') {
+    setTimeout(()=>{
+      if(confirm('🔔 Activer les notifications pour recevoir les missions en temps réel ?')){
+        Notification.requestPermission();
+      }
+    }, 3000);
+  }
+
+  // Check toutes les 5s
+  setInterval(checkNewMissions, 5000);
+  checkNewMissions();
+})();
+</script>
 
 </body>
 </html>
