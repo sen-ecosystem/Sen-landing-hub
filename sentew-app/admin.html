@@ -275,6 +275,110 @@ function logAdminAttempt(success, email) {
   });
   localStorage.setItem('admin_logs', JSON.stringify(attempts.slice(-50)));
 }
+  
+// ===== SÉCURITÉ ADMIN =====
+(function(){
+  // 1. Vérifier authorization préalable
+  const preAuth = sessionStorage.getItem('admin_pre_auth');
+  const adminToken = localStorage.getItem('admin_token');
+  const tokenExpiry = parseInt(localStorage.getItem('admin_token_expiry') || '0');
+
+  const now = Date.now();
+  const isTokenValid = adminToken && tokenExpiry > now;
+
+  if (!preAuth && !isTokenValid) {
+    // Aucune trace d'admin → redirect discret vers 404
+    document.title = '404 - Not Found';
+    document.body.innerHTML = `
+      <div style="text-align:center;padding:100px 20px;font-family:sans-serif;">
+        <h1 style="font-size:80px;margin:0;color:#0F6B4E;">404</h1>
+        <h2>Page not found</h2>
+        <p style="color:#6B7280;">The page you're looking for doesn't exist.</p>
+        <a href="index.html" style="display:inline-block;margin-top:20px;padding:12px 24px;background:#0F6B4E;color:#fff;text-decoration:none;border-radius:8px;">← Return home</a>
+      </div>`;
+    throw new Error('Not authorized');
+  }
+
+  // 2. Session timeout auto (30min inactivité)
+  let lastActivity = Date.now();
+  ['click','keydown','mousemove','touchstart'].forEach(evt=>{
+    document.addEventListener(evt, ()=> lastActivity = Date.now());
+  });
+  setInterval(()=>{
+    if (Date.now() - lastActivity > 30*60*1000) {
+      localStorage.removeItem('admin_token');
+      localStorage.removeItem('admin_token_expiry');
+      sessionStorage.removeItem('admin_pre_auth');
+      alert('🔒 Session expirée par inactivité');
+      location.href='index.html';
+    }
+  }, 60000);
+
+  // 3. Détection outils dev (screenshot protection basique)
+  let devToolsOpen = false;
+  setInterval(()=>{
+    const threshold = 160;
+    if (window.outerWidth - window.innerWidth > threshold ||
+        window.outerHeight - window.innerHeight > threshold) {
+      if (!devToolsOpen) {
+        devToolsOpen = true;
+        console.warn('⚠️ DevTools détectés');
+        // Log au backend en production
+      }
+    } else devToolsOpen = false;
+  }, 2000);
+
+  // 4. Bloquer clic droit + F12 + Ctrl+Shift+I
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('keydown', e => {
+    if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key))) {
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  // 5. Log tentatives + succès
+  function logAdminEvent(type, details){
+    const logs = JSON.parse(localStorage.getItem('admin_audit') || '[]');
+    logs.push({
+      type, details,
+      ts: new Date().toISOString(),
+      ua: navigator.userAgent.slice(0,100),
+      lang: navigator.language,
+      screen: `${screen.width}x${screen.height}`,
+      tz: Intl.DateTimeFormat().resolvedOptions().timeZone
+    });
+    localStorage.setItem('admin_audit', JSON.stringify(logs.slice(-100)));
+  }
+  logAdminEvent('page_access', { path: location.pathname });
+
+  window.checkAdminLogin = function(email, password, code) {
+    const validCreds = [
+      { email: 'admin', password: 'admin123', code: '123456' },
+      { email: 'admin@sentew.com', password: 'admin123', code: '123456' },
+      { email: 'admin@sentew.com', password: 'SenTew2026!', code: '123456' },
+      { email: 'superadmin', password: 'SenTew2026!', code: '000000' }
+    ];
+    const ec = (email||'').trim().toLowerCase();
+    const pc = (password||'').trim();
+    const cc = (code||'').trim();
+    const ok = validCreds.some(c => c.email.toLowerCase()===ec && c.password===pc && c.code===cc);
+    logAdminEvent(ok?'login_success':'login_fail', { email: ec });
+    if (ok) {
+      const token = 'ADMTK_' + Math.random().toString(36).substr(2) + '_' + Date.now();
+      localStorage.setItem('admin_token', token);
+      localStorage.setItem('admin_token_expiry', Date.now() + 8*60*60*1000); // 8h
+    }
+    return ok;
+  };
+
+  window.adminLogout = function(){
+    localStorage.removeItem('admin_token');
+    localStorage.removeItem('admin_token_expiry');
+    sessionStorage.removeItem('admin_pre_auth');
+    location.href='index.html';
+  };
+})();
 
 <script>
 function login() {
