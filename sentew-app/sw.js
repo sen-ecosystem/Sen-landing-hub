@@ -40,6 +40,12 @@ const urls = [
   '/sentew-app/stories.html',
   '/sentew-app/vendeur.html',
   '/sentew-app/verified.html'
+    '/sentew-app/landing.html',
+  '/sentew-app/onboarding.html',
+  '/sentew-app/js/currency.js',
+  '/sentew-app/js/paydunya.js',
+  '/sentew-app/js/push.js',
+
 ];
 
 self.addEventListener('install', e => {
