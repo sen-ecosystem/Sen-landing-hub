@@ -3,142 +3,222 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Ma Boutique - SEN TEW</title>
-<meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#FAFAF7">
+<title>Dashboard Vendeur - SEN TEW</title>
 <link rel="stylesheet" href="css/app.css">
+<style>
+.hero-seller{background:linear-gradient(135deg,#0F6B4E,#0A4D38);padding:20px 16px 40px;color:#fff;}
+.hero-seller-top{display:flex;gap:14px;align-items:center;margin-bottom:16px;}
+.seller-av{width:64px;height:64px;border-radius:50%;border:3px solid #D4A574;object-fit:cover;}
+.hero-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.hs-stat{background:rgba(255,255,255,.12);padding:10px;border-radius:12px;text-align:center;backdrop-filter:blur(10px);}
+.hs-stat-num{font-size:16px;font-weight:900;color:#D4A574;}
+.hs-stat-lbl{font-size:9px;opacity:.9;text-transform:uppercase;letter-spacing:.5px;}
+
+.stats-cards{padding:14px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:-30px;position:relative;z-index:2;}
+.stat-c{background:#fff;padding:14px;border-radius:14px;box-shadow:0 4px 14px rgba(0,0,0,.05);}
+.stat-c-title{font-size:11px;color:#6B7280;font-weight:700;text-transform:uppercase;}
+.stat-c-value{font-size:22px;font-weight:900;color:#0A4D38;margin:4px 0;}
+.stat-c-trend{font-size:11px;color:#10B981;font-weight:700;}
+
+.quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:14px;}
+.qa-btn{background:#fff;padding:14px 8px;border-radius:12px;text-decoration:none;color:#0A4D38;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.qa-icon{font-size:24px;margin-bottom:4px;}
+.qa-lbl{font-size:10px;font-weight:700;}
+
+.section{background:#fff;margin:12px 14px;border-radius:16px;padding:16px;}
+.section h3{margin:0 0 12px;color:#0A4D38;font-size:15px;display:flex;justify-content:space-between;align-items:center;}
+.section h3 a{font-size:12px;color:#0F6B4E;text-decoration:none;}
+
+.order-item{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #F3F4F6;}
+.order-item:last-child{border-bottom:none;}
+.order-img{width:44px;height:44px;border-radius:10px;object-fit:cover;background:#F9FAFB;}
+.order-info{flex:1;min-width:0;}
+.order-name{font-size:13px;font-weight:700;color:#111827;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.order-meta{font-size:11px;color:#6B7280;}
+.order-status{padding:3px 8px;border-radius:6px;font-size:10px;font-weight:900;}
+
+.chart-container{background:#F9FAFB;padding:14px;border-radius:12px;margin-top:8px;}
+.chart-bar-row{display:flex;align-items:end;gap:6px;height:80px;}
+.chart-bar{flex:1;background:linear-gradient(180deg,#D4A574,#0F6B4E);border-radius:6px 6px 0 0;position:relative;min-height:8px;}
+.chart-bar span{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:900;color:#0F6B4E;}
+.chart-labels{display:flex;gap:6px;margin-top:6px;font-size:10px;color:#6B7280;text-align:center;}
+.chart-labels div{flex:1;}
+
+.app-content{padding-bottom:80px;}
+</style>
 </head>
 <body oncontextmenu="return false">
 <div class="app">
   <header class="app-header">
-    <button class="header-btn" onclick="history.back()">←</button>
-    <div style="flex:1;text-align:center;font-weight:800;color:var(--text);font-size:16px;">🏪 Ma boutique</div>
-    <button class="header-btn" onclick="alert('⚙ Paramètres boutique')">⚙</button>
+    <button onclick="history.back()" style="width:38px;height:38px;background:#F9FAFB;border:none;border-radius:50%;font-size:16px;">←</button>
+    <div style="flex:1;text-align:center;font-weight:900;color:#0A4D38;">Dashboard Vendeur</div>
+    <a href="notifications.html" style="width:38px;height:38px;background:#F9FAFB;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;position:relative;font-size:16px;color:#0A4D38;">🔔<span style="position:absolute;top:-2px;right:-2px;background:#ef4444;color:#fff;font-size:9px;padding:2px 5px;border-radius:8px;font-weight:900;">5</span></a>
   </header>
 
   <main class="app-content">
-    <div style="background:linear-gradient(135deg,var(--emerald),var(--emerald-dark));padding:24px 20px;text-align:center;position:relative;overflow:hidden;">
-      <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(212,165,116,.08) 0 15px,transparent 15px 30px);"></div>
-      <div style="position:relative;z-index:2;">
-        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=200" style="width:80px;height:80px;border-radius:50%;border:3px solid var(--gold);object-fit:cover;pointer-events:auto;">
-        <div style="font-size:18px;font-weight:900;margin-top:8px;color:#fff;">Boutique Ousseynou</div>
-        <div style="font-size:12px;color:rgba(255,255,255,.95);font-weight:500;">⭐ 4.9 · 127 avis · 234 abonnés</div>
-        <div style="display:inline-block;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--emerald-dark);padding:4px 14px;border-radius:20px;font-size:11px;font-weight:900;margin-top:8px;box-shadow:0 4px 10px rgba(212,165,116,.4);">✓ Vendeur vérifié</div>
+    <!-- HERO -->
+    <div class="hero-seller">
+      <div class="hero-seller-top">
+        <img class="seller-av" src="https://i.pravatar.cc/200?img=1" alt="">
+        <div style="flex:1;">
+          <div style="font-weight:900;font-size:18px;">Aïcha Couture</div>
+          <div style="font-size:11px;opacity:.9;">🥇 Gold Verified · ⭐ 4.9 · Depuis 2024</div>
+        </div>
+        <button onclick="location.href='boutique.html?id=1'" style="background:#D4A574;color:#fff;border:none;padding:8px 12px;border-radius:8px;font-weight:800;font-size:11px;">Ma boutique</button>
+      </div>
+      <div class="hero-stats-grid">
+        <div class="hs-stat"><div class="hs-stat-num">12.4k</div><div class="hs-stat-lbl">Abonnés</div></div>
+        <div class="hs-stat"><div class="hs-stat-num">42</div><div class="hs-stat-lbl">Produits</div></div>
+        <div class="hs-stat"><div class="hs-stat-num">3.2k</div><div class="hs-stat-lbl">Ventes</div></div>
+        <div class="hs-stat"><div class="hs-stat-num">98%</div><div class="hs-stat-lbl">Satisf.</div></div>
       </div>
     </div>
 
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:12px 16px;">
-      <div style="background:var(--white);border-radius:14px;padding:14px;box-shadow:var(--shadow);border:1px solid var(--border);">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
-          <div style="width:28px;height:28px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;">💰</div>
-          <div style="font-size:11px;color:var(--text-soft);font-weight:600;">CA du mois</div>
-        </div>
-        <div style="font-size:22px;font-weight:900;color:var(--gold-dark);">245 500</div>
-        <div style="font-size:10px;color:#22c55e;font-weight:700;margin-top:2px;">↑ +32% vs juin</div>
+    <!-- STATS PRINCIPALES -->
+    <div class="stats-cards">
+      <div class="stat-c">
+        <div class="stat-c-title">💰 Revenus 30j</div>
+        <div class="stat-c-value">2.4M FCFA</div>
+        <div class="stat-c-trend">↗ +18% vs mois dernier</div>
       </div>
-      <div style="background:var(--white);border-radius:14px;padding:14px;box-shadow:var(--shadow);border:1px solid var(--border);">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
-          <div style="width:28px;height:28px;background:linear-gradient(135deg,var(--emerald),var(--emerald-dark));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;">📦</div>
-          <div style="font-size:11px;color:var(--text-soft);font-weight:600;">Ventes</div>
-        </div>
-        <div style="font-size:22px;font-weight:900;color:var(--gold-dark);">47</div>
-        <div style="font-size:10px;color:#22c55e;font-weight:700;margin-top:2px;">↑ +18%</div>
+      <div class="stat-c">
+        <div class="stat-c-title">📦 Commandes</div>
+        <div class="stat-c-value">248</div>
+        <div class="stat-c-trend">↗ +23% vs mois dernier</div>
       </div>
-      <div style="background:var(--white);border-radius:14px;padding:14px;box-shadow:var(--shadow);border:1px solid var(--border);">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
-          <div style="width:28px;height:28px;background:linear-gradient(135deg,var(--emerald),var(--emerald-dark));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;">👁</div>
-          <div style="font-size:11px;color:var(--text-soft);font-weight:600;">Visites</div>
-        </div>
-        <div style="font-size:22px;font-weight:900;color:var(--gold-dark);">2 341</div>
-        <div style="font-size:10px;color:#22c55e;font-weight:700;margin-top:2px;">↑ +45%</div>
+      <div class="stat-c">
+        <div class="stat-c-title">👁 Vues produit</div>
+        <div class="stat-c-value">45.2k</div>
+        <div class="stat-c-trend">↗ +34%</div>
       </div>
-      <div style="background:var(--white);border-radius:14px;padding:14px;box-shadow:var(--shadow);border:1px solid var(--border);">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
-          <div style="width:28px;height:28px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;">⭐</div>
-          <div style="font-size:11px;color:var(--text-soft);font-weight:600;">Note moy.</div>
-        </div>
-        <div style="font-size:22px;font-weight:900;color:var(--gold-dark);">4.9</div>
-        <div style="font-size:10px;color:#22c55e;font-weight:700;margin-top:2px;">↑ +0.2</div>
+      <div class="stat-c">
+        <div class="stat-c-title">📊 Conversion</div>
+        <div class="stat-c-value">5.4%</div>
+        <div class="stat-c-trend">↗ +0.8pt</div>
       </div>
     </div>
 
-    <div style="background:var(--white);border-radius:14px;padding:16px;margin:8px 16px;box-shadow:var(--shadow);border:1px solid var(--border);">
-      <div style="display:flex;justify-content:space-between;margin-bottom:12px;align-items:center;">
-        <span style="font-weight:800;font-size:14px;color:var(--text);">📈 Ventes 7 derniers jours</span>
-        <span style="color:var(--emerald);font-size:12px;font-weight:700;">7j ›</span>
-      </div>
-      <div style="display:flex;align-items:flex-end;height:100px;gap:6px;padding-bottom:20px;">
-        <div style="flex:1;background:linear-gradient(180deg,var(--gold),var(--gold-dark));border-radius:4px 4px 0 0;height:35%;position:relative;"><span style="position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--text-soft);font-weight:600;">Lun</span></div>
-        <div style="flex:1;background:linear-gradient(180deg,var(--gold),var(--gold-dark));border-radius:4px 4px 0 0;height:55%;position:relative;"><span style="position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--text-soft);font-weight:600;">Mar</span></div>
-        <div style="flex:1;background:linear-gradient(180deg,var(--gold),var(--gold-dark));border-radius:4px 4px 0 0;height:40%;position:relative;"><span style="position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--text-soft);font-weight:600;">Mer</span></div>
-        <div style="flex:1;background:linear-gradient(180deg,var(--gold),var(--gold-dark));border-radius:4px 4px 0 0;height:75%;position:relative;"><span style="position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--text-soft);font-weight:600;">Jeu</span></div>
-        <div style="flex:1;background:linear-gradient(180deg,var(--gold),var(--gold-dark));border-radius:4px 4px 0 0;height:60%;position:relative;"><span style="position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--text-soft);font-weight:600;">Ven</span></div>
-        <div style="flex:1;background:linear-gradient(180deg,var(--gold),var(--gold-dark));border-radius:4px 4px 0 0;height:90%;position:relative;"><span style="position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--text-soft);font-weight:600;">Sam</span></div>
-        <div style="flex:1;background:linear-gradient(180deg,var(--gold),var(--gold-dark));border-radius:4px 4px 0 0;height:70%;position:relative;"><span style="position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--text-soft);font-weight:600;">Dim</span></div>
-      </div>
+    <!-- ACTIONS RAPIDES -->
+    <div class="quick-actions">
+      <a href="#" onclick="addProduct()" class="qa-btn"><div class="qa-icon">➕</div><div class="qa-lbl">Ajouter produit</div></a>
+      <a href="live.html?host=1" class="qa-btn"><div class="qa-icon" style="color:#ef4444;">🔴</div><div class="qa-lbl">Démarrer LIVE</div></a>
+      <a href="logistique.html" class="qa-btn"><div class="qa-icon">🚚</div><div class="qa-lbl">Livraisons</div></a>
+      <a href="retouche-ia.html" class="qa-btn"><div class="qa-icon">🎨</div><div class="qa-lbl">Retouche IA</div></a>
     </div>
 
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:8px 16px;">
-      <button class="btn btn-primary" style="padding:14px;font-size:13px;" onclick="alert('➕ Ajouter produit')">➕ Nouveau produit</button>
-      <button class="btn btn-gold" style="padding:14px;font-size:13px;" onclick="alert('🎬 Lancer LIVE')">🔴 Lancer LIVE</button>
-      <button class="btn btn-outline" style="padding:14px;font-size:13px;" onclick="window.location.href='retouche-ia.html'">✨ Retouche IA</button>
-      <button class="btn btn-outline" style="padding:14px;font-size:13px;" onclick="alert('🎁 Créer promo')">🎁 Nouvelle promo</button>
-    </div>
-
-    <div class="card-title">📥 Commandes récentes</div>
-    <div class="card">
-      <div class="list-item">
-        <div class="list-icon" style="background:linear-gradient(135deg,#3b82f6,#1e40af);">🆕</div>
-        <div class="list-text">
-          <div class="list-title">#SEN-8472 · Aminata D.</div>
-          <div class="list-sub">Sac cuir · 15 000 FCFA · Il y a 2h</div>
+    <!-- GRAPHIQUE VENTES -->
+    <div class="section">
+      <h3>📈 Ventes de la semaine <a href="#">Détails ›</a></h3>
+      <div class="chart-container">
+        <div class="chart-bar-row">
+          <div class="chart-bar" style="height:40%;"><span>12</span></div>
+          <div class="chart-bar" style="height:65%;"><span>19</span></div>
+          <div class="chart-bar" style="height:50%;"><span>15</span></div>
+          <div class="chart-bar" style="height:80%;"><span>24</span></div>
+          <div class="chart-bar" style="height:70%;"><span>21</span></div>
+          <div class="chart-bar" style="height:95%;"><span>28</span></div>
+          <div class="chart-bar" style="height:60%;"><span>18</span></div>
         </div>
-        <button class="btn btn-gold" style="padding:8px 14px;font-size:11px;" onclick="alert('📦 Traiter commande')">Traiter</button>
-      </div>
-      <div class="list-item">
-        <div class="list-icon" style="background:linear-gradient(135deg,#22c55e,#15803d);">✅</div>
-        <div class="list-text">
-          <div class="list-title">#SEN-8471 · Moussa S.</div>
-          <div class="list-sub">Boubou wax · 18 000 FCFA · Hier</div>
+        <div class="chart-labels">
+          <div>Lun</div><div>Mar</div><div>Mer</div><div>Jeu</div><div>Ven</div><div>Sam</div><div>Dim</div>
         </div>
-        <span style="color:#22c55e;font-size:11px;font-weight:700;">Expédié</span>
-      </div>
-      <div class="list-item">
-        <div class="list-icon" style="background:linear-gradient(135deg,#22c55e,#15803d);">✅</div>
-        <div class="list-text">
-          <div class="list-title">#SEN-8470 · Fatou N.</div>
-          <div class="list-sub">Bracelet · 5 500 FCFA · Hier</div>
-        </div>
-        <span style="color:#22c55e;font-size:11px;font-weight:700;">Livré</span>
       </div>
     </div>
 
-    <div class="card-title">🤖 Conseils IA</div>
-    <div style="margin:8px 16px;background:linear-gradient(135deg,rgba(212,165,116,.1),rgba(15,107,78,.05));border:1px solid rgba(212,165,116,.3);border-radius:14px;padding:16px;">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-        <span style="font-size:24px;">💡</span>
-        <span style="font-weight:800;color:var(--gold-dark);font-size:14px;">Suggestion du jour</span>
-      </div>
-      <div style="font-size:13px;line-height:1.5;color:var(--text);font-weight:500;">
-        Votre <strong>"Boubou wax été"</strong> est en rupture proche (3 unités). Basé sur les ventes, réapprovisionnez de <strong>15 unités</strong> cette semaine pour <strong style="color:var(--emerald);">+45 000 FCFA</strong> de CA potentiel.
-      </div>
-      <button class="btn btn-gold btn-full" style="margin-top:12px;padding:10px;font-size:12px;" onclick="alert('📈 Commande réappro envoyée')">📦 Réapprovisionner maintenant</button>
+    <!-- COMMANDES RÉCENTES -->
+    <div class="section">
+      <h3>📦 Commandes récentes <a href="logistique.html">Voir tout ›</a></h3>
+      <div id="ordersList"></div>
     </div>
 
-    <button class="btn btn-gold btn-full btn-lg" style="margin:16px;width:calc(100% - 32px);" onclick="alert('💰 Retrait vers SENBANC en cours...')">
-      🏛 Retirer mes gains vers SENBANC
-    </button>
+    <!-- TOP PRODUITS -->
+    <div class="section">
+      <h3>🔥 Top produits ce mois <a href="#">Détails ›</a></h3>
+      <div id="topProducts"></div>
+    </div>
 
-    <div style="height:20px;"></div>
+    <!-- CONSEILS IA -->
+    <div class="section" style="background:linear-gradient(135deg,#0F6B4E,#D4A574);color:#fff;">
+      <h3 style="color:#fff;">🤖 Recommandations IA</h3>
+      <div style="display:grid;gap:10px;">
+        <div style="background:rgba(255,255,255,.15);padding:10px 12px;border-radius:10px;backdrop-filter:blur(10px);">
+          <div style="font-weight:800;font-size:13px;">💡 Augmentez votre CA de 25%</div>
+          <div style="font-size:11px;opacity:.9;">Lancez un LIVE demain 20h - votre audience est +42% active</div>
+        </div>
+        <div style="background:rgba(255,255,255,.15);padding:10px 12px;border-radius:10px;backdrop-filter:blur(10px);">
+          <div style="font-weight:800;font-size:13px;">📸 Améliorez 3 photos produits</div>
+          <div style="font-size:11px;opacity:.9;">Utilisez Retouche IA - impact ventes estimé +15%</div>
+        </div>
+        <div style="background:rgba(255,255,255,.15);padding:10px 12px;border-radius:10px;backdrop-filter:blur(10px);">
+          <div style="font-weight:800;font-size:13px;">🎁 Créez un code promo</div>
+          <div style="font-size:11px;opacity:.9;">-10% sur commande 20k+ = engagement max</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARAMÈTRES BOUTIQUE -->
+    <div class="section">
+      <h3>⚙️ Ma boutique</h3>
+      <div style="display:grid;gap:10px;">
+        <a href="#" style="display:flex;justify-content:space-between;padding:10px;background:#F9FAFB;border-radius:10px;text-decoration:none;color:#111827;"><span>🏪 Infos boutique</span><span style="color:#9CA3AF;">›</span></a>
+        <a href="portefeuille.html" style="display:flex;justify-content:space-between;padding:10px;background:#F9FAFB;border-radius:10px;text-decoration:none;color:#111827;"><span>💰 Portefeuille (2.4M)</span><span style="color:#9CA3AF;">›</span></a>
+        <a href="verified.html" style="display:flex;justify-content:space-between;padding:10px;background:#F9FAFB;border-radius:10px;text-decoration:none;color:#111827;"><span>👑 SEN Verified</span><span style="color:#D4A574;font-weight:800;">GOLD</span></a>
+        <a href="parametres.html" style="display:flex;justify-content:space-between;padding:10px;background:#F9FAFB;border-radius:10px;text-decoration:none;color:#111827;"><span>⚙️ Paramètres</span><span style="color:#9CA3AF;">›</span></a>
+      </div>
+    </div>
   </main>
 
   <nav class="app-nav">
     <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
-    <a href="produits.html"><div class="nav-icon">📦</div><div class="nav-label">Produits</div></a>
-    <a href="commandes.html"><div class="nav-icon">📋</div><div class="nav-label">Commandes</div></a>
-    <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages<span class="badge">3</span></div></a>
-    <a href="profil.html" class="active"><div class="nav-icon">👤</div><div class="nav-label">Compte</div></a>
+    <a href="vendeur.html" class="active"><div class="nav-icon">🏪</div><div class="nav-label">Vendeur</div></a>
+    <a href="logistique.html"><div class="nav-icon">🚚</div><div class="nav-label">Livraisons</div></a>
+    <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
+    <a href="profil.html"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
   </nav>
 </div>
+
+<script src="js/data.js"></script>
+<script>
+const list = (typeof products !== 'undefined' ? products : []);
+
+// Commandes récentes
+const orders = [
+  {id:'ST24071', client:'Awa Diop', product:'Robe wax mariage', amount:35000, img:list[0]?.image, status:'À expédier', color:'#F59E0B'},
+  {id:'ST24072', client:'Moussa F.', product:'Sandales cuir', amount:8500, img:list[1]?.image, status:'Expédié', color:'#3B82F6'},
+  {id:'ST24073', client:'Fatou N.', product:'Boubou premium', amount:45000, img:list[5]?.image, status:'Livré', color:'#10B981'},
+  {id:'ST24074', client:'Ibrahima B.', product:'Bracelet perles', amount:5500, img:list[4]?.image, status:'À expédier', color:'#F59E0B'}
+];
+
+document.getElementById('ordersList').innerHTML = orders.map(o=>`
+  <div class="order-item">
+    <img class="order-img" src="${o.img}" alt="">
+    <div class="order-info">
+      <div class="order-name">${o.product}</div>
+      <div class="order-meta">#${o.id} · ${o.client} · ${o.amount.toLocaleString()} FCFA</div>
+    </div>
+    <span class="order-status" style="background:${o.color}22;color:${o.color};">${o.status}</span>
+  </div>
+`).join('');
+
+// Top produits
+const top = list.slice(0,3);
+document.getElementById('topProducts').innerHTML = top.map((p,i)=>`
+  <div class="order-item">
+    <div style="width:24px;height:24px;background:${['#D4A574','#9CA3AF','#B87333'][i]};color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;">${i+1}</div>
+    <img class="order-img" src="${p.image}" alt="">
+    <div class="order-info">
+      <div class="order-name">${p.name}</div>
+      <div class="order-meta">${Math.floor(Math.random()*100+50)} ventes · ${(Math.floor(Math.random()*500+200)*1000).toLocaleString()} FCFA</div>
+    </div>
+    <span style="color:#10B981;font-weight:800;font-size:12px;">↗ +${Math.floor(Math.random()*30+10)}%</span>
+  </div>
+`).join('');
+
+function addProduct(){
+  if(confirm('➕ Ajouter un nouveau produit à votre boutique ?')){
+    alert('📝 Formulaire d\'ajout ouvert...\n\n(À connecter au backend en production)');
+  }
+}
+</script>
 </body>
 </html>
