@@ -306,4 +306,70 @@ body, .app, .app-content{
   overscroll-behavior:contain;
   touch-action:pan-y;
 }
+/* ===== FIX FLOATING PANELS ===== */
+.filter-bar, .sort-bar, .shop-tab, .log-tab, .cats-row-new{
+  position:relative !important;
+  transform:none !important;
+  animation:none !important;
+}
+
+/* Cards produits uniformes partout */
+.pcard, .product-card{
+  background:#fff;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+  text-decoration:none !important;
+  color:inherit !important;
+  display:flex !important;
+  flex-direction:column !important;
+  transition:transform .15s ease;
+}
+.pcard:active, .product-card:active{transform:scale(.97);}
+
+.pcard-img, .card-image-wrap{
+  position:relative;
+  width:100%;
+  aspect-ratio:1/1 !important;
+  overflow:hidden;
+  background:#F9FAFB;
+}
+.pcard-img img, .card-image-wrap img{
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  object-position:center !important;
+}
+
+.pcard-info, .card-info{padding:10px !important;}
+.pcard-name, .card-name{
+  font-size:13px !important;
+  font-weight:700 !important;
+  color:#111827 !important;
+  line-height:1.3 !important;
+  display:-webkit-box !important;
+  -webkit-line-clamp:2 !important;
+  -webkit-box-orient:vertical !important;
+  overflow:hidden !important;
+  min-height:34px !important;
+  margin-bottom:6px !important;
+}
+.pcard-price, .card-price{
+  font-weight:900 !important;
+  color:#D4A574 !important;
+  font-size:14px !important;
+}
+
+/* Grid uniforme */
+.grid, .products-grid, .products-grid-home{
+  display:grid !important;
+  grid-template-columns:repeat(2,1fr) !important;
+  gap:10px !important;
+}
+
+/* Fix iOS bounce */
+html,body{
+  overscroll-behavior:none;
+  -webkit-tap-highlight-color:transparent;
+}
 
