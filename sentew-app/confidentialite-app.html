@@ -2,139 +2,212 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Confidentialité - SEN TEW</title>
-<meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0A1F17">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conditions Générales - SEN TEW</title>
 <link rel="stylesheet" href="css/app.css">
 <style>
-body{background:#0A1F17}
-.app{background:#0A1F17;color:#fff}
-.app-header{background:#0A1F17;border-bottom-color:rgba(212,165,116,.2)}
-.app-header .header-btn{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.1)}
-.compliance-banner{background:linear-gradient(135deg,rgba(212,165,116,.15),rgba(15,107,78,.1));border:2px solid var(--gold);border-radius:14px;padding:14px;margin:12px 16px;display:flex;align-items:center;gap:12px}
-.section-header-dark{color:var(--gold);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;padding:16px 16px 8px}
-.setting-row{display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.05)}
-.setting-row:last-child{border-bottom:none}
-.setting-icon{width:32px;height:32px;background:rgba(15,107,78,.2);color:var(--emerald-light);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;margin-right:12px;flex-shrink:0}
-.setting-text{flex:1;font-size:13px;color:#fff;font-weight:500}
-.dark-card{background:rgba(255,255,255,.04);border:1px solid rgba(212,165,116,.15);border-radius:14px;margin:8px 16px;overflow:hidden}
+body{background:#F5F5F0;}
+.legal-content{padding:16px;font-size:13px;line-height:1.6;color:#374151;max-width:800px;margin:0 auto;}
+.legal-content h2{color:#0A4D38;font-size:18px;margin:24px 0 12px;padding-top:12px;border-top:2px solid #F3F4F6;}
+.legal-content h3{color:#0F6B4E;font-size:15px;margin:16px 0 8px;}
+.legal-content p{margin:8px 0;}
+.legal-content ul{margin:8px 0;padding-left:20px;}
+.tabs-legal{display:flex;background:#fff;position:sticky;top:56px;z-index:10;border-bottom:1px solid #F3F4F6;overflow-x:auto;}
+.tab-l{flex:1;min-width:100px;padding:12px;background:none;border:none;font-weight:700;font-size:12px;color:#6B7280;border-bottom:3px solid transparent;}
+.tab-l.active{color:#0F6B4E;border-bottom-color:#0F6B4E;}
 </style>
 </head>
-<body oncontextmenu="return false">
+<body>
 <div class="app">
   <header class="app-header">
-    <button class="header-btn" onclick="history.back()">←</button>
-    <div style="flex:1;text-align:center;font-weight:800;color:#fff;font-size:14px;">Confidentialité et Paramètres</div>
+    <button onclick="history.back()" style="width:38px;height:38px;background:#F9FAFB;border:none;border-radius:50%;font-size:16px;">←</button>
+    <div style="flex:1;text-align:center;font-weight:900;color:#0A4D38;">Mentions légales</div>
     <div style="width:38px;"></div>
   </header>
 
-  <main class="app-content">
-    <div class="compliance-banner">
-      <div style="font-size:36px;">🛡</div>
-      <div style="flex:1;">
-        <div style="font-weight:800;font-size:13px;color:var(--gold);">Conformité RGPD (UE)</div>
-        <div style="font-size:11px;color:rgba(255,255,255,.85);margin-top:2px;font-weight:500;">CCPA (USA) · Loi 2008-12 (Sénégal)</div>
-      </div>
-      <div style="font-size:24px;">🌍</div>
+  <div class="tabs-legal">
+    <button class="tab-l active" onclick="showTab('cgv')">📄 CGV</button>
+    <button class="tab-l" onclick="showTab('cgu')">📋 CGU</button>
+    <button class="tab-l" onclick="showTab('privacy')">🔒 Confidentialité</button>
+    <button class="tab-l" onclick="showTab('cookies')">🍪 Cookies</button>
+    <button class="tab-l" onclick="showTab('legal')">⚖️ Mentions</button>
+  </div>
+
+  <div class="legal-content">
+    <div id="tab-cgv">
+      <h2>📄 Conditions Générales de Vente</h2>
+      <p><em>Mise à jour : 1er août 2026 · SEN TEW SAS · RCCM SN-DKR-2026-XXX</em></p>
+
+      <h3>Article 1 — Objet</h3>
+      <p>Les présentes CGV régissent les ventes entre vendeurs professionnels inscrits sur SEN TEW et acheteurs (clients) via l'application mobile et web SEN TEW.</p>
+
+      <h3>Article 2 — Prix</h3>
+      <p>Les prix affichés sont en FCFA (Franc CFA XOF), toutes taxes comprises. La conversion en EUR/USD/MAD est indicative. Les prix incluent la TVA sénégalaise au taux légal de 18%.</p>
+
+      <h3>Article 3 — Commande</h3>
+      <p>Toute commande passée via SEN TEW forme un contrat entre le client et le vendeur. SEN TEW agit en tant qu'intermédiaire technique et fiduciaire (compte séquestre PayDunya).</p>
+
+      <h3>Article 4 — Paiement</h3>
+      <p>Modes acceptés : Wave, Orange Money, Free Money, Wizall Money, Carte bancaire, Paiement à la livraison. Les paiements sont sécurisés via PayDunya (certifié PCI-DSS).</p>
+
+      <h3>Article 5 — Livraison</h3>
+      <ul>
+        <li>Dakar Express : 2h (2 000 FCFA)</li>
+        <li>Dakar Standard : 24h (1 500 FCFA)</li>
+        <li>Régions : 2-5 jours (dès 3 500 FCFA)</li>
+        <li>International : sur devis (7-15 jours)</li>
+      </ul>
+
+      <h3>Article 6 — Droit de rétractation</h3>
+      <p>Le client dispose d'un délai de <strong>7 jours calendaires</strong> à compter de la réception pour retourner un article non conforme. Retour à la charge du client sauf produit défectueux.</p>
+
+      <h3>Article 7 — Garanties</h3>
+      <p>Garantie légale de conformité : 2 ans. Garantie vices cachés : 2 ans. Les produits électroniques bénéficient d'une garantie constructeur.</p>
+
+      <h3>Article 8 — Responsabilité</h3>
+      <p>SEN TEW ne peut être tenu responsable des dommages indirects. La responsabilité maximale est limitée au montant de la commande.</p>
+
+      <h3>Article 9 — Litiges</h3>
+      <p>En cas de litige, contact via assistant-ia@sentew.com. À défaut d'accord amiable, compétence exclusive des tribunaux de Dakar (Sénégal).</p>
     </div>
 
-    <div class="dark-card">
-      <div class="setting-row">
-        <div class="setting-icon">📧</div>
-        <div class="setting-text">Recevoir nos publicités par email</div>
-        <div class="toggle" onclick="this.classList.toggle('on')"></div>
-      </div>
-      <div class="setting-row">
-        <div class="setting-icon">👥</div>
-        <div class="setting-text">Notifications partenaires</div>
-        <div class="toggle" onclick="this.classList.toggle('on')"></div>
-      </div>
-      <div class="setting-row">
-        <div class="setting-icon">🏷</div>
-        <div class="setting-text">Notifications promos quotidiennes (2-3x/jour)</div>
-        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-      </div>
-      <div class="setting-row">
-        <div class="setting-icon">📨</div>
-        <div class="setting-text">Notifications email résumé</div>
-        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-      </div>
-      <div class="setting-row">
-        <div class="setting-icon">📊</div>
-        <div class="setting-text">Partage données analytics anonymes</div>
-        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-      </div>
-      <div class="setting-row">
-        <div class="setting-icon">📍</div>
-        <div class="setting-text">Géolocalisation</div>
-        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-      </div>
-      <div class="setting-row">
-        <div class="setting-icon">🏪</div>
-        <div class="setting-text">Dashboard vendeur activé</div>
-        <div class="toggle on" style="background:var(--gold);" onclick="this.classList.toggle('on')"></div>
-      </div>
-      <div class="setting-row">
-        <div class="setting-icon">👆</div>
-        <div class="setting-text">Authentification biométrique</div>
-        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-      </div>
-      <div class="setting-row">
-        <div class="setting-icon">🔐</div>
-        <div class="setting-text">Double authentification 2FA</div>
-        <div class="toggle on" style="background:var(--gold);" onclick="this.classList.toggle('on')"></div>
-      </div>
-      <div class="setting-row" onclick="alert('💻 Sessions:\n• iPhone 15 (actuel)\n• MacBook Pro\n• Chrome Windows')">
-        <div class="setting-icon">💻</div>
-        <div class="setting-text">Sessions actives (3 appareils)</div>
-        <div style="color:var(--gold);">›</div>
-      </div>
+    <div id="tab-cgu" style="display:none;">
+      <h2>📋 Conditions Générales d'Utilisation</h2>
+
+      <h3>Article 1 — Inscription</h3>
+      <p>L'inscription est gratuite et réservée aux personnes majeures (18 ans+). Le compte est personnel et non transférable.</p>
+
+      <h3>Article 2 — Comptes vendeurs</h3>
+      <p>Les vendeurs doivent fournir un justificatif d'identité (KYC) et un RCCM/NINEA valide. SEN TEW se réserve le droit de refuser ou suspendre tout compte.</p>
+
+      <h3>Article 3 — Comptes livreurs</h3>
+      <p>KYC obligatoire : carte d'identité, permis de conduire, carte grise véhicule, selfie, attestation d'assurance, justificatif domicile.</p>
+
+      <h3>Article 4 — Comportement</h3>
+      <p>Interdits : contenus illicites, contrefaçons, produits interdits par la loi sénégalaise (armes, drogues, contenus pornographiques, etc.).</p>
+
+      <h3>Article 5 — Commissions</h3>
+      <ul>
+        <li>Vendeur Bronze : 8% par vente</li>
+        <li>Vendeur Silver : 6%</li>
+        <li>Vendeur Gold : 5%</li>
+        <li>Vendeur Platinum : 4%</li>
+        <li>Bonus LIVE Shopping : +2%</li>
+        <li>Nouveaux vendeurs : 0% pendant 3 mois</li>
+      </ul>
+
+      <h3>Article 6 — Propriété intellectuelle</h3>
+      <p>SEN TEW, son logo et ses éléments graphiques sont protégés. Toute reproduction interdite sans autorisation écrite.</p>
     </div>
 
-    <div class="section-header-dark">Mes droits RGPD</div>
-    <div class="dark-card">
-      <div class="setting-row" onclick="alert('📥 Téléchargement de vos données en cours (RGPD Art.20)')">
-        <div class="setting-icon">☁️</div>
-        <div class="setting-text">Télécharger mes données</div>
-        <div style="color:var(--gold);">›</div>
-      </div>
-      <div class="setting-row" onclick="if(confirm('Supprimer votre compte définitivement ?'))alert('Demande enregistrée')">
-        <div class="setting-icon" style="background:rgba(239,68,68,.15);color:#ef4444;">🗑</div>
-        <div class="setting-text" style="color:#ef4444;">Supprimer mon compte</div>
-        <div style="color:#ef4444;">›</div>
-      </div>
-      <div class="setting-row" onclick="window.location.href='../confidentialite.html'">
-        <div class="setting-icon">📄</div>
-        <div class="setting-text">Politique de confidentialité</div>
-        <div style="color:var(--gold);">›</div>
-      </div>
+    <div id="tab-privacy" style="display:none;">
+      <h2>🔒 Politique de Confidentialité</h2>
+
+      <h3>Données collectées</h3>
+      <ul>
+        <li>Identité : nom, prénom, téléphone, email</li>
+        <li>Adresse de livraison</li>
+        <li>Historique d'achats</li>
+        <li>Géolocalisation (avec accord)</li>
+        <li>Cookies et identifiants techniques</li>
+      </ul>
+
+      <h3>Utilisation</h3>
+      <p>Vos données servent à : traiter vos commandes, améliorer l'expérience, personnaliser les recommandations, envoyer des notifications, prévenir la fraude.</p>
+
+      <h3>Vos droits (RGPD + loi sénégalaise 2008)</h3>
+      <ul>
+        <li>Droit d'accès à vos données</li>
+        <li>Droit de rectification</li>
+        <li>Droit à l'effacement</li>
+        <li>Droit à la portabilité</li>
+        <li>Droit d'opposition</li>
+      </ul>
+      <p>Contact : privacy@sentew.com</p>
+
+      <h3>Partage</h3>
+      <p>Vos données ne sont jamais vendues. Partagées uniquement avec : vendeurs (pour livraison), PayDunya (paiement), livreurs (adresse), autorités (sur réquisition légale).</p>
+
+      <h3>Sécurité</h3>
+      <p>Chiffrement SSL 256 bits. Certification PCI-DSS. Serveurs sécurisés Firebase (Google Cloud). Sauvegardes quotidiennes.</p>
+
+      <h3>Conservation</h3>
+      <p>Données de commandes : 10 ans (obligation comptable). Compte inactif : suppression après 3 ans. Cookies : 13 mois maximum.</p>
     </div>
 
-    <div class="section-header-dark">Sécurité anti-hacking</div>
-    <div class="dark-card">
-      <div class="setting-row" onclick="alert('⚠️ Aucune connexion suspecte détectée')">
-        <div class="setting-icon">⚠️</div>
-        <div class="setting-text">Alerte connexion suspecte</div>
-        <div style="color:var(--gold);">›</div>
-      </div>
-      <div class="setting-row" onclick="alert('📋 iPhone 15 · MacBook Pro · Chrome Windows')">
-        <div class="setting-icon">📋</div>
-        <div class="setting-text">Liste appareils autorisés</div>
-        <div style="color:var(--gold);">›</div>
-      </div>
+    <div id="tab-cookies" style="display:none;">
+      <h2>🍪 Politique de Cookies</h2>
+      <h3>Cookies essentiels (obligatoires)</h3>
+      <ul>
+        <li>Session utilisateur</li>
+        <li>Panier d'achat</li>
+        <li>Sécurité anti-fraude</li>
+      </ul>
+
+      <h3>Cookies analytiques (optionnels)</h3>
+      <ul>
+        <li>Google Analytics (anonymisé)</li>
+        <li>Firebase Analytics</li>
+      </ul>
+
+      <h3>Cookies marketing (optionnels)</h3>
+      <ul>
+        <li>Facebook Pixel</li>
+        <li>Retargeting</li>
+      </ul>
+      <p>Vous pouvez gérer vos préférences dans Paramètres → Confidentialité.</p>
     </div>
 
-    <div style="height:20px;"></div>
-  </main>
+    <div id="tab-legal" style="display:none;">
+      <h2>⚖️ Mentions Légales</h2>
+
+      <h3>Éditeur</h3>
+      <p><strong>SEN TEW SAS</strong><br>
+      Capital social : 100 000 FCFA<br>
+      RCCM : SN-DKR-2026-XXX<br>
+      NINEA : XXXXXXXX 2X1<br>
+      Siège : Dakar, Sénégal 🇸🇳<br>
+      Email : contact@sentew.com<br>
+      Téléphone : +221 77 XXX XX XX</p>
+
+      <h3>Directeur de publication</h3>
+      <p>[Nom du fondateur]</p>
+
+      <h3>Hébergement</h3>
+      <p>Firebase / Google Cloud Platform<br>
+      1600 Amphitheatre Parkway<br>
+      Mountain View, CA 94043, USA</p>
+
+      <h3>Partenaires paiement</h3>
+      <p>PayDunya (agréé BCEAO)<br>
+      Wave Digital Finance<br>
+      Orange Money Sénégal<br>
+      Free Money Sénégal<br>
+      Wizall Money</p>
+
+      <h3>Autorité de régulation</h3>
+      <p>CDP (Commission des Données Personnelles du Sénégal)<br>
+      DGID (Direction Générale des Impôts)<br>
+      ADIE (Agence de l'Informatique de l'État)</p>
+    </div>
+  </div>
 
   <nav class="app-nav">
     <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
-    <a href="categories.html"><div class="nav-icon">🧭</div><div class="nav-label">Explorer</div></a>
-    <a href="vendeur.html" class="center"><div class="nav-icon">👑<span style="font-size:8px;">SEN TEW</span></div><div class="nav-label" style="visibility:hidden;">.</div></a>
+    <a href="categories.html"><div class="nav-icon">▦</div><div class="nav-label">Catégories</div></a>
+    <a href="panier.html"><div class="nav-icon">🛒</div><div class="nav-label">Panier</div></a>
     <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
-    <a href="profil.html" class="active"><div class="nav-icon">👤</div><div class="nav-label">Compte</div></a>
+    <a href="profil.html"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
   </nav>
 </div>
+<script>
+function showTab(name){
+  document.querySelectorAll('.tab-l').forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+  ['cgv','cgu','privacy','cookies','legal'].forEach(t=>{
+    document.getElementById('tab-'+t).style.display = t===name?'block':'none';
+  });
+}
+</script>
 </body>
 </html>
