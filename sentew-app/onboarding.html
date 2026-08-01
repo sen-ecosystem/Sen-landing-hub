@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Bienvenue - SEN TEW</title>
+<meta name="theme-color" content="#0F6B4E">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:-apple-system,sans-serif;background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;height:100vh;overflow:hidden;}
+.slides{display:flex;height:100vh;width:400vw;transition:transform .4s cubic-bezier(.4,0,.2,1);}
+.slide{width:100vw;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 30px;text-align:center;}
+.slide-icon{font-size:120px;margin-bottom:30px;filter:drop-shadow(0 8px 20px rgba(0,0,0,.3));animation:bounce 2s infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+.slide h1{font-size:32px;font-weight:900;margin-bottom:14px;line-height:1.2;}
+.slide p{font-size:16px;opacity:.9;line-height:1.5;max-width:320px;}
+.slide-features{margin-top:24px;display:flex;flex-direction:column;gap:10px;}
+.feat{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.15);padding:10px 16px;border-radius:20px;backdrop-filter:blur(10px);}
+.dots{position:fixed;bottom:120px;left:0;right:0;display:flex;justify-content:center;gap:8px;z-index:10;}
+.dot{width:8px;height:8px;background:rgba(255,255,255,.4);border-radius:50%;transition:all .3s;}
+.dot.active{background:#D4A574;width:32px;border-radius:4px;}
+.controls{position:fixed;bottom:40px;left:20px;right:20px;display:flex;justify-content:space-between;align-items:center;z-index:10;}
+.btn-skip{background:transparent;color:rgba(255,255,255,.7);border:none;font-weight:700;padding:10px;font-size:14px;}
+.btn-next{background:#D4A574;color:#fff;border:none;padding:14px 30px;border-radius:30px;font-weight:900;font-size:15px;box-shadow:0 8px 20px rgba(212,165,116,.4);}
+</style>
+</head>
+<body>
+<div class="slides" id="slides">
+  <div class="slide">
+    <div class="slide-icon">🛍️</div>
+    <h1>Bienvenue sur SEN TEW</h1>
+    <p>Le marketplace africain #1 pour acheter et vendre en toute confiance</p>
+    <div class="slide-features">
+      <div class="feat">🇸🇳 Vendeurs vérifiés au Sénégal</div>
+      <div class="feat">🚚 Livraison Dakar 24h · Régions 2-5j</div>
+      <div class="feat">💳 Wave · Orange Money · Free Money</div>
+    </div>
+  </div>
+
+  <div class="slide">
+    <div class="slide-icon">🔴</div>
+    <h1>LIVE Shopping</h1>
+    <p>Regardez vos vendeurs préférés en direct et achetez avec -30% flash</p>
+    <div class="slide-features">
+      <div class="feat">📹 Vidéo temps réel</div>
+      <div class="feat">💬 Chat interactif avec vendeur</div>
+      <div class="feat">🛒 Achat flash en 1 clic</div>
+    </div>
+  </div>
+
+  <div class="slide">
+    <div class="slide-icon">✨</div>
+    <h1>Intelligence Artificielle</h1>
+    <p>Trouvez le produit parfait en une photo. Payez, suivez, notez</p>
+    <div class="slide-features">
+      <div class="feat">📷 Recherche par photo</div>
+      <div class="feat">🤖 Assistant IA 24/7</div>
+      <div class="feat">🎁 500 FCFA par ami parrainé</div>
+    </div>
+  </div>
+
+  <div class="slide">
+    <div class="slide-icon">🎉</div>
+    <h1>Prêt à commencer ?</h1>
+    <p>Créez votre compte gratuit ou continuez en invité</p>
+    <div class="slide-features">
+      <div class="feat">👤 Compte gratuit en 30s</div>
+      <div class="feat">🎁 Bonus bienvenue 1000 FCFA</div>
+      <div class="feat">🔒 Données 100% sécurisées</div>
+    </div>
+  </div>
+</div>
+
+<div class="dots" id="dots">
+  <div class="dot active"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+</div>
+
+<div class="controls">
+  <button class="btn-skip" onclick="finish()">Passer</button>
+  <button class="btn-next" id="btnNext" onclick="nextSlide()">Suivant →</button>
+</div>
+
+<script>
+let cur = 0;
+const total = 4;
+const slides = document.getElementById('slides');
+const dots = document.querySelectorAll('.dot');
+const btnNext = document.getElementById('btnNext');
+
+function updateSlide(){
+  slides.style.transform = `translateX(-${cur*100}vw)`;
+  dots.forEach((d,i)=>d.classList.toggle('active', i===cur));
+  btnNext.textContent = cur===total-1 ? '🚀 Commencer' : 'Suivant →';
+}
+function nextSlide(){
+  if(cur < total-1){ cur++; updateSlide(); }
+  else finish();
+}
+function finish(){
+  localStorage.setItem('onboarded','1');
+  location.href = 'login-guest.html';
+}
+
+// Swipe
+let startX = 0;
+slides.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+slides.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - startX;
+  if(Math.abs(dx) > 50){
+    if(dx < 0 && cur < total-1) cur++;
+    else if(dx > 0 && cur > 0) cur--;
+    updateSlide();
+  }
+});
+
+// Skip si déjà onboardé
+if(localStorage.getItem('onboarded')==='1') location.href='index.html';
+</script>
+</body>
+</html>
