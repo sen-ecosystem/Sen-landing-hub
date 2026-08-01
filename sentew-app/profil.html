@@ -4,265 +4,279 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Profil - SEN TEW</title>
-<meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#FAFAF7">
 <link rel="stylesheet" href="css/app.css">
+<meta name="theme-color" content="#0F6B4E">
 <style>
-/* Icônes colorées premium */
-.icon-emerald{background:linear-gradient(135deg,#0F6B4E,#0A4D38)!important;color:#fff!important}
-.icon-gold{background:linear-gradient(135deg,#D4A574,#B8945F)!important;color:#0A1F17!important}
-.icon-red{background:linear-gradient(135deg,#ef4444,#dc2626)!important;color:#fff!important}
-.icon-blue{background:linear-gradient(135deg,#3b82f6,#1e40af)!important;color:#fff!important}
-.icon-purple{background:linear-gradient(135deg,#8b5cf6,#6d28d9)!important;color:#fff!important}
-.icon-orange{background:linear-gradient(135deg,#f59e0b,#d97706)!important;color:#fff!important}
-/* Quick access grid */
-.quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:8px 16px 12px}
-.quick-item{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:12px 6px;text-align:center;text-decoration:none;color:var(--text);box-shadow:var(--shadow);cursor:pointer;transition:.2s}
-.quick-item:active{transform:scale(.95)}
-.quick-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 6px;color:#fff}
-.quick-label{font-size:10px;font-weight:700;color:var(--text);line-height:1.2}
+.profil-hero{
+  background:linear-gradient(135deg,#0F6B4E 0%,#0A4D38 100%);
+  padding:24px 16px 60px;color:#fff;position:relative;
+}
+.profil-avatar-wrap{
+  display:flex;align-items:center;gap:14px;
+}
+.profil-avatar{
+  width:72px;height:72px;border-radius:50%;
+  background:linear-gradient(135deg,#D4A574,#B8895C);
+  display:flex;align-items:center;justify-content:center;
+  font-size:32px;border:3px solid #D4A574;
+  overflow:hidden;
+}
+.profil-avatar img{width:100%;height:100%;object-fit:cover;}
+.profil-info h2{margin:0;font-size:18px;font-weight:900;}
+.profil-info p{margin:2px 0 0;font-size:12px;opacity:.85;}
+.profil-badges{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;}
+.profil-badge{background:rgba(255,255,255,.2);padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700;backdrop-filter:blur(10px);}
+
+.stats-strip{
+  margin:-40px 14px 16px;background:#fff;border-radius:16px;
+  padding:14px;display:grid;grid-template-columns:repeat(4,1fr);
+  gap:6px;box-shadow:0 4px 20px rgba(0,0,0,.08);position:relative;z-index:2;
+}
+.stat-cell{text-align:center;}
+.stat-num{font-size:16px;font-weight:900;color:#0F6B4E;}
+.stat-lbl{font-size:9px;color:#6B7280;font-weight:600;text-transform:uppercase;}
+
+.menu-section{
+  background:#fff;border-radius:16px;
+  margin:12px 14px;padding:6px 0;
+  box-shadow:0 2px 10px rgba(0,0,0,.04);
+  overflow:hidden;
+}
+.menu-item{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 16px;text-decoration:none;color:#111827;
+  border-bottom:1px solid #F3F4F6;transition:background .15s;
+}
+.menu-item:last-child{border-bottom:none;}
+.menu-item:active{background:#F9FAFB;}
+.menu-icon{
+  width:38px;height:38px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.menu-text{flex:1;font-size:14px;font-weight:600;}
+.menu-arrow{color:#9CA3AF;font-size:18px;}
+.menu-badge{
+  background:#ef4444;color:#fff;
+  padding:2px 8px;border-radius:10px;
+  font-size:10px;font-weight:900;
+}
+
+.section-header{
+  padding:8px 20px 4px;
+  font-size:11px;font-weight:800;color:#6B7280;
+  text-transform:uppercase;letter-spacing:1px;
+}
+
+.logout-btn{
+  margin:16px 14px 20px;padding:14px;
+  background:#fff;border:2px solid #ef4444;color:#ef4444;
+  border-radius:12px;font-weight:800;
+  display:block;text-align:center;text-decoration:none;
+}
 </style>
 </head>
-<body oncontextmenu="return false">
+<body>
 <div class="app">
   <header class="app-header">
-    <div style="flex:1;font-weight:800;color:var(--text);font-size:18px;display:flex;align-items:center;gap:6px;">
-      <span style="color:var(--emerald);">👤</span> Mon Profil
-    </div>
-    <a href="notifications.html" class="header-btn">🔔<span class="badge">3</span></a>
-    <a href="parametres.html" class="header-btn">⚙️</a>
+    <button class="head-btn" onclick="history.back()" style="width:38px;height:38px;background:#F9FAFB;border:none;border-radius:50%;font-size:16px;">←</button>
+    <div style="flex:1;text-align:center;font-weight:900;color:#0A4D38;">Mon Profil</div>
+    <button class="head-btn" onclick="location.href='parametres.html'" style="width:38px;height:38px;background:#F9FAFB;border:none;border-radius:50%;font-size:16px;">⚙️</button>
   </header>
 
-  <main class="app-content">
-    <!-- Hero profil -->
-    <div style="background:linear-gradient(135deg,var(--emerald),var(--emerald-dark));padding:24px 20px 60px;text-align:center;position:relative;overflow:hidden;">
-      <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(212,165,116,.08) 0 15px,transparent 15px 30px);"></div>
-      <div style="position:relative;z-index:2;">
-        <img src="https://images.unsplash.com/photo-1552058544-f2b08422138a?w=200&h=200&fit=crop&crop=faces" style="width:100px;height:100px;border-radius:50%;border:4px solid var(--gold);object-fit:cover;pointer-events:auto;box-shadow:0 4px 20px rgba(0,0,0,.2);">
-        <div style="font-size:22px;font-weight:900;margin-top:12px;color:#fff;">Ousseynou Lam</div>
-        <div style="color:rgba(255,255,255,.95);font-size:13px;margin-top:4px;font-weight:500;">📍 Dakar, Sénégal</div>
-        <div style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--emerald-dark);padding:6px 16px;border-radius:20px;font-size:12px;font-weight:900;margin-top:10px;box-shadow:0 4px 10px rgba(212,165,116,.4);">
-          ⭐ GOLD MEMBER
+  <main class="app-content" style="padding:0 0 20px;">
+    <!-- HERO -->
+    <div class="profil-hero">
+      <div class="profil-avatar-wrap">
+        <div class="profil-avatar" onclick="changePhoto()">
+          <img src="https://i.pravatar.cc/200?img=32" alt="" id="userAvatar" onerror="this.style.display='none';this.parentElement.textContent='👤'">
         </div>
+        <div class="profil-info" style="flex:1;">
+          <h2 id="userName">Utilisateur SEN TEW</h2>
+          <p id="userPhone">+221 77 000 00 00</p>
+          <div class="profil-badges">
+            <span class="profil-badge">✅ Vérifié</span>
+            <span class="profil-badge" style="background:#D4A574;">🥈 Silver</span>
+          </div>
+        </div>
+        <button onclick="editProfile()" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.4);padding:8px 14px;border-radius:20px;font-weight:700;font-size:12px;backdrop-filter:blur(10px);">✏️ Éditer</button>
       </div>
     </div>
 
-    <!-- Stats -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:-30px 16px 12px;background:var(--white);border-radius:16px;padding:16px;position:relative;z-index:2;box-shadow:var(--shadow-lg);border:1px solid var(--border);">
-      <div style="text-align:center;">
-        <div style="font-size:22px;font-weight:900;color:var(--gold-dark);">24</div>
-        <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-top:2px;">Commandes</div>
-      </div>
-      <div style="text-align:center;border-left:1px solid var(--border);border-right:1px solid var(--border);">
-        <div style="font-size:22px;font-weight:900;color:var(--gold-dark);">4.9</div>
-        <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-top:2px;">Note</div>
-      </div>
-      <div style="text-align:center;">
-        <div style="font-size:22px;font-weight:900;color:var(--gold-dark);">1 250</div>
-        <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-top:2px;">Points</div>
-      </div>
-    </div>
-
-    <!-- ⭐ ACCÈS RAPIDE VENDEUR (bien visible) -->
-    <div class="card-title">🚀 Accès rapide - Espaces pro</div>
-<div class="quick-grid" style="grid-template-columns:repeat(4,1fr);">
-  <a href="vendeur.html" class="quick-item">
-    <div class="quick-icon icon-emerald">🏪</div>
-    <div class="quick-label">Vendeur</div>
-  </a>
-  <a href="livreur.html" class="quick-item">
-    <div class="quick-icon" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9);color:#fff;">🛵</div>
-    <div class="quick-label">Livreur</div>
-  </a>
-  <a href="verified.html" class="quick-item">
-    <div class="quick-icon icon-gold">👑</div>
-    <div class="quick-label">Verified</div>
-  </a>
-  <a href="recherche-ia.html" class="quick-item">
-    <div class="quick-icon" style="background:linear-gradient(135deg,#3b82f6,#1e40af);color:#fff;">🔍</div>
-    <div class="quick-label">Recherche IA</div>
-  </a>
-  <a href="retouche-ia.html" class="quick-item">
-    <div class="quick-icon icon-purple">✨</div>
-    <div class="quick-label">Retouche IA</div>
-  </a>
-  <a href="logistique.html" class="quick-item">
-    <div class="quick-icon icon-orange">🚚</div>
-    <div class="quick-label">Logistique</div>
-  </a>
-  <a href="parrainage.html" class="quick-item">
-    <div class="quick-icon icon-gold">🎁</div>
-    <div class="quick-label">Parrainage</div>
-  </a>
-  <a href="admin.html" class="quick-item">
-    <div class="quick-icon icon-red">🔐</div>
-    <div class="quick-label">Admin</div>
-  </a>
-</div>
-
-      <a href="vendeur.html" class="quick-item">
-        <div class="quick-icon icon-emerald">🏪</div>
-        <div class="quick-label">Ma boutique</div>
+    <!-- STATS -->
+    <div class="stats-strip">
+      <a href="commandes.html" class="stat-cell" style="text-decoration:none;">
+        <div class="stat-num">12</div>
+        <div class="stat-lbl">Commandes</div>
       </a>
-      <a href="verified.html" class="quick-item">
-        <div class="quick-icon icon-gold">👑</div>
-        <div class="quick-label">SEN Verified</div>
+      <a href="favoris.html" class="stat-cell" style="text-decoration:none;">
+        <div class="stat-num">28</div>
+        <div class="stat-lbl">Favoris</div>
       </a>
-      <a href="retouche-ia.html" class="quick-item">
-        <div class="quick-icon icon-purple">✨</div>
-        <div class="quick-label">Retouche IA</div>
+      <a href="fidelite.html" class="stat-cell" style="text-decoration:none;">
+        <div class="stat-num">450</div>
+        <div class="stat-lbl">Points</div>
       </a>
-      <a href="logistique.html" class="quick-item">
-        <div class="quick-icon icon-orange">🚚</div>
-        <div class="quick-label">Logistique</div>
+      <a href="portefeuille.html" class="stat-cell" style="text-decoration:none;">
+        <div class="stat-num">15K</div>
+        <div class="stat-lbl">FCFA</div>
       </a>
     </div>
 
-    <!-- 🛍 Mes achats -->
-    <div class="card-title">🛍 Mes achats</div>
-    <div class="card">
-      <a class="list-item" href="commandes.html">
-        <div class="list-icon icon-emerald">📦</div>
-        <div class="list-text"><div class="list-title">Mes commandes</div><div class="list-sub">24 commandes · 2 en cours</div></div>
-        <div class="list-arrow">›</div>
+    <!-- MES ACTIVITÉS -->
+    <div class="section-header">Mes activités</div>
+    <div class="menu-section">
+      <a href="commandes.html" class="menu-item">
+        <div class="menu-icon" style="background:#0F6B4E22;color:#0F6B4E;">📦</div>
+        <span class="menu-text">Mes commandes</span>
+        <span class="menu-badge">2 en cours</span>
+        <span class="menu-arrow">›</span>
       </a>
-      <a class="list-item" href="favoris.html">
-        <div class="list-icon icon-red">❤️</div>
-        <div class="list-text"><div class="list-title">Mes favoris</div><div class="list-sub">12 produits sauvegardés</div></div>
-        <div class="list-arrow">›</div>
+      <a href="favoris.html" class="menu-item">
+        <div class="menu-icon" style="background:#ef444422;color:#ef4444;">❤️</div>
+        <span class="menu-text">Mes favoris</span>
+        <span class="menu-arrow">›</span>
       </a>
-      <a class="list-item" href="avis.html">
-        <div class="list-icon icon-gold">⭐</div>
-        <div class="list-text"><div class="list-title">Mes avis</div><div class="list-sub">8 avis publiés</div></div>
-        <div class="list-arrow">›</div>
+      <a href="avis.html" class="menu-item">
+        <div class="menu-icon" style="background:#D4A57422;color:#D4A574;">⭐</div>
+        <span class="menu-text">Mes avis</span>
+        <span class="menu-arrow">›</span>
       </a>
-    </div>
-
-    <!-- 💰 Portefeuille -->
-    <div class="card-title">💰 Portefeuille</div>
-    <div class="card">
-      <a class="list-item" href="portefeuille.html">
-        <div class="list-icon icon-gold">💳</div>
-        <div class="list-text"><div class="list-title">Solde SEN TEW</div><div class="list-sub" style="color:var(--gold-dark);font-weight:800;">45 500 FCFA</div></div>
-        <div class="list-arrow">›</div>
-      </a>
-      <a class="list-item" href="fidelite.html">
-        <div class="list-icon icon-gold">🎁</div>
-        <div class="list-text"><div class="list-title">Programme fidélité</div><div class="list-sub">GOLD · 1 250 points</div></div>
-        <div class="list-arrow">›</div>
-      </a>
-      <a class="list-item" href="bons-promo.html">
-        <div class="list-icon icon-gold">🏷</div>
-        <div class="list-text"><div class="list-title">Bons cadeaux & Promos</div><div class="list-sub">2 bons actifs · 5 codes</div></div>
-        <div class="list-arrow">›</div>
-      </a>
-      <a class="list-item" href="paiement-2x.html">
-        <div class="list-icon icon-blue">💳</div>
-        <div class="list-text"><div class="list-title">Payer en plusieurs fois</div><div class="list-sub">2x/3x sans frais</div></div>
-        <div class="list-arrow">›</div>
+      <a href="adresses.html" class="menu-item">
+        <div class="menu-icon" style="background:#3B82F622;color:#3B82F6;">📍</div>
+        <span class="menu-text">Mes adresses</span>
+        <span class="menu-arrow">›</span>
       </a>
     </div>
 
-    <!-- 🏪 Espace Vendeur détaillé -->
-    <div class="card-title">🏪 Espace Vendeur détaillé</div>
-    <div class="card">
-      <a class="list-item" href="vendeur.html">
-        <div class="list-icon icon-emerald">🏪</div>
-        <div class="list-text"><div class="list-title">Ma boutique</div><div class="list-sub">Boutique Ousseynou · 47 ventes ce mois</div></div>
-        <div class="list-arrow">›</div>
+    <!-- FINANCES -->
+    <div class="section-header">Finances</div>
+    <div class="menu-section">
+      <a href="portefeuille.html" class="menu-item">
+        <div class="menu-icon" style="background:#10B98122;color:#10B981;">💰</div>
+        <span class="menu-text">Portefeuille</span>
+        <span style="font-size:12px;color:#0F6B4E;font-weight:800;">15 000 FCFA</span>
+        <span class="menu-arrow">›</span>
       </a>
-      <a class="list-item" href="verified.html">
-        <div class="list-icon icon-gold">👑</div>
-        <div class="list-text"><div class="list-title">SEN Verified Premium</div><div class="list-sub">Passez vendeur Bronze/Gold/Platinum</div></div>
-        <div class="list-arrow">›</div>
+      <a href="bons-promo.html" class="menu-item">
+        <div class="menu-icon" style="background:#F5946022;color:#F59460;">🎁</div>
+        <span class="menu-text">Bons & Promos</span>
+        <span class="menu-badge">3 dispo</span>
+        <span class="menu-arrow">›</span>
       </a>
-      <a class="list-item" href="retouche-ia.html">
-        <div class="list-icon icon-purple">✨</div>
-        <div class="list-text"><div class="list-title">Retouche photo IA</div><div class="list-sub">Améliorer vos photos produits</div></div>
-        <div class="list-arrow">›</div>
+      <a href="fidelite.html" class="menu-item">
+        <div class="menu-icon" style="background:#8B5CF622;color:#8B5CF6;">👑</div>
+        <span class="menu-text">Programme fidélité</span>
+        <span style="font-size:12px;color:#8B5CF6;font-weight:800;">Silver</span>
+        <span class="menu-arrow">›</span>
       </a>
-      <a class="list-item" href="logistique.html">
-        <div class="list-icon icon-orange">🚚</div>
-        <div class="list-text"><div class="list-title">Logistique & Livraison</div><div class="list-sub">Yobante · DHL · Aramex · Orange</div></div>
-        <div class="list-arrow">›</div>
-      </a>
-      <a class="list-item" href="stories.html">
-        <div class="list-icon icon-purple">🎬</div>
-        <div class="list-text"><div class="list-title">Stories & Reels</div><div class="list-sub">Créer contenu vidéo</div></div>
-        <div class="list-arrow">›</div>
-      </a>
-    </div>
-
-    <!-- ⚙️ Paramètres -->
-    <div class="card-title">⚙️ Paramètres & Sécurité</div>
-    <div class="card">
-      <a class="list-item" href="parametres.html">
-        <div class="list-icon icon-blue">🌍</div>
-        <div class="list-text"><div class="list-title">Langue & Région</div><div class="list-sub">Français · Sénégal</div></div>
-        <div class="list-arrow">›</div>
-      </a>
-      <a class="list-item" href="notifications.html">
-        <div class="list-icon icon-red">🔔</div>
-        <div class="list-text"><div class="list-title">Notifications</div><div class="list-sub">Push, Email, SMS · 3 non lues</div></div>
-        <div class="list-arrow">›</div>
-      </a>
-      <a class="list-item" href="confidentialite-app.html">
-        <div class="list-icon icon-emerald">🔒</div>
-        <div class="list-text"><div class="list-title">Confidentialité RGPD</div><div class="list-sub">Vos données protégées</div></div>
-        <div class="list-arrow">›</div>
-      </a>
-      <a class="list-item" href="adresses.html">
-        <div class="list-icon icon-orange">📍</div>
-        <div class="list-text"><div class="list-title">Mes adresses</div><div class="list-sub">3 adresses enregistrées</div></div>
-        <div class="list-arrow">›</div>
+      <a href="parrainage.html" class="menu-item">
+        <div class="menu-icon" style="background:#EC489922;color:#EC4899;">🎁</div>
+        <span class="menu-text">Parrainer un ami</span>
+        <span style="font-size:11px;color:#EC4899;font-weight:800;">+500 FCFA</span>
+        <span class="menu-arrow">›</span>
       </a>
     </div>
 
-    <!-- 🤝 Support -->
-    <div class="card-title">🤝 Aide & Support</div>
-    <div class="card">
-      <a class="list-item" href="assistant-ia.html">
-        <div class="list-icon icon-purple">🤖</div>
-        <div class="list-text"><div class="list-title">Assistant IA</div><div class="list-sub">FR/Wolof/EN/AR · 24/7</div></div>
-        <div class="list-arrow">›</div>
+    <!-- ESPACES PROS -->
+    <div class="section-header">Espaces professionnels</div>
+    <div class="menu-section">
+      <a href="vendeur.html" class="menu-item">
+        <div class="menu-icon" style="background:#0F6B4E22;color:#0F6B4E;">🏪</div>
+        <span class="menu-text">Devenir vendeur</span>
+        <span class="menu-arrow">›</span>
       </a>
-      <a class="list-item" href="remboursement.html">
-        <div class="list-icon icon-red">💸</div>
-        <div class="list-text"><div class="list-title">Demande de remboursement</div><div class="list-sub">Escrow protection SEN TEW</div></div>
-        <div class="list-arrow">›</div>
+      <a href="livreur.html" class="menu-item">
+        <div class="menu-icon" style="background:#F59E0B22;color:#F59E0B;">🚚</div>
+        <span class="menu-text">Devenir livreur</span>
+        <span class="menu-arrow">›</span>
       </a>
-      <a class="list-item" href="messages.html">
-        <div class="list-icon icon-emerald">💬</div>
-        <div class="list-text"><div class="list-title">Contacter le support</div><div class="list-sub">Réponse sous 1h</div></div>
-        <div class="list-arrow">›</div>
-      </a>
-      <a class="list-item" href="audit.html">
-        <div class="list-icon icon-emerald">🔍</div>
-        <div class="list-text"><div class="list-title">Audit application</div><div class="list-sub">Score 94/100 · 32 pages</div></div>
-        <div class="list-arrow">›</div>
+      <a href="verified.html" class="menu-item">
+        <div class="menu-icon" style="background:#D4A57422;color:#D4A574;">👑</div>
+        <span class="menu-text">SEN Verified Premium</span>
+        <span class="menu-badge" style="background:#D4A574;">GOLD</span>
+        <span class="menu-arrow">›</span>
       </a>
     </div>
 
-    <div class="card">
-      <div class="list-item" onclick="if(confirm('Se déconnecter ?'))window.location.href='login.html'">
-        <div class="list-icon icon-red">🚪</div>
-        <div class="list-text"><div class="list-title" style="color:#ef4444;">Se déconnecter</div></div>
-      </div>
+    <!-- SUPPORT -->
+    <div class="section-header">Aide & Support</div>
+    <div class="menu-section">
+      <a href="assistant-ia.html" class="menu-item">
+        <div class="menu-icon" style="background:#8B5CF622;color:#8B5CF6;">✨</div>
+        <span class="menu-text">Assistant IA 24/7</span>
+        <span class="menu-arrow">›</span>
+      </a>
+      <a href="messages.html?to=support" class="menu-item">
+        <div class="menu-icon" style="background:#3B82F622;color:#3B82F6;">💬</div>
+        <span class="menu-text">Contacter le support</span>
+        <span class="menu-arrow">›</span>
+      </a>
+      <a href="remboursement.html" class="menu-item">
+        <div class="menu-icon" style="background:#EF444422;color:#EF4444;">↩️</div>
+        <span class="menu-text">Retour & Remboursement</span>
+        <span class="menu-arrow">›</span>
+      </a>
+      <a href="parametres.html" class="menu-item">
+        <div class="menu-icon" style="background:#6B728022;color:#6B7280;">⚙️</div>
+        <span class="menu-text">Paramètres</span>
+        <span class="menu-arrow">›</span>
+      </a>
+      <a href="confidentialite-app.html" class="menu-item">
+        <div class="menu-icon" style="background:#0F6B4E22;color:#0F6B4E;">🔒</div>
+        <span class="menu-text">Confidentialité</span>
+        <span class="menu-arrow">›</span>
+      </a>
     </div>
 
-    <div style="text-align:center;padding:16px;font-size:11px;color:var(--text-muted);font-weight:500;">
-      SEN TEW v1.0.0 · 28 juillet 2026<br>© SEN ECOSYSTEM · Dakar
+    <a href="login.html" class="logout-btn" onclick="return confirm('Se déconnecter ?')">🚪 Se déconnecter</a>
+
+    <div style="text-align:center;color:#9CA3AF;font-size:11px;padding:10px;">
+      SEN TEW v8.168.0 · Dakar · 🇸🇳
     </div>
-    <div style="height:20px;"></div>
   </main>
 
   <nav class="app-nav">
     <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
     <a href="categories.html"><div class="nav-icon">▦</div><div class="nav-label">Catégories</div></a>
-    <a href="panier.html"><div class="nav-icon">🛒</div><div class="nav-label">Panier</div></a>
+    <a href="panier.html"><div class="nav-icon">🛒<span class="badge">3</span></div><div class="nav-label">Panier</div></a>
     <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
     <a href="profil.html" class="active"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
   </nav>
 </div>
+
+<script>
+// Charger données utilisateur
+const user = JSON.parse(localStorage.getItem('user') || '{"name":"Utilisateur SEN TEW","phone":"+221 77 000 00 00"}');
+document.getElementById('userName').textContent = user.name;
+document.getElementById('userPhone').textContent = user.phone;
+
+function editProfile(){
+  const name = prompt('Nouveau nom :', user.name);
+  if (name) {
+    user.name = name;
+    localStorage.setItem('user', JSON.stringify(user));
+    document.getElementById('userName').textContent = name;
+  }
+}
+
+function changePhoto(){
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = e => {
+    const r = new FileReader();
+    r.onload = ev => {
+      document.getElementById('userAvatar').src = ev.target.result;
+      localStorage.setItem('user_avatar', ev.target.result);
+    };
+    r.readAsDataURL(e.target.files[0]);
+  };
+  input.click();
+}
+if (localStorage.getItem('user_avatar')) {
+  document.getElementById('userAvatar').src = localStorage.getItem('user_avatar');
+}
+</script>
 </body>
 </html>
