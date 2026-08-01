@@ -12,34 +12,11 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SEN TEW">
 <style>
-  .curr-btn, .lang-btn{
-  width:auto !important;
-  padding:0 10px !important;
-  gap:4px !important;
-  display:flex !important;
-  align-items:center !important;
-  font-size:12px;
-  font-weight:700;
-  background:#F9FAFB !important;
-}
-.head-btn{
-  height:38px;
-  min-width:38px;
-  border-radius:19px !important;
-}
-
-
-/* ===== HEADER ULTRA-COMPACT ===== */
 .app-header{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:12px 14px;
-  background:#fff;
+  display:flex;align-items:center;gap:8px;
+  padding:12px 14px;background:#fff;
   border-bottom:1px solid #F3F4F6;
-  position:sticky;
-  top:0;
-  z-index:100;
+  position:sticky;top:0;z-index:100;
 }
 .logo-wrap{display:flex;align-items:center;gap:8px;cursor:pointer;}
 .logo-icon-mini{
@@ -52,33 +29,24 @@
 }
 .logo-text-mini{font-weight:900;color:#D4A574;font-size:16px;line-height:1;letter-spacing:1px;}
 .logo-sub-mini{font-size:9px;color:#6B7280;letter-spacing:2px;}
-
 .header-actions{margin-left:auto;display:flex;gap:6px;align-items:center;}
 .head-btn{
-  width:38px;height:38px;
+  height:38px;min-width:38px;
   background:#F9FAFB;
-  border:none;border-radius:50%;
+  border:none;border-radius:19px;
   display:flex;align-items:center;justify-content:center;
-  font-size:16px;position:relative;
-  text-decoration:none;color:#0A4D38;
+  font-size:15px;color:#0A4D38;text-decoration:none;
+  position:relative;cursor:pointer;
+  padding:0 10px;gap:4px;
 }
+.head-btn.pill{padding:0 12px;gap:5px;font-size:12px;font-weight:800;}
 .head-btn .badge{
   position:absolute;top:-2px;right:-2px;
   background:#ef4444;color:#fff;
   font-size:9px;font-weight:900;
   padding:2px 5px;border-radius:8px;
-  min-width:16px;text-align:center;
-}
-.lang-btn{
-  width:auto;padding:0 10px;gap:4px;
-  font-size:12px;font-weight:700;
-}
-.dark-toggle{
-  background:linear-gradient(135deg,#1F2937,#4B5563);
-  color:#fff;
 }
 
-/* ===== SEARCH ===== */
 .search-container{padding:12px 14px;background:#fff;}
 .search-box-new{
   display:flex;gap:8px;align-items:center;
@@ -86,17 +54,15 @@
 }
 .search-box-new input{
   flex:1;background:none;border:none;
-  font-size:14px;color:#111827;
-  outline:none;
+  font-size:14px;color:#111827;outline:none;
 }
-.ia-btn{
+.ia-btn-sr{
   background:linear-gradient(135deg,#0F6B4E,#0A4D38);
   color:#fff;padding:6px 10px;border-radius:10px;
   text-decoration:none;font-size:11px;font-weight:800;
   display:flex;align-items:center;gap:3px;
 }
 
-/* ===== PUB BANNER ===== */
 .ad-verified{
   margin:12px 14px;padding:12px 14px;
   background:linear-gradient(135deg,#D4A574,#B8895C);
@@ -112,17 +78,13 @@
   font-size:9px;font-weight:700;
 }
 
-/* ===== CATEGORIES ROW ===== */
 .cats-row-new{
   display:flex;gap:14px;
   padding:16px 14px;overflow-x:auto;
   scrollbar-width:none;
 }
 .cats-row-new::-webkit-scrollbar{display:none;}
-.cat-item{
-  flex-shrink:0;text-align:center;
-  text-decoration:none;color:#0A4D38;
-}
+.cat-item{flex-shrink:0;text-align:center;text-decoration:none;color:#0A4D38;}
 .cat-circle-new{
   width:64px;height:64px;
   background:linear-gradient(135deg,#0F6B4E,#0A4D38);
@@ -133,7 +95,6 @@
 }
 .cat-lbl{font-size:11px;font-weight:700;}
 
-/* ===== PROMO HERO ===== */
 .promo-hero{
   margin:12px 14px;border-radius:20px;overflow:hidden;
   background:linear-gradient(135deg,#0F6B4E,#0A4D38);
@@ -152,7 +113,6 @@
 .promo-img{flex:0 0 45%;position:relative;overflow:hidden;}
 .promo-img img{width:100%;height:100%;object-fit:cover;}
 
-/* ===== ASSISTANT IA FLOAT ===== */
 .ia-float{
   position:fixed;right:14px;bottom:80px;
   width:56px;height:56px;
@@ -168,14 +128,7 @@
   0%,100%{transform:scale(1);}
   50%{transform:scale(1.08);}
 }
-.ia-float span{
-  position:absolute;bottom:-20px;
-  font-size:9px;font-weight:800;color:#0F6B4E;
-  background:#fff;padding:2px 6px;border-radius:8px;
-  box-shadow:0 2px 6px rgba(0,0,0,.1);
-}
 
-/* ===== SECTIONS ===== */
 .section-title{
   padding:16px 14px 8px;
   display:flex;justify-content:space-between;align-items:center;
@@ -188,7 +141,6 @@
   gap:10px;padding:0 14px 20px;
 }
 
-/* Dark mode */
 body.dark{background:#0F1419;color:#F3F4F6;}
 body.dark .app-header{background:#1F2937;border-color:#374151;}
 body.dark .logo-text-mini{color:#F4C685;}
@@ -203,28 +155,8 @@ body.dark .section-title h3{color:#F4C685;}
 <body oncontextmenu="return false" onselectstart="return false">
 
 <div class="app">
-  <!-- HEADER COMPACT — 1 SEULE LIGNE -->
+  <!-- HEADER SIMPLIFIÉ : 3 boutons uniquement -->
   <header class="app-header">
-  <div class="logo-wrap" id="adminTrigger">
-    <div class="logo-icon-mini">👑</div>
-    <div>
-      <div class="logo-text-mini">SEN TEW</div>
-      <div class="logo-sub-mini">MARKETPLACE</div>
-    </div>
-  </div>
-  <div class="header-actions">
-    <button class="head-btn curr-btn" onclick="changeCurrency()" title="Devise" id="currBtn">
-      <span id="currFlag">💰</span>
-      <span id="currCode" style="font-size:11px;font-weight:800;">FCFA</span>
-    </button>
-    <button class="head-btn lang-btn" onclick="changeLang()" title="Langue" id="langBtn">
-      <span id="langFlag">🇫🇷</span>
-      <span id="langCode" style="font-size:11px;font-weight:800;">FR</span>
-    </button>
-    <a href="notifications.html" class="head-btn" title="Notifications">🔔<span class="badge">3</span></a>
-  </div>
-</header>
-
     <div class="logo-wrap" id="adminTrigger">
       <div class="logo-icon-mini">👑</div>
       <div>
@@ -233,25 +165,27 @@ body.dark .section-title h3{color:#F4C685;}
       </div>
     </div>
     <div class="header-actions">
-      <button class="head-btn dark-toggle" onclick="toggleDark()" id="darkBtn" title="Mode sombre">🌙</button>
-      <button class="head-btn lang-btn" onclick="changeLang()">🇫🇷</button>
-      <a href="messages.html" class="head-btn" title="Messages">💬<span class="badge">2</span></a>
+      <button class="head-btn pill" onclick="changeCurrency()" title="Devise" id="currBtn">
+        <span id="currFlag">💰</span>
+        <span id="currCode">FCFA</span>
+      </button>
+      <button class="head-btn pill" onclick="changeLang()" title="Langue" id="langBtn">
+        <span id="langFlag">🇫🇷</span>
+        <span id="langCode">FR</span>
+      </button>
       <a href="notifications.html" class="head-btn" title="Notifications">🔔<span class="badge">3</span></a>
-      <a href="profil.html" class="head-btn" title="Profil" style="background:linear-gradient(135deg,#D4A574,#0F6B4E);color:#fff;">👤</a>
     </div>
   </header>
 
   <main class="app-content">
-    <!-- SEARCH -->
     <div class="search-container">
       <div class="search-box-new">
         <span>🔍</span>
         <input type="text" placeholder="Rechercher un produit..." onclick="location.href='recherche-ia.html'" readonly>
-        <a href="recherche-ia.html" class="ia-btn">📷 IA</a>
+        <a href="recherche-ia.html" class="ia-btn-sr">📷 IA</a>
       </div>
     </div>
 
-    <!-- PUB VERIFIED -->
     <a href="verified.html" class="ad-verified">
       <span class="pub-tag">PUB</span>
       <div style="font-size:32px;">👑</div>
@@ -262,39 +196,16 @@ body.dark .section-title h3{color:#F4C685;}
       <div style="font-size:20px;">›</div>
     </a>
 
-    <!-- CATÉGORIES CERCLES -->
     <div class="cats-row-new">
-      <a href="produits.html?cat=mode" class="cat-item">
-        <div class="cat-circle-new">👕</div>
-        <div class="cat-lbl">Mode</div>
-      </a>
-      <a href="produits.html?cat=tech" class="cat-item">
-        <div class="cat-circle-new">🎧</div>
-        <div class="cat-lbl">Électronique</div>
-      </a>
-      <a href="produits.html?cat=maison" class="cat-item">
-        <div class="cat-circle-new">🛋</div>
-        <div class="cat-lbl">Maison</div>
-      </a>
-      <a href="produits.html?cat=beauty" class="cat-item">
-        <div class="cat-circle-new">💄</div>
-        <div class="cat-lbl">Beauté</div>
-      </a>
-      <a href="produits.html?cat=food" class="cat-item">
-        <div class="cat-circle-new">🧺</div>
-        <div class="cat-lbl">Alimentation</div>
-      </a>
-      <a href="produits.html?cat=sport" class="cat-item">
-        <div class="cat-circle-new">⚽</div>
-        <div class="cat-lbl">Sport</div>
-      </a>
-      <a href="live.html" class="cat-item">
-        <div class="cat-circle-new" style="background:linear-gradient(135deg,#ef4444,#f97316);animation:pulse 1.5s infinite;">🔴</div>
-        <div class="cat-lbl">LIVE</div>
-      </a>
+      <a href="produits.html?cat=mode" class="cat-item"><div class="cat-circle-new">👕</div><div class="cat-lbl">Mode</div></a>
+      <a href="produits.html?cat=tech" class="cat-item"><div class="cat-circle-new">🎧</div><div class="cat-lbl">Électronique</div></a>
+      <a href="produits.html?cat=maison" class="cat-item"><div class="cat-circle-new">🛋</div><div class="cat-lbl">Maison</div></a>
+      <a href="produits.html?cat=beauty" class="cat-item"><div class="cat-circle-new">💄</div><div class="cat-lbl">Beauté</div></a>
+      <a href="produits.html?cat=food" class="cat-item"><div class="cat-circle-new">🧺</div><div class="cat-lbl">Alimentation</div></a>
+      <a href="produits.html?cat=sport" class="cat-item"><div class="cat-circle-new">⚽</div><div class="cat-lbl">Sport</div></a>
+      <a href="live.html" class="cat-item"><div class="cat-circle-new" style="background:linear-gradient(135deg,#ef4444,#f97316);animation:pulse 1.5s infinite;">🔴</div><div class="cat-lbl">LIVE</div></a>
     </div>
 
-    <!-- PROMO HERO -->
     <a href="produits.html?promo=1" style="text-decoration:none;">
       <div class="promo-hero">
         <div class="promo-content">
@@ -309,34 +220,26 @@ body.dark .section-title h3{color:#F4C685;}
       </div>
     </a>
 
-    <!-- LIVES ACTIFS -->
     <div class="section-title">
       <h3>🔴 En LIVE maintenant</h3>
       <a href="live.html">Voir tout ›</a>
     </div>
     <div id="livesRow" style="display:flex;gap:10px;padding:0 14px 12px;overflow-x:auto;scrollbar-width:none;"></div>
 
-    <!-- PRODUITS TENDANCES -->
     <div class="section-title">
       <h3>🔥 Tendances</h3>
       <a href="produits.html">Tout voir ›</a>
     </div>
     <div class="products-grid-home" id="prodGrid"></div>
 
-    <!-- CATÉGORIES DÉTAILLÉES -->
     <div class="section-title">
       <h3>Explorer par catégorie</h3>
     </div>
     <div class="products-grid-home" id="catsGrid"></div>
   </main>
 
-  <!-- ASSISTANT IA FLOTTANT (1 SEUL) -->
-  <a href="assistant-ia.html" class="ia-float" title="Assistant IA">
-    ✨
-    <span>IA</span>
-  </a>
+  <a href="assistant-ia.html" class="ia-float" title="Assistant IA">✨</a>
 
-  <!-- BOTTOM NAV -->
   <nav class="app-nav">
     <a href="index.html" class="active"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
     <a href="categories.html"><div class="nav-icon">▦</div><div class="nav-label">Catégories</div></a>
@@ -346,14 +249,15 @@ body.dark .section-title h3{color:#F4C685;}
   </nav>
 </div>
 
-<script src="js/data.js"></script><script src="js/currency.js"></script>
-
-// ===== LANGUE (4 langues) =====
+<script src="js/data.js"></script>
+<script src="js/currency.js"></script>
+<script>
+// ===== LANGUES =====
 const LANGS = [
-  {code:'FR', flag:'🇫🇷', name:'Français'},
-  {code:'WO', flag:'🇸🇳', name:'Wolof'},
-  {code:'EN', flag:'🇬🇧', name:'English'},
-  {code:'AR', flag:'🇸🇦', name:'العربية'}
+  {code:'FR', flag:'🇫🇷', name:'Français', dir:'ltr'},
+  {code:'WO', flag:'🇸🇳', name:'Wolof', dir:'ltr'},
+  {code:'EN', flag:'🇬🇧', name:'English', dir:'ltr'},
+  {code:'AR', flag:'🇸🇦', name:'العربية', dir:'rtl'}
 ];
 function changeLang(){
   let idx = parseInt(localStorage.getItem('lang_idx')||'0');
@@ -361,19 +265,18 @@ function changeLang(){
   localStorage.setItem('lang_idx', idx);
   document.getElementById('langFlag').textContent = LANGS[idx].flag;
   document.getElementById('langCode').textContent = LANGS[idx].code;
-  if(LANGS[idx].code==='AR') document.documentElement.dir='rtl';
-  else document.documentElement.dir='ltr';
+  document.documentElement.dir = LANGS[idx].dir;
   navigator.vibrate&&navigator.vibrate(20);
   setTimeout(()=>alert('🌐 Langue : '+LANGS[idx].name), 100);
 }
-// Init langue
 (function(){
   const idx = parseInt(localStorage.getItem('lang_idx')||'0');
   document.getElementById('langFlag').textContent = LANGS[idx].flag;
   document.getElementById('langCode').textContent = LANGS[idx].code;
+  document.documentElement.dir = LANGS[idx].dir;
 })();
 
-// ===== DEVISE (4 devises) =====
+// ===== DEVISES =====
 const CURRENCIES = [
   {code:'FCFA', flag:'💰', rate:1, symbol:'FCFA'},
   {code:'EUR', flag:'💶', rate:1/655, symbol:'€'},
@@ -390,23 +293,21 @@ function changeCurrency(){
   document.getElementById('currFlag').textContent = CURRENCIES[idx].flag;
   document.getElementById('currCode').textContent = CURRENCIES[idx].code;
   navigator.vibrate&&navigator.vibrate(20);
-  location.reload(); // recharge pour appliquer partout
+  location.reload();
 }
-// Init devise
 (function(){
   const idx = parseInt(localStorage.getItem('curr_idx')||'0');
   document.getElementById('currFlag').textContent = CURRENCIES[idx].flag;
   document.getElementById('currCode').textContent = CURRENCIES[idx].code;
 })();
 
-// Helper global pour convertir prix
-window.formatPrice = function(fcfa){
-  const rate = parseFloat(localStorage.getItem('curr_rate')||'1');
-  const sym = localStorage.getItem('curr_symbol')||'FCFA';
-  const converted = fcfa * rate;
-  if (sym==='FCFA') return converted.toLocaleString('fr-FR', {maximumFractionDigits:0}) + ' FCFA';
-  return converted.toLocaleString('fr-FR', {maximumFractionDigits:2}) + ' ' + sym;
-};
+function formatPrice(fcfa){
+  const idx = parseInt(localStorage.getItem('curr_idx')||'0');
+  const c = CURRENCIES[idx];
+  const val = fcfa * c.rate;
+  if (c.code==='FCFA') return Math.round(val).toLocaleString('fr-FR') + ' FCFA';
+  return val.toFixed(2) + ' ' + c.symbol;
+}
 
 // ===== LIVES =====
 const liveSellers = (typeof sellers !== 'undefined' ? sellers : []).filter(s => s.live);
@@ -425,7 +326,7 @@ const list = (typeof products !== 'undefined' ? products : []);
 const trending = [...list].sort((a,b) => (b.sellerLive?1:0) - (a.sellerLive?1:0)).slice(0, 8);
 
 document.getElementById('prodGrid').innerHTML = trending.map(p => `
-  <a href="produit.html?id=${p.id}" class="pcard" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);text-decoration:none;color:inherit;display:flex;flex-direction:column;">
+  <a href="produit.html?id=${p.id}" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);text-decoration:none;color:inherit;display:flex;flex-direction:column;">
     <div style="position:relative;width:100%;aspect-ratio:1/1;background:#F9FAFB;overflow:hidden;">
       ${p.sellerLive ? '<span style="position:absolute;top:8px;left:8px;background:#ef4444;color:#fff;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:900;z-index:2;">🔴 LIVE</span>' : ''}
       <button onclick="event.preventDefault();this.textContent=this.textContent==='🤍'?'❤️':'🤍'" style="position:absolute;top:8px;right:8px;width:30px;height:30px;background:rgba(255,255,255,.95);border-radius:50%;border:none;font-size:14px;z-index:2;">🤍</button>
@@ -437,12 +338,12 @@ document.getElementById('prodGrid').innerHTML = trending.map(p => `
         <span>${p.seller}</span>
       </div>
       <div style="font-size:13px;font-weight:700;color:#111827;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px;margin-bottom:6px;">${p.name}</div>
-      <div style="font-weight:900;color:#D4A574;font-size:14px;">${Number(p.price).toLocaleString()} FCFA</div>
+      <div style="font-weight:900;color:#D4A574;font-size:14px;">${formatPrice(p.price)}</div>
     </div>
   </a>
 `).join('');
 
-// ===== CATÉGORIES SECONDAIRES =====
+// ===== CATÉGORIES =====
 const cats = (typeof categories !== 'undefined' ? categories : []);
 document.getElementById('catsGrid').innerHTML = cats.map(c => `
   <a href="produits.html?cat=${c.id}" style="background:#fff;border-radius:14px;padding:16px;text-decoration:none;color:inherit;box-shadow:0 2px 8px rgba(0,0,0,.05);display:flex;gap:12px;align-items:center;">
@@ -453,28 +354,6 @@ document.getElementById('catsGrid').innerHTML = cats.map(c => `
     </div>
   </a>
 `).join('');
-
-// ===== DARK MODE =====
-function toggleDark(){
-  document.body.classList.toggle('dark');
-  const dark = document.body.classList.contains('dark');
-  localStorage.setItem('sen_dark', dark ? '1' : '0');
-  document.getElementById('darkBtn').textContent = dark ? '☀️' : '🌙';
-}
-if (localStorage.getItem('sen_dark') === '1') {
-  document.body.classList.add('dark');
-  document.getElementById('darkBtn').textContent = '☀️';
-}
-
-// ===== LANGUE =====
-function changeLang(){
-  const langs = ['🇫🇷 FR','🇸🇳 WO','🇬🇧 EN','🇸🇦 AR'];
-  const current = document.querySelector('.lang-btn').textContent.trim();
-  const idx = langs.findIndex(l => l.startsWith(current)) + 1;
-  const next = langs[idx % langs.length];
-  document.querySelector('.lang-btn').textContent = next.split(' ')[0];
-  localStorage.setItem('sen_lang', next);
-}
 
 // ===== ADMIN SECRET (7 taps) =====
 (function(){
@@ -498,6 +377,12 @@ function changeLang(){
 // ===== PWA =====
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sentew-app/sw.js').then(reg => reg.update()).catch(()=>{});
+}
+
+// ===== ONBOARDING PREMIER LANCEMENT =====
+if (!localStorage.getItem('onboarded') && !location.search.includes('skip')) {
+  // Décommenter pour activer redirect automatique :
+  // setTimeout(()=>location.href='onboarding.html', 500);
 }
 </script>
 <script src="js/paydunya.js"></script>
