@@ -3,161 +3,115 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>SEN TEW - Marketplace Africaine</title>
-<meta name="robots" content="noindex, nofollow">
+<title>SEN TEW - Marketplace</title>
 <meta name="theme-color" content="#FAFAF7">
 <link rel="stylesheet" href="css/app.css">
 <link rel="manifest" href="manifest.json">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="SEN TEW">
 <style>
+*{-webkit-tap-highlight-color:transparent;}
 .app-header{
-  display:flex;align-items:center;gap:8px;
+  display:flex !important;align-items:center;gap:8px;
   padding:12px 14px;background:#fff;
   border-bottom:1px solid #F3F4F6;
   position:sticky;top:0;z-index:100;
 }
-.logo-wrap{display:flex;align-items:center;gap:8px;cursor:pointer;}
+.logo-wrap{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;}
 .logo-icon-mini{
   width:40px;height:40px;
   background:linear-gradient(135deg,#D4A574,#0F6B4E);
   border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   font-size:22px;
-  box-shadow:0 2px 8px rgba(212,165,116,.3);
 }
-.logo-text-mini{font-weight:900;color:#D4A574;font-size:16px;line-height:1;letter-spacing:1px;}
+.logo-text-mini{font-weight:900;color:#D4A574;font-size:16px;letter-spacing:1px;}
 .logo-sub-mini{font-size:9px;color:#6B7280;letter-spacing:2px;}
 .header-actions{margin-left:auto;display:flex;gap:6px;align-items:center;}
-.head-btn{
-  height:38px;min-width:38px;
+.hd-pill{
+  height:38px;padding:0 12px;
+  background:#F9FAFB;
+  border:none;border-radius:19px;
+  display:flex;align-items:center;justify-content:center;gap:5px;
+  font-size:12px;font-weight:800;color:#0A4D38;
+  cursor:pointer;
+  text-decoration:none;
+  transition:transform .1s;
+}
+.hd-pill:active{transform:scale(.95);background:#0F6B4E;color:#fff;}
+.hd-icon{
+  width:38px;height:38px;
   background:#F9FAFB;
   border:none;border-radius:19px;
   display:flex;align-items:center;justify-content:center;
-  font-size:15px;color:#0A4D38;text-decoration:none;
-  position:relative;cursor:pointer;
-  padding:0 10px;gap:4px;
+  font-size:15px;color:#0A4D38;
+  text-decoration:none;position:relative;
 }
-.head-btn.pill{padding:0 12px;gap:5px;font-size:12px;font-weight:800;}
-.head-btn .badge{
+.hd-icon .bdg{
   position:absolute;top:-2px;right:-2px;
   background:#ef4444;color:#fff;
   font-size:9px;font-weight:900;
   padding:2px 5px;border-radius:8px;
 }
 
-.search-container{padding:12px 14px;background:#fff;}
-.search-box-new{
-  display:flex;gap:8px;align-items:center;
-  background:#F3F4F6;border-radius:14px;padding:8px 12px;
-}
-.search-box-new input{
-  flex:1;background:none;border:none;
-  font-size:14px;color:#111827;outline:none;
-}
-.ia-btn-sr{
-  background:linear-gradient(135deg,#0F6B4E,#0A4D38);
-  color:#fff;padding:6px 10px;border-radius:10px;
-  text-decoration:none;font-size:11px;font-weight:800;
-  display:flex;align-items:center;gap:3px;
-}
+.sc-wrap{padding:12px 14px;background:#fff;}
+.sc-box{display:flex;gap:8px;align-items:center;background:#F3F4F6;border-radius:14px;padding:8px 12px;}
+.sc-box input{flex:1;background:none;border:none;font-size:14px;color:#111827;outline:none;}
+.ia-b{background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;padding:6px 10px;border-radius:10px;text-decoration:none;font-size:11px;font-weight:800;}
 
-.ad-verified{
-  margin:12px 14px;padding:12px 14px;
-  background:linear-gradient(135deg,#D4A574,#B8895C);
-  border-radius:14px;color:#fff;
-  display:flex;gap:12px;align-items:center;
-  text-decoration:none;position:relative;
-  box-shadow:0 4px 15px rgba(212,165,116,.3);
-}
-.ad-verified .pub-tag{
-  position:absolute;top:6px;right:8px;
-  background:rgba(0,0,0,.3);color:#fff;
-  padding:2px 6px;border-radius:6px;
-  font-size:9px;font-weight:700;
-}
+.ad-b{margin:12px 14px;padding:12px 14px;background:linear-gradient(135deg,#D4A574,#B8895C);border-radius:14px;color:#fff;display:flex;gap:12px;align-items:center;text-decoration:none;position:relative;box-shadow:0 4px 15px rgba(212,165,116,.3);}
+.ad-b .pt{position:absolute;top:6px;right:8px;background:rgba(0,0,0,.3);color:#fff;padding:2px 6px;border-radius:6px;font-size:9px;font-weight:700;}
 
-.cats-row-new{
-  display:flex;gap:14px;
-  padding:16px 14px;overflow-x:auto;
-  scrollbar-width:none;
-}
-.cats-row-new::-webkit-scrollbar{display:none;}
-.cat-item{flex-shrink:0;text-align:center;text-decoration:none;color:#0A4D38;}
-.cat-circle-new{
-  width:64px;height:64px;
-  background:linear-gradient(135deg,#0F6B4E,#0A4D38);
-  border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:26px;margin-bottom:6px;
-  box-shadow:0 4px 12px rgba(15,107,78,.25);
-}
-.cat-lbl{font-size:11px;font-weight:700;}
+.cats-r{display:flex;gap:14px;padding:16px 14px;overflow-x:auto;scrollbar-width:none;}
+.cats-r::-webkit-scrollbar{display:none;}
+.cat-i{flex-shrink:0;text-align:center;text-decoration:none;color:#0A4D38;}
+.cat-c{width:64px;height:64px;background:linear-gradient(135deg,#0F6B4E,#0A4D38);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:6px;box-shadow:0 4px 12px rgba(15,107,78,.25);}
+.cat-l{font-size:11px;font-weight:700;}
 
-.promo-hero{
-  margin:12px 14px;border-radius:20px;overflow:hidden;
-  background:linear-gradient(135deg,#0F6B4E,#0A4D38);
-  color:#fff;position:relative;
-  display:flex;min-height:180px;
-}
-.promo-content{padding:20px;flex:1;z-index:2;}
-.promo-tag{font-size:12px;opacity:.8;font-weight:700;letter-spacing:2px;}
-.promo-discount{font-size:48px;font-weight:900;color:#D4A574;line-height:1;margin:8px 0;}
-.promo-desc{font-size:12px;opacity:.9;margin-bottom:12px;}
-.promo-cta{
-  display:inline-block;background:#D4A574;color:#fff;
-  padding:8px 16px;border-radius:20px;text-decoration:none;
-  font-weight:800;font-size:12px;
-}
-.promo-img{flex:0 0 45%;position:relative;overflow:hidden;}
-.promo-img img{width:100%;height:100%;object-fit:cover;}
+.hero-p{margin:12px 14px;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;position:relative;display:flex;min-height:180px;}
+.hp-c{padding:20px;flex:1;z-index:2;}
+.hp-t{font-size:12px;opacity:.8;font-weight:700;letter-spacing:2px;}
+.hp-d{font-size:48px;font-weight:900;color:#D4A574;line-height:1;margin:8px 0;}
+.hp-ds{font-size:12px;opacity:.9;margin-bottom:12px;}
+.hp-cta{display:inline-block;background:#D4A574;color:#fff;padding:8px 16px;border-radius:20px;text-decoration:none;font-weight:800;font-size:12px;}
+.hp-i{flex:0 0 45%;position:relative;overflow:hidden;}
+.hp-i img{width:100%;height:100%;object-fit:cover;}
 
-.ia-float{
-  position:fixed;right:14px;bottom:80px;
-  width:56px;height:56px;
-  background:linear-gradient(135deg,#0F6B4E,#D4A574);
-  border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:20px;color:#fff;
-  box-shadow:0 6px 20px rgba(15,107,78,.4);
-  text-decoration:none;z-index:50;
-  animation:pulse-ia 2s infinite;
-}
-@keyframes pulse-ia{
-  0%,100%{transform:scale(1);}
-  50%{transform:scale(1.08);}
-}
+.sec-t{padding:16px 14px 8px;display:flex;justify-content:space-between;align-items:center;}
+.sec-t h3{margin:0;color:#0A4D38;font-size:16px;}
+.sec-t a{color:#0F6B4E;font-size:12px;font-weight:700;text-decoration:none;}
 
-.section-title{
-  padding:16px 14px 8px;
-  display:flex;justify-content:space-between;align-items:center;
+.pgrid{
+  display:grid !important;
+  grid-template-columns:repeat(2,1fr) !important;
+  gap:10px !important;
+  padding:0 14px 20px !important;
 }
-.section-title h3{margin:0;color:#0A4D38;font-size:16px;}
-.section-title a{color:#0F6B4E;font-size:12px;font-weight:700;text-decoration:none;}
-
-.products-grid-home{
-  display:grid;grid-template-columns:repeat(2,1fr);
-  gap:10px;padding:0 14px 20px;
+.pc{
+  background:#fff;border-radius:14px;overflow:hidden;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+  text-decoration:none;color:inherit;
+  display:flex;flex-direction:column;
 }
+.pc-img{position:relative;width:100%;aspect-ratio:1/1;background:#F9FAFB;overflow:hidden;}
+.pc-img img{width:100%;height:100%;object-fit:cover;object-position:center;}
+.pc-lv{position:absolute;top:8px;left:8px;background:#ef4444;color:#fff;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:900;z-index:2;}
+.pc-fv{position:absolute;top:8px;right:8px;width:30px;height:30px;background:rgba(255,255,255,.95);border-radius:50%;border:none;font-size:14px;z-index:2;}
+.pc-info{padding:10px;}
+.pc-slr{display:flex;align-items:center;gap:4px;font-size:10px;color:#6B7280;margin-bottom:4px;}
+.pc-slr img{width:14px;height:14px;border-radius:50%;object-fit:cover;}
+.pc-nm{font-size:13px;font-weight:700;color:#111827;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px;margin-bottom:6px;}
+.pc-pr{font-weight:900;color:#D4A574;font-size:14px;}
 
-body.dark{background:#0F1419;color:#F3F4F6;}
-body.dark .app-header{background:#1F2937;border-color:#374151;}
-body.dark .logo-text-mini{color:#F4C685;}
-body.dark .head-btn{background:#374151;color:#F3F4F6;}
-body.dark .search-container{background:#1F2937;}
-body.dark .search-box-new{background:#374151;}
-body.dark .search-box-new input{color:#F3F4F6;}
-body.dark .cat-lbl{color:#F3F4F6;}
-body.dark .section-title h3{color:#F4C685;}
+.ia-fl{position:fixed;right:14px;bottom:80px;width:56px;height:56px;background:linear-gradient(135deg,#0F6B4E,#D4A574);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;box-shadow:0 6px 20px rgba(15,107,78,.4);text-decoration:none;z-index:50;animation:puls 2s infinite;}
+@keyframes puls{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
+
+.app-content{padding-bottom:80px;}
 </style>
 </head>
-<body oncontextmenu="return false" onselectstart="return false">
+<body oncontextmenu="return false">
 
 <div class="app">
-  <!-- HEADER SIMPLIFIÉ : 3 boutons uniquement -->
   <header class="app-header">
-    <div class="logo-wrap" id="adminTrigger">
+    <div class="logo-wrap" id="admTrig">
       <div class="logo-icon-mini">👑</div>
       <div>
         <div class="logo-text-mini">SEN TEW</div>
@@ -165,29 +119,27 @@ body.dark .section-title h3{color:#F4C685;}
       </div>
     </div>
     <div class="header-actions">
-      <button class="head-btn pill" onclick="changeCurrency()" title="Devise" id="currBtn">
-        <span id="currFlag">💰</span>
-        <span id="currCode">FCFA</span>
+      <button type="button" class="hd-pill" id="btnCurr">
+        <span id="cFlag">💰</span><span id="cCode">FCFA</span>
       </button>
-      <button class="head-btn pill" onclick="changeLang()" title="Langue" id="langBtn">
-        <span id="langFlag">🇫🇷</span>
-        <span id="langCode">FR</span>
+      <button type="button" class="hd-pill" id="btnLang">
+        <span id="lFlag">🇫🇷</span><span id="lCode">FR</span>
       </button>
-      <a href="notifications.html" class="head-btn" title="Notifications">🔔<span class="badge">3</span></a>
+      <a href="notifications.html" class="hd-icon">🔔<span class="bdg">3</span></a>
     </div>
   </header>
 
   <main class="app-content">
-    <div class="search-container">
-      <div class="search-box-new">
+    <div class="sc-wrap">
+      <div class="sc-box">
         <span>🔍</span>
         <input type="text" placeholder="Rechercher un produit..." onclick="location.href='recherche-ia.html'" readonly>
-        <a href="recherche-ia.html" class="ia-btn-sr">📷 IA</a>
+        <a href="recherche-ia.html" class="ia-b">📷 IA</a>
       </div>
     </div>
 
-    <a href="verified.html" class="ad-verified">
-      <span class="pub-tag">PUB</span>
+    <a href="verified.html" class="ad-b">
+      <span class="pt">PUB</span>
       <div style="font-size:32px;">👑</div>
       <div style="flex:1;">
         <div style="font-weight:900;font-size:14px;">Devenez SEN Verified</div>
@@ -196,49 +148,39 @@ body.dark .section-title h3{color:#F4C685;}
       <div style="font-size:20px;">›</div>
     </a>
 
-    <div class="cats-row-new">
-      <a href="produits.html?cat=mode" class="cat-item"><div class="cat-circle-new">👕</div><div class="cat-lbl">Mode</div></a>
-      <a href="produits.html?cat=tech" class="cat-item"><div class="cat-circle-new">🎧</div><div class="cat-lbl">Électronique</div></a>
-      <a href="produits.html?cat=maison" class="cat-item"><div class="cat-circle-new">🛋</div><div class="cat-lbl">Maison</div></a>
-      <a href="produits.html?cat=beauty" class="cat-item"><div class="cat-circle-new">💄</div><div class="cat-lbl">Beauté</div></a>
-      <a href="produits.html?cat=food" class="cat-item"><div class="cat-circle-new">🧺</div><div class="cat-lbl">Alimentation</div></a>
-      <a href="produits.html?cat=sport" class="cat-item"><div class="cat-circle-new">⚽</div><div class="cat-lbl">Sport</div></a>
-      <a href="live.html" class="cat-item"><div class="cat-circle-new" style="background:linear-gradient(135deg,#ef4444,#f97316);animation:pulse 1.5s infinite;">🔴</div><div class="cat-lbl">LIVE</div></a>
+    <div class="cats-r">
+      <a href="produits.html?cat=mode" class="cat-i"><div class="cat-c">👕</div><div class="cat-l">Mode</div></a>
+      <a href="produits.html?cat=tech" class="cat-i"><div class="cat-c">🎧</div><div class="cat-l">Électronique</div></a>
+      <a href="produits.html?cat=maison" class="cat-i"><div class="cat-c">🛋</div><div class="cat-l">Maison</div></a>
+      <a href="produits.html?cat=beauty" class="cat-i"><div class="cat-c">💄</div><div class="cat-l">Beauté</div></a>
+      <a href="produits.html?cat=food" class="cat-i"><div class="cat-c">🧺</div><div class="cat-l">Alim.</div></a>
+      <a href="produits.html?cat=sport" class="cat-i"><div class="cat-c">⚽</div><div class="cat-l">Sport</div></a>
+      <a href="live.html" class="cat-i"><div class="cat-c" style="background:linear-gradient(135deg,#ef4444,#f97316);">🔴</div><div class="cat-l">LIVE</div></a>
     </div>
 
     <a href="produits.html?promo=1" style="text-decoration:none;">
-      <div class="promo-hero">
-        <div class="promo-content">
-          <div class="promo-tag">PROMO</div>
-          <div class="promo-discount">-40%</div>
-          <div class="promo-desc">Sur une sélection<br>d'articles tendance</div>
-          <span class="promo-cta">EN PROFITER ›</span>
+      <div class="hero-p">
+        <div class="hp-c">
+          <div class="hp-t">PROMO</div>
+          <div class="hp-d">-40%</div>
+          <div class="hp-ds">Sur une sélection<br>d'articles tendance</div>
+          <span class="hp-cta">EN PROFITER ›</span>
         </div>
-        <div class="promo-img">
-          <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400&h=400&fit=crop" alt="">
-        </div>
+        <div class="hp-i"><img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400&h=400&fit=crop" alt=""></div>
       </div>
     </a>
 
-    <div class="section-title">
-      <h3>🔴 En LIVE maintenant</h3>
-      <a href="live.html">Voir tout ›</a>
-    </div>
+    <div class="sec-t"><h3>🔴 En LIVE maintenant</h3><a href="live.html">Voir tout ›</a></div>
     <div id="livesRow" style="display:flex;gap:10px;padding:0 14px 12px;overflow-x:auto;scrollbar-width:none;"></div>
 
-    <div class="section-title">
-      <h3>🔥 Tendances</h3>
-      <a href="produits.html">Tout voir ›</a>
-    </div>
-    <div class="products-grid-home" id="prodGrid"></div>
+    <div class="sec-t"><h3>🔥 Tendances</h3><a href="produits.html">Tout voir ›</a></div>
+    <div class="pgrid" id="prodGrid"></div>
 
-    <div class="section-title">
-      <h3>Explorer par catégorie</h3>
-    </div>
-    <div class="products-grid-home" id="catsGrid"></div>
+    <div class="sec-t"><h3>Explorer par catégorie</h3></div>
+    <div class="pgrid" id="catsGrid"></div>
   </main>
 
-  <a href="assistant-ia.html" class="ia-float" title="Assistant IA">✨</a>
+  <a href="assistant-ia.html" class="ia-fl">✨</a>
 
   <nav class="app-nav">
     <a href="index.html" class="active"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
@@ -250,68 +192,100 @@ body.dark .section-title h3{color:#F4C685;}
 </div>
 
 <script src="js/data.js"></script>
-<script src="js/currency.js"></script>
 <script>
-// ===== LANGUES =====
+// ===== DEVISES + LANGUES avec addEventListener (fiabilité) =====
+const CURR = [
+  {code:'FCFA', flag:'💰', rate:1, sym:'FCFA'},
+  {code:'EUR', flag:'💶', rate:1/655, sym:'€'},
+  {code:'USD', flag:'💵', rate:1/600, sym:'$'},
+  {code:'MAD', flag:'🇲🇦', rate:1/60, sym:'DH'}
+];
 const LANGS = [
-  {code:'FR', flag:'🇫🇷', name:'Français', dir:'ltr'},
-  {code:'WO', flag:'🇸🇳', name:'Wolof', dir:'ltr'},
-  {code:'EN', flag:'🇬🇧', name:'English', dir:'ltr'},
-  {code:'AR', flag:'🇸🇦', name:'العربية', dir:'rtl'}
+  {code:'FR', flag:'🇫🇷', name:'Français'},
+  {code:'WO', flag:'🇸🇳', name:'Wolof'},
+  {code:'EN', flag:'🇬🇧', name:'English'},
+  {code:'AR', flag:'🇸🇦', name:'العربية'}
 ];
-function changeLang(){
-  let idx = parseInt(localStorage.getItem('lang_idx')||'0');
-  idx = (idx+1) % LANGS.length;
-  localStorage.setItem('lang_idx', idx);
-  document.getElementById('langFlag').textContent = LANGS[idx].flag;
-  document.getElementById('langCode').textContent = LANGS[idx].code;
-  document.documentElement.dir = LANGS[idx].dir;
-  navigator.vibrate&&navigator.vibrate(20);
-  setTimeout(()=>alert('🌐 Langue : '+LANGS[idx].name), 100);
-}
-(function(){
-  const idx = parseInt(localStorage.getItem('lang_idx')||'0');
-  document.getElementById('langFlag').textContent = LANGS[idx].flag;
-  document.getElementById('langCode').textContent = LANGS[idx].code;
-  document.documentElement.dir = LANGS[idx].dir;
-})();
-
-// ===== DEVISES =====
-const CURRENCIES = [
-  {code:'FCFA', flag:'💰', rate:1, symbol:'FCFA'},
-  {code:'EUR', flag:'💶', rate:1/655, symbol:'€'},
-  {code:'USD', flag:'💵', rate:1/600, symbol:'$'},
-  {code:'MAD', flag:'🇲🇦', rate:1/60, symbol:'DH'}
-];
-function changeCurrency(){
-  let idx = parseInt(localStorage.getItem('curr_idx')||'0');
-  idx = (idx+1) % CURRENCIES.length;
-  localStorage.setItem('curr_idx', idx);
-  localStorage.setItem('curr_code', CURRENCIES[idx].code);
-  localStorage.setItem('curr_rate', CURRENCIES[idx].rate);
-  localStorage.setItem('curr_symbol', CURRENCIES[idx].symbol);
-  document.getElementById('currFlag').textContent = CURRENCIES[idx].flag;
-  document.getElementById('currCode').textContent = CURRENCIES[idx].code;
-  navigator.vibrate&&navigator.vibrate(20);
-  location.reload();
-}
-(function(){
-  const idx = parseInt(localStorage.getItem('curr_idx')||'0');
-  document.getElementById('currFlag').textContent = CURRENCIES[idx].flag;
-  document.getElementById('currCode').textContent = CURRENCIES[idx].code;
-})();
 
 function formatPrice(fcfa){
   const idx = parseInt(localStorage.getItem('curr_idx')||'0');
-  const c = CURRENCIES[idx];
-  const val = fcfa * c.rate;
-  if (c.code==='FCFA') return Math.round(val).toLocaleString('fr-FR') + ' FCFA';
-  return val.toFixed(2) + ' ' + c.symbol;
+  const c = CURR[idx];
+  const v = fcfa * c.rate;
+  if(c.code==='FCFA') return Math.round(v).toLocaleString('fr-FR')+' FCFA';
+  return v.toFixed(2)+' '+c.sym;
 }
 
+function refreshCurrDisplay(){
+  const idx = parseInt(localStorage.getItem('curr_idx')||'0');
+  document.getElementById('cFlag').textContent = CURR[idx].flag;
+  document.getElementById('cCode').textContent = CURR[idx].code;
+}
+function refreshLangDisplay(){
+  const idx = parseInt(localStorage.getItem('lang_idx')||'0');
+  document.getElementById('lFlag').textContent = LANGS[idx].flag;
+  document.getElementById('lCode').textContent = LANGS[idx].code;
+}
+
+// Attach handlers robustes
+document.getElementById('btnCurr').addEventListener('click', function(e){
+  e.preventDefault();
+  e.stopPropagation();
+  let idx = parseInt(localStorage.getItem('curr_idx')||'0');
+  idx = (idx+1) % CURR.length;
+  localStorage.setItem('curr_idx', idx);
+  refreshCurrDisplay();
+  renderProducts();
+  if(navigator.vibrate) navigator.vibrate(20);
+});
+
+document.getElementById('btnLang').addEventListener('click', function(e){
+  e.preventDefault();
+  e.stopPropagation();
+  let idx = parseInt(localStorage.getItem('lang_idx')||'0');
+  idx = (idx+1) % LANGS.length;
+  localStorage.setItem('lang_idx', idx);
+  refreshLangDisplay();
+  document.documentElement.dir = LANGS[idx].code==='AR'?'rtl':'ltr';
+  if(navigator.vibrate) navigator.vibrate(20);
+  setTimeout(()=>alert('🌐 '+LANGS[idx].name),100);
+});
+
+refreshCurrDisplay();
+refreshLangDisplay();
+
+// ===== DONNÉES FALLBACK si data.js incomplet =====
+const FALLBACK_PRODUCTS = [
+  {id:1,name:'Robe wax mariage',price:35000,oldPrice:50000,image:'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=400&h=400&fit=crop',seller:'Aïcha Couture',sellerAvatar:'https://i.pravatar.cc/40?img=1',sellerLive:true,cat:'mode'},
+  {id:2,name:'Sandales cuir Peul',price:8500,image:'https://images.unsplash.com/photo-1603487742131-4160ec999306?w=400&h=400&fit=crop',seller:'Aïcha Couture',sellerAvatar:'https://i.pravatar.cc/40?img=1',cat:'mode'},
+  {id:10,name:'iPhone 15 Pro 256GB',price:750000,oldPrice:850000,image:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=400&h=400&fit=crop',seller:'Moussa Tech',sellerAvatar:'https://i.pravatar.cc/40?img=11',sellerLive:true,cat:'tech'},
+  {id:11,name:'AirPods Pro 2',price:145000,image:'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=400&h=400&fit=crop',seller:'Moussa Tech',sellerAvatar:'https://i.pravatar.cc/40?img=11',cat:'tech'},
+  {id:30,name:'Beurre karité 500g',price:4500,oldPrice:6000,image:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400&h=400&fit=crop',seller:'Fatou Beauté',sellerAvatar:'https://i.pravatar.cc/40?img=5',sellerLive:true,cat:'beauty'},
+  {id:31,name:'Palette 24 couleurs',price:8500,image:'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=400&fit=crop',seller:'Fatou Beauté',sellerAvatar:'https://i.pravatar.cc/40?img=5',cat:'beauty'},
+  {id:50,name:'Maillot Sénégal 2026',price:18000,oldPrice:25000,image:'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=400&h=400&fit=crop',seller:'Ibrahima Sport',sellerAvatar:'https://i.pravatar.cc/40?img=13',sellerLive:true,cat:'sport'},
+  {id:20,name:'Canapé 3 places moderne',price:185000,image:'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=400&fit=crop',seller:'Déco Sénégal',sellerAvatar:'https://i.pravatar.cc/40?img=20',cat:'maison'}
+];
+const FALLBACK_SELLERS = [
+  {id:'1',name:'Aïcha Couture',avatar:'https://i.pravatar.cc/100?img=1',live:true},
+  {id:'2',name:'Moussa Tech',avatar:'https://i.pravatar.cc/100?img=11',live:true},
+  {id:'3',name:'Fatou Beauté',avatar:'https://i.pravatar.cc/100?img=5',live:true},
+  {id:'9',name:'Ibrahima Sport',avatar:'https://i.pravatar.cc/100?img=13',live:true}
+];
+const FALLBACK_CATS = [
+  {id:'mode',name:'Mode',icon:'👕',color:'#EC4899',count:1240},
+  {id:'tech',name:'Électronique',icon:'🎧',color:'#3B82F6',count:856},
+  {id:'maison',name:'Maison',icon:'🛋',color:'#F59E0B',count:642},
+  {id:'beauty',name:'Beauté',icon:'💄',color:'#EC4899',count:498},
+  {id:'food',name:'Alimentation',icon:'🧺',color:'#10B981',count:387},
+  {id:'sport',name:'Sport',icon:'⚽',color:'#EF4444',count:234}
+];
+
+const list = (typeof products !== 'undefined' && products.length) ? products : FALLBACK_PRODUCTS;
+const slrs = (typeof sellers !== 'undefined' && sellers.length) ? sellers : FALLBACK_SELLERS;
+const cats = (typeof categories !== 'undefined' && categories.length) ? categories : FALLBACK_CATS;
+
 // ===== LIVES =====
-const liveSellers = (typeof sellers !== 'undefined' ? sellers : []).filter(s => s.live);
-document.getElementById('livesRow').innerHTML = liveSellers.map(s => `
+const liveSlrs = slrs.filter(s => s.live);
+document.getElementById('livesRow').innerHTML = liveSlrs.map(s => `
   <a href="boutique.html?id=${s.id}" style="flex-shrink:0;text-decoration:none;text-align:center;">
     <div style="position:relative;width:70px;height:70px;">
       <img src="${s.avatar}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;border:3px solid #ef4444;">
@@ -321,30 +295,30 @@ document.getElementById('livesRow').innerHTML = liveSellers.map(s => `
   </a>
 `).join('') || '<div style="color:#6B7280;padding:20px;font-size:12px;">Aucun live actuellement</div>';
 
-// ===== PRODUITS TENDANCES =====
-const list = (typeof products !== 'undefined' ? products : []);
-const trending = [...list].sort((a,b) => (b.sellerLive?1:0) - (a.sellerLive?1:0)).slice(0, 8);
-
-document.getElementById('prodGrid').innerHTML = trending.map(p => `
-  <a href="produit.html?id=${p.id}" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);text-decoration:none;color:inherit;display:flex;flex-direction:column;">
-    <div style="position:relative;width:100%;aspect-ratio:1/1;background:#F9FAFB;overflow:hidden;">
-      ${p.sellerLive ? '<span style="position:absolute;top:8px;left:8px;background:#ef4444;color:#fff;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:900;z-index:2;">🔴 LIVE</span>' : ''}
-      <button onclick="event.preventDefault();this.textContent=this.textContent==='🤍'?'❤️':'🤍'" style="position:absolute;top:8px;right:8px;width:30px;height:30px;background:rgba(255,255,255,.95);border-radius:50%;border:none;font-size:14px;z-index:2;">🤍</button>
-      <img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
-    </div>
-    <div style="padding:10px;">
-      <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:#6B7280;margin-bottom:4px;">
-        <img src="${p.sellerAvatar}" style="width:14px;height:14px;border-radius:50%;object-fit:cover;">
-        <span>${p.seller}</span>
+// ===== RENDU PRODUITS =====
+function renderProducts(){
+  const trending = [...list].sort((a,b) => (b.sellerLive?1:0) - (a.sellerLive?1:0)).slice(0, 8);
+  document.getElementById('prodGrid').innerHTML = trending.map(p => `
+    <a href="produit.html?id=${p.id}" class="pc">
+      <div class="pc-img">
+        ${p.sellerLive ? '<span class="pc-lv">🔴 LIVE</span>' : ''}
+        <button class="pc-fv" onclick="event.preventDefault();this.textContent=this.textContent==='🤍'?'❤️':'🤍'">🤍</button>
+        <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/300/0F6B4E/fff?text=SEN+TEW'">
       </div>
-      <div style="font-size:13px;font-weight:700;color:#111827;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px;margin-bottom:6px;">${p.name}</div>
-      <div style="font-weight:900;color:#D4A574;font-size:14px;">${formatPrice(p.price)}</div>
-    </div>
-  </a>
-`).join('');
+      <div class="pc-info">
+        <div class="pc-slr">
+          <img src="${p.sellerAvatar}" onerror="this.style.display='none'">
+          <span>${p.seller||'Vendeur'}</span>
+        </div>
+        <div class="pc-nm">${p.name}</div>
+        <div class="pc-pr">${formatPrice(p.price)}</div>
+      </div>
+    </a>
+  `).join('');
+}
+renderProducts();
 
 // ===== CATÉGORIES =====
-const cats = (typeof categories !== 'undefined' ? categories : []);
 document.getElementById('catsGrid').innerHTML = cats.map(c => `
   <a href="produits.html?cat=${c.id}" style="background:#fff;border-radius:14px;padding:16px;text-decoration:none;color:inherit;box-shadow:0 2px 8px rgba(0,0,0,.05);display:flex;gap:12px;align-items:center;">
     <div style="width:48px;height:48px;background:${c.color}22;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;">${c.icon}</div>
@@ -355,11 +329,10 @@ document.getElementById('catsGrid').innerHTML = cats.map(c => `
   </a>
 `).join('');
 
-// ===== ADMIN SECRET (7 taps) =====
+// ===== ADMIN =====
 (function(){
   let taps = 0, timer = null;
-  const trigger = document.getElementById('adminTrigger');
-  trigger.addEventListener('click', () => {
+  document.getElementById('admTrig').addEventListener('click', () => {
     taps++;
     clearTimeout(timer);
     timer = setTimeout(() => taps = 0, 3000);
@@ -374,18 +347,9 @@ document.getElementById('catsGrid').innerHTML = cats.map(c => `
   });
 })();
 
-// ===== PWA =====
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sentew-app/sw.js').then(reg => reg.update()).catch(()=>{});
-}
-
-// ===== ONBOARDING PREMIER LANCEMENT =====
-if (!localStorage.getItem('onboarded') && !location.search.includes('skip')) {
-  // Décommenter pour activer redirect automatique :
-  // setTimeout(()=>location.href='onboarding.html', 500);
+  navigator.serviceWorker.register('/sentew-app/sw.js').then(r=>r.update()).catch(()=>{});
 }
 </script>
-<script src="js/paydunya.js"></script>
-<script src="js/push.js"></script>
 </body>
 </html>
