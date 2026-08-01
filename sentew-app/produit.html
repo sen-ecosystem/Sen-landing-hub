@@ -2,173 +2,254 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Produit - SEN TEW</title>
-<meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#FAFAF7">
 <link rel="stylesheet" href="css/app.css">
+<meta name="theme-color" content="#0F6B4E">
 <style>
-/* Layout fixe pour éviter bouton sautant */
-.app{display:flex;flex-direction:column;height:100vh;height:100dvh}
-.app-header{flex-shrink:0;z-index:100}
-.app-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:0}
-.action-bar-fixed{flex-shrink:0;background:#fff;padding:10px 12px;display:flex;gap:8px;border-top:1px solid #E5E7EB;box-shadow:0 -4px 12px rgba(0,0,0,.08);position:sticky;bottom:0;z-index:99}
-.app-nav{flex-shrink:0}
+.live-banner{background:linear-gradient(135deg,#ef4444,#f97316);color:#fff;padding:10px 14px;margin:12px;border-radius:12px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 12px rgba(239,68,68,.3);}
+.live-banner a{background:#fff;color:#ef4444;padding:6px 12px;border-radius:8px;text-decoration:none;font-weight:800;font-size:12px;}
+.gallery{position:relative;width:100%;aspect-ratio:1/1;background:#F9FAFB;overflow:hidden;}
+.gallery-track{display:flex;width:100%;height:100%;transition:transform .3s;}
+.gallery-img{flex-shrink:0;width:100%;height:100%;object-fit:cover;}
+.gallery-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:2;}
+.gal-dot{width:8px;height:8px;background:rgba(255,255,255,.5);border-radius:50%;transition:all .2s;}
+.gal-dot.active{background:#fff;width:24px;border-radius:4px;}
+.gallery-badge{position:absolute;top:12px;left:12px;background:#ef4444;color:#fff;padding:4px 10px;border-radius:6px;font-weight:900;font-size:11px;z-index:2;}
+.gallery-fav{position:absolute;top:12px;right:12px;width:38px;height:38px;background:#fff;border:none;border-radius:50%;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,.15);z-index:2;}
+.gallery-360{position:absolute;bottom:16px;right:16px;background:rgba(0,0,0,.6);color:#fff;padding:6px 10px;border-radius:12px;font-size:11px;font-weight:700;text-decoration:none;backdrop-filter:blur(10px);z-index:2;}
 
-/* Gallery multi-photos */
-.gallery{position:relative;width:100%;height:340px;overflow:hidden;background:#f5f5f5}
-.gallery-track{display:flex;height:100%;scroll-snap-type:x mandatory;overflow-x:auto;scrollbar-width:none}
-.gallery-track::-webkit-scrollbar{display:none}
-.gallery-slide{flex:0 0 100%;height:100%;scroll-snap-align:start}
-.gallery-slide img{width:100%;height:100%;object-fit:cover;pointer-events:auto}
-.gallery-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:2}
-.gallery-dot{width:8px;height:8px;background:rgba(255,255,255,.5);border-radius:50%;transition:.2s}
-.gallery-dot.active{background:#fff;width:24px;border-radius:4px}
-.gallery-count{position:absolute;top:16px;right:16px;background:rgba(0,0,0,.6);color:#fff;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:700;backdrop-filter:blur(6px);z-index:2}
+.product-header{padding:16px;background:#fff;border-radius:16px 16px 0 0;margin-top:-16px;position:relative;}
+.product-title{font-size:20px;font-weight:900;color:#0A4D38;margin:0 0 6px;}
+.product-rating{display:flex;align-items:center;gap:8px;font-size:13px;color:#6B7280;margin-bottom:12px;}
+.product-price-row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+.price-main{font-size:26px;font-weight:900;color:#D4A574;}
+.price-currencies{font-size:11px;color:#6B7280;}
+.price-old{text-decoration:line-through;color:#9CA3AF;font-size:14px;}
+.price-discount{background:#ef4444;color:#fff;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:900;}
 
-.live-corner{position:absolute;top:16px;left:16px;background:#ef4444;color:#fff;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:800;text-decoration:none;animation:livePulse 2s infinite;z-index:3}
-.live-corner::before{content:'●';animation:blink 1s infinite;margin-right:4px}
-@keyframes blink{50%{opacity:.3}}
+.section{background:#fff;margin:12px;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.04);}
+.section h3{margin:0 0 12px;color:#0A4D38;font-size:15px;}
 
-/* Multi-devise pills */
-.currency-pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;padding:8px;background:#F9F5EF;border-radius:10px;border:1px solid #E5E7EB}
-.currency-pill{background:#fff;border:1px solid #E5E7EB;padding:4px 10px;border-radius:8px;font-size:11px;font-weight:700;color:#000;display:flex;align-items:center;gap:4px}
-.currency-pill.main{background:linear-gradient(135deg,#D4A574,#B8945F);color:#0A4D38;border:none}
+.seller-card{display:flex;gap:12px;align-items:center;padding:12px;background:#F0FDF4;border-radius:14px;text-decoration:none;color:inherit;}
+.seller-card img{width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid #D4A574;}
+.seller-info{flex:1;}
+.seller-name{font-weight:900;color:#0A4D38;font-size:14px;display:flex;align-items:center;gap:4px;}
+.seller-stats{font-size:11px;color:#6B7280;}
 
-.info-box{padding:16px;background:#fff}
-.p-name{font-size:22px;font-weight:800;color:#000;margin-bottom:8px}
-.p-price{font-size:28px;font-weight:900;color:#B8945F}
-.p-old{font-size:14px;color:#6B7280;text-decoration:line-through}
-.p-discount{background:#ef4444;color:#fff;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:800}
-.stock-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(212,165,116,.15);color:#B8945F;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:700}
-.stock-limited{background:rgba(239,68,68,.1);color:#ef4444;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
-.countdown-box{background:linear-gradient(135deg,#dc2626,#7f1d1d);padding:12px 16px;border-radius:12px;margin:12px 0;color:#fff;font-weight:700;text-align:center;font-size:13px}
+.variants{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+.variant-chip{padding:8px 14px;border:2px solid #E5E7EB;border-radius:10px;background:#fff;font-weight:700;font-size:12px;cursor:pointer;}
+.variant-chip.active{border-color:#0F6B4E;background:#0F6B4E;color:#fff;}
 
-.seller-card{background:#fff;border:1px solid #E5E7EB;border-radius:14px;padding:12px;margin:12px 16px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow);text-decoration:none;color:#000}
-.seller-avatar-wrap{position:relative;flex-shrink:0}
-.seller-avatar-wrap img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:3px solid #D4A574;pointer-events:auto}
-.live-ring{position:absolute;inset:-5px;border:3px solid #ef4444;border-radius:50%;animation:livePulse 2s infinite;pointer-events:none}
-.live-tag-small{position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);background:#ef4444;color:#fff;font-size:9px;font-weight:900;padding:2px 7px;border-radius:6px;box-shadow:0 2px 6px rgba(239,68,68,.4);white-space:nowrap}
-.verified-badge{background:linear-gradient(135deg,#0F6B4E,#D4A574);color:#fff;font-size:9px;font-weight:900;padding:2px 6px;border-radius:5px;margin-left:4px}
+.color-dot{width:32px;height:32px;border-radius:50%;border:3px solid #E5E7EB;cursor:pointer;}
+.color-dot.active{border-color:#0F6B4E;transform:scale(1.1);}
 
-.live-banner-big{display:block;margin:0 16px 12px;text-decoration:none}
-.live-banner-inner{background:linear-gradient(135deg,#ef4444,#dc2626);border-radius:14px;padding:14px;color:#fff;display:flex;align-items:center;gap:12px;box-shadow:0 4px 12px rgba(239,68,68,.3)}
+.feature-list{display:grid;gap:10px;margin-top:8px;}
+.feature-item{display:flex;gap:10px;font-size:13px;color:#374151;}
+.feature-item span{color:#0F6B4E;font-weight:900;}
 
-.tabs{display:flex;background:#fff;border-radius:14px;padding:4px;margin:12px 16px;border:1px solid #E5E7EB;box-shadow:var(--shadow)}
-.tab{flex:1;padding:10px;text-align:center;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;color:#6B7280}
-.tab.active{background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff}
-.tab-content{background:#fff;border-radius:14px;padding:14px;margin:0 16px;box-shadow:var(--shadow);border:1px solid #E5E7EB;font-size:13px;line-height:1.6;color:#000;font-weight:500}
+.reviews-summary{display:flex;gap:16px;align-items:center;padding:12px;background:#F9FAFB;border-radius:12px;}
+.rating-big{font-size:36px;font-weight:900;color:#D4A574;}
+.rating-stars{color:#D4A574;font-size:16px;}
 
-.chips-selector{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 16px}
-.chip-select{padding:8px 16px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:13px;font-weight:700;background:#fff;cursor:pointer;color:#000}
-.chip-select.active{border-color:#0F6B4E;background:rgba(15,107,78,.1);color:#0F6B4E}
-.color-dot{width:32px;height:32px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px transparent;cursor:pointer}
-.color-dot.active{box-shadow:0 0 0 2px #0F6B4E}
+.review-card{border-top:1px solid #F3F4F6;padding-top:12px;margin-top:12px;}
+.review-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
 
-.delivery-info{background:linear-gradient(135deg,rgba(15,107,78,.08),rgba(212,165,116,.08));border-radius:14px;padding:14px;margin:12px 16px;display:flex;gap:12px;align-items:center;border:1px solid rgba(212,165,116,.2)}
+.stock-alert{background:#FEF3C7;color:#92400E;padding:10px 14px;border-radius:10px;font-size:12px;font-weight:700;margin:8px 0;}
+.countdown{font-family:monospace;font-weight:900;color:#DC2626;}
 
-.shop-scroll{display:flex;gap:10px;padding:0 16px 8px;overflow-x:auto;scrollbar-width:none}
-.shop-scroll::-webkit-scrollbar{display:none}
-.shop-item{flex-shrink:0;width:150px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);border:1px solid #E5E7EB;text-decoration:none;color:#000}
-.shop-item-img{height:120px;overflow:hidden;position:relative}
-.shop-item-img img{width:100%;height:100%;object-fit:cover;pointer-events:auto}
+.bundle-item{text-align:center;flex:1;min-width:0;}
+.bundle-item img{width:70px;height:70px;object-fit:cover;border-radius:10px;border:2px solid #D4A57433;}
+.bundle-item-name{font-size:10px;font-weight:700;margin-top:4px;line-height:1.2;color:#374151;}
+.bundle-item-price{font-size:10px;color:#0F6B4E;font-weight:900;}
+.bundle-plus{font-size:24px;color:#D4A574;font-weight:900;align-self:center;}
 
-.bundle-card{margin:0 16px 16px;background:#fff;border-radius:14px;padding:14px;box-shadow:var(--shadow);border:1px solid #E5E7EB}
-.bundle-row{display:flex;align-items:center;gap:6px;margin-bottom:12px;flex-wrap:wrap}
-.bundle-row img{width:52px;height:52px;object-fit:cover;border-radius:8px;pointer-events:auto}
-.plus{font-size:16px;color:#B8945F;font-weight:900}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.pcard{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);text-decoration:none;color:inherit;display:flex;flex-direction:column;}
+.pcard-img-mini{aspect-ratio:1/1;overflow:hidden;background:#F9FAFB;position:relative;}
+.pcard-img-mini img{width:100%;height:100%;object-fit:cover;}
+.pcard-info-mini{padding:8px;}
+.pcard-name-mini{font-size:12px;font-weight:700;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:29px;}
+.pcard-price-mini{font-size:13px;font-weight:900;color:#D4A574;margin-top:4px;}
 
-.pay-icons{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#fff;border-top:1px solid #E5E7EB}
-.pay-mini{background:#f5f5f5;padding:4px 8px;border-radius:6px;font-size:10px;font-weight:700}
+.buy-bar{position:fixed;bottom:64px;left:0;right:0;background:#fff;padding:12px 14px;box-shadow:0 -4px 20px rgba(0,0,0,.1);display:flex;gap:8px;z-index:50;}
+.btn-cart{flex:1;padding:14px;background:#fff;border:2px solid #0F6B4E;color:#0F6B4E;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer;}
+.btn-buy{flex:2;padding:14px;background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;border:none;border-radius:12px;font-weight:900;font-size:14px;cursor:pointer;}
+.btn-chat{width:52px;background:#F0FDF4;border:2px solid #0F6B4E;color:#0F6B4E;border-radius:12px;font-size:20px;cursor:pointer;}
 
-.chat-fab{position:fixed;bottom:150px;right:14px;background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 6px 16px rgba(15,107,78,.35);z-index:60;text-decoration:none}
+.app-content{padding-bottom:140px !important;}
 </style>
 </head>
 <body oncontextmenu="return false">
-
 <div class="app">
   <header class="app-header">
-    <button class="header-btn" onclick="history.back()">←</button>
-    <div class="app-logo" style="justify-content:center;">
-      <div class="logo-icon" style="width:28px;height:28px;font-size:14px;">👑</div>
-      <div>
-        <div class="logo-text" style="font-size:16px;">SEN TEW</div>
-        <div class="logo-sub" style="font-size:8px;">MEILLEUR DU SÉNÉGAL</div>
-      </div>
-    </div>
-    <button class="header-btn" onclick="alert('📤 Partagé')">📤</button>
-    <button class="header-btn" onclick="toggleFav(this)">🤍</button>
+    <button onclick="history.back()" style="width:38px;height:38px;background:#F9FAFB;border:none;border-radius:50%;font-size:16px;">←</button>
+    <div style="flex:1;text-align:center;font-weight:900;color:#0A4D38;">Détails produit</div>
+    <button onclick="shareProduct()" style="width:38px;height:38px;background:#F9FAFB;border:none;border-radius:50%;font-size:16px;">📤</button>
+    <a href="panier.html" style="width:38px;height:38px;background:#F9FAFB;border:none;border-radius:50%;font-size:16px;display:flex;align-items:center;justify-content:center;text-decoration:none;color:#0A4D38;position:relative;">🛒<span style="position:absolute;top:-2px;right:-2px;background:#ef4444;color:#fff;font-size:9px;padding:2px 5px;border-radius:8px;font-weight:900;">3</span></a>
   </header>
 
-  <main class="app-content" id="content">
-    <p style="text-align:center;color:#B8945F;padding:40px;">Chargement...</p>
-    <!-- BUNDLE SOUVENT ACHETÉS ENSEMBLE -->
-<section id="bundleSection" style="background:#fff;margin:16px;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
-  <h3 style="margin:0 0 12px;color:#0A4D38;">🎁 Souvent achetés ensemble</h3>
-  <div id="bundleItems" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;margin-bottom:14px;"></div>
-  <div style="background:#F0FDF4;padding:12px;border-radius:12px;text-align:center;margin-bottom:12px;">
-    <div style="font-size:12px;color:#6B7280;">Prix total du pack</div>
-    <div style="font-size:22px;font-weight:900;color:#0F6B4E;" id="bundleTotal">0 FCFA</div>
-    <div style="font-size:11px;color:#10B981;font-weight:700;" id="bundleSaving">Économisez 0 FCFA</div>
-  </div>
-  <button onclick="addBundleToCart()" style="width:100%;padding:14px;background:linear-gradient(135deg,#0F6B4E,#D4A574);color:#fff;border:none;border-radius:12px;font-weight:800;font-size:14px;">
-    🛒 Ajouter le pack complet (-15%)
-  </button>
-</section>
-
-<script>
-(function(){
-  const list = (typeof products !== 'undefined' ? products : (typeof PRODUCTS !== 'undefined' ? PRODUCTS : []));
-  const currentId = new URLSearchParams(location.search).get('id') || (list[0] && list[0].id);
-  const current = list.find(p=>p.id==currentId) || list[0];
-  if(!current)return;
-  const bundle = [current, ...list.filter(p=>p.id!=current.id).slice(0,2)];
-  const total = bundle.reduce((s,p)=>s+Number(p.price||0),0);
-  const discounted = Math.round(total*0.85);
-  const saving = total - discounted;
-
-  document.getElementById('bundleItems').innerHTML = bundle.map((p,i)=>`
-    <div style="text-align:center;">
-      <img src="${p.image||p.img}" style="width:70px;height:70px;object-fit:cover;border-radius:10px;border:2px solid #0F6B4E33;">
-      <div style="font-size:10px;font-weight:700;max-width:70px;margin-top:4px;">${(p.name||'').slice(0,20)}</div>
-      <div style="font-size:10px;color:#0F6B4E;font-weight:900;">${Number(p.price).toLocaleString()}</div>
+  <main class="app-content">
+    <!-- BANNIÈRE LIVE (si arrivé depuis LIVE) -->
+    <div id="liveBanner" style="display:none;" class="live-banner">
+      <div>
+        <div style="font-weight:900;font-size:13px;">🔴 Vu en LIVE Shopping</div>
+        <div style="font-size:11px;opacity:.95;">-30% flash exclusif LIVE</div>
+      </div>
+      <a href="live.html">← Retour LIVE</a>
     </div>
-    ${i<bundle.length-1?'<span style="font-size:24px;color:#D4A574;font-weight:900;">+</span>':''}
-  `).join('');
 
-  document.getElementById('bundleTotal').innerHTML = `<span style="text-decoration:line-through;color:#9CA3AF;font-size:14px;">${total.toLocaleString()}</span> ${discounted.toLocaleString()} FCFA`;
-  document.getElementById('bundleSaving').textContent = `💰 Économisez ${saving.toLocaleString()} FCFA (-15%)`;
+    <!-- GALERIE 5 PHOTOS -->
+    <div class="gallery" id="gallery">
+      <div class="gallery-track" id="galleryTrack"></div>
+      <span class="gallery-badge" id="galleryBadge" style="display:none;"></span>
+      <button class="gallery-fav" onclick="toggleFav()" id="favBtn">🤍</button>
+      <a href="panoramique.html?id=" class="gallery-360" id="btn360">🔄 Vue 360°</a>
+      <div class="gallery-dots" id="galleryDots"></div>
+    </div>
 
-  window.addBundleToCart = function(){
-    const cart = JSON.parse(localStorage.getItem('cart')||'[]');
-    bundle.forEach(p=>cart.push({
-      id:p.id, name:p.name, price:Math.round(p.price*0.85), image:p.image||p.img,
-      qty:1, bundle:true, ts:Date.now()
-    }));
-    localStorage.setItem('cart',JSON.stringify(cart));
-    navigator.vibrate&&navigator.vibrate([50,30,50]);
-    if(confirm(`✅ Pack de ${bundle.length} articles ajouté au panier avec -15%\n\nAller au panier maintenant ?`)){
-      location.href='panier.html';
-    }
-  };
-})();
-</script>
+    <!-- HEADER PRODUIT -->
+    <div class="product-header">
+      <h1 class="product-title" id="pName">—</h1>
+      <div class="product-rating">
+        <span style="color:#D4A574;">⭐ <strong id="pRating">4.8</strong></span>
+        <span>·</span>
+        <span id="pReviews">248 avis</span>
+        <span>·</span>
+        <span id="pSales">1.2k vendus</span>
+      </div>
+      <div class="product-price-row">
+        <span class="price-main" id="pPrice">0 FCFA</span>
+        <span class="price-old" id="pOldPrice"></span>
+        <span class="price-discount" id="pDiscount"></span>
+      </div>
+      <div class="price-currencies" id="pCurrencies"></div>
+      <div class="stock-alert" id="stockAlert" style="display:none;">
+        ⚠️ Stock limité : <strong id="stockNum">0</strong> restants · Offre se termine dans <span class="countdown" id="countdown">23:59:59</span>
+      </div>
+    </div>
 
+    <!-- VENDEUR -->
+    <div class="section">
+      <h3>🏪 Vendeur</h3>
+      <a href="#" class="seller-card" id="sellerCard">
+        <img id="sellerImg" src="" alt="">
+        <div class="seller-info">
+          <div class="seller-name" id="sellerName">— <span id="liveIndicator" style="display:none;background:#ef4444;color:#fff;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:900;margin-left:6px;">🔴 LIVE</span></div>
+          <div class="seller-stats" id="sellerStats">✅ SEN Verified</div>
+        </div>
+        <div style="color:#0F6B4E;font-weight:800;">Voir ›</div>
+      </a>
+      <div style="display:flex;gap:8px;margin-top:10px;">
+        <button onclick="messageSeller()" style="flex:1;padding:10px;background:#F0FDF4;color:#0F6B4E;border:1px solid #0F6B4E33;border-radius:10px;font-weight:700;font-size:12px;">💬 Message</button>
+        <button onclick="callSeller()" style="flex:1;padding:10px;background:#F0FDF4;color:#0F6B4E;border:1px solid #0F6B4E33;border-radius:10px;font-weight:700;font-size:12px;">📞 Appeler</button>
+        <button onclick="followSeller()" style="flex:1;padding:10px;background:#0F6B4E;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:12px;">+ Suivre</button>
+      </div>
+    </div>
+
+    <!-- OPTIONS -->
+    <div class="section">
+      <h3>Options du produit</h3>
+      <div>
+        <div style="font-size:12px;color:#6B7280;margin-bottom:6px;">Taille</div>
+        <div class="variants" id="sizeVariants"></div>
+      </div>
+      <div style="margin-top:14px;">
+        <div style="font-size:12px;color:#6B7280;margin-bottom:6px;">Couleur : <span id="selectedColor" style="font-weight:700;color:#0A4D38;">—</span></div>
+        <div style="display:flex;gap:10px;" id="colorDots"></div>
+      </div>
+      <div style="margin-top:14px;">
+        <div style="font-size:12px;color:#6B7280;margin-bottom:6px;">Quantité</div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button onclick="changeQty(-1)" style="width:36px;height:36px;background:#F3F4F6;border:none;border-radius:10px;font-size:18px;font-weight:900;">−</button>
+          <span id="qty" style="font-size:16px;font-weight:900;min-width:30px;text-align:center;">1</span>
+          <button onclick="changeQty(1)" style="width:36px;height:36px;background:#F3F4F6;border:none;border-radius:10px;font-size:18px;font-weight:900;">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="section">
+      <h3>📝 Description</h3>
+      <p id="pDescription" style="color:#374151;font-size:13px;line-height:1.6;margin:0;">Produit de qualité premium sélectionné par SEN TEW. Livraison rapide dans tout le Sénégal.</p>
+      <div class="feature-list" style="margin-top:12px;">
+        <div class="feature-item"><span>✓</span> Matière : Coton wax authentique 100%</div>
+        <div class="feature-item"><span>✓</span> Fabrication artisanale Sénégal</div>
+        <div class="feature-item"><span>✓</span> Lavable en machine 30°C</div>
+        <div class="feature-item"><span>✓</span> Garantie qualité SEN TEW</div>
+      </div>
+    </div>
+
+    <!-- LIVRAISON -->
+    <div class="section">
+      <h3>🚚 Livraison & Retour</h3>
+      <div class="feature-list">
+        <div class="feature-item"><span>🏍</span> <strong>Dakar Express :</strong> 2h · 2 000 FCFA</div>
+        <div class="feature-item"><span>🚗</span> <strong>Standard Dakar :</strong> 24h · 1 500 FCFA</div>
+        <div class="feature-item"><span>🚚</span> <strong>Régions :</strong> 2-5 jours · dès 3 500 FCFA</div>
+        <div class="feature-item"><span>↩️</span> <strong>Retour :</strong> 7 jours pour changer d'avis</div>
+        <div class="feature-item"><span>🛡</span> <strong>Paiement :</strong> Wave · OM · Free · CB · À la livraison</div>
+      </div>
+    </div>
+
+    <!-- BUNDLE -->
+    <div class="section">
+      <h3>🎁 Souvent achetés ensemble</h3>
+      <div id="bundleItems" style="display:flex;gap:6px;align-items:center;justify-content:center;margin-bottom:14px;"></div>
+      <div style="background:#F0FDF4;padding:12px;border-radius:12px;text-align:center;margin-bottom:12px;">
+        <div style="font-size:11px;color:#6B7280;">Prix total du pack (-15%)</div>
+        <div id="bundleTotal" style="font-size:20px;font-weight:900;color:#0F6B4E;">0 FCFA</div>
+        <div id="bundleSaving" style="font-size:11px;color:#10B981;font-weight:700;">Économisez 0 FCFA</div>
+      </div>
+      <button onclick="addBundleToCart()" style="width:100%;padding:12px;background:linear-gradient(135deg,#0F6B4E,#D4A574);color:#fff;border:none;border-radius:12px;font-weight:800;font-size:13px;">🛒 Ajouter le pack complet</button>
+    </div>
+
+    <!-- AVIS -->
+    <div class="section">
+      <h3>⭐ Avis clients (<span id="reviewCount">248</span>)</h3>
+      <div class="reviews-summary">
+        <div style="text-align:center;">
+          <div class="rating-big" id="ratingBig">4.8</div>
+          <div class="rating-stars">⭐⭐⭐⭐⭐</div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:12px;color:#6B7280;">Basé sur les commentaires vérifiés</div>
+          <div style="margin-top:6px;">
+            <div style="display:flex;align-items:center;gap:6px;font-size:11px;"><span>5⭐</span><div style="flex:1;height:6px;background:#E5E7EB;border-radius:3px;overflow:hidden;"><div style="width:78%;height:100%;background:#D4A574;"></div></div><span>78%</span></div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:11px;"><span>4⭐</span><div style="flex:1;height:6px;background:#E5E7EB;border-radius:3px;overflow:hidden;"><div style="width:15%;height:100%;background:#D4A574;"></div></div><span>15%</span></div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:11px;"><span>3⭐</span><div style="flex:1;height:6px;background:#E5E7EB;border-radius:3px;overflow:hidden;"><div style="width:5%;height:100%;background:#D4A574;"></div></div><span>5%</span></div>
+          </div>
+        </div>
+      </div>
+      <div id="reviewsList"></div>
+      <a href="avis.html" style="display:block;text-align:center;padding:10px;background:#F9FAFB;border-radius:10px;color:#0F6B4E;font-weight:700;font-size:13px;text-decoration:none;margin-top:12px;">Voir tous les avis ›</a>
+    </div>
+
+    <!-- BOUTIQUE VENDEUR -->
+    <div class="section">
+      <h3>🏪 Plus de la boutique</h3>
+      <div class="grid" id="sellerProducts"></div>
+      <a href="#" id="viewShopLink" style="display:block;text-align:center;padding:10px;background:#F0FDF4;color:#0F6B4E;border-radius:10px;font-weight:800;font-size:13px;text-decoration:none;margin-top:12px;">Voir toute la boutique ›</a>
+    </div>
+
+    <!-- SIMILAIRES -->
+    <div class="section">
+      <h3>✨ Produits similaires</h3>
+      <div class="grid" id="similarProducts"></div>
+    </div>
   </main>
 
-  <!-- Actions bar FIXE (ne bouge plus jamais) -->
-  <div class="action-bar-fixed" id="actionBar" style="display:none;">
-    <button class="btn btn-outline" style="flex:1;padding:14px;color:#0F6B4E;border:2px solid #0F6B4E;background:#fff;font-weight:800;" onclick="addCart()">🛒 Panier</button>
-    <button class="btn btn-gold" style="flex:1;padding:14px;" onclick="buyNow()">Acheter maintenant</button>
+  <!-- BARRE ACHAT FIXE -->
+  <div class="buy-bar">
+    <button class="btn-chat" onclick="messageSeller()">💬</button>
+    <button class="btn-cart" onclick="addToCart()">🛒 Panier</button>
+    <button class="btn-buy" onclick="buyNow()">Acheter</button>
   </div>
-
-  <a href="messages.html" class="chat-fab">💬</a>
 
   <nav class="app-nav">
     <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
     <a href="categories.html"><div class="nav-icon">▦</div><div class="nav-label">Catégories</div></a>
-    <a href="panier.html"><div class="nav-icon">🛒</div><div class="nav-label">Panier</div></a>
+    <a href="panier.html"><div class="nav-icon">🛒<span class="badge">3</span></div><div class="nav-label">Panier</div></a>
     <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
     <a href="profil.html"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
   </nav>
@@ -176,274 +257,220 @@
 
 <script src="js/data.js"></script>
 <script>
-// Taux de conversion (à mettre à jour via API en prod)
-const RATES = { FCFA: 1, EUR: 0.00152, USD: 0.00165 };
-function convert(fcfa, cur) {
-  if (cur === 'FCFA') return Math.round(fcfa).toLocaleString('fr-FR') + ' FCFA';
-  if (cur === 'EUR') return (fcfa * RATES.EUR).toFixed(2) + ' €';
-  if (cur === 'USD') return '$' + (fcfa * RATES.USD).toFixed(2);
+const params = new URLSearchParams(location.search);
+const productId = parseInt(params.get('id')) || 1;
+const fromLive = params.get('from') === 'live';
+
+const list = (typeof products !== 'undefined' ? products : []);
+const product = list.find(p => p.id === productId) || list[0];
+
+if (fromLive) document.getElementById('liveBanner').style.display = 'flex';
+
+// ===== GALERIE 5 PHOTOS =====
+const baseImg = product.image;
+const gallery = [
+  baseImg,
+  baseImg.replace('w=500','w=500&brightness=1.1'),
+  baseImg + '&sat=-30',
+  baseImg + '&contrast=1.2',
+  baseImg + '&flip=h'
+];
+let currentImg = 0;
+document.getElementById('galleryTrack').innerHTML = gallery.map(img =>
+  `<img src="${img}" class="gallery-img" alt="${product.name}" onerror="this.src='${baseImg}'">`
+).join('');
+document.getElementById('galleryDots').innerHTML = gallery.map((_,i) =>
+  `<div class="gal-dot ${i===0?'active':''}" onclick="goToImg(${i})"></div>`
+).join('');
+
+// Swipe
+let startX = 0;
+document.getElementById('gallery').addEventListener('touchstart', e => startX = e.touches[0].clientX);
+document.getElementById('gallery').addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - startX;
+  if (Math.abs(dx) > 40) goToImg(dx>0 ? Math.max(0,currentImg-1) : Math.min(4,currentImg+1));
+});
+function goToImg(i){
+  currentImg = i;
+  document.getElementById('galleryTrack').style.transform = `translateX(-${i*100}%)`;
+  document.querySelectorAll('.gal-dot').forEach((d,idx) => d.classList.toggle('active', idx===i));
 }
 
-const params = new URLSearchParams(window.location.search);
-const pid = parseInt(params.get('id')) || 1;
-const productsList = (typeof products !== 'undefined' ? products : []);
-const sellersList = (typeof sellers !== 'undefined' ? sellers : []);
-const product = productsList.find(p => p.id === pid) || productsList[0];
-
-if (!product) {
-  document.getElementById('content').innerHTML = '<div style="text-align:center;padding:60px 20px;color:#B8945F;"><div style="font-size:60px;">❌</div><div>Produit introuvable</div></div>';
-} else {
-  const seller = sellersList.find(s => s.id === product.sellerId) || {
-    id: product.sellerId || 1, name: product.seller || 'Vendeur',
-    avatar: product.sellerAvatar, live: product.sellerLive,
-    verified: true, rating: 4.8, reviews: 127, followers: '2.4K',
-    liveViewers: 1200, city: 'Dakar'
-  };
-  const isLimited = product.stock <= 5;
-  const endTime = Date.now() + 5 * 3600000;
-  const shopProducts = productsList.filter(p => p.sellerId === product.sellerId && p.id !== pid).slice(0, 6);
-  const similar = productsList.filter(p => p.category === product.category && p.sellerId !== product.sellerId).slice(0, 6);
-  const bundle = productsList.filter(p => p.id !== pid).sort(() => Math.random() - 0.5).slice(0, 3);
-  
-  // 5 photos produit (même image ou galerie)
-  const photos = product.photos || [product.image, product.image, product.image, product.image, product.image];
-
-  let html = '';
-
-  // Gallery multi-photos avec swipe
-  html += '<div class="gallery">';
-  if (seller.live) html += '<a href="live.html?seller=' + seller.id + '" class="live-corner">EN DIRECT</a>';
-  html += '<div class="gallery-count" id="galCount">1/' + photos.length + '</div>';
-  html += '<div class="gallery-track" id="galTrack">';
-  for (let i = 0; i < photos.length; i++) {
-    html += '<div class="gallery-slide"><img src="' + photos[i] + '" alt="Photo ' + (i+1) + '"></div>';
-  }
-  html += '</div>';
-  html += '<div class="gallery-dots" id="galDots">';
-  for (let i = 0; i < photos.length; i++) {
-    html += '<div class="gallery-dot ' + (i === 0 ? 'active' : '') + '"></div>';
-  }
-  html += '</div>';
-  html += '</div>';
-
-  // Info produit avec multi-devise
-  html += '<div class="info-box">';
-  html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">';
-  html += '<span class="stock-badge ' + (isLimited ? 'stock-limited' : '') + '">';
-  html += isLimited ? '🔥 Plus que ' + product.stock + ' en stock !' : '✅ En stock';
-  html += '</span>';
-  html += '<div style="color:#B8945F;font-size:12px;font-weight:700;">⭐ ' + product.rating + ' (' + product.reviews + ')</div>';
-  html += '</div>';
-  if (isLimited) html += '<div class="countdown-box">⏱ <span id="timer">Calcul...</span></div>';
-  html += '<h1 class="p-name">' + product.name + '</h1>';
-  
-  // Prix avec devise
-  html += '<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:6px;flex-wrap:wrap;">';
-  html += '<span class="p-price" id="mainPrice">' + product.price.toLocaleString() + ' FCFA</span>';
-  if (product.oldPrice) html += '<span class="p-old">' + product.oldPrice.toLocaleString() + ' FCFA</span>';
-  if (product.discount) html += '<span class="p-discount">-' + product.discount + '%</span>';
-  html += '</div>';
-  
-  // Multi-devise (diaspora)
-  html += '<div class="currency-pills">';
-  html += '<div class="currency-pill main">🇸🇳 ' + convert(product.price, 'FCFA') + '</div>';
-  html += '<div class="currency-pill">🇪🇺 ' + convert(product.price, 'EUR') + '</div>';
-  html += '<div class="currency-pill">🇺🇸 ' + convert(product.price, 'USD') + '</div>';
-  html += '<div class="currency-pill" style="background:#F9F5EF;font-size:9px;">💡 Diaspora</div>';
-  html += '</div>';
-  
-  // TVA
-  html += '<div style="margin-top:8px;font-size:11px;color:#6B7280;">📊 TVA 18% incluse · Livraison HT calculée au panier</div>';
-  html += '</div>';
-
-  // Carte vendeur (bien encadrée maintenant)
-  html += '<a href="boutique.html?id=' + seller.id + '" class="seller-card">';
-  html += '<div class="seller-avatar-wrap">';
-  if (seller.live) html += '<div class="live-ring"></div>';
-  html += '<img src="' + seller.avatar + '" alt="' + seller.name + '">';
-  if (seller.live) html += '<div class="live-tag-small">🔴 LIVE</div>';
-  html += '</div>';
-  html += '<div style="flex:1;min-width:0;">';
-  html += '<div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;">';
-  html += '<span style="font-weight:700;font-size:14px;color:#000;">' + seller.name + '</span>';
-  if (seller.verified) html += '<span class="verified-badge">✓ SEN Verified</span>';
-  html += '</div>';
-  html += '<div style="font-size:12px;color:#6B7280;margin-top:2px;font-weight:500;">⭐ ' + seller.rating + ' · ' + seller.reviews + ' avis · ' + seller.followers + ' abonnés</div>';
-  if (seller.live) html += '<div style="font-size:11px;color:#ef4444;font-weight:800;margin-top:4px;">🔴 En direct · ' + (seller.liveViewers || 1200).toLocaleString() + ' spectateurs · Achats -30%</div>';
-  html += '</div>';
-  html += '<div style="color:#B8945F;font-size:20px;">›</div>';
-  html += '</a>';
-
-  // Bannière LIVE fonctionnelle
-  if (seller.live) {
-    html += '<a href="live.html?seller=' + seller.id + '" class="live-banner-big">';
-    html += '<div class="live-banner-inner">';
-    html += '<div style="font-size:28px;">🎥</div>';
-    html += '<div style="flex:1;">';
-    html += '<div style="font-weight:800;font-size:14px;">Rejoindre le LIVE de ' + seller.name + '</div>';
-    html += '<div style="font-size:11px;opacity:.9;">Voir ce produit présenté en direct + Autres LIVE</div>';
-    html += '</div>';
-    html += '<div style="font-size:22px;">›</div>';
-    html += '</div>';
-    html += '</a>';
-  }
-
-  // Tabs
-  html += '<div class="tabs">';
-  html += '<div class="tab active" onclick="switchTab(\'desc\',this)">Description</div>';
-  html += '<div class="tab" onclick="switchTab(\'rev\',this)">Avis (' + product.reviews + ')</div>';
-  html += '<div class="tab" onclick="switchTab(\'del\',this)">Livraison</div>';
-  html += '</div>';
-  html += '<div class="tab-content" id="tabContent">' + product.description + '</div>';
-
-  // Taille/couleur si mode
-  if (product.category === 'mode') {
-    html += '<div style="padding:16px;">';
-    html += '<div style="font-weight:800;font-size:13px;margin-bottom:8px;color:#000;">Taille</div>';
-    html += '<div class="chips-selector">';
-    html += '<div class="chip-select">S</div><div class="chip-select active">M</div><div class="chip-select">L</div><div class="chip-select">XL</div>';
-    html += '</div>';
-    html += '<div style="font-weight:800;font-size:13px;margin-bottom:8px;color:#000;">Couleur</div>';
-    html += '<div style="display:flex;gap:10px;">';
-    html += '<div class="color-dot active" style="background:radial-gradient(#0F6B4E,#D4A574);"></div>';
-    html += '<div class="color-dot" style="background:radial-gradient(#dc2626,#7c2d12);"></div>';
-    html += '<div class="color-dot" style="background:radial-gradient(#D4A574,#B8945F);"></div>';
-    html += '<div class="color-dot" style="background:radial-gradient(#7c3aed,#4c1d95);"></div>';
-    html += '</div>';
-    html += '</div>';
-  }
-
-  html += '<div class="delivery-info">';
-  html += '<div style="font-size:32px;">🚚</div>';
-  html += '<div style="flex:1;">';
-  html += '<div style="font-weight:700;font-size:13px;color:#0F6B4E;">Livraison gratuite à Dakar</div>';
-  html += '<div style="font-size:11px;color:#6B7280;font-weight:500;">Recevez en 24h-48h · International disponible</div>';
-  html += '</div>';
-  html += '</div>';
-
-  // Autres articles vendeur
-  if (shopProducts.length > 0) {
-    html += '<div class="section-header" style="margin-top:8px;">';
-    html += '<div class="section-title" style="font-size:15px;font-weight:800;color:#000;">🏪 Autres articles de ' + seller.name + '</div>';
-    html += '<a href="boutique.html?id=' + seller.id + '" style="color:#0F6B4E;font-size:12px;font-weight:700;text-decoration:none;">Voir boutique ›</a>';
-    html += '</div>';
-    html += '<div class="shop-scroll">';
-    for (let i = 0; i < shopProducts.length; i++) {
-      const p = shopProducts[i];
-      html += '<a href="produit.html?id=' + p.id + '" class="shop-item">';
-      html += '<div class="shop-item-img"><img src="' + p.image + '">';
-      if (p.discount) html += '<span style="position:absolute;top:6px;left:6px;background:linear-gradient(135deg,#D4A574,#B8945F);color:#0A4D38;padding:2px 8px;border-radius:6px;font-size:9px;font-weight:900;">-' + p.discount + '%</span>';
-      html += '</div>';
-      html += '<div style="padding:8px;">';
-      html += '<div style="font-size:11px;font-weight:600;line-height:1.3;height:28px;overflow:hidden;color:#000;">' + p.name + '</div>';
-      html += '<div style="font-size:13px;font-weight:900;color:#B8945F;margin-top:4px;">' + p.price.toLocaleString() + ' FCFA</div>';
-      html += '</div>';
-      html += '</a>';
-    }
-    html += '</div>';
-  }
-
-  // Similaires
-  html += '<div class="section-header">';
-  html += '<div class="section-title" style="font-size:15px;font-weight:800;color:#000;">🎯 Produits similaires</div>';
-  html += '<a href="produits.html?cat=' + product.category + '" style="color:#0F6B4E;font-size:12px;font-weight:700;text-decoration:none;">Voir plus ›</a>';
-  html += '</div>';
-  html += '<div class="grid">';
-  for (let i = 0; i < similar.length; i++) {
-    const p = similar[i];
-    html += '<a href="produit.html?id=' + p.id + '" class="product-card">';
-    html += '<div class="card-image-wrap">';
-    if (p.sellerLive) html += '<span class="card-badge" style="background:#ef4444;color:#fff;animation:livePulse 2s infinite;">🔴 LIVE</span>';
-    else if (p.discount) html += '<span class="card-badge">PROMO</span>';
-    html += '<span class="card-fav">🤍</span>';
-    html += '<img src="' + p.image + '" alt="' + p.name + '">';
-    html += '</div>';
-    html += '<div class="card-info">';
-    html += '<div class="card-name">' + p.name + '</div>';
-    html += '<div class="card-price">' + p.price.toLocaleString() + ' FCFA</div>';
-    html += '<div class="card-rating">⭐ ' + p.rating + ' (' + p.reviews + ')</div>';
-    html += '</div>';
-    html += '</a>';
-  }
-  html += '</div>';
-
-  // Bundle
-  html += '<div class="section-header" style="margin-top:16px;">';
-  html += '<div class="section-title" style="font-size:15px;font-weight:800;color:#000;">📦 Souvent achetés ensemble</div>';
-  html += '</div>';
-  html += '<div class="bundle-card">';
-  html += '<div class="bundle-row">';
-  html += '<img src="' + product.image + '" style="border:2px solid #0F6B4E;">';
-  for (let i = 0; i < bundle.length; i++) {
-    html += '<span class="plus">+</span>';
-    html += '<a href="produit.html?id=' + bundle[i].id + '"><img src="' + bundle[i].image + '"></a>';
-  }
-  html += '</div>';
-  const bundleTotal = product.price + bundle.reduce((s, p) => s + p.price, 0);
-  html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid #E5E7EB;">';
-  html += '<div><div style="font-size:11px;color:#6B7280;font-weight:600;">Prix bundle -15%</div><div style="font-size:16px;font-weight:900;color:#B8945F;">' + Math.round(bundleTotal * 0.85).toLocaleString() + ' FCFA</div></div>';
-  html += '<button class="btn btn-gold" style="padding:10px 16px;font-size:12px;" onclick="alert(\'✅ Bundle ajouté\')">Ajouter tout</button>';
-  html += '</div>';
-  html += '</div>';
-
-  html += '<div class="pay-icons">';
-  html += '<div style="font-size:11px;color:#6B7280;font-weight:600;">🔒 Paiement sécurisé PayTech</div>';
-  html += '<div style="display:flex;gap:4px;">';
-  html += '<div class="pay-mini" style="background:#1BA5E0;color:#fff;">wave</div>';
-  html += '<div class="pay-mini" style="background:#F57C00;color:#fff;">OM</div>';
-  html += '<div class="pay-mini" style="background:#003399;color:#fff;">VISA</div>';
-  html += '<div class="pay-mini" style="background:#EB001B;color:#fff;">MC</div>';
-  html += '</div>';
-  html += '</div>';
-
-  document.getElementById('content').innerHTML = html;
-  document.getElementById('actionBar').style.display = 'flex';
-
-  // Gallery swipe
-  const track = document.getElementById('galTrack');
-  const dots = document.getElementById('galDots');
-  const count = document.getElementById('galCount');
-  track.addEventListener('scroll', () => {
-    const idx = Math.round(track.scrollLeft / track.clientWidth);
-    dots.querySelectorAll('.gallery-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
-    count.textContent = (idx + 1) + '/' + photos.length;
-  });
-
-  if (isLimited) {
-    setInterval(() => {
-      const r = endTime - Date.now();
-      if (r <= 0) { const el = document.getElementById('timer'); if(el) el.textContent = 'Expirée'; return; }
-      const h = Math.floor(r/3600000), m = Math.floor((r%3600000)/60000), s = Math.floor((r%60000)/1000);
-      const el = document.getElementById('timer');
-      if (el) el.textContent = 'Offre expire dans ' + h + 'h ' + m + 'm ' + s + 's';
-    }, 1000);
-  }
+// ===== BADGE + PRIX =====
+if (product.sellerLive) {
+  document.getElementById('galleryBadge').style.display = 'block';
+  document.getElementById('galleryBadge').textContent = '🔴 VENDEUR EN LIVE';
+} else if (product.oldPrice) {
+  document.getElementById('galleryBadge').style.display = 'block';
+  document.getElementById('galleryBadge').textContent = 'PROMO';
 }
 
-function switchTab(t, el) {
-  document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
-  el.classList.add('active');
-  const c = document.getElementById('tabContent');
-  if (t === 'desc') c.innerHTML = product.description;
-  if (t === 'rev') c.innerHTML = '⭐ ' + product.rating + '/5<br><br>• Aminata D. ⭐⭐⭐⭐⭐ "Magnifique!"<br>• Moussa S. ⭐⭐⭐⭐⭐ "Livraison rapide"<br><br><a href="avis.html" style="color:#0F6B4E;font-weight:700;">Voir tous ›</a>';
-  if (t === 'del') c.innerHTML = '🚚 Dakar: 24-48h gratuit<br>🚚 Régions: 3-5j (2000 FCFA)<br>🌍 International: 5-10j (variable)<br>📦 Emballage soigné<br>✅ Retour 7 jours<br>🛡 Escrow SEN TEW';
+const finalPrice = fromLive ? Math.round(product.price*0.7) : product.price;
+document.getElementById('pName').textContent = product.name;
+document.getElementById('pRating').textContent = product.rating || 4.8;
+document.getElementById('pPrice').textContent = finalPrice.toLocaleString() + ' FCFA';
+document.getElementById('pCurrencies').innerHTML = `≈ <strong>${(finalPrice/655).toFixed(2)} €</strong> · <strong>${(finalPrice/600).toFixed(2)} $</strong>`;
+
+if (product.oldPrice) {
+  document.getElementById('pOldPrice').textContent = product.oldPrice.toLocaleString() + ' FCFA';
+  const disc = Math.round((1 - finalPrice/product.oldPrice) * 100);
+  document.getElementById('pDiscount').textContent = `-${disc}%`;
 }
-function toggleFav(el) { el.textContent = el.textContent === '🤍' ? '❤️' : '🤍' }
-function addCart() {
-  if (!localStorage.getItem('sentew_user')) {
-    if (confirm('🔒 Connexion requise pour ajouter au panier.\n\nSe connecter maintenant ?')) window.location.href = 'login-guest.html?redirect=produit.html?id=' + pid;
-    return;
-  }
-  alert('✅ Ajouté au panier !');
-  setTimeout(() => window.location.href = 'panier.html', 600);
+
+if (product.stock && product.stock <= 10) {
+  document.getElementById('stockAlert').style.display = 'block';
+  document.getElementById('stockNum').textContent = product.stock;
+  startCountdown();
 }
-function buyNow() {
-  if (!localStorage.getItem('sentew_user')) {
-    if (confirm('🔒 Connexion requise pour acheter.\n\nSe connecter maintenant ?')) window.location.href = 'login-guest.html?redirect=panier.html';
-    return;
-  }
-  window.location.href = 'panier.html';
+
+// ===== COUNTDOWN =====
+function startCountdown(){
+  let sec = 23*3600 + 59*60 + 59;
+  setInterval(()=>{
+    sec--;
+    const h = Math.floor(sec/3600).toString().padStart(2,'0');
+    const m = Math.floor((sec%3600)/60).toString().padStart(2,'0');
+    const s = (sec%60).toString().padStart(2,'0');
+    document.getElementById('countdown').textContent = `${h}:${m}:${s}`;
+  }, 1000);
 }
+
+// ===== VENDEUR =====
+document.getElementById('sellerImg').src = product.sellerAvatar || 'https://i.pravatar.cc/100';
+document.getElementById('sellerName').firstChild.textContent = product.seller || 'Vendeur SEN TEW';
+if (product.sellerLive) document.getElementById('liveIndicator').style.display = 'inline-block';
+document.getElementById('sellerStats').innerHTML = `✅ SEN Verified · ⭐ ${product.rating||4.8} · <a href="boutique.html?id=${product.sellerId||1}" style="color:#0F6B4E;text-decoration:none;font-weight:700;">Boutique</a>`;
+document.getElementById('sellerCard').href = 'boutique.html?id=' + (product.sellerId||1);
+document.getElementById('viewShopLink').href = 'boutique.html?id=' + (product.sellerId||1);
+
+// ===== VARIANTS =====
+document.getElementById('sizeVariants').innerHTML = ['XS','S','M','L','XL','XXL'].map((s,i) =>
+  `<button class="variant-chip ${i===2?'active':''}" onclick="selectSize(this,'${s}')">${s}</button>`
+).join('');
+
+const colors = [{n:'Vert émeraude',c:'#0F6B4E'},{n:'Doré',c:'#D4A574'},{n:'Noir',c:'#1F2937'},{n:'Blanc',c:'#F9FAFB'},{n:'Rouge',c:'#EF4444'}];
+document.getElementById('colorDots').innerHTML = colors.map((c,i) =>
+  `<div class="color-dot ${i===0?'active':''}" style="background:${c.c};" onclick="selectColor(this,'${c.n}')" title="${c.n}"></div>`
+).join('');
+document.getElementById('selectedColor').textContent = colors[0].n;
+
+function selectSize(el, s){ document.querySelectorAll('#sizeVariants .variant-chip').forEach(x=>x.classList.remove('active')); el.classList.add('active'); }
+function selectColor(el, name){ document.querySelectorAll('.color-dot').forEach(x=>x.classList.remove('active')); el.classList.add('active'); document.getElementById('selectedColor').textContent = name; }
+
+let qty = 1;
+function changeQty(d){ qty = Math.max(1, qty+d); document.getElementById('qty').textContent = qty; }
+
+// ===== BUNDLE =====
+const bundle = [product, ...list.filter(p=>p.id!==product.id && p.cat===product.cat).slice(0,2)];
+if (bundle.length < 3) bundle.push(...list.filter(p=>!bundle.includes(p)).slice(0, 3-bundle.length));
+const totalOrig = bundle.reduce((s,p)=>s+Number(p.price),0);
+const totalDisc = Math.round(totalOrig*0.85);
+
+document.getElementById('bundleItems').innerHTML = bundle.map((p,i) => `
+  <div class="bundle-item">
+    <img src="${p.image}" alt="${p.name}">
+    <div class="bundle-item-name">${p.name.slice(0,18)}</div>
+    <div class="bundle-item-price">${Number(p.price).toLocaleString()}</div>
+  </div>
+  ${i<bundle.length-1 ? '<span class="bundle-plus">+</span>' : ''}
+`).join('');
+document.getElementById('bundleTotal').innerHTML = `<span style="text-decoration:line-through;color:#9CA3AF;font-size:14px;">${totalOrig.toLocaleString()}</span> ${totalDisc.toLocaleString()} FCFA`;
+document.getElementById('bundleSaving').textContent = `💰 Économisez ${(totalOrig-totalDisc).toLocaleString()} FCFA`;
+
+function addBundleToCart(){
+  const cart = JSON.parse(localStorage.getItem('cart')||'[]');
+  bundle.forEach(p => cart.push({id:p.id,name:p.name,price:Math.round(p.price*0.85),image:p.image,qty:1,bundle:true,ts:Date.now()}));
+  localStorage.setItem('cart', JSON.stringify(cart));
+  navigator.vibrate&&navigator.vibrate([50,30,50]);
+  if(confirm(`✅ Pack de ${bundle.length} articles ajouté (-15%)\n\nAller au panier ?`)) location.href='panier.html';
+}
+
+// ===== AVIS =====
+const reviews = [
+  {user:'Awa D.', rating:5, date:'il y a 2j', text:'Produit excellent, conforme à la description ! Livraison rapide.', photo:'https://i.pravatar.cc/40?img=25', verified:true},
+  {user:'Moussa B.', rating:5, date:'il y a 1sem', text:'Très bonne qualité, je recommande à 100%.', photo:'https://i.pravatar.cc/40?img=27', verified:true},
+  {user:'Fatou N.', rating:4, date:'il y a 2sem', text:'Bien mais la couleur est un peu différente.', photo:'https://i.pravatar.cc/40?img=28', verified:true}
+];
+document.getElementById('reviewsList').innerHTML = reviews.map(r=>`
+  <div class="review-card">
+    <div class="review-header">
+      <div style="display:flex;gap:8px;align-items:center;">
+        <img src="${r.photo}" style="width:32px;height:32px;border-radius:50%;">
+        <div>
+          <div style="font-weight:800;font-size:13px;">${r.user} ${r.verified?'<span style="color:#10B981;font-size:10px;">✓ Vérifié</span>':''}</div>
+          <div style="font-size:10px;color:#9CA3AF;">${r.date}</div>
+        </div>
+      </div>
+      <div style="color:#D4A574;">${'⭐'.repeat(r.rating)}</div>
+    </div>
+    <div style="font-size:12px;color:#374151;line-height:1.5;">${r.text}</div>
+  </div>
+`).join('');
+
+// ===== PRODUITS BOUTIQUE + SIMILAIRES =====
+const sellerProducts = list.filter(p => p.sellerId===product.sellerId && p.id!==product.id).slice(0,4);
+const similarProducts = list.filter(p => p.cat===product.cat && p.id!==product.id && !sellerProducts.includes(p)).slice(0,4);
+
+function renderCards(arr, container){
+  document.getElementById(container).innerHTML = arr.map(p => `
+    <a href="produit.html?id=${p.id}" class="pcard">
+      <div class="pcard-img-mini">
+        ${p.sellerLive?'<span style="position:absolute;top:6px;left:6px;background:#ef4444;color:#fff;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:900;">🔴 LIVE</span>':''}
+        <img src="${p.image}" alt="${p.name}">
+      </div>
+      <div class="pcard-info-mini">
+        <div class="pcard-name-mini">${p.name}</div>
+        <div class="pcard-price-mini">${Number(p.price).toLocaleString()} FCFA</div>
+      </div>
+    </a>
+  `).join('') || '<div style="grid-column:span 2;text-align:center;color:#6B7280;padding:20px;font-size:12px;">Aucun autre produit</div>';
+}
+renderCards(sellerProducts, 'sellerProducts');
+renderCards(similarProducts, 'similarProducts');
+
+// ===== ACTIONS =====
+function toggleFav(){
+  const btn = document.getElementById('favBtn');
+  const isFav = btn.textContent === '❤️';
+  btn.textContent = isFav ? '🤍' : '❤️';
+  const favs = JSON.parse(localStorage.getItem('favorites')||'[]');
+  if (isFav) favs.splice(favs.indexOf(productId),1);
+  else if (!favs.includes(productId)) favs.push(productId);
+  localStorage.setItem('favorites', JSON.stringify(favs));
+  navigator.vibrate&&navigator.vibrate(20);
+}
+if (JSON.parse(localStorage.getItem('favorites')||'[]').includes(productId)) document.getElementById('favBtn').textContent = '❤️';
+
+function addToCart(){
+  const cart = JSON.parse(localStorage.getItem('cart')||'[]');
+  cart.push({id:product.id, name:product.name, price:finalPrice, image:product.image, qty:qty, ts:Date.now()});
+  localStorage.setItem('cart', JSON.stringify(cart));
+  navigator.vibrate&&navigator.vibrate([50,30,50]);
+  alert(`✅ ${qty} × ${product.name} ajouté au panier`);
+}
+
+function buyNow(){
+  addToCart();
+  location.href = 'panier.html';
+}
+
+function messageSeller(){ location.href = 'messages.html?seller=' + (product.sellerId||1); }
+function callSeller(){ if(confirm(`📞 Appeler ${product.seller} ?`)) location.href = 'tel:+221771234567'; }
+function followSeller(){
+  const followed = JSON.parse(localStorage.getItem('followed')||'[]');
+  const id = String(product.sellerId||1);
+  if (followed.includes(id)) followed.splice(followed.indexOf(id),1);
+  else followed.push(id);
+  localStorage.setItem('followed', JSON.stringify(followed));
+  alert('✅ Vous suivez maintenant ' + product.seller);
+}
+function shareProduct(){
+  const url = location.href;
+  if (navigator.share) navigator.share({title:product.name, url});
+  else { navigator.clipboard.writeText(url); alert('✅ Lien copié'); }
+}
+
+document.getElementById('btn360').href = 'panoramique.html?id=' + product.id;
 </script>
 </body>
 </html>
