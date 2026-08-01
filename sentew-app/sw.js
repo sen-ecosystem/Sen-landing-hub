@@ -1,4 +1,4 @@
-const CACHE = 'sentew-v3-2026-08';
+const CACHE = 'sentew-v4-2026-08-fix';
 const urls = [
   '/sentew-app/',
   '/sentew-app/index.html',
