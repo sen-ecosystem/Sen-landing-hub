@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paiement réussi - SEN TEW</title>
+<link rel="stylesheet" href="css/app.css">
+<meta name="theme-color" content="#0F6B4E">
+<style>
+body{background:linear-gradient(135deg,#0F6B4E,#0A4D38);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;padding:20px;}
+.success-icon{font-size:120px;animation:pop .6s cubic-bezier(.34,1.56,.64,1);}
+@keyframes pop{0%{transform:scale(0);}100%{transform:scale(1);}}
+.confetti{position:fixed;pointer-events:none;font-size:24px;animation:fall 3s linear;}
+@keyframes fall{to{transform:translateY(100vh) rotate(720deg);}}
+.card{background:rgba(255,255,255,.95);color:#111827;border-radius:24px;padding:24px;max-width:400px;width:100%;margin-top:20px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.detail-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F3F4F6;font-size:13px;}
+.detail-row:last-child{border-bottom:none;}
+.btn-primary{background:linear-gradient(135deg,#0F6B4E,#D4A574);color:#fff;padding:14px;border-radius:12px;font-weight:900;width:100%;border:none;margin-top:16px;cursor:pointer;}
+.btn-secondary{background:none;color:#0F6B4E;padding:12px;border:none;width:100%;margin-top:8px;font-weight:700;}
+</style>
+</head>
+<body>
+<div id="confettiHost"></div>
+
+<div class="success-icon">✅</div>
+<h1 style="margin:20px 0 6px;text-align:center;">Paiement réussi !</h1>
+<p style="opacity:.9;text-align:center;">Votre commande a été confirmée</p>
+
+<div class="card">
+  <div class="detail-row">
+    <span style="color:#6B7280;">Numéro commande</span>
+    <strong id="orderId">#ST240001</strong>
+  </div>
+  <div class="detail-row">
+    <span style="color:#6B7280;">Montant total</span>
+    <strong style="color:#0F6B4E;" id="orderAmount">0 FCFA</strong>
+  </div>
+  <div class="detail-row">
+    <span style="color:#6B7280;">Méthode</span>
+    <strong id="orderMethod">—</strong>
+  </div>
+  <div class="detail-row">
+    <span style="color:#6B7280;">Livraison estimée</span>
+    <strong>24-48h</strong>
+  </div>
+  <div class="detail-row">
+    <span style="color:#6B7280;">Statut</span>
+    <span style="background:#F0FDF4;color:#10B981;padding:3px 10px;border-radius:6px;font-weight:800;font-size:11px;">✅ CONFIRMÉ</span>
+  </div>
+
+  <button class="btn-primary" onclick="location.href='commandes.html'">📦 Suivre ma commande</button>
+  <button class="btn-secondary" onclick="location.href='index.html'">← Continuer les achats</button>
+</div>
+
+<script>
+// Récupère infos dernier paiement
+const payments = JSON.parse(localStorage.getItem('payments')||'[]');
+const last = payments[payments.length-1];
+if(last){
+  document.getElementById('orderId').textContent = '#'+last.orderId;
+  document.getElementById('orderAmount').textContent = Number(last.amount).toLocaleString()+' FCFA';
+  document.getElementById('orderMethod').textContent = last.method.replace('-',' ').toUpperCase();
+}
+
+// Confettis
+const emojis = ['🎉','✨','🎊','⭐','💫','🥳'];
+for(let i=0;i<30;i++){
+  setTimeout(()=>{
+    const c = document.createElement('div');
+    c.className='confetti';
+    c.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    c.style.left = Math.random()*100+'%';
+    c.style.top = '-50px';
+    c.style.animationDuration = (2+Math.random()*2)+'s';
+    document.getElementById('confettiHost').appendChild(c);
+    setTimeout(()=>c.remove(), 5000);
+  }, i*100);
+}
+
+if(navigator.vibrate) navigator.vibrate([100,50,100,50,200]);
+</script>
+</body>
+</html>
