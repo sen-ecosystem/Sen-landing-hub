@@ -7,152 +7,43 @@
 <link rel="stylesheet" href="css/app.css">
 <meta name="theme-color" content="#0F6B4E">
 <style>
-/* ===== HEADER ===== */
-.app-header{
-  display:flex;align-items:center;gap:8px;
-  padding:12px 14px;background:#fff;
-  border-bottom:1px solid #F3F4F6;
-  position:sticky;top:0;z-index:100;
-}
-.hd-btn{
-  width:38px;height:38px;background:#F9FAFB;
-  border:none;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:16px;color:#0A4D38;text-decoration:none;
-}
-
-/* ===== HERO VENDEUR ===== */
-.shop-hero{
-  background:linear-gradient(135deg,#0F6B4E,#0A4D38);
-  padding:20px 16px;color:#fff;
-}
+.app-header{display:flex;align-items:center;gap:8px;padding:12px 14px;background:#fff;border-bottom:1px solid #F3F4F6;position:sticky;top:0;z-index:100;}
+.hd-btn{width:38px;height:38px;background:#F9FAFB;border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#0A4D38;text-decoration:none;cursor:pointer;}
+.shop-hero{background:linear-gradient(135deg,#0F6B4E,#0A4D38);padding:20px 16px;color:#fff;}
 .shop-hero-row{display:flex;gap:14px;align-items:center;}
-.shop-avatar{
-  width:80px;height:80px;border-radius:50%;
-  border:3px solid #D4A574;object-fit:cover;
-  flex-shrink:0;
-}
+.shop-avatar{width:80px;height:80px;border-radius:50%;border:3px solid #D4A574;object-fit:cover;flex-shrink:0;background:#D4A574;}
 .shop-name{font-size:20px;font-weight:900;margin:0;}
 .shop-bio{font-size:12px;opacity:.9;margin:2px 0;}
 .shop-badges{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;}
 .shop-bdg{padding:2px 8px;border-radius:6px;font-size:10px;font-weight:900;}
-.shop-stats{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:8px;margin-top:14px;text-align:center;
-}
-.shop-stat-num{font-weight:900;font-size:16px;}
-.shop-stat-lbl{font-size:10px;opacity:.8;}
+.shop-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px;text-align:center;}
+.shop-stat-num{font-weight:900;font-size:16px;color:#D4A574;}
+.shop-stat-lbl{font-size:10px;opacity:.85;}
 .shop-actions{display:flex;gap:8px;margin-top:14px;}
-.shop-btn{
-  flex:1;padding:10px;border:none;border-radius:10px;
-  font-weight:800;font-size:12px;cursor:pointer;
-}
+.shop-btn{flex:1;padding:10px;border:none;border-radius:10px;font-weight:800;font-size:12px;cursor:pointer;}
 .btn-follow{background:#D4A574;color:#fff;}
-.btn-msg{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(10px);}
+.btn-msg{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);}
 .btn-live{background:#ef4444;color:#fff;padding:10px 14px;flex:0 0 auto;}
-
-/* ===== TABS FIX (le bug de ta capture) ===== */
-.tabs-bar{
-  display:flex;
-  background:#fff;
-  box-shadow:0 2px 8px rgba(0,0,0,.05);
-  position:sticky;
-  top:62px;  /* IMPORTANT: sous le header */
-  z-index:50;  /* sous les cartes lors du scroll */
-  border-bottom:1px solid #F3F4F6;
-}
-.shop-tab{
-  flex:1;padding:14px 4px;
-  background:none;border:none;
-  border-bottom:3px solid transparent;
-  font-weight:700;font-size:12px;
-  color:#6B7280;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;gap:4px;
-}
-.shop-tab.active{
-  color:#0F6B4E;
-  border-bottom-color:#0F6B4E;
-}
-
-/* ===== CONTENT — le fix principal ===== */
-.tab-panel{
-  padding:12px;
-  background:#F5F5F0;  /* fond distinct pour éviter la sensation de chevauchement */
-  min-height:calc(100vh - 350px);
-}
-
-/* Grid produits */
-.pgrid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
-.pcard{
-  background:#fff;
-  border-radius:14px;
-  overflow:hidden;
-  box-shadow:0 2px 8px rgba(0,0,0,.06);
-  text-decoration:none;color:inherit;
-  display:flex;flex-direction:column;
-}
-.pcard-img{
-  position:relative;
-  aspect-ratio:1/1;
-  overflow:hidden;
-  background:#F9FAFB;
-}
-.pcard-img img{
-  width:100%;height:100%;
-  object-fit:cover;object-position:center;
-}
-.pcard-badge{
-  position:absolute;top:8px;left:8px;
-  background:#ef4444;color:#fff;
-  padding:3px 8px;border-radius:6px;
-  font-size:10px;font-weight:900;z-index:2;
-}
-.pcard-fav{
-  position:absolute;top:8px;right:8px;
-  width:30px;height:30px;
-  background:rgba(255,255,255,.95);
-  border-radius:50%;border:none;
-  font-size:14px;z-index:2;
-}
+.tabs-bar{display:flex;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.05);position:sticky;top:62px;z-index:50;border-bottom:1px solid #F3F4F6;}
+.shop-tab{flex:1;padding:14px 4px;background:none;border:none;border-bottom:3px solid transparent;font-weight:700;font-size:12px;color:#6B7280;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;}
+.shop-tab.active{color:#0F6B4E;border-bottom-color:#0F6B4E;}
+.tab-panel{padding:12px;background:#F5F5F0;min-height:calc(100vh - 400px);}
+.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.pcard{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);text-decoration:none;color:inherit;display:flex;flex-direction:column;}
+.pcard-img{position:relative;aspect-ratio:1/1;overflow:hidden;background:#F9FAFB;}
+.pcard-img img{width:100%;height:100%;object-fit:cover;}
+.pcard-badge{position:absolute;top:8px;left:8px;background:#ef4444;color:#fff;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:900;z-index:2;}
+.pcard-fav{position:absolute;top:8px;right:8px;width:30px;height:30px;background:rgba(255,255,255,.95);border-radius:50%;border:none;font-size:14px;z-index:2;}
 .pcard-info{padding:10px;}
-.pcard-name{
-  font-size:13px;font-weight:700;color:#111827;
-  line-height:1.3;
-  display:-webkit-box;-webkit-line-clamp:2;
-  -webkit-box-orient:vertical;overflow:hidden;
-  min-height:34px;margin-bottom:6px;
-}
+.pcard-name{font-size:13px;font-weight:700;color:#111827;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px;margin-bottom:6px;}
 .pcard-price{font-weight:900;color:#D4A574;font-size:14px;}
 .pcard-old{text-decoration:line-through;color:#9CA3AF;font-size:11px;margin-left:4px;}
-
-/* Promos card */
-.promo-hero-shop{
-  background:linear-gradient(135deg,#ef4444,#f97316);
-  padding:20px;border-radius:14px;color:#fff;
-  margin-bottom:14px;
-}
-
-/* Avis */
-.rating-summary{
-  background:#fff;padding:16px;border-radius:14px;
-  text-align:center;margin-bottom:12px;
-}
-.review-card{
-  background:#fff;padding:14px;border-radius:12px;
-  margin-bottom:8px;
-}
-
-/* Infos */
-.info-block{
-  background:#fff;padding:16px;border-radius:14px;
-}
+.promo-hero-shop{background:linear-gradient(135deg,#ef4444,#f97316);padding:20px;border-radius:14px;color:#fff;margin-bottom:14px;}
+.rating-summary{background:#fff;padding:16px;border-radius:14px;text-align:center;margin-bottom:12px;}
+.review-card{background:#fff;padding:14px;border-radius:12px;margin-bottom:8px;}
+.info-block{background:#fff;padding:16px;border-radius:14px;}
 .info-item{padding:10px 0;border-bottom:1px solid #F3F4F6;}
 .info-item:last-child{border-bottom:none;}
-
 .app-content{padding-bottom:80px;padding-top:0;}
 </style>
 </head>
@@ -165,13 +56,12 @@
   </header>
 
   <main class="app-content">
-    <!-- HERO -->
     <div class="shop-hero">
       <div class="shop-hero-row">
-        <img id="shopAvatar" class="shop-avatar" src="" alt="">
+        <img id="shopAvatar" class="shop-avatar" src="https://i.pravatar.cc/200?img=1" alt="">
         <div style="flex:1;min-width:0;">
-          <h2 class="shop-name" id="shopTitle">—</h2>
-          <div class="shop-bio" id="shopBio">—</div>
+          <h2 class="shop-name" id="shopTitle">Aïcha Couture</h2>
+          <div class="shop-bio" id="shopBio">Mode africaine premium · Dakar</div>
           <div class="shop-badges">
             <span class="shop-bdg" style="background:#D4A574;">✅ SEN VERIFIED</span>
             <span id="liveBadge" class="shop-bdg" style="background:#ef4444;display:none;">🔴 EN LIVE</span>
@@ -191,7 +81,6 @@
       </div>
     </div>
 
-    <!-- TABS -->
     <div class="tabs-bar">
       <button class="shop-tab active" data-tab="products">🛍️ Produits</button>
       <button class="shop-tab" data-tab="promos">🎁 Promos</button>
@@ -199,7 +88,6 @@
       <button class="shop-tab" data-tab="about">ℹ️ Infos</button>
     </div>
 
-    <!-- CONTENUS -->
     <div id="panelProducts" class="tab-panel"></div>
     <div id="panelPromos" class="tab-panel" style="display:none;"></div>
     <div id="panelReviews" class="tab-panel" style="display:none;"></div>
@@ -219,9 +107,6 @@
 <script>
 const params = new URLSearchParams(location.search);
 const shopId = params.get('id') || params.get('seller') || '1';
-const fromLive = params.get('from') === 'live';
-const list = (typeof products !== 'undefined' ? products : []);
-const sellersList = (typeof sellers !== 'undefined' ? sellers : []);
 
 const SHOPS = {
   '1':{name:'Aïcha Couture',bio:'Mode africaine premium · Dakar',avatar:'https://i.pravatar.cc/200?img=1',followers:12400,sales:3200,rating:4.9,live:true},
@@ -233,4 +118,155 @@ const SHOPS = {
   '9':{name:'Ibrahima Sport',bio:'Équipement sportif · Point E',avatar:'https://i.pravatar.cc/200?img=13',followers:6700,sales:1800,rating:4.9,live:true}
 };
 
-const shop = SHOPS[shopId] || {name:'Boutique',bio:'Vendeur SEN TEW',avatar:'https://i.pravatar
+const FALLBACK = [
+  {id:1,name:'Robe wax mariage',price:35000,oldPrice:50000,image:'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=400',sellerId:'1'},
+  {id:2,name:'Sandales cuir Peul',price:8500,image:'https://images.unsplash.com/photo-1603487742131-4160ec999306?w=400',sellerId:'1'},
+  {id:3,name:'Boubou premium',price:45000,oldPrice:60000,image:'https://images.unsplash.com/photo-1544441893-675973e31985?w=400',sellerId:'1'},
+  {id:4,name:'Bracelet ethnique',price:5500,image:'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400',sellerId:'1'},
+  {id:5,name:'Chemise brodée',price:12000,image:'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=400',sellerId:'1'},
+  {id:6,name:'Sac cuir africain',price:15000,oldPrice:22000,image:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400',sellerId:'1'}
+];
+
+const list = (typeof products !== 'undefined' && products.length) ? products : FALLBACK;
+const shop = SHOPS[shopId] || SHOPS['1'];
+let shopProducts = list.filter(p => String(p.sellerId||'1') === String(shopId));
+if (shopProducts.length === 0) shopProducts = list.slice(0,6);
+
+// ===== REMPLIR HERO =====
+document.getElementById('hdrName').textContent = shop.name;
+document.getElementById('shopTitle').textContent = shop.name;
+document.getElementById('shopBio').textContent = shop.bio;
+document.getElementById('shopAvatar').src = shop.avatar;
+document.getElementById('stF').textContent = shop.followers.toLocaleString();
+document.getElementById('stP').textContent = shopProducts.length;
+document.getElementById('stS').textContent = shop.sales.toLocaleString();
+document.getElementById('stR').textContent = shop.rating;
+
+if (shop.live) {
+  document.getElementById('liveBadge').style.display = 'inline-block';
+  document.getElementById('btnLive').style.display = 'block';
+}
+
+const followed = JSON.parse(localStorage.getItem('followed')||'[]');
+if (followed.includes(shopId)) {
+  const b = document.getElementById('btnFollow');
+  b.textContent = '✓ Suivi';
+  b.style.background = 'rgba(255,255,255,.2)';
+}
+
+// ===== PRODUITS =====
+document.getElementById('panelProducts').innerHTML = `
+  <div class="pgrid">
+    ${shopProducts.map(p => `
+      <a href="produit.html?id=${p.id}" class="pcard">
+        <div class="pcard-img">
+          ${p.oldPrice?'<span class="pcard-badge" style="background:#f97316;">PROMO</span>':''}
+          <button class="pcard-fav" onclick="event.preventDefault();this.textContent=this.textContent==='🤍'?'❤️':'🤍'">🤍</button>
+          <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/300/0F6B4E/fff?text=SEN+TEW'">
+        </div>
+        <div class="pcard-info">
+          <div class="pcard-name">${p.name}</div>
+          <div class="pcard-price">${Number(p.price).toLocaleString()} FCFA${p.oldPrice?`<span class="pcard-old">${p.oldPrice.toLocaleString()}</span>`:''}</div>
+        </div>
+      </a>
+    `).join('')}
+  </div>
+`;
+
+// ===== PROMOS =====
+const promoOnly = shopProducts.filter(p => p.oldPrice);
+document.getElementById('panelPromos').innerHTML = `
+  <div class="promo-hero-shop">
+    <div style="font-size:11px;opacity:.9;font-weight:700;">CODE PROMO EXCLUSIF</div>
+    <div style="font-size:32px;font-weight:900;margin:6px 0;">-20%</div>
+    <div style="font-size:13px;">Code: <strong style="background:rgba(255,255,255,.25);padding:2px 8px;border-radius:6px;">${shop.name.split(' ')[0].toUpperCase()}20</strong></div>
+    <button onclick="copyPromo('${shop.name.split(' ')[0].toUpperCase()}20')" style="margin-top:10px;background:#fff;color:#ef4444;border:none;padding:8px 16px;border-radius:8px;font-weight:800;font-size:12px;">📋 Copier</button>
+  </div>
+  <div class="pgrid">
+    ${(promoOnly.length?promoOnly:shopProducts.slice(0,4)).map(p => `
+      <a href="produit.html?id=${p.id}" class="pcard">
+        <div class="pcard-img">
+          <span class="pcard-badge">PROMO</span>
+          <img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300/0F6B4E/fff?text=SEN+TEW'">
+        </div>
+        <div class="pcard-info">
+          <div class="pcard-name">${p.name}</div>
+          <div class="pcard-price">${Math.round(p.price*0.8).toLocaleString()} FCFA<span class="pcard-old">${Number(p.price).toLocaleString()}</span></div>
+        </div>
+      </a>
+    `).join('')}
+  </div>
+`;
+
+// ===== AVIS =====
+document.getElementById('panelReviews').innerHTML = `
+  <div class="rating-summary">
+    <div style="font-size:44px;font-weight:900;color:#D4A574;line-height:1;">${shop.rating}</div>
+    <div style="color:#D4A574;font-size:20px;margin:4px 0;">${'⭐'.repeat(Math.round(shop.rating))}</div>
+    <div style="font-size:12px;color:#6B7280;">Basé sur ${shop.sales.toLocaleString()} ventes</div>
+  </div>
+  ${[
+    {u:'Awa D.',s:5,t:'Excellent vendeur, livraison rapide !',d:'il y a 2j',img:'https://i.pravatar.cc/40?img=25'},
+    {u:'Moussa B.',s:5,t:'Très bonne qualité, produits conformes.',d:'il y a 5j',img:'https://i.pravatar.cc/40?img=27'},
+    {u:'Fatou N.',s:4,t:'Je recommande cette boutique.',d:'il y a 1sem',img:'https://i.pravatar.cc/40?img=28'}
+  ].map(r => `
+    <div class="review-card">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+        <div style="display:flex;gap:8px;align-items:center;">
+          <img src="${r.img}" style="width:32px;height:32px;border-radius:50%;">
+          <div>
+            <div style="font-weight:800;font-size:13px;">${r.u} <span style="color:#10B981;font-size:10px;">✓ Vérifié</span></div>
+            <div style="font-size:10px;color:#9CA3AF;">${r.d}</div>
+          </div>
+        </div>
+        <span style="color:#D4A574;">${'⭐'.repeat(r.s)}</span>
+      </div>
+      <div style="font-size:12px;color:#374151;line-height:1.5;">${r.t}</div>
+    </div>
+  `).join('')}
+`;
+
+// ===== INFOS =====
+document.getElementById('panelAbout').innerHTML = `
+  <div class="info-block">
+    <div class="info-item"><strong>📍 Adresse</strong><br><span style="color:#6B7280;">Dakar, Sénégal</span></div>
+    <div class="info-item"><strong>📱 Téléphone</strong><br><a href="tel:+221771234567" style="color:#0F6B4E;">+221 77 123 45 67</a></div>
+    <div class="info-item"><strong>⏰ Horaires</strong><br><span style="color:#6B7280;">Lun-Sam 9h-20h · Dim 10h-18h</span></div>
+    <div class="info-item"><strong>🚚 Livraison</strong><br><span style="color:#6B7280;">Dakar 24h · Régions 2-5j</span></div>
+    <div class="info-item"><strong>💳 Paiement</strong><br><span style="color:#6B7280;">Wave · OM · Free Money · CB · À la livraison</span></div>
+    <div class="info-item"><strong>🛡 Retour</strong><br><span style="color:#6B7280;">7 jours · Garantie qualité</span></div>
+  </div>
+`;
+
+document.querySelectorAll('.shop-tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.shop-tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(x => x.style.display='none');
+    t.classList.add('active');
+    document.getElementById('panel'+t.dataset.tab.charAt(0).toUpperCase()+t.dataset.tab.slice(1)).style.display='block';
+  });
+});
+
+function toggleFollow(){
+  const followed = JSON.parse(localStorage.getItem('followed')||'[]');
+  const btn = document.getElementById('btnFollow');
+  const idx = followed.indexOf(shopId);
+  if (idx > -1) { followed.splice(idx,1); btn.textContent='+ Suivre'; btn.style.background='#D4A574'; }
+  else { followed.push(shopId); btn.textContent='✓ Suivi'; btn.style.background='rgba(255,255,255,.2)'; }
+  localStorage.setItem('followed',JSON.stringify(followed));
+  navigator.vibrate&&navigator.vibrate(30);
+}
+function messageShop(){ location.href='messages.html?seller='+shopId; }
+function watchLive(){ location.href='live.html?seller='+shopId; }
+function shareShop(){
+  const url = location.href;
+  if(navigator.share) navigator.share({title:shop.name,url});
+  else{ navigator.clipboard.writeText(url); alert('✅ Lien copié'); }
+}
+function copyPromo(code){
+  navigator.clipboard.writeText(code);
+  alert('✅ Code '+code+' copié');
+}
+</script>
+</body>
+</html>
