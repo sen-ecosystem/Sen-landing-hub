@@ -18,7 +18,18 @@ body{margin:0;background:#000;overflow:hidden;height:100vh;}
 .live-viewers{background:rgba(0,0,0,.5);color:#fff;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:700;backdrop-filter:blur(10px);}
 .live-close{margin-left:auto;background:rgba(0,0,0,.5);color:#fff;border:none;width:36px;height:36px;border-radius:50%;font-size:18px;}
 .live-seller{position:absolute;bottom:180px;left:16px;right:80px;color:#fff;}
-.live-seller-row{display:flex;gap:10px;align-items:center;margin-bottom:8px;}
+<div class="live-seller-row" onclick="openBoutique('${L.id}')" style="cursor:pointer;">
+  <img src="${L.avatar}" class="live-avatar" alt="">
+  <div style="flex:1;">
+    <div class="live-name">${L.seller} <span style="font-size:14px;">›</span></div>
+    <div style="font-size:11px;opacity:.8;">✅ SEN Verified · ⭐ 4.9 · Voir la boutique</div>
+  </div>
+  <button class="live-follow" onclick="event.stopPropagation();alert('✅ Vous suivez ${L.seller}')">+ Suivre</button>
+</div>
+function openBoutique(sellerId){
+  location.href = 'boutique.html?id=' + sellerId + '&from=live';
+}
+
 .live-avatar{width:44px;height:44px;border-radius:50%;border:2px solid #fff;object-fit:cover;}
 .live-name{font-weight:900;font-size:15px;}
 .live-title{font-size:13px;opacity:.9;margin-bottom:10px;}
