@@ -1,4 +1,4 @@
-const CACHE = 'sentew-v4-2026-08-fix';
+const CACHE = 'sentew-v5-2026-08-logos';
 const urls = [
   '/sentew-app/',
   '/sentew-app/index.html',
@@ -45,6 +45,8 @@ const urls = [
   '/sentew-app/js/currency.js',
   '/sentew-app/js/paydunya.js',
   '/sentew-app/js/push.js',
+    '/sentew-app/paiement-success.html',
+
 
 ];
 
