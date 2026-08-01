@@ -1,47 +1,75 @@
-// SEN TEW - Avatars africains premium (sources vérifiées Unsplash)
+// ===== SEN TEW - Données produits cohérentes =====
+
 const products = [
-  {id:1,name:'Sac cuir africain premium',price:15000,oldPrice:22000,discount:32,rating:4.8,reviews:234,image:'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=500',sellerId:1,seller:'Aïcha Couture',sellerAvatar:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&h=200&fit=crop&crop=faces',sellerLive:true,description:'Sac artisanal en cuir tanné à Dakar. Broderies traditionnelles wolof.',stock:5,category:'mode'},
-  {id:2,name:'Écouteurs sans fil Pro',price:12000,rating:4.6,reviews:189,image:'https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=500',sellerId:2,seller:'TechSen Store',sellerAvatar:'https://images.unsplash.com/photo-1552058544-f2b08422138a?w=200&h=200&fit=crop&crop=faces',sellerLive:false,description:'Bluetooth 5.3, réduction bruit active, 30h autonomie.',stock:12,category:'tech'},
-  {id:3,name:'Boubou wax collection été',price:18000,oldPrice:25000,discount:28,rating:4.9,reviews:312,image:'https://images.unsplash.com/photo-1595777216528-071e0127ccbf?w=500',sellerId:3,seller:'Fatou Ndiaye Fashion',sellerAvatar:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=faces',sellerLive:true,description:'Boubou wax authentique 100% coton. Coupe moderne.',stock:3,category:'mode'},
-  {id:4,name:'Sandales cuir Peul',price:8500,rating:4.7,reviews:156,image:'https://images.unsplash.com/photo-1603487742131-4160ec999306?w=500',sellerId:1,seller:'Aïcha Couture',sellerAvatar:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&h=200&fit=crop&crop=faces',sellerLive:true,description:'Sandales artisanales cuir tanné. Tradition peule.',stock:8,category:'mode'},
-  {id:5,name:'Bracelet ethnique perles',price:5500,rating:4.9,reviews:98,image:'https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=500',sellerId:4,seller:'Awa Bijoux',sellerAvatar:'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=200&h=200&fit=crop&crop=faces',sellerLive:false,description:'Perles traditionnelles Serer.',stock:15,category:'mode'},
-  {id:6,name:'Smartphone Africa 5G',price:145000,oldPrice:180000,discount:19,rating:4.5,reviews:87,image:'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500',sellerId:2,seller:'TechSen Store',sellerAvatar:'https://images.unsplash.com/photo-1552058544-f2b08422138a?w=200&h=200&fit=crop&crop=faces',sellerLive:false,description:'8Go RAM, 256Go, 108MP.',stock:6,category:'tech'},
-  {id:7,name:'Café touba premium 500g',price:3500,rating:4.9,reviews:412,image:'https://images.unsplash.com/photo-1610889556528-9a770e32642f?w=500',sellerId:5,seller:'Cheikh Diouf Épicerie',sellerAvatar:'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&h=200&fit=crop&crop=faces',sellerLive:false,description:'Café touba artisanal de Touba.',stock:50,category:'food'},
-  {id:8,name:'Statuette bois d\'ébène',price:25000,rating:4.7,reviews:64,image:'https://images.unsplash.com/photo-1590069261209-f8e9b8642343?w=500',sellerId:6,seller:'Art Africain Gallery',sellerAvatar:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=faces',sellerLive:false,description:'Statuette sculptée main.',stock:4,category:'art'},
-  {id:9,name:'Robe wax mariage',price:35000,oldPrice:50000,discount:30,rating:4.9,reviews:127,image:'https://images.unsplash.com/photo-1618354691792-d1d42acfd860?w=500',sellerId:3,seller:'Fatou Ndiaye Fashion',sellerAvatar:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=faces',sellerLive:true,description:'Robe cérémonie wax haute couture.',stock:2,category:'mode'},
-  {id:10,name:'Tapis touareg fait main',price:45000,rating:4.8,reviews:53,image:'https://images.unsplash.com/photo-1600166898405-da9535204843?w=500',sellerId:7,seller:'Ibrahima Déco',sellerAvatar:'https://images.unsplash.com/photo-1507081323647-4d250478b919?w=200&h=200&fit=crop&crop=faces',sellerLive:false,description:'Tapis tissé main.',stock:7,category:'maison'},
-  {id:11,name:'Huile karité pure 250ml',price:4500,rating:4.9,reviews:289,image:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=500',sellerId:8,seller:'Khady Naturel',sellerAvatar:'https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=200&h=200&fit=crop&crop=faces',sellerLive:false,description:'Karité 100% naturel.',stock:35,category:'beauty'},
-  {id:12,name:'Djembe artisanal',price:65000,rating:4.8,reviews:41,image:'https://images.unsplash.com/photo-1568377210220-151e1d7f42c7?w=500',sellerId:6,seller:'Art Africain Gallery',sellerAvatar:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=faces',sellerLive:false,description:'Djembe traditionnel.',stock:5,category:'art'},
-  {id:13,name:'Thiéboudienne épices kit',price:6500,rating:4.9,reviews:178,image:'https://images.unsplash.com/photo-1607532941433-304659e8198a?w=500',sellerId:5,seller:'Cheikh Diouf Épicerie',sellerAvatar:'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&h=200&fit=crop&crop=faces',sellerLive:false,description:'Kit épices thiéboudienne.',stock:20,category:'food'},
-  {id:14,name:'Casque audio DJ Pro',price:38000,oldPrice:55000,discount:31,rating:4.6,reviews:92,image:'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=500',sellerId:2,seller:'TechSen Store',sellerAvatar:'https://images.unsplash.com/photo-1552058544-f2b08422138a?w=200&h=200&fit=crop&crop=faces',sellerLive:false,description:'Casque studio Hi-Fi.',stock:9,category:'tech'},
-  {id:15,name:'Chemise brodée hommes',price:12500,rating:4.7,reviews:134,image:'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=500',sellerId:9,seller:'Modou Tailleur',sellerAvatar:'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=200&h=200&fit=crop&crop=faces',sellerLive:false,description:'Chemise coton brodée main.',stock:11,category:'mode'},
-  {id:16,name:'Panier osier tressé',price:9500,rating:4.8,reviews:76,image:'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=500',sellerId:10,seller:'Ndeye Awa Artisan',sellerAvatar:'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=200&h=200&fit=crop&crop=faces',sellerLive:false,description:'Panier osier tressé.',stock:14,category:'maison'},
-  {id:17,name:'Montre bois éthique',price:28000,rating:4.7,reviews:59,image:'https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=500',sellerId:11,seller:'EcoAfrica',sellerAvatar:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=faces',sellerLive:false,description:'Montre en bois recyclé.',stock:8,category:'mode'},
-  {id:18,name:'Livre "Une si longue lettre"',price:4000,rating:4.9,reviews:203,image:'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=500',sellerId:12,seller:'Librairie Athena',sellerAvatar:'https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=200&h=200&fit=crop&crop=faces',sellerLive:false,description:'Chef d\'oeuvre Mariama Bâ.',stock:25,category:'livre'},
-  {id:19,name:'Ballon football pro',price:8500,rating:4.6,reviews:118,image:'https://images.unsplash.com/photo-1614632537190-23e4146777db?w=500',sellerId:13,seller:'SportAfrica',sellerAvatar:'https://images.unsplash.com/photo-1507081323647-4d250478b919?w=200&h=200&fit=crop&crop=faces',sellerLive:false,description:'Ballon match officiel.',stock:18,category:'sport'},
-  {id:20,name:'Poupée africaine artisanale',price:7500,rating:4.9,reviews:87,image:'https://images.unsplash.com/photo-1618842676088-c4d48a6a7c9d?w=500',sellerId:4,seller:'Awa Bijoux',sellerAvatar:'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=200&h=200&fit=crop&crop=faces',sellerLive:false,description:'Poupée tissu wax fait main.',stock:12,category:'bebe'}
+  // ===== MODE =====
+  { id:1, name:'Robe wax mariage', cat:'mode', price:35000, oldPrice:50000, image:'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=500&h=500&fit=crop', seller:'Aïcha Couture', sellerAvatar:'https://i.pravatar.cc/40?img=1', sellerLive:true, sellerId:'1', rating:4.9, stock:8 },
+  { id:2, name:'Sandales cuir Peul', cat:'mode', price:8500, oldPrice:12000, image:'https://images.unsplash.com/photo-1603487742131-4160ec999306?w=500&h=500&fit=crop', seller:'Aïcha Couture', sellerAvatar:'https://i.pravatar.cc/40?img=1', sellerId:'1', rating:4.7, stock:15 },
+  { id:3, name:'Chemise brodée homme', cat:'mode', price:12000, image:'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=500&h=500&fit=crop', seller:'Modou Tailleur', sellerAvatar:'https://i.pravatar.cc/40?img=13', sellerId:'4', rating:4.6, stock:20 },
+  { id:4, name:'Bonnet SEN premium', cat:'mode', price:4500, image:'https://images.unsplash.com/photo-1576871337622-98d48d1cf531?w=500&h=500&fit=crop', seller:'Fatou Fashion', sellerAvatar:'https://i.pravatar.cc/40?img=5', sellerLive:true, sellerId:'3', rating:4.5, stock:30 },
+  { id:5, name:'Bracelet ethnique perles', cat:'mode', price:5500, image:'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=500&h=500&fit=crop', seller:'Awa Bijoux', sellerAvatar:'https://i.pravatar.cc/40?img=9', sellerId:'5', rating:4.8, stock:25 },
+  { id:6, name:'Boubou grand teint', cat:'mode', price:45000, oldPrice:60000, image:'https://images.unsplash.com/photo-1544441893-675973e31985?w=500&h=500&fit=crop', seller:'Aïcha Couture', sellerAvatar:'https://i.pravatar.cc/40?img=1', sellerId:'1', rating:4.9, stock:5 },
+
+  // ===== TECH =====
+  { id:10, name:'iPhone 15 Pro 256GB', cat:'tech', price:750000, oldPrice:850000, image:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=500&h=500&fit=crop', seller:'Moussa Tech', sellerAvatar:'https://i.pravatar.cc/40?img=11', sellerLive:true, sellerId:'2', rating:4.9, stock:3 },
+  { id:11, name:'Samsung Galaxy S24', cat:'tech', price:520000, image:'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=500&h=500&fit=crop', seller:'Moussa Tech', sellerAvatar:'https://i.pravatar.cc/40?img=11', sellerId:'2', rating:4.8, stock:7 },
+  { id:12, name:'AirPods Pro 2', cat:'tech', price:145000, image:'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=500&h=500&fit=crop', seller:'Moussa Tech', sellerAvatar:'https://i.pravatar.cc/40?img=11', sellerId:'2', rating:4.7, stock:12 },
+  { id:13, name:'Casque JBL Bluetooth', cat:'tech', price:38000, oldPrice:50000, image:'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=500&h=500&fit=crop', seller:'Moussa Tech', sellerAvatar:'https://i.pravatar.cc/40?img=11', sellerId:'2', rating:4.6, stock:18 },
+  { id:14, name:'MacBook Air M2', cat:'tech', price:850000, image:'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&h=500&fit=crop', seller:'Moussa Tech', sellerAvatar:'https://i.pravatar.cc/40?img=11', sellerId:'2', rating:4.9, stock:2 },
+  { id:15, name:'Enceinte Bluetooth', cat:'tech', price:22000, image:'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500&h=500&fit=crop', seller:'Moussa Tech', sellerAvatar:'https://i.pravatar.cc/40?img=11', sellerId:'2', rating:4.5, stock:22 },
+
+  // ===== MAISON =====
+  { id:20, name:'Canapé 3 places moderne', cat:'maison', price:185000, oldPrice:250000, image:'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500&h=500&fit=crop', seller:'Déco Sénégal', sellerAvatar:'https://i.pravatar.cc/40?img=20', sellerId:'6', rating:4.7, stock:4 },
+  { id:21, name:'Lampe artisanale bois', cat:'maison', price:15000, image:'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500&h=500&fit=crop', seller:'Déco Sénégal', sellerAvatar:'https://i.pravatar.cc/40?img=20', sellerId:'6', rating:4.8, stock:14 },
+  { id:22, name:'Tapis wax XL', cat:'maison', price:42000, image:'https://images.unsplash.com/photo-1600166898405-da9535204843?w=500&h=500&fit=crop', seller:'Déco Sénégal', sellerAvatar:'https://i.pravatar.cc/40?img=20', sellerLive:true, sellerId:'6', rating:4.9, stock:6 },
+  { id:23, name:'Vase terre cuite artisanal', cat:'maison', price:8000, image:'https://images.unsplash.com/photo-1578500494198-246f612d3b3d?w=500&h=500&fit=crop', seller:'Artisan Kaolack', sellerAvatar:'https://i.pravatar.cc/40?img=22', sellerId:'7', rating:4.6, stock:20 },
+
+  // ===== BEAUTÉ =====
+  { id:30, name:'Beurre karité pur 500g', cat:'beauty', price:4500, oldPrice:6000, image:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=500&h=500&fit=crop', seller:'Fatou Beauté', sellerAvatar:'https://i.pravatar.cc/40?img=5', sellerLive:true, sellerId:'3', rating:4.9, stock:50 },
+  { id:31, name:'Palette maquillage 24 couleurs', cat:'beauty', price:8500, oldPrice:12000, image:'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500&h=500&fit=crop', seller:'Fatou Beauté', sellerAvatar:'https://i.pravatar.cc/40?img=5', sellerId:'3', rating:4.7, stock:15 },
+  { id:32, name:'Parfum Oud premium', cat:'beauty', price:25000, image:'https://images.unsplash.com/photo-1541643600914-78b084683601?w=500&h=500&fit=crop', seller:'Fatou Beauté', sellerAvatar:'https://i.pravatar.cc/40?img=5', sellerId:'3', rating:4.8, stock:8 },
+  { id:33, name:'Huile ricin cheveux', cat:'beauty', price:3500, image:'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500&h=500&fit=crop', seller:'Fatou Beauté', sellerAvatar:'https://i.pravatar.cc/40?img=5', sellerId:'3', rating:4.7, stock:35 },
+
+  // ===== ALIMENTATION =====
+  { id:40, name:'Bissap séché 500g', cat:'food', price:2500, image:'https://images.unsplash.com/photo-1597318374671-4b6f79c93e12?w=500&h=500&fit=crop', seller:'Marché Kermel', sellerAvatar:'https://i.pravatar.cc/40?img=30', sellerId:'8', rating:4.8, stock:100 },
+  { id:41, name:'Café Touba 250g', cat:'food', price:1800, image:'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=500&h=500&fit=crop', seller:'Marché Kermel', sellerAvatar:'https://i.pravatar.cc/40?img=30', sellerId:'8', rating:4.9, stock:80 },
+  { id:42, name:'Yeet poisson séché', cat:'food', price:5500, image:'https://images.unsplash.com/photo-1544025162-d76694265947?w=500&h=500&fit=crop', seller:'Marché Kermel', sellerAvatar:'https://i.pravatar.cc/40?img=30', sellerId:'8', rating:4.7, stock:40 },
+  { id:43, name:'Riz brisé parfumé 25kg', cat:'food', price:16500, image:'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500&h=500&fit=crop', seller:'Marché Kermel', sellerAvatar:'https://i.pravatar.cc/40?img=30', sellerId:'8', rating:4.8, stock:25 },
+
+  // ===== SPORT =====
+  { id:50, name:'Maillot Sénégal 2026', cat:'sport', price:18000, oldPrice:25000, image:'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=500&h=500&fit=crop', seller:'Ibrahima Sport', sellerAvatar:'https://i.pravatar.cc/40?img=13', sellerLive:true, sellerId:'9', rating:4.9, stock:30 },
+  { id:51, name:'Ballon Adidas officiel', cat:'sport', price:12000, image:'https://images.unsplash.com/photo-1614632537197-38a17061c2bd?w=500&h=500&fit=crop', seller:'Ibrahima Sport', sellerAvatar:'https://i.pravatar.cc/40?img=13', sellerId:'9', rating:4.7, stock:20 },
+  { id:52, name:'Chaussures running Nike', cat:'sport', price:65000, image:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=500&fit=crop', seller:'Ibrahima Sport', sellerAvatar:'https://i.pravatar.cc/40?img=13', sellerId:'9', rating:4.8, stock:12 },
+  { id:53, name:'Sac de sport premium', cat:'sport', price:15000, image:'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&h=500&fit=crop', seller:'Ibrahima Sport', sellerAvatar:'https://i.pravatar.cc/40?img=13', sellerId:'9', rating:4.6, stock:18 }
 ];
 
-const sellers = [
-  {id:1,name:'Aïcha Couture',avatar:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&h=200&fit=crop&crop=faces',verified:true,rating:4.9,reviews:456,followers:'12.5K',city:'Dakar',live:true,liveViewers:2847,description:'Mode africaine premium depuis 2020.',joined:'Février 2024',cover:'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800'},
-  {id:2,name:'TechSen Store',avatar:'https://images.unsplash.com/photo-1552058544-f2b08422138a?w=200&h=200&fit=crop&crop=faces',verified:true,rating:4.7,reviews:892,followers:'8.3K',city:'Dakar',live:false,description:'Meilleure boutique tech du Sénégal.',joined:'Juin 2023',cover:'https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=800'},
-  {id:3,name:'Fatou Ndiaye Fashion',avatar:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=faces',verified:true,rating:4.9,reviews:312,followers:'15.2K',city:'Thiès',live:true,liveViewers:1234,description:'Wax authentique haute couture.',joined:'Janvier 2024',cover:'https://images.unsplash.com/photo-1595777216528-071e0127ccbf?w=800'},
-  {id:4,name:'Awa Bijoux',avatar:'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=200&h=200&fit=crop&crop=faces',verified:true,rating:4.8,reviews:178,followers:'5.1K',city:'Saint-Louis',live:false,description:'Bijoux ethniques traditionnels.',joined:'Mars 2024',cover:'https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=800'},
-  {id:5,name:'Cheikh Diouf Épicerie',avatar:'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&h=200&fit=crop&crop=faces',verified:true,rating:4.9,reviews:589,followers:'3.4K',city:'Touba',live:false,description:'Épices et produits du terroir.',joined:'Août 2023',cover:'https://images.unsplash.com/photo-1610889556528-9a770e32642f?w=800'}
-];
-
-const produits = products;
+// Alias pour compatibilité
 const PRODUCTS = products;
+const produits = products;
 
+// Catégories principales
 const categories = [
-  {id:'mode',name:'Mode',icon:'👗',count:245},
-  {id:'tech',name:'Technologie',icon:'📱',count:180},
-  {id:'maison',name:'Maison',icon:'🏠',count:156},
-  {id:'beauty',name:'Beauté',icon:'💄',count:98},
-  {id:'food',name:'Alimentation',icon:'🍲',count:124},
-  {id:'sport',name:'Sport',icon:'⚽',count:87},
-  {id:'art',name:'Art & Culture',icon:'🎨',count:65},
-  {id:'auto',name:'Automobile',icon:'🚗',count:43},
-  {id:'bebe',name:'Bébé & Enfant',icon:'👶',count:72},
-  {id:'livre',name:'Livres',icon:'📚',count:54}
+  { id:'mode', name:'Mode', icon:'👕', color:'#EC4899', count:products.filter(p=>p.cat==='mode').length },
+  { id:'tech', name:'Électronique', icon:'🎧', color:'#3B82F6', count:products.filter(p=>p.cat==='tech').length },
+  { id:'maison', name:'Maison', icon:'🛋', color:'#F59E0B', count:products.filter(p=>p.cat==='maison').length },
+  { id:'beauty', name:'Beauté', icon:'💄', color:'#EC4899', count:products.filter(p=>p.cat==='beauty').length },
+  { id:'food', name:'Alimentation', icon:'🧺', color:'#10B981', count:products.filter(p=>p.cat==='food').length },
+  { id:'sport', name:'Sport', icon:'⚽', color:'#EF4444', count:products.filter(p=>p.cat==='sport').length }
 ];
+
+// Vendeurs (boutiques)
+const sellers = [
+  { id:'1', name:'Aïcha Couture', bio:'Mode africaine premium · Dakar', avatar:'https://i.pravatar.cc/200?img=1', followers:12400, sales:3200, rating:4.9, live:true, verified:'gold' },
+  { id:'2', name:'Moussa Tech', bio:'Électronique & Smartphones · Plateau', avatar:'https://i.pravatar.cc/200?img=11', followers:8900, sales:2100, rating:4.7, live:true, verified:'gold' },
+  { id:'3', name:'Fatou Beauté', bio:'Cosmétiques bio · Almadies', avatar:'https://i.pravatar.cc/200?img=5', followers:5600, sales:1400, rating:4.8, live:true, verified:'platinum' },
+  { id:'4', name:'Modou Tailleur', bio:'Sur-mesure homme · Sacré-Cœur', avatar:'https://i.pravatar.cc/200?img=13', followers:3200, sales:890, rating:4.6, live:false, verified:'bronze' },
+  { id:'5', name:'Awa Bijoux', bio:'Bijoux artisanaux · Médina', avatar:'https://i.pravatar.cc/200?img=9', followers:2100, sales:560, rating:4.8, live:false, verified:'bronze' }
+];
+
+// Export global
+if (typeof window !== 'undefined') {
+  window.products = products;
+  window.PRODUCTS = products;
+  window.produits = products;
+  window.categories = categories;
+  window.sellers = sellers;
+}
