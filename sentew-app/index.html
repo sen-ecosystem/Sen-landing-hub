@@ -27,21 +27,6 @@
   min-width:38px;
   border-radius:19px !important;
 }
-  .curr-btn, .lang-btn{
-  width:auto !important;
-  padding:0 10px !important;
-  gap:4px !important;
-  display:flex !important;
-  align-items:center !important;
-  font-size:12px;
-  font-weight:700;
-  background:#F9FAFB !important;
-}
-.head-btn{
-  height:38px;
-  min-width:38px;
-  border-radius:19px !important;
-}
 
 
 /* ===== HEADER ULTRA-COMPACT ===== */
@@ -362,7 +347,66 @@ body.dark .section-title h3{color:#F4C685;}
 </div>
 
 <script src="js/data.js"></script>
-<script>
+// ===== LANGUE (4 langues) =====
+const LANGS = [
+  {code:'FR', flag:'🇫🇷', name:'Français'},
+  {code:'WO', flag:'🇸🇳', name:'Wolof'},
+  {code:'EN', flag:'🇬🇧', name:'English'},
+  {code:'AR', flag:'🇸🇦', name:'العربية'}
+];
+function changeLang(){
+  let idx = parseInt(localStorage.getItem('lang_idx')||'0');
+  idx = (idx+1) % LANGS.length;
+  localStorage.setItem('lang_idx', idx);
+  document.getElementById('langFlag').textContent = LANGS[idx].flag;
+  document.getElementById('langCode').textContent = LANGS[idx].code;
+  if(LANGS[idx].code==='AR') document.documentElement.dir='rtl';
+  else document.documentElement.dir='ltr';
+  navigator.vibrate&&navigator.vibrate(20);
+  setTimeout(()=>alert('🌐 Langue : '+LANGS[idx].name), 100);
+}
+// Init langue
+(function(){
+  const idx = parseInt(localStorage.getItem('lang_idx')||'0');
+  document.getElementById('langFlag').textContent = LANGS[idx].flag;
+  document.getElementById('langCode').textContent = LANGS[idx].code;
+})();
+
+// ===== DEVISE (4 devises) =====
+const CURRENCIES = [
+  {code:'FCFA', flag:'💰', rate:1, symbol:'FCFA'},
+  {code:'EUR', flag:'💶', rate:1/655, symbol:'€'},
+  {code:'USD', flag:'💵', rate:1/600, symbol:'$'},
+  {code:'MAD', flag:'🇲🇦', rate:1/60, symbol:'DH'}
+];
+function changeCurrency(){
+  let idx = parseInt(localStorage.getItem('curr_idx')||'0');
+  idx = (idx+1) % CURRENCIES.length;
+  localStorage.setItem('curr_idx', idx);
+  localStorage.setItem('curr_code', CURRENCIES[idx].code);
+  localStorage.setItem('curr_rate', CURRENCIES[idx].rate);
+  localStorage.setItem('curr_symbol', CURRENCIES[idx].symbol);
+  document.getElementById('currFlag').textContent = CURRENCIES[idx].flag;
+  document.getElementById('currCode').textContent = CURRENCIES[idx].code;
+  navigator.vibrate&&navigator.vibrate(20);
+  location.reload(); // recharge pour appliquer partout
+}
+// Init devise
+(function(){
+  const idx = parseInt(localStorage.getItem('curr_idx')||'0');
+  document.getElementById('currFlag').textContent = CURRENCIES[idx].flag;
+  document.getElementById('currCode').textContent = CURRENCIES[idx].code;
+})();
+
+// Helper global pour convertir prix
+window.formatPrice = function(fcfa){
+  const rate = parseFloat(localStorage.getItem('curr_rate')||'1');
+  const sym = localStorage.getItem('curr_symbol')||'FCFA';
+  const converted = fcfa * rate;
+  if (sym==='FCFA') return converted.toLocaleString('fr-FR', {maximumFractionDigits:0}) + ' FCFA';
+  return converted.toLocaleString('fr-FR', {maximumFractionDigits:2}) + ' ' + sym;
+};
+
 // ===== LIVES =====
 const liveSellers = (typeof sellers !== 'undefined' ? sellers : []).filter(s => s.live);
 document.getElementById('livesRow').innerHTML = liveSellers.map(s => `
