@@ -2,420 +2,401 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Admin - SEN TEW</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>404 - Not Found</title>
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" href="css/app.css">
 <style>
-.admin-login{position:fixed;inset:0;background:linear-gradient(135deg,#0A1F17,#0F6B4E);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px}
-.admin-login.hidden{display:none}
-.admin-form{background:#fff;padding:32px;border-radius:20px;max-width:380px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3)}
-.admin-form h1{color:#0F6B4E;font-size:24px;font-weight:900;margin-bottom:6px;text-align:center}
-.admin-form input{width:100%;padding:14px;border:2px solid #E5E7EB;border-radius:10px;font-size:14px;margin-bottom:12px;outline:none}
-.admin-form input:focus{border-color:#D4A574}
-.stat-card{background:linear-gradient(135deg,#fff,#F9F5EF);border-radius:14px;padding:14px;box-shadow:var(--shadow);border:1px solid #E5E7EB}
-.period-tab{padding:10px 18px;background:#fff;border:2px solid #E5E7EB;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;color:#6B7280}
-.period-tab.active{background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;border-color:transparent}
-.metric-row{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #E5E7EB}
-.metric-row:last-child{border-bottom:none}
-.system-status{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#fff;border-radius:10px;border:1px solid #E5E7EB;margin-bottom:6px}
-.status-dot{width:10px;height:10px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,.6);animation:pulse 2s infinite}
-.status-dot.warn{background:#f59e0b;box-shadow:0 0 8px rgba(245,158,11,.6)}
-.status-dot.down{background:#ef4444;box-shadow:0 0 8px rgba(239,68,68,.6)}
-.chart-line{height:120px;background:linear-gradient(180deg,rgba(15,107,78,.15),transparent);border-radius:8px;position:relative;margin-top:10px}
-.chart-svg{width:100%;height:100%}
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,sans-serif;}
+body{background:#F5F5F0;color:#111827;min-height:100vh;}
+
+/* LOGIN */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#0F6B4E,#0A4D38);}
+.login-box{background:#fff;padding:32px 24px;border-radius:20px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.login-icon{font-size:48px;text-align:center;margin-bottom:12px;}
+.login-title{text-align:center;font-size:22px;font-weight:900;color:#0A4D38;margin-bottom:6px;}
+.login-sub{text-align:center;color:#6B7280;font-size:12px;margin-bottom:24px;}
+.login-input{width:100%;padding:12px 14px;border:1px solid #E5E7EB;border-radius:10px;font-size:14px;margin-bottom:10px;outline:none;transition:border .15s;}
+.login-input:focus{border-color:#0F6B4E;}
+.login-btn{width:100%;padding:14px;background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;border:none;border-radius:10px;font-weight:900;font-size:14px;cursor:pointer;margin-top:8px;}
+.login-btn:active{transform:scale(.98);}
+.login-info{text-align:center;font-size:11px;color:#9CA3AF;margin-top:14px;}
+.login-info span{color:#D4A574;font-weight:700;}
+.login-demo{background:#FEF3C7;color:#92400E;padding:10px;border-radius:8px;font-size:11px;text-align:center;margin-top:12px;font-weight:700;}
+.login-error{background:#FEE2E2;color:#DC2626;padding:10px;border-radius:8px;font-size:12px;text-align:center;margin-top:10px;display:none;}
+
+/* DASHBOARD */
+.dash-header{background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;}
+.dash-title{font-weight:900;font-size:18px;}
+.dash-title span{background:#D4A574;padding:2px 8px;border-radius:6px;font-size:10px;margin-left:6px;}
+.logout-btn{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);padding:8px 14px;border-radius:8px;font-weight:700;cursor:pointer;font-size:12px;}
+
+.tabs{display:flex;background:#fff;padding:6px;margin:14px;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.05);gap:4px;overflow-x:auto;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{flex:1;min-width:80px;padding:10px;background:none;border:none;border-radius:10px;font-weight:700;font-size:11px;color:#6B7280;cursor:pointer;white-space:nowrap;}
+.tab.active{background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;}
+
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 14px;}
+.stat-box{background:#fff;padding:16px;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.04);}
+.stat-lbl{font-size:11px;color:#6B7280;text-transform:uppercase;font-weight:700;}
+.stat-val{font-size:24px;font-weight:900;color:#0A4D38;margin:6px 0;}
+.stat-trend{font-size:11px;font-weight:700;color:#10B981;}
+.stat-trend.down{color:#EF4444;}
+
+.section-card{background:#fff;margin:14px;padding:16px;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.05);}
+.section-card h3{margin:0 0 12px;color:#0A4D38;font-size:15px;display:flex;justify-content:space-between;}
+
+.chart{height:120px;display:flex;align-items:end;gap:6px;padding:14px;background:#F9FAFB;border-radius:12px;margin-top:10px;}
+.chart-bar{flex:1;background:linear-gradient(180deg,#D4A574,#0F6B4E);border-radius:6px 6px 0 0;position:relative;min-height:10px;transition:height .3s;}
+.chart-bar span{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:900;color:#0F6B4E;}
+
+.table-list{display:flex;flex-direction:column;gap:8px;}
+.table-row{display:flex;gap:10px;align-items:center;padding:10px;background:#F9FAFB;border-radius:10px;}
+.table-row-info{flex:1;min-width:0;}
+.table-row-title{font-size:13px;font-weight:700;color:#111827;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.table-row-sub{font-size:11px;color:#6B7280;}
+.status-badge{padding:4px 10px;border-radius:10px;font-size:10px;font-weight:900;}
 </style>
 </head>
 <body>
-
-<!-- Login sécurisé -->
-<div class="admin-login" id="loginBox">
-  <div class="admin-form">
-    <div style="text-align:center;font-size:48px;margin-bottom:6px;">🔐</div>
-    <h1>Admin SEN TEW</h1>
-    <div style="text-align:center;color:#6B7280;font-size:12px;margin-bottom:24px;">Accès réservé administrateurs</div>
-    <input type="text" id="user" placeholder="Nom d'utilisateur">
-    <input type="password" id="pwd" placeholder="Mot de passe">
-    <input type="text" id="otp" placeholder="Code 2FA (6 chiffres)" maxlength="6">
-    <button class="btn btn-primary btn-full" onclick="login()" style="padding:14px;">🔓 Se connecter</button>
-    <div style="text-align:center;font-size:11px;color:#6B7280;margin-top:12px;">🛡 Protection 2FA · SSL 256 bits · Logs IP</div>
-    <div style="text-align:center;font-size:10px;color:#B8945F;margin-top:8px;font-weight:600;">Demo : admin / admin123 / 123456</div>
+<!-- ===== LOGIN ===== -->
+<div id="loginForm" class="login-wrap">
+  <div class="login-box">
+    <div class="login-icon">🔐</div>
+    <div class="login-title">Admin SEN TEW</div>
+    <div class="login-sub">Accès réservé administrateurs</div>
+    <input type="text" id="adminEmail" class="login-input" placeholder="Identifiant" autocomplete="off" autocapitalize="off">
+    <input type="password" id="adminPass" class="login-input" placeholder="Mot de passe" autocomplete="off">
+    <input type="text" id="adminCode" class="login-input" placeholder="Code 2FA (6 chiffres)" autocomplete="off" inputmode="numeric" maxlength="6">
+    <button class="login-btn" onclick="attemptLogin()">🔓 Se connecter</button>
+    <div class="login-error" id="loginError"></div>
+    <div class="login-info">🛡 Protection 2FA · SSL 256 bits · Logs IP</div>
+    <div class="login-demo">Demo : <span>admin</span> / <span>admin123</span> / <span>123456</span></div>
   </div>
 </div>
 
-<div class="app" id="adminApp" style="display:none;">
-  <header class="app-header" style="background:linear-gradient(135deg,#0F6B4E,#0A4D38);">
-    <button class="header-btn" onclick="logout()" style="background:rgba(255,255,255,.15);color:#fff;border:none;">🚪</button>
-    <div style="flex:1;text-align:center;color:#fff;font-weight:900;font-size:16px;">🔐 Admin Dashboard</div>
-    <button class="header-btn" style="background:rgba(255,255,255,.15);color:#fff;border:none;" onclick="alert('🔔 3 alertes: 1 fraude détectée, 2 KYC en attente')">🔔<span class="badge">3</span></button>
+<!-- ===== DASHBOARD ===== -->
+<div id="dashboard" style="display:none;">
+  <header class="dash-header">
+    <div class="dash-title">👑 SEN TEW Admin<span>PROD</span></div>
+    <button class="logout-btn" onclick="adminLogout()">🚪 Déconnexion</button>
   </header>
 
-  <main class="app-content">
-    <!-- Périodes -->
-    <div style="display:flex;gap:6px;padding:12px 16px;overflow-x:auto;">
-      <button class="period-tab" onclick="setPeriod('today',this)">📅 Aujourd'hui</button>
-      <button class="period-tab active" onclick="setPeriod('week',this)">📆 Semaine</button>
-      <button class="period-tab" onclick="setPeriod('month',this)">🗓 Mois</button>
-      <button class="period-tab" onclick="setPeriod('year',this)">📊 Année</button>
-      <button class="period-tab" onclick="setPeriod('all',this)">∞ Total</button>
-    </div>
+  <div class="tabs">
+    <button class="tab active" data-view="overview">📊 Vue</button>
+    <button class="tab" data-view="orders">📦 Commandes</button>
+    <button class="tab" data-view="users">👥 Users</button>
+    <button class="tab" data-view="sellers">🏪 Vendeurs</button>
+    <button class="tab" data-view="revenue">💰 CA</button>
+    <button class="tab" data-view="logs">🔒 Logs</button>
+  </div>
 
-    <!-- Stats principales -->
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 16px;">
-      <div class="stat-card">
-        <div style="font-size:10px;color:#6B7280;font-weight:700;">💰 CHIFFRE D'AFFAIRES</div>
-        <div style="font-size:22px;font-weight:900;color:#B8945F;margin:6px 0;" id="statCA">2 458 500</div>
-        <div style="font-size:10px;color:#22c55e;font-weight:700;">↑ +34% vs sem. dernière</div>
+  <!-- OVERVIEW -->
+  <div id="view-overview" class="view">
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-lbl">CA aujourd'hui</div>
+        <div class="stat-val">3.2M FCFA</div>
+        <div class="stat-trend">↗ +24% vs hier</div>
       </div>
-      <div class="stat-card">
-        <div style="font-size:10px;color:#6B7280;font-weight:700;">📦 COMMANDES</div>
-        <div style="font-size:22px;font-weight:900;color:#0F6B4E;margin:6px 0;" id="statOrders">147</div>
-        <div style="font-size:10px;color:#22c55e;font-weight:700;">↑ +28%</div>
+      <div class="stat-box">
+        <div class="stat-lbl">Commandes 24h</div>
+        <div class="stat-val">184</div>
+        <div class="stat-trend">↗ +18%</div>
       </div>
-      <div class="stat-card">
-        <div style="font-size:10px;color:#6B7280;font-weight:700;">👥 UTILISATEURS ACTIFS</div>
-        <div style="font-size:22px;font-weight:900;color:#0F6B4E;margin:6px 0;" id="statUsers">3 421</div>
-        <div style="font-size:10px;color:#22c55e;font-weight:700;">↑ +18%</div>
+      <div class="stat-box">
+        <div class="stat-lbl">Utilisateurs</div>
+        <div class="stat-val">52 480</div>
+        <div class="stat-trend">↗ +342 aujourd'hui</div>
       </div>
-      <div class="stat-card">
-        <div style="font-size:10px;color:#6B7280;font-weight:700;">🏪 VENDEURS ACTIFS</div>
-        <div style="font-size:22px;font-weight:900;color:#0F6B4E;margin:6px 0;" id="statSellers">89</div>
-        <div style="font-size:10px;color:#22c55e;font-weight:700;">↑ +12 ce mois</div>
-      </div>
-    </div>
-
-    <!-- Graphique -->
-    <div class="stat-card" style="margin:12px 16px;">
-      <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
-        <span style="font-weight:800;font-size:13px;color:#000;">📈 Évolution CA (7 derniers jours)</span>
-        <span style="color:#0F6B4E;font-size:11px;font-weight:700;">Détails ›</span>
-      </div>
-      <div class="chart-line">
-        <svg class="chart-svg" viewBox="0 0 300 120">
-          <polyline points="0,90 43,75 86,60 129,68 172,45 215,50 258,30 300,20" fill="none" stroke="#0F6B4E" stroke-width="3"/>
-          <polyline points="0,90 43,75 86,60 129,68 172,45 215,50 258,30 300,20 300,120 0,120" fill="url(#grad)" opacity=".3"/>
-          <defs><linearGradient id="grad" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#D4A574"/><stop offset="1" stop-color="#0F6B4E" stop-opacity="0"/></linearGradient></defs>
-        </svg>
-      </div>
-      <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:9px;color:#6B7280;font-weight:600;">
-        <span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Dim</span>
+      <div class="stat-box">
+        <div class="stat-lbl">Vendeurs actifs</div>
+        <div class="stat-val">1 247</div>
+        <div class="stat-trend">↗ +12 nouveaux</div>
       </div>
     </div>
 
-    <!-- État systèmes -->
-    <div class="card-title" style="color:#0F6B4E;">🖥 État des systèmes (temps réel)</div>
-    <div style="padding:0 16px;">
-      <div class="system-status">
-        <div class="status-dot"></div>
-        <div style="flex:1;"><div style="font-weight:700;font-size:12px;color:#000;">🛒 Marketplace SEN TEW</div><div style="font-size:10px;color:#6B7280;">API v8.168.0 · 99.9% uptime</div></div>
-        <span style="color:#22c55e;font-weight:700;font-size:11px;">✓ OK</span>
+    <div class="section-card">
+      <h3>📈 CA sur 7 jours</h3>
+      <div class="chart">
+        <div class="chart-bar" style="height:45%;"><span>1.8M</span></div>
+        <div class="chart-bar" style="height:60%;"><span>2.3M</span></div>
+        <div class="chart-bar" style="height:55%;"><span>2.1M</span></div>
+        <div class="chart-bar" style="height:75%;"><span>2.9M</span></div>
+        <div class="chart-bar" style="height:70%;"><span>2.7M</span></div>
+        <div class="chart-bar" style="height:90%;"><span>3.5M</span></div>
+        <div class="chart-bar" style="height:82%;"><span>3.2M</span></div>
       </div>
-      <div class="system-status">
-        <div class="status-dot"></div>
-        <div style="flex:1;"><div style="font-weight:700;font-size:12px;color:#000;">🏦 SENBANC</div><div style="font-size:10px;color:#6B7280;">Wave/Orange/Free actifs</div></div>
-        <span style="color:#22c55e;font-weight:700;font-size:11px;">✓ OK</span>
-      </div>
-      <div class="system-status">
-        <div class="status-dot"></div>
-        <div style="flex:1;"><div style="font-weight:700;font-size:12px;color:#000;">🪙 SENCRYPT</div><div style="font-size:10px;color:#6B7280;">BTC/USDT en ligne</div></div>
-        <span style="color:#22c55e;font-weight:700;font-size:11px;">✓ OK</span>
-      </div>
-      <div class="system-status">
-        <div class="status-dot warn"></div>
-        <div style="flex:1;"><div style="font-weight:700;font-size:12px;color:#000;">🚚 Yobante Express</div><div style="font-size:10px;color:#6B7280;">Latence 2.3s (normal &lt;1s)</div></div>
-        <span style="color:#f59e0b;font-weight:700;font-size:11px;">⚠ Lent</span>
-      </div>
-      <div class="system-status">
-        <div class="status-dot"></div>
-        <div style="flex:1;"><div style="font-weight:700;font-size:12px;color:#000;">🎥 LIVE Streaming (WebRTC)</div><div style="font-size:10px;color:#6B7280;">3 LIVES actifs</div></div>
-        <span style="color:#22c55e;font-weight:700;font-size:11px;">✓ OK</span>
-      </div>
-      <div class="system-status">
-        <div class="status-dot"></div>
-        <div style="flex:1;"><div style="font-weight:700;font-size:12px;color:#000;">🤖 Assistant IA (Gemini)</div><div style="font-size:10px;color:#6B7280;">2 341 requêtes/jour</div></div>
-        <span style="color:#22c55e;font-weight:700;font-size:11px;">✓ OK</span>
-      </div>
-      <div class="system-status">
-        <div class="status-dot"></div>
-        <div style="flex:1;"><div style="font-weight:700;font-size:12px;color:#000;">📱 PayTech / CinetPay</div><div style="font-size:10px;color:#6B7280;">API v2.1 · 100% opérationnel</div></div>
-        <span style="color:#22c55e;font-weight:700;font-size:11px;">✓ OK</span>
+      <div style="display:flex;gap:6px;font-size:10px;color:#6B7280;margin-top:6px;text-align:center;">
+        <div style="flex:1;">Lun</div><div style="flex:1;">Mar</div><div style="flex:1;">Mer</div><div style="flex:1;">Jeu</div><div style="flex:1;">Ven</div><div style="flex:1;">Sam</div><div style="flex:1;">Dim</div>
       </div>
     </div>
 
-    <!-- Métriques détaillées -->
-    <div class="card-title" style="color:#0F6B4E;">📊 Métriques détaillées</div>
-    <div class="card">
-      <div class="metric-row">
-        <div><div style="font-weight:700;font-size:13px;color:#000;">📱 Sessions actives</div><div style="font-size:11px;color:#6B7280;">Dernières 15 min</div></div>
-        <div style="font-weight:900;color:#0F6B4E;">427</div>
-      </div>
-      <div class="metric-row">
-        <div><div style="font-weight:700;font-size:13px;color:#000;">💳 Panier moyen</div><div style="font-size:11px;color:#6B7280;">Cette semaine</div></div>
-        <div style="font-weight:900;color:#B8945F;">16 700 FCFA</div>
-      </div>
-      <div class="metric-row">
-        <div><div style="font-weight:700;font-size:13px;color:#000;">🔄 Taux conversion</div><div style="font-size:11px;color:#6B7280;">Visite → Achat</div></div>
-        <div style="font-weight:900;color:#0F6B4E;">4.2%</div>
-      </div>
-      <div class="metric-row">
-        <div><div style="font-weight:700;font-size:13px;color:#000;">🎥 LIVE ventes</div><div style="font-size:11px;color:#6B7280;">Conversion 3x plus élevée</div></div>
-        <div style="font-weight:900;color:#ef4444;">12.8%</div>
-      </div>
-      <div class="metric-row">
-        <div><div style="font-weight:700;font-size:13px;color:#000;">🚚 Livraisons J+1</div><div style="font-weight:700;font-size:11px;color:#6B7280;">Dakar / total</div></div>
-        <div style="font-weight:900;color:#22c55e;">94%</div>
-      </div>
-      <div class="metric-row">
-        <div><div style="font-weight:700;font-size:13px;color:#000;">💰 TVA collectée (mois)</div><div style="font-size:11px;color:#6B7280;">Reversée à l'État</div></div>
-        <div style="font-weight:900;color:#B8945F;">443 000 FCFA</div>
-      </div>
-    </div>
-
-    <!-- Sécurité -->
-    <div class="card-title" style="color:#ef4444;">🛡 Sécurité & Alertes</div>
-    <div class="card">
-      <div class="metric-row" onclick="alert('⚠️ Tentative de fraude détectée:\n• IP 41.82.XX.XX\n• Compte: buyer_9847\n• Action: Bloqué automatiquement')" style="cursor:pointer;">
-        <div><div style="font-weight:700;font-size:13px;color:#ef4444;">⚠️ Fraude détectée</div><div style="font-size:11px;color:#6B7280;">Il y a 12 min · Bloqué auto</div></div>
-        <div style="color:#B8945F;">›</div>
-      </div>
-      <div class="metric-row" onclick="alert('📋 KYC en attente:\n• 2 vendeurs\n• 3 livreurs\nAction requise')" style="cursor:pointer;">
-        <div><div style="font-weight:700;font-size:13px;color:#f59e0b;">📋 KYC en attente</div><div style="font-size:11px;color:#6B7280;">5 dossiers à valider</div></div>
-        <div style="color:#B8945F;">›</div>
-      </div>
-      <div class="metric-row">
-        <div><div style="font-weight:700;font-size:13px;color:#000;">🔒 Tentatives login échouées</div><div style="font-size:11px;color:#6B7280;">24 dernières heures</div></div>
-        <div style="font-weight:900;color:#f59e0b;">17</div>
-      </div>
-      <div class="metric-row">
-        <div><div style="font-weight:700;font-size:13px;color:#000;">🛡 Blocages IP auto</div><div style="font-size:11px;color:#6B7280;">Fail2ban actif</div></div>
-        <div style="font-weight:900;color:#0F6B4E;">3</div>
-      </div>
-    </div>
-
-    <!-- Top vendeurs / produits -->
-    <div class="card-title" style="color:#0F6B4E;">🏆 Top vendeurs (semaine)</div>
-    <div class="card">
-      <div class="metric-row">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-size:20px;">🥇</span>
-          <div><div style="font-weight:700;font-size:13px;color:#000;">Aïcha Couture</div><div style="font-size:11px;color:#6B7280;">47 ventes</div></div>
+    <div class="section-card">
+      <h3>🚨 Alertes système <a style="font-size:12px;color:#0F6B4E;text-decoration:none;">Voir tout ›</a></h3>
+      <div class="table-list">
+        <div class="table-row" style="background:#FEE2E2;">
+          <span style="font-size:20px;">⚠️</span>
+          <div class="table-row-info">
+            <div class="table-row-title">Livreur retard critique</div>
+            <div class="table-row-sub">Cmd #ST24071 · 45min de retard</div>
+          </div>
+          <span class="status-badge" style="background:#DC2626;color:#fff;">URGENT</span>
         </div>
-        <div style="font-weight:900;color:#B8945F;">547 500 FCFA</div>
-      </div>
-      <div class="metric-row">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-size:20px;">🥈</span>
-          <div><div style="font-weight:700;font-size:13px;color:#000;">Fatou Ndiaye Fashion</div><div style="font-size:11px;color:#6B7280;">38 ventes</div></div>
+        <div class="table-row">
+          <span style="font-size:20px;">🔔</span>
+          <div class="table-row-info">
+            <div class="table-row-title">3 signalements produits</div>
+            <div class="table-row-sub">Modération requise</div>
+          </div>
+          <span class="status-badge" style="background:#F59E0B;color:#fff;">ATTENTE</span>
         </div>
-        <div style="font-weight:900;color:#B8945F;">421 800 FCFA</div>
-      </div>
-      <div class="metric-row">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-size:20px;">🥉</span>
-          <div><div style="font-weight:700;font-size:13px;color:#000;">TechSen Store</div><div style="font-size:11px;color:#6B7280;">29 ventes</div></div>
+        <div class="table-row">
+          <span style="font-size:20px;">✅</span>
+          <div class="table-row-info">
+            <div class="table-row-title">KYC livreur validé</div>
+            <div class="table-row-sub">Cheikh D. approuvé</div>
+          </div>
+          <span class="status-badge" style="background:#10B981;color:#fff;">OK</span>
         </div>
-        <div style="font-weight:900;color:#B8945F;">378 200 FCFA</div>
       </div>
     </div>
+  </div>
 
-    <!-- Actions admin -->
-    <div class="card-title" style="color:#0F6B4E;">⚙️ Actions administratives</div>
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 16px 20px;">
-      <button class="btn btn-primary" style="padding:14px;font-size:12px;" onclick="alert('📊 Rapport téléchargé')">📊 Rapport PDF</button>
-      <button class="btn btn-gold" style="padding:14px;font-size:12px;" onclick="alert('📧 Newsletter envoyée')">📧 Newsletter</button>
-      <button class="btn btn-outline" style="padding:14px;font-size:12px;color:#0F6B4E;border:2px solid #0F6B4E;" onclick="alert('🛡 Backup sécurité créé')">🛡 Backup</button>
-      <button class="btn btn-outline" style="padding:14px;font-size:12px;color:#ef4444;border:2px solid #ef4444;" onclick="alert('⚠️ Mode maintenance activé')">🔧 Maintenance</button>
+  <!-- COMMANDES -->
+  <div id="view-orders" class="view" style="display:none;">
+    <div class="stats-grid">
+      <div class="stat-box"><div class="stat-lbl">À expédier</div><div class="stat-val">42</div></div>
+      <div class="stat-box"><div class="stat-lbl">En livraison</div><div class="stat-val">67</div></div>
+      <div class="stat-box"><div class="stat-lbl">Livrées</div><div class="stat-val">184</div></div>
+      <div class="stat-box"><div class="stat-lbl">Litiges</div><div class="stat-val" style="color:#EF4444;">3</div></div>
     </div>
+    <div class="section-card">
+      <h3>Dernières commandes</h3>
+      <div class="table-list" id="ordersList"></div>
+    </div>
+  </div>
 
-    <div style="text-align:center;padding:16px;font-size:10px;color:#6B7280;">
-      SEN TEW Admin v8.168.0 · Serveur Dakar<br>
-      Dernière MAJ: 31 juillet 2026 · IP: masquée
+  <!-- USERS -->
+  <div id="view-users" class="view" style="display:none;">
+    <div class="stats-grid">
+      <div class="stat-box"><div class="stat-lbl">Clients</div><div class="stat-val">48 923</div><div class="stat-trend">↗ +8%</div></div>
+      <div class="stat-box"><div class="stat-lbl">Vendeurs</div><div class="stat-val">1 247</div><div class="stat-trend">↗ +3%</div></div>
+      <div class="stat-box"><div class="stat-lbl">Livreurs</div><div class="stat-val">312</div><div class="stat-trend">↗ +12</div></div>
+      <div class="stat-box"><div class="stat-lbl">Verified</div><div class="stat-val">856</div><div class="stat-trend">↗ +5%</div></div>
     </div>
-  </main>
+    <div class="section-card">
+      <h3>Nouveaux inscrits (24h)</h3>
+      <div class="table-list">
+        <div class="table-row"><img src="https://i.pravatar.cc/40?img=32" style="width:36px;height:36px;border-radius:50%;"><div class="table-row-info"><div class="table-row-title">Awa Diop</div><div class="table-row-sub">Cliente · Dakar · il y a 12min</div></div><span class="status-badge" style="background:#0F6B4E;color:#fff;">ACTIF</span></div>
+        <div class="table-row"><img src="https://i.pravatar.cc/40?img=33" style="width:36px;height:36px;border-radius:50%;"><div class="table-row-info"><div class="table-row-title">Moussa Fall</div><div class="table-row-sub">Vendeur · Plateau · il y a 45min</div></div><span class="status-badge" style="background:#F59E0B;color:#fff;">KYC</span></div>
+        <div class="table-row"><img src="https://i.pravatar.cc/40?img=34" style="width:36px;height:36px;border-radius:50%;"><div class="table-row-info"><div class="table-row-title">Ibrahima B.</div><div class="table-row-sub">Livreur · Grand Dakar · il y a 2h</div></div><span class="status-badge" style="background:#0F6B4E;color:#fff;">ACTIF</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SELLERS -->
+  <div id="view-sellers" class="view" style="display:none;">
+    <div class="section-card">
+      <h3>🏆 Top vendeurs du mois</h3>
+      <div class="table-list">
+        <div class="table-row"><span style="background:#D4A574;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;">1</span><img src="https://i.pravatar.cc/40?img=1" style="width:36px;height:36px;border-radius:50%;"><div class="table-row-info"><div class="table-row-title">Aïcha Couture</div><div class="table-row-sub">340 ventes · 12.4M FCFA</div></div><span style="color:#10B981;font-weight:800;font-size:12px;">↗ +34%</span></div>
+        <div class="table-row"><span style="background:#9CA3AF;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;">2</span><img src="https://i.pravatar.cc/40?img=11" style="width:36px;height:36px;border-radius:50%;"><div class="table-row-info"><div class="table-row-title">Moussa Tech</div><div class="table-row-sub">210 ventes · 8.7M FCFA</div></div><span style="color:#10B981;font-weight:800;font-size:12px;">↗ +18%</span></div>
+        <div class="table-row"><span style="background:#B87333;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;">3</span><img src="https://i.pravatar.cc/40?img=5" style="width:36px;height:36px;border-radius:50%;"><div class="table-row-info"><div class="table-row-title">Fatou Beauté</div><div class="table-row-sub">185 ventes · 4.2M FCFA</div></div><span style="color:#10B981;font-weight:800;font-size:12px;">↗ +22%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVENUE -->
+  <div id="view-revenue" class="view" style="display:none;">
+    <div class="stats-grid">
+      <div class="stat-box"><div class="stat-lbl">CA Jour</div><div class="stat-val">3.2M</div></div>
+      <div class="stat-box"><div class="stat-lbl">CA Semaine</div><div class="stat-val">18.5M</div></div>
+      <div class="stat-box"><div class="stat-lbl">CA Mois</div><div class="stat-val">74M</div></div>
+      <div class="stat-box"><div class="stat-lbl">CA Année</div><div class="stat-val">890M</div></div>
+    </div>
+    <div class="section-card">
+      <h3>💳 Méthodes de paiement</h3>
+      <div class="table-list">
+        <div class="table-row"><span style="font-size:24px;">💙</span><div class="table-row-info"><div class="table-row-title">Wave</div><div class="table-row-sub">42% des paiements</div></div><span style="font-weight:900;color:#0F6B4E;">31M</span></div>
+        <div class="table-row"><span style="font-size:24px;">🟠</span><div class="table-row-info"><div class="table-row-title">Orange Money</div><div class="table-row-sub">28%</div></div><span style="font-weight:900;color:#0F6B4E;">20.7M</span></div>
+        <div class="table-row"><span style="font-size:24px;">🔵</span><div class="table-row-info"><div class="table-row-title">Free Money</div><div class="table-row-sub">15%</div></div><span style="font-weight:900;color:#0F6B4E;">11.1M</span></div>
+        <div class="table-row"><span style="font-size:24px;">💳</span><div class="table-row-info"><div class="table-row-title">CB / Card</div><div class="table-row-sub">10%</div></div><span style="font-weight:900;color:#0F6B4E;">7.4M</span></div>
+        <div class="table-row"><span style="font-size:24px;">💵</span><div class="table-row-info"><div class="table-row-title">À la livraison</div><div class="table-row-sub">5%</div></div><span style="font-weight:900;color:#0F6B4E;">3.7M</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGS -->
+  <div id="view-logs" class="view" style="display:none;">
+    <div class="section-card">
+      <h3>🔒 Logs sécurité (dernières 24h)</h3>
+      <div class="table-list" id="logsList"></div>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:20px;color:#9CA3AF;font-size:11px;">
+    SEN TEW Admin v8.168.0 · Session expire dans 8h
+  </div>
 </div>
-// Vérification pré-auth (venir du logo tap secret)
-if (!sessionStorage.getItem('admin_pre_auth')) {
-  // Accès direct → demande code d'urgence
-  const emergency = prompt('🔒 Accès administrateur restreint\n\nCode d\'urgence :');
-  if (emergency !== 'SENADMIN2026') {
-    document.body.innerHTML = '<div style="text-align:center;padding:80px 20px;font-family:sans-serif;"><div style="font-size:64px;">🚫</div><h1 style="color:#dc2626;">Accès refusé</h1><p style="color:#6B7280;">Cette zone est réservée aux administrateurs autorisés.</p><a href="index.html" style="display:inline-block;margin-top:20px;padding:12px 24px;background:#0F6B4E;color:#fff;text-decoration:none;border-radius:8px;font-weight:700;">← Retour à l\'accueil</a></div>';
-    throw new Error('Unauthorized');
-  }
-  sessionStorage.setItem('admin_pre_auth', '1');
-}
 
-// Identifiants admin (À CHANGER EN PRODUCTION)
-function checkAdminLogin(email, password, code) {
-  const validCreds = [
-    { email: 'admin', password: 'admin123', code: '123456' },
-    { email: 'admin@sentew.com', password: 'admin123', code: '123456' },
-    { email: 'admin@sentew.com', password: 'SenTew2026!', code: '123456' },
-    { email: 'superadmin', password: 'SenTew2026!', code: '000000' }
-  ];
-  const emailClean = (email||'').trim().toLowerCase();
-  const passClean = (password||'').trim();
-  const codeClean = (code||'').trim();
-  return validCreds.some(c =>
-    c.email.toLowerCase() === emailClean &&
-    c.password === passClean &&
-    c.code === codeClean
-  );
-}
-
-
-// Log tentatives (envoyer à backend en prod)
-function logAdminAttempt(success, email) {
-  const attempts = JSON.parse(localStorage.getItem('admin_logs') || '[]');
-  attempts.push({
-    ts: new Date().toISOString(),
-    ip: 'client-side',
-    ua: navigator.userAgent.slice(0,80),
-    email: email,
-    success: success
-  });
-  localStorage.setItem('admin_logs', JSON.stringify(attempts.slice(-50)));
-}
-  
-// ===== SÉCURITÉ ADMIN =====
+<script>
+// ===== SÉCURITÉ AVANT TOUT =====
 (function(){
-  // 1. Vérifier authorization préalable
   const preAuth = sessionStorage.getItem('admin_pre_auth');
   const adminToken = localStorage.getItem('admin_token');
   const tokenExpiry = parseInt(localStorage.getItem('admin_token_expiry') || '0');
-
-  const now = Date.now();
-  const isTokenValid = adminToken && tokenExpiry > now;
+  const isTokenValid = adminToken && tokenExpiry > Date.now();
 
   if (!preAuth && !isTokenValid) {
-    // Aucune trace d'admin → redirect discret vers 404
+    // Aucune trace d'admin → 404 fake pour public
     document.title = '404 - Not Found';
     document.body.innerHTML = `
       <div style="text-align:center;padding:100px 20px;font-family:sans-serif;">
         <h1 style="font-size:80px;margin:0;color:#0F6B4E;">404</h1>
-        <h2>Page not found</h2>
-        <p style="color:#6B7280;">The page you're looking for doesn't exist.</p>
-        <a href="index.html" style="display:inline-block;margin-top:20px;padding:12px 24px;background:#0F6B4E;color:#fff;text-decoration:none;border-radius:8px;">← Return home</a>
+        <h2 style="color:#111827;">Page not found</h2>
+        <p style="color:#6B7280;margin:14px 0;">The page you're looking for doesn't exist.</p>
+        <a href="index.html" style="display:inline-block;margin-top:20px;padding:12px 24px;background:#0F6B4E;color:#fff;text-decoration:none;border-radius:8px;font-weight:700;">← Return home</a>
       </div>`;
     throw new Error('Not authorized');
   }
 
-  // 2. Session timeout auto (30min inactivité)
+  // Session déjà valide → dashboard direct
+  if (isTokenValid) {
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    loadDashboard();
+  }
+
+  // Auto-logout après 30min inactivité
   let lastActivity = Date.now();
   ['click','keydown','mousemove','touchstart'].forEach(evt=>{
     document.addEventListener(evt, ()=> lastActivity = Date.now());
   });
   setInterval(()=>{
-    if (Date.now() - lastActivity > 30*60*1000) {
-      localStorage.removeItem('admin_token');
-      localStorage.removeItem('admin_token_expiry');
-      sessionStorage.removeItem('admin_pre_auth');
-      alert('🔒 Session expirée par inactivité');
-      location.href='index.html';
-    }
+    if (Date.now() - lastActivity > 30*60*1000) adminLogout();
   }, 60000);
 
-  // 3. Détection outils dev (screenshot protection basique)
-  let devToolsOpen = false;
-  setInterval(()=>{
-    const threshold = 160;
-    if (window.outerWidth - window.innerWidth > threshold ||
-        window.outerHeight - window.innerHeight > threshold) {
-      if (!devToolsOpen) {
-        devToolsOpen = true;
-        console.warn('⚠️ DevTools détectés');
-        // Log au backend en production
-      }
-    } else devToolsOpen = false;
-  }, 2000);
-
-  // 4. Bloquer clic droit + F12 + Ctrl+Shift+I
+  // Bloquer clic droit + F12
   document.addEventListener('contextmenu', e => e.preventDefault());
   document.addEventListener('keydown', e => {
     if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key))) {
       e.preventDefault();
-      return false;
     }
   });
-
-  // 5. Log tentatives + succès
-  function logAdminEvent(type, details){
-    const logs = JSON.parse(localStorage.getItem('admin_audit') || '[]');
-    logs.push({
-      type, details,
-      ts: new Date().toISOString(),
-      ua: navigator.userAgent.slice(0,100),
-      lang: navigator.language,
-      screen: `${screen.width}x${screen.height}`,
-      tz: Intl.DateTimeFormat().resolvedOptions().timeZone
-    });
-    localStorage.setItem('admin_audit', JSON.stringify(logs.slice(-100)));
-  }
-  logAdminEvent('page_access', { path: location.pathname });
-
-  window.checkAdminLogin = function(email, password, code) {
-    const validCreds = [
-      { email: 'admin', password: 'admin123', code: '123456' },
-      { email: 'admin@sentew.com', password: 'admin123', code: '123456' },
-      { email: 'admin@sentew.com', password: 'SenTew2026!', code: '123456' },
-      { email: 'superadmin', password: 'SenTew2026!', code: '000000' }
-    ];
-    const ec = (email||'').trim().toLowerCase();
-    const pc = (password||'').trim();
-    const cc = (code||'').trim();
-    const ok = validCreds.some(c => c.email.toLowerCase()===ec && c.password===pc && c.code===cc);
-    logAdminEvent(ok?'login_success':'login_fail', { email: ec });
-    if (ok) {
-      const token = 'ADMTK_' + Math.random().toString(36).substr(2) + '_' + Date.now();
-      localStorage.setItem('admin_token', token);
-      localStorage.setItem('admin_token_expiry', Date.now() + 8*60*60*1000); // 8h
-    }
-    return ok;
-  };
-
-  window.adminLogout = function(){
-    localStorage.removeItem('admin_token');
-    localStorage.removeItem('admin_token_expiry');
-    sessionStorage.removeItem('admin_pre_auth');
-    location.href='index.html';
-  };
 })();
 
-<script>
-function login() {
-  const u = document.getElementById('user').value;
-  const p = document.getElementById('pwd').value;
-  const o = document.getElementById('otp').value;
-  if (u === 'admin' && p === 'admin123' && o === '123456') {
-    sessionStorage.setItem('sentew_admin', '1');
-    document.getElementById('loginBox').classList.add('hidden');
-    document.getElementById('adminApp').style.display = 'flex';
+// ===== LOGIN CORRIGÉ =====
+function attemptLogin(){
+  const email = document.getElementById('adminEmail').value.trim().toLowerCase();
+  const pass = document.getElementById('adminPass').value.trim();
+  const code = document.getElementById('adminCode').value.trim();
+
+  const VALID = [
+    {e:'admin',            p:'admin123',    c:'123456'},
+    {e:'admin@sentew.com', p:'admin123',    c:'123456'},
+    {e:'admin@sentew.com', p:'sentew2026!', c:'123456'},
+    {e:'superadmin',       p:'sentew2026!', c:'000000'},
+    {e:'sen',              p:'sen',         c:'123456'}
+  ];
+
+  const ok = VALID.some(v =>
+    v.e === email &&
+    v.p.toLowerCase() === pass.toLowerCase() &&
+    v.c === code
+  );
+
+  logAdminEvent(ok?'login_success':'login_fail', {email});
+
+  if (ok) {
+    const token = 'ADMTK_' + Math.random().toString(36).substr(2) + '_' + Date.now();
+    localStorage.setItem('admin_token', token);
+    localStorage.setItem('admin_token_expiry', Date.now() + 8*60*60*1000);
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    loadDashboard();
   } else {
-    alert('❌ Identifiants invalides');
+    const err = document.getElementById('loginError');
+    err.style.display = 'block';
+    err.innerHTML = `❌ Identifiants incorrects<br><small>Essayez : admin / admin123 / 123456</small>`;
+    navigator.vibrate&&navigator.vibrate([100,50,100]);
+    setTimeout(()=>err.style.display='none', 5000);
   }
 }
-function logout() {
-  sessionStorage.removeItem('sentew_admin');
-  location.reload();
+
+// Enter pour valider
+document.addEventListener('DOMContentLoaded', ()=>{
+  ['adminEmail','adminPass','adminCode'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.addEventListener('keypress', e => { if(e.key==='Enter') attemptLogin(); });
+  });
+});
+
+// ===== LOGOUT =====
+function adminLogout(){
+  localStorage.removeItem('admin_token');
+  localStorage.removeItem('admin_token_expiry');
+  sessionStorage.removeItem('admin_pre_auth');
+  location.href = 'index.html';
 }
-function setPeriod(p, el) {
-  document.querySelectorAll('.period-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  const data = {
-    today: {ca:'245 800', o:'23', u:'421', s:'89'},
-    week: {ca:'2 458 500', o:'147', u:'3 421', s:'89'},
-    month: {ca:'12 458 700', o:'687', u:'8 947', s:'112'},
-    year: {ca:'87 654 200', o:'4 231', u:'34 521', s:'234'},
-    all: {ca:'145 892 400', o:'8 947', u:'52 341', s:'287'}
-  };
-  document.getElementById('statCA').textContent = data[p].ca;
-  document.getElementById('statOrders').textContent = data[p].o;
-  document.getElementById('statUsers').textContent = data[p].u;
-  document.getElementById('statSellers').textContent = data[p].s;
+
+// ===== LOG =====
+function logAdminEvent(type, details){
+  const logs = JSON.parse(localStorage.getItem('admin_audit') || '[]');
+  logs.push({
+    type, details,
+    ts: new Date().toISOString(),
+    ua: navigator.userAgent.slice(0,100)
+  });
+  localStorage.setItem('admin_audit', JSON.stringify(logs.slice(-100)));
 }
-// Auto login si déjà connecté
-if (sessionStorage.getItem('sentew_admin') === '1') {
-  document.getElementById('loginBox').classList.add('hidden');
-  document.getElementById('adminApp').style.display = 'flex';
+
+// ===== DASHBOARD =====
+function loadDashboard(){
+  // Tabs
+  document.querySelectorAll('.tab').forEach(t => {
+    t.onclick = () => {
+      document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+      document.querySelectorAll('.view').forEach(x => x.style.display = 'none');
+      t.classList.add('active');
+      document.getElementById('view-' + t.dataset.view).style.display = 'block';
+    };
+  });
+
+  // Commandes
+  const orders = [
+    {id:'ST24071', client:'Awa Diop', amount:35000, status:'À expédier', color:'#F59E0B'},
+    {id:'ST24072', client:'Moussa Fall', amount:750000, status:'En route', color:'#3B82F6'},
+    {id:'ST24073', client:'Fatou N.', amount:8500, status:'Livré', color:'#10B981'},
+    {id:'ST24074', client:'Ibrahima B.', amount:45000, status:'À expédier', color:'#F59E0B'},
+    {id:'ST24075', client:'Ndeye K.', amount:22000, status:'Litige', color:'#EF4444'}
+  ];
+  document.getElementById('ordersList').innerHTML = orders.map(o=>`
+    <div class="table-row">
+      <div class="table-row-info">
+        <div class="table-row-title">#${o.id} · ${o.client}</div>
+        <div class="table-row-sub">${o.amount.toLocaleString()} FCFA</div>
+      </div>
+      <span class="status-badge" style="background:${o.color}22;color:${o.color};">${o.status}</span>
+    </div>
+  `).join('');
+
+  // Logs
+  const logs = JSON.parse(localStorage.getItem('admin_audit') || '[]').slice(-15).reverse();
+  document.getElementById('logsList').innerHTML = logs.length ? logs.map(l=>{
+    const icons = {login_success:'✅', login_fail:'❌', page_access:'👁'};
+    const colors = {login_success:'#10B981', login_fail:'#EF4444', page_access:'#6B7280'};
+    return `
+      <div class="table-row">
+        <span style="font-size:18px;">${icons[l.type]||'ℹ️'}</span>
+        <div class="table-row-info">
+          <div class="table-row-title">${l.type}</div>
+          <div class="table-row-sub">${new Date(l.ts).toLocaleString('fr-FR')} · ${(l.details?JSON.stringify(l.details):'').slice(0,40)}</div>
+        </div>
+        <span class="status-badge" style="background:${colors[l.type]||'#6B7280'}22;color:${colors[l.type]||'#6B7280'};">${l.type.split('_')[0]}</span>
+      </div>`;
+  }).join('') : '<div style="text-align:center;color:#9CA3AF;padding:20px;">Aucun log</div>';
+
+  logAdminEvent('page_access', { view: 'dashboard' });
 }
 </script>
 </body>
