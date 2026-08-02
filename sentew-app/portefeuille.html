@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="css/app.css">
 <meta name="theme-color" content="#0F6B4E">
 <style>
-*{-webkit-tap-highlight-color:transparent;}
+*{-webkit-tap-highlight-color:transparent;box-sizing:border-box;}
 body{background:#F5F5F0;margin:0;font-family:-apple-system,sans-serif;}
 .app-header{display:flex;align-items:center;gap:8px;padding:12px 14px;background:#fff;border-bottom:1px solid #F3F4F6;position:sticky;top:0;z-index:100;}
 .hd-btn{width:38px;height:38px;background:#F9FAFB;border:none;border-radius:50%;font-size:16px;color:#0A4D38;cursor:pointer;}
@@ -51,7 +51,10 @@ body{background:#F5F5F0;margin:0;font-family:-apple-system,sans-serif;}
 .app-content{padding-bottom:80px;}
 .app-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #F3F4F6;padding:6px 0 max(6px,env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr);z-index:90;}
 .app-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600;padding:4px;}
+.app-nav a.active{color:#0F6B4E;}
+.app-nav a.active .nav-icon{background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;}
 .nav-icon{width:34px;height:34px;background:#F9FAFB;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;position:relative;}
+.nav-icon .badge{position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;font-size:8px;padding:1px 4px;border-radius:6px;font-weight:900;}
 </style>
 </head>
 <body>
@@ -66,7 +69,7 @@ body{background:#F5F5F0;margin:0;font-family:-apple-system,sans-serif;}
     <!-- WALLET CARD -->
     <div class="wallet-card">
       <div class="wallet-brand">
-        <img src="https://www.genspark.ai/api/files/s/wdpD8VqY" alt="SEN TEW">
+        <img id="walletLogo" alt="SEN TEW Wallet">
         <div class="wallet-brand-name">SEN TEW Wallet</div>
       </div>
       <div class="wallet-balance-label">Solde disponible</div>
@@ -99,11 +102,6 @@ body{background:#F5F5F0;margin:0;font-family:-apple-system,sans-serif;}
       <h3>💳 Méthodes de recharge</h3>
       <div class="pay-logos-grid">
         <div class="pay-logo-btn" onclick="depositWith('wave')">
-          <img src="https://www.genspark.ai/api/files/s/CqMQ0SOO" alt="Wave">
-          <div>Wave</div>
-        </div>
-        <div class="pay-logo-btn" onclick="depositWith('om')">
-                <div class="pay-logo-btn" onclick="depositWith('wave')">
           <img data-pay-logo="wave" alt="Wave">
           <div>Wave</div>
         </div>
@@ -117,17 +115,6 @@ body{background:#F5F5F0;margin:0;font-family:-apple-system,sans-serif;}
         </div>
         <div class="pay-logo-btn" onclick="depositWith('wizall')">
           <img data-pay-logo="wizall" alt="Wizall">
-          <div>Wizall</div>
-        </div>
-
-          <div>OM</div>
-        </div>
-        <div class="pay-logo-btn" onclick="depositWith('free')">
-          <img src="https://www.genspark.ai/api/files/s/X4q4ZprL" alt="Free">
-          <div>Free</div>
-        </div>
-        <div class="pay-logo-btn" onclick="depositWith('wizall')">
-          <img src="https://www.genspark.ai/api/files/s/EY1h2keG" alt="Wizall">
           <div>Wizall</div>
         </div>
       </div>
@@ -165,14 +152,28 @@ body{background:#F5F5F0;margin:0;font-family:-apple-system,sans-serif;}
   </nav>
 </div>
 
+<script src="js/logo.js"></script>
 <script>
+// Applique logo SVG immédiatement
+setTimeout(()=>{
+  const wl = document.getElementById('walletLogo');
+  if(wl){
+    wl.src = window.SEN_LOGO_SVG || `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%230F6B4E'/><text x='50' y='60' text-anchor='middle' font-family='Arial' font-size='28' font-weight='900' fill='%23D4A574'>ST</text></svg>`;
+  }
+  // Applique logos paiement
+  document.querySelectorAll('[data-pay-logo]').forEach(el=>{
+    const key = el.getAttribute('data-pay-logo');
+    if(window.PAY_LOGOS && window.PAY_LOGOS[key]) el.src = window.PAY_LOGOS[key];
+  });
+}, 50);
+
 let balance = parseFloat(localStorage.getItem('wallet_balance')||'15000');
 let transactions = JSON.parse(localStorage.getItem('wallet_transactions')||'null') || [
   {type:'in',title:'💰 Bonus bienvenue',amount:1000,date:Date.now()-86400000*30},
   {type:'in',title:'💵 Recharge Wave',amount:20000,date:Date.now()-86400000*15},
-  {type:'out',title:'🛒 Commande #ST240071',amount:15000,date:Date.now()-86400000*7},
+  {type:'out',title:'🛒 Commande #ST260071',amount:15000,date:Date.now()-86400000*7},
   {type:'in',title:'🎁 Parrainage +Awa',amount:500,date:Date.now()-86400000*3},
-  {type:'out',title:'🛒 Commande #ST240073',amount:8500,date:Date.now()-86400000}
+  {type:'out',title:'🛒 Commande #ST260073',amount:8500,date:Date.now()-86400000}
 ];
 
 function refreshBalance(){
