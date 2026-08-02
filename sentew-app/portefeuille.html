@@ -4,100 +4,237 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Portefeuille - SEN TEW</title>
-<meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0F6B4E">
 <link rel="stylesheet" href="css/app.css">
+<meta name="theme-color" content="#0F6B4E">
+<style>
+*{-webkit-tap-highlight-color:transparent;}
+body{background:#F5F5F0;margin:0;font-family:-apple-system,sans-serif;}
+.app-header{display:flex;align-items:center;gap:8px;padding:12px 14px;background:#fff;border-bottom:1px solid #F3F4F6;position:sticky;top:0;z-index:100;}
+.hd-btn{width:38px;height:38px;background:#F9FAFB;border:none;border-radius:50%;font-size:16px;color:#0A4D38;cursor:pointer;}
+
+.wallet-card{margin:16px 14px;background:linear-gradient(135deg,#0F6B4E,#0A4D38);border-radius:20px;padding:20px;color:#fff;position:relative;overflow:hidden;box-shadow:0 8px 24px rgba(15,107,78,.3);}
+.wallet-card::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:rgba(212,165,116,.15);border-radius:50%;}
+.wallet-card::after{content:'';position:absolute;bottom:-30px;left:-30px;width:150px;height:150px;background:rgba(212,165,116,.1);border-radius:50%;}
+.wallet-brand{display:flex;align-items:center;gap:10px;margin-bottom:20px;position:relative;z-index:2;}
+.wallet-brand img{width:36px;height:36px;border-radius:8px;background:#fff;padding:3px;}
+.wallet-brand-name{font-weight:900;font-size:15px;letter-spacing:1px;}
+.wallet-balance-label{font-size:12px;opacity:.85;text-transform:uppercase;letter-spacing:1px;position:relative;z-index:2;}
+.wallet-balance{font-size:32px;font-weight:900;color:#D4A574;margin:6px 0;position:relative;z-index:2;}
+.wallet-currencies{font-size:12px;opacity:.85;position:relative;z-index:2;}
+
+.quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 14px;}
+.qa-btn{background:#fff;padding:14px 6px;border-radius:12px;text-align:center;text-decoration:none;color:#0A4D38;box-shadow:0 2px 8px rgba(0,0,0,.05);border:none;cursor:pointer;}
+.qa-icon{width:40px;height:40px;background:linear-gradient(135deg,#0F6B4E,#D4A574);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;margin:0 auto 6px;color:#fff;}
+.qa-label{font-size:10px;font-weight:800;}
+
+.section{background:#fff;margin:12px 14px;border-radius:16px;padding:16px;}
+.section h3{margin:0 0 12px;color:#0A4D38;font-size:15px;display:flex;justify-content:space-between;}
+.section h3 a{font-size:12px;color:#0F6B4E;text-decoration:none;}
+
+.trans-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #F3F4F6;align-items:center;}
+.trans-item:last-child{border-bottom:none;}
+.trans-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.trans-in{background:#D1FAE5;color:#065F46;}
+.trans-out{background:#FEE2E2;color:#DC2626;}
+.trans-info{flex:1;min-width:0;}
+.trans-title{font-weight:700;font-size:13px;color:#111827;}
+.trans-date{font-size:11px;color:#6B7280;margin-top:2px;}
+.trans-amount{font-weight:900;font-size:14px;}
+.trans-amount.in{color:#10B981;}
+.trans-amount.out{color:#EF4444;}
+
+.pay-logos-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px;}
+.pay-logo-btn{background:#F9FAFB;border:1px solid #E5E7EB;border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;}
+.pay-logo-btn img{width:36px;height:36px;object-fit:contain;}
+.pay-logo-btn div{font-size:10px;font-weight:700;margin-top:4px;color:#111827;}
+
+.app-content{padding-bottom:80px;}
+.app-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #F3F4F6;padding:6px 0 max(6px,env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr);z-index:90;}
+.app-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600;padding:4px;}
+.nav-icon{width:34px;height:34px;background:#F9FAFB;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;position:relative;}
+</style>
 </head>
-<body oncontextmenu="return false">
+<body>
 <div class="app">
   <header class="app-header">
-    <button class="header-btn" onclick="history.back()">←</button>
-    <div class="app-logo" style="text-align:center;">💰 Portefeuille</div>
-    <button class="header-btn" onclick="alert('📊 Statistiques')">📊</button>
+    <button class="hd-btn" onclick="history.back()">←</button>
+    <div style="flex:1;text-align:center;font-weight:900;color:#0A4D38;">💰 Portefeuille</div>
+    <button class="hd-btn" onclick="location.href='parametres.html'">⚙️</button>
   </header>
 
   <main class="app-content">
-    <!-- Solde -->
-    <div style="margin:16px;background:linear-gradient(135deg,#0F6B4E,#D4A574);border-radius:20px;padding:24px;position:relative;overflow:hidden;">
-      <div style="position:absolute;top:-40px;right:-40px;width:150px;height:150px;background:rgba(255,255,255,.1);border-radius:50%;"></div>
-      <div style="color:rgba(255,255,255,.9);font-size:13px;margin-bottom:6px;">Solde total</div>
-      <div style="font-size:32px;font-weight:800;color:#fff;">45 500 <span style="font-size:14px;">FCFA</span></div>
-      <div style="display:flex;gap:8px;margin-top:16px;">
-        <button class="btn" style="background:rgba(255,255,255,.2);color:#fff;flex:1;font-size:12px;" onclick="alert('💰 Recharger via Wave')">＋ Recharger</button>
-        <button class="btn" style="background:rgba(255,255,255,.2);color:#fff;flex:1;font-size:12px;" onclick="alert('📤 Retrait vers Wave')">↗ Retirer</button>
+    <!-- WALLET CARD -->
+    <div class="wallet-card">
+      <div class="wallet-brand">
+        <img src="https://www.genspark.ai/api/files/s/wdpD8VqY" alt="SEN TEW">
+        <div class="wallet-brand-name">SEN TEW Wallet</div>
+      </div>
+      <div class="wallet-balance-label">Solde disponible</div>
+      <div class="wallet-balance" id="balance">0 FCFA</div>
+      <div class="wallet-currencies" id="balanceCurr">≈ 0 € · 0 $</div>
+    </div>
+
+    <!-- ACTIONS RAPIDES -->
+    <div class="quick-actions">
+      <button class="qa-btn" onclick="deposit()">
+        <div class="qa-icon">⬆️</div>
+        <div class="qa-label">Recharger</div>
+      </button>
+      <button class="qa-btn" onclick="withdraw()">
+        <div class="qa-icon">⬇️</div>
+        <div class="qa-label">Retirer</div>
+      </button>
+      <button class="qa-btn" onclick="transfer()">
+        <div class="qa-icon">↔️</div>
+        <div class="qa-label">Envoyer</div>
+      </button>
+      <button class="qa-btn" onclick="location.href='commandes.html'">
+        <div class="qa-icon">📊</div>
+        <div class="qa-label">Historique</div>
+      </button>
+    </div>
+
+    <!-- MÉTHODES ACCEPTÉES -->
+    <div class="section">
+      <h3>💳 Méthodes de recharge</h3>
+      <div class="pay-logos-grid">
+        <div class="pay-logo-btn" onclick="depositWith('wave')">
+          <img src="https://www.genspark.ai/api/files/s/CqMQ0SOO" alt="Wave">
+          <div>Wave</div>
+        </div>
+        <div class="pay-logo-btn" onclick="depositWith('om')">
+          <img src="https://www.genspark.ai/api/files/s/IrEI4SbL" alt="OM">
+          <div>OM</div>
+        </div>
+        <div class="pay-logo-btn" onclick="depositWith('free')">
+          <img src="https://www.genspark.ai/api/files/s/X4q4ZprL" alt="Free">
+          <div>Free</div>
+        </div>
+        <div class="pay-logo-btn" onclick="depositWith('wizall')">
+          <img src="https://www.genspark.ai/api/files/s/EY1h2keG" alt="Wizall">
+          <div>Wizall</div>
+        </div>
+      </div>
+      <button style="width:100%;margin-top:10px;padding:12px;background:#F9FAFB;color:#0F6B4E;border:1px solid #0F6B4E;border-radius:10px;font-weight:800;font-size:13px;" onclick="depositWith('card')">💳 Ajouter par Carte bancaire (Stripe)</button>
+    </div>
+
+    <!-- STATS -->
+    <div class="section">
+      <h3>📊 Ce mois-ci</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="padding:12px;background:#F0FDF4;border-radius:10px;">
+          <div style="font-size:11px;color:#6B7280;">⬆️ Entrées</div>
+          <div style="font-size:18px;font-weight:900;color:#10B981;" id="monthIn">0 FCFA</div>
+        </div>
+        <div style="padding:12px;background:#FEE2E2;border-radius:10px;">
+          <div style="font-size:11px;color:#6B7280;">⬇️ Sorties</div>
+          <div style="font-size:18px;font-weight:900;color:#EF4444;" id="monthOut">0 FCFA</div>
+        </div>
       </div>
     </div>
 
-    <!-- Méthodes -->
-    <div class="card-title">💳 Méthodes de paiement</div>
-    <div class="card">
-      <div class="list-item">
-        <div class="list-icon" style="background:#1E88E5;">🌊</div>
-        <div class="list-text"><div class="list-title">Wave</div><div class="list-sub">+221 77 ••• 45 67 · Par défaut</div></div>
-        <span style="color:#22c55e;">●</span>
-      </div>
-      <div class="list-item">
-        <div class="list-icon" style="background:#F57C00;">🍊</div>
-        <div class="list-text"><div class="list-title">Orange Money</div><div class="list-sub">+221 78 ••• 12 34</div></div>
-        <span style="color:#22c55e;">●</span>
-      </div>
-      <div class="list-item">
-        <div class="list-icon" style="background:#8E24AA;">🆓</div>
-        <div class="list-text"><div class="list-title">Free Money</div><div class="list-sub">+221 76 ••• 89 01</div></div>
-        <span style="color:#22c55e;">●</span>
-      </div>
-      <div class="list-item" onclick="alert('➕ Ajouter Wizall / Carte bancaire')">
-        <div class="list-icon">➕</div>
-        <div class="list-text"><div class="list-title" style="color:#D4A574;">Ajouter une méthode</div></div>
-        <div class="list-arrow">›</div>
-      </div>
+    <!-- HISTORIQUE -->
+    <div class="section">
+      <h3>📋 Transactions récentes <a href="#">Tout voir ›</a></h3>
+      <div id="transactions"></div>
     </div>
-
-    <!-- Historique -->
-    <div class="card-title">📜 Historique</div>
-    <div class="card">
-      <div class="list-item">
-        <div class="list-icon" style="background:rgba(34,197,94,.15);">⬇</div>
-        <div class="list-text"><div class="list-title">Recharge Wave</div><div class="list-sub">26 juil 2026 · 14:32</div></div>
-        <div style="color:#22c55e;font-weight:800;">+25 000</div>
-      </div>
-      <div class="list-item">
-        <div class="list-icon" style="background:rgba(239,68,68,.15);">⬆</div>
-        <div class="list-text"><div class="list-title">Achat Boubou wax</div><div class="list-sub">25 juil 2026 · 10:15</div></div>
-        <div style="color:#ef4444;font-weight:800;">-18 000</div>
-      </div>
-      <div class="list-item">
-        <div class="list-icon" style="background:rgba(34,197,94,.15);">🎁</div>
-        <div class="list-text"><div class="list-title">Cashback GOLD 10%</div><div class="list-sub">25 juil 2026 · 10:16</div></div>
-        <div style="color:#22c55e;font-weight:800;">+1 800</div>
-      </div>
-      <div class="list-item">
-        <div class="list-icon" style="background:rgba(239,68,68,.15);">⬆</div>
-        <div class="list-text"><div class="list-title">Achat Écouteurs Pro</div><div class="list-sub">22 juil 2026</div></div>
-        <div style="color:#ef4444;font-weight:800;">-12 000</div>
-      </div>
-      <div class="list-item">
-        <div class="list-icon" style="background:rgba(34,197,94,.15);">⬇</div>
-        <div class="list-text"><div class="list-title">Vente Sac cuir</div><div class="list-sub">20 juil 2026</div></div>
-        <div style="color:#22c55e;font-weight:800;">+13 500</div>
-      </div>
-      <div class="list-item" onclick="alert('📜 Historique complet')">
-        <div class="list-icon">📋</div>
-        <div class="list-text"><div class="list-title" style="color:#D4A574;">Voir tout l'historique</div></div>
-        <div class="list-arrow">›</div>
-      </div>
-    </div>
-
-    <div style="height:20px;"></div>
   </main>
 
   <nav class="app-nav">
-    <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
-    <a href="categories.html"><div class="nav-icon">📊</div><div class="nav-label">Catégories</div></a>
-    <a href="panier.html"><div class="nav-icon">🛒</div><div class="nav-label">Panier</div></a>
-    <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
-    <a href="profil.html" class="active"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
+    <a href="index.html"><div class="nav-icon">🏠</div><div>Accueil</div></a>
+    <a href="categories.html"><div class="nav-icon">▦</div><div>Catégories</div></a>
+    <a href="panier.html"><div class="nav-icon">🛒</div><div>Panier</div></a>
+    <a href="messages.html"><div class="nav-icon">💬</div><div>Messages</div></a>
+    <a href="profil.html"><div class="nav-icon">👤</div><div>Profil</div></a>
   </nav>
 </div>
+
+<script>
+let balance = parseFloat(localStorage.getItem('wallet_balance')||'15000');
+let transactions = JSON.parse(localStorage.getItem('wallet_transactions')||'null') || [
+  {type:'in',title:'💰 Bonus bienvenue',amount:1000,date:Date.now()-86400000*30},
+  {type:'in',title:'💵 Recharge Wave',amount:20000,date:Date.now()-86400000*15},
+  {type:'out',title:'🛒 Commande #ST240071',amount:15000,date:Date.now()-86400000*7},
+  {type:'in',title:'🎁 Parrainage +Awa',amount:500,date:Date.now()-86400000*3},
+  {type:'out',title:'🛒 Commande #ST240073',amount:8500,date:Date.now()-86400000}
+];
+
+function refreshBalance(){
+  document.getElementById('balance').textContent = balance.toLocaleString('fr-FR')+' FCFA';
+  document.getElementById('balanceCurr').textContent = `≈ ${(balance/655).toFixed(2)} € · ${(balance/600).toFixed(2)} $`;
+  localStorage.setItem('wallet_balance', balance);
+}
+
+function refreshTrans(){
+  const now = Date.now();
+  const monthMs = 86400000*30;
+  const monthTrans = transactions.filter(t=>t.date > now-monthMs);
+  const monthIn = monthTrans.filter(t=>t.type==='in').reduce((s,t)=>s+t.amount,0);
+  const monthOut = monthTrans.filter(t=>t.type==='out').reduce((s,t)=>s+t.amount,0);
+  document.getElementById('monthIn').textContent = '+'+monthIn.toLocaleString()+' FCFA';
+  document.getElementById('monthOut').textContent = '-'+monthOut.toLocaleString()+' FCFA';
+
+  document.getElementById('transactions').innerHTML = transactions.slice(0,10).map(t=>{
+    const d = new Date(t.date);
+    return `
+      <div class="trans-item">
+        <div class="trans-icon ${t.type==='in'?'trans-in':'trans-out'}">${t.type==='in'?'↓':'↑'}</div>
+        <div class="trans-info">
+          <div class="trans-title">${t.title}</div>
+          <div class="trans-date">${d.toLocaleDateString('fr-FR')} · ${d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}</div>
+        </div>
+        <div class="trans-amount ${t.type}">${t.type==='in'?'+':'-'}${t.amount.toLocaleString()} FCFA</div>
+      </div>
+    `;
+  }).join('');
+  localStorage.setItem('wallet_transactions', JSON.stringify(transactions));
+}
+
+function deposit(){
+  const amount = parseFloat(prompt('💰 Montant à recharger (FCFA) :', '10000'));
+  if(!amount || amount<100){alert('❌ Montant minimum 100 FCFA');return;}
+  depositWith('wave', amount);
+}
+
+function depositWith(method, amount){
+  amount = amount || parseFloat(prompt('💰 Montant (FCFA) :','10000'));
+  if(!amount || amount<100)return;
+  const methods = {wave:'Wave',om:'Orange Money',free:'Free Money',wizall:'Wizall',card:'Carte'};
+  if(confirm(`💳 Recharger ${amount.toLocaleString()} FCFA via ${methods[method]} ?`)){
+    balance += amount;
+    transactions.unshift({type:'in',title:`💵 Recharge ${methods[method]}`,amount,date:Date.now()});
+    refreshBalance();refreshTrans();
+    navigator.vibrate&&navigator.vibrate([50,30,50]);
+    alert(`✅ ${amount.toLocaleString()} FCFA ajoutés !`);
+  }
+}
+
+function withdraw(){
+  const amount = parseFloat(prompt('💵 Montant à retirer (FCFA) :', '5000'));
+  if(!amount || amount<500){alert('❌ Retrait minimum 500 FCFA');return;}
+  if(amount > balance){alert('❌ Solde insuffisant');return;}
+  if(confirm(`💵 Retirer ${amount.toLocaleString()} FCFA ?\nFrais: 1% (${Math.round(amount*0.01)} FCFA)`)){
+    balance -= amount;
+    transactions.unshift({type:'out',title:'💵 Retrait Wave',amount,date:Date.now()});
+    refreshBalance();refreshTrans();
+    alert(`✅ Retrait envoyé au +221 77 XXX XX XX`);
+  }
+}
+
+function transfer(){
+  const phone = prompt('📱 Numéro du destinataire :', '+221 77 ');
+  if(!phone)return;
+  const amount = parseFloat(prompt('💰 Montant :', '5000'));
+  if(!amount || amount<100)return;
+  if(amount > balance){alert('❌ Solde insuffisant');return;}
+  balance -= amount;
+  transactions.unshift({type:'out',title:`↔️ Envoyé à ${phone}`,amount,date:Date.now()});
+  refreshBalance();refreshTrans();
+  alert(`✅ ${amount.toLocaleString()} FCFA envoyés à ${phone}`);
+}
+
+refreshBalance();
+refreshTrans();
+</script>
 </body>
 </html>
