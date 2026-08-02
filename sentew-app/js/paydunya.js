@@ -22,67 +22,58 @@ const PAYDUNYA_CONFIG = {
 const PAYMENT_METHODS = {
   wave: {
     name: 'Wave',
-    logo: 'https://www.genspark.ai/api/files/s/CqMQ0SOO',
-    color: '#1BC4E8',
-    bg: '#E6F9FE',
+    logo: (window.PAY_LOGOS && window.PAY_LOGOS.wave) || null,
+    color: '#1BC4E8', bg: '#E6F9FE',
     fallbackIcon: '💙',
     minAmount: 100,
-    description: 'Instantané · 0 FCFA de frais',
-    prefix: '+221',
-    example: '77 123 45 67'
+    description: 'Instantané · 0 FCFA',
+    prefix: '+221', example: '77 123 45 67'
   },
   'orange-money': {
     name: 'Orange Money',
-    logo: 'https://www.genspark.ai/api/files/s/IrEI4SbL',
-    color: '#FF6600',
-    bg: '#FFF1E6',
+    logo: (window.PAY_LOGOS && window.PAY_LOGOS.om) || null,
+    color: '#FF6600', bg: '#FFF1E6',
     fallbackIcon: '🟠',
     minAmount: 100,
     description: 'Rapide · 1% frais',
-    prefix: '+221',
-    example: '77 123 45 67'
+    prefix: '+221', example: '77 123 45 67'
   },
   'free-money': {
     name: 'Free Money',
-    logo: 'https://www.genspark.ai/api/files/s/X4q4ZprL',
-    color: '#CC0000',
-    bg: '#FFEAEA',
+    logo: (window.PAY_LOGOS && window.PAY_LOGOS.free) || null,
+    color: '#CC0000', bg: '#FFEAEA',
     fallbackIcon: '🔴',
     minAmount: 100,
     description: 'Rapide · Gratuit',
-    prefix: '+221',
-    example: '76 123 45 67'
+    prefix: '+221', example: '76 123 45 67'
   },
   'wizall': {
     name: 'Wizall Money',
-    logo: 'https://www.genspark.ai/api/files/s/EY1h2keG',
-    color: '#00BFD8',
-    bg: '#E0FAFD',
+    logo: (window.PAY_LOGOS && window.PAY_LOGOS.wizall) || null,
+    color: '#00BFD8', bg: '#E0FAFD',
     fallbackIcon: '💚',
     minAmount: 100,
     description: 'Cash & Digital · 0.5%',
-    prefix: '+221',
-    example: '77 123 45 67'
+    prefix: '+221', example: '77 123 45 67'
   },
   card: {
     name: 'Carte bancaire',
-    logo: null,
-    color: '#1a1a1a',
-    bg: '#F3F4F6',
+    logo: (window.PAY_LOGOS && window.PAY_LOGOS.card) || null,
+    color: '#1a1a1a', bg: '#F3F4F6',
     fallbackIcon: '💳',
     minAmount: 500,
-    description: 'Visa · Mastercard · Sécurisé 3DS'
+    description: 'Visa · Mastercard · 3DS'
   },
   cash: {
     name: 'À la livraison',
     logo: null,
-    color: '#10B981',
-    bg: '#F0FDF4',
+    color: '#10B981', bg: '#F0FDF4',
     fallbackIcon: '💵',
     minAmount: 0,
-    description: 'Payez en espèces au livreur'
+    description: 'Payez en espèces'
   }
 };
+
 
 // ===== CRÉATION FACTURE =====
 async function createInvoice(orderData) {
