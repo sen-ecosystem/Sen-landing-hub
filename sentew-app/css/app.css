@@ -603,5 +603,51 @@ body:has(.buy-bar) .app-content{
 .section:last-of-type{margin-bottom:20px !important;}
 
 /* Commit message : Fix buy-bar position + no overlap with nav */
+/* ============================================
+   BADGES SEN VERIFIED (style FB/IG/X)
+   ============================================ */
+.verified-badge, .badge-verified{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:16px;height:16px;
+  background:#1D9BF0;
+  color:#fff;
+  border-radius:50%;
+  font-size:9px;
+  font-weight:900;
+  flex-shrink:0;
+  vertical-align:middle;
+  margin-left:2px;
+  box-shadow:0 1px 3px rgba(29,155,240,.3);
+}
+.verified-badge::before, .badge-verified::before{
+  content:'✓';
+}
+/* Gold pour SEN Verified Gold */
+.verified-badge.gold, .badge-verified.gold{
+  background:linear-gradient(135deg,#D4A574,#B8895C);
+  box-shadow:0 1px 3px rgba(212,165,116,.4);
+}
+/* Platinum */
+.verified-badge.platinum, .badge-verified.platinum{
+  background:linear-gradient(135deg,#8B5CF6,#EC4899);
+  box-shadow:0 1px 3px rgba(139,92,246,.4);
+}
+/* Grand format pour profils */
+.verified-badge.large{
+  width:20px;height:20px;
+  font-size:12px;
+}
+.verified-badge.xl{
+  width:24px;height:24px;
+  font-size:14px;
+}
+
+/* Retire ancien style ✅ SEN VERIFIED */
+.shop-bdg[style*="background:#D4A574"]{
+  background:transparent !important;
+  padding:0 !important;
+}
 
 
