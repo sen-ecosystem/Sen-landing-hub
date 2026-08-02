@@ -2,186 +2,356 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Connexion - SEN TEW</title>
-<link rel="stylesheet" href="css/app.css">
+<meta name="theme-color" content="#0F6B4E">
 <style>
-.hero{background:linear-gradient(135deg,#0F6B4E,#D4A574);padding:40px 20px 50px;text-align:center;color:#fff;border-radius:0 0 30px 30px}
-.type-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px}
-.type-card{background:#fff;border:2px solid #E5E7EB;border-radius:14px;padding:16px 8px;text-align:center;cursor:pointer;transition:.2s}
-.type-card.active{border-color:#D4A574;background:#FFFAF0;box-shadow:0 4px 12px rgba(212,165,116,.2)}
-.type-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 6px;color:#fff}
-.form-input{width:100%;padding:14px;border:2px solid #E5E7EB;border-radius:12px;font-size:14px;margin-bottom:10px;outline:none;background:#fff;color:#000}
-.form-input:focus{border-color:#0F6B4E}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:-apple-system,sans-serif;background:linear-gradient(135deg,#0F6B4E 0%,#0A4D38 100%);min-height:100vh;padding:20px;color:#fff;}
+.container{max-width:400px;margin:0 auto;padding-top:40px;}
+.logo-header{text-align:center;margin-bottom:30px;}
+.logo-header img{width:80px;height:80px;border-radius:20px;background:#fff;padding:8px;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+.logo-header h1{margin-top:14px;font-size:24px;font-weight:900;}
+.logo-header p{font-size:12px;opacity:.85;margin-top:4px;}
+
+.tabs{display:flex;background:rgba(255,255,255,.15);border-radius:14px;padding:4px;margin-bottom:20px;backdrop-filter:blur(10px);}
+.tab{flex:1;padding:12px;background:none;border:none;color:#fff;font-weight:700;font-size:13px;border-radius:10px;cursor:pointer;transition:all .2s;}
+.tab.active{background:#fff;color:#0F6B4E;}
+
+.form-panel{background:#fff;color:#111827;border-radius:20px;padding:24px;box-shadow:0 12px 40px rgba(0,0,0,.2);}
+.form-title{font-size:20px;font-weight:900;color:#0A4D38;margin-bottom:6px;}
+.form-sub{color:#6B7280;font-size:13px;margin-bottom:20px;}
+
+.input-group{margin-bottom:14px;}
+.input-label{font-size:11px;font-weight:800;color:#0A4D38;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:.5px;}
+.input-field{width:100%;padding:12px 14px;border:2px solid #E5E7EB;border-radius:12px;font-size:14px;outline:none;background:#F9FAFB;transition:border .2s;}
+.input-field:focus{border-color:#0F6B4E;background:#fff;}
+
+.password-wrap{position:relative;}
+.password-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:18px;cursor:pointer;color:#6B7280;}
+
+.forgot-link{text-align:right;margin-top:-8px;margin-bottom:14px;}
+.forgot-link a{color:#0F6B4E;font-size:12px;font-weight:700;text-decoration:none;}
+
+.btn-primary{width:100%;padding:14px;background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;border:none;border-radius:12px;font-weight:900;font-size:15px;cursor:pointer;box-shadow:0 4px 12px rgba(15,107,78,.3);}
+.btn-primary:active{transform:scale(.98);}
+
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:#9CA3AF;font-size:11px;font-weight:700;}
+.divider::before, .divider::after{content:'';flex:1;height:1px;background:#E5E7EB;}
+
+.social-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.btn-social{padding:12px;background:#fff;border:2px solid #E5E7EB;border-radius:12px;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;color:#111827;}
+.btn-social:active{background:#F9FAFB;}
+.btn-social img{width:20px;height:20px;}
+
+.btn-guest{width:100%;padding:12px;background:#F9FAFB;color:#0F6B4E;border:2px dashed #0F6B4E;border-radius:12px;font-weight:800;font-size:13px;cursor:pointer;}
+
+.footer-legal{text-align:center;color:rgba(255,255,255,.7);font-size:11px;margin-top:20px;line-height:1.6;}
+.footer-legal a{color:#D4A574;text-decoration:none;font-weight:700;}
+
+.role-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
+.role-btn{padding:12px 6px;background:#F9FAFB;border:2px solid #E5E7EB;border-radius:12px;text-align:center;cursor:pointer;font-size:11px;font-weight:800;color:#0A4D38;}
+.role-btn.active{border-color:#0F6B4E;background:#0F6B4E;color:#fff;}
+.role-btn .icon{font-size:24px;display:block;margin-bottom:4px;}
+
+.error-msg{background:#FEE2E2;color:#DC2626;padding:10px;border-radius:8px;font-size:12px;margin-top:10px;text-align:center;display:none;}
+.success-msg{background:#D1FAE5;color:#065F46;padding:10px;border-radius:8px;font-size:12px;margin-top:10px;text-align:center;display:none;}
 </style>
 </head>
 <body>
-<div class="app">
-  <main class="app-content" style="padding-bottom:20px;">
-    <div class="hero">
-      <div style="font-size:36px;">👑</div>
-      <div style="font-size:22px;font-weight:900;letter-spacing:1.5px;">SEN TEW</div>
-      <div style="font-size:12px;opacity:.95;margin-top:4px;">Bienvenue !</div>
+<div class="container">
+  <div class="logo-header">
+    <img src="https://www.genspark.ai/api/files/s/wdpD8VqY" alt="SEN TEW">
+    <h1>SEN TEW</h1>
+    <p>Le marketplace africain #1 🇸🇳</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('login')">Connexion</button>
+    <button class="tab" onclick="switchTab('register')">Inscription</button>
+    <button class="tab" onclick="switchTab('forgot')">Oublié</button>
+  </div>
+
+  <!-- LOGIN -->
+  <div class="form-panel" id="panel-login">
+    <div class="form-title">Content de vous revoir 👋</div>
+    <div class="form-sub">Connectez-vous à votre compte</div>
+
+    <div class="input-group">
+      <label class="input-label">Email ou téléphone</label>
+      <input type="text" class="input-field" id="loginEmail" placeholder="vous@example.com" autocomplete="email">
     </div>
 
-    <!-- Choix type de compte -->
-    <div style="padding:16px;text-align:center;">
-      <div style="font-size:14px;font-weight:800;color:#000;">Je suis un(e) ?</div>
-    </div>
-
-    <div class="type-selector">
-      <div class="type-card active" onclick="selectType('buyer', this)">
-        <div class="type-icon" style="background:linear-gradient(135deg,#0F6B4E,#0A4D38);">🛍</div>
-        <div style="font-size:12px;font-weight:800;color:#000;">Acheteur</div>
-        <div style="font-size:9px;color:#6B7280;margin-top:2px;">Gratuit</div>
-      </div>
-      <div class="type-card" onclick="selectType('seller', this)">
-        <div class="type-icon" style="background:linear-gradient(135deg,#D4A574,#B8945F);color:#0A4D38;">🏪</div>
-        <div style="font-size:12px;font-weight:800;color:#000;">Vendeur</div>
-        <div style="font-size:9px;color:#6B7280;margin-top:2px;">KYC requis</div>
-      </div>
-      <div class="type-card" onclick="selectType('driver', this)">
-        <div class="type-icon" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9);">🛵</div>
-        <div style="font-size:12px;font-weight:800;color:#000;">Livreur</div>
-        <div style="font-size:9px;color:#6B7280;margin-top:2px;">KYC + Permis</div>
+    <div class="input-group">
+      <label class="input-label">Mot de passe</label>
+      <div class="password-wrap">
+        <input type="password" class="input-field" id="loginPass" placeholder="Votre mot de passe" autocomplete="current-password">
+        <button class="password-toggle" onclick="togglePass('loginPass',this)">👁</button>
       </div>
     </div>
 
-    <!-- Continuer en invité (visible pour buyer uniquement) -->
-    <div id="guestOption" style="margin:8px 16px 16px;background:linear-gradient(135deg,rgba(15,107,78,.05),rgba(212,165,116,.05));border:1px solid rgba(15,107,78,.2);border-radius:12px;padding:14px;">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div style="font-size:24px;">🌍</div>
-        <div style="flex:1;">
-          <div style="font-weight:800;font-size:13px;color:#000;">Continuer en invité</div>
-          <div style="font-size:11px;color:#6B7280;">Parcourir librement · Achat requiert un compte</div>
-        </div>
-      </div>
-      <button class="btn btn-outline btn-full" style="margin-top:10px;padding:10px;color:#0F6B4E;border:2px solid #0F6B4E;font-size:12px;" onclick="continueAsGuest()">
-        👀 Explorer sans compte
+    <div class="forgot-link"><a href="#" onclick="switchTab('forgot');return false;">Mot de passe oublié ?</a></div>
+
+    <button class="btn-primary" onclick="doLogin()">🔐 Se connecter</button>
+
+    <div class="error-msg" id="loginErr"></div>
+
+    <div class="divider">OU CONTINUER AVEC</div>
+
+    <div class="social-btns">
+      <button class="btn-social" onclick="socialLogin('google')">
+        <img src="https://www.google.com/favicon.ico" alt="Google">Google
+      </button>
+      <button class="btn-social" onclick="socialLogin('facebook')">
+        <img src="https://www.facebook.com/favicon.ico" alt="Facebook">Facebook
+      </button>
+      <button class="btn-social" onclick="socialLogin('apple')">
+        <span style="font-size:16px;"></span>Apple
+      </button>
+      <button class="btn-social" onclick="socialLogin('phone')">
+        <span style="font-size:16px;">📱</span>Téléphone
       </button>
     </div>
 
-    <div style="padding:16px;">
-      <div id="loginForm">
-        <div style="font-size:16px;font-weight:800;color:#000;margin-bottom:12px;">Connexion / Inscription</div>
-        
-        <!-- Choix pays -->
-        <select class="form-input" id="country">
-          <option value="+221">🇸🇳 Sénégal (+221)</option>
-          <option value="+225">🇨🇮 Côte d'Ivoire (+225)</option>
-          <option value="+223">🇲🇱 Mali (+223)</option>
-          <option value="+237">🇨🇲 Cameroun (+237)</option>
-          <option value="+33">🇫🇷 France Diaspora (+33)</option>
-          <option value="+1">🇺🇸 USA Diaspora (+1)</option>
-          <option value="+44">🇬🇧 UK Diaspora (+44)</option>
-          <option value="+34">🇪🇸 Espagne Diaspora (+34)</option>
-          <option value="+39">🇮🇹 Italie Diaspora (+39)</option>
-          <option value="+49">🇩🇪 Allemagne Diaspora (+49)</option>
-        </select>
+    <button class="btn-guest" onclick="continueAsGuest()">👤 Continuer en invité</button>
+  </div>
 
-        <input type="tel" class="form-input" placeholder="📱 Numéro de téléphone" id="phone">
+  <!-- REGISTER -->
+  <div class="form-panel" id="panel-register" style="display:none;">
+    <div class="form-title">Créer votre compte 🎉</div>
+    <div class="form-sub">Bonus 1 000 FCFA offerts à l'inscription</div>
 
-        <button class="btn btn-primary btn-full" style="padding:14px;margin-top:6px;" onclick="sendOTP()">
-          📩 Recevoir le code SMS
+    <div class="input-group">
+      <label class="input-label">Je suis un</label>
+      <div class="role-selector">
+        <button class="role-btn active" data-role="client" onclick="selectRole(this)">
+          <span class="icon">🛍️</span>Client
         </button>
-
-        <div style="text-align:center;margin:16px 0;color:#6B7280;font-size:11px;">— Ou —</div>
-
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
-          <button style="background:#1BA5E0;color:#fff;border:none;padding:12px 6px;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer;" onclick="socialLogin('wave')">🌊 Wave</button>
-          <button style="background:#F57C00;color:#fff;border:none;padding:12px 6px;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer;" onclick="socialLogin('orange')">🍊 Orange</button>
-          <button style="background:#fff;color:#000;border:2px solid #E5E7EB;padding:12px 6px;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer;" onclick="socialLogin('google')">🔴 Google</button>
-        </div>
-
-        <div style="text-align:center;font-size:10px;color:#6B7280;margin-top:16px;">
-          🔒 Vos données sont protégées (RGPD)<br>
-          En continuant vous acceptez nos <a href="../cgu.html" style="color:#0F6B4E;">CGU</a>
-        </div>
-      </div>
-
-      <div id="otpForm" style="display:none;">
-        <div style="text-align:center;font-size:40px;margin-bottom:12px;">🔐</div>
-        <div style="text-align:center;font-weight:800;color:#000;margin-bottom:6px;">Vérification SMS</div>
-        <div style="text-align:center;font-size:12px;color:#6B7280;margin-bottom:16px;">Code envoyé au <span id="phoneDisp" style="color:#B8945F;font-weight:700;"></span></div>
-        <div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px;">
-          <input type="text" maxlength="1" class="otp" style="width:44px;height:52px;text-align:center;font-size:20px;font-weight:800;border:2px solid #E5E7EB;border-radius:10px;">
-          <input type="text" maxlength="1" class="otp" style="width:44px;height:52px;text-align:center;font-size:20px;font-weight:800;border:2px solid #E5E7EB;border-radius:10px;">
-          <input type="text" maxlength="1" class="otp" style="width:44px;height:52px;text-align:center;font-size:20px;font-weight:800;border:2px solid #E5E7EB;border-radius:10px;">
-          <input type="text" maxlength="1" class="otp" style="width:44px;height:52px;text-align:center;font-size:20px;font-weight:800;border:2px solid #E5E7EB;border-radius:10px;">
-          <input type="text" maxlength="1" class="otp" style="width:44px;height:52px;text-align:center;font-size:20px;font-weight:800;border:2px solid #E5E7EB;border-radius:10px;">
-          <input type="text" maxlength="1" class="otp" style="width:44px;height:52px;text-align:center;font-size:20px;font-weight:800;border:2px solid #E5E7EB;border-radius:10px;">
-        </div>
-        <button class="btn btn-gold btn-full" style="padding:14px;" onclick="verifyOTP()">✓ Vérifier</button>
-        <div style="text-align:center;margin-top:12px;">
-          <a onclick="back()" style="color:#0F6B4E;font-size:12px;cursor:pointer;font-weight:700;">← Modifier</a>
-        </div>
+        <button class="role-btn" data-role="seller" onclick="selectRole(this)">
+          <span class="icon">🏪</span>Vendeur
+        </button>
+        <button class="role-btn" data-role="driver" onclick="selectRole(this)">
+          <span class="icon">🚚</span>Livreur
+        </button>
       </div>
     </div>
-  </main>
+
+    <div class="input-group">
+      <label class="input-label">Nom complet</label>
+      <input type="text" class="input-field" id="regName" placeholder="Aïcha Diop" autocomplete="name">
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">Email</label>
+      <input type="email" class="input-field" id="regEmail" placeholder="vous@example.com" autocomplete="email">
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">Téléphone</label>
+      <input type="tel" class="input-field" id="regPhone" placeholder="+221 77 XXX XX XX" autocomplete="tel">
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">Mot de passe</label>
+      <div class="password-wrap">
+        <input type="password" class="input-field" id="regPass" placeholder="Min 8 caractères" autocomplete="new-password">
+        <button class="password-toggle" onclick="togglePass('regPass',this)">👁</button>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">Code parrainage (optionnel)</label>
+      <input type="text" class="input-field" id="regRef" placeholder="SENTEW-XXXX" autocomplete="off">
+    </div>
+
+    <button class="btn-primary" onclick="doRegister()">🚀 Créer mon compte</button>
+
+    <div class="error-msg" id="regErr"></div>
+    <div class="success-msg" id="regOk"></div>
+
+    <div style="text-align:center;font-size:11px;color:#6B7280;margin-top:14px;">
+      En vous inscrivant, vous acceptez les <a href="confidentialite-app.html" style="color:#0F6B4E;font-weight:700;">CGV/CGU</a>
+    </div>
+  </div>
+
+  <!-- FORGOT PASSWORD -->
+  <div class="form-panel" id="panel-forgot" style="display:none;">
+    <div class="form-title">Mot de passe oublié 🔑</div>
+    <div class="form-sub">Nous vous enverrons un code de réinitialisation</div>
+
+    <div class="input-group">
+      <label class="input-label">Email ou téléphone</label>
+      <input type="text" class="input-field" id="forgotEmail" placeholder="vous@example.com">
+    </div>
+
+    <button class="btn-primary" onclick="doForgot()">📧 Envoyer le code</button>
+
+    <div class="success-msg" id="forgotOk"></div>
+
+    <div id="resetCodeSection" style="display:none;margin-top:14px;">
+      <div class="input-group">
+        <label class="input-label">Code reçu (6 chiffres)</label>
+        <input type="text" class="input-field" id="resetCode" placeholder="123456" maxlength="6" inputmode="numeric">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Nouveau mot de passe</label>
+        <input type="password" class="input-field" id="newPass" placeholder="Min 8 caractères">
+      </div>
+      <button class="btn-primary" onclick="doReset()">✅ Réinitialiser</button>
+    </div>
+
+    <div style="text-align:center;margin-top:14px;">
+      <a href="#" onclick="switchTab('login');return false;" style="color:#0F6B4E;font-weight:700;font-size:12px;text-decoration:none;">← Retour connexion</a>
+    </div>
+  </div>
+
+  <div class="footer-legal">
+    En continuant, vous acceptez nos<br>
+    <a href="confidentialite-app.html">CGV</a> · <a href="confidentialite-app.html">CGU</a> · <a href="confidentialite-app.html">Confidentialité</a>
+  </div>
 </div>
 
 <script>
-let userType = 'buyer';
-const redirect = new URLSearchParams(window.location.search).get('redirect') || 'index.html';
+let selectedRole = 'client';
 
-function selectType(type, el) {
-  userType = type;
-  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('guestOption').style.display = type === 'buyer' ? 'block' : 'none';
-}
-
-function continueAsGuest() {
-  localStorage.setItem('sentew_guest', '1');
-  alert('👀 Mode invité activé - Vous pouvez explorer !');
-  window.location.href = 'index.html';
-}
-
-function sendOTP() {
-  const country = document.getElementById('country').value;
-  const phone = document.getElementById('phone').value;
-  if (phone.length < 8) { alert('❌ Numéro invalide'); return; }
-  document.getElementById('phoneDisp').textContent = country + ' ' + phone;
-  document.getElementById('loginForm').style.display = 'none';
-  document.getElementById('otpForm').style.display = 'block';
-  setTimeout(() => alert('📩 Code SMS envoyé : 123456 (démo)'), 500);
-}
-
-function verifyOTP() {
-  const code = Array.from(document.querySelectorAll('.otp')).map(i => i.value).join('');
-  if (code.length !== 6) { alert('❌ Code incomplet'); return; }
-  
-  // Créer compte
-  localStorage.setItem('sentew_user', JSON.stringify({type: userType, phone: document.getElementById('phone').value}));
-  localStorage.removeItem('sentew_guest');
-  
-  alert('✅ Connexion réussie !\nBienvenue sur SEN TEW');
-  setTimeout(() => {
-    if (userType === 'seller') window.location.href = 'vendeur.html';
-    else if (userType === 'driver') window.location.href = 'livreur.html';
-    else window.location.href = redirect;
-  }, 800);
-}
-
-function back() {
-  document.getElementById('otpForm').style.display = 'none';
-  document.getElementById('loginForm').style.display = 'block';
-}
-
-function socialLogin(provider) {
-  alert('🔐 Connexion ' + provider + ' en cours...');
-  setTimeout(() => {
-    localStorage.setItem('sentew_user', JSON.stringify({type:userType, provider}));
-    window.location.href = redirect;
-  }, 1000);
-}
-
-// Auto-focus OTP
-document.querySelectorAll('.otp').forEach((input, i, arr) => {
-  input.addEventListener('input', () => {
-    if (input.value.length === 1 && i < arr.length - 1) arr[i+1].focus();
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach((t,i)=>{
+    t.classList.toggle('active', t.textContent.toLowerCase().includes(tab==='login'?'connexion':(tab==='register'?'inscription':'oublié')));
   });
-});
+  document.getElementById('panel-login').style.display = tab==='login'?'block':'none';
+  document.getElementById('panel-register').style.display = tab==='register'?'block':'none';
+  document.getElementById('panel-forgot').style.display = tab==='forgot'?'block':'none';
+}
+
+function togglePass(id, btn){
+  const inp = document.getElementById(id);
+  inp.type = inp.type==='password' ? 'text' : 'password';
+  btn.textContent = inp.type==='password' ? '👁' : '👁‍🗨';
+}
+
+function selectRole(btn){
+  document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedRole = btn.dataset.role;
+}
+
+function doLogin(){
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  const err = document.getElementById('loginErr');
+  if(!email || !pass){
+    err.textContent='❌ Remplissez tous les champs';
+    err.style.display='block';
+    return;
+  }
+  // Simulation login (à connecter à Firebase Auth en prod)
+  const users = JSON.parse(localStorage.getItem('users')||'[]');
+  const user = users.find(u=>u.email===email && u.pass===pass);
+  if(user || email==='demo@sentew.com'){
+    const u = user || {email,name:'Utilisateur Demo',role:'client'};
+    localStorage.setItem('current_user', JSON.stringify(u));
+    localStorage.setItem('token', 'TK_'+Date.now());
+    navigator.vibrate&&navigator.vibrate([50,30,50]);
+    location.href = u.role==='seller'?'vendeur.html':(u.role==='driver'?'livreur.html':'index.html');
+  } else {
+    err.textContent='❌ Email ou mot de passe incorrect';
+    err.style.display='block';
+    navigator.vibrate&&navigator.vibrate([100,50,100]);
+  }
+}
+
+function doRegister(){
+  const name = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const phone = document.getElementById('regPhone').value.trim();
+  const pass = document.getElementById('regPass').value;
+  const ref = document.getElementById('regRef').value.trim();
+  const err = document.getElementById('regErr');
+  const ok = document.getElementById('regOk');
+
+  if(!name || !email || !phone || pass.length<8){
+    err.textContent='❌ Remplissez tous les champs (mot de passe min 8 caractères)';
+    err.style.display='block';
+    return;
+  }
+
+  const users = JSON.parse(localStorage.getItem('users')||'[]');
+  if(users.find(u=>u.email===email)){
+    err.textContent='❌ Email déjà utilisé';
+    err.style.display='block';
+    return;
+  }
+
+  const newUser = {
+    id:'USR'+Date.now(),
+    name, email, phone, pass,
+    role:selectedRole,
+    referrer:ref,
+    bonus:1000, // 1000 FCFA bonus bienvenue
+    createdAt:Date.now()
+  };
+  users.push(newUser);
+  localStorage.setItem('users', JSON.stringify(users));
+  localStorage.setItem('current_user', JSON.stringify(newUser));
+  localStorage.setItem('token', 'TK_'+Date.now());
+
+  err.style.display='none';
+  ok.textContent='✅ Compte créé ! 1 000 FCFA bonus offerts';
+  ok.style.display='block';
+  navigator.vibrate&&navigator.vibrate([100,50,100,50,200]);
+
+  setTimeout(()=>{
+    if(selectedRole==='seller') location.href='vendeur.html?onboarding=1';
+    else if(selectedRole==='driver') location.href='livreur.html?onboarding=1';
+    else location.href='index.html';
+  }, 1500);
+}
+
+function doForgot(){
+  const email = document.getElementById('forgotEmail').value.trim();
+  if(!email){alert('❌ Entrez votre email');return;}
+  const code = Math.floor(100000 + Math.random()*900000);
+  localStorage.setItem('reset_code', code);
+  localStorage.setItem('reset_email', email);
+  document.getElementById('forgotOk').textContent = `✅ Code envoyé à ${email}\n(Demo : ${code})`;
+  document.getElementById('forgotOk').style.display='block';
+  document.getElementById('resetCodeSection').style.display='block';
+}
+
+function doReset(){
+  const code = document.getElementById('resetCode').value.trim();
+  const newPass = document.getElementById('newPass').value;
+  const savedCode = localStorage.getItem('reset_code');
+  const email = localStorage.getItem('reset_email');
+  if(code !== savedCode){alert('❌ Code invalide');return;}
+  if(newPass.length<8){alert('❌ Mot de passe min 8 caractères');return;}
+  const users = JSON.parse(localStorage.getItem('users')||'[]');
+  const u = users.find(x=>x.email===email);
+  if(u) u.pass = newPass;
+  localStorage.setItem('users', JSON.stringify(users));
+  alert('✅ Mot de passe réinitialisé ! Connectez-vous.');
+  switchTab('login');
+}
+
+function socialLogin(provider){
+  // Simulation - en prod : Firebase Auth OAuth
+  alert(`🔗 Connexion via ${provider}...\n\n(En production : Firebase Auth ou OAuth)\n\nSimulation : compte créé automatiquement`);
+  const u = {
+    id:'USR_'+provider+'_'+Date.now(),
+    name: provider==='google'?'Utilisateur Google':(provider==='facebook'?'Utilisateur Facebook':(provider==='apple'?'Utilisateur Apple':'Utilisateur')),
+    email:provider+'@example.com',
+    role:'client',
+    provider
+  };
+  localStorage.setItem('current_user', JSON.stringify(u));
+  localStorage.setItem('token', 'TK_'+provider+'_'+Date.now());
+  setTimeout(()=>location.href='index.html', 1000);
+}
+
+function continueAsGuest(){
+  localStorage.setItem('guest', '1');
+  location.href='index.html';
+}
 </script>
 </body>
 </html>
