@@ -1,4 +1,4 @@
-const CACHE = 'sentew-v8-2026-08-boutique';
+const CACHE = 'sentew-v9-2026-08-inline';
 const urls = [
   '/sentew-app/',
   '/sentew-app/index.html',
