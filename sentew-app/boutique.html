@@ -8,22 +8,12 @@
 <meta name="theme-color" content="#0F6B4E">
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0;}
-body{background:#F5F5F0;font-family:-apple-system,sans-serif;overscroll-behavior:none;}
+body{background:#F5F5F0;font-family:-apple-system,sans-serif;}
 
-.app-header{
-  display:flex;align-items:center;gap:8px;
-  padding:12px 14px;background:#fff;
-  border-bottom:1px solid #F3F4F6;
-  position:sticky;top:0;z-index:200;
-  height:62px;
-}
+.app-header{display:flex;align-items:center;gap:8px;padding:12px 14px;background:#fff;border-bottom:1px solid #F3F4F6;position:sticky;top:0;z-index:200;height:62px;}
 .hd-btn{width:38px;height:38px;background:#F9FAFB;border:none;border-radius:50%;font-size:16px;color:#0A4D38;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 
-.shop-hero{
-  background:linear-gradient(135deg,#0F6B4E,#0A4D38);
-  padding:20px 16px;color:#fff;
-  position:relative;z-index:1;
-}
+.shop-hero{background:linear-gradient(135deg,#0F6B4E,#0A4D38);padding:20px 16px;color:#fff;position:relative;z-index:1;}
 .shop-hero-row{display:flex;gap:14px;align-items:center;}
 .shop-avatar{width:80px;height:80px;border-radius:50%;border:3px solid #D4A574;object-fit:cover;flex-shrink:0;background:#D4A574;}
 .shop-name{font-size:20px;font-weight:900;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
@@ -36,7 +26,6 @@ body{background:#F5F5F0;font-family:-apple-system,sans-serif;overscroll-behavior
 .shop-bdg-verified{background:#D4A574;}
 .shop-bdg-live{background:#ef4444;}
 .shop-bdg-local{background:#10B981;}
-
 .shop-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px;text-align:center;}
 .shop-stat-num{font-weight:900;font-size:16px;color:#D4A574;}
 .shop-stat-lbl{font-size:10px;opacity:.85;}
@@ -46,47 +35,11 @@ body{background:#F5F5F0;font-family:-apple-system,sans-serif;overscroll-behavior
 .btn-msg{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);}
 .btn-live{background:#ef4444;color:#fff;padding:10px 14px;flex:0 0 auto;}
 
-/* ===== BARRE ONGLETS STABLE ===== */
-.tabs-bar{
-  display:flex;
-  background:#fff;
-  box-shadow:0 2px 8px rgba(0,0,0,.08);
-  position:sticky;
-  top:62px;
-  z-index:100;
-  border-bottom:1px solid #F3F4F6;
-  height:52px;
-  overflow:hidden;
-}
-.shop-tab{
-  flex:1;
-  height:52px;
-  padding:0 4px;
-  background:none;
-  border:none;
-  border-bottom:3px solid transparent;
-  font-weight:700;
-  font-size:12px;
-  color:#6B7280;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:4px;
-  transition:color .15s;
-}
-.shop-tab.active{
-  color:#0F6B4E;
-  border-bottom-color:#0F6B4E;
-}
-.shop-tab:active{background:#F9FAFB;}
+.tabs-bar{display:flex;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08);position:sticky;top:62px;z-index:100;border-bottom:1px solid #F3F4F6;height:52px;}
+.shop-tab{flex:1;height:52px;padding:0 4px;background:none;border:none;border-bottom:3px solid transparent;font-weight:700;font-size:12px;color:#6B7280;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;}
+.shop-tab.active{color:#0F6B4E;border-bottom-color:#0F6B4E;}
 
-/* CONTENU */
-.tab-panel{
-  padding:12px;
-  background:#F5F5F0;
-  min-height:400px;
-}
+.tab-panel{padding:12px;background:#F5F5F0;min-height:400px;}
 
 .pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
 .pcard{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);text-decoration:none;color:inherit;display:flex;flex-direction:column;}
@@ -152,7 +105,6 @@ body{background:#F5F5F0;font-family:-apple-system,sans-serif;overscroll-behavior
       </div>
     </div>
 
-    <!-- ONGLETS STABLES -->
     <div class="tabs-bar">
       <button class="shop-tab active" data-tab="products">🛍️ Produits</button>
       <button class="shop-tab" data-tab="promos">🎁 Promos</button>
@@ -175,11 +127,8 @@ body{background:#F5F5F0;font-family:-apple-system,sans-serif;overscroll-behavior
   </nav>
 </div>
 
-<script src="js/data.js"></script>
 <script>
-const params = new URLSearchParams(location.search);
-const shopId = params.get('id') || params.get('seller') || '1';
-
+// ===== DONNÉES INLINE =====
 const SHOPS = {
   '1':{name:'Aïcha Couture',bio:'Mode africaine premium · Dakar',avatar:'https://i.pravatar.cc/200?img=1',followers:12400,sales:3200,rating:4.9,live:true,verified:'gold',local:true},
   '2':{name:'Moussa Tech',bio:'Électronique · Plateau',avatar:'https://i.pravatar.cc/200?img=11',followers:8900,sales:2100,rating:4.7,live:true,verified:'gold'},
@@ -190,19 +139,43 @@ const SHOPS = {
   '9':{name:'Ibrahima Sport',bio:'Sport · Point E',avatar:'https://i.pravatar.cc/200?img=13',followers:6700,sales:1800,rating:4.9,live:true,verified:'gold',local:true}
 };
 
-const FALLBACK = [
-  {id:1,name:'Robe wax mariage',price:35000,oldPrice:50000,image:'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=400&h=400&fit=crop',sellerId:'1'},
-  {id:2,name:'Sandales cuir Peul',price:8500,oldPrice:12000,image:'https://images.unsplash.com/photo-1603487742131-4160ec999306?w=400&h=400&fit=crop',sellerId:'1'},
-  {id:6,name:'Boubou wax collection',price:18000,oldPrice:25000,image:'https://images.unsplash.com/photo-1544441893-675973e31985?w=400&h=400&fit=crop',sellerId:'1'},
-  {id:7,name:'Sac cuir africain premium',price:15000,oldPrice:22000,image:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400&h=400&fit=crop',sellerId:'1'},
-  {id:3,name:'Chemise brodée homme',price:12000,image:'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=400&h=400&fit=crop',sellerId:'1'},
-  {id:5,name:'Bracelet ethnique perles',price:5500,image:'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&h=400&fit=crop',sellerId:'1'}
-];
+// PRODUITS PAR VENDEUR (garantit affichage)
+const SHOP_PRODUCTS = {
+  '1':[
+    {id:1,name:'Robe wax mariage',price:35000,oldPrice:50000,image:'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=400&h=400&fit=crop'},
+    {id:2,name:'Sandales cuir Peul',price:8500,oldPrice:12000,image:'https://images.unsplash.com/photo-1603487742131-4160ec999306?w=400&h=400&fit=crop'},
+    {id:6,name:'Sac cuir africain premium',price:15000,oldPrice:22000,image:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400&h=400&fit=crop'},
+    {id:4,name:'Boubou grand teint',price:45000,oldPrice:60000,image:'https://images.unsplash.com/photo-1544441893-675973e31985?w=400&h=400&fit=crop'},
+    {id:3,name:'Chemise brodée homme',price:12000,image:'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=400&h=400&fit=crop'},
+    {id:5,name:'Bracelet ethnique perles',price:5500,image:'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&h=400&fit=crop'}
+  ],
+  '2':[
+    {id:10,name:'iPhone 15 Pro 256GB',price:750000,oldPrice:850000,image:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=400&h=400&fit=crop'},
+    {id:11,name:'Samsung Galaxy S24',price:520000,image:'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400&h=400&fit=crop'},
+    {id:12,name:'AirPods Pro 2',price:145000,image:'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=400&h=400&fit=crop'},
+    {id:13,name:'Écouteurs sans fil Pro',price:12000,oldPrice:18000,image:'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=400&fit=crop'}
+  ],
+  '3':[
+    {id:30,name:'Beurre karité pur 500g',price:4500,oldPrice:6000,image:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400&h=400&fit=crop'},
+    {id:31,name:'Palette 24 couleurs',price:8500,oldPrice:12000,image:'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=400&fit=crop'},
+    {id:32,name:'Parfum Oud premium',price:25000,image:'https://images.unsplash.com/photo-1541643600914-78b084683601?w=400&h=400&fit=crop'}
+  ],
+  '9':[
+    {id:50,name:'Maillot Sénégal 2026',price:18000,oldPrice:25000,image:'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=400&h=400&fit=crop'},
+    {id:51,name:'Ballon Adidas officiel',price:12000,image:'https://images.unsplash.com/photo-1614632537197-38a17061c2bd?w=400&h=400&fit=crop'},
+    {id:52,name:'Chaussures running Nike',price:65000,image:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop'}
+  ],
+  '6':[
+    {id:20,name:'Canapé 3 places moderne',price:185000,oldPrice:250000,image:'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=400&fit=crop'},
+    {id:21,name:'Lampe artisanale bois',price:15000,image:'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400&h=400&fit=crop'},
+    {id:22,name:'Tapis wax XL',price:42000,image:'https://images.unsplash.com/photo-1600166898405-da9535204843?w=400&h=400&fit=crop'}
+  ]
+};
 
-const list = (typeof products !== 'undefined' && products.length) ? products : FALLBACK;
+const params = new URLSearchParams(location.search);
+const shopId = params.get('id') || params.get('seller') || '1';
 const shop = SHOPS[shopId] || SHOPS['1'];
-let shopProducts = list.filter(p => String(p.sellerId||'1') === String(shopId));
-if (shopProducts.length === 0) shopProducts = list.slice(0,6);
+const shopProducts = SHOP_PRODUCTS[shopId] || SHOP_PRODUCTS['1'];
 
 // REMPLIR HERO
 document.getElementById('hdrName').textContent = shop.name;
@@ -220,72 +193,4 @@ else if(shop.verified==='gold') vBadge.className='verified-badge gold';
 
 if(shop.live){
   document.getElementById('liveBadge').style.display='inline-block';
-  document.getElementById('btnLive').style.display='block';
-}
-if(shop.local){
-  document.getElementById('localBadge').style.display='inline-block';
-}
-
-const followed = JSON.parse(localStorage.getItem('followed')||'[]');
-if(followed.includes(shopId)){
-  const b = document.getElementById('btnFollow');
-  b.textContent='✓ Suivi';
-  b.style.background='rgba(255,255,255,.2)';
-}
-
-// PRODUITS
-document.getElementById('panelProducts').innerHTML = `
-  <div class="pgrid">
-    ${shopProducts.map(p => `
-      <a href="produit.html?id=${p.id}" class="pcard">
-        <div class="pcard-img">
-          ${p.oldPrice?'<span class="pcard-badge pcard-badge-promo">PROMO</span>':''}
-          <button class="pcard-fav" onclick="event.preventDefault();this.textContent=this.textContent==='🤍'?'❤️':'🤍'">🤍</button>
-          <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/300/0F6B4E/fff?text=SEN+TEW'">
-        </div>
-        <div class="pcard-info">
-          <div class="pcard-name">${p.name}</div>
-          <div class="pcard-price">${Number(p.price).toLocaleString()} FCFA${p.oldPrice?`<span class="pcard-old">${p.oldPrice.toLocaleString()}</span>`:''}</div>
-        </div>
-      </a>
-    `).join('')}
-  </div>
-`;
-
-// PROMOS
-const promoOnly = shopProducts.filter(p=>p.oldPrice);
-document.getElementById('panelPromos').innerHTML = `
-  <div class="promo-hero-shop">
-    <div style="font-size:11px;opacity:.9;font-weight:700;">CODE PROMO EXCLUSIF</div>
-    <div style="font-size:32px;font-weight:900;margin:6px 0;">-20%</div>
-    <div style="font-size:13px;">Code: <strong style="background:rgba(255,255,255,.25);padding:2px 8px;border-radius:6px;">${shop.name.split(' ')[0].toUpperCase()}20</strong></div>
-    <button onclick="copyPromo('${shop.name.split(' ')[0].toUpperCase()}20')" style="margin-top:10px;background:#fff;color:#ef4444;border:none;padding:8px 16px;border-radius:8px;font-weight:800;font-size:12px;">📋 Copier</button>
-  </div>
-  <div class="pgrid">
-    ${(promoOnly.length?promoOnly:shopProducts.slice(0,4)).map(p => `
-      <a href="produit.html?id=${p.id}" class="pcard">
-        <div class="pcard-img">
-          <span class="pcard-badge">PROMO</span>
-          <img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300/0F6B4E/fff?text=SEN+TEW'">
-        </div>
-        <div class="pcard-info">
-          <div class="pcard-name">${p.name}</div>
-          <div class="pcard-price">${Math.round(p.price*0.8).toLocaleString()} FCFA<span class="pcard-old">${Number(p.price).toLocaleString()}</span></div>
-        </div>
-      </a>
-    `).join('')}
-  </div>
-`;
-
-// AVIS
-document.getElementById('panelReviews').innerHTML = `
-  <div class="rating-summary">
-    <div style="font-size:44px;font-weight:900;color:#D4A574;line-height:1;">${shop.rating}</div>
-    <div style="color:#D4A574;font-size:20px;margin:4px 0;">${'⭐'.repeat(Math.round(shop.rating))}</div>
-    <div style="font-size:12px;color:#6B7280;">Basé sur ${shop.sales.toLocaleString()} ventes</div>
-  </div>
-  ${[
-    {u:'Awa D.',s:5,t:'Excellent vendeur, livraison rapide !',d:'il y a 2j',img:'https://i.pravatar.cc/40?img=25'},
-    {u:'Moussa B.',s:5,t:'Très bonne qualité, produits conformes.',d:'il y a 5j',img:'https://i.pravatar.cc/40?img=27'},
-    {u:'Fatou N.',s:4,t:'Je recommande cette boutique.',d:'il y a 1sem',img:'https://i.pravatar.cc/40?img=28'}
-  ].map(r=
+  document.getElementById
