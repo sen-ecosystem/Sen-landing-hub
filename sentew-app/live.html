@@ -3,48 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>LIVE Shopping - SEN TEW</title>
-<link rel="stylesheet" href="css/app.css">
+<title>LIVE - SEN TEW</title>
 <style>
-body{margin:0;background:#000;overflow:hidden;height:100vh;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{background:#000;overflow:hidden;height:100vh;font-family:-apple-system,sans-serif;}
 .live-feed{position:fixed;inset:0;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
 .live-feed::-webkit-scrollbar{display:none;}
 .live-slide{height:100vh;width:100vw;scroll-snap-align:start;position:relative;background:#000;}
 .live-video{width:100%;height:100%;object-fit:cover;}
-.live-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.5) 0%,transparent 30%,transparent 60%,rgba(0,0,0,.85) 100%);pointer-events:none;}
-.live-top{position:absolute;top:0;left:0;right:0;padding:50px 16px 16px;display:flex;gap:12px;align-items:center;z-index:10;}
-.live-badge{background:#ef4444;padding:4px 10px;border-radius:6px;color:#fff;font-weight:900;font-size:11px;animation:pulse 1.5s infinite;}
+.live-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.6) 0%,transparent 25%,transparent 55%,rgba(0,0,0,.9) 100%);pointer-events:none;}
+.live-top{position:absolute;top:0;left:0;right:0;padding:50px 16px 16px;display:flex;gap:10px;align-items:center;z-index:10;}
+.live-badge{background:#ef4444;padding:5px 10px;border-radius:6px;color:#fff;font-weight:900;font-size:11px;animation:pulse 1.5s infinite;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
-.live-viewers{background:rgba(0,0,0,.5);color:#fff;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:700;backdrop-filter:blur(10px);}
-.live-close{margin-left:auto;background:rgba(0,0,0,.5);color:#fff;border:none;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;}
-.live-seller{position:absolute;bottom:190px;left:16px;right:80px;color:#fff;z-index:10;}
-.live-seller-row{display:flex;gap:10px;align-items:center;margin-bottom:8px;padding:8px;background:rgba(0,0,0,.4);border-radius:14px;backdrop-filter:blur(10px);cursor:pointer;transition:transform .15s;}
-.live-seller-row:active{transform:scale(.97);}
+.live-viewers{background:rgba(0,0,0,.7);color:#fff;padding:5px 10px;border-radius:12px;font-size:12px;font-weight:700;}
+.live-close{margin-left:auto;background:rgba(0,0,0,.7);color:#fff;border:none;width:36px;height:36px;border-radius:50%;font-size:18px;}
+
+.live-seller-card{position:absolute;bottom:200px;left:16px;right:80px;z-index:10;}
+.live-seller-row{display:flex;gap:10px;align-items:center;padding:10px;background:rgba(0,0,0,.75);border-radius:14px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.3);}
 .live-avatar{width:44px;height:44px;border-radius:50%;border:2px solid #D4A574;object-fit:cover;flex-shrink:0;}
-.live-name{font-weight:900;font-size:15px;display:flex;align-items:center;gap:4px;}
-.live-verified{font-size:11px;opacity:.9;}
-.live-title{font-size:13px;opacity:.95;margin:8px 0;background:rgba(0,0,0,.4);padding:8px 12px;border-radius:12px;backdrop-filter:blur(10px);}
-.live-follow{background:#ef4444;color:#fff;padding:8px 14px;border-radius:8px;border:none;font-weight:800;font-size:12px;cursor:pointer;}
-.btn-shop{background:rgba(212,165,116,.9);color:#fff;border:none;padding:8px 14px;border-radius:8px;font-weight:800;font-size:12px;cursor:pointer;margin-top:6px;}
-.live-actions{position:absolute;right:12px;bottom:200px;display:flex;flex-direction:column;gap:14px;align-items:center;z-index:10;}
-.live-action{width:48px;height:48px;background:rgba(0,0,0,.4);border-radius:50%;color:#fff;border:none;font-size:22px;backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;flex-direction:column;cursor:pointer;}
-.live-action span{font-size:9px;margin-top:1px;}
-.live-product{position:absolute;bottom:85px;left:16px;right:16px;background:rgba(255,255,255,.95);border-radius:14px;padding:10px;display:flex;gap:10px;align-items:center;backdrop-filter:blur(20px);z-index:10;}
+.live-name{color:#fff;font-weight:900;font-size:15px;display:flex;align-items:center;gap:4px;}
+.verified-tick{width:16px;height:16px;background:#1D9BF0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:900;}
+.live-verified{color:#D4A574;font-size:11px;font-weight:700;margin-top:2px;}
+.live-follow{background:#ef4444;color:#fff;padding:8px 14px;border-radius:8px;border:none;font-weight:800;font-size:12px;}
+
+.live-title{color:#fff;font-size:13px;font-weight:700;margin-top:8px;background:rgba(0,0,0,.75);padding:8px 14px;border-radius:12px;}
+.btn-shop{background:linear-gradient(135deg,#D4A574,#B8895C);color:#fff;border:none;padding:9px 14px;border-radius:10px;font-weight:800;font-size:12px;margin-top:6px;box-shadow:0 4px 12px rgba(212,165,116,.4);}
+
+/* CHAT LISIBLE FOND OPAQUE */
+.live-chat{position:absolute;bottom:280px;left:16px;right:80px;max-height:180px;overflow:hidden;display:flex;flex-direction:column;gap:6px;pointer-events:none;z-index:9;}
+.chat-msg{background:rgba(0,0,0,.85);color:#fff;padding:8px 12px;border-radius:14px;font-size:13px;max-width:85%;animation:slideIn .3s;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.chat-msg strong{color:#D4A574;margin-right:6px;font-weight:800;}
+@keyframes slideIn{from{transform:translateX(-30px);opacity:0}to{transform:translateX(0);opacity:1}}
+
+.live-actions{position:absolute;right:12px;bottom:280px;display:flex;flex-direction:column;gap:14px;align-items:center;z-index:10;}
+.live-action{width:48px;height:48px;background:rgba(0,0,0,.7);border-radius:50%;color:#fff;border:none;font-size:22px;display:flex;align-items:center;justify-content:center;flex-direction:column;}
+.live-action span{font-size:9px;margin-top:1px;font-weight:700;}
+
+.live-product{position:absolute;bottom:70px;left:16px;right:16px;background:#fff;border-radius:14px;padding:10px;display:flex;gap:10px;align-items:center;z-index:10;box-shadow:0 4px 20px rgba(0,0,0,.3);}
 .live-product img{width:60px;height:60px;border-radius:10px;object-fit:cover;flex-shrink:0;}
 .live-product-info{flex:1;min-width:0;}
-.live-product-name{font-weight:800;font-size:13px;color:#0A4D38;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;}
+.live-product-name{font-weight:800;font-size:13px;color:#0A4D38;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .live-product-price{color:#ef4444;font-weight:900;font-size:15px;}
-.live-buy{background:linear-gradient(135deg,#0F6B4E,#D4A574);color:#fff;border:none;padding:10px 12px;border-radius:10px;font-weight:800;font-size:11px;cursor:pointer;line-height:1.1;flex-shrink:0;}
-.live-chat{position:absolute;bottom:155px;left:16px;right:80px;max-height:150px;overflow:hidden;display:flex;flex-direction:column;gap:4px;pointer-events:none;z-index:9;}
-.chat-msg{background:rgba(0,0,0,.55);color:#fff;padding:6px 10px;border-radius:12px;font-size:12px;max-width:80%;backdrop-filter:blur(10px);animation:slideIn .3s;}
-@keyframes slideIn{from{transform:translateX(-30px);opacity:0}to{transform:translateX(0);opacity:1}}
-.live-input{position:absolute;bottom:20px;left:16px;right:16px;display:flex;gap:8px;z-index:10;}
-.live-input input{flex:1;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;padding:10px 14px;border-radius:20px;backdrop-filter:blur(10px);outline:none;font-size:14px;}
+.live-buy{background:linear-gradient(135deg,#0F6B4E,#D4A574);color:#fff;border:none;padding:10px 12px;border-radius:10px;font-weight:800;font-size:11px;line-height:1.1;flex-shrink:0;box-shadow:0 4px 12px rgba(15,107,78,.4);}
+
+.live-input{position:absolute;bottom:15px;left:16px;right:16px;display:flex;gap:8px;z-index:10;}
+.live-input input{flex:1;background:rgba(0,0,0,.8);border:1px solid rgba(255,255,255,.3);color:#fff;padding:10px 14px;border-radius:20px;outline:none;font-size:14px;}
 .live-input input::placeholder{color:rgba(255,255,255,.7);}
-.live-input button{background:#ef4444;color:#fff;border:none;width:44px;border-radius:22px;font-size:16px;cursor:pointer;}
-.swipe-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;text-align:center;pointer-events:none;animation:fadeOut 4s forwards;z-index:5;background:rgba(0,0,0,.5);padding:14px 20px;border-radius:16px;backdrop-filter:blur(10px);}
-@keyframes fadeOut{0%,60%{opacity:1}100%{opacity:0;visibility:hidden;}}
-.float-emoji{position:absolute;bottom:220px;right:50px;font-size:28px;animation:floatUp 3s ease-out forwards;pointer-events:none;z-index:20;}
+.live-input button{background:#ef4444;color:#fff;border:none;width:44px;border-radius:22px;font-size:16px;}
+
+.float-emoji{position:absolute;bottom:250px;right:50px;font-size:28px;animation:floatUp 3s ease-out forwards;pointer-events:none;z-index:20;}
 @keyframes floatUp{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-350px) translateX(-30px) scale(1.5);opacity:0}}
 </style>
 </head>
@@ -54,20 +61,18 @@ body{margin:0;background:#000;overflow:hidden;height:100vh;}
 <script src="js/data.js"></script>
 <script>
 const LIVES = [
-  { id:'1', seller:'Aïcha Couture', avatar:'https://i.pravatar.cc/100?img=1', title:'🔥 SOLDES -50% robes wax mariage', viewers:1247, rating:4.9, product:{img:'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=200&h=200&fit=crop',name:'Robe wax premium',price:15000,oldPrice:30000,id:1} },
-  { id:'2', seller:'Moussa Tech', avatar:'https://i.pravatar.cc/100?img=11', title:'📱 iPhone 15 Pro déballage exclusif', viewers:892, rating:4.7, product:{img:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=200&h=200&fit=crop',name:'iPhone 15 Pro 256GB',price:750000,oldPrice:850000,id:10} },
-  { id:'3', seller:'Fatou Beauté', avatar:'https://i.pravatar.cc/100?img=5', title:'💄 Démo maquillage soirée', viewers:634, rating:4.8, product:{img:'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=200&h=200&fit=crop',name:'Palette 24 couleurs',price:8500,oldPrice:12000,id:31} },
-  { id:'9', seller:'Ibrahima Sport', avatar:'https://i.pravatar.cc/100?img=13', title:'⚽ Maillots officiels Sénégal 2026', viewers:456, rating:4.9, product:{img:'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=200&h=200&fit=crop',name:'Maillot Sénégal 2026',price:18000,oldPrice:25000,id:50} },
-  { id:'6', seller:'Déco Sénégal', avatar:'https://i.pravatar.cc/100?img=20', title:'✨ Tapis wax XL nouvelle collection', viewers:389, rating:4.7, product:{img:'https://images.unsplash.com/photo-1600166898405-da9535204843?w=200&h=200&fit=crop',name:'Tapis wax XL',price:42000,oldPrice:55000,id:22} }
+  {id:'1',seller:'Aïcha Couture',avatar:'https://i.pravatar.cc/100?img=1',title:'🔥 SOLDES -50% robes wax mariage',viewers:1297,rating:4.9,verified:true,product:{img:'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=200',name:'Robe wax premium',price:15000,oldPrice:30000,id:1}},
+  {id:'2',seller:'Moussa Tech',avatar:'https://i.pravatar.cc/100?img=11',title:'📱 iPhone 15 Pro déballage',viewers:892,rating:4.7,verified:true,product:{img:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=200',name:'iPhone 15 Pro',price:750000,oldPrice:850000,id:10}},
+  {id:'3',seller:'Fatou Beauté',avatar:'https://i.pravatar.cc/100?img=5',title:'💄 Démo maquillage soirée',viewers:634,rating:4.8,verified:true,product:{img:'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=200',name:'Palette 24 couleurs',price:8500,oldPrice:12000,id:31}},
+  {id:'9',seller:'Ibrahima Sport',avatar:'https://i.pravatar.cc/100?img=13',title:'⚽ Maillots officiels 2026',viewers:456,rating:4.9,verified:true,product:{img:'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=200',name:'Maillot Sénégal',price:18000,oldPrice:25000,id:50}}
 ];
 
-const messages = ['🔥🔥🔥','Trop belle !','Prix svp?','J\'achète !','😍😍','Livraison Dakar?','Combien?','❤️','Wow','C\'est encore dispo?','Taille M?','J\'adore'];
+const messages = ['🔥🔥🔥','Trop belle !','Prix svp?','J\'achète !','😍😍','Livraison Dakar?','Combien?','❤️','Wow ! J\'adore','C\'est encore dispo?'];
 const users = ['Awa','Moussa','Fatou','Ibrahima','Aminata','Ousmane','Ndeye','Cheikh','Mariama'];
 
 document.getElementById('feed').innerHTML = LIVES.map((L,i)=>`
   <div class="live-slide" data-id="${L.id}">
-    <video class="live-video" autoplay muted loop playsinline poster="${L.product.img.replace('w=200&h=200','w=800&h=1200')}">
-    </video>
+    <video class="live-video" autoplay muted loop playsinline poster="${L.product.img.replace('w=200','w=800&h=1200')}"></video>
     <div class="live-overlay"></div>
     <div class="live-top">
       <span class="live-badge">🔴 LIVE</span>
@@ -75,12 +80,12 @@ document.getElementById('feed').innerHTML = LIVES.map((L,i)=>`
       <button class="live-close" onclick="location.href='index.html'">✕</button>
     </div>
 
-    <div class="live-seller">
+    <div class="live-seller-card">
       <div class="live-seller-row" onclick="openBoutique('${L.id}')">
-        <img src="${L.avatar}" class="live-avatar" alt="">
+        <img src="${L.avatar}" class="live-avatar">
         <div style="flex:1;min-width:0;">
-          <div class="live-name">${L.seller} <span style="font-size:14px;">›</span></div>
-          <div class="live-verified">✅ SEN Verified · ⭐ ${L.rating} · Voir boutique</div>
+          <div class="live-name">${L.seller} ${L.verified?'<span class="verified-tick">✓</span>':''} <span style="font-size:14px;">›</span></div>
+          <div class="live-verified">⭐ ${L.rating} · Voir boutique</div>
         </div>
         <button class="live-follow" onclick="event.stopPropagation();followSeller('${L.id}','${L.seller}',this)">+ Suivre</button>
       </div>
@@ -114,48 +119,32 @@ document.getElementById('feed').innerHTML = LIVES.map((L,i)=>`
       <input type="text" placeholder="Envoyer un message..." onkeypress="if(event.key==='Enter')sendMsg('${L.id}',this)">
       <button onclick="sendMsg('${L.id}',this.previousElementSibling)">➤</button>
     </div>
-    ${i===0?'<div class="swipe-hint">👆<br><strong>Glissez vers le haut</strong><br>pour voir d\'autres LIVEs</div>':''}
   </div>
 `).join('');
 
-// ===== NAVIGATION VENDEUR → BOUTIQUE =====
-function openBoutique(sellerId){
-  location.href = 'boutique.html?id=' + sellerId + '&from=live';
-}
-function openProduct(productId){
-  location.href = 'produit.html?id=' + productId + '&from=live';
+function openBoutique(id){location.href='boutique.html?id='+id+'&from=live';}
+function openProduct(id){location.href='produit.html?id='+id+'&from=live';}
+
+function followSeller(id,name,btn){
+  const f = JSON.parse(localStorage.getItem('followed')||'[]');
+  if(f.includes(id)){f.splice(f.indexOf(id),1);btn.textContent='+ Suivre';btn.style.background='#ef4444';}
+  else{f.push(id);btn.textContent='✓ Suivi';btn.style.background='rgba(255,255,255,.25)';}
+  localStorage.setItem('followed',JSON.stringify(f));
+  navigator.vibrate&&navigator.vibrate(30);
 }
 
-// ===== FOLLOW =====
-function followSeller(id, name, btn){
-  const followed = JSON.parse(localStorage.getItem('followed')||'[]');
-  if (followed.includes(id)) {
-    followed.splice(followed.indexOf(id),1);
-    btn.textContent = '+ Suivre';
-    btn.style.background = '#ef4444';
-  } else {
-    followed.push(id);
-    btn.textContent = '✓ Suivi';
-    btn.style.background = 'rgba(255,255,255,.25)';
-    navigator.vibrate&&navigator.vibrate(30);
-  }
-  localStorage.setItem('followed', JSON.stringify(followed));
-}
-
-// ===== CHAT AUTO SIMULÉ =====
 setInterval(()=>{
   LIVES.forEach(L=>{
     const chat = document.getElementById('chat'+L.id);
     if(!chat)return;
     const m = document.createElement('div');
     m.className='chat-msg';
-    m.innerHTML=`<strong>${users[Math.floor(Math.random()*users.length)]}</strong> ${messages[Math.floor(Math.random()*messages.length)]}`;
+    m.innerHTML=`<strong>${users[Math.floor(Math.random()*users.length)]}</strong>${messages[Math.floor(Math.random()*messages.length)]}`;
     chat.appendChild(m);
-    if(chat.children.length>5)chat.removeChild(chat.firstChild);
+    if(chat.children.length>4)chat.removeChild(chat.firstChild);
   });
 },2800);
 
-// ===== VIEWERS COUNT ANIMATION =====
 setInterval(()=>{
   document.querySelectorAll('.vc').forEach(vc=>{
     const n = parseInt(vc.textContent.replace(/\D/g,''))+Math.floor(Math.random()*10)-3;
@@ -163,7 +152,6 @@ setInterval(()=>{
   });
 },3000);
 
-// ===== RÉACTIONS ÉMOJI =====
 function reactEmoji(id,emoji){
   const slide = document.querySelector(`.live-slide[data-id="${id}"]`);
   if(!slide)return;
@@ -173,7 +161,6 @@ function reactEmoji(id,emoji){
       e.className='float-emoji';
       e.textContent=emoji;
       e.style.right = (30+Math.random()*60)+'px';
-      e.style.bottom = (200+Math.random()*30)+'px';
       slide.appendChild(e);
       setTimeout(()=>e.remove(),3000);
     }, i*100);
@@ -181,49 +168,39 @@ function reactEmoji(id,emoji){
   navigator.vibrate&&navigator.vibrate(20);
 }
 
-// ===== CHAT ENVOI =====
 function sendMsg(id,input){
   if(!input.value.trim())return;
   const chat=document.getElementById('chat'+id);
   const m=document.createElement('div');
   m.className='chat-msg';
-  m.style.background='rgba(15,107,78,.85)';
-  m.innerHTML=`<strong>Vous</strong> ${input.value}`;
+  m.style.background='rgba(15,107,78,.9)';
+  m.innerHTML=`<strong style="color:#D4A574;">Vous</strong>${input.value}`;
   chat.appendChild(m);
+  if(chat.children.length>4)chat.removeChild(chat.firstChild);
   input.value='';
   navigator.vibrate&&navigator.vibrate(15);
 }
 
-// ===== ACHAT FLASH =====
 function flashBuy(id){
   const L = LIVES.find(x=>x.id===id);
   const flashPrice = Math.round(L.product.price*0.7);
-  if(confirm(`🛒 ACHAT FLASH LIVE -30%\n\n${L.product.name}\n\nPrix normal: ${L.product.price.toLocaleString()} FCFA\nPrix LIVE: ${flashPrice.toLocaleString()} FCFA\n\n✅ Ajouter au panier ?`)){
+  if(confirm(`🛒 ACHAT FLASH -30%\n\n${L.product.name}\nPrix LIVE: ${flashPrice.toLocaleString()} FCFA\n\nAjouter au panier ?`)){
     const cart=JSON.parse(localStorage.getItem('cart')||'[]');
-    cart.push({...L.product,price:flashPrice,flashDiscount:30,liveId:id,ts:Date.now()});
+    cart.push({...L.product,price:flashPrice,flashDiscount:30,liveId:id,seller:L.seller,ts:Date.now()});
     localStorage.setItem('cart',JSON.stringify(cart));
     navigator.vibrate&&navigator.vibrate([50,30,50,30,50]);
-    if(confirm('✅ Ajouté au panier avec -30% flash !\n\nContinuer à regarder ou aller au panier ?')){
-      location.href='panier.html';
-    }
+    if(confirm('✅ Ajouté au panier !\nAller au panier ?')) location.href='panier.html';
   }
 }
 
-// ===== PARTAGE =====
 function shareLive(id){
   const L = LIVES.find(x=>x.id===id);
-  const url = location.origin + location.pathname + '?live='+id;
-  if(navigator.share){
-    navigator.share({title:'🔴 LIVE '+L.seller,text:L.title,url});
-  } else {
-    navigator.clipboard.writeText(url);
-    alert('✅ Lien copié : '+url);
-  }
+  if(navigator.share) navigator.share({title:'🔴 LIVE '+L.seller,text:L.title,url:location.href+'?live='+id});
+  else{navigator.clipboard.writeText(location.href+'?live='+id);alert('✅ Lien copié');}
 }
 
-// ===== DEEP LINK (?live=X ouvre directement le bon LIVE) =====
 const targetLive = new URLSearchParams(location.search).get('live') || new URLSearchParams(location.search).get('seller');
-if (targetLive) {
+if(targetLive){
   setTimeout(()=>{
     const slide = document.querySelector(`.live-slide[data-id="${targetLive}"]`);
     if(slide) slide.scrollIntoView({behavior:'instant'});
