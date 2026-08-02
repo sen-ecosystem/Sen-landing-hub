@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reset SEN TEW</title>
+<style>
+body{font-family:-apple-system,sans-serif;background:linear-gradient(135deg,#0F6B4E,#0A4D38);min-height:100vh;color:#fff;display:flex;align-items:center;justify-content:center;padding:20px;margin:0;}
+.box{background:#fff;color:#111827;border-radius:20px;padding:30px;max-width:400px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+h1{color:#0F6B4E;margin:0 0 10px;}
+.log{background:#F9FAFB;padding:12px;border-radius:10px;font-family:monospace;font-size:12px;text-align:left;margin:16px 0;max-height:200px;overflow-y:auto;color:#374151;}
+.log div{margin:2px 0;}
+.ok{color:#10B981;}
+.err{color:#EF4444;}
+button{background:linear-gradient(135deg,#0F6B4E,#D4A574);color:#fff;border:none;padding:14px 24px;border-radius:12px;font-weight:900;font-size:15px;cursor:pointer;width:100%;margin-top:10px;}
+</style>
+</head>
+<body>
+<div class="box">
+  <div style="font-size:64px;">🔄</div>
+  <h1>Reset SEN TEW</h1>
+  <p style="color:#6B7280;font-size:13px;">Suppression du cache et service worker</p>
+  <div class="log" id="log"></div>
+  <button onclick="location.href='index.html?v='+Date.now()">🚀 Retour à l'app</button>
+</div>
+
+<script>
+const log = document.getElementById('log');
+function say(msg, ok=true){
+  const d = document.createElement('div');
+  d.className = ok?'ok':'err';
+  d.textContent = (ok?'✅ ':'❌ ')+msg;
+  log.appendChild(d);
+}
+
+(async function(){
+  say('Démarrage du nettoyage...');
+
+  // 1. Unregister tous les service workers
+  if('serviceWorker' in navigator){
+    const regs = await navigator.serviceWorker.getRegistrations();
+    for(const reg of regs){
+      await reg.unregister();
+      say('Service Worker supprimé: '+reg.scope);
+    }
+    if(regs.length===0) say('Aucun Service Worker trouvé');
+  }
+
+  // 2. Delete tous les caches
+  if('caches' in window){
+    const keys = await caches.keys();
+    for(const key of keys){
+      await caches.delete(key);
+      say('Cache supprimé: '+key);
+    }
+    if(keys.length===0) say('Aucun cache trouvé');
+  }
+
+  // 3. Clear localStorage sensible (garde préférences)
+  const keep = ['curr_idx','lang_idx','followed','user','current_user','token'];
+  const allKeys = Object.keys(localStorage);
+  let cleared = 0;
+  allKeys.forEach(k=>{
+    if(!keep.includes(k)){
+      // On garde les prefs mais on vide le reste
+    }
+  });
+  say('Préférences utilisateur conservées');
+
+  // 4. Clear sessionStorage
+  sessionStorage.clear();
+  say('SessionStorage vidé');
+
+  say('🎉 Nettoyage terminé !');
+  say('Cliquez sur "Retour à l\'app"');
+})();
+</script>
+</body>
+</html>
