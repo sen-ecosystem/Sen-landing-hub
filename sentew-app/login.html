@@ -1,171 +1,170 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<html lang="fr"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Connexion - SEN TEW</title>
-<meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0F6B4E">
-<link rel="stylesheet" href="css/app.css">
 <style>
-.login-hero{background:linear-gradient(135deg,#0F6B4E,#D4A574);padding:40px 20px 60px;text-align:center;color:#fff;border-radius:0 0 30px 30px}
-.login-logo{font-size:36px;font-weight:900;color:#fff;letter-spacing:2px}
-.login-tagline{font-size:13px;opacity:.9;margin-top:4px}
-.login-card{margin:-40px 20px 0;background:rgba(255,255,255,.08);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:24px;position:relative;z-index:2}
-.tab-switch{display:flex;background:rgba(0,0,0,.3);border-radius:12px;padding:4px;margin-bottom:20px}
-.tab-switch button{flex:1;background:none;border:none;color:rgba(255,255,255,.6);padding:10px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;transition:.2s}
-.tab-switch button.active{background:#D4A574;color:#0A1F17}
+:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a}
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,'Segoe UI',sans-serif}
+body{background:linear-gradient(180deg,#f8fbf9 0%,#fff 40%);min-height:100vh;color:#222;padding:0 24px;padding-top:env(safe-area-inset-top,20px);padding-bottom:env(safe-area-inset-bottom,20px)}
+.logo-block{text-align:center;padding:40px 0 24px}
+.logo-crown{font-size:60px;margin-bottom:8px;filter:drop-shadow(0 4px 12px rgba(252,209,22,.4))}
+.logo-name{color:var(--v);font-size:32px;font-weight:900;letter-spacing:2px}
+.logo-tagline{color:var(--o);font-size:13px;font-weight:600;margin-top:4px;letter-spacing:1px}
+
+.card{background:#fff;border-radius:20px;padding:24px;box-shadow:0 8px 32px rgba(0,0,0,.06)}
+.title{font-size:22px;font-weight:800;color:#222;margin-bottom:6px}
+.subtitle{font-size:14px;color:#666;margin-bottom:22px}
+
 .field{margin-bottom:14px}
-.field label{display:block;font-size:11px;color:#D4A574;font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px}
-.field input{width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(212,165,116,.3);color:#fff;padding:12px 14px;border-radius:10px;font-size:14px;box-sizing:border-box}
-.field input:focus{outline:none;border-color:#D4A574;background:rgba(0,0,0,.5)}
-.phone-input{display:flex;gap:6px}
-.phone-input select{background:rgba(0,0,0,.3);border:1px solid rgba(212,165,116,.3);color:#fff;padding:12px 8px;border-radius:10px;font-size:13px}
-.phone-input input{flex:1}
-.social-btns{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
-.social-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;padding:10px;border-radius:10px;font-size:20px;cursor:pointer;transition:.2s}
-.social-btn:active{transform:scale(.95)}
-.otp-input{display:flex;gap:8px;justify-content:center;margin:20px 0}
-.otp-input input{width:44px;height:52px;text-align:center;font-size:20px;font-weight:800;background:rgba(0,0,0,.3);border:2px solid rgba(212,165,116,.3);color:#fff;border-radius:10px}
-.otp-input input:focus{outline:none;border-color:#D4A574}
-.divider{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.4);font-size:11px;margin:16px 0;text-transform:uppercase;letter-spacing:1px}
-.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.1)}
-.link{color:#D4A574;text-decoration:none;font-size:12px}
-</style>
-</head>
-<body oncontextmenu="return false">
-<div class="app">
-  <main class="app-content" style="padding-bottom:20px;">
-    <div class="login-hero">
-      <div class="login-logo">SEN TEW</div>
-      <div class="login-tagline">La marketplace africaine 🇸🇳</div>
-    </div>
+.field label{display:block;font-size:12px;color:#666;font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.input-wrap{position:relative}
+.input-wrap .icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:#999}
+.field input{width:100%;border:2px solid #e8e8e8;padding:14px 14px 14px 42px;border-radius:12px;font-size:15px;color:#222;background:#fafafa;outline:none;transition:.2s}
+.field input:focus{border-color:var(--v);background:#fff;box-shadow:0 0 0 4px rgba(0,166,81,.08)}
+.eye-btn{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:18px;cursor:pointer;color:#999}
 
-    <div class="login-card" id="stepPhone">
-      <div class="tab-switch">
-        <button class="active" onclick="switchTab('login',this)">Connexion</button>
-        <button onclick="switchTab('signup',this)">Inscription</button>
-      </div>
+.forgot{display:block;text-align:right;color:var(--v);font-size:13px;font-weight:600;text-decoration:none;margin:-6px 0 16px}
 
-      <div id="signupFields" style="display:none;">
-        <div class="field">
-          <label>Nom complet</label>
-          <input type="text" placeholder="Ex: Ousseynou Lam">
-        </div>
-      </div>
+.login-btn{width:100%;background:linear-gradient(135deg,var(--v),#008a44);color:#fff;border:none;padding:16px;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(0,166,81,.3);transition:.2s}
+.login-btn:active{transform:scale(.98)}
 
-      <div class="field">
-        <label>📱 Numéro de téléphone</label>
-        <div class="phone-input">
-          <select>
-            <option>🇸🇳 +221</option>
-            <option>🇨🇮 +225</option>
-            <option>🇲🇱 +223</option>
-            <option>🇨🇲 +237</option>
-            <option>🇧🇫 +226</option>
-            <option>🇬🇳 +224</option>
-          </select>
-          <input type="tel" id="phone" placeholder="77 123 45 67" maxlength="12">
-        </div>
-      </div>
+.divider{display:flex;align-items:center;gap:12px;margin:22px 0;color:#999;font-size:12px;font-weight:600}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:#e0e0e0}
 
-      <button class="btn btn-gold btn-full" onclick="sendOTP()">📩 Recevoir le code SMS</button>
+.social-btns{display:grid;gap:10px}
+.social{width:100%;padding:13px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;border:2px solid #e8e8e8;background:#fff;color:#222;transition:.2s}
+.social:active{transform:scale(.98)}
+.social.google{border-color:#e0e0e0}
+.social.apple{background:#000;color:#fff;border-color:#000}
+.social.facebook{background:#1877f2;color:#fff;border-color:#1877f2}
+.social-icon{width:22px;height:22px;display:flex;align-items:center;justify-content:center}
 
-      <div class="divider">Ou continuer avec</div>
+.signup-link{text-align:center;margin-top:20px;font-size:14px;color:#666}
+.signup-link a{color:var(--v);font-weight:700;text-decoration:none}
 
-      <div class="social-btns">
-        <button class="social-btn" onclick="alert('🌊 Wave login')">🌊<br><span style="font-size:10px;">Wave</span></button>
-        <button class="social-btn" onclick="alert('🍊 Orange Money login')">🍊<br><span style="font-size:10px;">Orange</span></button>
-        <button class="social-btn" onclick="alert('Google login')">🔴<br><span style="font-size:10px;">Google</span></button>
-      </div>
+.guest-link{text-align:center;margin-top:12px}
+.guest-link a{color:#999;font-size:13px;text-decoration:underline}
 
-      <div style="text-align:center;margin-top:16px;font-size:11px;color:rgba(255,255,255,.6);">
-        En continuant, vous acceptez nos <a href="../cgu.html" class="link">CGU</a> et notre <a href="../confidentialite.html" class="link">Politique RGPD</a>
+/* 2FA MODAL */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
+.modal.show{display:flex}
+.modal-content{background:#fff;border-radius:20px;padding:24px;max-width:400px;width:100%;text-align:center}
+.modal-icon{font-size:48px;margin-bottom:10px}
+.modal h3{font-size:20px;font-weight:800;margin-bottom:6px}
+.modal p{font-size:13px;color:#666;margin-bottom:20px}
+.otp-row{display:flex;gap:8px;justify-content:center;margin-bottom:20px}
+.otp-row input{width:46px;height:56px;border:2px solid #e0e0e0;border-radius:12px;font-size:22px;font-weight:800;text-align:center;color:#222;background:#fafafa}
+.otp-row input:focus{border-color:var(--v);outline:none;background:#fff}
+.resend{color:var(--v);font-size:13px;font-weight:600;margin-top:12px;cursor:pointer;background:none;border:none}
+</style></head><body>
+
+<div class="logo-block">
+  <div class="logo-crown">👑</div>
+  <div class="logo-name">SEN TEW</div>
+  <div class="logo-tagline">AFRICAN MARKETPLACE</div>
+</div>
+
+<div class="card">
+  <div class="title">Bon retour ! 👋</div>
+  <div class="subtitle">Connectez-vous à votre compte SEN TEW</div>
+
+  <form onsubmit="doLogin(event)">
+    <div class="field">
+      <label>Email ou téléphone</label>
+      <div class="input-wrap">
+        <span class="icon">📧</span>
+        <input type="text" required placeholder="ousseynou@example.com ou +221 77 XXX XX XX">
       </div>
     </div>
 
-    <!-- Étape OTP -->
-    <div class="login-card" id="stepOTP" style="display:none;">
-      <div style="text-align:center;font-size:40px;margin-bottom:12px;">🔐</div>
-      <div style="text-align:center;font-weight:800;font-size:16px;margin-bottom:6px;">Vérification SMS</div>
-      <div style="text-align:center;font-size:12px;color:rgba(255,255,255,.7);margin-bottom:8px;">
-        Code envoyé au <span id="phoneDisplay" style="color:#D4A574;font-weight:700;"></span>
-      </div>
-
-      <div class="otp-input">
-        <input type="text" maxlength="1" oninput="nextOTP(this,0)">
-        <input type="text" maxlength="1" oninput="nextOTP(this,1)">
-        <input type="text" maxlength="1" oninput="nextOTP(this,2)">
-        <input type="text" maxlength="1" oninput="nextOTP(this,3)">
-        <input type="text" maxlength="1" oninput="nextOTP(this,4)">
-        <input type="text" maxlength="1" oninput="nextOTP(this,5)">
-      </div>
-
-      <div style="text-align:center;font-size:12px;color:rgba(255,255,255,.6);margin-bottom:16px;">
-        Code renvoyé dans <span id="timer" style="color:#D4A574;font-weight:700;">60s</span>
-      </div>
-
-      <button class="btn btn-gold btn-full" onclick="verify()">✓ Vérifier & continuer</button>
-
-      <div style="text-align:center;margin-top:12px;">
-        <a onclick="back()" style="color:#D4A574;font-size:12px;cursor:pointer;">← Modifier le numéro</a>
+    <div class="field">
+      <label>Mot de passe</label>
+      <div class="input-wrap">
+        <span class="icon">🔒</span>
+        <input id="pwd" type="password" required placeholder="••••••••" minlength="6">
+        <button type="button" class="eye-btn" onclick="togglePwd()">👁️</button>
       </div>
     </div>
 
-    <div style="text-align:center;padding:20px;font-size:11px;color:rgba(255,255,255,.4);">
-      SEN TEW v1.0 · Sécurisé par 2FA<br>
-      🔒 Données protégées RGPD · Serveurs Sénégal
+    <a href="mot-de-passe-oublie.html" class="forgot">Mot de passe oublié ?</a>
+
+    <button class="login-btn" type="submit">SE CONNECTER →</button>
+  </form>
+
+  <div class="divider">OU</div>
+
+  <div class="social-btns">
+    <button class="social google" onclick="socialLogin('google')">
+      <span class="social-icon">🇬</span> Continuer avec Google
+    </button>
+    <button class="social apple" onclick="socialLogin('apple')">
+      <span class="social-icon">🍎</span> Continuer avec Apple
+    </button>
+    <button class="social facebook" onclick="socialLogin('facebook')">
+      <span class="social-icon">f</span> Continuer avec Facebook
+    </button>
+  </div>
+
+  <div class="signup-link">
+    Pas encore de compte ? <a href="inscription.html">S'inscrire</a>
+  </div>
+
+  <div class="guest-link">
+    <a href="login-guest.html">Continuer en tant qu'invité →</a>
+  </div>
+</div>
+
+<!-- MODAL 2FA -->
+<div class="modal" id="modal2fa">
+  <div class="modal-content">
+    <div class="modal-icon">📱</div>
+    <h3>Vérification 2FA</h3>
+    <p>Entrez le code à 6 chiffres reçu par SMS<br><strong>+221 77 ••• •• 45</strong></p>
+    <div class="otp-row">
+      <input maxlength="1" oninput="nextOtp(this,0)">
+      <input maxlength="1" oninput="nextOtp(this,1)">
+      <input maxlength="1" oninput="nextOtp(this,2)">
+      <input maxlength="1" oninput="nextOtp(this,3)">
+      <input maxlength="1" oninput="nextOtp(this,4)">
+      <input maxlength="1" oninput="nextOtp(this,5)">
     </div>
-  </main>
+    <button class="login-btn" onclick="verifyOtp()">Vérifier</button>
+    <button class="resend" onclick="alert('📩 Code renvoyé au +221 77 ••• •• 45')">↻ Renvoyer le code</button>
+  </div>
 </div>
 
 <script>
-let mode='login';
-function switchTab(m,el){
-  mode=m;
-  document.querySelectorAll('.tab-switch button').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('signupFields').style.display = m==='signup'?'block':'none';
+function togglePwd(){
+  const p = document.getElementById('pwd');
+  p.type = p.type === 'password' ? 'text' : 'password';
 }
-function sendOTP(){
-  const p=document.getElementById('phone').value.trim();
-  if(p.length<8){alert('❌ Numéro invalide');return}
-  document.getElementById('phoneDisplay').textContent='+221 '+p;
-  document.getElementById('stepPhone').style.display='none';
-  document.getElementById('stepOTP').style.display='block';
-  startTimer();
-  // Simuler envoi SMS
-  setTimeout(()=>{
-    alert('📩 Code SMS envoyé : 123456 (démo)');
-  },500);
+function doLogin(e){
+  e.preventDefault();
+  // Simule 2FA
+  document.getElementById('modal2fa').classList.add('show');
 }
-function nextOTP(el,i){
-  if(el.value.length===1){
-    const inputs=document.querySelectorAll('.otp-input input');
-    if(i<5)inputs[i+1].focus();
-    else verify();
+function nextOtp(el,i){
+  if(el.value && i<5){
+    document.querySelectorAll('.otp-row input')[i+1].focus();
+  }
+  const all = [...document.querySelectorAll('.otp-row input')].map(x=>x.value).join('');
+  if(all.length===6) verifyOtp();
+}
+function verifyOtp(){
+  const code = [...document.querySelectorAll('.otp-row input')].map(x=>x.value).join('');
+  if(code.length !== 6){alert('Code incomplet');return}
+  localStorage.setItem('sentew_logged','1');
+  localStorage.setItem('sentew_role','client');
+  alert('✅ Connexion réussie !');
+  location.href = 'index.html';
+}
+function socialLogin(provider){
+  const names = {google:'Google',apple:'Apple',facebook:'Facebook'};
+  if(confirm('Se connecter avec '+names[provider]+' ?')){
+    localStorage.setItem('sentew_logged','1');
+    localStorage.setItem('sentew_role','client');
+    location.href = 'index.html';
   }
 }
-function verify(){
-  const inputs=document.querySelectorAll('.otp-input input');
-  const code=Array.from(inputs).map(i=>i.value).join('');
-  if(code.length!==6){alert('❌ Code incomplet');return}
-  alert('✅ Connexion réussie !\nBienvenue sur SEN TEW');
-  setTimeout(()=>window.location.href='index.html',800);
-}
-function back(){
-  document.getElementById('stepOTP').style.display='none';
-  document.getElementById('stepPhone').style.display='block';
-}
-function startTimer(){
-  let s=60;
-  const t=document.getElementById('timer');
-  const iv=setInterval(()=>{
-    s--;
-    if(s<=0){clearInterval(iv);t.innerHTML='<a onclick="startTimer()" style="cursor:pointer;">Renvoyer</a>';return}
-    t.textContent=s+'s';
-  },1000);
-}
 </script>
-</body>
-</html>
+</body></html>
