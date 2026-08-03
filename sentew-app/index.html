@@ -1,39 +1,50 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" id="html">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>SEN TEW - Marketplace</title>
-<meta name="theme-color" content="#0F6B4E">
-<link rel="stylesheet" href="css/app.css">
+<meta name="theme-color" content="#0F6B4E" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0A1F17" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="manifest.json">
 <style>
-*{-webkit-tap-highlight-color:transparent;box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#F5F5F0;}
-.app{max-width:100%;overflow-x:hidden;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{
+  --bg:#F5F5F0;--card:#fff;--text:#111827;--muted:#6B7280;
+  --primary:#0F6B4E;--gold:#D4A574;--border:#F3F4F6;
+  --shadow:0 2px 8px rgba(0,0,0,.06);
+}
+[data-theme="dark"]{
+  --bg:#0A1F17;--card:#1A2E24;--text:#F3F4F6;--muted:#9CA3AF;
+  --border:#2A3E34;--shadow:0 2px 8px rgba(0,0,0,.3);
+}
+html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Segoe UI,Roboto,sans-serif;overscroll-behavior:none;transition:background .3s,color .3s;}
+body{max-width:600px;margin:0 auto;position:relative;min-height:100vh;}
 
-.app-header{display:flex;align-items:center;gap:8px;padding:12px 14px;background:#fff;border-bottom:1px solid #F3F4F6;position:sticky;top:0;z-index:100;}
+.app-header{display:flex;align-items:center;gap:8px;padding:12px 14px;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
 .logo-wrap{display:flex;align-items:center;gap:8px;cursor:pointer;}
-.logo-img{width:42px;height:42px;border-radius:10px;object-fit:contain;background:#F9FAFB;padding:2px;flex-shrink:0;}
-.logo-text-mini{font-weight:900;color:#0F6B4E;font-size:16px;letter-spacing:1px;line-height:1;}
-.logo-sub-mini{font-size:9px;color:#D4A574;letter-spacing:2px;font-weight:700;}
-.header-actions{margin-left:auto;display:flex;gap:6px;align-items:center;}
-.hd-pill{height:38px;padding:0 12px;background:#F9FAFB;border:none;border-radius:19px;display:flex;align-items:center;gap:5px;font-size:12px;font-weight:800;color:#0A4D38;cursor:pointer;}
-.hd-icon{width:38px;height:38px;background:#F9FAFB;border:none;border-radius:19px;display:flex;align-items:center;justify-content:center;font-size:15px;color:#0A4D38;text-decoration:none;position:relative;}
+.logo-svg{width:42px;height:42px;flex-shrink:0;}
+.logo-txt{font-weight:900;color:var(--primary);font-size:16px;letter-spacing:1px;line-height:1;}
+.logo-sub{font-size:9px;color:var(--gold);letter-spacing:2px;font-weight:700;}
+.hd-actions{margin-left:auto;display:flex;gap:6px;align-items:center;}
+.hd-pill{height:38px;padding:0 10px;background:var(--bg);border:none;border-radius:19px;display:flex;align-items:center;gap:4px;font-size:12px;font-weight:800;color:var(--primary);cursor:pointer;transition:transform .1s;}
+.hd-pill:active{transform:scale(.95);}
+.hd-icon{width:38px;height:38px;background:var(--bg);border:none;border-radius:19px;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--primary);text-decoration:none;position:relative;cursor:pointer;}
 .hd-icon .bdg{position:absolute;top:-2px;right:-2px;background:#ef4444;color:#fff;font-size:9px;font-weight:900;padding:2px 5px;border-radius:8px;}
 
-.sc-wrap{padding:12px 14px;background:#fff;}
-.sc-box{display:flex;gap:8px;align-items:center;background:#F3F4F6;border-radius:14px;padding:8px 12px;}
-.sc-box input{flex:1;background:none;border:none;font-size:14px;outline:none;}
-.ia-b{background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;padding:6px 10px;border-radius:10px;text-decoration:none;font-size:11px;font-weight:800;}
+.sc-wrap{padding:12px 14px;background:var(--card);}
+.sc-box{display:flex;gap:8px;align-items:center;background:var(--bg);border-radius:14px;padding:8px 12px;border:1px solid var(--border);}
+.sc-box input{flex:1;background:none;border:none;font-size:14px;outline:none;color:var(--text);}
+.sc-box input::placeholder{color:var(--muted);}
+.ia-btn{background:linear-gradient(135deg,var(--primary),#0A4D38);color:#fff;padding:6px 10px;border-radius:10px;text-decoration:none;font-size:11px;font-weight:800;}
 
-.ad-carousel{margin:12px 14px;border-radius:16px;overflow:hidden;position:relative;height:120px;}
+.ad-carousel{margin:12px 14px;border-radius:16px;overflow:hidden;position:relative;height:110px;}
 .ad-slide{position:absolute;inset:0;display:flex;align-items:center;padding:14px;color:#fff;opacity:0;transition:opacity .5s;text-decoration:none;}
 .ad-slide.active{opacity:1;}
 .ad-slide-1{background:linear-gradient(135deg,#D4A574,#B8895C);}
 .ad-slide-2{background:linear-gradient(135deg,#EF4444,#F97316);}
 .ad-slide-3{background:linear-gradient(135deg,#0F6B4E,#0A4D38);}
-.ad-emoji{font-size:60px;flex-shrink:0;}
+.ad-emoji{font-size:52px;flex-shrink:0;}
 .ad-content{flex:1;margin-left:14px;}
 .ad-title{font-weight:900;font-size:15px;}
 .ad-desc{font-size:11px;opacity:.95;margin:4px 0;}
@@ -42,169 +53,182 @@ body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#F5F5F0;
 .ad-dot{width:6px;height:6px;background:rgba(255,255,255,.5);border-radius:50%;}
 .ad-dot.active{background:#fff;width:20px;border-radius:3px;}
 
-.cats-r{display:flex;gap:14px;padding:16px 14px;overflow-x:auto;scrollbar-width:none;}
-.cats-r::-webkit-scrollbar{display:none;}
-.cat-i{flex-shrink:0;text-align:center;text-decoration:none;color:#0A4D38;}
-.cat-c{width:64px;height:64px;background:linear-gradient(135deg,#0F6B4E,#0A4D38);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:6px;box-shadow:0 4px 12px rgba(15,107,78,.25);}
-.cat-l{font-size:11px;font-weight:700;}
+.cats-row{display:flex;gap:14px;padding:16px 14px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.cats-row::-webkit-scrollbar{display:none;}
+.cat-item{flex-shrink:0;text-align:center;text-decoration:none;color:var(--text);}
+.cat-circle{width:60px;height:60px;background:linear-gradient(135deg,var(--primary),#0A4D38);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:6px;box-shadow:0 4px 12px rgba(15,107,78,.25);}
+.cat-lbl{font-size:11px;font-weight:700;}
 
-.sec-t{padding:16px 14px 8px;display:flex;justify-content:space-between;align-items:center;}
-.sec-t h3{margin:0;color:#0A4D38;font-size:16px;}
-.sec-t a{color:#0F6B4E;font-size:12px;font-weight:700;text-decoration:none;}
+.sec-t{padding:14px 14px 8px;display:flex;justify-content:space-between;align-items:center;}
+.sec-t h3{margin:0;color:var(--primary);font-size:16px;}
+.sec-t a{color:var(--primary);font-size:12px;font-weight:700;text-decoration:none;}
 
-.top-sellers-row{display:flex;gap:10px;padding:0 14px 12px;overflow-x:auto;scrollbar-width:none;}
-.top-sellers-row::-webkit-scrollbar{display:none;}
-.top-seller{flex-shrink:0;background:#fff;border-radius:14px;padding:12px;text-align:center;text-decoration:none;color:inherit;box-shadow:0 2px 8px rgba(0,0,0,.05);width:120px;}
-.top-seller-rank{width:24px;height:24px;background:linear-gradient(135deg,#D4A574,#F4C685);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;margin:0 auto 6px;}
-.top-seller-avatar{width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid #D4A574;margin:0 auto 6px;display:block;}
-.top-seller-name{font-weight:800;font-size:12px;margin-bottom:2px;display:flex;align-items:center;justify-content:center;gap:3px;}
-.top-seller-stats{font-size:10px;color:#6B7280;}
+.h-scroll{display:flex;gap:10px;padding:0 14px 12px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.h-scroll::-webkit-scrollbar{display:none;}
 
-.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 14px 20px;}
-.pc{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);text-decoration:none;color:inherit;display:flex;flex-direction:column;}
-.pc-img{position:relative;width:100%;aspect-ratio:1/1;background:#F9FAFB;overflow:hidden;}
-.pc-img img{width:100%;height:100%;object-fit:cover;}
-.pc-badges{position:absolute;top:6px;left:6px;display:flex;flex-direction:column;gap:4px;z-index:2;}
-.pc-badge{padding:3px 8px;border-radius:6px;font-size:9px;font-weight:900;color:#fff;}
-.pc-badge-live{background:#ef4444;animation:pulse 1.5s infinite;}
-.pc-badge-local{background:#10B981;}
-.pc-badge-promo{background:#F97316;}
+.live-item{flex-shrink:0;text-align:center;text-decoration:none;width:80px;}
+.live-avatar-wrap{position:relative;width:70px;height:70px;margin:0 auto;}
+.live-avatar-wrap img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:3px solid #ef4444;}
+.live-tag{position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);background:#ef4444;color:#fff;padding:2px 6px;border-radius:6px;font-size:9px;font-weight:900;}
+.live-name{font-size:11px;font-weight:700;color:var(--primary);margin-top:8px;}
+
+.top-seller{flex-shrink:0;background:var(--card);border-radius:14px;padding:12px;text-align:center;text-decoration:none;color:var(--text);box-shadow:var(--shadow);width:120px;}
+.top-rank{width:24px;height:24px;background:linear-gradient(135deg,var(--gold),#F4C685);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;margin:0 auto 6px;}
+.top-avatar{width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);margin:0 auto 6px;display:block;}
+.top-name{font-weight:800;font-size:12px;margin-bottom:2px;display:flex;align-items:center;justify-content:center;gap:3px;color:var(--text);}
+.top-stats{font-size:10px;color:var(--muted);}
+.top-live{margin-top:4px;background:#ef4444;color:#fff;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:900;display:inline-block;}
+
+.verified{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#1D9BF0;color:#fff;border-radius:50%;font-size:8px;font-weight:900;flex-shrink:0;}
+.verified.gold{background:linear-gradient(135deg,#D4A574,#B8895C);}
+.verified.platinum{background:linear-gradient(135deg,#8B5CF6,#EC4899);}
+
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 14px 20px;}
+@media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr);}}
+@media(min-width:900px){.grid{grid-template-columns:repeat(4,1fr);}}
+
+.pcard{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);text-decoration:none;color:var(--text);display:flex;flex-direction:column;transition:transform .15s;}
+.pcard:active{transform:scale(.98);}
+.pcard-img{position:relative;width:100%;aspect-ratio:1/1;background:var(--bg);overflow:hidden;}
+.pcard-img img{width:100%;height:100%;object-fit:cover;}
+.pcard-badges{position:absolute;top:6px;left:6px;display:flex;flex-direction:column;gap:4px;z-index:2;}
+.pcard-badge{padding:3px 8px;border-radius:6px;font-size:9px;font-weight:900;color:#fff;}
+.pcard-live{background:#ef4444;animation:pulse 1.5s infinite;}
+.pcard-local{background:#10B981;}
+.pcard-promo{background:#F97316;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
-.pc-fv{position:absolute;top:8px;right:8px;width:30px;height:30px;background:rgba(255,255,255,.95);border-radius:50%;border:none;font-size:14px;z-index:2;}
-.pc-info{padding:10px;}
-.pc-slr{display:flex;align-items:center;gap:4px;font-size:10px;color:#6B7280;margin-bottom:4px;}
-.pc-slr img{width:14px;height:14px;border-radius:50%;object-fit:cover;flex-shrink:0;}
-.verified-badge{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#1D9BF0;color:#fff;border-radius:50%;font-size:8px;font-weight:900;flex-shrink:0;}
-.verified-badge.gold{background:linear-gradient(135deg,#D4A574,#B8895C);}
-.verified-badge.platinum{background:linear-gradient(135deg,#8B5CF6,#EC4899);}
-.pc-nm{font-size:13px;font-weight:700;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px;margin-bottom:6px;color:#111827;}
-.pc-price-row{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;}
-.pc-pr{font-weight:900;color:#D4A574;font-size:14px;}
-.pc-old{text-decoration:line-through;color:#9CA3AF;font-size:11px;}
-.pc-disc{background:#ef4444;color:#fff;padding:1px 5px;border-radius:4px;font-size:9px;font-weight:900;}
+.pcard-fav{position:absolute;top:8px;right:8px;width:30px;height:30px;background:rgba(255,255,255,.95);border-radius:50%;border:none;font-size:14px;z-index:2;cursor:pointer;}
+.pcard-info{padding:10px;}
+.pcard-slr{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--muted);margin-bottom:4px;}
+.pcard-slr img{width:14px;height:14px;border-radius:50%;object-fit:cover;flex-shrink:0;}
+.pcard-name{font-size:13px;font-weight:700;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px;margin-bottom:6px;color:var(--text);}
+.pcard-prices{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;}
+.pcard-price{font-weight:900;color:var(--gold);font-size:14px;}
+.pcard-old{text-decoration:line-through;color:var(--muted);font-size:11px;}
+.pcard-disc{background:#ef4444;color:#fff;padding:1px 5px;border-radius:4px;font-size:9px;font-weight:900;}
 
-.ia-fl{position:fixed;right:14px;bottom:80px;width:56px;height:56px;background:linear-gradient(135deg,#0F6B4E,#D4A574);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;box-shadow:0 6px 20px rgba(15,107,78,.4);text-decoration:none;z-index:50;}
+.cat-list-item{background:var(--card);border-radius:14px;padding:14px;text-decoration:none;color:var(--text);box-shadow:var(--shadow);display:flex;gap:12px;align-items:center;}
+.cat-list-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
 
-.app-content{padding-bottom:80px;}
-.app-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #F3F4F6;padding:6px 0 max(6px,env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr);z-index:90;}
-.app-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600;padding:4px;}
-.app-nav a.active{color:#0F6B4E;}
-.app-nav a.active .nav-icon{background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;}
-.nav-icon{width:34px;height:34px;background:#F9FAFB;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;position:relative;}
-.nav-icon .badge{position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;font-size:8px;padding:1px 4px;border-radius:6px;font-weight:900;}
+.ia-fab{position:fixed;right:14px;bottom:80px;width:56px;height:56px;background:linear-gradient(135deg,var(--primary),var(--gold));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;box-shadow:0 6px 20px rgba(15,107,78,.4);text-decoration:none;z-index:50;}
+
+.nav-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:600px;background:var(--card);border-top:1px solid var(--border);padding:6px 0 max(6px,env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr);z-index:90;}
+.nav-bar a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--muted);font-size:10px;font-weight:600;padding:4px;}
+.nav-bar a.active{color:var(--primary);}
+.nav-bar a.active .nav-i{background:linear-gradient(135deg,var(--primary),#0A4D38);color:#fff;}
+.nav-i{width:34px;height:34px;background:var(--bg);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;position:relative;}
+.nav-i .badge{position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;font-size:8px;padding:1px 4px;border-radius:6px;font-weight:900;}
+
+.content{padding-bottom:80px;}
 </style>
 </head>
-<body oncontextmenu="return false">
+<body>
 
-<div class="app">
-  <header class="app-header">
-    <div class="logo-wrap" id="admTrig">
-      <img id="mainLogo" class="logo-img" alt="SEN TEW" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%230F6B4E'/><stop offset='1' stop-color='%23D4A574'/></linearGradient></defs><circle cx='50' cy='50' r='48' fill='url(%23g)'/><text x='50' y='45' text-anchor='middle' font-family='Arial Black' font-size='24' font-weight='900' fill='white'>SEN</text><text x='50' y='72' text-anchor='middle' font-family='Arial Black' font-size='20' font-weight='900' fill='%23D4A574'>TEW</text></svg>">
-      <div>
-        <div class="logo-text-mini">SEN TEW</div>
-        <div class="logo-sub-mini">MARKETPLACE</div>
+<header class="app-header">
+  <div class="logo-wrap" id="admTrig">
+    <svg class="logo-svg" viewBox="0 0 100 100">
+      <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0F6B4E"/><stop offset="1" stop-color="#D4A574"/></linearGradient></defs>
+      <circle cx="50" cy="50" r="48" fill="url(#lg)"/>
+      <text x="50" y="45" text-anchor="middle" font-family="Arial Black" font-size="22" font-weight="900" fill="white">SEN</text>
+      <text x="50" y="72" text-anchor="middle" font-family="Arial Black" font-size="20" font-weight="900" fill="#D4A574">TEW</text>
+    </svg>
+    <div>
+      <div class="logo-txt">SEN TEW</div>
+      <div class="logo-sub">MARKETPLACE</div>
+    </div>
+  </div>
+  <div class="hd-actions">
+    <button class="hd-pill" onclick="toggleDark()" id="darkBtn">🌙</button>
+    <button class="hd-pill" onclick="cycleCurr()"><span id="cFlag">💰</span><span id="cCode">FCFA</span></button>
+    <button class="hd-pill" onclick="cycleLang()"><span id="lFlag">🇫🇷</span><span id="lCode">FR</span></button>
+    <a href="notifications.html" class="hd-icon">🔔<span class="bdg">3</span></a>
+  </div>
+</header>
+
+<main class="content">
+  <div class="sc-wrap">
+    <div class="sc-box">
+      <span>🔍</span>
+      <input type="text" placeholder="Rechercher un produit..." onclick="location.href='recherche-ia.html'" readonly>
+      <a href="recherche-ia.html" class="ia-btn">📷 IA</a>
+    </div>
+  </div>
+
+  <div class="ad-carousel">
+    <a href="verified.html" class="ad-slide active ad-slide-1">
+      <div class="ad-emoji">👑</div>
+      <div class="ad-content">
+        <div class="ad-title">Devenez SEN Verified</div>
+        <div class="ad-desc">Gagnez 3x plus · Bronze/Gold/Platinum</div>
+        <span class="ad-btn">EN PROFITER ›</span>
       </div>
-    </div>
-    <div class="header-actions">
-      <button type="button" class="hd-pill" id="btnCurr">
-        <span id="cFlag">💰</span><span id="cCode">FCFA</span>
-      </button>
-      <button type="button" class="hd-pill" id="btnLang">
-        <span id="lFlag">🇫🇷</span><span id="lCode">FR</span>
-      </button>
-      <a href="notifications.html" class="hd-icon">🔔<span class="bdg">3</span></a>
-    </div>
-  </header>
-
-  <main class="app-content">
-    <div class="sc-wrap">
-      <div class="sc-box">
-        <span>🔍</span>
-        <input type="text" placeholder="Rechercher un produit..." onclick="location.href='recherche-ia.html'" readonly>
-        <a href="recherche-ia.html" class="ia-b">📷 IA</a>
+    </a>
+    <a href="produits.html?promo=1" class="ad-slide ad-slide-2">
+      <div class="ad-emoji">🔥</div>
+      <div class="ad-content">
+        <div class="ad-title">SOLDES -40%</div>
+        <div class="ad-desc">Sélection tendance · Fin dans 24h</div>
+        <span class="ad-btn">SHOPPER ›</span>
       </div>
-    </div>
-
-    <div class="ad-carousel">
-      <a href="verified.html" class="ad-slide active ad-slide-1">
-        <div class="ad-emoji">👑</div>
-        <div class="ad-content">
-          <div class="ad-title">Devenez SEN Verified</div>
-          <div class="ad-desc">Gagnez 3x plus · Bronze/Gold/Platinum</div>
-          <span class="ad-btn">EN PROFITER ›</span>
-        </div>
-      </a>
-      <a href="produits.html?promo=1" class="ad-slide ad-slide-2">
-        <div class="ad-emoji">🔥</div>
-        <div class="ad-content">
-          <div class="ad-title">SOLDES -40%</div>
-          <div class="ad-desc">Sélection tendance · Fin dans 24h</div>
-          <span class="ad-btn">SHOPPER ›</span>
-        </div>
-      </a>
-      <a href="live.html" class="ad-slide ad-slide-3">
-        <div class="ad-emoji">🔴</div>
-        <div class="ad-content">
-          <div class="ad-title">5 vendeurs en LIVE</div>
-          <div class="ad-desc">Achats flash -30% exclusifs</div>
-          <span class="ad-btn">REGARDER ›</span>
-        </div>
-      </a>
-      <div class="ad-dots">
-        <div class="ad-dot active"></div>
-        <div class="ad-dot"></div>
-        <div class="ad-dot"></div>
+    </a>
+    <a href="live.html" class="ad-slide ad-slide-3">
+      <div class="ad-emoji">🔴</div>
+      <div class="ad-content">
+        <div class="ad-title">5 vendeurs en LIVE</div>
+        <div class="ad-desc">Achats flash -30% exclusifs</div>
+        <span class="ad-btn">REGARDER ›</span>
       </div>
-    </div>
+    </a>
+    <div class="ad-dots"><div class="ad-dot active"></div><div class="ad-dot"></div><div class="ad-dot"></div></div>
+  </div>
 
-    <div class="cats-r">
-      <a href="produits.html?cat=mode" class="cat-i"><div class="cat-c">👕</div><div class="cat-l">Mode</div></a>
-      <a href="produits.html?cat=tech" class="cat-i"><div class="cat-c">🎧</div><div class="cat-l">Électronique</div></a>
-      <a href="produits.html?cat=maison" class="cat-i"><div class="cat-c">🛋</div><div class="cat-l">Maison</div></a>
-      <a href="produits.html?cat=beauty" class="cat-i"><div class="cat-c">💄</div><div class="cat-l">Beauté</div></a>
-      <a href="produits.html?cat=food" class="cat-i"><div class="cat-c">🧺</div><div class="cat-l">Alim.</div></a>
-      <a href="produits.html?cat=sport" class="cat-i"><div class="cat-c">⚽</div><div class="cat-l">Sport</div></a>
-      <a href="live.html" class="cat-i"><div class="cat-c" style="background:linear-gradient(135deg,#ef4444,#f97316);">🔴</div><div class="cat-l">LIVE</div></a>
-    </div>
+  <div class="cats-row">
+    <a href="produits.html?cat=mode" class="cat-item"><div class="cat-circle">👕</div><div class="cat-lbl">Mode</div></a>
+    <a href="produits.html?cat=tech" class="cat-item"><div class="cat-circle">🎧</div><div class="cat-lbl">Élec.</div></a>
+    <a href="produits.html?cat=maison" class="cat-item"><div class="cat-circle">🛋</div><div class="cat-lbl">Maison</div></a>
+    <a href="produits.html?cat=beauty" class="cat-item"><div class="cat-circle">💄</div><div class="cat-lbl">Beauté</div></a>
+    <a href="produits.html?cat=food" class="cat-item"><div class="cat-circle">🧺</div><div class="cat-lbl">Alim.</div></a>
+    <a href="produits.html?cat=sport" class="cat-item"><div class="cat-circle">⚽</div><div class="cat-lbl">Sport</div></a>
+    <a href="live.html" class="cat-item"><div class="cat-circle" style="background:linear-gradient(135deg,#ef4444,#f97316);">🔴</div><div class="cat-lbl">LIVE</div></a>
+  </div>
 
-    <div class="sec-t"><h3>🔴 En LIVE maintenant</h3><a href="live.html">Voir tout ›</a></div>
-    <div id="livesRow" style="display:flex;gap:10px;padding:0 14px 12px;overflow-x:auto;scrollbar-width:none;"></div>
+  <div class="sec-t"><h3>🔴 En LIVE maintenant</h3><a href="live.html">Voir tout ›</a></div>
+  <div class="h-scroll" id="livesBox"></div>
 
-    <div class="sec-t"><h3>🏆 Top vendeurs</h3><a href="produits.html">Tout voir ›</a></div>
-    <div class="top-sellers-row" id="topSellers"></div>
+  <div class="sec-t"><h3>🏆 Top vendeurs</h3><a href="produits.html">Tout voir ›</a></div>
+  <div class="h-scroll" id="topBox"></div>
 
-    <div class="sec-t"><h3>🔥 Tendances</h3><a href="produits.html">Tout voir ›</a></div>
-    <div class="pgrid" id="prodGrid"></div>
+  <div class="sec-t"><h3>🔥 Tendances</h3><a href="produits.html">Tout voir ›</a></div>
+  <div class="grid" id="trendGrid"></div>
 
-    <div class="sec-t"><h3>🛍 Explorer par catégorie</h3></div>
-    <div class="pgrid" id="catsGrid"></div>
-  </main>
+  <div class="sec-t"><h3>🛍 Explorer par catégorie</h3></div>
+  <div class="grid" id="catsGrid"></div>
+</main>
 
-  <a href="assistant-ia.html" class="ia-fl">✨</a>
+<a href="assistant-ia.html" class="ia-fab">✨</a>
 
-  <nav class="app-nav">
-    <a href="index.html" class="active"><div class="nav-icon">🏠</div><div>Accueil</div></a>
-    <a href="categories.html"><div class="nav-icon">▦</div><div>Catégories</div></a>
-    <a href="panier.html"><div class="nav-icon">🛒<span class="badge">3</span></div><div>Panier</div></a>
-    <a href="messages.html"><div class="nav-icon">💬</div><div>Messages</div></a>
-    <a href="profil.html"><div class="nav-icon">👤</div><div>Profil</div></a>
-  </nav>
-</div>
+<nav class="nav-bar">
+  <a href="index.html" class="active"><div class="nav-i">🏠</div><div>Accueil</div></a>
+  <a href="categories.html"><div class="nav-i">▦</div><div>Catégories</div></a>
+  <a href="panier.html"><div class="nav-i">🛒<span class="badge">3</span></div><div>Panier</div></a>
+  <a href="messages.html"><div class="nav-i">💬</div><div>Messages</div></a>
+  <a href="profil.html"><div class="nav-i">👤</div><div>Profil</div></a>
+</nav>
 
 <script>
-// ===== DONNÉES INLINE GARANTIES =====
-const INLINE_PRODUCTS = [
-  {id:1,name:'Robe wax mariage',price:35000,oldPrice:50000,image:'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=400&h=400&fit=crop',seller:'Aïcha Couture',sellerAvatar:'https://i.pravatar.cc/40?img=1',sellerLive:true,sellerId:'1',local:true,verified:'gold',cat:'mode'},
-  {id:2,name:'Sandales cuir Peul',price:8500,oldPrice:12000,image:'https://images.unsplash.com/photo-1603487742131-4160ec999306?w=400&h=400&fit=crop',seller:'Aïcha Couture',sellerAvatar:'https://i.pravatar.cc/40?img=1',sellerLive:true,sellerId:'1',local:true,verified:'gold',cat:'mode'},
-  {id:6,name:'Sac cuir africain premium',price:15000,oldPrice:22000,image:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400&h=400&fit=crop',seller:'Aïcha Couture',sellerAvatar:'https://i.pravatar.cc/40?img=1',sellerId:'1',local:true,verified:'gold',cat:'mode'},
-  {id:4,name:'Boubou wax collection',price:18000,oldPrice:25000,image:'https://images.unsplash.com/photo-1544441893-675973e31985?w=400&h=400&fit=crop',seller:'Fatou Fashion',sellerAvatar:'https://i.pravatar.cc/40?img=5',sellerId:'3',local:true,verified:'platinum',cat:'mode'},
-  {id:10,name:'iPhone 15 Pro 256GB',price:750000,oldPrice:850000,image:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=400&h=400&fit=crop',seller:'Moussa Tech',sellerAvatar:'https://i.pravatar.cc/40?img=11',sellerLive:true,sellerId:'2',verified:'gold',cat:'tech'},
-  {id:13,name:'Écouteurs sans fil Pro',price:12000,oldPrice:18000,image:'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=400&fit=crop',seller:'Moussa Tech',sellerAvatar:'https://i.pravatar.cc/40?img=11',sellerId:'2',verified:'gold',cat:'tech'},
-  {id:30,name:'Beurre karité 500g',price:4500,oldPrice:6000,image:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400&h=400&fit=crop',seller:'Fatou Beauté',sellerAvatar:'https://i.pravatar.cc/40?img=5',sellerLive:true,sellerId:'3',local:true,verified:'platinum',cat:'beauty'},
-  {id:50,name:'Maillot Sénégal 2026',price:18000,oldPrice:25000,image:'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=400&h=400&fit=crop',seller:'Ibrahima Sport',sellerAvatar:'https://i.pravatar.cc/40?img=13',sellerLive:true,sellerId:'9',local:true,verified:'gold',cat:'sport'}
+// ===== DONNÉES INTÉGRÉES (rendu 100% garanti) =====
+const PRODUCTS = [
+  {id:1,name:'Robe wax mariage',price:35000,oldPrice:50000,image:'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=400',seller:'Aïcha Couture',sellerAvatar:'https://i.pravatar.cc/40?img=1',sellerLive:true,sellerId:'1',local:true,verified:'gold'},
+  {id:2,name:'Sandales cuir Peul',price:8500,oldPrice:12000,image:'https://images.unsplash.com/photo-1603487742131-4160ec999306?w=400',seller:'Aïcha Couture',sellerAvatar:'https://i.pravatar.cc/40?img=1',sellerLive:true,sellerId:'1',local:true,verified:'gold'},
+  {id:6,name:'Sac cuir africain premium',price:15000,oldPrice:22000,image:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400',seller:'Aïcha Couture',sellerAvatar:'https://i.pravatar.cc/40?img=1',sellerId:'1',local:true,verified:'gold'},
+  {id:4,name:'Boubou wax collection',price:18000,oldPrice:25000,image:'https://images.unsplash.com/photo-1544441893-675973e31985?w=400',seller:'Fatou Fashion',sellerAvatar:'https://i.pravatar.cc/40?img=5',sellerId:'3',local:true,verified:'platinum'},
+  {id:10,name:'iPhone 15 Pro 256GB',price:750000,oldPrice:850000,image:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=400',seller:'Moussa Tech',sellerAvatar:'https://i.pravatar.cc/40?img=11',sellerLive:true,sellerId:'2',verified:'gold'},
+  {id:13,name:'Écouteurs sans fil Pro',price:12000,oldPrice:18000,image:'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400',seller:'Moussa Tech',sellerAvatar:'https://i.pravatar.cc/40?img=11',sellerId:'2',verified:'gold'},
+  {id:30,name:'Beurre karité 500g',price:4500,oldPrice:6000,image:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400',seller:'Fatou Beauté',sellerAvatar:'https://i.pravatar.cc/40?img=5',sellerLive:true,sellerId:'3',local:true,verified:'platinum'},
+  {id:50,name:'Maillot Sénégal 2026',price:18000,oldPrice:25000,image:'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=400',seller:'Ibrahima Sport',sellerAvatar:'https://i.pravatar.cc/40?img=13',sellerLive:true,sellerId:'9',local:true,verified:'gold'}
 ];
 
-const INLINE_SELLERS = [
+const SELLERS = [
   {id:'1',name:'Aïcha Couture',avatar:'https://i.pravatar.cc/100?img=1',live:true,followers:12400,verified:'gold',sales:3200},
   {id:'2',name:'Moussa Tech',avatar:'https://i.pravatar.cc/100?img=11',live:true,followers:8900,verified:'gold',sales:2100},
   {id:'3',name:'Fatou Beauté',avatar:'https://i.pravatar.cc/100?img=5',live:true,followers:5600,verified:'platinum',sales:1400},
@@ -212,7 +236,7 @@ const INLINE_SELLERS = [
   {id:'6',name:'Déco Sénégal',avatar:'https://i.pravatar.cc/100?img=20',live:false,followers:4300,verified:'gold',sales:1200}
 ];
 
-const INLINE_CATS = [
+const CATEGORIES = [
   {id:'mode',name:'Mode',icon:'👕',color:'#EC4899',count:1240},
   {id:'tech',name:'Électronique',icon:'🎧',color:'#3B82F6',count:856},
   {id:'maison',name:'Maison',icon:'🛋',color:'#F59E0B',count:642},
@@ -221,14 +245,178 @@ const INLINE_CATS = [
   {id:'sport',name:'Sport',icon:'⚽',color:'#EF4444',count:234}
 ];
 
-// Publie globalement pour autres pages
-window.products = INLINE_PRODUCTS;
-window.sellers = INLINE_SELLERS;
-window.categories = INLINE_CATS;
+const CURR = [{c:'FCFA',f:'💰',r:1,s:'FCFA'},{c:'EUR',f:'💶',r:1/655,s:'€'},{c:'USD',f:'💵',r:1/600,s:'$'},{c:'MAD',f:'🇲🇦',r:1/60,s:'DH'}];
+const LANGS = [{c:'FR',f:'🇫🇷',n:'Français'},{c:'WO',f:'🇸🇳',n:'Wolof'},{c:'EN',f:'🇬🇧',n:'English'},{c:'AR',f:'🇸🇦',n:'العربية'}];
 
-// ===== DEVISES + LANGUES =====
-const CURR = [
-  {code:'FCFA',flag:'💰',rate:1,sym:'FCFA'},
-  {code:'EUR',flag:'💶',rate:1/655,sym:'€'},
-  {code:'USD',flag:'💵',rate:1/600,sym:'$'},
-  {code:'MAD',flag:'🇲🇦',rate:1/60
+function fmt(price){
+  const i = +(localStorage.getItem('curr_idx')||'0');
+  const c = CURR[i];
+  const v = price * c.r;
+  return c.c==='FCFA'?Math.round(v).toLocaleString('fr-FR')+' FCFA':v.toFixed(2)+' '+c.s;
+}
+
+// ===== MODE SOMBRE =====
+function applyTheme(){
+  const dark = localStorage.getItem('dark')==='1';
+  document.documentElement.setAttribute('data-theme', dark?'dark':'light');
+  const btn = document.getElementById('darkBtn');
+  if(btn) btn.textContent = dark?'☀️':'🌙';
+}
+function toggleDark(){
+  const cur = localStorage.getItem('dark')==='1';
+  localStorage.setItem('dark', cur?'0':'1');
+  applyTheme();
+  if(navigator.vibrate)navigator.vibrate(20);
+}
+applyTheme();
+
+// ===== DEVISE/LANGUE =====
+function refreshHead(){
+  const ci = +(localStorage.getItem('curr_idx')||'0');
+  const li = +(localStorage.getItem('lang_idx')||'0');
+  document.getElementById('cFlag').textContent = CURR[ci].f;
+  document.getElementById('cCode').textContent = CURR[ci].c;
+  document.getElementById('lFlag').textContent = LANGS[li].f;
+  document.getElementById('lCode').textContent = LANGS[li].c;
+}
+refreshHead();
+function cycleCurr(){
+  let i = +(localStorage.getItem('curr_idx')||'0');
+  localStorage.setItem('curr_idx', (i+1)%CURR.length);
+  refreshHead();renderAll();
+  if(navigator.vibrate)navigator.vibrate(20);
+}
+function cycleLang(){
+  let i = +(localStorage.getItem('lang_idx')||'0');
+  i = (i+1)%LANGS.length;
+  localStorage.setItem('lang_idx', i);
+  refreshHead();
+  document.documentElement.dir = LANGS[i].c==='AR'?'rtl':'ltr';
+  if(navigator.vibrate)navigator.vibrate(20);
+  setTimeout(()=>alert('🌐 '+LANGS[i].n),100);
+}
+
+// ===== RENDU =====
+function renderLives(){
+  const html = SELLERS.filter(s=>s.live).map(s=>`
+    <a href="boutique.html?id=${s.id}" class="live-item">
+      <div class="live-avatar-wrap">
+        <img src="${s.avatar}" alt="${s.name}">
+        <span class="live-tag">LIVE</span>
+      </div>
+      <div class="live-name">${s.name.split(' ')[0]}</div>
+    </a>
+  `).join('');
+  document.getElementById('livesBox').innerHTML = html;
+}
+
+function renderTop(){
+  const top = [...SELLERS].sort((a,b)=>b.sales-a.sales).slice(0,5);
+  const html = top.map((s,i)=>{
+    const vc = s.verified==='platinum'?'platinum':(s.verified==='gold'?'gold':'');
+    return `
+    <a href="boutique.html?id=${s.id}" class="top-seller">
+      <div class="top-rank">${i+1}</div>
+      <img src="${s.avatar}" class="top-avatar" alt="${s.name}">
+      <div class="top-name">${s.name.split(' ')[0]} ${s.verified?`<span class="verified ${vc}">✓</span>`:''}</div>
+      <div class="top-stats">${s.sales.toLocaleString()} ventes</div>
+      ${s.live?'<div class="top-live">🔴 LIVE</div>':''}
+    </a>`;
+  }).join('');
+  document.getElementById('topBox').innerHTML = html;
+}
+
+function renderTrends(){
+  const trend = [...PRODUCTS].sort((a,b)=>(b.sellerLive?1:0)-(a.sellerLive?1:0));
+  const html = trend.map(p=>{
+    const disc = p.oldPrice?Math.round((1-p.price/p.oldPrice)*100):0;
+    const vc = p.verified==='platinum'?'platinum':(p.verified==='gold'?'gold':'');
+    return `
+    <a href="produit.html?id=${p.id}" class="pcard">
+      <div class="pcard-img">
+        <div class="pcard-badges">
+          ${p.sellerLive?'<span class="pcard-badge pcard-live">🔴 LIVE</span>':''}
+          ${p.local?'<span class="pcard-badge pcard-local">🇸🇳 LOCAL</span>':''}
+          ${disc>0&&!p.sellerLive?`<span class="pcard-badge pcard-promo">-${disc}%</span>`:''}
+        </div>
+        <button class="pcard-fav" onclick="event.preventDefault();this.textContent=this.textContent==='🤍'?'❤️':'🤍'">🤍</button>
+        <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/300/0F6B4E/fff?text=SEN'">
+      </div>
+      <div class="pcard-info">
+        <div class="pcard-slr">
+          <img src="${p.sellerAvatar}" alt="" onerror="this.style.display='none'">
+          <span>${p.seller}</span>
+          ${p.verified?`<span class="verified ${vc}">✓</span>`:''}
+        </div>
+        <div class="pcard-name">${p.name}</div>
+        <div class="pcard-prices">
+          <span class="pcard-price">${fmt(p.price)}</span>
+          ${p.oldPrice?`<span class="pcard-old">${fmt(p.oldPrice)}</span>`:''}
+          ${disc>0?`<span class="pcard-disc">-${disc}%</span>`:''}
+        </div>
+      </div>
+    </a>`;
+  }).join('');
+  document.getElementById('trendGrid').innerHTML = html;
+}
+
+function renderCats(){
+  const html = CATEGORIES.map(c=>`
+    <a href="produits.html?cat=${c.id}" class="cat-list-item">
+      <div class="cat-list-icon" style="background:${c.color}22;color:${c.color};">${c.icon}</div>
+      <div>
+        <div style="font-weight:800;color:var(--primary);font-size:14px;">${c.name}</div>
+        <div style="font-size:11px;color:var(--muted);">${c.count} produits</div>
+      </div>
+    </a>
+  `).join('');
+  document.getElementById('catsGrid').innerHTML = html;
+}
+
+function renderAll(){
+  renderLives();
+  renderTop();
+  renderTrends();
+  renderCats();
+}
+
+// EXÉCUTION IMMÉDIATE (pas d'attente de DOMContentLoaded)
+renderAll();
+
+// PUB CAROUSEL
+let adIdx = 0;
+setInterval(()=>{
+  document.querySelectorAll('.ad-slide').forEach((s,i)=>s.classList.toggle('active',i===adIdx));
+  document.querySelectorAll('.ad-dot').forEach((d,i)=>d.classList.toggle('active',i===adIdx));
+  adIdx = (adIdx+1)%3;
+},4000);
+
+// ADMIN (7 taps)
+(function(){
+  let taps = 0, timer = null;
+  document.getElementById('admTrig').addEventListener('click', ()=>{
+    taps++;
+    clearTimeout(timer);
+    timer = setTimeout(()=>taps=0, 3000);
+    if(taps>=7){
+      taps=0;
+      const code = (prompt('🔐 Code admin :')||'').trim().toUpperCase();
+      if(['SENADMIN2026','ADMIN2026','SUPERADMIN'].includes(code)){
+        sessionStorage.setItem('admin_pre_auth','1');
+        location.href='admin.html';
+      } else if(code) alert('❌ Code incorrect');
+    }
+  });
+})();
+
+// SERVICE WORKER (auto-update)
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.getRegistrations().then(regs=>{
+    regs.forEach(r=>r.update());
+  });
+}
+
+console.log('✅ SEN TEW chargé:', PRODUCTS.length, 'produits');
+</script>
+</body>
+</html>
