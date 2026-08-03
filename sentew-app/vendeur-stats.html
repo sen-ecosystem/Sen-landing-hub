@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Statistiques Vendeur - SEN TEW</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif}
+body{background:#f5f5f5;color:#222;padding-bottom:100px}
+.header{background:linear-gradient(135deg,#00a651,#008a44);color:#fff;padding:16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
+.back{background:rgba(255,255,255,.25);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px}
+.header h1{color:#fff;font-size:17px;flex:1}
+.filter{background:rgba(255,255,255,.2);border:none;color:#fff;padding:6px 12px;border-radius:8px;font-size:12px}
+.container{padding:14px}
+.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+.kpi{padding:16px;border-radius:14px;color:#fff;position:relative;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.kpi::after{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.15)}
+.kpi.revenus{background:linear-gradient(135deg,#00a651,#008a44)}
+.kpi.ventes{background:linear-gradient(135deg,#ff6b35,#d84315)}
+.kpi.visiteurs{background:linear-gradient(135deg,#1da1f2,#0d47a1)}
+.kpi.conversion{background:linear-gradient(135deg,#9c27b0,#6a1b9a)}
+.kpi-icon{font-size:22px;margin-bottom:6px;position:relative;z-index:1}
+.kpi-value{font-size:20px;font-weight:800;position:relative;z-index:1}
+.kpi-label{font-size:11px;opacity:.9;position:relative;z-index:1;margin-top:2px}
+.kpi-change{font-size:11px;margin-top:6px;padding:2px 8px;background:rgba(255,255,255,.25);border-radius:10px;display:inline-block}
+.section-title{font-size:13px;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 8px}
+.chart-card{background:#fff;padding:14px;border-radius:14px;margin-bottom:10px}
+.chart-title{font-size:14px;font-weight:700;color:#222;margin-bottom:10px}
+.bar-chart{display:flex;gap:6px;align-items:flex-end;height:140px;padding:0 4px}
+.bar{flex:1;background:linear-gradient(180deg,#00a651,#008a44);border-radius:6px 6px 0 0;position:relative;min-height:20px}
+.bar span{position:absolute;bottom:-18px;left:0;right:0;text-align:center;font-size:10px;color:#666}
+.bar b{position:absolute;top:-16px;left:0;right:0;text-align:center;font-size:10px;color:#222;font-weight:700}
+.top-list{background:#fff;border-radius:14px;overflow:hidden}
+.top-item{padding:12px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #f0f0f0}
+.top-item:last-child{border-bottom:none}
+.top-rank{width:26px;height:26px;border-radius:50%;background:#fcd116;color:#222;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0}
+.top-rank.gold{background:linear-gradient(135deg,#ffd700,#f4b800);color:#222}
+.top-rank.silver{background:linear-gradient(135deg,#c0c0c0,#a0a0a0);color:#fff}
+.top-rank.bronze{background:linear-gradient(135deg,#cd7f32,#a0522d);color:#fff}
+.top-img{width:36px;height:36px;border-radius:8px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:18px}
+.top-name{flex:1;font-size:13px;font-weight:600;color:#222}
+.top-name small{display:block;color:#888;font-weight:400;font-size:11px}
+.top-value{color:#00a651;font-weight:700;font-size:13px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;padding:8px 0;padding-bottom:calc(8px + env(safe-area-inset-bottom,0));z-index:90}
+.nav-item{flex:1;text-align:center;color:#666;font-size:10px;background:none;border:none;cursor:pointer;font-family:inherit}
+.nav-item.active{color:#00a651;font-weight:700}
+.nav-icon{font-size:22px;display:block;margin-bottom:2px}
+</style></head><body>
+
+<header class="header">
+  <button class="back" onclick="history.back()">←</button>
+  <h1>📊 Mes Statistiques</h1>
+  <select class="filter"><option>Mois</option><option>Semaine</option><option>Année</option></select>
+</header>
+
+<div class="container">
+  <div class="kpi-grid">
+    <div class="kpi revenus">
+      <div class="kpi-icon">💰</div>
+      <div class="kpi-value">1 245 000</div>
+      <div class="kpi-label">Revenus (FCFA)</div>
+      <div class="kpi-change">📈 +18%</div>
+    </div>
+    <div class="kpi ventes">
+      <div class="kpi-icon">🛒</div>
+      <div class="kpi-value">42</div>
+      <div class="kpi-label">Ventes du mois</div>
+      <div class="kpi-change">📈 +25%</div>
+    </div>
+    <div class="kpi visiteurs">
+      <div class="kpi-icon">👀</div>
+      <div class="kpi-value">3 254</div>
+      <div class="kpi-label">Visiteurs boutique</div>
+      <div class="kpi-change">📈 +12%</div>
+    </div>
+    <div class="kpi conversion">
+      <div class="kpi-icon">⚡</div>
+      <div class="kpi-value">4.2%</div>
+      <div class="kpi-label">Taux conversion</div>
+      <div class="kpi-change">📈 +0.8%</div>
+    </div>
+  </div>
+
+  <div class="section-title">📈 Ventes des 7 derniers jours</div>
+  <div class="chart-card">
+    <div class="bar-chart">
+      <div class="bar" style="height:40%"><b>3</b><span>Lun</span></div>
+      <div class="bar" style="height:60%"><b>5</b><span>Mar</span></div>
+      <div class="bar" style="height:80%"><b>7</b><span>Mer</span></div>
+      <div class="bar" style="height:50%"><b>4</b><span>Jeu</span></div>
+      <div class="bar" style="height:90%"><b>8</b><span>Ven</span></div>
+      <div class="bar" style="height:100%"><b>9</b><span>Sam</span></div>
+      <div class="bar" style="height:65%"><b>6</b><span>Dim</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">🏆 Top 5 produits</div>
+  <div class="top-list">
+    <div class="top-item">
+      <div class="top-rank gold">1</div>
+      <div class="top-img">👗</div>
+      <div class="top-name">Boubou traditionnel<small>15 ventes ce mois</small></div>
+      <div class="top-value">375 000 F</div>
+    </div>
+    <div class="top-item">
+      <div class="top-rank silver">2</div>
+      <div class="top-img">👚</div>
+      <div class="top-name">Robe wax colorée<small>12 ventes ce mois</small></div>
+      <div class="top-value">222 000 F</div>
+    </div>
+    <div class="top-item">
+      <div class="top-rank bronze">3</div>
+      <div class="top-img">👜</div>
+      <div class="top-name">Sac cuir artisanal<small>8 ventes ce mois</small></div>
+      <div class="top-value">120 000 F</div>
+    </div>
+    <div class="top-item">
+      <div class="top-rank">4</div>
+      <div class="top-img">👠</div>
+      <div class="top-name">Sandales cousues<small>5 ventes ce mois</small></div>
+      <div class="top-value">42 500 F</div>
+    </div>
+    <div class="top-item">
+      <div class="top-rank">5</div>
+      <div class="top-img">💍</div>
+      <div class="top-name">Bijoux traditionnels<small>2 ventes ce mois</small></div>
+      <div class="top-value">18 000 F</div>
+    </div>
+  </div>
+
+  <div class="section-title">🌍 Villes clientes</div>
+  <div class="top-list">
+    <div class="top-item"><div class="top-img">📍</div><div class="top-name">Dakar<small>65% des ventes</small></div><div class="top-value">27</div></div>
+    <div class="top-item"><div class="top-img">📍</div><div class="top-name">Thiès<small>15% des ventes</small></div><div class="top-value">6</div></div>
+    <div class="top-item"><div class="top-img">📍</div><div class="top-name">Saint-Louis<small>10% des ventes</small></div><div class="top-value">4</div></div>
+    <div class="top-item"><div class="top-img">🇫🇷</div><div class="top-name">Paris (France)<small>7% - diaspora</small></div><div class="top-value">3</div></div>
+    <div class="top-item"><div class="top-img">🇺🇸</div><div class="top-name">New York<small>3% - export</small></div><div class="top-value">2</div></div>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <button class="nav-item" onclick="location.href='vendeur.html'"><span class="nav-icon">🏪</span>Boutique</button>
+  <button class="nav-item" onclick="location.href='commandes.html?role=vendeur'"><span class="nav-icon" style="color:#ff6b35">📦</span>Commandes</button>
+  <button class="nav-item" onclick="location.href='ajouter-produit.html'"><span class="nav-icon" style="color:#00a651">➕</span>Ajouter</button>
+  <button class="nav-item active"><span class="nav-icon" style="color:#1da1f2">📊</span>Stats</button>
+  <button class="nav-item" onclick="location.href='profil.html?role=vendeur'"><span class="nav-icon" style="color:#9c27b0">👤</span>Profil</button>
+</nav>
+</body></html>
