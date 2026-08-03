@@ -726,5 +726,43 @@ body:has(.buy-bar) .app-content{
   background:transparent !important;
   padding:0 !important;
 }
+/* ===== FIX TEXTES ILLISIBLES - Force contraste ===== */
+.card, .promo-card, .gift-card, .coupon-card, .plan-card{
+  color:#222 !important;
+}
+.card h3, .card h4, .card p, .card span,
+.plan-card h3, .plan-card p, .plan-card li,
+.coupon-card *, .gift-card *{
+  color:#222 !important;
+  opacity:1 !important;
+  text-shadow:none !important;
+}
+/* Sauf sur fonds sombres */
+.hero *, .header *, .buy-bar .btn-buy, 
+.gift-green *, .plan-gold *, .plan-platinum *{
+  color:#fff !important;
+}
+/* Prix toujours vert visible */
+.price, .amount, .cost{
+  color:#00a651 !important;
+  font-weight:700;
+}
+/* Boutons secondaires lisibles */
+button, .btn{
+  opacity:1 !important;
+}
+/* Fix inputs illisibles */
+input, textarea{
+  color:#222 !important;
+  background:#fff !important;
+  border:1px solid #ddd !important;
+}
+input::placeholder{color:#999 !important}
+/* Fix labels form remboursement */
+label, .form-label, .radio-label{
+  color:#222 !important;
+  opacity:1 !important;
+  font-weight:500;
+}
 
 
