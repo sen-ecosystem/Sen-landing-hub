@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mot de passe oublié - SEN TEW</title>
+<style>
+:root{--v:#00a651;--o:#b8863a}
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif}
+body{background:linear-gradient(180deg,#f8fbf9 0%,#fff 40%);min-height:100vh;color:#222;padding:0 24px;padding-top:env(safe-area-inset-top,20px)}
+.top{display:flex;align-items:center;gap:12px;padding:20px 0}
+.back{background:#fff;border:1px solid #eee;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer}
+.top h1{font-size:16px;font-weight:700}
+.hero{text-align:center;padding:20px 0 30px}
+.hero-icon{font-size:60px;margin-bottom:12px}
+.hero h2{font-size:22px;font-weight:800;color:#222;margin-bottom:6px}
+.hero p{font-size:14px;color:#666;line-height:1.5;max-width:320px;margin:0 auto}
+.card{background:#fff;border-radius:20px;padding:24px;box-shadow:0 8px 32px rgba(0,0,0,.06)}
+.method-tabs{display:flex;gap:8px;margin-bottom:20px;background:#f5f5f5;padding:4px;border-radius:12px}
+.tab-btn{flex:1;padding:10px;border:none;background:none;font-size:13px;font-weight:600;color:#666;cursor:pointer;border-radius:8px}
+.tab-btn.active{background:#fff;color:var(--v);box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:12px;color:#666;font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.input-wrap{position:relative}
+.input-wrap .icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:#999}
+.field input{width:100%;border:2px solid #e8e8e8;padding:14px 14px 14px 42px;border-radius:12px;font-size:15px;background:#fafafa;outline:none}
+.field input:focus{border-color:var(--v);background:#fff}
+.send-btn{width:100%;background:linear-gradient(135deg,var(--v),#008a44);color:#fff;border:none;padding:15px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(0,166,81,.3)}
+.remember{text-align:center;margin-top:18px;font-size:13px}
+.remember a{color:var(--v);font-weight:700;text-decoration:none}
+.info-box{background:#e8f5ee;border-left:4px solid var(--v);padding:12px;border-radius:8px;margin-top:16px;font-size:12px;color:#333}
+.info-box b{color:var(--v)}
+</style></head><body>
+
+<div class="top">
+  <button class="back" onclick="history.back()">←</button>
+  <h1>Récupération</h1>
+</div>
+
+<div class="hero">
+  <div class="hero-icon">🔐</div>
+  <h2>Mot de passe oublié ?</h2>
+  <p>Pas de panique ! Choisissez comment recevoir votre lien de réinitialisation.</p>
+</div>
+
+<div class="card">
+  <div class="method-tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'email')">📧 Email</button>
+    <button class="tab-btn" onclick="switchTab(this,'sms')">📱 SMS</button>
+  </div>
+
+  <form onsubmit="doReset(event)">
+    <div class="field" id="emailField">
+      <label>Adresse email</label>
+      <div class="input-wrap">
+        <span class="icon">📧</span>
+        <input type="email" placeholder="ousseynou@example.com" required>
+      </div>
+    </div>
+
+    <div class="field" id="smsField" style="display:none">
+      <label>Numéro de téléphone</label>
+      <div class="input-wrap">
+        <span class="icon">📱</span>
+        <input type="tel" placeholder="+221 77 XXX XX XX">
+      </div>
+    </div>
+
+    <button class="send-btn" type="submit">📤 Envoyer le lien</button>
+  </form>
+
+  <div class="info-box">
+    <b>⏱ Délai :</b> Le lien expire après 30 minutes.<br>
+    <b>💡 Astuce :</b> Vérifiez aussi vos spams.
+  </div>
+
+  <div class="remember">
+    Vous vous souvenez ? <a href="login.html">Se connecter</a>
+  </div>
+</div>
+
+<script>
+let method = 'email';
+function switchTab(btn, m){
+  document.querySelectorAll('.tab-btn').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  method = m;
+  document.getElementById('emailField').style.display = m==='email' ? 'block' : 'none';
+  document.getElementById('smsField').style.display = m==='sms' ? 'block' : 'none';
+  document.querySelector('#'+m+'Field input').required = true;
+  document.querySelector('#'+(m==='email'?'sms':'email')+'Field input').required = false;
+}
+function doReset(e){
+  e.preventDefault();
+  const msg = method==='email' 
+    ? '✅ Lien envoyé !\n\n📧 Vérifiez votre boîte email dans 1-2 min.'
+    : '✅ Code envoyé par SMS !\n\n📱 Vous recevrez le code sous 30 sec.';
+  alert(msg);
+  location.href = 'login.html';
+}
+</script>
+</body></html>
