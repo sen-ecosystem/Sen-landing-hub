@@ -60,3 +60,34 @@ window.StripeCheckout = {
     };
   }
 };
+// ===== Paiement 2x/3x sans frais (Stripe Klarna-style) =====
+window.SplitPayment = {
+  options: [
+    {label:'💳 1x - Comptant',  n:1, fees:0},
+    {label:'💳 2x sans frais',  n:2, fees:0, min:15000},
+    {label:'💳 3x sans frais',  n:3, fees:0, min:30000},
+    {label:'💳 4x (+2% frais)', n:4, fees:0.02, min:50000}
+  ],
+  compute(total){
+    return this.options
+      .filter(o => !o.min || total >= o.min)
+      .map(o => ({
+        ...o,
+        perMonth: Math.round((total * (1 + o.fees)) / o.n),
+        totalWithFees: Math.round(total * (1 + o.fees))
+      }));
+  },
+  render(total, containerId){
+    const opts = this.compute(total);
+    document.getElementById(containerId).innerHTML = opts.map((o,i) => `
+      <label style="display:flex;justify-content:space-between;padding:14px;background:#fff;border:2px solid ${i===0?'#00a651':'#eee'};border-radius:12px;margin-bottom:8px;cursor:pointer">
+        <span>
+          <input type="radio" name="split" value="${o.n}" ${i===0?'checked':''}> 
+          <strong>${o.label}</strong>
+          ${o.n>1?`<br><small style="color:#666;margin-left:22px">${o.perMonth.toLocaleString()} FCFA × ${o.n}</small>`:''}
+        </span>
+        <strong style="color:#00a651">${o.totalWithFees.toLocaleString()} FCFA</strong>
+      </label>
+    `).join('');
+  }
+};
