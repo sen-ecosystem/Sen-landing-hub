@@ -1,361 +1,253 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-  <script src="js/logo.js"></script>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<html lang="fr"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Panier - SEN TEW</title>
-<link rel="stylesheet" href="css/app.css">
-<meta name="theme-color" content="#0F6B4E">
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-body{margin:0;background:#F5F5F0;font-family:-apple-system,sans-serif;}
-.app-header{display:flex;align-items:center;gap:8px;padding:12px 14px;background:#fff;border-bottom:1px solid #F3F4F6;position:sticky;top:0;z-index:100;}
-.hd-btn{width:38px;height:38px;background:#F9FAFB;border:none;border-radius:50%;font-size:16px;color:#0A4D38;cursor:pointer;}
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif}
+body{background:#f5f5f5;color:#222;padding-bottom:100px;-webkit-overflow-scrolling:touch}
+.header{background:linear-gradient(135deg,#00a651,#008a44);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:12px}
+.back{background:rgba(255,255,255,.25);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px}
+.header h1{color:#fff;font-size:17px;flex:1}
+.count-badge{background:#fcd116;color:#222;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:700}
 
-/* ADRESSE */
-.address-card{background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;margin:10px 14px;border-radius:14px;padding:14px;display:flex;gap:12px;align-items:center;box-shadow:0 4px 12px rgba(15,107,78,.25);text-decoration:none;}
-.address-icon{width:44px;height:44px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;backdrop-filter:blur(10px);}
-.address-info{flex:1;min-width:0;}
-.address-label{font-size:10px;opacity:.85;text-transform:uppercase;letter-spacing:1px;font-weight:700;}
-.address-value{font-weight:800;font-size:13px;margin:2px 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.address-detail{font-size:11px;opacity:.9;}
-.address-arrow{color:#D4A574;font-size:18px;}
+.address-card{background:linear-gradient(135deg,#00a651,#008a44);color:#fff;margin:12px 14px;padding:14px;border-radius:14px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 12px rgba(0,166,81,.25);cursor:pointer}
+.address-pin{width:38px;height:38px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px}
+.address-info{flex:1;color:#fff}
+.address-info small{opacity:.85;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+.address-info strong{display:block;font-size:15px;margin:2px 0}
+.address-info p{font-size:12px;opacity:.9}
+.address-edit{color:#fcd116;font-size:22px}
 
-/* ITEMS */
-.cart-item{background:#fff;border-radius:14px;padding:12px;margin:8px 14px;display:flex;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.05);position:relative;overflow:hidden;}
-.cart-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#D4A574,#0F6B4E);}
-.cart-item-img{width:80px;height:80px;border-radius:10px;object-fit:cover;flex-shrink:0;background:#F9FAFB;}
-.cart-item-info{flex:1;min-width:0;}
-.cart-item-top{display:flex;justify-content:space-between;gap:6px;margin-bottom:4px;}
-.cart-item-name{font-size:13px;font-weight:700;color:#111827;line-height:1.3;flex:1;}
-.cart-item-badge{background:#D4A574;color:#fff;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:900;flex-shrink:0;height:fit-content;}
-.cart-item-badge-live{background:#ef4444;}
-.cart-item-seller{font-size:11px;color:#6B7280;margin:4px 0;}
-.cart-item-price{font-weight:900;color:#D4A574;font-size:15px;}
-.cart-item-actions{display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
-.qty-ctrl{display:flex;align-items:center;gap:8px;background:#F3F4F6;border-radius:20px;padding:2px;}
-.qty-btn{width:28px;height:28px;background:#fff;border:none;border-radius:50%;font-weight:900;color:#0F6B4E;font-size:14px;}
-.qty-val{font-weight:800;min-width:24px;text-align:center;font-size:13px;}
-.del-btn{background:none;border:none;color:#EF4444;font-size:18px;cursor:pointer;}
+.section{padding:0 14px;margin-bottom:14px}
+.section-title{font-size:13px;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 8px;display:flex;justify-content:space-between;align-items:center}
+.section-title a{color:#00a651;font-size:12px;text-decoration:none;font-weight:600}
 
-/* PAIEMENT LOGOS */
-.pay-methods-preview{display:flex;gap:8px;padding:14px;background:#fff;margin:10px 14px;border-radius:14px;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,.05);flex-wrap:wrap;}
-.pay-methods-preview .label{font-size:12px;color:#6B7280;font-weight:700;margin-right:4px;}
-.pay-logo-mini{width:36px;height:36px;border-radius:8px;object-fit:contain;padding:4px;background:#F9FAFB;border:1px solid #F3F4F6;}
+/* PANIER VIDE */
+.empty-cart{background:#fff;border-radius:16px;padding:30px 20px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.empty-icon{font-size:64px;margin-bottom:12px}
+.empty-title{color:#00a651;font-size:20px;font-weight:800;margin-bottom:6px}
+.empty-desc{color:#666;font-size:14px;margin-bottom:16px}
+.explore-btn{background:linear-gradient(135deg,#00a651,#008a44);color:#fff;border:none;padding:14px 40px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(0,166,81,.3)}
+
+/* COUPON */
+.coupon-input{background:#fff;padding:12px;border-radius:12px;display:flex;gap:8px;align-items:center;margin-bottom:10px;border:2px dashed #fcd116}
+.coupon-input input{flex:1;border:none;background:none;font-size:14px;color:#222;outline:none}
+.coupon-input input::placeholder{color:#999}
+.coupon-btn{background:linear-gradient(135deg,#fcd116,#f4b800);color:#222;border:none;padding:8px 16px;border-radius:8px;font-weight:700;font-size:13px}
+
+/* PROMOS BAR */
+.promo-strip{background:linear-gradient(90deg,#e31b23,#ff6b35);color:#fff;padding:10px 14px;border-radius:12px;margin-bottom:10px;font-size:13px;text-align:center;font-weight:600}
+
+/* PROGRESS LIVRAISON */
+.delivery-progress{background:#fff;padding:14px;border-radius:12px;margin-bottom:10px}
+.delivery-text{font-size:13px;color:#222;margin-bottom:8px}
+.delivery-text b{color:#00a651}
+.progress-bar{height:8px;background:#e0e0e0;border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#00a651,#fcd116);width:60%;transition:width .5s}
 
 /* SUGGESTIONS */
-.section-title{padding:16px 14px 8px;color:#0A4D38;font-weight:800;font-size:15px;display:flex;justify-content:space-between;align-items:center;}
-.section-title a{font-size:12px;color:#0F6B4E;text-decoration:none;font-weight:700;}
-.suggest-row{display:flex;gap:10px;padding:0 14px 12px;overflow-x:auto;scrollbar-width:none;}
-.suggest-row::-webkit-scrollbar{display:none;}
-.sug-card{flex-shrink:0;width:140px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);text-decoration:none;color:inherit;}
-.sug-img{width:100%;height:100px;object-fit:cover;background:#F9FAFB;}
-.sug-info{padding:8px;}
-.sug-name{font-size:11px;font-weight:700;color:#111827;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;min-height:28px;}
-.sug-price{color:#D4A574;font-weight:900;font-size:13px;margin-top:4px;}
+.h-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.h-scroll::-webkit-scrollbar{display:none}
+.sug-card{flex:0 0 140px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06);cursor:pointer}
+.sug-img{width:100%;height:100px;object-fit:cover;background:#eee}
+.sug-body{padding:8px}
+.sug-body h4{font-size:12px;font-weight:600;color:#222;height:32px;overflow:hidden;line-height:1.3}
+.sug-price{color:#b8863a;font-weight:800;font-size:14px;margin-top:4px}
+.sug-old{color:#999;text-decoration:line-through;font-size:11px;margin-left:4px}
+.sug-badge{background:#e31b23;color:#fff;padding:2px 6px;border-radius:6px;font-size:9px;font-weight:700;display:inline-block;margin-top:2px}
+.sug-add{background:#00a651;color:#fff;border:none;width:100%;padding:6px;font-size:11px;font-weight:600;border-radius:6px;margin-top:4px;cursor:pointer}
 
-/* SUMMARY */
-.summary{background:#fff;margin:10px 14px;border-radius:14px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
-.summary-row{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;}
-.summary-total{padding-top:12px;margin-top:8px;border-top:2px solid #F3F4F6;font-size:16px;font-weight:900;}
+/* BUNDLES */
+.bundle-card{background:linear-gradient(135deg,#fff9e6,#ffefc2);padding:14px;border-radius:14px;margin-bottom:10px;border:2px solid #fcd116}
+.bundle-title{font-size:14px;font-weight:700;color:#b8863a;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.bundle-badge{background:#e31b23;color:#fff;padding:2px 8px;border-radius:8px;font-size:11px;font-weight:700}
+.bundle-items{display:flex;gap:8px;align-items:center;justify-content:center;margin-bottom:8px}
+.bundle-items .item{width:60px;height:60px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:28px}
+.bundle-plus{color:#b8863a;font-size:20px;font-weight:800}
+.bundle-price{text-align:center}
+.bundle-price .new{color:#00a651;font-size:20px;font-weight:800}
+.bundle-price .old{color:#999;text-decoration:line-through;font-size:13px;margin-left:6px}
+.bundle-btn{background:linear-gradient(135deg,#00a651,#008a44);color:#fff;border:none;width:100%;padding:10px;border-radius:8px;font-weight:700;margin-top:8px;cursor:pointer}
 
-/* PROMO */
-.promo-box{background:linear-gradient(135deg,#D4A574,#B8895C);margin:10px 14px;border-radius:14px;padding:16px;color:#fff;}
-.promo-input{display:flex;gap:8px;margin-top:10px;}
-.promo-input input{flex:1;padding:10px;border:none;border-radius:10px;background:rgba(255,255,255,.9);color:#111827;font-weight:700;}
-.promo-input button{background:#0F6B4E;color:#fff;border:none;padding:0 20px;border-radius:10px;font-weight:800;}
+/* PAIEMENT INFO */
+.pay-methods{background:#fff;padding:14px;border-radius:12px;margin-bottom:10px}
+.pay-title{font-size:13px;font-weight:700;color:#222;margin-bottom:10px}
+.pay-icons{display:flex;gap:8px;flex-wrap:wrap}
+.pay-icon{width:52px;height:32px;background:#f5f5f5;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.pay-icon.wave{background:#4a90e2;color:#fff}
+.pay-icon.om{background:#ff6f00;color:#fff}
+.pay-icon.free{background:#00a651;color:#fff}
+.pay-icon.wizall{background:#e31b23;color:#fff}
+.pay-icon.visa{background:#1a1f71;color:#fff}
+.pay-icon.mc{background:#eb001b;color:#fff}
+.pay-icon.wallet{background:#fcd116;color:#222}
+.pay-icon.cod{background:#795548;color:#fff}
+.pay-split{background:linear-gradient(90deg,#e8f5ee,#fff);border-left:4px solid #00a651;padding:10px;border-radius:8px;margin-top:10px}
+.pay-split b{color:#00a651;font-size:12px}
+.pay-split p{font-size:12px;color:#333;margin-top:2px}
 
-/* CHECKOUT */
-.checkout-bar{position:fixed;left:0;right:0;bottom:calc(64px + env(safe-area-inset-bottom,0px));background:#fff;padding:12px 14px;box-shadow:0 -6px 20px rgba(0,0,0,.12);z-index:80;display:flex;gap:10px;align-items:center;border-top:1px solid #F3F4F6;}
-.checkout-info{flex:1;}
-.checkout-total{font-size:11px;color:#6B7280;font-weight:700;}
-.checkout-amount{font-size:18px;font-weight:900;color:#0A4D38;}
-.checkout-btn{background:linear-gradient(135deg,#0F6B4E,#D4A574);color:#fff;border:none;padding:14px 22px;border-radius:12px;font-weight:900;font-size:14px;box-shadow:0 4px 12px rgba(15,107,78,.3);}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;padding:8px 0;padding-bottom:calc(8px + env(safe-area-inset-bottom,0));z-index:90}
+.nav-item{flex:1;text-align:center;color:#666;font-size:10px;background:none;border:none;cursor:pointer;font-family:inherit}
+.nav-item.active{color:#00a651;font-weight:700}
+.nav-icon{font-size:22px;display:block;margin-bottom:2px}
+</style></head><body>
 
-.app-content{padding-bottom:180px;}
+<header class="header">
+  <button class="back" onclick="history.back()">←</button>
+  <h1>🛒 Mon Panier</h1>
+  <span class="count-badge">0 article</span>
+</header>
 
-.empty-cart{text-align:center;padding:60px 20px;color:#6B7280;}
-.empty-cart-icon{font-size:80px;opacity:.3;}
-
-.app-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #F3F4F6;padding:6px 0 max(6px,env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr);z-index:90;}
-.app-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600;padding:4px;}
-.app-nav a.active{color:#0F6B4E;}
-.app-nav a.active .nav-icon{background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;}
-.nav-icon{width:34px;height:34px;background:#F9FAFB;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;position:relative;}
-.nav-icon .badge{position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;font-size:8px;padding:1px 4px;border-radius:6px;font-weight:900;}
-</style>
-</head>
-<body oncontextmenu="return false">
-<div class="app" id="app-swipe">
-  <header class="app-header">
-    <button class="hd-btn" onclick="history.back()">←</button>
-    <div style="flex:1;text-align:center;font-weight:900;color:#0A4D38;">🛒 Mon Panier</div>
-    <button class="hd-btn" onclick="clearCart()">🗑</button>
-  </header>
-
-  <main class="app-content">
-    <!-- ADRESSE LIVRAISON -->
-    <a href="adresses.html" class="address-card">
-      <div class="address-icon">📍</div>
-      <div class="address-info">
-        <div class="address-label">Adresse de livraison</div>
-        <div class="address-value" id="addrValue">Sacré-Cœur 3, Villa 245</div>
-        <div class="address-detail" id="addrDetail">Dakar · +221 77 XXX XX XX</div>
-      </div>
-      <span class="address-arrow">✏️</span>
-    </a>
-
-    <!-- ARTICLES -->
-    <div id="cartList"></div>
-
-    <!-- PAIEMENTS -->
-       <div class="pay-methods-preview" id="payPreview" style="display:none;">
-      <div class="label">💳 Paiement :</div>
-      <img class="pay-logo-mini" data-pay-logo="wave" alt="Wave" title="Wave">
-      <img class="pay-logo-mini" data-pay-logo="om" alt="OM" title="Orange Money">
-      <img class="pay-logo-mini" data-pay-logo="free" alt="Free" title="Free Money">
-      <img class="pay-logo-mini" data-pay-logo="wizall" alt="Wizall" title="Wizall">
-      <img class="pay-logo-mini" data-pay-logo="card" alt="Carte" title="Carte bancaire">
-      <span style="font-size:14px;">+💵</span>
-    </div>
-
-
-    <!-- SUGGESTIONS -->
-    <div id="suggestSection" style="display:none;">
-      <div class="section-title">
-        <span>✨ Vous pourriez aussi aimer</span>
-        <a href="produits.html">Voir tout ›</a>
-      </div>
-      <div class="suggest-row" id="suggestList"></div>
-    </div>
-
-    <!-- LIVE VENDEURS -->
-    <div id="liveSection" style="display:none;">
-      <div class="section-title">
-        <span>🔴 En LIVE maintenant</span>
-        <a href="live.html">Voir tout ›</a>
-      </div>
-      <div class="suggest-row" id="liveList"></div>
-    </div>
-
-    <!-- CODE PROMO -->
-    <div class="promo-box" id="promoBox" style="display:none;">
-      <div style="font-weight:900;font-size:14px;">🎁 Code Promo</div>
-      <div style="font-size:11px;opacity:.9;margin-top:4px;">Essayez : SENTEW10, WELCOME, LIVE30</div>
-      <div class="promo-input">
-        <input id="promoCode" placeholder="Entrez un code" autocomplete="off">
-        <button onclick="applyPromo()">Appliquer</button>
-      </div>
-    </div>
-
-    <!-- RÉCAP -->
-    <div class="summary" id="summarySection" style="display:none;">
-      <div class="summary-row"><span style="color:#6B7280;">Sous-total</span><strong id="subtotal">0 FCFA</strong></div>
-      <div class="summary-row"><span style="color:#6B7280;">🚚 Livraison Dakar</span><strong>1 500 FCFA</strong></div>
-      <div class="summary-row" id="discountRow" style="display:none;color:#10B981;"><span>💰 Réduction</span><strong id="discount">-0 FCFA</strong></div>
-      <div class="summary-row summary-total"><span>Total</span><strong style="color:#0F6B4E;" id="total">0 FCFA</strong></div>
-    </div>
-  </main>
-
-  <div class="checkout-bar" id="checkoutBar" style="display:none;">
-    <div class="checkout-info">
-      <div class="checkout-total">Total à payer</div>
-      <div class="checkout-amount" id="finalTotal">0 FCFA</div>
-    </div>
-    <button class="checkout-btn" onclick="checkout()">🚀 Commander</button>
+<div class="address-card" onclick="location.href='adresses.html'">
+  <div class="address-pin">📍</div>
+  <div class="address-info">
+    <small>Adresse de livraison</small>
+    <strong>Sacré-Cœur 3, Villa 245</strong>
+    <p>Dakar · +221 77 XXX XX XX</p>
   </div>
-
-  <nav class="app-nav">
-    <a href="index.html" data-page="home"><div class="nav-icon">🏠</div><div>Accueil</div></a>
-    <a href="categories.html" data-page="categories"><div class="nav-icon">▦</div><div>Catégories</div></a>
-    <a href="panier.html" class="active" data-page="cart"><div class="nav-icon">🛒<span class="badge" id="navBadge">0</span></div><div>Panier</div></a>
-    <a href="messages.html" data-page="messages"><div class="nav-icon">💬</div><div>Messages</div></a>
-    <a href="profil.html" data-page="profile"><div class="nav-icon">👤</div><div>Profil</div></a>
-  </nav>
+  <div class="address-edit">✏️</div>
 </div>
 
-<script src="js/data.js"></script>
-<script src="js/paydunya.js"></script>
-<script src="js/swipe-pages.js"></script>
-<script>
-let cart = JSON.parse(localStorage.getItem('cart')||'[]');
-let discountAmount = 0;
+<div class="section">
+  <div class="promo-strip">🔥 -30% avec le code RAMADAN30 · Valable 3 jours !</div>
 
-// FALLBACK
-const FALLBACK = [
-  {id:7,name:'Sac cuir africain premium',price:15000,image:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400',seller:'Aïcha Couture'},
-  {id:6,name:'Boubou wax collection été',price:18000,image:'https://images.unsplash.com/photo-1544441893-675973e31985?w=400',seller:'Fatou Fashion'},
-  {id:13,name:'Écouteurs sans fil Pro',price:12000,image:'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400',seller:'Moussa Tech'},
-  {id:2,name:'Sandales cuir Peul',price:8500,image:'https://images.unsplash.com/photo-1603487742131-4160ec999306?w=400',seller:'Aïcha Couture'}
-];
-const list = (typeof products !== 'undefined' && products.length) ? products : FALLBACK;
+  <div class="empty-cart">
+    <div class="empty-icon">🛒</div>
+    <div class="empty-title">Panier vide</div>
+    <div class="empty-desc">Découvrez nos meilleures offres du moment</div>
+    <button class="explore-btn" onclick="location.href='produits.html'">🔍 Explorer les produits</button>
+  </div>
 
-// ADRESSE
-const savedAddr = JSON.parse(localStorage.getItem('address')||'null');
-if(savedAddr){
-  document.getElementById('addrValue').textContent = savedAddr.value;
-  document.getElementById('addrDetail').textContent = savedAddr.detail;
-}
+  <div class="coupon-input">
+    <span style="font-size:20px">🎟️</span>
+    <input placeholder="Entrez un code promo (ex: RAMADAN30)">
+    <button class="coupon-btn">Appliquer</button>
+  </div>
 
-function render(){
-  const listEl = document.getElementById('cartList');
-  document.getElementById('navBadge').textContent = cart.length;
+  <div class="delivery-progress">
+    <div class="delivery-text">🚚 Ajoutez <b>6 000 FCFA</b> pour la livraison gratuite !</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
+  </div>
 
-  if(cart.length===0){
-    listEl.innerHTML = `
-      <div class="empty-cart">
-        <div class="empty-cart-icon">🛒</div>
-        <h3 style="margin:16px 0 6px;color:#0A4D38;">Panier vide</h3>
-        <p style="font-size:13px;">Ajoutez des produits pour commencer</p>
-        <a href="index.html" style="display:inline-block;margin-top:16px;padding:12px 24px;background:linear-gradient(135deg,#0F6B4E,#D4A574);color:#fff;text-decoration:none;border-radius:10px;font-weight:800;">Explorer</a>
-      </div>
-    `;
-    document.getElementById('payPreview').style.display='none';
-    document.getElementById('summarySection').style.display='none';
-    document.getElementById('promoBox').style.display='none';
-    document.getElementById('checkoutBar').style.display='none';
-    document.getElementById('suggestSection').style.display='block';
-    document.getElementById('liveSection').style.display='block';
-    renderSuggestions();
-    return;
-  }
-
-  listEl.innerHTML = cart.map((item,idx)=>{
-    const p = list.find(x=>x.id===item.id) || item;
-    const img = item.image || p.image || '';
-    return `
-    <div class="cart-item">
-      <img class="cart-item-img" src="${img}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/80/0F6B4E/fff?text=SEN'">
-      <div class="cart-item-info">
-        <div class="cart-item-top">
-          <div class="cart-item-name">${item.name}</div>
-          ${item.flashDiscount ? `<span class="cart-item-badge cart-item-badge-live">-${item.flashDiscount}% LIVE</span>` : ''}
-          ${item.bundle ? '<span class="cart-item-badge">BUNDLE</span>' : ''}
-        </div>
-        <div class="cart-item-seller">Vendu par ${item.seller||'SEN TEW'}</div>
-        <div class="cart-item-price">${Number(item.price).toLocaleString()} FCFA</div>
-        <div class="cart-item-actions">
-          <div class="qty-ctrl">
-            <button class="qty-btn" onclick="changeQty(${idx},-1)">−</button>
-            <span class="qty-val">${item.qty||1}</span>
-            <button class="qty-btn" onclick="changeQty(${idx},1)">+</button>
-          </div>
-          <button class="del-btn" onclick="removeItem(${idx})">🗑</button>
-        </div>
+  <div class="section-title">
+    <span>✨ Vous pourriez aussi aimer</span>
+    <a href="produits.html">Voir tout →</a>
+  </div>
+  <div class="h-scroll">
+    <div class="sug-card">
+      <img class="sug-img" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=200" alt="">
+      <div class="sug-body">
+        <h4>Robe wax mariage</h4>
+        <div class="sug-price">35 000 F<span class="sug-old">50 000</span></div>
+        <span class="sug-badge">-30%</span>
+        <button class="sug-add">+ Ajouter</button>
       </div>
     </div>
-  `}).join('');
-
-  document.getElementById('payPreview').style.display='flex';
-  document.getElementById('summarySection').style.display='block';
-  document.getElementById('promoBox').style.display='block';
-  document.getElementById('checkoutBar').style.display='flex';
-  document.getElementById('suggestSection').style.display='block';
-  document.getElementById('liveSection').style.display='block';
-
-  const subtotal = cart.reduce((s,i)=>s+i.price*(i.qty||1),0);
-  const delivery = 1500;
-  const total = subtotal + delivery - discountAmount;
-
-  document.getElementById('subtotal').textContent = subtotal.toLocaleString()+' FCFA';
-  document.getElementById('total').textContent = total.toLocaleString()+' FCFA';
-  document.getElementById('finalTotal').textContent = total.toLocaleString()+' FCFA';
-  if(discountAmount>0){
-    document.getElementById('discountRow').style.display='flex';
-    document.getElementById('discount').textContent = '-'+discountAmount.toLocaleString()+' FCFA';
-  }
-
-  renderSuggestions();
-}
-
-function renderSuggestions(){
-  const cartIds = cart.map(c=>c.id);
-  const suggest = list.filter(p=>!cartIds.includes(p.id)).slice(0,6);
-  document.getElementById('suggestList').innerHTML = suggest.map(p=>`
-    <a href="produit.html?id=${p.id}" class="sug-card">
-      <img class="sug-img" src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/140/0F6B4E/fff?text=SEN'">
-      <div class="sug-info">
-        <div class="sug-name">${p.name}</div>
-        <div class="sug-price">${Number(p.price).toLocaleString()} FCFA</div>
+    <div class="sug-card">
+      <img class="sug-img" src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=200" alt="">
+      <div class="sug-body">
+        <h4>Sandales cuir Peul</h4>
+        <div class="sug-price">8 500 F</div>
+        <span class="sug-badge" style="background:#00a651">📍 Local</span>
+        <button class="sug-add">+ Ajouter</button>
       </div>
-    </a>
-  `).join('');
-
-  const lives = [
-    {id:1,name:'Aïcha en LIVE',img:'https://i.pravatar.cc/200?img=1',price:15000},
-    {id:3,name:'Fatou en LIVE',img:'https://i.pravatar.cc/200?img=5',price:8500},
-    {id:9,name:'Ibrahima en LIVE',img:'https://i.pravatar.cc/200?img=13',price:18000}
-  ];
-  document.getElementById('liveList').innerHTML = lives.map(l=>`
-    <a href="live.html?seller=${l.id}" class="sug-card" style="position:relative;">
-      <div style="position:absolute;top:6px;left:6px;background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:9px;font-weight:900;z-index:2;animation:blink 1s infinite;">🔴 LIVE</div>
-      <img class="sug-img" src="${l.img}" alt="${l.name}">
-      <div class="sug-info">
-        <div class="sug-name">${l.name}</div>
-        <div class="sug-price" style="color:#ef4444;">-30% FLASH</div>
+    </div>
+    <div class="sug-card">
+      <img class="sug-img" src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=200" alt="">
+      <div class="sug-body">
+        <h4>Chemise brodée homme</h4>
+        <div class="sug-price">12 000 F<span class="sug-old">18 000</span></div>
+        <span class="sug-badge">-33%</span>
+        <button class="sug-add">+ Ajouter</button>
       </div>
-    </a>
-  `).join('');
-}
+    </div>
+    <div class="sug-card">
+      <img class="sug-img" src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=200" alt="">
+      <div class="sug-body">
+        <h4>Sac cuir artisanal</h4>
+        <div class="sug-price">15 000 F</div>
+        <span class="sug-badge" style="background:#9c27b0">🌿 Fait main</span>
+        <button class="sug-add">+ Ajouter</button>
+      </div>
+    </div>
+  </div>
 
-function changeQty(idx, delta){
-  cart[idx].qty = Math.max(1, (cart[idx].qty||1) + delta);
-  localStorage.setItem('cart', JSON.stringify(cart));
-  render();
-  navigator.vibrate&&navigator.vibrate(15);
-}
-function removeItem(idx){
-  if(confirm('Retirer cet article ?')){
-    cart.splice(idx,1);
-    localStorage.setItem('cart', JSON.stringify(cart));
-    render();
-  }
-}
-function clearCart(){
-  if(cart.length===0)return;
-  if(confirm('🗑 Vider le panier ?')){
-    cart = [];
-    localStorage.setItem('cart','[]');
-    render();
-  }
-}
-function applyPromo(){
-  const code = document.getElementById('promoCode').value.trim().toUpperCase();
-  const codes = {
-    'SENTEW10':{type:'percent',value:10},
-    'SENTEW20':{type:'percent',value:20},
-    'WELCOME':{type:'fixed',value:2000},
-    'LIVE30':{type:'percent',value:30},
-    'AICHA20':{type:'percent',value:20}
-  };
-  const p = codes[code];
-  if(!p){alert('❌ Code invalide');return;}
-  const subtotal = cart.reduce((s,i)=>s+i.price*(i.qty||1),0);
-  discountAmount = p.type==='percent' ? Math.round(subtotal*p.value/100) : p.value;
-  alert(`✅ Code ${code} : -${discountAmount.toLocaleString()} FCFA`);
-  render();
-}
-function checkout(){
-  if(cart.length===0)return;
-  const subtotal = cart.reduce((s,i)=>s+i.price*(i.qty||1),0);
-  const total = subtotal + 1500 - discountAmount;
-  if(typeof window.PayDunya!=='undefined' && window.PayDunya.showPaymentModal){
-    window.PayDunya.showPaymentModal({
-      amount: total,
-      description: 'Commande SEN TEW ('+cart.length+' articles)',
-      items: cart.map(i=>({name:i.name,qty:i.qty||1,price:i.price})),
-      orderId: 'ST'+Date.now().toString().slice(-6),
-      userId: localStorage.getItem('user_id')||'GUEST'
-    });
-  } else {
-    location.href = 'paiement.html?total='+total;
-  }
-}
+  <div class="section-title">🎁 Bundles économiques</div>
+  <div class="bundle-card">
+    <div class="bundle-title">Pack Mariage Complet <span class="bundle-badge">-25%</span></div>
+    <div class="bundle-items">
+      <div class="item">👗</div>
+      <span class="bundle-plus">+</span>
+      <div class="item">👜</div>
+      <span class="bundle-plus">+</span>
+      <div class="item">👠</div>
+    </div>
+    <div class="bundle-price">
+      <span class="new">45 000 F</span>
+      <span class="old">60 000 F</span>
+    </div>
+    <button class="bundle-btn">🛒 Ajouter le pack complet</button>
+  </div>
 
-render();
-</script>
-<style>@keyframes blink{0%,100%{opacity:1}50%{opacity:.6}}</style>
-</body>
-</html>
+  <div class="section-title">💳 Moyens de paiement acceptés</div>
+  <div class="pay-methods">
+    <div class="pay-title">✅ Tous ces modes sont acceptés</div>
+    <div class="pay-icons">
+      <div class="pay-icon wave">Wave</div>
+      <div class="pay-icon om">OM</div>
+      <div class="pay-icon free">Free</div>
+      <div class="pay-icon wizall">Wizall</div>
+      <div class="pay-icon visa">VISA</div>
+      <div class="pay-icon mc">MC</div>
+      <div class="pay-icon wallet">💰</div>
+      <div class="pay-icon cod">COD</div>
+    </div>
+    <div class="pay-split">
+      <b>💳 Paiement 2x ou 3x sans frais</b>
+      <p>Disponible dès 15 000 FCFA avec carte bancaire</p>
+    </div>
+  </div>
+
+  <div class="section-title">
+    <span>🔥 Top vendeurs cette semaine</span>
+    <a href="produits.html?filter=top">Voir tout →</a>
+  </div>
+  <div class="h-scroll">
+    <div class="sug-card">
+      <img class="sug-img" src="https://images.unsplash.com/photo-1592286927505-1def25115558?w=200" alt="">
+      <div class="sug-body">
+        <h4>iPhone 15 Pro</h4>
+        <div class="sug-price">850 000 F</div>
+        <span class="sug-badge" style="background:#1da1f2">✓ Vérifié</span>
+        <button class="sug-add">+ Ajouter</button>
+      </div>
+    </div>
+    <div class="sug-card">
+      <img class="sug-img" src="https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=200" alt="">
+      <div class="sug-body">
+        <h4>AirPods Pro 2</h4>
+        <div class="sug-price">135 000 F<span class="sug-old">180 000</span></div>
+        <span class="sug-badge">-25%</span>
+        <button class="sug-add">+ Ajouter</button>
+      </div>
+    </div>
+    <div class="sug-card">
+      <img class="sug-img" src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200" alt="">
+      <div class="sug-body">
+        <h4>Kit soin naturel</h4>
+        <div class="sug-price">22 000 F</div>
+        <span class="sug-badge" style="background:#e91e63">💄 Beauté</span>
+        <button class="sug-add">+ Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <button class="nav-item" onclick="location.href='index.html'"><span class="nav-icon">🏠</span>Accueil</button>
+  <button class="nav-item" onclick="location.href='categories.html'"><span class="nav-icon">🗂️</span>Catégories</button>
+  <button class="nav-item active"><span class="nav-icon">🛒</span>Panier</button>
+  <button class="nav-item" onclick="location.href='messages.html'"><span class="nav-icon">💬</span>Messages</button>
+  <button class="nav-item" onclick="location.href='profil.html'"><span class="nav-icon">👤</span>Profil</button>
+</nav>
+</body></html>
