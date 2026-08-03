@@ -764,5 +764,397 @@ label, .form-label, .radio-label{
   opacity:1 !important;
   font-weight:500;
 }
+/* ========================================
+   FIX GLOBAL TEXTES ILLISIBLES - PRIORITÉ MAX
+   ======================================== */
+
+/* Force TOUS les textes en couleur foncée par défaut */
+body, body * {
+  -webkit-text-fill-color: initial;
+}
+
+/* ===== BONS CADEAUX ===== */
+.gift-card, .bon-cadeau, [class*="cadeau"] {
+  background: linear-gradient(135deg, #d4a04c, #b8863a) !important;
+  color: #fff !important;
+  padding: 20px !important;
+  border-radius: 16px !important;
+  margin-bottom: 12px !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,.1) !important;
+}
+.gift-card *, .bon-cadeau * {
+  color: #fff !important;
+  opacity: 1 !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,.15) !important;
+}
+.gift-card .code, .bon-cadeau .code {
+  background: rgba(255,255,255,.2) !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  font-family: monospace !important;
+  font-weight: 700 !important;
+}
+.gift-green {
+  background: linear-gradient(135deg, #00a651, #008a44) !important;
+}
+.gift-green * { color: #fcd116 !important; }
+
+/* ===== CODES PROMO ===== */
+.promo-code, .code-promo, [class*="code-actif"] {
+  background: #fff !important;
+  border: 1px solid #eee !important;
+  padding: 14px !important;
+  border-radius: 12px !important;
+  margin-bottom: 10px !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,.05) !important;
+}
+.promo-code *, .code-promo * {
+  color: #222 !important;
+  opacity: 1 !important;
+}
+.promo-code .title, .code-promo .title,
+.promo-code h3, .code-promo h3 {
+  color: #00a651 !important;
+  font-weight: 800 !important;
+  font-size: 16px !important;
+}
+.promo-code .desc, .code-promo .desc,
+.promo-code p, .code-promo p {
+  color: #555 !important;
+  font-size: 13px !important;
+  margin-top: 4px !important;
+}
+.promo-code .reduc, .code-promo .reduc {
+  color: #e31b23 !important;
+  font-weight: 800 !important;
+  font-size: 20px !important;
+}
+.promo-code .valid, .code-promo .valid {
+  color: #b8863a !important;
+  font-size: 12px !important;
+}
+.btn-utiliser {
+  background: #00a651 !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 8px 20px !important;
+  border-radius: 20px !important;
+  font-weight: 600 !important;
+}
+
+/* ===== COUPONS ===== */
+.coupon-card, [class*="coupon"] {
+  background: #fff !important;
+  border: 1px solid #e0e0e0 !important;
+  padding: 14px !important;
+  border-radius: 12px !important;
+  margin-bottom: 10px !important;
+}
+.coupon-card * {
+  color: #222 !important;
+  opacity: 1 !important;
+}
+.coupon-card .vendor-name {
+  color: #b8863a !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+}
+.coupon-card .type-label {
+  color: #666 !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+}
+.coupon-card .valid-until {
+  color: #999 !important;
+  font-size: 12px !important;
+}
+.coupon-card .discount {
+  color: #b8863a !important;
+  font-weight: 800 !important;
+  font-size: 22px !important;
+}
+.coupon-card .discount-desc {
+  color: #b8863a !important;
+  font-size: 12px !important;
+  opacity: .8 !important;
+}
+.coupon-parrainage {
+  border-left: 4px solid #ff6b35 !important;
+}
+.coupon-parrainage .expire {
+  color: #e31b23 !important;
+  font-weight: 600 !important;
+}
+
+/* ===== SEN VERIFIED - PLANS ===== */
+.plan-card {
+  background: #fff !important;
+  border: 2px solid #e0e0e0 !important;
+  padding: 20px !important;
+  border-radius: 16px !important;
+  color: #222 !important;
+}
+.plan-card * {
+  color: #222 !important;
+  opacity: 1 !important;
+}
+.plan-card .plan-name {
+  color: #b8863a !important;
+  font-weight: 800 !important;
+  font-size: 18px !important;
+  letter-spacing: 1px !important;
+}
+.plan-card .price {
+  color: #b8863a !important;
+  font-size: 32px !important;
+  font-weight: 800 !important;
+}
+.plan-card .price-unit {
+  color: #666 !important;
+  font-size: 13px !important;
+}
+.plan-card ul li,
+.plan-card .feature {
+  color: #333 !important;
+  font-size: 13px !important;
+  padding: 6px 0 !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 6px !important;
+}
+.plan-card ul li::before,
+.plan-card .feature::before {
+  color: #00a651 !important;
+}
+.plan-card .choose-btn {
+  background: #fff !important;
+  border: 2px solid #b8863a !important;
+  color: #b8863a !important;
+  padding: 12px !important;
+  border-radius: 10px !important;
+  font-weight: 700 !important;
+  width: 100% !important;
+}
+.plan-gold {
+  background: linear-gradient(135deg, #fff9e6, #ffefc2) !important;
+  border-color: #fcd116 !important;
+}
+.plan-gold .choose-btn {
+  background: linear-gradient(135deg, #fcd116, #f4b800) !important;
+  color: #222 !important;
+  border: none !important;
+}
+.plan-platinum {
+  background: linear-gradient(135deg, #e8f4fd, #d4e9fa) !important;
+  border-color: #4a90e2 !important;
+}
+.plan-platinum .plan-name,
+.plan-platinum .price {
+  color: #2c5f9e !important;
+}
+.plan-platinum .choose-btn {
+  background: linear-gradient(135deg, #4a90e2, #2c5f9e) !important;
+  color: #fff !important;
+  border: none !important;
+}
+.badge-popular {
+  background: #ff6b35 !important;
+  color: #fff !important;
+  padding: 4px 12px !important;
+  border-radius: 12px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  display: inline-block !important;
+  margin-bottom: 8px !important;
+}
+.plan-card h1, .plan-card h2 {
+  color: #222 !important;
+}
+.plan-title-main {
+  color: #222 !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  text-align: center !important;
+}
+.plan-subtitle {
+  color: #666 !important;
+  font-size: 14px !important;
+  text-align: center !important;
+  margin-bottom: 20px !important;
+}
+
+/* ===== REMBOURSEMENT ===== */
+.refund-page, .remboursement-page {
+  background: #f5f5f5 !important;
+}
+.refund-page *, .remboursement-page * {
+  color: #222 !important;
+  opacity: 1 !important;
+}
+.order-summary-card {
+  background: #fff !important;
+  padding: 14px !important;
+  border-radius: 12px !important;
+  border: 1px solid #eee !important;
+}
+.order-summary-card .order-num {
+  color: #666 !important;
+  font-size: 12px !important;
+}
+.order-summary-card .product-name {
+  color: #222 !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+}
+.order-summary-card .price {
+  color: #b8863a !important;
+  font-weight: 800 !important;
+  font-size: 18px !important;
+}
+.section-label {
+  color: #b8863a !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  text-transform: uppercase !important;
+  letter-spacing: .5px !important;
+  margin: 16px 0 8px !important;
+}
+.required-tag {
+  color: #e31b23 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+.radio-option, .reason-option {
+  background: #fff !important;
+  padding: 12px !important;
+  border-radius: 8px !important;
+  margin-bottom: 6px !important;
+  color: #222 !important;
+  font-size: 14px !important;
+  border: 1px solid #eee !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+.radio-option label, .reason-option label {
+  color: #222 !important;
+  font-weight: 500 !important;
+}
+.photo-upload-slot {
+  background: #fff !important;
+  border: 2px dashed #b8863a !important;
+  color: #b8863a !important;
+}
+.photo-upload-slot span {
+  color: #b8863a !important;
+  font-weight: 600 !important;
+}
+.description-textarea {
+  background: #fff !important;
+  border: 1px solid #ddd !important;
+  color: #222 !important;
+  padding: 12px !important;
+  border-radius: 8px !important;
+  width: 100% !important;
+  min-height: 100px !important;
+}
+.description-textarea::placeholder {
+  color: #999 !important;
+}
+.refund-method {
+  background: #fff !important;
+  padding: 12px !important;
+  border-radius: 8px !important;
+  color: #222 !important;
+  border: 1px solid #eee !important;
+}
+.refund-method .method-name {
+  color: #222 !important;
+  font-weight: 600 !important;
+}
+.refund-method .method-time {
+  color: #666 !important;
+  font-size: 12px !important;
+}
+
+/* ===== ONGLETS ACTIFS TOUJOURS LISIBLES ===== */
+.tab.active, .tab-item.active {
+  color: #00a651 !important;
+  border-bottom: 3px solid #00a651 !important;
+  font-weight: 700 !important;
+}
+.tab, .tab-item {
+  color: #666 !important;
+  opacity: 1 !important;
+}
+.tab-item span, .tab span {
+  color: inherit !important;
+}
+
+/* ===== FIX INPUT AJOUTER CODE PROMO ===== */
+.add-code-input {
+  background: #fff !important;
+  border: 1px solid #ddd !important;
+  color: #222 !important;
+  padding: 10px 14px !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+}
+.add-code-input::placeholder {
+  color: #999 !important;
+}
+.btn-ajouter {
+  background: #b8863a !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+}
+
+/* ===== BOUTON PARRAINAGE ===== */
+.parrainage-btn {
+  background: #fff !important;
+  border: 2px solid #b8863a !important;
+  color: #b8863a !important;
+  padding: 14px !important;
+  border-radius: 12px !important;
+  font-weight: 700 !important;
+  width: 100% !important;
+  text-align: center !important;
+}
+
+/* ===== TITRE ASSISTANT IA CORRIGE ===== */
+.assistant-header {
+  background: linear-gradient(135deg, #00a651, #008a44) !important;
+}
+.assistant-header h2, .assistant-header p {
+  color: #fff !important;
+}
+
+/* ===== FIX UNIVERSEL - Aucun texte transparent ===== */
+p, span, div, h1, h2, h3, h4, h5, h6, li, a, label, button {
+  opacity: 1 !important;
+}
+[style*="color:#fff"]:not(.header):not(.hero):not(.buy-bar):not(.btn-buy):not([class*="gift"]):not([class*="green"]) {
+  color: #222 !important;
+}
+
+/* ===== BOUTIQUE STYLE PRÉCÉDENT RESTAURÉ ===== */
+.shop-tabs {
+  position: sticky !important;
+  top: 62px !important;
+  background: #fff !important;
+  z-index: 80 !important;
+  display: flex !important;
+  border-bottom: 1px solid #eee !important;
+}
+.shop-tabs .tab {
+  flex: 1 !important;
+  padding: 14px 8px !important;
+  text-align: center !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
 
 
