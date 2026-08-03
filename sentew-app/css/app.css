@@ -1,3 +1,56 @@
+/* ===== FIX SCROLL UNIVERSEL - iOS/Android/Desktop ===== */
+html, body {
+  height: auto !important;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior-y: contain;
+  position: relative !important;
+  margin: 0;
+  padding: 0;
+}
+body {
+  padding-top: env(safe-area-inset-top, 0);
+  padding-bottom: calc(70px + env(safe-area-inset-bottom, 0));
+  padding-left: env(safe-area-inset-left, 0);
+  padding-right: env(safe-area-inset-right, 0);
+  touch-action: pan-y;
+}
+main, .content, .page, .container {
+  overflow: visible !important;
+  height: auto !important;
+  min-height: auto !important;
+}
+/* Header sticky, jamais fixed */
+.header, .top-bar, header {
+  position: sticky !important;
+  top: 0;
+  z-index: 100;
+}
+/* Bottom nav fixed OK, mais safe area */
+.bottom-nav, .nav-bottom, nav.bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  z-index: 90;
+}
+/* Barre onglets STABLE (fix boutique + catégories) */
+.tabs, .tab-bar, .filter-bar {
+  position: sticky !important;
+  top: 62px;
+  background: #fff;
+  z-index: 80;
+  height: 52px;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  border-bottom: 1px solid #eee;
+}
+
 /* ==========================================
    SEN TEW - CSS PREMIUM V3 (Lisibilité fix)
    ========================================== */
