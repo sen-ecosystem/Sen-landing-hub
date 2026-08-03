@@ -2,195 +2,143 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Assistant IA - SEN TEW</title>
-<meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#FAFAF7">
-<link rel="stylesheet" href="css/app.css">
 <style>
-.ia-header{background:linear-gradient(135deg,var(--emerald),var(--gold));padding:14px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0;box-shadow:0 2px 10px rgba(0,0,0,.1);z-index:100}
-.ia-header .header-btn{background:rgba(255,255,255,.2);color:#fff;border:none}
-.ia-avatar{width:42px;height:42px;background:rgba(255,255,255,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;backdrop-filter:blur(8px)}
-.chat{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:#FAFAF7}
-.bubble{max-width:80%;padding:12px 16px;border-radius:16px;font-size:14px;line-height:1.5;animation:fadeIn .3s;white-space:pre-wrap;box-shadow:0 2px 6px rgba(0,0,0,.05)}
-.bubble.ai{background:#fff;color:#000;align-self:flex-start;border-bottom-left-radius:4px;border:1px solid #E5E7EB}
-.bubble.user{background:linear-gradient(135deg,var(--emerald),var(--emerald-dark));color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
-.bubble .products-mini{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
-.bubble .prod-card{background:#f5f5f5;border-radius:8px;padding:6px;text-align:center;font-size:10px}
-.bubble .prod-card img{width:100%;height:60px;object-fit:cover;border-radius:6px;pointer-events:auto}
-.typing{background:#fff;align-self:flex-start;padding:14px 18px;border-radius:16px;border:1px solid #E5E7EB}
-.dots span{display:inline-block;width:6px;height:6px;background:var(--emerald);border-radius:50%;margin:0 2px;animation:bounce 1.4s infinite}
-.dots span:nth-child(2){animation-delay:.2s}
-.dots span:nth-child(3){animation-delay:.4s}
+:root{--v:#00a651;--j:#fcd116}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,sans-serif;background:#f5f5f5;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.header{background:linear-gradient(135deg,var(--v),#008a44);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.back{background:rgba(255,255,255,.25);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px}
+.avatar{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:18px}
+.info{flex:1}
+.info h2{font-size:16px;font-weight:600}
+.info p{font-size:12px;opacity:.9}
+.lang{background:rgba(255,255,255,.2);border:none;color:#fff;padding:6px 10px;border-radius:8px;font-size:12px}
+.chat{flex:1;overflow-y:auto;padding:16px;-webkit-overflow-scrolling:touch}
+.msg{max-width:80%;padding:12px 14px;border-radius:16px;margin-bottom:10px;font-size:14px;line-height:1.4}
+.msg.bot{background:#fff;color:#222;border-bottom-left-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.msg.user{background:var(--v);color:#fff;margin-left:auto;border-bottom-right-radius:4px}
+.suggestions{padding:12px 16px;background:#fff;border-top:1px solid #eee;flex-shrink:0}
+.sug-title{font-size:11px;color:#999;font-weight:600;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase}
+.sug-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.sug{background:#f5f5f5;border:1px solid #ddd;padding:8px 6px;border-radius:10px;font-size:11px;color:#222;font-weight:500;cursor:pointer;text-align:center}
+.sug:active{background:var(--j)}
+.input-bar{background:#fff;padding:10px 12px;display:flex;gap:8px;align-items:center;border-top:1px solid #eee;flex-shrink:0;padding-bottom:calc(10px + env(safe-area-inset-bottom,0))}
+.mic{width:40px;height:40px;border-radius:50%;background:#f5f5f5;border:none;font-size:18px;flex-shrink:0}
+.input-bar input{flex:1;border:1px solid #ddd;background:#f9f9f9;padding:10px 14px;border-radius:20px;font-size:14px;outline:none;color:#222}
+.send{width:40px;height:40px;border-radius:50%;background:var(--v);border:none;color:#fff;font-size:18px;flex-shrink:0}
+.typing{display:inline-flex;gap:3px;padding:12px 14px}
+.typing span{width:6px;height:6px;background:#999;border-radius:50%;animation:bounce 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
 @keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
-/* Suggestions grid FIXE (au lieu de scroll horizontal) */
-.sugg-wrap{background:#fff;padding:10px 12px;border-top:1px solid #E5E7EB;flex-shrink:0}
-.sugg-title{font-size:11px;color:#B8945F;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;text-align:center}
-.sugg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-.sugg-btn{background:linear-gradient(135deg,rgba(212,165,116,.12),rgba(15,107,78,.08));color:#0F6B4E;border:1px solid #D4A574;padding:10px 6px;border-radius:12px;font-size:11px;font-weight:700;cursor:pointer;text-align:center;line-height:1.2}
-.sugg-btn:active{transform:scale(.95)}
-.input-bar{background:#fff;padding:10px;display:flex;gap:6px;border-top:1px solid #E5E7EB;flex-shrink:0}
-.input-bar input{flex:1;background:#F5F5F5;border:1px solid #E5E7EB;color:#000;padding:12px 15px;border-radius:22px;font-size:13px;outline:none}
-.input-bar input:focus{border-color:var(--emerald);background:#fff}
-.mic-btn{background:linear-gradient(135deg,var(--gold),var(--gold-dark));border:none;color:#0A1F17;width:44px;height:44px;border-radius:50%;font-size:18px;cursor:pointer;font-weight:800}
-.send-btn{background:linear-gradient(135deg,var(--emerald),var(--emerald-dark));border:none;color:#fff;width:44px;height:44px;border-radius:50%;font-size:16px;cursor:pointer}
-.lang-select{background:rgba(0,0,0,.15);color:#fff;border:none;padding:6px 10px;border-radius:8px;font-size:12px;font-weight:800;backdrop-filter:blur(8px)}
 </style>
 </head>
-<body oncontextmenu="return false">
-<div class="app">
-  <header class="ia-header">
-    <button class="header-btn" onclick="history.back()">←</button>
-    <div class="ia-avatar">✨</div>
-    <div style="flex:1;">
-      <div style="font-weight:900;font-size:15px;color:#fff;">Assistant SEN TEW</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.9);">🟢 En ligne · Disponible 24/7</div>
-    </div>
-    <select class="lang-select" id="lang" onchange="changeLang()">
-      <option value="fr">🇫🇷 FR</option>
-      <option value="wo">🇸🇳 WO</option>
-      <option value="en">🇬🇧 EN</option>
-      <option value="ar">🇸🇦 AR</option>
-    </select>
-  </header>
+<body>
 
-  <div class="chat" id="chat"></div>
-
-  <div class="sugg-wrap">
-    <div class="sugg-title">💡 Suggestions rapides</div>
-    <div class="sugg-grid" id="suggGrid"></div>
+<div class="header">
+  <button class="back" onclick="history.back()">←</button>
+  <div class="avatar">✨</div>
+  <div class="info">
+    <h2>Assistant SEN TEW</h2>
+    <p>🟢 En ligne · Disponible 24/7</p>
   </div>
+  <button class="lang">🇫🇷 FR</button>
+</div>
 
-  <div class="input-bar">
-    <button class="mic-btn" onclick="alert('🎙 Enregistrement vocal (bientôt)')">🎙</button>
-    <input id="msgInput" placeholder="Tapez votre message..." onkeypress="if(event.key==='Enter')send()">
-    <button class="send-btn" onclick="send()">➤</button>
+<div class="chat" id="chat">
+  <div class="msg bot">Bonjour ! 👋 Je suis l'assistant SEN TEW. Comment puis-je vous aider aujourd'hui ?</div>
+</div>
+
+<div class="suggestions">
+  <div class="sug-title">💡 Suggestions rapides</div>
+  <div class="sug-grid">
+    <button class="sug" onclick="send('Suivre ma commande')">📦 Suivre<br>commande</button>
+    <button class="sug" onclick="send('Mes points fidélité')">💰 Mes<br>points</button>
+    <button class="sug" onclick="send('Promos du jour')">🎁 Promos<br>du jour</button>
+    <button class="sug" onclick="send('Sécurité compte')">🔒 Sécurité</button>
+    <button class="sug" onclick="send('Moyens de paiement')">💳 Paiement</button>
+    <button class="sug" onclick="send('Devenir vendeur')">🏪 Devenir<br>vendeur</button>
   </div>
+</div>
 
-  <nav class="app-nav">
-    <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
-    <a href="categories.html"><div class="nav-icon">▦</div><div class="nav-label">Catégories</div></a>
-    <a href="panier.html"><div class="nav-icon">🛒</div><div class="nav-label">Panier</div></a>
-    <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
-    <a href="profil.html"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
-  </nav>
+<div class="input-bar">
+  <button class="mic" onclick="voice()">🎤</button>
+  <input id="txt" placeholder="Tapez votre message..." onkeypress="if(event.key==='Enter')send()">
+  <button class="send" onclick="send()">➤</button>
 </div>
 
 <script>
-const R = {
-  fr: {
-    greeting: "Bonjour Ousseynou ! 👋 Je suis l'assistant SEN TEW. Comment puis-je vous aider aujourd'hui ?",
-    suggestions: ['📦 Suivre commande','💰 Mes points','🎁 Promos du jour','🔒 Sécurité','📱 Paiement','🏪 Devenir vendeur'],
-    default: "Je comprends ! Voici ce que je peux faire pour vous : 📦 suivi commande, 💰 portefeuille, 🎁 offres, 🤝 aide vendeur. Que souhaitez-vous ?",
-    cmd: "📦 Commande #SEN2026-0847 :\n• Boubou wax expédié le 27 juillet\n• Transporteur : Yobante Express\n• Livraison prévue 28 juillet 10h-14h\n• Adresse : 52 rue Mohamed V, Dakar-Plateau\n\nSuivi temps réel disponible dans Mes commandes 📍",
-    pts: "💰 Vos points fidélité SEN TEW GOLD :\n• Actuel : 1 250 points\n• Valeur : 12 500 FCFA de réduction\n• Prochain palier PLATINE : 2 000 points (750 restants)\n• Bonus PLATINE : Cashback 15% permanent !",
-    prm: "🎁 Promotions du 28 juillet 2026 :\n\n🔥 -30% Écouteurs Pro (Wave uniquement)\n🔥 -25% Sacs cuir africain\n🎥 LIVE 20h Aïcha Couture : Boubou -40%\n💰 Cashback 5% avec Wave\n🚚 Livraison gratuite dès 20 000 FCFA",
-    sec: "🔒 Sécurité de votre compte :\n✅ 2FA activé\n✅ Face ID activé\n✅ Aucune connexion suspecte\n✅ 2 appareils autorisés\n\nBesoin d'aide sécurité ? → Paramètres > Sécurité",
-    pay: "💳 Modes de paiement SEN TEW :\n• Wave (instantané)\n• Orange Money (1-2 min)\n• Free Money (1-2 min)\n• Wizall\n• Visa/Mastercard\n• SENBANC (premium)\n• 2x/3x sans frais\n• Cash à la livraison",
-    vendor: "🏪 Devenez vendeur SEN TEW :\n1. Créez votre boutique gratuite\n2. Ajoutez vos produits (photos IA disponible)\n3. Lancez des LIVES\n4. Recevez vos gains sur SENBANC\n\n💎 Plans : Bronze 5k, Gold 15k, Platinum 35k FCFA/mois\n\n→ Aller vers Espace Vendeur"
-  },
-  wo: {
-    greeting: "Asalaa malekum Ousseynou ! 👋 Man moy assistant SEN TEW. Naka mën naa la jappale tay ?",
-    suggestions: ['📦 Command','💰 Points','🎁 Rëy','🔒 Sûreté','📱 Fay','🏪 Jaaykat'],
-    default: "Dégg naa la ! Man ci ni : 📦 command, 💰 xaalis, 🎁 offer.",
-    cmd: "📦 Sa command #SEN2026-0847 :\n• Boubou wax dañu ko yebbi\n• Yebbikat : Yobante\n• Ëllëg 28 juillet",
-    pts: "💰 Am nga 1 250 points GOLD = 12 500 FCFA remise !",
-    prm: "🎁 Tay 28 juillet :\n• -30% écouteurs\n• LIVE 20h -40%",
-    sec: "🔒 Sa compte am na sûreté yu bax",
-    pay: "💳 Fay yi : Wave, Orange, Free, Wizall",
-    vendor: "🏪 Def sa butik ci SEN TEW !"
-  },
-  en: {
-    greeting: "Hello Ousseynou! 👋 I'm SEN TEW assistant. How can I help you today?",
-    suggestions: ['📦 Track order','💰 My points','🎁 Deals','🔒 Security','📱 Payment','🏪 Become seller'],
-    default: "I can help with: 📦 tracking, 💰 wallet, 🎁 offers.",
-    cmd: "📦 Order #SEN2026-0847:\n• Wax boubou shipped July 27\n• Carrier: Yobante Express\n• Delivery July 28, 10am-2pm",
-    pts: "💰 You have 1,250 GOLD points = 12,500 FCFA discount!",
-    prm: "🎁 July 28, 2026:\n• -30% Pro Earbuds\n• LIVE 8pm -40%",
-    sec: "🔒 Account security: 2FA, Face ID, 2 devices",
-    pay: "💳 Payment: Wave, Orange Money, Visa, SENBANC, 2x/3x",
-    vendor: "🏪 Become a SEN TEW seller!\nBronze 5k, Gold 15k, Platinum 35k FCFA/month"
-  },
-  ar: {
-    greeting: "مرحبا Ousseynou ! 👋 أنا مساعد SEN TEW. كيف يمكنني مساعدتك؟",
-    suggestions: ['📦 تتبع','💰 نقاط','🎁 عروض','🔒 أمان','📱 دفع','🏪 بائع'],
-    default: "يمكنني: 📦 التتبع، 💰 المحفظة، 🎁 العروض.",
-    cmd: "📦 طلب #SEN2026-0847: تم الشحن، التسليم 28 يوليو",
-    pts: "💰 لديك 1250 نقطة = 12500 FCFA!",
-    prm: "🎁 28 يوليو: -30% سماعات، بث مباشر 8 مساء",
-    sec: "🔒 أمان الحساب: 2FA مفعل",
-    pay: "💳 الدفع: Wave, Orange, SENBANC",
-    vendor: "🏪 كن بائع SEN TEW!"
-  }
+const REPLIES = {
+  commande:"📦 Pour suivre votre commande, allez dans 'Mes commandes' > sélectionnez la commande > cliquez 'Suivre'. Un GPS en temps réel vous montre la position du livreur !",
+  points:"💰 Vous avez 2 450 points de fidélité = 4 900 FCFA à utiliser. 100 points = 200 FCFA. Utilisables à partir de 500 points !",
+  promo:"🎁 Promos du jour : RAMADAN30 (-30%), NOUVEAU10 (-10% premier achat), LIVRAISON0 (gratuite dès 15 000 FCFA)",
+  securite:"🔒 SEN TEW utilise 2FA, chiffrement SSL, paiement PCI-DSS. Vérifiez toujours l'URL sen-ecosystem.com et n'envoyez jamais votre mot de passe.",
+  paiement:"💳 Modes acceptés : Wave, Orange Money, Free Money, Wizall, Cartes Visa/Mastercard (2x/3x sans frais), Wallet SEN TEW, paiement à la livraison.",
+  vendeur:"🏪 Pour devenir vendeur : Compte > 'Devenir vendeur' > envoyez CNI + photo boutique. Validation 24-48h. Commission 5-8% selon niveau.",
+  livraison:"🚚 Délais : Dakar 24h, régions 3-5j, international 7-15j. Frais dès 1 000 FCFA, gratuite dès 15 000 FCFA d'achat.",
+  retour:"↩️ Vous avez 14 jours pour retourner un produit sans justification. Remboursement sous 14 jours après réception.",
+  contact:"📞 Contact humain : +221 XX XXX XX XX ou contact@sen-ecosystem.com. Réponse sous 24h.",
+  default:"Je peux vous aider avec : suivi commande, points fidélité, promos, sécurité, paiement, devenir vendeur, livraison, retour, contact humain. Que voulez-vous savoir ?"
 };
 
-let L = 'fr';
+function reply(text){
+  const t = text.toLowerCase();
+  if(t.includes('command')||t.includes('suivre')||t.includes('livrai')) return REPLIES.commande;
+  if(t.includes('point')||t.includes('fidél')) return REPLIES.points;
+  if(t.includes('promo')||t.includes('code')||t.includes('réduc')) return REPLIES.promo;
+  if(t.includes('sécur')||t.includes('mot de passe')||t.includes('2fa')) return REPLIES.securite;
+  if(t.includes('paie')||t.includes('wave')||t.includes('carte')||t.includes('om ')) return REPLIES.paiement;
+  if(t.includes('vendeur')||t.includes('boutique')||t.includes('vendre')) return REPLIES.vendeur;
+  if(t.includes('retour')||t.includes('rembours')) return REPLIES.retour;
+  if(t.includes('contact')||t.includes('humain')||t.includes('téléphone')) return REPLIES.contact;
+  return REPLIES.default;
+}
 
-function add(text, from) {
-  const chat = document.getElementById('chat');
+function addMsg(text, who){
   const div = document.createElement('div');
-  div.className = 'bubble ' + from;
+  div.className = 'msg ' + who;
   div.textContent = text;
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
+  document.getElementById('chat').appendChild(div);
+  document.getElementById('chat').scrollTop = 99999;
 }
 
-function typing() {
-  const chat = document.getElementById('chat');
+function addTyping(){
   const div = document.createElement('div');
-  div.id = 't';
-  div.className = 'typing bubble';
-  div.innerHTML = '<div class="dots"><span></span><span></span><span></span></div>';
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
+  div.className = 'msg bot';
+  div.id = 'typing';
+  div.innerHTML = '<div class="typing"><span></span><span></span><span></span></div>';
+  document.getElementById('chat').appendChild(div);
+  document.getElementById('chat').scrollTop = 99999;
 }
 
-function noType() {
-  const t = document.getElementById('t');
-  if (t) t.remove();
+function send(preset){
+  const inp = document.getElementById('txt');
+  const text = preset || inp.value.trim();
+  if(!text) return;
+  addMsg(text, 'user');
+  inp.value = '';
+  addTyping();
+  setTimeout(()=>{
+    document.getElementById('typing').remove();
+    addMsg(reply(text), 'bot');
+  }, 800);
 }
 
-function resp(text) {
-  const r = R[L];
-  const l = text.toLowerCase();
-  if (l.match(/command|livrai|track|suiv/)) return r.cmd;
-  if (l.match(/point|fidél|cashback/)) return r.pts;
-  if (l.match(/promo|offer|deal|rëy/)) return r.prm;
-  if (l.match(/sécur|secur|2fa|password/)) return r.sec;
-  if (l.match(/paie|paie|payment|fay/)) return r.pay;
-  if (l.match(/vend|shop|boutique|butik|seller/)) return r.vendor;
-  return r.default;
+function voice(){
+  if(!('webkitSpeechRecognition' in window)){
+    alert('Reconnaissance vocale non supportée');
+    return;
+  }
+  const rec = new webkitSpeechRecognition();
+  rec.lang = 'fr-FR';
+  rec.onresult = e => {
+    document.getElementById('txt').value = e.results[0][0].transcript;
+    send();
+  };
+  rec.start();
 }
-
-function send(customText) {
-  const input = document.getElementById('msgInput');
-  const text = customText || input.value.trim();
-  if (!text) return;
-  add(text, 'user');
-  input.value = '';
-  typing();
-  setTimeout(() => {
-    noType();
-    add(resp(text), 'ai');
-  }, 1200);
-}
-
-function loadSuggs() {
-  const s = R[L].suggestions;
-  const html = s.map(x => '<button class="sugg-btn" onclick="send(\'' + x.replace(/'/g, "\\'") + '\')">' + x + '</button>').join('');
-  document.getElementById('suggGrid').innerHTML = html;
-}
-
-function changeLang() {
-  L = document.getElementById('lang').value;
-  document.getElementById('chat').innerHTML = '';
-  add(R[L].greeting, 'ai');
-  loadSuggs();
-}
-
-// Init
-add(R.fr.greeting, 'ai');
-loadSuggs();
 </script>
 </body>
 </html>
