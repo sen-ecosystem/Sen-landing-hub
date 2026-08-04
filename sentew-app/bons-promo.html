@@ -1,245 +1,305 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Bons & Promos - SEN TEW</title>
-<meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0A1F17">
-<link rel="stylesheet" href="css/app.css">
+<html lang="fr"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mes Bons & Promotions - SEN TEW</title>
 <style>
-body{background:#0A1F17}
-.app{background:#0A1F17;color:#fff}
-.app-header{background:#0A1F17;border-bottom-color:rgba(212,165,116,.2)}
-.app-header .header-btn{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.1)}
-.tab-line{display:flex;padding:12px 16px 0;border-bottom:1px solid rgba(255,255,255,.1)}
-.tab-line .tab-btn{flex:1;padding:12px;text-align:center;background:none;border:none;color:rgba(255,255,255,.6);font-weight:700;font-size:13px;cursor:pointer;border-bottom:3px solid transparent}
-.tab-line .tab-btn.active{color:var(--emerald-light);border-bottom-color:var(--emerald-light)}
-.tab-content{display:none}
-.tab-content.active{display:block}
-.gift-card{margin:16px;border-radius:16px;padding:24px 20px;position:relative;overflow:hidden;text-align:center}
-.gift-card.gold{background:linear-gradient(135deg,#D4A574,#8B6F42);color:var(--emerald-dark)}
-.gift-card.dark{background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;border:1px solid var(--gold)}
-.gift-bow{position:absolute;top:0;left:20px;font-size:60px}
-.promo-code-item{background:rgba(255,255,255,.05);border:1px solid rgba(212,165,116,.15);border-radius:12px;padding:14px;margin:8px 16px;display:flex;justify-content:space-between;align-items:center}
-.coupon-card{margin:8px 16px;background:linear-gradient(135deg,rgba(15,107,78,.3),rgba(212,165,116,.15));border-radius:12px;padding:14px;border:1px dashed var(--gold)}
-</style>
-</head>
-<body oncontextmenu="return false">
-<div class="app">
-  <header class="app-header">
-    <button class="header-btn" onclick="history.back()">←</button>
-    <div style="flex:1;text-align:center;font-weight:800;color:#fff;font-size:15px;">Mes Bons & Promotions</div>
-    <div style="width:38px;"></div>
-  </header>
+:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a}
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif}
+body{background:#f5f5f5;color:#222;padding-bottom:100px;-webkit-overflow-scrolling:touch}
+.header{background:#fff;padding:14px 16px;position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:12px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.back{background:#f5f5f5;border:none;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;color:#222}
+.header h1{flex:1;font-size:16px;font-weight:700;color:#222;text-align:center;margin-right:36px}
 
-  <main class="app-content">
-    <div class="tab-line">
-      <button class="tab-btn active" onclick="switchTab('gifts',this)">🎁 Bons cadeaux</button>
-      <button class="tab-btn" onclick="switchTab('promos',this)">🏷 Codes promo</button>
-      <button class="tab-btn" onclick="switchTab('coupons',this)">🎟 Coupons</button>
-    </div>
+.tabs{background:#fff;display:flex;border-bottom:1px solid #eee;position:sticky;top:62px;z-index:80}
+.tab{flex:1;padding:14px 8px;text-align:center;font-size:13px;font-weight:700;color:#666;background:none;border:none;cursor:pointer;position:relative}
+.tab.active{color:var(--v)}
+.tab.active::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:3px;background:var(--v);border-radius:3px 3px 0 0}
 
-    <!-- TAB 1: BONS CADEAUX -->
-    <div class="tab-content active" id="tab-gifts">
-      <div class="gift-card gold">
-        <div class="gift-bow">🎀</div>
-        <div>
-          <div style="font-size:24px;">👑</div>
-          <div style="font-size:11px;font-weight:800;letter-spacing:2px;">AFRICAN MARKETPLACE</div>
-          <div style="font-size:22px;font-weight:900;margin-top:8px;">SEN TEW - 50 000 FCFA</div>
-          <div style="display:flex;gap:20px;justify-content:center;margin-top:12px;font-size:11px;font-weight:600;">
-            <div><div>📅 Expire le</div><div style="font-weight:900;">31/12/2026</div></div>
-            <div><div>🔑 Code</div><div style="font-weight:900;">ST50K-8X7P-L2QZ 📋</div></div>
-          </div>
-        </div>
-      </div>
+.section{padding:14px}
+.section-title{font-size:13px;color:var(--o);font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
 
-      <div class="gift-card dark">
-        <div class="gift-bow" style="color:var(--gold);">🎀</div>
-        <div>
-          <div style="font-size:20px;color:var(--gold);">👑</div>
-          <div style="font-size:10px;font-weight:800;letter-spacing:2px;color:var(--gold);">AFRICAN MARKETPLACE</div>
-          <div style="font-size:14px;margin-top:6px;">Carte cadeau</div>
-          <div style="font-size:22px;font-weight:900;color:var(--gold);margin-top:4px;">25 000 FCFA</div>
-          <div style="display:flex;gap:20px;justify-content:center;margin-top:12px;font-size:11px;font-weight:600;">
-            <div><div style="color:rgba(255,255,255,.7);">📅 Expire</div><div style="color:#fff;font-weight:900;">31/12/2026</div></div>
-            <div><div style="color:rgba(255,255,255,.7);">🔑 Code</div><div style="color:#fff;font-weight:900;">ST25K-M9PL-3ZQ2 📋</div></div>
-          </div>
-        </div>
-      </div>
+/* ===== BONS CADEAUX (colorés lisibles) ===== */
+.gift-card{background:linear-gradient(135deg,#d4a04c,#b8863a);color:#fff;padding:20px;border-radius:16px;margin-bottom:12px;position:relative;overflow:hidden;box-shadow:0 6px 20px rgba(184,134,58,.25)}
+.gift-card.green{background:linear-gradient(135deg,#00a651,#005f2f)}
+.gift-card::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;background:rgba(255,255,255,.08);border-radius:50%}
+.gift-card::after{content:'';position:absolute;bottom:-30px;left:-30px;width:80px;height:80px;background:rgba(255,255,255,.06);border-radius:50%}
+.gift-bow{font-size:48px;position:absolute;top:16px;left:16px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.15))}
+.gift-inner{position:relative;z-index:1;padding-left:70px}
+.gift-brand{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:2px;opacity:.95;margin-bottom:4px;color:#fff}
+.gift-crown{font-size:16px}
+.gift-amount{font-size:24px;font-weight:900;color:#fff;letter-spacing:1px;margin-bottom:14px}
+.gift-card.green .gift-amount{color:var(--j)}
+.gift-footer{display:flex;justify-content:space-between;gap:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.25)}
+.gift-block small{font-size:10px;opacity:.9;color:#fff;display:flex;align-items:center;gap:4px}
+.gift-block strong{display:block;font-size:13px;font-weight:800;color:#fff;margin-top:2px}
+.copy-btn{background:rgba(255,255,255,.2);border:none;padding:4px 8px;border-radius:6px;color:#fff;font-size:11px;cursor:pointer;margin-left:6px}
 
-      <div style="padding:16px;">
-        <div style="font-size:14px;font-weight:800;color:var(--gold);margin-bottom:12px;">🎁 Offrir un bon cadeau</div>
-        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:14px;">
-          <button style="background:rgba(255,255,255,.05);border:1px solid rgba(212,165,116,.2);color:#fff;padding:10px 4px;border-radius:10px;cursor:pointer;">
-            <div style="font-size:13px;font-weight:900;">5 000</div>
-            <div style="font-size:8px;color:rgba(255,255,255,.6);">FCFA</div>
-          </button>
-          <button style="background:rgba(255,255,255,.05);border:1px solid rgba(212,165,116,.2);color:#fff;padding:10px 4px;border-radius:10px;cursor:pointer;">
-            <div style="font-size:13px;font-weight:900;">10 000</div>
-            <div style="font-size:8px;color:rgba(255,255,255,.6);">FCFA</div>
-          </button>
-          <button style="background:rgba(255,255,255,.05);border:1px solid rgba(212,165,116,.2);color:#fff;padding:10px 4px;border-radius:10px;cursor:pointer;">
-            <div style="font-size:13px;font-weight:900;">25 000</div>
-            <div style="font-size:8px;color:rgba(255,255,255,.6);">FCFA</div>
-          </button>
-          <button style="background:linear-gradient(135deg,var(--gold),var(--gold-dark));border:1px solid var(--gold);color:var(--emerald-dark);padding:10px 4px;border-radius:10px;cursor:pointer;font-weight:900;">
-            <div style="font-size:13px;">50 000</div>
-            <div style="font-size:8px;">FCFA</div>
-          </button>
-          <button style="background:rgba(255,255,255,.05);border:1px solid rgba(212,165,116,.2);color:#fff;padding:10px 4px;border-radius:10px;cursor:pointer;">
-            <div style="font-size:13px;font-weight:900;">100 000</div>
-            <div style="font-size:8px;color:rgba(255,255,255,.6);">FCFA</div>
-          </button>
-        </div>
-        <button class="btn btn-gold btn-full btn-lg" onclick="alert('🎁 Redirection achat carte cadeau')">
-          🎁 Acheter une carte cadeau ›
-        </button>
-      </div>
-    </div>
+.offer-block{background:#fff;border-radius:12px;padding:14px;margin-top:16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.offer-title{font-size:14px;color:var(--o);font-weight:800;margin-bottom:12px}
+.amount-picker{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.amount-btn{padding:12px 4px;border:2px solid #e0e0e0;background:#fff;border-radius:10px;text-align:center;cursor:pointer;color:#222;font-weight:700}
+.amount-btn.active{background:linear-gradient(135deg,var(--o),#d4a04c);color:#fff;border-color:var(--o)}
+.amount-btn .val{font-size:13px;display:block}
+.amount-btn small{font-size:9px;opacity:.7;display:block;margin-top:2px}
+.buy-gift-btn{width:100%;background:linear-gradient(135deg,var(--o),#d4a04c);color:#fff;border:none;padding:14px;border-radius:12px;font-weight:700;font-size:15px;margin-top:14px;cursor:pointer;box-shadow:0 4px 12px rgba(184,134,58,.3)}
 
-    <!-- TAB 2: CODES PROMO -->
-    <div class="tab-content" id="tab-promos">
-      <div style="padding:12px 16px 8px;font-size:12px;color:var(--gold);font-weight:800;text-transform:uppercase;letter-spacing:1px;">🏷 Codes actifs (3)</div>
-      
-      <div class="promo-code-item">
-        <div style="flex:1;">
-          <div style="font-size:16px;font-weight:900;color:var(--emerald-light);letter-spacing:1px;">RAMADAN30 📋</div>
-          <div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:2px;">Catégorie Mode uniquement</div>
-          <div style="font-size:10px;color:var(--gold);margin-top:2px;font-weight:600;">Valable jusqu'au 31/08/2026</div>
-        </div>
-        <div style="text-align:right;">
-          <div style="color:var(--gold);font-weight:900;font-size:20px;">-30%</div>
-          <button style="background:var(--emerald);color:#fff;border:none;padding:6px 12px;border-radius:8px;font-size:10px;font-weight:800;margin-top:6px;cursor:pointer;" onclick="alert('✅ Code appliqué')">Utiliser</button>
-        </div>
-      </div>
+/* ===== CODES PROMO ===== */
+.promo-item{background:#fff;padding:14px;border-radius:12px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.05);border-left:4px solid var(--v);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.promo-info{flex:1}
+.promo-code-title{color:var(--v);font-weight:800;font-size:16px;letter-spacing:.5px;display:flex;align-items:center;gap:6px}
+.promo-desc{color:#555;font-size:12px;margin:4px 0}
+.promo-valid{color:var(--o);font-size:11px;font-weight:600}
+.promo-right{text-align:right}
+.promo-reduc{color:var(--r);font-weight:900;font-size:20px}
+.use-btn{background:var(--v);color:#fff;border:none;padding:6px 16px;border-radius:16px;font-size:12px;font-weight:700;cursor:pointer;margin-top:6px}
 
-      <div class="promo-code-item">
-        <div style="flex:1;">
-          <div style="font-size:16px;font-weight:900;color:var(--emerald-light);letter-spacing:1px;">NOUVEAU10 📋</div>
-          <div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:2px;">Sur votre premier achat</div>
-          <div style="font-size:10px;color:var(--gold);margin-top:2px;font-weight:600;">Valable illimité</div>
-        </div>
-        <div style="text-align:right;">
-          <div style="color:var(--gold);font-weight:900;font-size:20px;">-10%</div>
-          <button style="background:var(--emerald);color:#fff;border:none;padding:6px 12px;border-radius:8px;font-size:10px;font-weight:800;margin-top:6px;cursor:pointer;" onclick="alert('✅ Code appliqué')">Utiliser</button>
-        </div>
-      </div>
+.add-code{background:#fff;padding:14px;border-radius:12px;margin-top:14px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.add-code label{display:block;color:var(--o);font-weight:800;font-size:13px;margin-bottom:8px}
+.add-code-row{display:flex;gap:8px}
+.add-code-row input{flex:1;border:1px solid #ddd;padding:10px 14px;border-radius:8px;font-size:14px;color:#222;background:#fff;outline:none}
+.add-code-row input::placeholder{color:#999}
+.add-btn{background:linear-gradient(135deg,var(--o),#d4a04c);color:#fff;border:none;padding:10px 20px;border-radius:8px;font-weight:700;cursor:pointer}
 
-      <div class="promo-code-item">
-        <div style="flex:1;">
-          <div style="font-size:16px;font-weight:900;color:var(--emerald-light);letter-spacing:1px;">LIVRAISON0 📋</div>
-          <div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:2px;">Livraison gratuite dès 10 000 FCFA</div>
-          <div style="font-size:10px;color:var(--gold);margin-top:2px;font-weight:600;">Valable jusqu'au 30/09/2026</div>
-        </div>
-        <div style="text-align:right;">
-          <div style="color:var(--gold);font-weight:900;font-size:14px;">Gratuit</div>
-          <button style="background:var(--emerald);color:#fff;border:none;padding:6px 12px;border-radius:8px;font-size:10px;font-weight:800;margin-top:6px;cursor:pointer;" onclick="alert('✅ Code appliqué')">Utiliser</button>
-        </div>
-      </div>
+/* ===== COUPONS ===== */
+.coupon{background:#fff;padding:14px;border-radius:12px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.05);display:flex;align-items:center;gap:12px;border:1px solid #f0f0f0}
+.coupon-avatar{width:44px;height:44px;border-radius:50%;overflow:hidden;background:#eee;flex-shrink:0}
+.coupon-avatar img{width:100%;height:100%;object-fit:cover}
+.coupon-body{flex:1}
+.coupon-type{font-size:11px;color:#666;font-weight:600}
+.coupon-name{font-size:14px;font-weight:800;color:#222;margin:2px 0}
+.coupon-valid{font-size:11px;color:#888}
+.coupon-valid.expiring{color:var(--r);font-weight:700}
+.coupon-value{text-align:right}
+.coupon-value .big{color:var(--o);font-weight:900;font-size:20px}
+.coupon-value small{color:#666;font-size:10px;display:block;margin-top:2px}
 
-      <div style="padding:16px;">
-        <div style="background:rgba(255,255,255,.05);border-radius:12px;padding:14px;">
-          <div style="font-size:12px;color:var(--gold);font-weight:800;margin-bottom:8px;">➕ Ajouter un code promo</div>
-          <div style="display:flex;gap:8px;">
-            <input type="text" placeholder="Entrez votre code..." style="flex:1;background:rgba(0,0,0,.3);border:1px solid rgba(212,165,116,.3);color:#fff;padding:12px;border-radius:10px;outline:none;">
-            <button style="background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--emerald-dark);border:none;padding:12px 20px;border-radius:10px;font-weight:800;font-size:12px;cursor:pointer;">Ajouter</button>
-          </div>
-        </div>
-      </div>
-    </div>
+.parrain-btn{background:#fff;border:2px solid var(--o);color:var(--o);padding:14px;border-radius:12px;font-weight:800;width:100%;font-size:14px;cursor:pointer;margin-top:14px}
 
-    <!-- TAB 3: COUPONS -->
-    <div class="tab-content" id="tab-coupons">
-      <div style="padding:12px 16px 8px;font-size:12px;color:var(--gold);font-weight:800;text-transform:uppercase;letter-spacing:1px;">🎟 Vos coupons (4)</div>
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;padding:8px 0;padding-bottom:calc(8px + env(safe-area-inset-bottom,0));z-index:90}
+.nav-item{flex:1;text-align:center;color:#666;font-size:10px;background:none;border:none;cursor:pointer;font-family:inherit}
+.nav-item.active{color:var(--v);font-weight:700}
+.nav-icon{font-size:22px;display:block;margin-bottom:2px}
 
-      <div class="coupon-card">
-        <div style="display:flex;align-items:center;gap:12px;">
-          <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);pointer-events:auto;">
-          <div style="flex:1;">
-            <div style="font-size:11px;color:rgba(255,255,255,.7);">Coupon vendeur</div>
-            <div style="font-weight:800;font-size:14px;color:#fff;">Aïcha Couture</div>
-            <div style="font-size:10px;color:rgba(255,255,255,.6);margin-top:2px;">Valable jusqu'au 30/09/2026</div>
-          </div>
-          <div style="text-align:right;">
-            <div style="font-size:24px;font-weight:900;color:var(--gold);">-15%</div>
-            <div style="font-size:9px;color:rgba(255,255,255,.6);">Sur toute la boutique</div>
-          </div>
-        </div>
-      </div>
+/* DARK MODE support */
+html[data-theme="dark"] body{background:#0f1419;color:#e8eaed}
+html[data-theme="dark"] .header,html[data-theme="dark"] .tabs,html[data-theme="dark"] .promo-item,
+html[data-theme="dark"] .coupon,html[data-theme="dark"] .offer-block,html[data-theme="dark"] .add-code,
+html[data-theme="dark"] .bottom-nav{background:#1a2028;color:#e8eaed}
+html[data-theme="dark"] .promo-desc,html[data-theme="dark"] .coupon-valid,html[data-theme="dark"] .coupon-type{color:#9aa0a6}
+html[data-theme="dark"] .promo-code-title,html[data-theme="dark"] .coupon-name{color:#e8eaed}
+html[data-theme="dark"] .add-code-row input{background:#232a33;color:#e8eaed;border-color:#2d3540}
+html[data-theme="dark"] .amount-btn{background:#232a33;color:#e8eaed;border-color:#2d3540}
+</style></head><body>
 
-      <div class="coupon-card">
-        <div style="display:flex;align-items:center;gap:12px;">
-          <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=200" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);pointer-events:auto;">
-          <div style="flex:1;">
-            <div style="font-size:11px;color:rgba(255,255,255,.7);">Coupon vendeur</div>
-            <div style="font-weight:800;font-size:14px;color:#fff;">Fatou Ndiaye Fashion</div>
-            <div style="font-size:10px;color:rgba(255,255,255,.6);margin-top:2px;">Valable jusqu'au 15/08/2026</div>
-          </div>
-          <div style="text-align:right;">
-            <div style="font-size:24px;font-weight:900;color:var(--gold);">-20%</div>
-            <div style="font-size:9px;color:rgba(255,255,255,.6);">Boubou wax</div>
-          </div>
-        </div>
-      </div>
+<header class="header">
+  <button class="back" onclick="history.back()">←</button>
+  <h1>🎁 Mes Bons & Promotions</h1>
+</header>
 
-      <div class="coupon-card">
-        <div style="display:flex;align-items:center;gap:12px;">
-          <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=200" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);pointer-events:auto;">
-          <div style="flex:1;">
-            <div style="font-size:11px;color:rgba(255,255,255,.7);">Coupon vendeur</div>
-            <div style="font-weight:800;font-size:14px;color:#fff;">TechSen Store</div>
-            <div style="font-size:10px;color:rgba(255,255,255,.6);margin-top:2px;">Valable jusqu'au 31/12/2026</div>
-          </div>
-          <div style="text-align:right;">
-            <div style="font-size:22px;font-weight:900;color:var(--gold);">-5000</div>
-            <div style="font-size:9px;color:rgba(255,255,255,.6);">FCFA dès 50k</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="coupon-card" style="opacity:.5;">
-        <div style="display:flex;align-items:center;gap:12px;">
-          <div style="width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:22px;">🎁</div>
-          <div style="flex:1;">
-            <div style="font-size:11px;color:rgba(255,255,255,.5);">Coupon parrainage</div>
-            <div style="font-weight:800;font-size:14px;color:rgba(255,255,255,.7);">Invitation ami</div>
-            <div style="font-size:10px;color:#ef4444;margin-top:2px;font-weight:700;">⚠ Expire dans 3 jours</div>
-          </div>
-          <div style="text-align:right;">
-            <div style="font-size:22px;font-weight:900;color:rgba(255,255,255,.5);">-1000</div>
-            <div style="font-size:9px;color:rgba(255,255,255,.5);">FCFA</div>
-          </div>
-        </div>
-      </div>
-
-      <div style="padding:16px;">
-        <button class="btn btn-outline btn-full" style="color:var(--gold);border-color:var(--gold);background:rgba(212,165,116,.08);" onclick="alert('📤 Partager votre code parrain')">
-          🎁 Parrainer un ami (+2000 FCFA)
-        </button>
-      </div>
-    </div>
-
-    <div style="height:20px;"></div>
-  </main>
-
-  <nav class="app-nav">
-    <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
-    <a href="categories.html"><div class="nav-icon">▦</div><div class="nav-label">Catégories</div></a>
-    <a href="panier.html"><div class="nav-icon">🛒<span class="badge">2</span></div><div class="nav-label">Panier</div></a>
-    <a href="favoris.html"><div class="nav-icon">❤</div><div class="nav-label">Favoris</div></a>
-    <a href="profil.html" class="active"><div class="nav-icon">👤</div><div class="nav-label">Compte</div></a>
-  </nav>
+<div class="tabs">
+  <button class="tab active" onclick="showTab('bons',this)">🎁 Bons cadeaux</button>
+  <button class="tab" onclick="showTab('promo',this)">🏷️ Codes promo</button>
+  <button class="tab" onclick="showTab('coupons',this)">🎫 Coupons</button>
 </div>
 
+<!-- BONS CADEAUX -->
+<div class="section" id="bons">
+  <div class="section-title">🎁 Vos bons cadeaux (2)</div>
+
+  <div class="gift-card">
+    <div class="gift-bow">🎀</div>
+    <div class="gift-inner">
+      <div class="gift-brand"><span class="gift-crown">👑</span> AFRICAN MARKETPLACE</div>
+      <div class="gift-amount">SEN TEW - 50 000 FCFA</div>
+      <div class="gift-footer">
+        <div class="gift-block">
+          <small>📅 Expire le</small>
+          <strong>31/12/2026</strong>
+        </div>
+        <div class="gift-block">
+          <small>🔑 Code</small>
+          <strong>ST50K-8X7P-L2QZ <button class="copy-btn" onclick="copyCode('ST50K-8X7P-L2QZ')">📋</button></strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gift-card green">
+    <div class="gift-bow">🎀</div>
+    <div class="gift-inner">
+      <div class="gift-brand"><span class="gift-crown">👑</span> AFRICAN MARKETPLACE</div>
+      <div style="font-size:14px;color:#fff;margin-bottom:4px">Carte cadeau</div>
+      <div class="gift-amount">25 000 FCFA</div>
+      <div class="gift-footer">
+        <div class="gift-block">
+          <small>📅 Expire</small>
+          <strong>31/12/2026</strong>
+        </div>
+        <div class="gift-block">
+          <small>🔑 Code</small>
+          <strong>ST25K-M9PL-3ZQ2 <button class="copy-btn" onclick="copyCode('ST25K-M9PL-3ZQ2')">📋</button></strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="offer-block">
+    <div class="offer-title">🎁 Offrir un bon cadeau</div>
+    <div class="amount-picker">
+      <div class="amount-btn"><span class="val">5 000</span><small>FCFA</small></div>
+      <div class="amount-btn"><span class="val">10 000</span><small>FCFA</small></div>
+      <div class="amount-btn"><span class="val">25 000</span><small>FCFA</small></div>
+      <div class="amount-btn active"><span class="val">50 000</span><small>FCFA</small></div>
+      <div class="amount-btn"><span class="val">100 000</span><small>FCFA</small></div>
+    </div>
+    <button class="buy-gift-btn" onclick="buyGift()">🎁 Acheter une carte cadeau →</button>
+  </div>
+</div>
+
+<!-- CODES PROMO -->
+<div class="section" id="promo" style="display:none">
+  <div class="section-title">🏷️ Codes actifs (3)</div>
+
+  <div class="promo-item">
+    <div class="promo-info">
+      <div class="promo-code-title">RAMADAN30 <button class="copy-btn" style="background:#f5f5f5;color:#222" onclick="copyCode('RAMADAN30')">📋</button></div>
+      <div class="promo-desc">Catégorie Mode uniquement</div>
+      <div class="promo-valid">📅 Valable jusqu'au 31/08/2026</div>
+    </div>
+    <div class="promo-right">
+      <div class="promo-reduc">-30%</div>
+      <button class="use-btn">Utiliser</button>
+    </div>
+  </div>
+
+  <div class="promo-item">
+    <div class="promo-info">
+      <div class="promo-code-title">NOUVEAU10 <button class="copy-btn" style="background:#f5f5f5;color:#222" onclick="copyCode('NOUVEAU10')">📋</button></div>
+      <div class="promo-desc">Sur votre premier achat</div>
+      <div class="promo-valid">♾️ Valable illimité</div>
+    </div>
+    <div class="promo-right">
+      <div class="promo-reduc">-10%</div>
+      <button class="use-btn">Utiliser</button>
+    </div>
+  </div>
+
+  <div class="promo-item" style="border-left-color:var(--o)">
+    <div class="promo-info">
+      <div class="promo-code-title" style="color:var(--o)">LIVRAISON0 <button class="copy-btn" style="background:#f5f5f5;color:#222" onclick="copyCode('LIVRAISON0')">📋</button></div>
+      <div class="promo-desc">Livraison gratuite dès 10 000 FCFA</div>
+      <div class="promo-valid">📅 Valable jusqu'au 30/09/2026</div>
+    </div>
+    <div class="promo-right">
+      <div class="promo-reduc" style="color:var(--o);font-size:16px">GRATUIT</div>
+      <button class="use-btn" style="background:var(--o)">Utiliser</button>
+    </div>
+  </div>
+
+  <div class="add-code">
+    <label>➕ Ajouter un code promo</label>
+    <div class="add-code-row">
+      <input placeholder="Entrez votre code..." id="newCode">
+      <button class="add-btn" onclick="addCode()">Ajouter</button>
+    </div>
+  </div>
+</div>
+
+<!-- COUPONS -->
+<div class="section" id="coupons" style="display:none">
+  <div class="section-title">🎫 Vos coupons (4)</div>
+
+  <div class="coupon">
+    <div class="coupon-avatar" style="background:linear-gradient(135deg,#e91e63,#c2185b);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800">A</div>
+    <div class="coupon-body">
+      <div class="coupon-type">Coupon vendeur</div>
+      <div class="coupon-name">Aïcha Couture</div>
+      <div class="coupon-valid">Valable jusqu'au 30/09/2026</div>
+    </div>
+    <div class="coupon-value">
+      <div class="big">-15%</div>
+      <small>Sur toute la boutique</small>
+    </div>
+  </div>
+
+  <div class="coupon">
+    <div class="coupon-avatar" style="background:linear-gradient(135deg,#ffb300,#ff8f00);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800">F</div>
+    <div class="coupon-body">
+      <div class="coupon-type">Coupon vendeur</div>
+      <div class="coupon-name">Fatou Ndiaye Fashion</div>
+      <div class="coupon-valid">Valable jusqu'au 15/08/2026</div>
+    </div>
+    <div class="coupon-value">
+      <div class="big">-20%</div>
+      <small>Boubou wax</small>
+    </div>
+  </div>
+
+  <div class="coupon">
+    <div class="coupon-avatar" style="background:linear-gradient(135deg,#1976d2,#0d47a1);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800">T</div>
+    <div class="coupon-body">
+      <div class="coupon-type">Coupon vendeur</div>
+      <div class="coupon-name">TechSen Store</div>
+      <div class="coupon-valid">Valable jusqu'au 31/12/2026</div>
+    </div>
+    <div class="coupon-value">
+      <div class="big">-5000</div>
+      <small>FCFA dès 50k</small>
+    </div>
+  </div>
+
+  <div class="coupon" style="border-color:var(--r);border-width:2px">
+    <div class="coupon-avatar" style="background:linear-gradient(135deg,#ff6b35,#e31b23);display:flex;align-items:center;justify-content:center;font-size:22px">🎁</div>
+    <div class="coupon-body">
+      <div class="coupon-type">Coupon parrainage</div>
+      <div class="coupon-name">Invitation ami</div>
+      <div class="coupon-valid expiring">⚠️ Expire dans 3 jours</div>
+    </div>
+    <div class="coupon-value">
+      <div class="big">-1000</div>
+      <small>FCFA</small>
+    </div>
+  </div>
+
+  <button class="parrain-btn" onclick="location.href='parrainage.html'">🎁 Parrainer un ami (+2000 FCFA)</button>
+</div>
+
+<nav class="bottom-nav">
+  <button class="nav-item" onclick="location.href='index.html'"><span class="nav-icon">🏠</span>Accueil</button>
+  <button class="nav-item" onclick="location.href='categories.html'"><span class="nav-icon">🗂️</span>Catégories</button>
+  <button class="nav-item" onclick="location.href='panier.html'"><span class="nav-icon">🛒</span>Panier</button>
+  <button class="nav-item" onclick="location.href='favoris.html'"><span class="nav-icon">❤️</span>Favoris</button>
+  <button class="nav-item active" onclick="location.href='profil.html'"><span class="nav-icon">👤</span>Compte</button>
+</nav>
+
+<script src="js/dark-mode.js"></script>
 <script>
-function switchTab(tab, el) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
+function showTab(id,btn){
+  ['bons','promo','coupons'].forEach(t=>document.getElementById(t).style.display='none');
+  document.getElementById(id).style.display='block';
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
 }
+function copyCode(c){
+  navigator.clipboard.writeText(c);
+  alert('✅ Code "'+c+'" copié dans le presse-papier');
+}
+function buyGift(){
+  const amt = document.querySelector('.amount-btn.active .val').textContent;
+  alert('🎁 Achat carte cadeau '+amt+' FCFA\n\nRedirection vers le paiement...');
+  location.href='panier.html?gift='+amt;
+}
+function addCode(){
+  const c = document.getElementById('newCode').value.trim();
+  if(!c) return alert('Entrez un code');
+  alert('✅ Code "'+c+'" appliqué !');
+  document.getElementById('newCode').value='';
+}
+document.querySelectorAll('.amount-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.amount-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+  });
+});
 </script>
-</body>
-</html>
+</body></html>
