@@ -99,54 +99,31 @@ body{background:#f5f5f5;color:#222;padding-bottom:130px}
 </div>
 
 <div class="section">
-  <div class="section-title">🎨 Couleur</div>
-  <div class="variants" id="colorList"></div>
-</div>
-
-<div class="section">
-  <div class="section-title">📏 Taille</div>
-  <div class="variants" id="sizeList"></div>
-</div>
-
-<div class="section">
   <div class="section-title">🏪 Vendu par</div>
-  <div class="seller-card" onclick="location.href='boutique.html?id='+PROD.shopId">
+  <div class="seller-card">
     <div class="seller-avatar" id="sellerAv">👗</div>
     <div class="seller-info">
       <h4 id="sellerName">— <span class="tick">✓</span></h4>
       <p>⭐ <span id="sellerRate">4.9</span> · <span id="sellerFollowers">856</span> abonnés</p>
     </div>
-    <div class="seller-visit">Voir boutique →</div>
+    <button onclick="toggleFollow(this)" style="background:var(--v);color:#fff;border:none;padding:8px 16px;border-radius:16px;font-weight:700;font-size:12px;cursor:pointer">+ Suivre</button>
   </div>
-</div>
-
-<div class="section">
-  <div class="section-title">📝 Description</div>
-  <div class="desc-text" id="prodDesc">—</div>
-</div>
-
-<div class="section">
-  <div class="section-title">⭐ Avis clients</div>
-  <div class="reviews-summary">
-    <div class="big">4.8</div>
-    <div class="stars">★★★★★</div>
-    <div class="count">Basé sur 124 avis</div>
+  
+  <!-- Boutons rapides vendeur (SANS voir compte perso) -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px">
+    <button onclick="location.href='boutique.html?id='+PROD.shopId+'&tab=products'" style="background:#f0f9f4;border:1px solid var(--v);color:var(--v);padding:8px 4px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer">
+      🛍️ Produits
+    </button>
+    <button onclick="location.href='boutique.html?id='+PROD.shopId+'&tab=avis'" style="background:#fff9e6;border:1px solid var(--j);color:var(--o);padding:8px 4px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer">
+      ⭐ Avis
+    </button>
+    <button onclick="location.href='boutique.html?id='+PROD.shopId+'&tab=promo'" style="background:#ffebee;border:1px solid var(--r);color:var(--r);padding:8px 4px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer">
+      🔥 Promo
+    </button>
+    <button onclick="location.href='boutique.html?id='+PROD.shopId+'&tab=info'" style="background:#e3f2fd;border:1px solid #1976d2;color:#1976d2;padding:8px 4px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer">
+      ℹ️ Info
+    </button>
   </div>
-  <div style="font-size:13px;color:#333;padding:8px 0;border-top:1px solid #eee">
-    <strong>Awa D.</strong> ★★★★★<br>
-    <span style="color:#666">« Super qualité, livraison rapide, je recommande ! »</span>
-  </div>
-</div>
-
-<div class="section">
-  <div class="section-title">✨ Produits similaires</div>
-  <div class="similar-grid" id="similar"></div>
-</div>
-
-<div class="buy-bar">
-  <button class="btn-msg" onclick="msgSeller()">💬</button>
-  <button class="btn-cart" onclick="addCart()">🛒 Panier</button>
-  <button class="btn-buy" onclick="buyNow()">Acheter</button>
 </div>
 
 <script>
