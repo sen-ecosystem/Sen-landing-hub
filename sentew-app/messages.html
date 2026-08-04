@@ -1,185 +1,435 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<html lang="fr"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Messages - SEN TEW</title>
-<meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#FAFAF7">
-<link rel="stylesheet" href="css/app.css">
 <style>
-.msg-hero{background:linear-gradient(135deg,var(--emerald),var(--emerald-dark));padding:20px 16px 30px;position:relative;overflow:hidden}
-.msg-hero::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(212,165,116,.08) 0 15px,transparent 15px 30px)}
-.msg-hero-title{color:#fff;font-size:24px;font-weight:900;position:relative;z-index:2;display:flex;align-items:center;gap:10px}
-.msg-hero-sub{color:rgba(255,255,255,.9);font-size:12px;margin-top:4px;position:relative;z-index:2;font-weight:500}
-.msg-stats{display:flex;gap:8px;margin:-16px 16px 12px;position:relative;z-index:3}
-.msg-stat{flex:1;background:var(--white);border-radius:14px;padding:12px;text-align:center;box-shadow:var(--shadow);border:1px solid var(--border)}
-.msg-stat-val{font-size:20px;font-weight:900;color:var(--gold-dark)}
-.msg-stat-lbl{font-size:10px;color:var(--text-muted);font-weight:600;margin-top:2px}
-.msg-item{display:flex;align-items:center;gap:12px;padding:12px;margin:6px 12px;background:var(--white);border-radius:14px;cursor:pointer;transition:.2s;border:1px solid var(--border);box-shadow:var(--shadow);text-decoration:none;color:var(--text)}
-.msg-item:active{transform:scale(.98);background:var(--bg)}
-.msg-item.unread{border-left:4px solid var(--gold)}
+:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a;--b:#1976d2}
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,'Segoe UI',sans-serif}
+body{background:#f5f5f5;color:#222;padding-bottom:100px;-webkit-overflow-scrolling:touch}
+
+/* HEADER */
+.header{background:linear-gradient(135deg,var(--v),#008a44);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:100;box-shadow:0 4px 12px rgba(0,166,81,.2)}
+.header-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.back{background:rgba(255,255,255,.25);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer}
+.header-top h1{color:#fff;font-size:17px;flex:1;font-weight:700;display:flex;align-items:center;gap:6px}
+.unread-count{background:var(--r);color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:800}
+.new-msg-btn{background:var(--j);color:#222;border:none;width:36px;height:36px;border-radius:50%;font-size:20px;font-weight:800;cursor:pointer;box-shadow:0 2px 8px rgba(252,209,22,.35)}
+
+.search-wrap{position:relative}
+.search-wrap input{width:100%;background:rgba(255,255,255,.2);border:none;color:#fff;padding:10px 14px 10px 38px;border-radius:20px;font-size:13px;outline:none;backdrop-filter:blur(10px)}
+.search-wrap input::placeholder{color:rgba(255,255,255,.7)}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#fff;opacity:.7}
+
+/* FILTRES */
+.filters{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:12px 14px;background:#fff;border-bottom:1px solid #eee;position:sticky;top:100px;z-index:80}
+.filters::-webkit-scrollbar{display:none}
+.filter-chip{background:#f5f5f5;border:1px solid #e0e0e0;color:#666;padding:6px 12px;border-radius:16px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.filter-chip.active{background:var(--v);color:#fff;border-color:var(--v)}
+.filter-chip .cnt{background:rgba(0,0,0,.1);padding:1px 6px;border-radius:8px;font-size:10px;margin-left:4px}
+.filter-chip.active .cnt{background:rgba(255,255,255,.25)}
+
+/* CONVERSATION LIST */
+.conv-list{padding:0}
+.conv-item{background:#fff;padding:12px 14px;border-bottom:1px solid #f0f0f0;display:flex;gap:12px;cursor:pointer;position:relative;transition:.2s}
+.conv-item:active{background:#f9f9f9}
+.conv-item.unread{background:linear-gradient(90deg,#f0f9f4,#fff)}
+
 .avatar-wrap{position:relative;flex-shrink:0}
-.avatar-wrap img{width:52px;height:52px;border-radius:50%;border:2px solid var(--gold);object-fit:cover;pointer-events:auto}
-.online-dot{position:absolute;bottom:0;right:0;width:14px;height:14px;background:#22c55e;border-radius:50%;border:2.5px solid #fff}
-.msg-content{flex:1;min-width:0}
-.msg-header{display:flex;justify-content:space-between;margin-bottom:4px;align-items:center}
-.msg-name{font-weight:700;font-size:14px;color:var(--text)}
-.msg-time{font-size:11px;color:var(--gold-dark);font-weight:700;flex-shrink:0}
-.msg-preview{font-size:13px;color:var(--text-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
-.msg-item.unread .msg-preview{color:var(--text);font-weight:600}
-.msg-badge-unread{background:#ef4444;color:#fff;border-radius:14px;padding:3px 9px;font-size:11px;font-weight:800;flex-shrink:0}
-.chat-modal{position:absolute;inset:0;background:var(--bg);z-index:200;display:none;flex-direction:column}
-.chat-modal.active{display:flex}
-.chat-header-msg{background:linear-gradient(135deg,var(--emerald),var(--emerald-dark));padding:14px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0}
-.chat-header-msg img{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);pointer-events:auto}
-.chat-header-msg .header-btn{background:rgba(255,255,255,.15);color:#fff;border:none}
-.chat-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:8px;background:var(--bg)}
-.bubble{max-width:75%;padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.4;box-shadow:0 2px 4px rgba(0,0,0,.04)}
-.bubble.them{background:var(--white);color:var(--text);align-self:flex-start;border-bottom-left-radius:4px;border:1px solid var(--border)}
-.bubble.me{background:linear-gradient(135deg,var(--emerald),var(--emerald-dark));color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
-.chat-input-msg{display:flex;padding:12px;gap:8px;background:var(--white);border-top:1px solid var(--border);flex-shrink:0}
-.chat-input-msg input{flex:1;padding:12px 16px;border-radius:24px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14px}
-.chat-input-msg button{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--emerald-dark);border:none;width:48px;height:48px;border-radius:50%;font-weight:800;cursor:pointer;font-size:16px}
-</style>
-</head>
-<body oncontextmenu="return false">
-<div class="app">
-  <header class="app-header">
-    <div style="flex:1;font-weight:800;color:var(--text);font-size:20px;display:flex;align-items:center;gap:8px;">
-      <span style="color:var(--emerald);">💬</span> Messages
-    </div>
-    <button class="header-btn gold" onclick="alert('✏️ Nouveau message')">✏️</button>
-  </header>
+.conv-avatar{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:#fff}
+.avatar-vendor{background:linear-gradient(135deg,#e91e63,#c2185b)}
+.avatar-vendor2{background:linear-gradient(135deg,#1976d2,#0d47a1)}
+.avatar-vendor3{background:linear-gradient(135deg,var(--v),#008a44)}
+.avatar-driver{background:linear-gradient(135deg,#ff6b35,#d84315)}
+.avatar-support{background:linear-gradient(135deg,#9c27b0,#6a1b9a)}
+.avatar-friend{background:linear-gradient(135deg,#00bcd4,#0097a7)}
+.online-dot{position:absolute;bottom:2px;right:2px;width:14px;height:14px;background:var(--v);border:2px solid #fff;border-radius:50%}
+.role-icon{position:absolute;top:-2px;right:-2px;background:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:12px;box-shadow:0 1px 3px rgba(0,0,0,.2)}
 
-  <main class="app-content">
-    <div class="msg-hero">
-      <div class="msg-hero-title">💬 Vos conversations</div>
-      <div class="msg-hero-sub">7 conversations · 3 non lues</div>
-    </div>
+.conv-body{flex:1;min-width:0}
+.conv-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}
+.conv-name{font-size:14px;font-weight:700;color:#222;display:flex;align-items:center;gap:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tick-verified{background:#1da1f2;color:#fff;width:14px;height:14px;border-radius:50%;font-size:9px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.conv-time{font-size:11px;color:#999;flex-shrink:0;margin-left:6px}
+.conv-time.unread{color:var(--v);font-weight:700}
 
-    <div class="msg-stats">
-      <div class="msg-stat">
-        <div class="msg-stat-val">3</div>
-        <div class="msg-stat-lbl">Non lus</div>
+.conv-preview{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.conv-msg{font-size:13px;color:#666;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.conv-msg.unread{color:#222;font-weight:600}
+.conv-msg .status{color:#1da1f2;margin-right:4px}
+.conv-msg .draft{color:var(--r);font-weight:700;margin-right:4px}
+.conv-badge{background:var(--v);color:#fff;min-width:20px;height:20px;border-radius:10px;padding:0 6px;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.conv-mute{color:#ccc;font-size:14px;flex-shrink:0}
+
+.conv-tags{display:flex;gap:4px;margin-top:4px}
+.conv-tag{padding:2px 6px;border-radius:6px;font-size:9px;font-weight:700}
+.tag-vendor{background:#fce4ec;color:#c2185b}
+.tag-driver{background:#fff3e0;color:#e65100}
+.tag-support{background:#f3e5f5;color:#6a1b9a}
+.tag-order{background:#e8f5ee;color:var(--v)}
+.tag-live{background:#ffebee;color:var(--r)}
+
+/* SECTION */
+.section-title{padding:14px 20px 6px;font-size:11px;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.8px}
+.section-title:first-of-type{padding-top:6px}
+
+/* QUICK ACTIONS */
+.quick-actions{background:#fff;padding:12px 14px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;border-bottom:1px solid #eee}
+.qa-btn{background:#f5f5f5;border:none;padding:10px 4px;border-radius:12px;font-size:11px;font-weight:600;cursor:pointer;color:#222;text-align:center}
+.qa-icon{display:block;font-size:22px;margin-bottom:2px}
+
+/* EMPTY */
+.empty{text-align:center;padding:60px 20px}
+.empty-icon{font-size:72px;margin-bottom:16px;opacity:.5}
+.empty h3{color:#666;font-size:18px;font-weight:700;margin-bottom:6px}
+.empty p{color:#999;font-size:13px}
+
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;padding:8px 0;padding-bottom:calc(8px + env(safe-area-inset-bottom,0));z-index:90;height:60px}
+.nav-item{flex:1;text-align:center;color:#666;font-size:10px;background:none;border:none;cursor:pointer;font-family:inherit}
+.nav-item.active{color:var(--v);font-weight:700}
+.nav-icon{font-size:22px;display:block;margin-bottom:2px}
+
+/* DARK MODE */
+html[data-theme="dark"] body{background:#0f1419;color:#e8eaed}
+html[data-theme="dark"] .filters,html[data-theme="dark"] .conv-item,html[data-theme="dark"] .quick-actions,
+html[data-theme="dark"] .bottom-nav{background:#1a2028;color:#e8eaed;border-color:#2d3540}
+html[data-theme="dark"] .conv-item.unread{background:linear-gradient(90deg,#152520,#1a2028)}
+html[data-theme="dark"] .conv-name{color:#e8eaed}
+html[data-theme="dark"] .conv-msg{color:#9aa0a6}
+html[data-theme="dark"] .conv-msg.unread{color:#e8eaed}
+html[data-theme="dark"] .filter-chip{background:#232a33;color:#e8eaed;border-color:#2d3540}
+html[data-theme="dark"] .qa-btn{background:#232a33;color:#e8eaed}
+</style></head><body>
+
+<header class="header">
+  <div class="header-top">
+    <button class="back" onclick="history.back()">←</button>
+    <h1>💬 Messages <span class="unread-count" id="unreadTotal">5</span></h1>
+    <button class="new-msg-btn" onclick="newMsg()" title="Nouveau message">✏️</button>
+  </div>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="search" placeholder="Rechercher une conversation..." oninput="searchConv(this.value)">
+  </div>
+</header>
+
+<div class="filters">
+  <button class="filter-chip active" onclick="filterConv('all',this)">
+    📥 Toutes <span class="cnt">8</span>
+  </button>
+  <button class="filter-chip" onclick="filterConv('unread',this)">
+    🔴 Non lues <span class="cnt">5</span>
+  </button>
+  <button class="filter-chip" onclick="filterConv('vendor',this)">
+    🏪 Vendeurs <span class="cnt">4</span>
+  </button>
+  <button class="filter-chip" onclick="filterConv('driver',this)">
+    🛵 Livreurs <span class="cnt">2</span>
+  </button>
+  <button class="filter-chip" onclick="filterConv('support',this)">
+    🤖 Support <span class="cnt">1</span>
+  </button>
+</div>
+
+<!-- ACTIONS RAPIDES -->
+<div class="quick-actions">
+  <button class="qa-btn" onclick="location.href='assistant-ia.html'">
+    <span class="qa-icon">🤖</span>
+    Assistant IA
+  </button>
+  <button class="qa-btn" onclick="callSupport()">
+    <span class="qa-icon">📞</span>
+    Appeler
+  </button>
+  <button class="qa-btn" onclick="location.href='commandes.html'">
+    <span class="qa-icon">📦</span>
+    Commandes
+  </button>
+  <button class="qa-btn" onclick="location.href='remboursement.html'">
+    <span class="qa-icon">↩️</span>
+    Litige
+  </button>
+</div>
+
+<div class="section-title">📌 Épinglées</div>
+
+<div class="conv-list">
+
+  <!-- Support prioritaire -->
+  <div class="conv-item unread" data-type="support" data-name="support" onclick="openChat('support-sen')">
+    <div class="avatar-wrap">
+      <div class="conv-avatar avatar-support">🤖</div>
+      <div class="online-dot"></div>
+      <div class="role-icon">👑</div>
+    </div>
+    <div class="conv-body">
+      <div class="conv-head">
+        <div class="conv-name">Support SEN TEW <span class="tick-verified">✓</span></div>
+        <div class="conv-time unread">14:32</div>
       </div>
-      <div class="msg-stat">
-        <div class="msg-stat-val">4</div>
-        <div class="msg-stat-lbl">En ligne</div>
+      <div class="conv-preview">
+        <div class="conv-msg unread">Bonjour ! Votre demande de remboursement est en cours de traitement...</div>
+        <div class="conv-badge">2</div>
       </div>
-      <div class="msg-stat">
-        <div class="msg-stat-val">7</div>
-        <div class="msg-stat-lbl">Total</div>
+      <div class="conv-tags">
+        <span class="conv-tag tag-support">Support officiel</span>
+        <span class="conv-tag tag-order">#ST-2026-1198</span>
       </div>
-    </div>
-
-    <div class="search-box">
-      <div class="search-wrap">
-        <span class="search-icon">🔍</span>
-        <input type="text" placeholder="Rechercher..." oninput="search(this.value)">
-      </div>
-    </div>
-
-    <div class="chips">
-      <button class="chip active" onclick="filt('all',this)">Tous</button>
-      <button class="chip" onclick="filt('unread',this)">Non lus (3)</button>
-      <button class="chip" onclick="filt('online',this)">En ligne</button>
-      <button class="chip" onclick="filt('sellers',this)">🏪 Vendeurs</button>
-    </div>
-
-    <div id="msgList"></div>
-    <div style="height:20px;"></div>
-  </main>
-
-  <!-- Chat modal -->
-  <div class="chat-modal" id="chatModal">
-    <div class="chat-header-msg">
-      <button class="header-btn" onclick="closeChat()">←</button>
-      <img id="chatAvatar">
-      <div style="flex:1;color:#fff;">
-        <div id="chatName" style="font-weight:800;font-size:14px;"></div>
-        <div style="font-size:11px;color:var(--gold);">● En ligne</div>
-      </div>
-      <button class="header-btn" onclick="alert('📞 Appel')">📞</button>
-      <button class="header-btn" onclick="alert('📹 Vidéo')">📹</button>
-    </div>
-    <div class="chat-msgs" id="chatMsgs"></div>
-    <div class="chat-input-msg">
-      <input id="msgInput" placeholder="Message..." onkeypress="if(event.key==='Enter')sendMsg()">
-      <button onclick="sendMsg()">➤</button>
     </div>
   </div>
 
-  <nav class="app-nav">
-    <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
-    <a href="categories.html"><div class="nav-icon">▦</div><div class="nav-label">Catégories</div></a>
-    <a href="panier.html"><div class="nav-icon">🛒</div><div class="nav-label">Panier</div></a>
-    <a href="messages.html" class="active"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
-    <a href="profil.html"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
-  </nav>
 </div>
 
-<script>
-const convos = [
-  {id:1,name:'Aminata Diop',avatar:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200',last:'Le sac est-il toujours dispo ?',time:'12:34',unread:2,online:true,seller:false,msgs:[{f:'them',t:'Bonjour ! 👋'},{f:'them',t:'J\'ai vu votre sac cuir'},{f:'them',t:'Le sac est-il toujours dispo ?'}]},
-  {id:2,name:'Moussa Sall',avatar:'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=200',last:'Merci pour la livraison rapide 🙏',time:'10:22',unread:0,online:true,seller:false,msgs:[{f:'me',t:'Commande expédiée'},{f:'them',t:'Merci pour la livraison rapide 🙏'}]},
-  {id:3,name:'Fatou Ndiaye Fashion',avatar:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=200',last:'Nouvelle collection wax disponible !',time:'Hier',unread:1,online:false,seller:true,msgs:[{f:'them',t:'Bonjour Ousseynou !'},{f:'them',t:'Nouvelle collection wax disponible !'}]},
-  {id:4,name:'SEN TEW Support',avatar:'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200',last:'Nous restons disponibles 24/7',time:'Hier',unread:0,online:true,seller:false,msgs:[{f:'them',t:'Bonjour, comment vous aider ?'}]},
-  {id:5,name:'Ibrahima Ba',avatar:'https://images.unsplash.com/photo-1507081323647-4d250478b919?w=200',last:'Pouvez-vous baisser le prix ?',time:'Lun',unread:0,online:false,seller:false,msgs:[{f:'them',t:'Pouvez-vous baisser le prix ?'}]},
-  {id:6,name:'Awa Mbaye',avatar:'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=200',last:'Livraison à Thiès possible ?',time:'Dim',unread:0,online:false,seller:false,msgs:[{f:'them',t:'Livraison à Thiès possible ?'}]},
-  {id:7,name:'Aïcha Couture',avatar:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200',last:'🔴 LIVE en cours - Boubou -30%',time:'Sam',unread:0,online:true,seller:true,live:true,msgs:[{f:'them',t:'🔴 LIVE en cours - Boubou -30%'}]}
-];
-let current=null,filtered=convos;
+<div class="section-title">🏪 Vendeurs</div>
 
-function render(list){
-  document.getElementById('msgList').innerHTML = list.length ? list.map(c=>`
-    <div onclick="openChat(${c.id})" class="msg-item ${c.unread?'unread':''}">
-      <div class="avatar-wrap">
-        <img src="${c.avatar}">
-        ${c.online?'<div class="online-dot"></div>':''}
-      </div>
-      <div class="msg-content">
-        <div class="msg-header">
-          <span class="msg-name">${c.name}${c.seller?' <span style="color:var(--emerald);font-size:12px;">🏪</span>':''}${c.live?' <span style="background:#ef4444;color:#fff;font-size:9px;font-weight:800;padding:1px 5px;border-radius:5px;">LIVE</span>':''}</span>
-          <span class="msg-time">${c.time}</span>
-        </div>
-        <div class="msg-preview">${c.last}</div>
-      </div>
-      ${c.unread?`<span class="msg-badge-unread">${c.unread}</span>`:''}
+<div class="conv-list">
+
+  <div class="conv-item unread" data-type="vendor" data-name="aicha" onclick="openChat('aicha')">
+    <div class="avatar-wrap">
+      <div class="conv-avatar avatar-vendor">👗</div>
+      <div class="online-dot"></div>
+      <div class="role-icon">🏪</div>
     </div>
-  `).join('') : '<p style="text-align:center;color:var(--text-muted);padding:40px;">Aucun message</p>';
+    <div class="conv-body">
+      <div class="conv-head">
+        <div class="conv-name">Aïcha Fashion <span class="tick-verified">✓</span></div>
+        <div class="conv-time unread">13:45</div>
+      </div>
+      <div class="conv-preview">
+        <div class="conv-msg unread">Bonjour ! Le boubou est disponible en XL en 3 couleurs 😊</div>
+        <div class="conv-badge">3</div>
+      </div>
+      <div class="conv-tags">
+        <span class="conv-tag tag-vendor">Vendeur Silver</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="conv-item unread" data-type="vendor" data-name="tech modou" onclick="openChat('tech-modou')">
+    <div class="avatar-wrap">
+      <div class="conv-avatar avatar-vendor2">📱</div>
+      <div class="role-icon">🏪</div>
+    </div>
+    <div class="conv-body">
+      <div class="conv-head">
+        <div class="conv-name">Tech Modou <span class="tick-verified">✓</span></div>
+        <div class="conv-time unread">11:20</div>
+      </div>
+      <div class="conv-preview">
+        <div class="conv-msg unread">iPhone 15 Pro disponible en stock, livraison 24h</div>
+        <div class="conv-badge">1</div>
+      </div>
+      <div class="conv-tags">
+        <span class="conv-tag tag-vendor">Vendeur Gold</span>
+        <span class="conv-tag tag-live">🔴 LIVE</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="conv-item" data-type="vendor" data-name="beauty fatou" onclick="openChat('beauty-fatou')">
+    <div class="avatar-wrap">
+      <div class="conv-avatar" style="background:linear-gradient(135deg,#e91e63,#9c27b0)">💄</div>
+      <div class="online-dot"></div>
+      <div class="role-icon">🏪</div>
+    </div>
+    <div class="conv-body">
+      <div class="conv-head">
+        <div class="conv-name">Beauty Fatou <span class="tick-verified">✓</span></div>
+        <div class="conv-time">Hier</div>
+      </div>
+      <div class="conv-preview">
+        <div class="conv-msg"><span class="status">✓✓</span> Merci beaucoup ! À bientôt 😊</div>
+        <span class="conv-mute">🔕</span>
+      </div>
+      <div class="conv-tags">
+        <span class="conv-tag tag-vendor">Vendeur Gold</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="conv-item" data-type="vendor" data-name="mamadou foods" onclick="openChat('mamadou-foods')">
+    <div class="avatar-wrap">
+      <div class="conv-avatar avatar-vendor3">🍲</div>
+      <div class="role-icon">🏪</div>
+    </div>
+    <div class="conv-body">
+      <div class="conv-head">
+        <div class="conv-name">Mamadou Foods <span class="tick-verified">✓</span></div>
+        <div class="conv-time">Lun</div>
+      </div>
+      <div class="conv-preview">
+        <div class="conv-msg"><span class="draft">Brouillon:</span>Bonjour, avez-vous encore...</div>
+      </div>
+      <div class="conv-tags">
+        <span class="conv-tag tag-vendor">Vendeur Silver</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="section-title">🛵 Livreurs</div>
+
+<div class="conv-list">
+
+  <div class="conv-item unread" data-type="driver" data-name="ousmane" onclick="openChat('ousmane-driver')">
+    <div class="avatar-wrap">
+      <div class="conv-avatar avatar-driver">🛵</div>
+      <div class="online-dot"></div>
+      <div class="role-icon">🛵</div>
+    </div>
+    <div class="conv-body">
+      <div class="conv-head">
+        <div class="conv-name">Ousmane N. (Livreur)</div>
+        <div class="conv-time unread">12:45</div>
+      </div>
+      <div class="conv-preview">
+        <div class="conv-msg unread">J'arrive dans 5 min, je suis à Sacré-Cœur 2 🛵</div>
+        <div class="conv-badge">2</div>
+      </div>
+      <div class="conv-tags">
+        <span class="conv-tag tag-driver">Livraison en cours</span>
+        <span class="conv-tag tag-order">#ST-2026-1247</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="conv-item" data-type="driver" data-name="cheikh" onclick="openChat('cheikh-driver')">
+    <div class="avatar-wrap">
+      <div class="conv-avatar" style="background:linear-gradient(135deg,#ff6b35,#d84315)">🛵</div>
+      <div class="role-icon">🛵</div>
+    </div>
+    <div class="conv-body">
+      <div class="conv-head">
+        <div class="conv-name">Cheikh D. (Livreur) <span class="tick-verified">✓</span></div>
+        <div class="conv-time">Hier</div>
+      </div>
+      <div class="conv-preview">
+        <div class="conv-msg"><span class="status">✓✓</span> Colis livré, merci pour votre confiance !</div>
+      </div>
+      <div class="conv-tags">
+        <span class="conv-tag tag-driver">Livraison terminée</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="section-title">👥 Amis & Contacts</div>
+
+<div class="conv-list">
+
+  <div class="conv-item" data-type="friend" data-name="modou" onclick="openChat('modou-friend')">
+    <div class="avatar-wrap">
+      <div class="conv-avatar avatar-friend">MK</div>
+      <div class="online-dot"></div>
+    </div>
+    <div class="conv-body">
+      <div class="conv-head">
+        <div class="conv-name">Modou K. (Filleul)</div>
+        <div class="conv-time">Lun</div>
+      </div>
+      <div class="conv-preview">
+        <div class="conv-msg"><span class="status">✓✓</span> Merci pour l'invitation ! J'ai touché mes 500 FCFA 🎁</div>
+      </div>
+      <div class="conv-tags">
+        <span class="conv-tag" style="background:#e0f7fa;color:#00838f">Parrainage validé</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="conv-item" data-type="friend" data-name="aminata" onclick="openChat('aminata-friend')">
+    <div class="avatar-wrap">
+      <div class="conv-avatar" style="background:linear-gradient(135deg,#9c27b0,#6a1b9a)">AD</div>
+    </div>
+    <div class="conv-body">
+      <div class="conv-head">
+        <div class="conv-name">Aminata Diop</div>
+        <div class="conv-time">3 août</div>
+      </div>
+      <div class="conv-preview">
+        <div class="conv-msg">Tu as vu la nouvelle collection d'Aïcha Fashion ? 😍</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- EMPTY STATE -->
+<div class="empty" id="emptyState" style="display:none">
+  <div class="empty-icon">💬</div>
+  <h3>Aucune conversation</h3>
+  <p>Commencez à discuter avec un vendeur ou un livreur</p>
+</div>
+
+<nav class="bottom-nav">
+  <button class="nav-item" onclick="location.href='index.html'"><span class="nav-icon">🏠</span>Accueil</button>
+  <button class="nav-item" onclick="location.href='categories.html'"><span class="nav-icon">🗂️</span>Catégories</button>
+  <button class="nav-item" onclick="location.href='panier.html'"><span class="nav-icon">🛒</span>Panier</button>
+  <button class="nav-item active"><span class="nav-icon">💬</span>Messages</button>
+  <button class="nav-item" onclick="location.href='profil.html'"><span class="nav-icon">👤</span>Compte</button>
+</nav>
+
+<script src="js/dark-mode.js"></script>
+<script src="js/role-guard.js"></script>
+<script>
+let currentFilter = 'all';
+
+function filterConv(type, btn){
+  currentFilter = type;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  
+  let visible = 0;
+  document.querySelectorAll('.conv-item').forEach(c => {
+    let show = false;
+    if(type === 'all') show = true;
+    else if(type === 'unread' && c.classList.contains('unread')) show = true;
+    else if(c.dataset.type === type) show = true;
+    
+    c.style.display = show ? 'flex' : 'none';
+    if(show) visible++;
+  });
+  
+  // Cacher les section-titles sans conv
+  document.querySelectorAll('.section-title').forEach(t => {
+    const nextList = t.nextElementSibling;
+    if(nextList && nextList.classList.contains('conv-list')){
+      const visibles = [...nextList.querySelectorAll('.conv-item')].filter(c => c.style.display !== 'none');
+      t.style.display = visibles.length > 0 ? 'block' : 'none';
+      nextList.style.display = visibles.length > 0 ? 'block' : 'none';
+    }
+  });
+  
+  document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
+}
+
+function searchConv(query){
+  const q = query.trim().toLowerCase();
+  let visible = 0;
+  document.querySelectorAll('.conv-item').forEach(c => {
+    const name = c.dataset.name || '';
+    const msg = c.querySelector('.conv-msg')?.textContent.toLowerCase() || '';
+    const show = q === '' || name.includes(q) || msg.includes(q);
+    c.style.display = show ? 'flex' : 'none';
+    if(show) visible++;
+  });
+  document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
 }
 
 function openChat(id){
-  current=convos.find(c=>c.id===id);
-  document.getElementById('chatAvatar').src=current.avatar;
-  document.getElementById('chatName').textContent=current.name;
-  document.getElementById('chatMsgs').innerHTML=current.msgs.map(m=>`<div class="bubble ${m.f}">${m.t}</div>`).join('');
-  document.getElementById('chatModal').classList.add('active');
-  current.unread=0;render(filtered);
+  location.href = 'chat.html?id=' + id;
 }
-function closeChat(){document.getElementById('chatModal').classList.remove('active')}
-function sendMsg(){
-  const i=document.getElementById('msgInput');
-  if(!i.value.trim())return;
-  current.msgs.push({f:'me',t:i.value});current.last=i.value;
-  i.value='';openChat(current.id);
-  setTimeout(()=>{current.msgs.push({f:'them',t:'Merci ! Je vous réponds sous peu 👍'});openChat(current.id)},1500);
-}
-function filt(t,el){
-  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');
-  if(t==='unread')filtered=convos.filter(c=>c.unread>0);
-  else if(t==='online')filtered=convos.filter(c=>c.online);
-  else if(t==='sellers')filtered=convos.filter(c=>c.seller);
-  else filtered=convos;
-  render(filtered);
-}
-function search(q){render(convos.filter(c=>c.name.toLowerCase().includes(q.toLowerCase())))}
-render(convos);
-</script>
-  <script src="js/dark-mode.js"></script>
-<script src="js/role-guard.js"></script>
 
-</body>
-</html>
+function newMsg(){
+  if(confirm('✏️ Nouveau message\n\n• Contacter le support SEN TEW\n• Chercher un vendeur\n• Inviter un ami')){
+    location.href = 'assistant-ia.html';
+  }
+}
+
+function callSupport(){
+  if(confirm('📞 Appeler le support SEN TEW ?\n\n+221 33 XXX XX XX\nDisponible 24/7')){
+    window.location.href = 'tel:+22133XXXXXXX';
+  }
+}
+</script>
+</body></html>
