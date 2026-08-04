@@ -190,5 +190,20 @@ function share(){if(navigator.share){navigator.share({title:PROD.name,url:locati
 function msgSeller(){location.href='messages.html?seller='+PROD.shopId}
 function addCart(){alert('✅ '+PROD.name+' ajouté au panier !');location.href='panier.html'}
 function buyNow(){location.href='panier.html?buy='+id}
+function toggleFollow(btn){
+  if(btn.textContent === '+ Suivre'){
+    btn.textContent = '✓ Suivi';
+    btn.style.background = '#fff';
+    btn.style.color = '#00a651';
+    btn.style.border = '2px solid #00a651';
+    alert('✅ Vous suivez cette boutique. Vous recevrez ses nouveautés.');
+  } else {
+    btn.textContent = '+ Suivre';
+    btn.style.background = '#00a651';
+    btn.style.color = '#fff';
+    btn.style.border = 'none';
+  }
+}
+
 </script>
 </body></html>
