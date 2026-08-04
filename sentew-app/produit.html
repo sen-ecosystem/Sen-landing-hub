@@ -1,316 +1,420 @@
 <!DOCTYPE html>
 <html lang="fr"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Produit - SEN TEW</title>
+<title>Mon Compte - SEN TEW</title>
 <style>
-:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a}
+:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a;--b:#1976d2}
 *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif}
-body{background:#f5f5f5;color:#222;padding-bottom:130px;-webkit-overflow-scrolling:touch}
-.header{background:#fff;padding:12px 14px;position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:10px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.back,.share,.fav{background:#f5f5f5;border:none;width:38px;height:38px;border-radius:50%;font-size:16px;cursor:pointer;color:#222}
-.header h1{flex:1;font-size:14px;font-weight:600;color:#222;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body{background:#f5f5f5;color:#222;padding-bottom:100px;-webkit-overflow-scrolling:touch}
 
-.gallery{position:relative;background:#fff}
-.gallery img{width:100%;height:340px;object-fit:cover;display:block}
-.gallery-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
-.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5)}
-.dot.active{background:#fff}
-.live-badge{position:absolute;top:12px;left:12px;background:var(--r);color:#fff;padding:5px 10px;border-radius:6px;font-size:11px;font-weight:700;animation:pulse 1.5s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+/* HERO PROFIL */
+.hero{background:linear-gradient(135deg,var(--v) 0%,#008a44 60%,#005f2f 100%);color:#fff;padding:20px 16px 24px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;background:rgba(252,209,22,.18);border-radius:50%;filter:blur(30px)}
+.hero-top{display:flex;align-items:center;gap:12px;position:relative;z-index:1;margin-bottom:16px}
+.back-btn{background:rgba(255,255,255,.25);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer}
+.hero-top h1{color:#fff;flex:1;font-size:16px;font-weight:700}
+.settings-btn{background:rgba(255,255,255,.2);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:16px;cursor:pointer}
 
-.info{background:#fff;padding:16px;margin-bottom:8px}
-.price-row{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
-.price{color:var(--o);font-size:28px;font-weight:900}
-.old-price{color:#999;text-decoration:line-through;font-size:15px}
-.discount{background:var(--r);color:#fff;padding:3px 8px;border-radius:6px;font-size:12px;font-weight:700}
-.currencies{color:#999;font-size:12px;margin-top:4px}
-.title{font-size:17px;font-weight:600;color:#222;margin:8px 0;line-height:1.4}
-.rating{display:flex;align-items:center;gap:6px;font-size:13px;color:#666}
-.rating .stars{color:var(--j)}
-.stock-info{margin-top:8px;padding:8px 12px;background:#e8f5ee;border-left:3px solid var(--v);border-radius:6px;font-size:12px;color:#00753d;font-weight:600}
+.profil-info{display:flex;align-items:center;gap:14px;position:relative;z-index:1;margin-bottom:14px}
+.avatar-wrap{position:relative}
+.avatar{width:80px;height:80px;border-radius:50%;background:#fff;color:var(--v);display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;border:3px solid var(--j);box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.edit-avatar{position:absolute;bottom:0;right:0;background:var(--j);color:#222;width:26px;height:26px;border-radius:50%;font-size:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.profil-details{flex:1}
+.profil-name{font-size:20px;font-weight:800;color:#fff;display:flex;align-items:center;gap:6px}
+.tick-blue{background:#1da1f2;color:#fff;width:18px;height:18px;border-radius:50%;font-size:10px;display:inline-flex;align-items:center;justify-content:center}
+.profil-email{font-size:12px;opacity:.9;color:#fff;margin-top:2px}
+.role-badge{display:inline-flex;align-items:center;gap:4px;background:var(--j);color:#222;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:800;margin-top:6px}
 
-.section{background:#fff;padding:14px 16px;margin-bottom:8px}
-.section-title{font-size:14px;font-weight:700;color:#222;margin-bottom:10px}
+/* WALLET CARD */
+.wallet-card{background:linear-gradient(135deg,var(--o),#d4a04c);color:#fff;margin:14px;padding:16px;border-radius:16px;box-shadow:0 6px 20px rgba(184,134,58,.3);cursor:pointer;position:relative;overflow:hidden}
+.wallet-card::before{content:'💳';position:absolute;top:-20px;right:-10px;font-size:100px;opacity:.1}
+.wallet-label{font-size:12px;opacity:.9;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.wallet-amount{font-size:28px;font-weight:900;color:#fff}
+.wallet-actions{display:flex;gap:8px;margin-top:12px}
+.wallet-btn{background:rgba(255,255,255,.25);border:none;color:#fff;padding:8px 14px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;flex:1;backdrop-filter:blur(10px)}
 
-.variants{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px}
-.var-chip{padding:8px 14px;background:#f5f5f5;border:2px solid #e0e0e0;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;color:#222}
-.var-chip.active{background:var(--v);color:#fff;border-color:var(--v)}
-.color-dot{width:32px;height:32px;border-radius:50%;cursor:pointer;border:3px solid #fff;box-shadow:0 0 0 2px #ddd}
-.color-dot.active{box-shadow:0 0 0 3px var(--v)}
+/* FIDÉLITÉ */
+.fidelity{background:#fff;margin:0 14px 14px;padding:14px;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,.05);display:flex;align-items:center;gap:12px;cursor:pointer}
+.fidelity-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--j),#f4b800);color:#222;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.fidelity-body{flex:1}
+.fidelity-body h4{font-size:14px;font-weight:800;color:#222}
+.fidelity-body p{font-size:11px;color:#666;margin-top:2px}
+.fidelity-bar{height:6px;background:#f0f0f0;border-radius:3px;margin-top:6px;overflow:hidden}
+.fidelity-fill{height:100%;background:linear-gradient(90deg,var(--j),#f4b800);width:65%}
+.fidelity-arrow{color:#999;font-size:20px}
 
-.seller-card{display:flex;align-items:center;gap:10px;padding:12px;background:#fff;border-radius:12px}
-.seller-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--v),#008a44);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px}
-.seller-info{flex:1}
-.seller-info h4{font-size:14px;font-weight:700;color:#222;display:flex;align-items:center;gap:4px}
-.seller-info .tick{background:#1da1f2;color:#fff;width:14px;height:14px;border-radius:50%;font-size:9px;display:inline-flex;align-items:center;justify-content:center}
-.seller-info p{font-size:12px;color:#666;margin-top:2px}
-.follow-btn{background:var(--v);color:#fff;border:none;padding:8px 16px;border-radius:16px;font-weight:700;font-size:12px;cursor:pointer}
+/* BASCULE RÔLE */
+.role-switcher{background:#fff;margin:0 14px 14px;padding:12px;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.role-title{font-size:12px;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;padding:0 4px}
+.role-list{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.role-item{padding:12px 6px;border-radius:12px;text-align:center;cursor:pointer;border:2px solid transparent;background:#f9f9f9;transition:.2s}
+.role-item.active{border-color:var(--v);background:#e8f5ee}
+.role-item.other{background:#fff;border-color:#e0e0e0}
+.role-icon-big{font-size:24px;margin-bottom:4px;display:block}
+.role-name{font-size:11px;font-weight:700;color:#222}
+.role-item.active .role-name{color:var(--v)}
+.role-item.other .role-name{color:#666}
 
-.shop-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px}
-.shop-tab-btn{padding:10px 4px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;text-align:center;line-height:1.2}
-.tab-products{background:#f0f9f4;border:1px solid var(--v);color:var(--v)}
-.tab-avis{background:#fff9e6;border:1px solid var(--j);color:var(--o)}
-.tab-promo{background:#ffebee;border:1px solid var(--r);color:var(--r)}
-.tab-info{background:#e3f2fd;border:1px solid #1976d2;color:#1976d2}
+/* SECTIONS */
+.section-title{font-size:12px;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:0 20px;margin:20px 0 8px}
+.menu-group{background:#fff;margin:0 14px;border-radius:14px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.menu-item{padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid #f5f5f5}
+.menu-item:last-child{border-bottom:none}
+.menu-item:active{background:#fafafa}
+.menu-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.mi-orders{background:linear-gradient(135deg,#ff6b35,#d84315);color:#fff}
+.mi-addr{background:linear-gradient(135deg,#1976d2,#0d47a1);color:#fff}
+.mi-fav{background:linear-gradient(135deg,#e91e63,#c2185b);color:#fff}
+.mi-msg{background:linear-gradient(135deg,#9c27b0,#6a1b9a);color:#fff}
+.mi-coupon{background:linear-gradient(135deg,var(--j),#f4b800);color:#222}
+.mi-parrain{background:linear-gradient(135deg,#00bcd4,#0097a7);color:#fff}
+.mi-notif{background:linear-gradient(135deg,var(--r),#c81420);color:#fff}
+.mi-lang{background:linear-gradient(135deg,#4caf50,#2e7d32);color:#fff}
+.mi-dark{background:linear-gradient(135deg,#455a64,#263238);color:#fff}
+.mi-help{background:linear-gradient(135deg,#00bcd4,#0097a7);color:#fff}
+.mi-legal{background:linear-gradient(135deg,#607d8b,#455a64);color:#fff}
+.mi-logout{background:linear-gradient(135deg,#f44336,#c62828);color:#fff}
+.menu-info{flex:1}
+.menu-info b{display:block;font-size:14px;font-weight:600;color:#222}
+.menu-info small{font-size:11px;color:#888;margin-top:2px;display:block}
+.menu-badge{background:var(--r);color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
+.menu-arrow{color:#ccc;font-size:18px}
 
-.desc-text{font-size:13px;color:#333;line-height:1.6}
+/* VERSION INFO */
+.version-info{text-align:center;padding:20px;font-size:11px;color:#999}
 
-.similar-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.sim-card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06);cursor:pointer}
-.sim-card img{width:100%;height:120px;object-fit:cover}
-.sim-body{padding:8px}
-.sim-body h5{font-size:12px;font-weight:600;color:#222;line-height:1.3;height:32px;overflow:hidden}
-.sim-price{color:var(--o);font-weight:800;font-size:13px;margin-top:4px}
-
-.reviews-summary{background:linear-gradient(135deg,#fff9e6,#fff);padding:12px;border-radius:10px;margin-bottom:10px;text-align:center;border:1px solid #f0e6c0}
-.reviews-summary .big{font-size:32px;font-weight:900;color:var(--o)}
-.reviews-summary .stars{color:var(--j);font-size:18px}
-.reviews-summary .count{font-size:12px;color:#666;margin-top:4px}
-.review-item{padding:10px 0;border-top:1px solid #eee;font-size:13px;color:#333}
-.review-item strong{color:#222;font-weight:700}
-.review-item .stars{color:var(--j);font-size:12px}
-.review-item p{color:#555;margin-top:4px;font-size:12px}
-
-.bundle-card{background:linear-gradient(135deg,#fff9e6,#ffefc2);padding:14px;border-radius:14px;border:2px solid var(--j)}
-.bundle-title{font-size:14px;font-weight:800;color:var(--o);margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.bundle-badge{background:var(--r);color:#fff;padding:2px 8px;border-radius:8px;font-size:11px;font-weight:700}
-.bundle-items{display:flex;gap:8px;align-items:center;justify-content:center;margin-bottom:8px}
-.bundle-items .item{width:60px;height:60px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:28px}
-.bundle-plus{color:var(--o);font-size:20px;font-weight:800}
-.bundle-price{text-align:center}
-.bundle-price .new{color:var(--v);font-size:20px;font-weight:800}
-.bundle-price .old{color:#999;text-decoration:line-through;font-size:13px;margin-left:6px}
-.bundle-btn{background:linear-gradient(135deg,var(--v),#008a44);color:#fff;border:none;width:100%;padding:10px;border-radius:8px;font-weight:700;margin-top:8px;cursor:pointer}
-
-.spec-list{list-style:none}
-.spec-list li{padding:8px 0;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;font-size:13px}
-.spec-list li:last-child{border-bottom:none}
-.spec-list li b{color:#666;font-weight:500}
-.spec-list li span{color:#222;font-weight:600}
-
-.buy-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:10px 12px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0));display:flex;gap:8px;box-shadow:0 -2px 12px rgba(0,0,0,.1);z-index:90}
-.btn-msg{flex:0 0 52px;height:50px;border-radius:14px;background:#f0f9f4;border:2px solid var(--v);display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer}
-.btn-cart{flex:1;height:50px;border-radius:14px;background:#fff;border:2px solid var(--v);color:var(--v);font-weight:700;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
-.btn-buy{flex:1.4;height:50px;border-radius:14px;background:linear-gradient(135deg,var(--v),#008a44);color:#fff;border:none;font-weight:700;font-size:16px;cursor:pointer}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;padding:8px 0;padding-bottom:calc(8px + env(safe-area-inset-bottom,0));z-index:90}
+.nav-item{flex:1;text-align:center;color:#666;font-size:10px;background:none;border:none;cursor:pointer;font-family:inherit}
+.nav-item.active{color:var(--v);font-weight:700}
+.nav-icon{font-size:22px;display:block;margin-bottom:2px}
 
 /* DARK MODE */
 html[data-theme="dark"] body{background:#0f1419;color:#e8eaed}
-html[data-theme="dark"] .header,html[data-theme="dark"] .info,html[data-theme="dark"] .section,
-html[data-theme="dark"] .gallery,html[data-theme="dark"] .sim-card,html[data-theme="dark"] .buy-bar{background:#1a2028;color:#e8eaed}
-html[data-theme="dark"] .title,html[data-theme="dark"] .section-title,html[data-theme="dark"] .seller-info h4{color:#e8eaed}
-html[data-theme="dark"] .desc-text,html[data-theme="dark"] .rating{color:#c8ccd0}
-html[data-theme="dark"] .var-chip{background:#232a33;color:#e8eaed;border-color:#2d3540}
-html[data-theme="dark"] .btn-msg,html[data-theme="dark"] .btn-cart{background:#232a33}
+html[data-theme="dark"] .fidelity,html[data-theme="dark"] .role-switcher,html[data-theme="dark"] .menu-group,
+html[data-theme="dark"] .bottom-nav{background:#1a2028;color:#e8eaed}
+html[data-theme="dark"] .fidelity-body h4,html[data-theme="dark"] .menu-info b,html[data-theme="dark"] .role-name{color:#e8eaed}
+html[data-theme="dark"] .role-item{background:#232a33}
+html[data-theme="dark"] .role-item.active{background:rgba(0,166,81,.15)}
+html[data-theme="dark"] .menu-item{border-color:#2d3540}
 </style></head><body>
 
-<header class="header">
-  <button class="back" onclick="history.back()">←</button>
-  <h1 id="prodTitle">Chargement...</h1>
-  <button class="share" onclick="share()">↗</button>
-  <button class="fav" onclick="toggleFav(this)">🤍</button>
-</header>
-
-<div class="gallery">
-  <img id="mainImg" src="" alt="">
-  <div class="live-badge" id="liveBadge" style="display:none">🔴 LIVE -30%</div>
-  <div class="gallery-dots">
-    <div class="dot active"></div><div class="dot"></div><div class="dot"></div>
-    <div class="dot"></div><div class="dot"></div>
+<div class="hero">
+  <div class="hero-top">
+    <button class="back-btn" onclick="history.back()">←</button>
+    <h1>👤 Mon Compte</h1>
+    <button class="settings-btn" onclick="location.href='parametres.html'">⚙️</button>
   </div>
-</div>
-
-<div class="info">
-  <div class="price-row">
-    <span class="price" id="prodPrice">—</span>
-    <span class="old-price" id="prodOld"></span>
-    <span class="discount" id="prodDisc"></span>
-  </div>
-  <div class="currencies" id="currencies">≈ — EUR · — USD</div>
-  <h2 class="title" id="prodName">—</h2>
-  <div class="rating">
-    <span class="stars">★★★★★</span>
-    <span id="rateVal">4.8</span>
-    <span>· <span id="reviewCount">124</span> avis · <span id="salesCount">856</span> vendus</span>
-  </div>
-  <div class="stock-info">✅ En stock · Livraison 24h Dakar</div>
-</div>
-
-<div class="section">
-  <div class="section-title">🎨 Couleur</div>
-  <div class="variants" id="colorList"></div>
-</div>
-
-<div class="section">
-  <div class="section-title">📏 Taille</div>
-  <div class="variants" id="sizeList"></div>
-</div>
-
-<div class="section">
-  <div class="section-title">🏪 Vendu par</div>
-  <div class="seller-card">
-    <div class="seller-avatar" id="sellerAv">👗</div>
-    <div class="seller-info">
-      <h4 id="sellerName">— <span class="tick">✓</span></h4>
-      <p>⭐ <span id="sellerRate">4.9</span> · <span id="sellerFollowers">856</span> abonnés</p>
+  <div class="profil-info">
+    <div class="avatar-wrap">
+      <div class="avatar" id="userInitials">OD</div>
+      <div class="edit-avatar" onclick="editAvatar()">📷</div>
     </div>
-    <button class="follow-btn" onclick="toggleFollow(this)">+ Suivre</button>
-  </div>
-  <div class="shop-tabs">
-    <div class="shop-tab-btn tab-products" onclick="goShop('products')">🛍️ Produits</div>
-    <div class="shop-tab-btn tab-avis" onclick="goShop('avis')">⭐ Avis</div>
-    <div class="shop-tab-btn tab-promo" onclick="goShop('promo')">🔥 Promo</div>
-    <div class="shop-tab-btn tab-info" onclick="goShop('info')">ℹ️ Info</div>
-  </div>
-</div>
-
-<div class="section">
-  <div class="section-title">📝 Description</div>
-  <div class="desc-text" id="prodDesc">—</div>
-</div>
-
-<div class="section">
-  <div class="section-title">📋 Caractéristiques</div>
-  <ul class="spec-list" id="specs"></ul>
-</div>
-
-<div class="section">
-  <div class="section-title">🎁 Souvent achetés ensemble</div>
-  <div class="bundle-card">
-    <div class="bundle-title">Pack complet <span class="bundle-badge">-15%</span></div>
-    <div class="bundle-items">
-      <div class="item">👗</div>
-      <span class="bundle-plus">+</span>
-      <div class="item">👜</div>
-      <span class="bundle-plus">+</span>
-      <div class="item">👠</div>
+    <div class="profil-details">
+      <div class="profil-name" id="userName">Ousseynou Diop <span class="tick-blue">✓</span></div>
+      <div class="profil-email" id="userEmail">ousseynou@example.com</div>
+      <div class="role-badge" id="userRole">🛒 CLIENT</div>
     </div>
-    <div class="bundle-price">
-      <span class="new">42 500 FCFA</span>
-      <span class="old">50 000 FCFA</span>
+  </div>
+</div>
+
+<!-- WALLET -->
+<div class="wallet-card" onclick="location.href='portefeuille.html'">
+  <div class="wallet-label">💰 Mon wallet SEN TEW</div>
+  <div class="wallet-amount" id="walletAmount">500 FCFA</div>
+  <div class="wallet-actions">
+    <button class="wallet-btn" onclick="event.stopPropagation();recharge()">➕ Recharger</button>
+    <button class="wallet-btn" onclick="event.stopPropagation();withdraw()">💸 Retirer</button>
+    <button class="wallet-btn" onclick="event.stopPropagation();location.href='portefeuille.html'">📊 Historique</button>
+  </div>
+</div>
+
+<!-- FIDÉLITÉ -->
+<div class="fidelity" onclick="location.href='fidelite.html'">
+  <div class="fidelity-icon">⭐</div>
+  <div class="fidelity-body">
+    <h4>Niveau Bronze · 1 245 points</h4>
+    <p>Plus que 755 points pour Silver 🥈</p>
+    <div class="fidelity-bar"><div class="fidelity-fill"></div></div>
+  </div>
+  <div class="fidelity-arrow">›</div>
+</div>
+
+<!-- BASCULE RÔLE -->
+<div class="role-switcher">
+  <div class="role-title">🔄 Basculer de rôle</div>
+  <div class="role-list">
+    <div class="role-item active" onclick="switchToRole('client')">
+      <span class="role-icon-big">🛒</span>
+      <div class="role-name">Client</div>
     </div>
-    <button class="bundle-btn" onclick="addBundle()">🛒 Ajouter le pack complet</button>
+    <div class="role-item other" onclick="switchToRole('vendeur')">
+      <span class="role-icon-big">🏪</span>
+      <div class="role-name">Devenir vendeur</div>
+    </div>
+    <div class="role-item other" onclick="switchToRole('livreur')">
+      <span class="role-icon-big">🛵</span>
+      <div class="role-name">Devenir livreur</div>
+    </div>
   </div>
 </div>
 
-<div class="section">
-  <div class="section-title">⭐ Avis clients (124)</div>
-  <div class="reviews-summary">
-    <div class="big">4.8</div>
-    <div class="stars">★★★★★</div>
-    <div class="count">Basé sur 124 avis vérifiés</div>
+<!-- COMMANDES & ACHATS -->
+<div class="section-title">📦 Mes achats</div>
+<div class="menu-group">
+  <div class="menu-item" onclick="location.href='commandes.html'">
+    <div class="menu-icon mi-orders">📦</div>
+    <div class="menu-info">
+      <b>Mes commandes</b>
+      <small>Suivi, retours, historique</small>
+    </div>
+    <span class="menu-badge">3</span>
+    <span class="menu-arrow">›</span>
   </div>
-  <div class="review-item">
-    <strong>Awa D.</strong> <span class="stars">★★★★★</span>
-    <p>« Super qualité, livraison rapide, je recommande à 100% ! »</p>
+  <div class="menu-item" onclick="location.href='favoris.html'">
+    <div class="menu-icon mi-fav">❤️</div>
+    <div class="menu-info">
+      <b>Mes favoris</b>
+      <small>Produits sauvegardés</small>
+    </div>
+    <span class="menu-badge">12</span>
+    <span class="menu-arrow">›</span>
   </div>
-  <div class="review-item">
-    <strong>Ibrahima S.</strong> <span class="stars">★★★★★</span>
-    <p>« Produit conforme à la description, vendeur pro. »</p>
-  </div>
-  <div class="review-item">
-    <strong>Fatou M.</strong> <span class="stars">★★★★☆</span>
-    <p>« Très joli mais un peu petit, prendre une taille au-dessus. »</p>
+  <div class="menu-item" onclick="location.href='adresses.html'">
+    <div class="menu-icon mi-addr">📍</div>
+    <div class="menu-info">
+      <b>Mes adresses</b>
+      <small>Domicile, bureau, autre</small>
+    </div>
+    <span class="menu-arrow">›</span>
   </div>
 </div>
 
-<div class="section">
-  <div class="section-title">✨ Produits similaires</div>
-  <div class="similar-grid" id="similar"></div>
+<!-- COMMUNICATIONS -->
+<div class="section-title">💬 Communications</div>
+<div class="menu-group">
+  <div class="menu-item" onclick="location.href='messages.html'">
+    <div class="menu-icon mi-msg">💬</div>
+    <div class="menu-info">
+      <b>Messages</b>
+      <small>Vendeurs, livreurs, support</small>
+    </div>
+    <span class="menu-badge">5</span>
+    <span class="menu-arrow">›</span>
+  </div>
+  <div class="menu-item" onclick="location.href='notifications.html'">
+    <div class="menu-icon mi-notif">🔔</div>
+    <div class="menu-info">
+      <b>Notifications</b>
+      <small>Alertes & activités</small>
+    </div>
+    <span class="menu-badge">8</span>
+    <span class="menu-arrow">›</span>
+  </div>
 </div>
 
-<div class="buy-bar">
-  <button class="btn-msg" onclick="msgSeller()">💬</button>
-  <button class="btn-cart" onclick="addCart()">🛒 Panier</button>
-  <button class="btn-buy" onclick="buyNow()">Acheter</button>
+<!-- AVANTAGES -->
+<div class="section-title">🎁 Avantages & gains</div>
+<div class="menu-group">
+  <div class="menu-item" onclick="location.href='bons-promo.html'">
+    <div class="menu-icon mi-coupon">🎁</div>
+    <div class="menu-info">
+      <b>Bons & Coupons</b>
+      <small>Codes promo, cartes cadeaux</small>
+    </div>
+    <span class="menu-badge">4</span>
+    <span class="menu-arrow">›</span>
+  </div>
+  <div class="menu-item" onclick="location.href='parrainage.html'">
+    <div class="menu-icon mi-parrain">👥</div>
+    <div class="menu-info">
+      <b>Parrainage</b>
+      <small>+2 000 FCFA par ami</small>
+    </div>
+    <span class="menu-arrow">›</span>
+  </div>
+  <div class="menu-item" onclick="location.href='verified.html'">
+    <div class="menu-icon" style="background:linear-gradient(135deg,var(--j),#f4b800);color:#222">👑</div>
+    <div class="menu-info">
+      <b>SEN Verified</b>
+      <small>Devenir vendeur premium</small>
+    </div>
+    <span class="menu-arrow">›</span>
+  </div>
 </div>
+
+<!-- PARAMÈTRES -->
+<div class="section-title">⚙️ Paramètres</div>
+<div class="menu-group">
+  <div class="menu-item" onclick="toggleLang()">
+    <div class="menu-icon mi-lang">🌐</div>
+    <div class="menu-info">
+      <b>Langue</b>
+      <small id="langLbl">🇫🇷 Français</small>
+    </div>
+    <span class="menu-arrow">›</span>
+  </div>
+  <div class="menu-item" onclick="toggleDarkMode()">
+    <div class="menu-icon mi-dark">🌙</div>
+    <div class="menu-info">
+      <b>Mode sombre</b>
+      <small id="darkLbl">Automatique</small>
+    </div>
+    <span class="menu-arrow">›</span>
+  </div>
+  <div class="menu-item" onclick="location.href='parametres.html'">
+    <div class="menu-icon" style="background:linear-gradient(135deg,#795548,#4e342e);color:#fff">💰</div>
+    <div class="menu-info">
+      <b>Devise</b>
+      <small id="curLbl">FCFA · Franc CFA</small>
+    </div>
+    <span class="menu-arrow">›</span>
+  </div>
+</div>
+
+<!-- AIDE & LÉGAL -->
+<div class="section-title">📚 Aide & informations</div>
+<div class="menu-group">
+  <div class="menu-item" onclick="location.href='assistant-ia.html'">
+    <div class="menu-icon mi-help">🤖</div>
+    <div class="menu-info">
+      <b>Assistant IA 24/7</b>
+      <small>Aide instantanée</small>
+    </div>
+    <span class="menu-arrow">›</span>
+  </div>
+  <div class="menu-item" onclick="location.href='https://sen-ecosystem.com/mentions-legales.html'">
+    <div class="menu-icon mi-legal">📄</div>
+    <div class="menu-info">
+      <b>Mentions légales</b>
+      <small>CGU, CGV, RGPD, cookies</small>
+    </div>
+    <span class="menu-arrow">›</span>
+  </div>
+  <div class="menu-item" onclick="location.href='confidentialite-app.html'">
+    <div class="menu-icon" style="background:linear-gradient(135deg,#3f51b5,#283593);color:#fff">🔒</div>
+    <div class="menu-info">
+      <b>Confidentialité</b>
+      <small>Gestion de mes données</small>
+    </div>
+    <span class="menu-arrow">›</span>
+  </div>
+</div>
+
+<!-- DÉCONNEXION -->
+<div class="section-title">&nbsp;</div>
+<div class="menu-group">
+  <div class="menu-item" onclick="doLogout()">
+    <div class="menu-icon mi-logout">🚪</div>
+    <div class="menu-info">
+      <b style="color:#e31b23">Se déconnecter</b>
+      <small>Fermer la session</small>
+    </div>
+    <span class="menu-arrow">›</span>
+  </div>
+</div>
+
+<div class="version-info">
+  SEN TEW v2.6.4 · Marketplace 🇸🇳<br>
+  © 2026 SEN TEW SAS
+</div>
+
+<nav class="bottom-nav">
+  <button class="nav-item" onclick="location.href='index.html'"><span class="nav-icon">🏠</span>Accueil</button>
+  <button class="nav-item" onclick="location.href='categories.html'"><span class="nav-icon">🗂️</span>Catégories</button>
+  <button class="nav-item" onclick="location.href='panier.html'"><span class="nav-icon">🛒</span>Panier</button>
+  <button class="nav-item" onclick="location.href='favoris.html'"><span class="nav-icon">❤️</span>Favoris</button>
+  <button class="nav-item active"><span class="nav-icon">👤</span>Compte</button>
+</nav>
 
 <script src="js/dark-mode.js"></script>
+<script src="js/role-guard.js"></script>
 <script>
-const PRODUCTS = {
-  '1':{name:'Boubou traditionnel brodé main',price:25000,old:35000,shopId:'1',shop:'Aïcha Fashion',shopIcon:'👗',rate:4.9,followers:856,img:'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600',colors:['Rouge','Bleu','Vert','Jaune','Blanc'],sizes:['M','L','XL','XXL'],desc:'Boubou traditionnel sénégalais brodé main. Tissu bazin premium 100% coton. Broderie artisanale de Dakar. Idéal cérémonies, mariages, fêtes religieuses. Fabriqué avec soin par des artisans locaux.',material:'Bazin 100% coton',origin:'Dakar, Sénégal',live:false},
-  '2':{name:'Robe wax colorée mariage',price:18500,old:22000,shopId:'1',shop:'Aïcha Fashion',shopIcon:'👗',rate:4.9,followers:856,img:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600',colors:['Rouge','Bleu','Vert','Orange'],sizes:['S','M','L','XL'],desc:'Robe en wax authentique, motifs colorés. Coupe moderne, confortable et élégante. Parfaite pour mariages et cérémonies.',material:'Wax 100% coton',origin:'Sénégal',live:true},
-  '3':{name:'Sac cuir artisanal',price:15000,shopId:'1',shop:'Aïcha Fashion',shopIcon:'👗',rate:4.9,followers:856,img:'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600',colors:['Marron','Noir','Rouge'],sizes:['Unique'],desc:'Sac en cuir véritable, cousu main par les artisans Peul. Fermeture zip, doublure intérieure, 2 poches.',material:'Cuir véritable',origin:'Saint-Louis, Sénégal',live:false},
-  '4':{name:'Sandales cousues main',price:8500,old:12000,shopId:'1',shop:'Aïcha Fashion',shopIcon:'👗',rate:4.9,followers:856,img:'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600',colors:['Marron','Noir','Doré'],sizes:['38','39','40','41','42'],desc:'Sandales en cuir cousues main, semelle confort, pointures 36-45 disponibles.',material:'Cuir + semelle caoutchouc',origin:'Dakar',live:false},
-  '5':{name:'iPhone 15 Pro Max 256Go',price:850000,shopId:'2',shop:'Tech Modou',shopIcon:'📱',rate:4.7,followers:650,img:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=600',colors:['Noir','Blanc','Doré','Bleu'],sizes:['256Go','512Go','1To'],desc:'iPhone 15 Pro Max neuf sous emballage. Garantie internationale 1 an. Livré avec câble USB-C et documentation.',material:'Titane grade 5',origin:'Apple Inc.',live:false},
-  '6':{name:'AirPods Pro 2ème génération',price:135000,old:180000,shopId:'2',shop:'Tech Modou',shopIcon:'📱',rate:4.7,followers:650,img:'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=600',colors:['Blanc'],sizes:['Unique'],desc:'AirPods Pro 2 avec réduction active du bruit, USB-C, boîtier MagSafe, autonomie 30h.',material:'Plastique premium',origin:'Apple Inc.',live:true}
-};
+// Charge données locales
+const wallet = localStorage.getItem('sentew_wallet') || '500';
+document.getElementById('walletAmount').textContent = parseInt(wallet).toLocaleString() + ' FCFA';
 
-const id = new URLSearchParams(location.search).get('id') || '1';
-const PROD = PRODUCTS[id] || PRODUCTS['1'];
+const role = localStorage.getItem('sentew_role') || 'client';
+const roleLabels = {client:'🛒 CLIENT',vendeur:'🏪 VENDEUR',livreur:'🛵 LIVREUR',admin:'👑 ADMIN'};
+document.getElementById('userRole').textContent = roleLabels[role] || '🛒 CLIENT';
 
-document.getElementById('prodTitle').textContent = PROD.name;
-document.getElementById('mainImg').src = PROD.img;
-document.getElementById('prodName').textContent = PROD.name;
-document.getElementById('prodPrice').textContent = PROD.price.toLocaleString() + ' FCFA';
-if(PROD.old){
-  document.getElementById('prodOld').textContent = PROD.old.toLocaleString() + ' FCFA';
-  const pct = Math.round((1-PROD.price/PROD.old)*100);
-  document.getElementById('prodDisc').textContent = '-'+pct+'%';
+// Marquer le rôle actif
+document.querySelectorAll('.role-item').forEach(el=>{
+  el.classList.remove('active');
+  el.classList.add('other');
+});
+const activeIdx = {client:0,vendeur:1,livreur:2}[role];
+if(activeIdx !== undefined){
+  const items = document.querySelectorAll('.role-item');
+  items[activeIdx].classList.add('active');
+  items[activeIdx].classList.remove('other');
 }
-const eur = (PROD.price/655.957).toFixed(2);
-const usd = (PROD.price/600).toFixed(2);
-document.getElementById('currencies').textContent = `≈ ${eur} EUR · ${usd} USD`;
-document.getElementById('sellerAv').textContent = PROD.shopIcon;
-document.getElementById('sellerName').innerHTML = PROD.shop + ' <span class="tick">✓</span>';
-document.getElementById('sellerRate').textContent = PROD.rate;
-document.getElementById('sellerFollowers').textContent = PROD.followers;
-document.getElementById('prodDesc').textContent = PROD.desc;
-if(PROD.live) document.getElementById('liveBadge').style.display = 'block';
 
-document.getElementById('specs').innerHTML = `
-  <li><b>🧵 Matière</b><span>${PROD.material || 'N/A'}</span></li>
-  <li><b>📍 Origine</b><span>${PROD.origin || 'Sénégal'}</span></li>
-  <li><b>📦 Livraison</b><span>24-72h Dakar</span></li>
-  <li><b>↩️ Retour</b><span>14 jours</span></li>
-  <li><b>🔒 Garantie</b><span>2 ans</span></li>
-  <li><b>💳 Paiement</b><span>Wave/OM/CB (2x-3x)</span></li>
-`;
+function editAvatar(){
+  alert('📷 Sélection photo de profil\n\n(Ouverture galerie/appareil photo)');
+}
 
-const cMap = {Rouge:'#e31b23',Bleu:'#1976d2',Vert:'#00a651',Jaune:'#fcd116',Blanc:'#fff',Noir:'#222',Rose:'#e91e63',Orange:'#ff6b35',Violet:'#9c27b0',Marron:'#795548',Gris:'#9e9e9e',Doré:'#b8863a'};
-document.getElementById('colorList').innerHTML = PROD.colors.map((c,i) =>
-  `<div class="color-dot ${i===0?'active':''}" style="background:${cMap[c]||'#ccc'}" onclick="pickColor(this)" title="${c}"></div>`
-).join('');
-
-document.getElementById('sizeList').innerHTML = PROD.sizes.map((s,i) =>
-  `<div class="var-chip ${i===0?'active':''}" onclick="pickSize(this)">${s}</div>`
-).join('');
-
-const similarIds = Object.keys(PRODUCTS).filter(k => k !== id).slice(0,4);
-document.getElementById('similar').innerHTML = similarIds.map(k => {
-  const p = PRODUCTS[k];
-  return `<div class="sim-card" onclick="location.href='produit.html?id=${k}'">
-    <img src="${p.img}" alt="${p.name}">
-    <div class="sim-body">
-      <h5>${p.name}</h5>
-      <div class="sim-price">${p.price.toLocaleString()} FCFA</div>
-    </div>
-  </div>`;
-}).join('');
-
-function pickColor(el){document.querySelectorAll('.color-dot').forEach(d=>d.classList.remove('active'));el.classList.add('active')}
-function pickSize(el){document.querySelectorAll('.var-chip').forEach(d=>d.classList.remove('active'));el.classList.add('active')}
-function toggleFav(el){el.textContent = el.textContent==='🤍' ? '❤️' : '🤍'}
-function share(){if(navigator.share){navigator.share({title:PROD.name,url:location.href})}else{alert('🔗 Lien copié : '+location.href)}}
-function msgSeller(){location.href='messages.html?seller='+PROD.shopId}
-function addCart(){alert('✅ '+PROD.name+' ajouté au panier !');location.href='panier.html'}
-function buyNow(){location.href='panier.html?buy='+id}
-function addBundle(){alert('✅ Pack complet ajouté au panier !\n\n3 articles à 42 500 FCFA (-15%)');location.href='panier.html'}
-function toggleFollow(btn){
-  if(btn.textContent === '+ Suivre'){
-    btn.textContent = '✓ Suivi';
-    btn.style.background = '#fff';
-    btn.style.color = '#00a651';
-    btn.style.border = '2px solid #00a651';
-    alert('✅ Vous suivez '+PROD.shop);
-  } else {
-    btn.textContent = '+ Suivre';
-    btn.style.background = '#00a651';
-    btn.style.color = '#fff';
-    btn.style.border = 'none';
+function switchToRole(newRole){
+  if(newRole === role){
+    alert('✅ Vous êtes déjà en mode '+roleLabels[newRole]);
+    return;
+  }
+  const msgs = {
+    vendeur:'🏪 Devenir VENDEUR ?\n\n• Ouvrir votre boutique\n• Commission 5-8%\n• Support prioritaire\n• KYC requis (CNI + photo boutique)\n\nContinuer ?',
+    livreur:'🛵 Devenir LIVREUR ?\n\n• Statut auto-entrepreneur\n• 500-2500 FCFA/course\n• Bonus qualité\n• Permis + assurance requis\n\nContinuer ?',
+    client:'🛒 Basculer en mode CLIENT ?\n\nVous pourrez repasser en vendeur/livreur à tout moment.'
+  };
+  if(confirm(msgs[newRole])){
+    localStorage.setItem('sentew_role', newRole);
+    const home = {client:'index.html',vendeur:'vendeur.html?first=1',livreur:'livreur.html?first=1'};
+    location.href = home[newRole];
   }
 }
-function goShop(tab){
-  location.href = 'boutique.html?id='+PROD.shopId+'&tab='+tab;
+
+function recharge(){
+  const amount = prompt('💰 Montant à recharger (FCFA) :');
+  if(!amount || isNaN(amount)) return;
+  const newAmount = parseInt(wallet) + parseInt(amount);
+  localStorage.setItem('sentew_wallet', newAmount);
+  alert('✅ Rechargement de '+parseInt(amount).toLocaleString()+' FCFA\n\nNouveau solde : '+newAmount.toLocaleString()+' FCFA');
+  location.reload();
+}
+
+function withdraw(){
+  alert('💸 Retrait wallet\n\nMinimum : 5 000 FCFA\nMéthodes : Wave, Orange Money, Free, Wizall\n\n(Redirection portefeuille...)');
+  location.href = 'portefeuille.html?action=withdraw';
+}
+
+function toggleLang(){
+  const langs = [
+    {code:'fr',label:'🇫🇷 Français'},
+    {code:'wo',label:'🇸🇳 Wolof'},
+    {code:'en',label:'🇬🇧 English'},
+    {code:'ar',label:'🇸🇦 العربية'}
+  ];
+  const cur = localStorage.getItem('sentew_lang') || 'fr';
+  const idx = langs.findIndex(l=>l.code===cur);
+  const next = langs[(idx+1) % langs.length];
+  localStorage.setItem('sentew_lang', next.code);
+  document.getElementById('langLbl').textContent = next.label;
+  alert('🌐 Langue changée : '+next.label);
+}
+
+function toggleDarkMode(){
+  const cur = document.documentElement.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('sentew_theme', next);
+  document.getElementById('darkLbl').textContent = next === 'dark' ? '🌙 Activé' : '☀️ Désactivé';
+}
+
+function doLogout(){
+  if(confirm('🚪 Se déconnecter de SEN TEW ?\n\nVous devrez vous reconnecter.')){
+    localStorage.removeItem('sentew_logged');
+    localStorage.removeItem('sentew_role');
+    sessionStorage.clear();
+    alert('👋 À bientôt sur SEN TEW !');
+    location.href = 'login-guest.html';
+  }
 }
 </script>
 </body></html>
