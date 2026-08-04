@@ -1,211 +1,295 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>LIVE - SEN TEW</title>
+<html lang="fr"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>LIVE Shopping - SEN TEW</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-body{background:#000;overflow:hidden;height:100vh;font-family:-apple-system,sans-serif;}
-.live-feed{position:fixed;inset:0;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
-.live-feed::-webkit-scrollbar{display:none;}
-.live-slide{height:100vh;width:100vw;scroll-snap-align:start;position:relative;background:#000;}
-.live-video{width:100%;height:100%;object-fit:cover;}
-.live-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.6) 0%,transparent 25%,transparent 55%,rgba(0,0,0,.9) 100%);pointer-events:none;}
-.live-top{position:absolute;top:0;left:0;right:0;padding:50px 16px 16px;display:flex;gap:10px;align-items:center;z-index:10;}
-.live-badge{background:#ef4444;padding:5px 10px;border-radius:6px;color:#fff;font-weight:900;font-size:11px;animation:pulse 1.5s infinite;}
+:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a}
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif}
+body{background:#000;color:#fff;height:100vh;overflow:hidden}
+.live-container{position:fixed;inset:0;overflow-y:auto;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.live-container::-webkit-scrollbar{display:none}
+.live-item{height:100vh;scroll-snap-align:start;position:relative;background:#000}
+.live-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:linear-gradient(135deg,#1a1a1a,#0d0d0d)}
+.live-video-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:80px;background:linear-gradient(135deg,#333,#000)}
+
+.top-overlay{position:absolute;top:0;left:0;right:0;padding:14px 14px 40px;background:linear-gradient(180deg,rgba(0,0,0,.7),transparent);z-index:5;padding-top:calc(14px + env(safe-area-inset-top,0))}
+.top-row{display:flex;align-items:center;gap:10px}
+.back-btn{background:rgba(0,0,0,.4);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;backdrop-filter:blur(10px)}
+.host-info{flex:1;display:flex;align-items:center;gap:8px}
+.host-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--v),#008a44);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;border:2px solid var(--j)}
+.host-name{color:#fff;font-weight:700;font-size:14px;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.host-name .tick{background:#1da1f2;color:#fff;width:14px;height:14px;border-radius:50%;font-size:9px;display:inline-flex;align-items:center;justify-content:center;margin-left:4px}
+.host-followers{color:rgba(255,255,255,.85);font-size:11px;display:block}
+.follow-live{background:var(--r);color:#fff;border:none;padding:6px 12px;border-radius:16px;font-weight:700;font-size:11px;cursor:pointer}
+.follow-live.following{background:rgba(255,255,255,.2)}
+
+.live-badge{position:absolute;top:16px;right:16px;background:var(--r);color:#fff;padding:5px 10px;border-radius:6px;font-size:11px;font-weight:800;animation:pulse 1.5s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
-.live-viewers{background:rgba(0,0,0,.7);color:#fff;padding:5px 10px;border-radius:12px;font-size:12px;font-weight:700;}
-.live-close{margin-left:auto;background:rgba(0,0,0,.7);color:#fff;border:none;width:36px;height:36px;border-radius:50%;font-size:18px;}
 
-.live-seller-card{position:absolute;bottom:200px;left:16px;right:80px;z-index:10;}
-.live-seller-row{display:flex;gap:10px;align-items:center;padding:10px;background:rgba(0,0,0,.75);border-radius:14px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.3);}
-.live-avatar{width:44px;height:44px;border-radius:50%;border:2px solid #D4A574;object-fit:cover;flex-shrink:0;}
-.live-name{color:#fff;font-weight:900;font-size:15px;display:flex;align-items:center;gap:4px;}
-.verified-tick{width:16px;height:16px;background:#1D9BF0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:900;}
-.live-verified{color:#D4A574;font-size:11px;font-weight:700;margin-top:2px;}
-.live-follow{background:#ef4444;color:#fff;padding:8px 14px;border-radius:8px;border:none;font-weight:800;font-size:12px;}
+.stats-live{position:absolute;top:70px;right:14px;display:flex;flex-direction:column;gap:6px;z-index:5}
+.stat-live{background:rgba(0,0,0,.5);color:#fff;padding:6px 10px;border-radius:14px;font-size:12px;font-weight:700;backdrop-filter:blur(10px);display:flex;align-items:center;gap:4px}
 
-.live-title{color:#fff;font-size:13px;font-weight:700;margin-top:8px;background:rgba(0,0,0,.75);padding:8px 14px;border-radius:12px;}
-.btn-shop{background:linear-gradient(135deg,#D4A574,#B8895C);color:#fff;border:none;padding:9px 14px;border-radius:10px;font-weight:800;font-size:12px;margin-top:6px;box-shadow:0 4px 12px rgba(212,165,116,.4);}
+/* PRODUIT MIS EN AVANT */
+.featured-product{position:absolute;left:14px;bottom:180px;background:rgba(255,255,255,.98);color:#222;padding:10px;border-radius:14px;display:flex;align-items:center;gap:10px;max-width:260px;box-shadow:0 4px 20px rgba(0,0,0,.4);z-index:6;backdrop-filter:blur(10px)}
+.fp-img{width:56px;height:56px;border-radius:10px;object-fit:cover;flex-shrink:0}
+.fp-body{flex:1;min-width:0}
+.fp-name{font-size:12px;font-weight:700;color:#222;line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.fp-price{color:var(--o);font-weight:900;font-size:16px}
+.fp-price .old{color:#999;text-decoration:line-through;font-size:11px;margin-left:4px;font-weight:400}
+.fp-buy{background:linear-gradient(135deg,var(--r),#c81420);color:#fff;border:none;padding:8px 12px;border-radius:10px;font-weight:800;font-size:11px;cursor:pointer;white-space:nowrap;box-shadow:0 4px 12px rgba(227,27,35,.4);animation:shake 3s infinite}
+@keyframes shake{0%,90%,100%{transform:translateX(0)}92%{transform:translateX(-2px)}94%{transform:translateX(2px)}96%{transform:translateX(-2px)}}
 
-/* CHAT LISIBLE FOND OPAQUE */
-.live-chat{position:absolute;bottom:280px;left:16px;right:80px;max-height:180px;overflow:hidden;display:flex;flex-direction:column;gap:6px;pointer-events:none;z-index:9;}
-.chat-msg{background:rgba(0,0,0,.85);color:#fff;padding:8px 12px;border-radius:14px;font-size:13px;max-width:85%;animation:slideIn .3s;box-shadow:0 2px 8px rgba(0,0,0,.3);}
-.chat-msg strong{color:#D4A574;margin-right:6px;font-weight:800;}
-@keyframes slideIn{from{transform:translateX(-30px);opacity:0}to{transform:translateX(0);opacity:1}}
+/* FLASH VENTE */
+.flash-timer{position:absolute;left:14px;bottom:250px;background:linear-gradient(135deg,var(--j),#f4b800);color:#222;padding:6px 12px;border-radius:16px;font-weight:800;font-size:12px;z-index:6;box-shadow:0 4px 12px rgba(252,209,22,.4);display:flex;align-items:center;gap:4px}
 
-.live-actions{position:absolute;right:12px;bottom:280px;display:flex;flex-direction:column;gap:14px;align-items:center;z-index:10;}
-.live-action{width:48px;height:48px;background:rgba(0,0,0,.7);border-radius:50%;color:#fff;border:none;font-size:22px;display:flex;align-items:center;justify-content:center;flex-direction:column;}
-.live-action span{font-size:9px;margin-top:1px;font-weight:700;}
+/* CHAT ZONE - Lisible */
+.chat-zone{position:absolute;left:0;right:76px;bottom:0;max-height:40vh;padding:0 14px 90px;overflow-y:auto;z-index:4;-webkit-overflow-scrolling:touch;scrollbar-width:none;-webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 15%)}
+.chat-zone::-webkit-scrollbar{display:none}
+.chat-msg{background:rgba(0,0,0,.55);color:#fff;padding:6px 12px;border-radius:14px;font-size:13px;margin-bottom:6px;backdrop-filter:blur(10px);max-width:90%;line-height:1.4;box-shadow:0 2px 6px rgba(0,0,0,.3);animation:slideIn .3s}
+.chat-msg .user{color:var(--j);font-weight:700;margin-right:4px}
+.chat-msg .user.host{color:var(--v)}
+.chat-msg.system{background:rgba(0,166,81,.7);color:#fff;text-align:center;font-weight:600;font-size:12px}
+@keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-.live-product{position:absolute;bottom:70px;left:16px;right:16px;background:#fff;border-radius:14px;padding:10px;display:flex;gap:10px;align-items:center;z-index:10;box-shadow:0 4px 20px rgba(0,0,0,.3);}
-.live-product img{width:60px;height:60px;border-radius:10px;object-fit:cover;flex-shrink:0;}
-.live-product-info{flex:1;min-width:0;}
-.live-product-name{font-weight:800;font-size:13px;color:#0A4D38;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.live-product-price{color:#ef4444;font-weight:900;font-size:15px;}
-.live-buy{background:linear-gradient(135deg,#0F6B4E,#D4A574);color:#fff;border:none;padding:10px 12px;border-radius:10px;font-weight:800;font-size:11px;line-height:1.1;flex-shrink:0;box-shadow:0 4px 12px rgba(15,107,78,.4);}
+/* ACTIONS DROITE */
+.right-actions{position:absolute;right:14px;bottom:100px;display:flex;flex-direction:column;gap:16px;z-index:5;padding-bottom:env(safe-area-inset-bottom,0)}
+.action-icon-btn{background:rgba(0,0,0,.4);border:none;color:#fff;width:48px;height:48px;border-radius:50%;font-size:22px;cursor:pointer;backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;position:relative}
+.action-icon-btn .count-tag{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.7);color:#fff;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:700;white-space:nowrap}
+.heart-btn.liked{background:var(--r)}
+.heart-anim{animation:heartPop .5s}
+@keyframes heartPop{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
 
-.live-input{position:absolute;bottom:15px;left:16px;right:16px;display:flex;gap:8px;z-index:10;}
-.live-input input{flex:1;background:rgba(0,0,0,.8);border:1px solid rgba(255,255,255,.3);color:#fff;padding:10px 14px;border-radius:20px;outline:none;font-size:14px;}
-.live-input input::placeholder{color:rgba(255,255,255,.7);}
-.live-input button{background:#ef4444;color:#fff;border:none;width:44px;border-radius:22px;font-size:16px;}
+/* INPUT CHAT */
+.chat-input{position:absolute;left:0;right:76px;bottom:0;padding:10px 14px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0));background:linear-gradient(0deg,rgba(0,0,0,.85),transparent);z-index:7;display:flex;gap:8px}
+.chat-input input{flex:1;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;padding:10px 14px;border-radius:20px;font-size:13px;outline:none;backdrop-filter:blur(10px)}
+.chat-input input::placeholder{color:rgba(255,255,255,.6)}
+.chat-input button{background:linear-gradient(135deg,var(--v),#008a44);border:none;color:#fff;width:40px;height:40px;border-radius:50%;font-size:16px;cursor:pointer;flex-shrink:0}
 
-.float-emoji{position:absolute;bottom:250px;right:50px;font-size:28px;animation:floatUp 3s ease-out forwards;pointer-events:none;z-index:20;}
-@keyframes floatUp{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-350px) translateX(-30px) scale(1.5);opacity:0}}
-</style>
-</head>
-<body>
-<div class="live-feed" id="feed"></div>
+/* Indicateur swipe */
+.swipe-hint{position:absolute;bottom:60px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.6);font-size:11px;z-index:5;pointer-events:none;animation:swipeUp 2s infinite}
+@keyframes swipeUp{0%,100%{opacity:.6;transform:translateX(-50%) translateY(0)}50%{opacity:1;transform:translateX(-50%) translateY(-6px)}}
+</style></head><body>
 
-<script src="js/data.js"></script>
-<script>
-const LIVES = [
-  {id:'1',seller:'Aïcha Couture',avatar:'https://i.pravatar.cc/100?img=1',title:'🔥 SOLDES -50% robes wax mariage',viewers:1297,rating:4.9,verified:true,product:{img:'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=200',name:'Robe wax premium',price:15000,oldPrice:30000,id:1}},
-  {id:'2',seller:'Moussa Tech',avatar:'https://i.pravatar.cc/100?img=11',title:'📱 iPhone 15 Pro déballage',viewers:892,rating:4.7,verified:true,product:{img:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=200',name:'iPhone 15 Pro',price:750000,oldPrice:850000,id:10}},
-  {id:'3',seller:'Fatou Beauté',avatar:'https://i.pravatar.cc/100?img=5',title:'💄 Démo maquillage soirée',viewers:634,rating:4.8,verified:true,product:{img:'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=200',name:'Palette 24 couleurs',price:8500,oldPrice:12000,id:31}},
-  {id:'9',seller:'Ibrahima Sport',avatar:'https://i.pravatar.cc/100?img=13',title:'⚽ Maillots officiels 2026',viewers:456,rating:4.9,verified:true,product:{img:'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=200',name:'Maillot Sénégal',price:18000,oldPrice:25000,id:50}}
-];
+<div class="live-container" id="liveContainer">
 
-const messages = ['🔥🔥🔥','Trop belle !','Prix svp?','J\'achète !','😍😍','Livraison Dakar?','Combien?','❤️','Wow ! J\'adore','C\'est encore dispo?'];
-const users = ['Awa','Moussa','Fatou','Ibrahima','Aminata','Ousmane','Ndeye','Cheikh','Mariama'];
-
-document.getElementById('feed').innerHTML = LIVES.map((L,i)=>`
-  <div class="live-slide" data-id="${L.id}">
-    <video class="live-video" autoplay muted loop playsinline poster="${L.product.img.replace('w=200','w=800&h=1200')}"></video>
-    <div class="live-overlay"></div>
-    <div class="live-top">
-      <span class="live-badge">🔴 LIVE</span>
-      <span class="live-viewers">👁 <span class="vc">${L.viewers.toLocaleString()}</span></span>
-      <button class="live-close" onclick="location.href='index.html'">✕</button>
-    </div>
-
-    <div class="live-seller-card">
-      <div class="live-seller-row" onclick="openBoutique('${L.id}')">
-        <img src="${L.avatar}" class="live-avatar">
-        <div style="flex:1;min-width:0;">
-          <div class="live-name">${L.seller} ${L.verified?'<span class="verified-tick">✓</span>':''} <span style="font-size:14px;">›</span></div>
-          <div class="live-verified">⭐ ${L.rating} · Voir boutique</div>
+  <!-- LIVE 1 : Aïcha Fashion -->
+  <div class="live-item">
+    <div class="live-video-placeholder">🎬</div>
+    <div class="top-overlay">
+      <div class="top-row">
+        <button class="back-btn" onclick="history.back()">←</button>
+        <div class="host-info">
+          <div class="host-avatar">👗</div>
+          <div>
+            <div class="host-name">Aïcha Fashion <span class="tick">✓</span></div>
+            <span class="host-followers">856 abonnés · 🔴 EN DIRECT</span>
+          </div>
         </div>
-        <button class="live-follow" onclick="event.stopPropagation();followSeller('${L.id}','${L.seller}',this)">+ Suivre</button>
+        <button class="follow-live" onclick="toggleFol(this)">+ Suivre</button>
       </div>
-      <div class="live-title">${L.title}</div>
-      <button class="btn-shop" onclick="openBoutique('${L.id}')">🏪 Voir la boutique complète</button>
     </div>
-
-    <div class="live-chat" id="chat${L.id}"></div>
-
-    <div class="live-actions">
-      <button class="live-action" onclick="reactEmoji('${L.id}','❤️')">❤️<span>${(L.viewers*8).toLocaleString()}</span></button>
-      <button class="live-action" onclick="reactEmoji('${L.id}','🔥')">🔥<span>${(L.viewers*3).toLocaleString()}</span></button>
-      <button class="live-action" onclick="reactEmoji('${L.id}','😍')">😍<span>${L.viewers.toLocaleString()}</span></button>
-      <button class="live-action" onclick="shareLive('${L.id}')">📤<span>Partager</span></button>
+    <div class="live-badge">🔴 LIVE</div>
+    <div class="stats-live">
+      <div class="stat-live">👀 <span id="v1">1 247</span></div>
+      <div class="stat-live">❤️ <span id="l1">3.4k</span></div>
+      <div class="stat-live">🛒 42</div>
     </div>
+    <div class="flash-timer">⚡ FLASH -30% · <span id="t1">02:34</span></div>
+    <div class="featured-product">
+      <img class="fp-img" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=200" alt="">
+      <div class="fp-body">
+        <div class="fp-name">Boubou traditionnel brodé</div>
+        <div class="fp-price">17 500 F <span class="old">25 000</span></div>
+      </div>
+      <button class="fp-buy" onclick="flashBuy('Boubou')">🛒 FLASH BUY</button>
+    </div>
+    <div class="chat-zone" id="chat1">
+      <div class="chat-msg system">🎉 Bienvenue au LIVE Aïcha Fashion !</div>
+      <div class="chat-msg"><span class="user host">Aïcha 👑</span> Bonsoir tout le monde !</div>
+      <div class="chat-msg"><span class="user">Awa D.</span> Le boubou est magnifique 😍</div>
+      <div class="chat-msg"><span class="user">Ibrahima</span> Prix pour taille XL ?</div>
+      <div class="chat-msg"><span class="user host">Aïcha 👑</span> 17 500 FCFA en flash pendant 3 min !</div>
+      <div class="chat-msg"><span class="user">Fatou M.</span> Je prends ! 🛒</div>
+      <div class="chat-msg"><span class="user">Moussa</span> Livraison combien à Thiès ?</div>
+      <div class="chat-msg system">💜 45 personnes ont aimé ce LIVE</div>
+    </div>
+    <div class="right-actions">
+      <button class="action-icon-btn heart-btn" onclick="likeLive(this,1)">❤️<div class="count-tag">3.4k</div></button>
+      <button class="action-icon-btn" onclick="shareLive()">↗<div class="count-tag">Partager</div></button>
+      <button class="action-icon-btn" onclick="showCart()">🛒<div class="count-tag">Panier</div></button>
+      <button class="action-icon-btn" onclick="reportLive()">⚠️<div class="count-tag">Signaler</div></button>
+    </div>
+    <div class="chat-input">
+      <input placeholder="Envoyer un message..." onkeypress="if(event.key==='Enter')sendMsg(1,this)">
+      <button onclick="sendMsg(1,this.previousElementSibling)">➤</button>
+    </div>
+    <div class="swipe-hint">⬆ Glissez pour le prochain LIVE</div>
+  </div>
 
-    <div class="live-product" onclick="openProduct(${L.product.id})">
-      <img src="${L.product.img}" alt="">
-      <div class="live-product-info">
-        <div class="live-product-name">${L.product.name}</div>
-        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
-          <span class="live-product-price">${L.product.price.toLocaleString()} FCFA</span>
-          <span style="text-decoration:line-through;color:#9CA3AF;font-size:11px;">${L.product.oldPrice.toLocaleString()}</span>
-          <span style="background:#ef4444;color:#fff;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:900;">-${Math.round((1-L.product.price/L.product.oldPrice)*100)}%</span>
+  <!-- LIVE 2 : Tech Modou -->
+  <div class="live-item">
+    <div class="live-video-placeholder">📱</div>
+    <div class="top-overlay">
+      <div class="top-row">
+        <button class="back-btn" onclick="history.back()">←</button>
+        <div class="host-info">
+          <div class="host-avatar" style="background:linear-gradient(135deg,#1976d2,#0d47a1)">📱</div>
+          <div>
+            <div class="host-name">Tech Modou <span class="tick">✓</span></div>
+            <span class="host-followers">650 abonnés · 🔴 EN DIRECT</span>
+          </div>
         </div>
+        <button class="follow-live" onclick="toggleFol(this)">+ Suivre</button>
       </div>
-      <button class="live-buy" onclick="event.stopPropagation();flashBuy('${L.id}')">🛒 ACHAT<br><span style="font-size:9px;">FLASH -30%</span></button>
     </div>
-
-    <div class="live-input">
-      <input type="text" placeholder="Envoyer un message..." onkeypress="if(event.key==='Enter')sendMsg('${L.id}',this)">
-      <button onclick="sendMsg('${L.id}',this.previousElementSibling)">➤</button>
+    <div class="live-badge">🔴 LIVE</div>
+    <div class="stats-live">
+      <div class="stat-live">👀 892</div>
+      <div class="stat-live">❤️ 1.2k</div>
+      <div class="stat-live">🛒 28</div>
+    </div>
+    <div class="flash-timer" style="background:linear-gradient(135deg,#1976d2,#0d47a1);color:#fff">⚡ AirPods -25% · 04:12</div>
+    <div class="featured-product">
+      <img class="fp-img" src="https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=200" alt="">
+      <div class="fp-body">
+        <div class="fp-name">AirPods Pro 2ème gen</div>
+        <div class="fp-price">135 000 F <span class="old">180 000</span></div>
+      </div>
+      <button class="fp-buy" onclick="flashBuy('AirPods')">🛒 FLASH BUY</button>
+    </div>
+    <div class="chat-zone">
+      <div class="chat-msg system">🎧 LIVE tech avec Modou !</div>
+      <div class="chat-msg"><span class="user host">Modou 📱</span> Démo AirPods Pro 2 en cours</div>
+      <div class="chat-msg"><span class="user">Cheikh</span> Autonomie réelle ?</div>
+      <div class="chat-msg"><span class="user host">Modou 📱</span> 30h avec le boîtier !</div>
+      <div class="chat-msg"><span class="user">Aminata</span> Garantie ?</div>
+      <div class="chat-msg"><span class="user host">Modou 📱</span> 1 an internationale ✅</div>
+    </div>
+    <div class="right-actions">
+      <button class="action-icon-btn heart-btn" onclick="likeLive(this,2)">❤️<div class="count-tag">1.2k</div></button>
+      <button class="action-icon-btn">↗<div class="count-tag">Partager</div></button>
+      <button class="action-icon-btn">🛒<div class="count-tag">Panier</div></button>
+      <button class="action-icon-btn">⚠️<div class="count-tag">Signaler</div></button>
+    </div>
+    <div class="chat-input">
+      <input placeholder="Envoyer un message...">
+      <button>➤</button>
     </div>
   </div>
-`).join('');
 
-function openBoutique(id){location.href='boutique.html?id='+id+'&from=live';}
-function openProduct(id){location.href='produit.html?id='+id+'&from=live';}
+  <!-- LIVE 3 : Beauty Fatou -->
+  <div class="live-item">
+    <div class="live-video-placeholder">💄</div>
+    <div class="top-overlay">
+      <div class="top-row">
+        <button class="back-btn" onclick="history.back()">←</button>
+        <div class="host-info">
+          <div class="host-avatar" style="background:linear-gradient(135deg,#e91e63,#9c27b0)">💄</div>
+          <div>
+            <div class="host-name">Beauty Fatou <span class="tick">✓</span></div>
+            <span class="host-followers">2 100 abonnés · 🔴 EN DIRECT</span>
+          </div>
+        </div>
+        <button class="follow-live" onclick="toggleFol(this)">+ Suivre</button>
+      </div>
+    </div>
+    <div class="live-badge">🔴 LIVE</div>
+    <div class="stats-live">
+      <div class="stat-live">👀 2 034</div>
+      <div class="stat-live">❤️ 5.8k</div>
+      <div class="stat-live">🛒 87</div>
+    </div>
+    <div class="flash-timer" style="background:linear-gradient(135deg,#e91e63,#9c27b0);color:#fff">⚡ Kit soin -40% · 01:45</div>
+    <div class="featured-product">
+      <img class="fp-img" src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200" alt="">
+      <div class="fp-body">
+        <div class="fp-name">Kit soin peau naturel</div>
+        <div class="fp-price">13 200 F <span class="old">22 000</span></div>
+      </div>
+      <button class="fp-buy" onclick="flashBuy('Kit soin')">🛒 FLASH BUY</button>
+    </div>
+    <div class="chat-zone">
+      <div class="chat-msg system">💄 LIVE Beauty avec Fatou !</div>
+      <div class="chat-msg"><span class="user host">Fatou 💄</span> Démo routine peau grasse</div>
+      <div class="chat-msg"><span class="user">Mariama</span> Convient peau mixte ?</div>
+      <div class="chat-msg"><span class="user host">Fatou 💄</span> Oui ! Testé sur tous types</div>
+      <div class="chat-msg"><span class="user">Adama</span> 87 personnes ont commandé 🔥</div>
+    </div>
+    <div class="right-actions">
+      <button class="action-icon-btn heart-btn" onclick="likeLive(this,3)">❤️<div class="count-tag">5.8k</div></button>
+      <button class="action-icon-btn">↗<div class="count-tag">Partager</div></button>
+      <button class="action-icon-btn">🛒<div class="count-tag">Panier</div></button>
+      <button class="action-icon-btn">⚠️<div class="count-tag">Signaler</div></button>
+    </div>
+    <div class="chat-input">
+      <input placeholder="Envoyer un message...">
+      <button>➤</button>
+    </div>
+  </div>
+</div>
 
-function followSeller(id,name,btn){
-  const f = JSON.parse(localStorage.getItem('followed')||'[]');
-  if(f.includes(id)){f.splice(f.indexOf(id),1);btn.textContent='+ Suivre';btn.style.background='#ef4444';}
-  else{f.push(id);btn.textContent='✓ Suivi';btn.style.background='rgba(255,255,255,.25)';}
-  localStorage.setItem('followed',JSON.stringify(f));
-  navigator.vibrate&&navigator.vibrate(30);
-}
-
-setInterval(()=>{
-  LIVES.forEach(L=>{
-    const chat = document.getElementById('chat'+L.id);
-    if(!chat)return;
-    const m = document.createElement('div');
-    m.className='chat-msg';
-    m.innerHTML=`<strong>${users[Math.floor(Math.random()*users.length)]}</strong>${messages[Math.floor(Math.random()*messages.length)]}`;
-    chat.appendChild(m);
-    if(chat.children.length>4)chat.removeChild(chat.firstChild);
-  });
-},2800);
-
-setInterval(()=>{
-  document.querySelectorAll('.vc').forEach(vc=>{
-    const n = parseInt(vc.textContent.replace(/\D/g,''))+Math.floor(Math.random()*10)-3;
-    vc.textContent = Math.max(50,n).toLocaleString();
-  });
-},3000);
-
-function reactEmoji(id,emoji){
-  const slide = document.querySelector(`.live-slide[data-id="${id}"]`);
-  if(!slide)return;
-  for(let i=0;i<3;i++){
-    setTimeout(()=>{
-      const e = document.createElement('div');
-      e.className='float-emoji';
-      e.textContent=emoji;
-      e.style.right = (30+Math.random()*60)+'px';
-      slide.appendChild(e);
-      setTimeout(()=>e.remove(),3000);
-    }, i*100);
-  }
-  navigator.vibrate&&navigator.vibrate(20);
-}
-
-function sendMsg(id,input){
-  if(!input.value.trim())return;
-  const chat=document.getElementById('chat'+id);
-  const m=document.createElement('div');
-  m.className='chat-msg';
-  m.style.background='rgba(15,107,78,.9)';
-  m.innerHTML=`<strong style="color:#D4A574;">Vous</strong>${input.value}`;
-  chat.appendChild(m);
-  if(chat.children.length>4)chat.removeChild(chat.firstChild);
-  input.value='';
-  navigator.vibrate&&navigator.vibrate(15);
-}
-
-function flashBuy(id){
-  const L = LIVES.find(x=>x.id===id);
-  const flashPrice = Math.round(L.product.price*0.7);
-  if(confirm(`🛒 ACHAT FLASH -30%\n\n${L.product.name}\nPrix LIVE: ${flashPrice.toLocaleString()} FCFA\n\nAjouter au panier ?`)){
-    const cart=JSON.parse(localStorage.getItem('cart')||'[]');
-    cart.push({...L.product,price:flashPrice,flashDiscount:30,liveId:id,seller:L.seller,ts:Date.now()});
-    localStorage.setItem('cart',JSON.stringify(cart));
-    navigator.vibrate&&navigator.vibrate([50,30,50,30,50]);
-    if(confirm('✅ Ajouté au panier !\nAller au panier ?')) location.href='panier.html';
+<script src="js/dark-mode.js"></script>
+<script>
+function toggleFol(btn){
+  if(btn.textContent.includes('+ Suivre')){
+    btn.textContent = '✓ Suivi';
+    btn.classList.add('following');
+  } else {
+    btn.textContent = '+ Suivre';
+    btn.classList.remove('following');
   }
 }
-
-function shareLive(id){
-  const L = LIVES.find(x=>x.id===id);
-  if(navigator.share) navigator.share({title:'🔴 LIVE '+L.seller,text:L.title,url:location.href+'?live='+id});
-  else{navigator.clipboard.writeText(location.href+'?live='+id);alert('✅ Lien copié');}
+function likeLive(btn, n){
+  btn.classList.add('liked','heart-anim');
+  setTimeout(()=>btn.classList.remove('heart-anim'),500);
+}
+function shareLive(){
+  if(navigator.share) navigator.share({title:'SEN TEW LIVE',url:location.href});
+  else alert('🔗 Lien copié : '+location.href);
+}
+function showCart(){location.href='panier.html'}
+function reportLive(){
+  if(confirm('⚠️ Signaler ce LIVE ?\n\n• Contenu inapproprié\n• Contrefaçon\n• Arnaque')){
+    alert('📩 Signalement envoyé. Modération SEN TEW notifiée.');
+  }
+}
+function flashBuy(name){
+  if(confirm('⚡ FLASH BUY : '+name+'\n\nAjouter au panier au prix LIVE ?')){
+    alert('✅ '+name+' ajouté au panier au prix flash !');
+    location.href='panier.html';
+  }
+}
+function sendMsg(n, inp){
+  const t = inp.value.trim();
+  if(!t) return;
+  const chat = document.getElementById('chat'+n) || document.querySelector('.live-item:nth-child('+n+') .chat-zone');
+  if(chat){
+    const msg = document.createElement('div');
+    msg.className = 'chat-msg';
+    msg.innerHTML = '<span class="user">Vous</span> '+t;
+    chat.appendChild(msg);
+    chat.scrollTop = chat.scrollHeight;
+  }
+  inp.value='';
 }
 
-const targetLive = new URLSearchParams(location.search).get('live') || new URLSearchParams(location.search).get('seller');
-if(targetLive){
-  setTimeout(()=>{
-    const slide = document.querySelector(`.live-slide[data-id="${targetLive}"]`);
-    if(slide) slide.scrollIntoView({behavior:'instant'});
-  }, 100);
-}
+// Compte à rebours flash
+setInterval(()=>{
+  const el = document.getElementById('t1');
+  if(!el) return;
+  let [m,s] = el.textContent.split(':').map(n=>parseInt(n));
+  s--;
+  if(s<0){m--;s=59}
+  if(m<0){m=2;s=59}
+  el.textContent = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+},1000);
+
+// Compteurs viewers dynamiques
+setInterval(()=>{
+  const v = document.getElementById('v1');
+  const l = document.getElementById('l1');
+  if(v) v.textContent = (parseInt(v.textContent.replace(/\D/g,''))+Math.floor(Math.random()*5)-2).toLocaleString();
+  if(l) l.textContent = (parseFloat(l.textContent)+.1).toFixed(1)+'k';
+},4000);
 </script>
-</body>
-</html>
+</body></html>
