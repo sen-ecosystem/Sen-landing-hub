@@ -213,8 +213,18 @@ function doSignup(e){
   localStorage.setItem('sentew_logged','1');
   localStorage.setItem('sentew_role', selectedRole);
   alert('✅ Compte créé avec succès !\n\n📩 Un email de confirmation vous a été envoyé.');
-  const home = {client:'onboarding.html', vendeur:'vendeur.html', livreur:'livreur.html'};
-  location.href = home[selectedRole];
+  
+  // Redirection intelligente
+  if(selectedRole === 'client'){
+    // Client : onboarding 3 étapes
+    location.href = 'onboarding.html';
+  } else if(selectedRole === 'vendeur'){
+    // Vendeur : espace KYC
+    location.href = 'vendeur.html?first=1';
+  } else if(selectedRole === 'livreur'){
+    // Livreur : espace onboarding livreur
+    location.href = 'livreur.html?first=1';
+  }
 }
 function socialSignup(provider){
   const names = {google:'Google',apple:'Apple',facebook:'Facebook'};
