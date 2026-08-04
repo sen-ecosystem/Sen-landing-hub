@@ -419,5 +419,55 @@ if('serviceWorker' in navigator){
 console.log('✅ SEN TEW chargé:', PRODUCTS.length, 'produits');
 </script>
   <script src="js/role-guard.js"></script>
+  <script src="js/dark-mode.js"></script>
+<script src="js/role-guard.js"></script>
+<script>
+// ===== ACCÈS ADMIN SECRET (7 taps sur logo) =====
+(function(){
+  const logo = document.getElementById('admTrig');
+  if(!logo) return;
+  
+  logo.style.cursor = 'pointer';
+  logo.style.userSelect = 'none';
+  
+  let tapCount = 0;
+  let tapTimer = null;
+  
+  logo.addEventListener('click', function(){
+    tapCount++;
+    clearTimeout(tapTimer);
+    
+    if(navigator.vibrate) navigator.vibrate(30);
+    
+    // Feedback visuel discret après 3 taps
+    if(tapCount >= 3 && tapCount < 7){
+      logo.style.transform = 'scale(1.05)';
+      setTimeout(()=>logo.style.transform='scale(1)', 100);
+    }
+    
+    // 7 taps atteints
+    if(tapCount >= 7){
+      tapCount = 0;
+      const code = prompt('🔐 Code administrateur SEN TEW :');
+      if(!code) return;
+      
+      const clean = code.trim().replace(/[\u200B-\u200D\uFEFF]/g,'').toUpperCase();
+      const validCodes = ['SENADMIN2026','ADMIN2026','SENTEW2026','SUPERADMIN'];
+      
+      if(validCodes.includes(clean)){
+        sessionStorage.setItem('admin_pre_auth','1');
+        if(navigator.vibrate) navigator.vibrate([100,50,100]);
+        alert('✅ Accès autorisé\n\nRedirection vers l\'administration...');
+        location.href = 'admin.html';
+      } else {
+        alert('❌ Code incorrect\n\nCode saisi : "'+clean+'"\nRéessayez.');
+      }
+    }
+    
+    // Reset compteur après 3 sec d'inactivité
+    tapTimer = setTimeout(()=>{tapCount = 0;}, 3000);
+  });
+})();
+</script>
 </body>
 </html>
