@@ -1,101 +1,116 @@
 <!DOCTYPE html>
 <html lang="fr"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Panier - SEN TEW</title>
+<title>Mon Panier - SEN TEW</title>
 <style>
+:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a}
 *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif}
-body{background:#f5f5f5;color:#222;padding-bottom:100px;-webkit-overflow-scrolling:touch}
-.header{background:linear-gradient(135deg,#00a651,#008a44);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:12px}
-.back{background:rgba(255,255,255,.25);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px}
+body{background:#f5f5f5;color:#222;padding-bottom:180px;-webkit-overflow-scrolling:touch}
+.header{background:linear-gradient(135deg,var(--v),#008a44);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:12px}
+.back{background:rgba(255,255,255,.25);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer}
 .header h1{color:#fff;font-size:17px;flex:1}
-.count-badge{background:#fcd116;color:#222;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:700}
+.count-badge{background:var(--j);color:#222;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:700}
 
-.address-card{background:linear-gradient(135deg,#00a651,#008a44);color:#fff;margin:12px 14px;padding:14px;border-radius:14px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 12px rgba(0,166,81,.25);cursor:pointer}
+.address-card{background:linear-gradient(135deg,var(--v),#008a44);color:#fff;margin:12px 14px;padding:14px;border-radius:14px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 12px rgba(0,166,81,.25);cursor:pointer}
 .address-pin{width:38px;height:38px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px}
 .address-info{flex:1;color:#fff}
 .address-info small{opacity:.85;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
-.address-info strong{display:block;font-size:15px;margin:2px 0}
-.address-info p{font-size:12px;opacity:.9}
-.address-edit{color:#fcd116;font-size:22px}
+.address-info strong{display:block;font-size:15px;margin:2px 0;color:#fff}
+.address-info p{font-size:12px;opacity:.9;color:#fff}
+.address-edit{color:var(--j);font-size:22px}
 
-.section{padding:0 14px;margin-bottom:14px}
-.section-title{font-size:13px;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 8px;display:flex;justify-content:space-between;align-items:center}
-.section-title a{color:#00a651;font-size:12px;text-decoration:none;font-weight:600}
+.section{padding:0 14px;margin-bottom:12px}
+.section-title{font-size:13px;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 8px;display:flex;justify-content:space-between}
 
-/* PANIER VIDE */
-.empty-cart{background:#fff;border-radius:16px;padding:30px 20px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.empty-icon{font-size:64px;margin-bottom:12px}
-.empty-title{color:#00a651;font-size:20px;font-weight:800;margin-bottom:6px}
-.empty-desc{color:#666;font-size:14px;margin-bottom:16px}
-.explore-btn{background:linear-gradient(135deg,#00a651,#008a44);color:#fff;border:none;padding:14px 40px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(0,166,81,.3)}
+/* Articles */
+.cart-item{background:#fff;border-radius:12px;padding:12px;margin-bottom:10px;display:flex;gap:10px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.cart-img{width:80px;height:80px;border-radius:10px;object-fit:cover;background:#eee;flex-shrink:0}
+.cart-body{flex:1;min-width:0}
+.cart-name{font-size:13px;font-weight:600;color:#222;line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.cart-variant{font-size:11px;color:#888;margin-top:2px}
+.cart-shop{font-size:11px;color:var(--v);font-weight:600;margin-top:2px}
+.cart-price{color:var(--o);font-weight:800;font-size:16px;margin-top:4px}
+.cart-price .old{color:#999;text-decoration:line-through;font-size:11px;margin-left:4px;font-weight:400}
+.cart-actions{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.qty-box{display:flex;align-items:center;gap:6px;background:#f5f5f5;border-radius:20px;padding:2px}
+.qty-btn{width:28px;height:28px;border-radius:50%;border:none;background:#fff;font-weight:700;font-size:14px;cursor:pointer;color:#222}
+.qty-val{font-size:14px;font-weight:700;color:#222;min-width:20px;text-align:center}
+.remove-btn{background:none;border:none;color:var(--r);font-size:18px;cursor:pointer}
 
-/* COUPON */
-.coupon-input{background:#fff;padding:12px;border-radius:12px;display:flex;gap:8px;align-items:center;margin-bottom:10px;border:2px dashed #fcd116}
+.promo-strip{background:linear-gradient(90deg,var(--r),#ff6b35);color:#fff;padding:10px 14px;border-radius:12px;margin-bottom:10px;font-size:13px;text-align:center;font-weight:600}
+
+.coupon-input{background:#fff;padding:12px;border-radius:12px;display:flex;gap:8px;align-items:center;margin-bottom:10px;border:2px dashed var(--j)}
 .coupon-input input{flex:1;border:none;background:none;font-size:14px;color:#222;outline:none}
 .coupon-input input::placeholder{color:#999}
-.coupon-btn{background:linear-gradient(135deg,#fcd116,#f4b800);color:#222;border:none;padding:8px 16px;border-radius:8px;font-weight:700;font-size:13px}
+.coupon-btn{background:linear-gradient(135deg,var(--j),#f4b800);color:#222;border:none;padding:8px 16px;border-radius:8px;font-weight:700;font-size:13px}
 
-/* PROMOS BAR */
-.promo-strip{background:linear-gradient(90deg,#e31b23,#ff6b35);color:#fff;padding:10px 14px;border-radius:12px;margin-bottom:10px;font-size:13px;text-align:center;font-weight:600}
-
-/* PROGRESS LIVRAISON */
 .delivery-progress{background:#fff;padding:14px;border-radius:12px;margin-bottom:10px}
 .delivery-text{font-size:13px;color:#222;margin-bottom:8px}
-.delivery-text b{color:#00a651}
+.delivery-text b{color:var(--v)}
 .progress-bar{height:8px;background:#e0e0e0;border-radius:4px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,#00a651,#fcd116);width:60%;transition:width .5s}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--v),var(--j));width:70%;transition:.5s}
 
-/* SUGGESTIONS */
+/* Récap prix */
+.summary{background:#fff;border-radius:14px;padding:16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.summary-row{display:flex;justify-content:space-between;padding:6px 0;font-size:14px;color:#333}
+.summary-row.discount{color:var(--v);font-weight:600}
+.summary-row.total{border-top:2px solid #eee;margin-top:8px;padding-top:12px;font-size:18px;font-weight:800;color:#222}
+.summary-row.total .amount{color:var(--o);font-size:22px}
+
+/* Paiement méthode */
+.pay-methods{background:#fff;padding:14px;border-radius:12px;margin-bottom:10px}
+.pay-title{font-size:13px;font-weight:700;color:#222;margin-bottom:10px}
+.pay-icons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.pay-icon{padding:8px 12px;background:#f5f5f5;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:2px solid transparent}
+.pay-icon.active{border-color:var(--v);background:#e8f5ee}
+.pay-icon.wave{color:#4a90e2}
+.pay-icon.om{color:#ff6f00}
+.pay-icon.free{color:#00a651}
+.pay-icon.wizall{color:#e31b23}
+.pay-icon.visa{color:#1a1f71}
+.pay-icon.wallet{color:#b8863a}
+.pay-split-info{background:linear-gradient(90deg,#e8f5ee,#fff);border-left:3px solid var(--v);padding:10px;border-radius:6px;font-size:12px;color:#333}
+.pay-split-info b{color:var(--v)}
+
+/* Buy bar avec PAYER */
+.buy-bar{position:fixed;bottom:60px;left:0;right:0;background:#fff;padding:12px 14px;padding-bottom:12px;box-shadow:0 -2px 16px rgba(0,0,0,.15);z-index:88;border-top:1px solid #eee}
+.buy-bar-row{display:flex;gap:10px;align-items:center}
+.buy-bar-total{flex:1}
+.buy-bar-total small{color:#888;font-size:11px;display:block}
+.buy-bar-total b{color:var(--o);font-size:20px;font-weight:900}
+.pay-btn{background:linear-gradient(135deg,var(--v),#008a44);color:#fff;border:none;padding:14px 24px;border-radius:12px;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 4px 14px rgba(0,166,81,.3);display:flex;align-items:center;gap:6px}
+.pay-btn:active{transform:scale(.97)}
+
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;padding:6px 0;padding-bottom:calc(6px + env(safe-area-inset-bottom,0));z-index:90;height:60px}
+.nav-item{flex:1;text-align:center;color:#666;font-size:10px;background:none;border:none;cursor:pointer;font-family:inherit}
+.nav-item.active{color:var(--v);font-weight:700}
+.nav-icon{font-size:22px;display:block;margin-bottom:2px}
+
+/* Suggestions */
 .h-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .h-scroll::-webkit-scrollbar{display:none}
 .sug-card{flex:0 0 140px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06);cursor:pointer}
 .sug-img{width:100%;height:100px;object-fit:cover;background:#eee}
 .sug-body{padding:8px}
 .sug-body h4{font-size:12px;font-weight:600;color:#222;height:32px;overflow:hidden;line-height:1.3}
-.sug-price{color:#b8863a;font-weight:800;font-size:14px;margin-top:4px}
-.sug-old{color:#999;text-decoration:line-through;font-size:11px;margin-left:4px}
-.sug-badge{background:#e31b23;color:#fff;padding:2px 6px;border-radius:6px;font-size:9px;font-weight:700;display:inline-block;margin-top:2px}
-.sug-add{background:#00a651;color:#fff;border:none;width:100%;padding:6px;font-size:11px;font-weight:600;border-radius:6px;margin-top:4px;cursor:pointer}
+.sug-price{color:var(--o);font-weight:800;font-size:14px;margin-top:4px}
 
-/* BUNDLES */
-.bundle-card{background:linear-gradient(135deg,#fff9e6,#ffefc2);padding:14px;border-radius:14px;margin-bottom:10px;border:2px solid #fcd116}
-.bundle-title{font-size:14px;font-weight:700;color:#b8863a;margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.bundle-badge{background:#e31b23;color:#fff;padding:2px 8px;border-radius:8px;font-size:11px;font-weight:700}
-.bundle-items{display:flex;gap:8px;align-items:center;justify-content:center;margin-bottom:8px}
-.bundle-items .item{width:60px;height:60px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:28px}
-.bundle-plus{color:#b8863a;font-size:20px;font-weight:800}
-.bundle-price{text-align:center}
-.bundle-price .new{color:#00a651;font-size:20px;font-weight:800}
-.bundle-price .old{color:#999;text-decoration:line-through;font-size:13px;margin-left:6px}
-.bundle-btn{background:linear-gradient(135deg,#00a651,#008a44);color:#fff;border:none;width:100%;padding:10px;border-radius:8px;font-weight:700;margin-top:8px;cursor:pointer}
-
-/* PAIEMENT INFO */
-.pay-methods{background:#fff;padding:14px;border-radius:12px;margin-bottom:10px}
-.pay-title{font-size:13px;font-weight:700;color:#222;margin-bottom:10px}
-.pay-icons{display:flex;gap:8px;flex-wrap:wrap}
-.pay-icon{width:52px;height:32px;background:#f5f5f5;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
-.pay-icon.wave{background:#4a90e2;color:#fff}
-.pay-icon.om{background:#ff6f00;color:#fff}
-.pay-icon.free{background:#00a651;color:#fff}
-.pay-icon.wizall{background:#e31b23;color:#fff}
-.pay-icon.visa{background:#1a1f71;color:#fff}
-.pay-icon.mc{background:#eb001b;color:#fff}
-.pay-icon.wallet{background:#fcd116;color:#222}
-.pay-icon.cod{background:#795548;color:#fff}
-.pay-split{background:linear-gradient(90deg,#e8f5ee,#fff);border-left:4px solid #00a651;padding:10px;border-radius:8px;margin-top:10px}
-.pay-split b{color:#00a651;font-size:12px}
-.pay-split p{font-size:12px;color:#333;margin-top:2px}
-
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;padding:8px 0;padding-bottom:calc(8px + env(safe-area-inset-bottom,0));z-index:90}
-.nav-item{flex:1;text-align:center;color:#666;font-size:10px;background:none;border:none;cursor:pointer;font-family:inherit}
-.nav-item.active{color:#00a651;font-weight:700}
-.nav-icon{font-size:22px;display:block;margin-bottom:2px}
+/* DARK MODE */
+html[data-theme="dark"] body{background:#0f1419;color:#e8eaed}
+html[data-theme="dark"] .cart-item,html[data-theme="dark"] .summary,
+html[data-theme="dark"] .pay-methods,html[data-theme="dark"] .delivery-progress,
+html[data-theme="dark"] .coupon-input,html[data-theme="dark"] .sug-card,
+html[data-theme="dark"] .buy-bar,html[data-theme="dark"] .bottom-nav{background:#1a2028;color:#e8eaed}
+html[data-theme="dark"] .cart-name,html[data-theme="dark"] .qty-val{color:#e8eaed}
+html[data-theme="dark"] .cart-variant{color:#9aa0a6}
+html[data-theme="dark"] .qty-box{background:#232a33}
+html[data-theme="dark"] .pay-icon{background:#232a33}
 </style></head><body>
 
 <header class="header">
   <button class="back" onclick="history.back()">←</button>
   <h1>🛒 Mon Panier</h1>
-  <span class="count-badge">0 article</span>
+  <span class="count-badge" id="itemCount">3 articles</span>
 </header>
 
 <div class="address-card" onclick="location.href='adresses.html'">
@@ -109,137 +124,139 @@ body{background:#f5f5f5;color:#222;padding-bottom:100px;-webkit-overflow-scrolli
 </div>
 
 <div class="section">
-  <div class="promo-strip">🔥 -30% avec le code RAMADAN30 · Valable 3 jours !</div>
+  <div class="promo-strip">🔥 -30% avec le code RAMADAN30 · Copiez maintenant !</div>
+</div>
 
-  <div class="empty-cart">
-    <div class="empty-icon">🛒</div>
-    <div class="empty-title">Panier vide</div>
-    <div class="empty-desc">Découvrez nos meilleures offres du moment</div>
-    <button class="explore-btn" onclick="location.href='produits.html'">🔍 Explorer les produits</button>
+<div class="section">
+  <div class="section-title"><span>🛍️ Vos articles</span></div>
+
+  <div class="cart-item">
+    <img class="cart-img" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=200" alt="">
+    <div class="cart-body">
+      <div class="cart-name">Boubou traditionnel brodé main</div>
+      <div class="cart-variant">🎨 Bleu · 📏 XL</div>
+      <div class="cart-shop">🏪 Aïcha Fashion</div>
+      <div class="cart-price">25 000 FCFA <span class="old">35 000</span></div>
+      <div class="cart-actions">
+        <div class="qty-box">
+          <button class="qty-btn" onclick="qty(this,-1)">−</button>
+          <span class="qty-val">1</span>
+          <button class="qty-btn" onclick="qty(this,1)">+</button>
+        </div>
+        <button class="remove-btn" onclick="removeItem(this)">🗑️</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cart-item">
+    <img class="cart-img" src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=200" alt="">
+    <div class="cart-body">
+      <div class="cart-name">Sandales cousues main</div>
+      <div class="cart-variant">🎨 Marron · 📏 40</div>
+      <div class="cart-shop">🏪 Aïcha Fashion</div>
+      <div class="cart-price">8 500 FCFA <span class="old">12 000</span></div>
+      <div class="cart-actions">
+        <div class="qty-box">
+          <button class="qty-btn" onclick="qty(this,-1)">−</button>
+          <span class="qty-val">2</span>
+          <button class="qty-btn" onclick="qty(this,1)">+</button>
+        </div>
+        <button class="remove-btn" onclick="removeItem(this)">🗑️</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cart-item">
+    <img class="cart-img" src="https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=200" alt="">
+    <div class="cart-body">
+      <div class="cart-name">AirPods Pro 2ème génération</div>
+      <div class="cart-variant">🎨 Blanc</div>
+      <div class="cart-shop">🏪 Tech Modou</div>
+      <div class="cart-price">135 000 FCFA <span class="old">180 000</span></div>
+      <div class="cart-actions">
+        <div class="qty-box">
+          <button class="qty-btn" onclick="qty(this,-1)">−</button>
+          <span class="qty-val">1</span>
+          <button class="qty-btn" onclick="qty(this,1)">+</button>
+        </div>
+        <button class="remove-btn" onclick="removeItem(this)">🗑️</button>
+      </div>
+    </div>
   </div>
 
   <div class="coupon-input">
     <span style="font-size:20px">🎟️</span>
-    <input placeholder="Entrez un code promo (ex: RAMADAN30)">
-    <button class="coupon-btn">Appliquer</button>
+    <input placeholder="Code promo (ex: RAMADAN30)" id="promoCode">
+    <button class="coupon-btn" onclick="applyPromo()">Appliquer</button>
   </div>
 
   <div class="delivery-progress">
-    <div class="delivery-text">🚚 Ajoutez <b>6 000 FCFA</b> pour la livraison gratuite !</div>
-    <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
+    <div class="delivery-text">🚚 Vous bénéficiez de la <b>livraison gratuite</b> ! 🎉</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
   </div>
 
-  <div class="section-title">
-    <span>✨ Vous pourriez aussi aimer</span>
-    <a href="produits.html">Voir tout →</a>
+  <div class="section-title">💰 Récapitulatif</div>
+  <div class="summary">
+    <div class="summary-row"><span>Sous-total (4 articles)</span><span>177 000 FCFA</span></div>
+    <div class="summary-row discount"><span>🎟️ RAMADAN30 (-30%)</span><span>-53 100 FCFA</span></div>
+    <div class="summary-row"><span>🚚 Livraison</span><span style="color:var(--v);font-weight:700">GRATUIT</span></div>
+    <div class="summary-row"><span>TVA (18%)</span><span>18 250 FCFA</span></div>
+    <div class="summary-row total"><span>Total à payer</span><span class="amount">142 150 FCFA</span></div>
   </div>
+
+  <div class="section-title">💳 Moyen de paiement</div>
+  <div class="pay-methods">
+    <div class="pay-title">Choisissez votre paiement</div>
+    <div class="pay-icons">
+      <div class="pay-icon wave active" onclick="pickPay(this)">Wave</div>
+      <div class="pay-icon om" onclick="pickPay(this)">Orange Money</div>
+      <div class="pay-icon free" onclick="pickPay(this)">Free Money</div>
+      <div class="pay-icon wizall" onclick="pickPay(this)">Wizall</div>
+      <div class="pay-icon visa" onclick="pickPay(this)">💳 Carte VISA/MC</div>
+      <div class="pay-icon wallet" onclick="pickPay(this)">💰 Wallet SEN TEW</div>
+      <div class="pay-icon" style="color:#795548" onclick="pickPay(this)">📦 Paiement livraison</div>
+    </div>
+    <div class="pay-split-info">
+      <b>💳 Paiement 2x ou 3x sans frais</b><br>
+      Disponible avec carte bancaire dès 15 000 FCFA
+    </div>
+  </div>
+
+  <div class="section-title">✨ Vous pourriez aimer</div>
   <div class="h-scroll">
-    <div class="sug-card">
-      <img class="sug-img" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=200" alt="">
+    <div class="sug-card" onclick="location.href='produit.html?id=2'">
+      <img class="sug-img" src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=200">
       <div class="sug-body">
         <h4>Robe wax mariage</h4>
-        <div class="sug-price">35 000 F<span class="sug-old">50 000</span></div>
-        <span class="sug-badge">-30%</span>
-        <button class="sug-add">+ Ajouter</button>
+        <div class="sug-price">18 500 F</div>
       </div>
     </div>
-    <div class="sug-card">
-      <img class="sug-img" src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=200" alt="">
-      <div class="sug-body">
-        <h4>Sandales cuir Peul</h4>
-        <div class="sug-price">8 500 F</div>
-        <span class="sug-badge" style="background:#00a651">📍 Local</span>
-        <button class="sug-add">+ Ajouter</button>
-      </div>
-    </div>
-    <div class="sug-card">
-      <img class="sug-img" src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=200" alt="">
-      <div class="sug-body">
-        <h4>Chemise brodée homme</h4>
-        <div class="sug-price">12 000 F<span class="sug-old">18 000</span></div>
-        <span class="sug-badge">-33%</span>
-        <button class="sug-add">+ Ajouter</button>
-      </div>
-    </div>
-    <div class="sug-card">
-      <img class="sug-img" src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=200" alt="">
+    <div class="sug-card" onclick="location.href='produit.html?id=3'">
+      <img class="sug-img" src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=200">
       <div class="sug-body">
         <h4>Sac cuir artisanal</h4>
         <div class="sug-price">15 000 F</div>
-        <span class="sug-badge" style="background:#9c27b0">🌿 Fait main</span>
-        <button class="sug-add">+ Ajouter</button>
       </div>
     </div>
-  </div>
-
-  <div class="section-title">🎁 Bundles économiques</div>
-  <div class="bundle-card">
-    <div class="bundle-title">Pack Mariage Complet <span class="bundle-badge">-25%</span></div>
-    <div class="bundle-items">
-      <div class="item">👗</div>
-      <span class="bundle-plus">+</span>
-      <div class="item">👜</div>
-      <span class="bundle-plus">+</span>
-      <div class="item">👠</div>
-    </div>
-    <div class="bundle-price">
-      <span class="new">45 000 F</span>
-      <span class="old">60 000 F</span>
-    </div>
-    <button class="bundle-btn">🛒 Ajouter le pack complet</button>
-  </div>
-
-  <div class="section-title">💳 Moyens de paiement acceptés</div>
-  <div class="pay-methods">
-    <div class="pay-title">✅ Tous ces modes sont acceptés</div>
-    <div class="pay-icons">
-      <div class="pay-icon wave">Wave</div>
-      <div class="pay-icon om">OM</div>
-      <div class="pay-icon free">Free</div>
-      <div class="pay-icon wizall">Wizall</div>
-      <div class="pay-icon visa">VISA</div>
-      <div class="pay-icon mc">MC</div>
-      <div class="pay-icon wallet">💰</div>
-      <div class="pay-icon cod">COD</div>
-    </div>
-    <div class="pay-split">
-      <b>💳 Paiement 2x ou 3x sans frais</b>
-      <p>Disponible dès 15 000 FCFA avec carte bancaire</p>
-    </div>
-  </div>
-
-  <div class="section-title">
-    <span>🔥 Top vendeurs cette semaine</span>
-    <a href="produits.html?filter=top">Voir tout →</a>
-  </div>
-  <div class="h-scroll">
-    <div class="sug-card">
-      <img class="sug-img" src="https://images.unsplash.com/photo-1592286927505-1def25115558?w=200" alt="">
+    <div class="sug-card" onclick="location.href='produit.html?id=5'">
+      <img class="sug-img" src="https://images.unsplash.com/photo-1592286927505-1def25115558?w=200">
       <div class="sug-body">
         <h4>iPhone 15 Pro</h4>
         <div class="sug-price">850 000 F</div>
-        <span class="sug-badge" style="background:#1da1f2">✓ Vérifié</span>
-        <button class="sug-add">+ Ajouter</button>
       </div>
     </div>
-    <div class="sug-card">
-      <img class="sug-img" src="https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=200" alt="">
-      <div class="sug-body">
-        <h4>AirPods Pro 2</h4>
-        <div class="sug-price">135 000 F<span class="sug-old">180 000</span></div>
-        <span class="sug-badge">-25%</span>
-        <button class="sug-add">+ Ajouter</button>
-      </div>
+  </div>
+</div>
+
+<div class="buy-bar">
+  <div class="buy-bar-row">
+    <div class="buy-bar-total">
+      <small>Total à payer</small>
+      <b id="totalAmount">142 150 FCFA</b>
     </div>
-    <div class="sug-card">
-      <img class="sug-img" src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200" alt="">
-      <div class="sug-body">
-        <h4>Kit soin naturel</h4>
-        <div class="sug-price">22 000 F</div>
-        <span class="sug-badge" style="background:#e91e63">💄 Beauté</span>
-        <button class="sug-add">+ Ajouter</button>
-      </div>
-    </div>
+    <button class="pay-btn" onclick="payNow()">
+      💳 <span>Payer maintenant</span>
+    </button>
   </div>
 </div>
 
@@ -250,4 +267,36 @@ body{background:#f5f5f5;color:#222;padding-bottom:100px;-webkit-overflow-scrolli
   <button class="nav-item" onclick="location.href='messages.html'"><span class="nav-icon">💬</span>Messages</button>
   <button class="nav-item" onclick="location.href='profil.html'"><span class="nav-icon">👤</span>Profil</button>
 </nav>
+
+<script src="js/dark-mode.js"></script>
+<script>
+function qty(btn,d){
+  const val = btn.parentElement.querySelector('.qty-val');
+  let n = parseInt(val.textContent)+d;
+  if(n<1) n=1;
+  val.textContent = n;
+}
+function removeItem(btn){
+  if(confirm('Retirer cet article du panier ?')){
+    btn.closest('.cart-item').remove();
+  }
+}
+function applyPromo(){
+  const code = document.getElementById('promoCode').value.trim().toUpperCase();
+  if(!code) return alert('Entrez un code');
+  if(code==='RAMADAN30') alert('✅ Code RAMADAN30 appliqué : -30% !');
+  else alert('❌ Code invalide ou expiré');
+}
+function pickPay(el){
+  document.querySelectorAll('.pay-icon').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+}
+function payNow(){
+  const method = document.querySelector('.pay-icon.active').textContent;
+  if(confirm('💳 Confirmer le paiement de 142 150 FCFA via '+method+' ?')){
+    alert('✅ Paiement en cours...\n\n📱 Redirection vers '+method);
+    setTimeout(()=>location.href='paiement-success.html', 1500);
+  }
+}
+</script>
 </body></html>
