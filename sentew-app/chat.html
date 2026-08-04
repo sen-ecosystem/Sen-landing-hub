@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Chat - SEN TEW</title>
+<style>
+:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a;--b:#1976d2}
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,'Segoe UI',sans-serif}
+body{background:#f5f5f5;color:#222;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+/* HEADER CHAT */
+.chat-header{background:linear-gradient(135deg,var(--v),#008a44);color:#fff;padding:10px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 8px rgba(0,166,81,.2);flex-shrink:0}
+.back-btn{background:rgba(255,255,255,.25);border:none;color:#fff;width:34px;height:34px;border-radius:50%;font-size:18px;cursor:pointer;flex-shrink:0}
+.chat-partner{display:flex;align-items:center;gap:10px;flex:1;cursor:pointer;min-width:0}
+.partner-avatar{width:40px;height:40px;border-radius:50%;background:#fff;color:var(--v);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;position:relative;flex-shrink:0}
+.online-dot{position:absolute;bottom:0;right:0;width:11px;height:11px;background:var(--v);border:2px solid #fff;border-radius:50%}
+.partner-info{flex:1;min-width:0}
+.partner-name{font-size:14px;font-weight:700;color:#fff;display:flex;align-items:center;gap:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tick-blue{background:#1da1f2;color:#fff;width:14px;height:14px;border-radius:50%;font-size:9px;display:inline-flex;align-items:center;justify-content:center}
+.partner-status{font-size:11px;opacity:.9;color:#fff}
+.partner-status.typing{color:var(--j);font-weight:600}
+
+.chat-actions{display:flex;gap:6px;flex-shrink:0}
+.act-btn{background:rgba(255,255,255,.2);border:none;color:#fff;width:34px;height:34px;border-radius:50%;font-size:16px;cursor:pointer;backdrop-filter:blur(10px)}
+
+/* CONTEXT ORDER */
+.order-context{background:linear-gradient(90deg,#fff9e6,#fff);border-bottom:1px solid #f0e6c0;padding:10px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.order-context img{width:40px;height:40px;border-radius:8px;object-fit:cover;background:#eee}
+.order-context .info{flex:1;min-width:0}
+.order-context b{display:block;font-size:12px;color:#222;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.order-context span{font-size:11px;color:var(--o);font-weight:600}
+.order-context .view-btn{background:var(--o);color:#fff;border:none;padding:5px 10px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0}
+
+/* MESSAGES ZONE */
+.messages{flex:1;overflow-y:auto;padding:16px 14px;-webkit-overflow-scrolling:touch;background:linear-gradient(180deg,#f5f5f5,#e8f5ee)}
+.messages::-webkit-scrollbar{display:none}
+
+.date-sep{text-align:center;margin:14px 0;font-size:11px;color:#888;font-weight:600}
+.date-sep span{background:rgba(255,255,255,.9);padding:4px 12px;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+
+.msg{max-width:78%;margin-bottom:8px;animation:msgIn .3s ease-out}
+@keyframes msgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.msg.mine{margin-left:auto}
+.msg.theirs{margin-right:auto}
+.msg-bubble{padding:9px 13px;border-radius:16px;font-size:14px;line-height:1.4;word-wrap:break-word;position:relative;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.msg.mine .msg-bubble{background:linear-gradient(135deg,var(--v),#008a44);color:#fff;border-bottom-right-radius:4px}
+.msg.theirs .msg-bubble{background:#fff;color:#222;border-bottom-left-radius:4px}
+.msg-meta{font-size:10px;color:#999;margin-top:2px;display:flex;align-items:center;gap:3px}
+.msg.mine .msg-meta{justify-content:flex-end}
+.msg-meta .status{color:#1da1f2}
+
+/* Image dans message */
+.msg-img{width:180px;max-width:100%;border-radius:12px;margin-bottom:4px;cursor:pointer}
+
+/* Produit partagé */
+.msg-product{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.08);width:200px;max-width:100%;cursor:pointer}
+.msg-product img{width:100%;height:120px;object-fit:cover}
+.msg-product .info{padding:8px}
+.msg-product .info h5{font-size:12px;font-weight:700;color:#222;line-height:1.3;margin-bottom:4px}
+.msg-product .info .price{color:var(--o);font-weight:800;font-size:14px}
+
+/* Localisation partagée */
+.msg-location{background:linear-gradient(135deg,#1976d2,#0d47a1);color:#fff;padding:10px;border-radius:12px;display:flex;align-items:center;gap:8px;cursor:pointer;min-width:180px}
+.msg-location .pin{font-size:24px}
+.msg-location .info{flex:1}
+.msg-location b{display:block;font-size:12px}
+.msg-location span{font-size:11px;opacity:.9}
+
+/* Typing indicator */
+.typing-bubble{background:#fff;padding:12px 16px;border-radius:16px;border-bottom-left-radius:4px;display:inline-flex;gap:4px;box-shadow:0 1px 2px rgba(0,0,0,.05);margin-bottom:8px}
+.typing-bubble span{width:8px;height:8px;background:#999;border-radius:50%;animation:typingBounce 1.2s infinite}
+.typing-bubble span:nth-child(2){animation-delay:.2s}
+.typing-bubble span:nth-child(3){animation-delay:.4s}
+@keyframes typingBounce{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-6px);opacity:1}}
+
+/* QUICK REPLIES */
+.quick-replies{padding:8px 14px;background:#fff;border-top:1px solid #eee;display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;flex-shrink:0}
+.quick-replies::-webkit-scrollbar{display:none}
+.qr-chip{background:#f0f9f4;border:1px solid var(--v);color:var(--v);padding:6px 12px;border-radius:16px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.qr-chip:active{background:var(--v);color:#fff}
+
+/* INPUT ZONE */
+.input-zone{background:#fff;padding:8px 10px;padding-bottom:calc(8px + env(safe-area-inset-bottom,0));display:flex;gap:6px;align-items:center;border-top:1px solid #eee;flex-shrink:0}
+.attach-btn{background:#f5f5f5;border:none;width:38px;height:38px;border-radius:50%;font-size:18px;cursor:pointer;flex-shrink:0;color:#222}
+.msg-input{flex:1;background:#f5f5f5;border:none;padding:10px 14px;border-radius:22px;font-size:14px;color:#222;outline:none;resize:none;max-height:100px}
+.msg-input::placeholder{color:#999}
+.send-btn{background:linear-gradient(135deg,var(--v),#008a44);border:none;color:#fff;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;flex-shrink:0;box-shadow:0 2px 8px rgba(0,166,81,.3)}
+.send-btn:active{transform:scale(.95)}
+
+/* Attach menu */
+.attach-menu{position:absolute;bottom:70px;left:10px;background:#fff;border-radius:16px;padding:10px;box-shadow:0 4px 20px rgba(0,0,0,.15);display:none;z-index:10;grid-template-columns:repeat(3,1fr);gap:8px;width:240px}
+.attach-menu.show{display:grid}
+.attach-item{padding:12px 6px;text-align:center;cursor:pointer;border-radius:10px;transition:.2s}
+.attach-item:active{background:#f5f5f5}
+.attach-item .icon{display:block;font-size:28px;margin-bottom:4px}
+.attach-item .lbl{font-size:11px;color:#222;font-weight:600}
+
+/* DARK MODE */
+html[data-theme="dark"] body{background:#0f1419;color:#e8eaed}
+html[data-theme="dark"] .messages{background:linear-gradient(180deg,#0f1419,#1a2028)}
+html[data-theme="dark"] .msg.theirs .msg-bubble,html[data-theme="dark"] .typing-bubble,
+html[data-theme="dark"] .msg-product,html[data-theme="dark"] .input-zone,html[data-theme="dark"] .quick-replies,
+html[data-theme="dark"] .attach-menu{background:#1a2028;color:#e8eaed}
+html[data-theme="dark"] .msg-input,html[data-theme="dark"] .attach-btn{background:#232a33;color:#e8eaed}
+html[data-theme="dark"] .qr-chip{background:rgba(0,166,81,.15)}
+html[data-theme="dark"] .attach-item .lbl{color:#e8eaed}
+</style></head><body>
+
+<header class="chat-header">
+  <button class="back-btn" onclick="location.href='messages.html'">←</button>
+  <div class="chat-partner" onclick="viewProfile()">
+    <div class="partner-avatar" id="partAv">👗
+      <div class="online-dot"></div>
+    </div>
+    <div class="partner-info">
+      <div class="partner-name" id="partName">Aïcha Fashion <span class="tick-blue">✓</span></div>
+      <div class="partner-status" id="partStatus">🟢 En ligne</div>
+    </div>
+  </div>
+  <div class="chat-actions">
+    <button class="act-btn" onclick="callPartner()" title="Appeler">📞</button>
+    <button class="act-btn" onclick="videoCall()" title="Vidéo">📹</button>
+    <button class="act-btn" onclick="moreMenu()" title="Plus">⋮</button>
+  </div>
+</header>
+
+<!-- Contexte commande -->
+<div class="order-context">
+  <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=100" alt="Produit">
+  <div class="info">
+    <b>Boubou traditionnel brodé</b>
+    <span>💰 25 000 FCFA · #ST-2026-1247</span>
+  </div>
+  <button class="view-btn" onclick="location.href='produit.html?id=1'">Voir</button>
+</div>
+
+<!-- MESSAGES -->
+<div class="messages" id="messages">
+
+  <div class="date-sep"><span>📅 Aujourd'hui</span></div>
+
+  <div class="msg theirs">
+    <div class="msg-bubble">Bonjour ! 👋 Merci de nous contacter</div>
+    <div class="msg-meta">10:32</div>
+  </div>
+
+  <div class="msg mine">
+    <div class="msg-bubble">Bonjour Aïcha, je suis intéressé par le boubou brodé, disponible en XL ?</div>
+    <div class="msg-meta">10:35 <span class="status">✓✓</span></div>
+  </div>
+
+  <div class="msg theirs">
+    <div class="msg-product" onclick="location.href='produit.html?id=1'">
+      <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400" alt="Boubou">
+      <div class="info">
+        <h5>Boubou traditionnel brodé main</h5>
+        <div class="price">25 000 FCFA</div>
+      </div>
+    </div>
+    <div class="msg-meta">10:38</div>
+  </div>
+
+  <div class="msg theirs">
+    <div class="msg-bubble">Oui ! Disponible en XL en 3 couleurs : Rouge, Bleu, Vert 😊</div>
+    <div class="msg-meta">10:38</div>
+  </div>
+
+  <div class="msg mine">
+    <div class="msg-bubble">Parfait ! Je vais prendre le bleu. Livraison possible aujourd'hui ?</div>
+    <div class="msg-meta">10:42 <span class="status">✓✓</span></div>
+  </div>
+
+  <div class="msg theirs">
+    <div class="msg-bubble">Oui, livraison en 3-4h dans Dakar. Frais : 1 500 FCFA (gratuit dès 15 000 FCFA ✅)</div>
+    <div class="msg-meta">10:45</div>
+  </div>
+
+  <div class="msg theirs">
+    <div class="msg-location" onclick="showMap()">
+      <div class="pin">📍</div>
+      <div class="info">
+        <b>Aïcha Fashion</b>
+        <span>Almadies, Dakar · 3.2 km</span>
+      </div>
+    </div>
+    <div class="msg-meta">10:46</div>
+  </div>
+
+  <div class="msg mine">
+    <div class="msg-bubble">Super, je commande maintenant ! 🛒</div>
+    <div class="msg-meta">11:15 <span class="status">✓✓</span></div>
+  </div>
+
+  <div class="msg theirs">
+    <div class="msg-bubble">Merci beaucoup pour votre confiance ! 🙏 Je prépare tout de suite. Notifications de suivi activées ✅</div>
+    <div class="msg-meta">13:45</div>
+  </div>
+
+  <div class="typing-bubble" id="typingIndicator" style="display:none">
+    <span></span><span></span><span></span>
+  </div>
+
+</div>
+
+<!-- QUICK REPLIES -->
+<div class="quick-replies">
+  <div class="qr-chip" onclick="quickReply('Bonjour 👋')">👋 Bonjour</div>
+  <div class="qr-chip" onclick="quickReply('C\'est disponible ?')">📦 Disponible ?</div>
+  <div class="qr-chip" onclick="quickReply('Quel est le prix ?')">💰 Prix ?</div>
+  <div class="qr-chip" onclick="quickReply('Livraison possible ?')">🚚 Livraison ?</div>
+  <div class="qr-chip" onclick="quickReply('Autres couleurs ?')">🎨 Couleurs ?</div>
+  <div class="qr-chip" onclick="quickReply('Merci beaucoup ! 🙏')">🙏 Merci</div>
+</div>
+
+<!-- ATTACH MENU -->
+<div class="attach-menu" id="attachMenu">
+  <div class="attach-item" onclick="attachType('photo')">
+    <span class="icon">📷</span>
+    <div class="lbl">Photo</div>
+  </div>
+  <div class="attach-item" onclick="attachType('video')">
+    <span class="icon">🎥</span>
+    <div class="lbl">Vidéo</div>
+  </div>
+  <div class="attach-item" onclick="attachType('file')">
+    <span class="icon">📎</span>
+    <div class="lbl">Fichier</div>
+  </div>
+  <div class="attach-item" onclick="attachType('location')">
+    <span class="icon">📍</span>
+    <div class="lbl">Position</div>
+  </div>
+  <div class="attach-item" onclick="attachType('product')">
+    <span class="icon">🛍️</span>
+    <div class="lbl">Produit</div>
+  </div>
+  <div class="attach-item" onclick="attachType('voice')">
+    <span class="icon">🎤</span>
+    <div class="lbl">Audio</div>
+  </div>
+</div>
+
+<!-- INPUT -->
+<div class="input-zone">
+  <button class="attach-btn" onclick="toggleAttach()">➕</button>
+  <textarea class="msg-input" id="msgInput" placeholder="Message..." rows="1" onkeypress="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg()}"></textarea>
+  <button class="send-btn" onclick="sendMsg()">➤</button>
+</div>
+
+<script src="js/dark-mode.js"></script>
+<script src="js/role-guard.js"></script>
+<script>
+// Charge données selon param URL
+const partners = {
+  'aicha':{name:'Aïcha Fashion',av:'👗',verified:true,status:'🟢 En ligne · vu à 13:45'},
+  'tech-modou':{name:'Tech Modou',av:'📱',verified:true,status:'🟢 En ligne'},
+  'beauty-fatou':{name:'Beauty Fatou',av:'💄',verified:true,status:'🕐 Vu hier à 21:30'},
+  'mamadou-foods':{name:'Mamadou Foods',av:'🍲',verified:true,status:'🕐 Vu il y a 2j'},
+  'ousmane-driver':{name:'Ousmane N. (Livreur)',av:'🛵',verified:false,status:'🟢 En route · 5 min'},
+  'cheikh-driver':{name:'Cheikh D. (Livreur)',av:'🛵',verified:true,status:'🕐 Vu hier'},
+  'support-sen':{name:'Support SEN TEW',av:'🤖',verified:true,status:'🟢 Disponible 24/7'},
+  'modou-friend':{name:'Modou K. (Filleul)',av:'MK',verified:false,status:'🟢 En ligne'},
+  'aminata-friend':{name:'Aminata Diop',av:'AD',verified:false,status:'🕐 Vu à 15:22'}
+};
+
+const id = new URLSearchParams(location.search).get('id') || 'aicha';
+const partner = partners[id] || partners['aicha'];
+
+document.getElementById('partAv').innerHTML = partner.av + '<div class="online-dot"></div>';
+document.getElementById('partName').innerHTML = partner.name + (partner.verified ? ' <span class="tick-blue">✓</span>' : '');
+document.getElementById('partStatus').textContent = partner.status;
+
+// Auto-scroll bottom
+const msgArea = document.getElementById('messages');
+function scrollBottom(){msgArea.scrollTop = msgArea.scrollHeight}
+setTimeout(scrollBottom, 100);
+
+function sendMsg(){
+  const inp = document.getElementById('msgInput');
+  const text = inp.value.trim();
+  if(!text) return;
+  
+  // Ajouter message
+  const now = new Date();
+  const time = String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  const html = `<div class="msg mine">
+    <div class="msg-bubble">${escapeHtml(text)}</div>
+    <div class="msg-meta">${time} <span class="status">✓</span></div>
+  </div>`;
+  msgArea.insertAdjacentHTML('beforeend', html);
+  inp.value = '';
+  inp.style.height = 'auto';
+  scrollBottom();
+  
+  // Simuler lecture après 1sec
+  setTimeout(()=>{
+    const lastStatus = msgArea.querySelector('.msg.mine:last-of-type .status');
+    if(lastStatus) lastStatus.textContent = '✓✓';
+  }, 1000);
+  
+  // Simuler réponse
+  setTimeout(()=>{
+    document.getElementById('typingIndicator').style.display = 'inline-flex';
+    document.getElementById('partStatus').textContent = '💬 En train d\'écrire...';
+    document.getElementById('partStatus').classList.add('typing');
+    scrollBottom();
+    
+    setTimeout(()=>{
+      document.getElementById('typingIndicator').style.display = 'none';
+      document.getElementById('partStatus').textContent = partner.status;
+      document.getElementById('partStatus').classList.remove('typing');
+      
+      const replies = ['👍 Bien reçu !','D\'accord, je note 😊','Parfait, à tout de suite !','Merci pour votre message 🙏','Je vérifie et reviens vers vous 📋'];
+      const reply = replies[Math.floor(Math.random()*replies.length)];
+      const now2 = new Date();
+      const time2 = String(now2.getHours()).padStart(2,'0')+':'+String(now2.getMinutes()).padStart(2,'0');
+      msgArea.insertAdjacentHTML('beforeend', `<div class="msg theirs">
+        <div class="msg-bubble">${reply}</div>
+        <div class="msg-meta">${time2}</div>
+      </div>`);
+      scrollBottom();
+    }, 2000);
+  }, 1500);
+}
+
+function quickReply(text){
+  document.getElementById('msgInput').value = text;
+  sendMsg();
+}
+
+function toggleAttach(){
+  document.getElementById('attachMenu').classList.toggle('show');
+}
+
+function attachType(type){
+  document.getElementById('attachMenu').classList.remove('show');
+  const labels = {photo:'📷 Photo',video:'🎥 Vidéo',file:'📎 Fichier',location:'📍 Ma position',product:'🛍️ Produit',voice:'🎤 Audio'};
+  alert('📤 Envoi : '+labels[type]+'\n\n(Ouverture sélecteur natif)');
+}
+
+function callPartner(){
+  if(confirm('📞 Appeler '+partner.name+' via SEN TEW ?\n\nAppel gratuit et sécurisé.')){
+    alert('📞 Connexion en cours...');
+  }
+}
+
+function videoCall(){
+  if(confirm('📹 Appel vidéo avec '+partner.name+' ?\n\nRéservé aux vendeurs Gold/Platinum.')){
+    alert('📹 Vidéo en cours...');
+  }
+}
+
+function moreMenu(){
+  const choice = prompt('Options :\n1. Voir profil boutique\n2. Bloquer\n3. Signaler\n4. Effacer conversation\n5. Notifications ON/OFF\n\nChoisissez (1-5) :');
+  if(choice === '3') alert('⚠️ Conversation signalée à SEN TEW');
+  else if(choice === '2') alert('🚫 Utilisateur bloqué');
+  else if(choice === '4' && confirm('🗑️ Effacer toute la conversation ?')) location.href='messages.html';
+}
+
+function viewProfile(){
+  if(id.includes('driver')) alert('🛵 Profil livreur\n\n'+partner.name+'\n⭐ 4.9 · 342 livraisons\nZone : Dakar');
+  else if(id === 'support-sen') alert('🤖 Support SEN TEW\n\nDisponible 24/7\n+221 33 XXX XX XX');
+  else location.href = 'boutique.html?id=1';
+}
+
+function showMap(){
+  alert('🗺️ Ouverture Google Maps\n\n📍 Aïcha Fashion, Almadies, Dakar');
+}
+
+function escapeHtml(t){
+  return t.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// Auto-resize textarea
+document.getElementById('msgInput').addEventListener('input', function(){
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+});
+
+// Fermer attach menu au clic externe
+document.addEventListener('click', e => {
+  if(!e.target.closest('.attach-btn') && !e.target.closest('.attach-menu')){
+    document.getElementById('attachMenu').classList.remove('show');
+  }
+});
+</script>
+</body></html>
