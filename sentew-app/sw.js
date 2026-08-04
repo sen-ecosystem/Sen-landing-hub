@@ -1,5 +1,5 @@
 // SEN TEW - Service Worker v10 (network-first)
-const CACHE = 'sentew-v18-2026-08-produit-full';
+const CACHE = 'sentew-v19-2026-08-boutique-public';
 self.addEventListener('install', e => {
   self.skipWaiting();
 });
