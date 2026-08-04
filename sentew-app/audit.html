@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+  <script>
+// SÉCURITÉ ADMIN UNIQUEMENT
+(function(){
+  const isAdmin = sessionStorage.getItem('admin_pre_auth') === '1' || localStorage.getItem('sentew_role') === 'admin';
+  if(!isAdmin){
+    alert('🔒 Accès refusé\n\nCette page est réservée aux administrateurs SEN TEW.');
+    location.href = 'index.html';
+  }
+})();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>Audit App - SEN TEW</title>
