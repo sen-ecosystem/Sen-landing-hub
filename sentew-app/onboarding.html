@@ -1,123 +1,412 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Bienvenue - SEN TEW</title>
-<meta name="theme-color" content="#0F6B4E">
+<html lang="fr"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bienvenue sur SEN TEW</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-body{font-family:-apple-system,sans-serif;background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;height:100vh;overflow:hidden;}
-.slides{display:flex;height:100vh;width:400vw;transition:transform .4s cubic-bezier(.4,0,.2,1);}
-.slide{width:100vw;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 30px;text-align:center;}
-.slide-icon{font-size:120px;margin-bottom:30px;filter:drop-shadow(0 8px 20px rgba(0,0,0,.3));animation:bounce 2s infinite;}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
-.slide h1{font-size:32px;font-weight:900;margin-bottom:14px;line-height:1.2;}
-.slide p{font-size:16px;opacity:.9;line-height:1.5;max-width:320px;}
-.slide-features{margin-top:24px;display:flex;flex-direction:column;gap:10px;}
-.feat{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.15);padding:10px 16px;border-radius:20px;backdrop-filter:blur(10px);}
-.dots{position:fixed;bottom:120px;left:0;right:0;display:flex;justify-content:center;gap:8px;z-index:10;}
-.dot{width:8px;height:8px;background:rgba(255,255,255,.4);border-radius:50%;transition:all .3s;}
-.dot.active{background:#D4A574;width:32px;border-radius:4px;}
-.controls{position:fixed;bottom:40px;left:20px;right:20px;display:flex;justify-content:space-between;align-items:center;z-index:10;}
-.btn-skip{background:transparent;color:rgba(255,255,255,.7);border:none;font-weight:700;padding:10px;font-size:14px;}
-.btn-next{background:#D4A574;color:#fff;border:none;padding:14px 30px;border-radius:30px;font-weight:900;font-size:15px;box-shadow:0 8px 20px rgba(212,165,116,.4);}
-</style>
-</head>
-<body>
-<div class="slides" id="slides">
-  <div class="slide">
-    <div class="slide-icon">🛍️</div>
-    <h1>Bienvenue sur SEN TEW</h1>
-    <p>Le marketplace africain #1 pour acheter et vendre en toute confiance</p>
-    <div class="slide-features">
-      <div class="feat">🇸🇳 Vendeurs vérifiés au Sénégal</div>
-      <div class="feat">🚚 Livraison Dakar 24h · Régions 2-5j</div>
-      <div class="feat">💳 Wave · Orange Money · Free Money</div>
-    </div>
+:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a}
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,'Segoe UI',sans-serif}
+body{background:linear-gradient(180deg,#f8fbf9 0%,#fff 40%);min-height:100vh;color:#222;padding:0 20px;padding-top:env(safe-area-inset-top,20px);padding-bottom:env(safe-area-inset-bottom,20px);display:flex;flex-direction:column}
+
+/* Header */
+.top-bar{display:flex;justify-content:space-between;align-items:center;padding:16px 0}
+.skip{background:none;border:none;color:#666;font-size:13px;font-weight:600;cursor:pointer;padding:8px 12px}
+.step-dots{display:flex;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;background:#e0e0e0;transition:.3s}
+.dot.active{background:var(--v);width:24px;border-radius:4px}
+.dot.done{background:var(--v)}
+
+/* Content */
+.step-content{flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 0}
+.step-hero{text-align:center;margin-bottom:24px}
+.hero-emoji{font-size:72px;margin-bottom:16px;filter:drop-shadow(0 6px 16px rgba(252,209,22,.4));animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.hero-title{font-size:26px;font-weight:900;color:#222;margin-bottom:8px;line-height:1.2}
+.hero-title span{background:linear-gradient(135deg,var(--v),#008a44);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-desc{font-size:15px;color:#666;line-height:1.5;max-width:340px;margin:0 auto}
+
+/* Intérêts (Étape 1) */
+.interests-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}
+.interest{background:#fff;padding:16px 8px;border-radius:16px;border:2px solid #e8e8e8;text-align:center;cursor:pointer;transition:.2s;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.interest:active{transform:scale(.95)}
+.interest.active{background:#e8f5ee;border-color:var(--v);box-shadow:0 4px 12px rgba(0,166,81,.15)}
+.interest-icon{font-size:32px;margin-bottom:6px;display:block}
+.interest-name{font-size:12px;font-weight:700;color:#222}
+.interest.active .interest-name{color:var(--v)}
+.count-hint{text-align:center;font-size:12px;color:#888;margin-top:12px}
+.count-hint b{color:var(--v)}
+
+/* Adresse (Étape 2) */
+.form-card{background:#fff;border-radius:20px;padding:20px;box-shadow:0 4px 16px rgba(0,0,0,.05);margin-top:20px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12px;color:#666;font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.input-wrap{position:relative}
+.input-wrap .icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;color:#999}
+.field input,.field select{width:100%;border:2px solid #e8e8e8;padding:12px 14px 12px 40px;border-radius:12px;font-size:14px;color:#222;background:#fafafa;outline:none;transition:.2s}
+.field input:focus,.field select:focus{border-color:var(--v);background:#fff}
+.field input::placeholder{color:#999}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.geolocate{background:linear-gradient(135deg,#1976d2,#0d47a1);color:#fff;border:none;padding:10px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;width:100%;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:6px}
+
+/* Notifications & cadeau (Étape 3) */
+.gift-hero{background:linear-gradient(135deg,var(--j),#f4b800);color:#222;padding:24px;border-radius:20px;text-align:center;margin-top:16px;position:relative;overflow:hidden;box-shadow:0 8px 24px rgba(252,209,22,.35)}
+.gift-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:140px;height:140px;background:rgba(255,255,255,.2);border-radius:50%}
+.gift-hero::after{content:'';position:absolute;bottom:-30px;left:-30px;width:100px;height:100px;background:rgba(255,255,255,.15);border-radius:50%}
+.gift-icon{font-size:48px;position:relative;z-index:1;margin-bottom:8px}
+.gift-title{font-size:18px;font-weight:900;color:#222;position:relative;z-index:1}
+.gift-amount{font-size:36px;font-weight:900;color:#222;position:relative;z-index:1;margin:6px 0;text-shadow:0 2px 4px rgba(0,0,0,.1)}
+.gift-desc{font-size:13px;color:#222;opacity:.9;position:relative;z-index:1}
+
+.notif-toggle-list{margin-top:20px}
+.notif-item{background:#fff;padding:14px;border-radius:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(0,0,0,.05);cursor:pointer;transition:.2s}
+.notif-item:active{transform:scale(.98)}
+.notif-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.ni-orders{background:linear-gradient(135deg,#00a651,#008a44);color:#fff}
+.ni-promo{background:linear-gradient(135deg,var(--r),#c81420);color:#fff}
+.ni-live{background:linear-gradient(135deg,#e91e63,#9c27b0);color:#fff}
+.ni-msg{background:linear-gradient(135deg,#1976d2,#0d47a1);color:#fff}
+.notif-info{flex:1}
+.notif-info b{display:block;font-size:14px;color:#222;font-weight:700}
+.notif-info span{font-size:12px;color:#666}
+.switch{position:relative;width:48px;height:26px;background:#ddd;border-radius:14px;cursor:pointer;transition:.3s;flex-shrink:0}
+.switch.on{background:var(--v)}
+.switch::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 2px 4px rgba(0,0,0,.2)}
+.switch.on::after{left:25px}
+
+/* Bottom actions */
+.bottom-actions{padding:16px 0;padding-bottom:calc(16px + env(safe-area-inset-bottom,0));display:flex;gap:10px}
+.back-btn{background:#fff;border:2px solid #e8e8e8;color:#666;padding:14px;border-radius:14px;font-weight:700;font-size:14px;cursor:pointer;flex:0 0 40%}
+.next-btn{flex:1;background:linear-gradient(135deg,var(--v),#008a44);color:#fff;border:none;padding:16px;border-radius:14px;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 6px 20px rgba(0,166,81,.3);display:flex;align-items:center;justify-content:center;gap:8px}
+.next-btn:active{transform:scale(.98)}
+.next-btn:disabled{opacity:.5;box-shadow:none}
+
+/* Hidden steps */
+.hidden{display:none !important}
+
+/* Confetti animation */
+.confetti-wrap{position:fixed;inset:0;pointer-events:none;z-index:1000;overflow:hidden;display:none}
+.confetti-wrap.show{display:block}
+.conf{position:absolute;width:10px;height:10px;background:var(--j);animation:fall 3s linear forwards}
+@keyframes fall{0%{transform:translateY(-100vh) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+
+/* DARK MODE */
+html[data-theme="dark"] body{background:linear-gradient(180deg,#0f1419 0%,#1a2028 40%);color:#e8eaed}
+html[data-theme="dark"] .interest,html[data-theme="dark"] .form-card,html[data-theme="dark"] .notif-item{background:#1a2028;color:#e8eaed;border-color:#2d3540}
+html[data-theme="dark"] .interest-name,html[data-theme="dark"] .notif-info b,html[data-theme="dark"] .hero-title{color:#e8eaed}
+html[data-theme="dark"] .field input,html[data-theme="dark"] .field select{background:#232a33;color:#e8eaed;border-color:#2d3540}
+html[data-theme="dark"] .back-btn{background:#232a33;color:#e8eaed;border-color:#2d3540}
+</style></head><body>
+
+<div class="top-bar">
+  <button class="skip" onclick="skip()">Passer →</button>
+  <div class="step-dots">
+    <div class="dot active" id="d1"></div>
+    <div class="dot" id="d2"></div>
+    <div class="dot" id="d3"></div>
+  </div>
+  <div style="width:60px"></div>
+</div>
+
+<!-- ÉTAPE 1 : INTÉRÊTS -->
+<div class="step-content" id="step1">
+  <div class="step-hero">
+    <div class="hero-emoji">👋</div>
+    <h1 class="hero-title">Bienvenue sur<br><span>SEN TEW</span> !</h1>
+    <p class="hero-desc">Choisis tes centres d'intérêt pour te proposer les meilleurs produits.</p>
   </div>
 
-  <div class="slide">
-    <div class="slide-icon">🔴</div>
-    <h1>LIVE Shopping</h1>
-    <p>Regardez vos vendeurs préférés en direct et achetez avec -30% flash</p>
-    <div class="slide-features">
-      <div class="feat">📹 Vidéo temps réel</div>
-      <div class="feat">💬 Chat interactif avec vendeur</div>
-      <div class="feat">🛒 Achat flash en 1 clic</div>
+  <div class="interests-grid">
+    <div class="interest" onclick="toggleInterest(this)">
+      <span class="interest-icon">👗</span>
+      <div class="interest-name">Mode</div>
+    </div>
+    <div class="interest" onclick="toggleInterest(this)">
+      <span class="interest-icon">📱</span>
+      <div class="interest-name">Tech</div>
+    </div>
+    <div class="interest" onclick="toggleInterest(this)">
+      <span class="interest-icon">💄</span>
+      <div class="interest-name">Beauté</div>
+    </div>
+    <div class="interest" onclick="toggleInterest(this)">
+      <span class="interest-icon">🍲</span>
+      <div class="interest-name">Alimentation</div>
+    </div>
+    <div class="interest" onclick="toggleInterest(this)">
+      <span class="interest-icon">🏠</span>
+      <div class="interest-name">Maison</div>
+    </div>
+    <div class="interest" onclick="toggleInterest(this)">
+      <span class="interest-icon">👶</span>
+      <div class="interest-name">Enfants</div>
+    </div>
+    <div class="interest" onclick="toggleInterest(this)">
+      <span class="interest-icon">⚽</span>
+      <div class="interest-name">Sport</div>
+    </div>
+    <div class="interest" onclick="toggleInterest(this)">
+      <span class="interest-icon">💍</span>
+      <div class="interest-name">Bijoux</div>
+    </div>
+    <div class="interest" onclick="toggleInterest(this)">
+      <span class="interest-icon">🎁</span>
+      <div class="interest-name">Cadeaux</div>
     </div>
   </div>
+  <div class="count-hint">Choisis au moins <b>3 catégories</b> · <span id="cnt">0</span> sélectionnée(s)</div>
+</div>
 
-  <div class="slide">
-    <div class="slide-icon">✨</div>
-    <h1>Intelligence Artificielle</h1>
-    <p>Trouvez le produit parfait en une photo. Payez, suivez, notez</p>
-    <div class="slide-features">
-      <div class="feat">📷 Recherche par photo</div>
-      <div class="feat">🤖 Assistant IA 24/7</div>
-      <div class="feat">🎁 500 FCFA par ami parrainé</div>
-    </div>
+<!-- ÉTAPE 2 : ADRESSE -->
+<div class="step-content hidden" id="step2">
+  <div class="step-hero">
+    <div class="hero-emoji">📍</div>
+    <h1 class="hero-title">Où livrer <span>tes achats ?</span></h1>
+    <p class="hero-desc">Nous te livrerons rapidement dès ta première commande.</p>
   </div>
 
-  <div class="slide">
-    <div class="slide-icon">🎉</div>
-    <h1>Prêt à commencer ?</h1>
-    <p>Créez votre compte gratuit ou continuez en invité</p>
-    <div class="slide-features">
-      <div class="feat">👤 Compte gratuit en 30s</div>
-      <div class="feat">🎁 Bonus bienvenue 1000 FCFA</div>
-      <div class="feat">🔒 Données 100% sécurisées</div>
+  <div class="form-card">
+    <button class="geolocate" onclick="geoLocate()">
+      📍 Utiliser ma position actuelle
+    </button>
+
+    <div class="field">
+      <label>Adresse complète</label>
+      <div class="input-wrap">
+        <span class="icon">🏠</span>
+        <input placeholder="Ex: Sacré-Cœur 3, Villa 245" id="addr">
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label>Ville</label>
+        <div class="input-wrap">
+          <span class="icon">🏙️</span>
+          <input placeholder="Dakar" id="city" value="Dakar">
+        </div>
+      </div>
+      <div class="field">
+        <label>Pays</label>
+        <div class="input-wrap">
+          <span class="icon">🌍</span>
+          <select id="country">
+            <option value="SN" selected>🇸🇳 Sénégal</option>
+            <option value="CI">🇨🇮 Côte d'Ivoire</option>
+            <option value="ML">🇲🇱 Mali</option>
+            <option value="BF">🇧🇫 Burkina Faso</option>
+            <option value="GN">🇬🇳 Guinée</option>
+            <option value="TG">🇹🇬 Togo</option>
+            <option value="FR">🇫🇷 France</option>
+            <option value="BE">🇧🇪 Belgique</option>
+            <option value="CA">🇨🇦 Canada</option>
+            <option value="US">🇺🇸 USA</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Téléphone</label>
+      <div class="input-wrap">
+        <span class="icon">📱</span>
+        <input type="tel" placeholder="+221 77 XXX XX XX" id="phone">
+      </div>
     </div>
   </div>
 </div>
 
-<div class="dots" id="dots">
-  <div class="dot active"></div>
-  <div class="dot"></div>
-  <div class="dot"></div>
-  <div class="dot"></div>
+<!-- ÉTAPE 3 : NOTIFICATIONS + CADEAU -->
+<div class="step-content hidden" id="step3">
+  <div class="step-hero">
+    <div class="hero-emoji">🎁</div>
+    <h1 class="hero-title">Cadeau de <span>bienvenue !</span></h1>
+    <p class="hero-desc">Merci de rejoindre SEN TEW. Voici ton bon d'accueil.</p>
+  </div>
+
+  <div class="gift-hero">
+    <div class="gift-icon">🎉</div>
+    <div class="gift-title">CADEAU DE BIENVENUE</div>
+    <div class="gift-amount">500 FCFA</div>
+    <div class="gift-desc">Ajouté à ton wallet SEN TEW</div>
+  </div>
+
+  <div class="notif-toggle-list">
+    <div class="count-hint" style="margin:16px 0 8px;color:#666"><b>🔔 Notifications</b> — Que veux-tu recevoir ?</div>
+
+    <div class="notif-item" onclick="toggleNotif(this)">
+      <div class="notif-icon ni-orders">📦</div>
+      <div class="notif-info">
+        <b>Mes commandes</b>
+        <span>Suivi livraison temps réel</span>
+      </div>
+      <div class="switch on"></div>
+    </div>
+
+    <div class="notif-item" onclick="toggleNotif(this)">
+      <div class="notif-icon ni-promo">🔥</div>
+      <div class="notif-info">
+        <b>Promos & offres</b>
+        <span>Codes promo exclusifs</span>
+      </div>
+      <div class="switch on"></div>
+    </div>
+
+    <div class="notif-item" onclick="toggleNotif(this)">
+      <div class="notif-icon ni-live">🎥</div>
+      <div class="notif-info">
+        <b>LIVE Shopping</b>
+        <span>Alertes vendeurs préférés</span>
+      </div>
+      <div class="switch on"></div>
+    </div>
+
+    <div class="notif-item" onclick="toggleNotif(this)">
+      <div class="notif-icon ni-msg">💬</div>
+      <div class="notif-info">
+        <b>Messages</b>
+        <span>Chat vendeurs & livreurs</span>
+      </div>
+      <div class="switch on"></div>
+    </div>
+  </div>
 </div>
 
-<div class="controls">
-  <button class="btn-skip" onclick="finish()">Passer</button>
-  <button class="btn-next" id="btnNext" onclick="nextSlide()">Suivant →</button>
+<div class="bottom-actions">
+  <button class="back-btn hidden" id="backBtn" onclick="prevStep()">← Retour</button>
+  <button class="next-btn" id="nextBtn" onclick="nextStep()" disabled>
+    <span id="nextLabel">Continuer</span> →
+  </button>
 </div>
 
+<!-- Confetti -->
+<div class="confetti-wrap" id="confetti"></div>
+
+<script src="js/dark-mode.js"></script>
 <script>
-let cur = 0;
-const total = 4;
-const slides = document.getElementById('slides');
-const dots = document.querySelectorAll('.dot');
-const btnNext = document.getElementById('btnNext');
+let currentStep = 1;
+let selectedInterests = [];
 
-function updateSlide(){
-  slides.style.transform = `translateX(-${cur*100}vw)`;
-  dots.forEach((d,i)=>d.classList.toggle('active', i===cur));
-  btnNext.textContent = cur===total-1 ? '🚀 Commencer' : 'Suivant →';
-}
-function nextSlide(){
-  if(cur < total-1){ cur++; updateSlide(); }
-  else finish();
-}
-function finish(){
-  localStorage.setItem('onboarded','1');
-  location.href = 'login-guest.html';
-}
-
-// Swipe
-let startX = 0;
-slides.addEventListener('touchstart', e => startX = e.touches[0].clientX);
-slides.addEventListener('touchend', e => {
-  const dx = e.changedTouches[0].clientX - startX;
-  if(Math.abs(dx) > 50){
-    if(dx < 0 && cur < total-1) cur++;
-    else if(dx > 0 && cur > 0) cur--;
-    updateSlide();
+function toggleInterest(el){
+  el.classList.toggle('active');
+  const name = el.querySelector('.interest-name').textContent;
+  if(el.classList.contains('active')){
+    if(!selectedInterests.includes(name)) selectedInterests.push(name);
+  } else {
+    selectedInterests = selectedInterests.filter(x => x !== name);
   }
-});
+  document.getElementById('cnt').textContent = selectedInterests.length;
+  updateNextBtn();
+}
+
+function toggleNotif(el){
+  const sw = el.querySelector('.switch');
+  sw.classList.toggle('on');
+}
+
+function updateNextBtn(){
+  const btn = document.getElementById('nextBtn');
+  if(currentStep === 1){
+    btn.disabled = selectedInterests.length < 3;
+  } else {
+    btn.disabled = false;
+  }
+}
+
+function updateSteps(){
+  ['step1','step2','step3'].forEach(id => document.getElementById(id).classList.add('hidden'));
+  document.getElementById('step'+currentStep).classList.remove('hidden');
+
+  ['d1','d2','d3'].forEach((d,i) => {
+    const el = document.getElementById(d);
+    el.classList.remove('active','done');
+    if(i+1 === currentStep) el.classList.add('active');
+    else if(i+1 < currentStep) el.classList.add('done');
+  });
+
+  document.getElementById('backBtn').classList.toggle('hidden', currentStep === 1);
+  const label = document.getElementById('nextLabel');
+  if(currentStep === 3) label.textContent = '🎉 Terminer';
+  else label.textContent = 'Continuer';
+  updateNextBtn();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function nextStep(){
+  if(currentStep === 3){
+    finish();
+    return;
+  }
+  if(currentStep === 1 && selectedInterests.length < 3){
+    alert('❌ Choisis au moins 3 catégories');
+    return;
+  }
+  if(currentStep === 2){
+    const addr = document.getElementById('addr').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    if(!addr){alert('❌ Entre ton adresse');return}
+    if(!phone){alert('❌ Entre ton numéro');return}
+  }
+  currentStep++;
+  updateSteps();
+}
+
+function prevStep(){
+  if(currentStep > 1){currentStep--;updateSteps()}
+}
+
+function skip(){
+  if(confirm('⏭️ Passer l\'onboarding ?\n\nTu pourras personnaliser ton profil plus tard.')){
+    location.href = 'index.html';
+  }
+}
+
+function geoLocate(){
+  if(!navigator.geolocation){alert('Géolocalisation non supportée');return}
+  navigator.geolocation.getCurrentPosition(pos => {
+    document.getElementById('addr').value = 'Position détectée (lat: '+pos.coords.latitude.toFixed(4)+', lng: '+pos.coords.longitude.toFixed(4)+')';
+    alert('✅ Position détectée !\n\nComplète ton adresse manuellement si besoin.');
+  }, err => {
+    alert('❌ Impossible d\'obtenir ta position. Entre manuellement.');
+  });
+}
+
+function finish(){
+  // Sauvegarder préférences
+  localStorage.setItem('sentew_interests', JSON.stringify(selectedInterests));
+  localStorage.setItem('sentew_addr', document.getElementById('addr').value);
+  localStorage.setItem('sentew_city', document.getElementById('city').value);
+  localStorage.setItem('sentew_country', document.getElementById('country').value);
+  localStorage.setItem('sentew_phone', document.getElementById('phone').value);
+  localStorage.setItem('sentew_wallet', '500'); // Cadeau 500 FCFA
+  localStorage.setItem('sentew_onboarded', '1');
+
+  // Confetti
+  showConfetti();
+
+  setTimeout(()=>{
+    alert('🎉 Bienvenue sur SEN TEW !\n\n💰 500 FCFA ajoutés à ton wallet\n🎁 Ton compte est prêt\n\nBonnes emplettes !');
+    location.href = 'index.html';
+  }, 2000);
+}
+
+function showConfetti(){
+  const wrap = document.getElementById('confetti');
+  wrap.classList.add('show');
+  const colors = ['#00a651','#fcd116','#e31b23','#1da1f2','#ff6b35','#9c27b0'];
+  for(let i=0;i<80;i++){
+    const c = document.createElement('div');
+    c.className = 'conf';
+    c.style.left = Math.random()*100+'%';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDelay = Math.random()*2+'s';
+    c.style.animationDuration = (2+Math.random()*2)+'s';
+    wrap.appendChild(c);
+  }
+  setTimeout(()=>{wrap.classList.remove('show');wrap.innerHTML=''}, 4000);
+}
 
 // Skip si déjà onboardé
-if(localStorage.getItem('onboarded')==='1') location.href='index.html';
+if(localStorage.getItem('sentew_onboarded') === '1'){
+  location.href = 'index.html';
+}
 </script>
-</body>
-</html>
+</body></html>
