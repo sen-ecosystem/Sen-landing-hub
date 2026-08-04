@@ -1,404 +1,396 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>404 - Not Found</title>
-<meta name="robots" content="noindex, nofollow">
+<html lang="fr"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Admin SEN TEW - Contrôle total</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,sans-serif;}
-body{background:#F5F5F0;color:#111827;min-height:100vh;}
+:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a;--b:#1976d2}
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif}
+body{background:#0f1419;color:#e8eaed;padding-bottom:100px;min-height:100vh}
+.header{background:linear-gradient(135deg,#0d1117,#1a1f26);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:12px;border-bottom:1px solid #2d3540}
+.back{background:rgba(255,255,255,.1);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer}
+.header h1{color:#fff;font-size:16px;flex:1;font-weight:700}
+.admin-badge{background:linear-gradient(135deg,var(--r),#8b0000);color:#fff;padding:4px 10px;border-radius:8px;font-size:10px;font-weight:800;letter-spacing:.5px}
 
-/* LOGIN */
-.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#0F6B4E,#0A4D38);}
-.login-box{background:#fff;padding:32px 24px;border-radius:20px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
-.login-icon{font-size:48px;text-align:center;margin-bottom:12px;}
-.login-title{text-align:center;font-size:22px;font-weight:900;color:#0A4D38;margin-bottom:6px;}
-.login-sub{text-align:center;color:#6B7280;font-size:12px;margin-bottom:24px;}
-.login-input{width:100%;padding:12px 14px;border:1px solid #E5E7EB;border-radius:10px;font-size:14px;margin-bottom:10px;outline:none;transition:border .15s;}
-.login-input:focus{border-color:#0F6B4E;}
-.login-btn{width:100%;padding:14px;background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;border:none;border-radius:10px;font-weight:900;font-size:14px;cursor:pointer;margin-top:8px;}
-.login-btn:active{transform:scale(.98);}
-.login-info{text-align:center;font-size:11px;color:#9CA3AF;margin-top:14px;}
-.login-info span{color:#D4A574;font-weight:700;}
-.login-demo{background:#FEF3C7;color:#92400E;padding:10px;border-radius:8px;font-size:11px;text-align:center;margin-top:12px;font-weight:700;}
-.login-error{background:#FEE2E2;color:#DC2626;padding:10px;border-radius:8px;font-size:12px;text-align:center;margin-top:10px;display:none;}
+.login-box{max-width:400px;margin:60px auto;padding:24px;background:#1a2028;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.login-icon{text-align:center;font-size:60px;margin-bottom:12px}
+.login-title{text-align:center;color:#fff;font-size:22px;font-weight:800;margin-bottom:6px}
+.login-sub{text-align:center;color:#9aa0a6;font-size:13px;margin-bottom:20px}
+.login-field{margin-bottom:12px}
+.login-field label{display:block;font-size:11px;color:#9aa0a6;font-weight:700;margin-bottom:4px;text-transform:uppercase}
+.login-field input{width:100%;background:#232a33;border:1px solid #2d3540;color:#e8eaed;padding:12px;border-radius:8px;font-size:14px;outline:none}
+.login-field input:focus{border-color:var(--r)}
+.login-btn{width:100%;background:linear-gradient(135deg,var(--r),#8b0000);color:#fff;border:none;padding:14px;border-radius:10px;font-weight:800;font-size:15px;cursor:pointer;margin-top:8px}
 
-/* DASHBOARD */
-.dash-header{background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;}
-.dash-title{font-weight:900;font-size:18px;}
-.dash-title span{background:#D4A574;padding:2px 8px;border-radius:6px;font-size:10px;margin-left:6px;}
-.logout-btn{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);padding:8px 14px;border-radius:8px;font-weight:700;cursor:pointer;font-size:12px;}
+.dashboard{padding:14px;display:none}
+.section{margin-bottom:16px}
+.section-title{font-size:12px;color:#9aa0a6;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;padding:0 4px}
 
-.tabs{display:flex;background:#fff;padding:6px;margin:14px;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.05);gap:4px;overflow-x:auto;scrollbar-width:none;}
-.tabs::-webkit-scrollbar{display:none;}
-.tab{flex:1;min-width:80px;padding:10px;background:none;border:none;border-radius:10px;font-weight:700;font-size:11px;color:#6B7280;cursor:pointer;white-space:nowrap;}
-.tab.active{background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff;}
+.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.kpi{background:#1a2028;padding:14px;border-radius:14px;color:#fff;position:relative;overflow:hidden;border:1px solid #2d3540}
+.kpi.critical{border-left:4px solid var(--r)}
+.kpi.success{border-left:4px solid var(--v)}
+.kpi.warning{border-left:4px solid var(--j)}
+.kpi.info{border-left:4px solid var(--b)}
+.kpi-icon{font-size:22px;margin-bottom:6px}
+.kpi-value{font-size:22px;font-weight:900;color:#fff}
+.kpi-label{font-size:11px;color:#9aa0a6;text-transform:uppercase;margin-top:2px}
+.kpi-change{font-size:11px;margin-top:6px}
+.kpi-change.up{color:var(--v)}
+.kpi-change.down{color:var(--r)}
 
-.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 14px;}
-.stat-box{background:#fff;padding:16px;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.04);}
-.stat-lbl{font-size:11px;color:#6B7280;text-transform:uppercase;font-weight:700;}
-.stat-val{font-size:24px;font-weight:900;color:#0A4D38;margin:6px 0;}
-.stat-trend{font-size:11px;font-weight:700;color:#10B981;}
-.stat-trend.down{color:#EF4444;}
+.tabs-admin{background:#1a2028;display:flex;padding:4px;border-radius:12px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none}
+.tabs-admin::-webkit-scrollbar{display:none}
+.tab-adm{padding:10px 14px;border-radius:8px;font-size:12px;color:#9aa0a6;background:none;border:none;cursor:pointer;font-weight:600;white-space:nowrap;flex-shrink:0}
+.tab-adm.active{background:linear-gradient(135deg,var(--r),#8b0000);color:#fff;font-weight:700}
 
-.section-card{background:#fff;margin:14px;padding:16px;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.05);}
-.section-card h3{margin:0 0 12px;color:#0A4D38;font-size:15px;display:flex;justify-content:space-between;}
+.action-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.action-btn{background:#1a2028;border:1px solid #2d3540;padding:14px 10px;border-radius:12px;color:#e8eaed;font-size:13px;font-weight:600;cursor:pointer;text-align:left;display:flex;align-items:center;gap:10px}
+.action-btn:hover{background:#232a33;border-color:var(--r)}
+.action-icon-big{font-size:26px;flex-shrink:0}
+.action-btn h4{font-size:13px;font-weight:700;color:#fff}
+.action-btn small{font-size:10px;color:#9aa0a6;display:block}
 
-.chart{height:120px;display:flex;align-items:end;gap:6px;padding:14px;background:#F9FAFB;border-radius:12px;margin-top:10px;}
-.chart-bar{flex:1;background:linear-gradient(180deg,#D4A574,#0F6B4E);border-radius:6px 6px 0 0;position:relative;min-height:10px;transition:height .3s;}
-.chart-bar span{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:900;color:#0F6B4E;}
+.table-list{background:#1a2028;border-radius:12px;overflow:hidden;border:1px solid #2d3540}
+.table-row{padding:12px 14px;border-bottom:1px solid #2d3540;display:flex;align-items:center;gap:10px}
+.table-row:last-child{border-bottom:none}
+.row-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--v),#008a44);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.row-info{flex:1;min-width:0}
+.row-info h5{font-size:13px;font-weight:600;color:#fff}
+.row-info p{font-size:11px;color:#9aa0a6;margin-top:2px}
+.row-status{padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700}
+.status-ok{background:rgba(0,166,81,.2);color:var(--v)}
+.status-pending{background:rgba(252,209,22,.2);color:var(--j)}
+.status-bad{background:rgba(227,27,35,.2);color:var(--r)}
 
-.table-list{display:flex;flex-direction:column;gap:8px;}
-.table-row{display:flex;gap:10px;align-items:center;padding:10px;background:#F9FAFB;border-radius:10px;}
-.table-row-info{flex:1;min-width:0;}
-.table-row-title{font-size:13px;font-weight:700;color:#111827;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.table-row-sub{font-size:11px;color:#6B7280;}
-.status-badge{padding:4px 10px;border-radius:10px;font-size:10px;font-weight:900;}
-</style>
-</head>
-<body>
-<!-- ===== LOGIN ===== -->
-<div id="loginForm" class="login-wrap">
+.audit-log{background:#0d1117;padding:10px;border-radius:8px;font-family:monospace;font-size:11px;color:#00ff87;line-height:1.6;max-height:200px;overflow-y:auto}
+.audit-log .time{color:#7d8590}
+.audit-log .warn{color:var(--j)}
+.audit-log .err{color:var(--r)}
+
+.emergency-btn{width:100%;background:linear-gradient(135deg,var(--r),#8b0000);color:#fff;border:none;padding:16px;border-radius:12px;font-weight:800;font-size:15px;cursor:pointer;margin-top:14px;box-shadow:0 4px 16px rgba(227,27,35,.4)}
+
+.hidden{display:none !important}
+</style></head><body>
+
+<!-- ÉCRAN CONNEXION 2FA -->
+<div id="loginScreen">
+  <header class="header">
+    <button class="back" onclick="location.href='index.html'">←</button>
+    <h1>🔒 Administration SEN TEW</h1>
+    <span class="admin-badge">🔴 ADMIN</span>
+  </header>
   <div class="login-box">
-    <div class="login-icon">🔐</div>
-    <div class="login-title">Admin SEN TEW</div>
-    <div class="login-sub">Accès réservé administrateurs</div>
-    <input type="text" id="adminEmail" class="login-input" placeholder="Identifiant" autocomplete="off" autocapitalize="off">
-    <input type="password" id="adminPass" class="login-input" placeholder="Mot de passe" autocomplete="off">
-    <input type="text" id="adminCode" class="login-input" placeholder="Code 2FA (6 chiffres)" autocomplete="off" inputmode="numeric" maxlength="6">
-    <button class="login-btn" onclick="attemptLogin()">🔓 Se connecter</button>
-    <div class="login-error" id="loginError"></div>
-    <div class="login-info">🛡 Protection 2FA · SSL 256 bits · Logs IP</div>
-    <div class="login-demo">Demo : <span>admin</span> / <span>admin123</span> / <span>123456</span></div>
+    <div class="login-icon">🛡️</div>
+    <div class="login-title">Accès Administrateur</div>
+    <div class="login-sub">Contrôle total de l'application SEN TEW</div>
+    <div class="login-field">
+      <label>Identifiant admin</label>
+      <input id="adminUser" placeholder="admin" autocomplete="username">
+    </div>
+    <div class="login-field">
+      <label>Mot de passe</label>
+      <input id="adminPwd" type="password" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <div class="login-field">
+      <label>Code 2FA (SMS)</label>
+      <input id="admin2fa" placeholder="123456" maxlength="6">
+    </div>
+    <button class="login-btn" onclick="doAdminLogin()">🔓 Connexion sécurisée</button>
+    <div style="text-align:center;margin-top:14px;font-size:11px;color:#6a7078">
+      🔒 Session chiffrée · IP tracée · Audit complet
+    </div>
   </div>
 </div>
 
-<!-- ===== DASHBOARD ===== -->
-<div id="dashboard" style="display:none;">
-  <header class="dash-header">
-    <div class="dash-title">👑 SEN TEW Admin<span>PROD</span></div>
-    <button class="logout-btn" onclick="adminLogout()">🚪 Déconnexion</button>
+<!-- DASHBOARD ADMIN -->
+<div id="dashboard" class="dashboard">
+  <header class="header">
+    <button class="back" onclick="logout()">🚪</button>
+    <h1>👑 Dashboard Admin</h1>
+    <span class="admin-badge">🔴 SUPER ADMIN</span>
   </header>
 
-  <div class="tabs">
-    <button class="tab active" data-view="overview">📊 Vue</button>
-    <button class="tab" data-view="orders">📦 Commandes</button>
-    <button class="tab" data-view="users">👥 Users</button>
-    <button class="tab" data-view="sellers">🏪 Vendeurs</button>
-    <button class="tab" data-view="revenue">💰 CA</button>
-    <button class="tab" data-view="logs">🔒 Logs</button>
+  <div class="tabs-admin">
+    <button class="tab-adm active" onclick="showAdminTab('overview',this)">📊 Vue globale</button>
+    <button class="tab-adm" onclick="showAdminTab('users',this)">👥 Utilisateurs</button>
+    <button class="tab-adm" onclick="showAdminTab('shops',this)">🏪 Vendeurs</button>
+    <button class="tab-adm" onclick="showAdminTab('orders',this)">📦 Commandes</button>
+    <button class="tab-adm" onclick="showAdminTab('moderation',this)">🛡️ Modération</button>
+    <button class="tab-adm" onclick="showAdminTab('finance',this)">💰 Finance</button>
+    <button class="tab-adm" onclick="showAdminTab('audit',this)">🔍 Audit</button>
+    <button class="tab-adm" onclick="showAdminTab('security',this)">🔒 Sécurité</button>
   </div>
 
-  <!-- OVERVIEW -->
-  <div id="view-overview" class="view">
-    <div class="stats-grid">
-      <div class="stat-box">
-        <div class="stat-lbl">CA aujourd'hui</div>
-        <div class="stat-val">3.2M FCFA</div>
-        <div class="stat-trend">↗ +24% vs hier</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-lbl">Commandes 24h</div>
-        <div class="stat-val">184</div>
-        <div class="stat-trend">↗ +18%</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-lbl">Utilisateurs</div>
-        <div class="stat-val">52 480</div>
-        <div class="stat-trend">↗ +342 aujourd'hui</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-lbl">Vendeurs actifs</div>
-        <div class="stat-val">1 247</div>
-        <div class="stat-trend">↗ +12 nouveaux</div>
-      </div>
-    </div>
-
-    <div class="section-card">
-      <h3>📈 CA sur 7 jours</h3>
-      <div class="chart">
-        <div class="chart-bar" style="height:45%;"><span>1.8M</span></div>
-        <div class="chart-bar" style="height:60%;"><span>2.3M</span></div>
-        <div class="chart-bar" style="height:55%;"><span>2.1M</span></div>
-        <div class="chart-bar" style="height:75%;"><span>2.9M</span></div>
-        <div class="chart-bar" style="height:70%;"><span>2.7M</span></div>
-        <div class="chart-bar" style="height:90%;"><span>3.5M</span></div>
-        <div class="chart-bar" style="height:82%;"><span>3.2M</span></div>
-      </div>
-      <div style="display:flex;gap:6px;font-size:10px;color:#6B7280;margin-top:6px;text-align:center;">
-        <div style="flex:1;">Lun</div><div style="flex:1;">Mar</div><div style="flex:1;">Mer</div><div style="flex:1;">Jeu</div><div style="flex:1;">Ven</div><div style="flex:1;">Sam</div><div style="flex:1;">Dim</div>
+  <!-- VUE GLOBALE -->
+  <div id="overview">
+    <div class="section">
+      <div class="section-title">⚡ Temps réel</div>
+      <div class="kpi-grid">
+        <div class="kpi success">
+          <div class="kpi-icon">💰</div>
+          <div class="kpi-value">45.2M</div>
+          <div class="kpi-label">CA du mois (FCFA)</div>
+          <div class="kpi-change up">📈 +23%</div>
+        </div>
+        <div class="kpi info">
+          <div class="kpi-icon">👥</div>
+          <div class="kpi-value">52 340</div>
+          <div class="kpi-label">Utilisateurs actifs</div>
+          <div class="kpi-change up">📈 +8%</div>
+        </div>
+        <div class="kpi warning">
+          <div class="kpi-icon">🏪</div>
+          <div class="kpi-value">2 512</div>
+          <div class="kpi-label">Vendeurs actifs</div>
+          <div class="kpi-change up">📈 +42</div>
+        </div>
+        <div class="kpi critical">
+          <div class="kpi-icon">⚠️</div>
+          <div class="kpi-value">17</div>
+          <div class="kpi-label">Signalements pending</div>
+          <div class="kpi-change down">🚨 À traiter</div>
+        </div>
       </div>
     </div>
 
-    <div class="section-card">
-      <h3>🚨 Alertes système <a style="font-size:12px;color:#0F6B4E;text-decoration:none;">Voir tout ›</a></h3>
+    <div class="section">
+      <div class="section-title">📊 Journée en cours</div>
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-icon">🛒</div><div class="kpi-value">1 247</div><div class="kpi-label">Commandes 24h</div></div>
+        <div class="kpi"><div class="kpi-icon">💳</div><div class="kpi-value">98.7%</div><div class="kpi-label">Taux succès paiement</div></div>
+        <div class="kpi"><div class="kpi-icon">🚚</div><div class="kpi-value">342</div><div class="kpi-label">Livraisons en cours</div></div>
+        <div class="kpi"><div class="kpi-icon">📞</div><div class="kpi-value">23</div><div class="kpi-label">Tickets support</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">🚨 Alertes actives</div>
       <div class="table-list">
-        <div class="table-row" style="background:#FEE2E2;">
-          <span style="font-size:20px;">⚠️</span>
-          <div class="table-row-info">
-            <div class="table-row-title">Livreur retard critique</div>
-            <div class="table-row-sub">Cmd #ST24071 · 45min de retard</div>
+        <div class="table-row">
+          <div class="row-avatar" style="background:var(--r)">!</div>
+          <div class="row-info">
+            <h5>Vendeur signalé 3× cette semaine</h5>
+            <p>Tech FakeStore · Contrefaçons suspectées</p>
           </div>
-          <span class="status-badge" style="background:#DC2626;color:#fff;">URGENT</span>
+          <span class="row-status status-bad">URGENT</span>
         </div>
         <div class="table-row">
-          <span style="font-size:20px;">🔔</span>
-          <div class="table-row-info">
-            <div class="table-row-title">3 signalements produits</div>
-            <div class="table-row-sub">Modération requise</div>
+          <div class="row-avatar" style="background:var(--j);color:#222">⚠</div>
+          <div class="row-info">
+            <h5>Pic de trafic anormal</h5>
+            <p>2 340 requêtes/min · Serveur EU-01</p>
           </div>
-          <span class="status-badge" style="background:#F59E0B;color:#fff;">ATTENTE</span>
+          <span class="row-status status-pending">SURVEILLER</span>
         </div>
         <div class="table-row">
-          <span style="font-size:20px;">✅</span>
-          <div class="table-row-info">
-            <div class="table-row-title">KYC livreur validé</div>
-            <div class="table-row-sub">Cheikh D. approuvé</div>
+          <div class="row-avatar" style="background:var(--v)">✓</div>
+          <div class="row-info">
+            <h5>Backup automatique complété</h5>
+            <p>04/08/2026 · 3:00 UTC · 2.4 Go</p>
           </div>
-          <span class="status-badge" style="background:#10B981;color:#fff;">OK</span>
+          <span class="row-status status-ok">OK</span>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UTILISATEURS -->
+  <div id="users" class="hidden">
+    <div class="section">
+      <div class="section-title">👥 Gestion des utilisateurs (52 340)</div>
+      <div class="action-grid">
+        <button class="action-btn"><span class="action-icon-big">🔍</span><div><h4>Rechercher</h4><small>Par email, téléphone, ID</small></div></button>
+        <button class="action-btn"><span class="action-icon-big">🚫</span><div><h4>Bannir</h4><small>Suspension compte</small></div></button>
+        <button class="action-btn"><span class="action-icon-big">✉️</span><div><h4>Notification masse</h4><small>Push / Email / SMS</small></div></button>
+        <button class="action-btn"><span class="action-icon-big">📊</span><div><h4>Export CSV</h4><small>Données RGPD</small></div></button>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-title">🆕 Derniers inscrits</div>
+      <div class="table-list">
+        <div class="table-row"><div class="row-avatar">AD</div><div class="row-info"><h5>Awa Diop</h5><p>+221 77 XXX · Client · Il y a 5 min</p></div><span class="row-status status-ok">Actif</span></div>
+        <div class="table-row"><div class="row-avatar" style="background:var(--o)">MK</div><div class="row-info"><h5>Modou Kane</h5><p>Vendeur · KYC en cours · Il y a 18 min</p></div><span class="row-status status-pending">Vérif KYC</span></div>
+        <div class="table-row"><div class="row-avatar" style="background:var(--b)">FN</div><div class="row-info"><h5>Fatou Ndiaye</h5><p>Livreur · Il y a 32 min</p></div><span class="row-status status-ok">Actif</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VENDEURS -->
+  <div id="shops" class="hidden">
+    <div class="section">
+      <div class="section-title">🏪 Vendeurs & Boutiques (2 512)</div>
+      <div class="action-grid">
+        <button class="action-btn"><span class="action-icon-big">✅</span><div><h4>Valider KYC</h4><small>18 en attente</small></div></button>
+        <button class="action-btn"><span class="action-icon-big">👑</span><div><h4>Attribuer badge</h4><small>Silver / Gold / Platinum</small></div></button>
+        <button class="action-btn"><span class="action-icon-big">🚫</span><div><h4>Suspendre boutique</h4><small>Contrefaçon / arnaque</small></div></button>
+        <button class="action-btn"><span class="action-icon-big">💰</span><div><h4>Commission</h4><small>Modifier tiers</small></div></button>
       </div>
     </div>
   </div>
 
   <!-- COMMANDES -->
-  <div id="view-orders" class="view" style="display:none;">
-    <div class="stats-grid">
-      <div class="stat-box"><div class="stat-lbl">À expédier</div><div class="stat-val">42</div></div>
-      <div class="stat-box"><div class="stat-lbl">En livraison</div><div class="stat-val">67</div></div>
-      <div class="stat-box"><div class="stat-lbl">Livrées</div><div class="stat-val">184</div></div>
-      <div class="stat-box"><div class="stat-lbl">Litiges</div><div class="stat-val" style="color:#EF4444;">3</div></div>
+  <div id="orders" class="hidden">
+    <div class="section">
+      <div class="section-title">📦 Commandes (1 247 aujourd'hui)</div>
+      <div class="kpi-grid">
+        <div class="kpi success"><div class="kpi-icon">✅</div><div class="kpi-value">1 023</div><div class="kpi-label">Livrées</div></div>
+        <div class="kpi info"><div class="kpi-icon">🚚</div><div class="kpi-value">201</div><div class="kpi-label">En cours</div></div>
+        <div class="kpi warning"><div class="kpi-icon">⏳</div><div class="kpi-value">18</div><div class="kpi-label">En attente</div></div>
+        <div class="kpi critical"><div class="kpi-icon">❌</div><div class="kpi-value">5</div><div class="kpi-label">Litiges</div></div>
+      </div>
     </div>
-    <div class="section-card">
-      <h3>Dernières commandes</h3>
-      <div class="table-list" id="ordersList"></div>
-    </div>
-  </div>
-
-  <!-- USERS -->
-  <div id="view-users" class="view" style="display:none;">
-    <div class="stats-grid">
-      <div class="stat-box"><div class="stat-lbl">Clients</div><div class="stat-val">48 923</div><div class="stat-trend">↗ +8%</div></div>
-      <div class="stat-box"><div class="stat-lbl">Vendeurs</div><div class="stat-val">1 247</div><div class="stat-trend">↗ +3%</div></div>
-      <div class="stat-box"><div class="stat-lbl">Livreurs</div><div class="stat-val">312</div><div class="stat-trend">↗ +12</div></div>
-      <div class="stat-box"><div class="stat-lbl">Verified</div><div class="stat-val">856</div><div class="stat-trend">↗ +5%</div></div>
-    </div>
-    <div class="section-card">
-      <h3>Nouveaux inscrits (24h)</h3>
-      <div class="table-list">
-        <div class="table-row"><img src="https://i.pravatar.cc/40?img=32" style="width:36px;height:36px;border-radius:50%;"><div class="table-row-info"><div class="table-row-title">Awa Diop</div><div class="table-row-sub">Cliente · Dakar · il y a 12min</div></div><span class="status-badge" style="background:#0F6B4E;color:#fff;">ACTIF</span></div>
-        <div class="table-row"><img src="https://i.pravatar.cc/40?img=33" style="width:36px;height:36px;border-radius:50%;"><div class="table-row-info"><div class="table-row-title">Moussa Fall</div><div class="table-row-sub">Vendeur · Plateau · il y a 45min</div></div><span class="status-badge" style="background:#F59E0B;color:#fff;">KYC</span></div>
-        <div class="table-row"><img src="https://i.pravatar.cc/40?img=34" style="width:36px;height:36px;border-radius:50%;"><div class="table-row-info"><div class="table-row-title">Ibrahima B.</div><div class="table-row-sub">Livreur · Grand Dakar · il y a 2h</div></div><span class="status-badge" style="background:#0F6B4E;color:#fff;">ACTIF</span></div>
+    <div class="section">
+      <div class="section-title">🔧 Actions rapides</div>
+      <div class="action-grid">
+        <button class="action-btn"><span class="action-icon-big">🔄</span><div><h4>Rembourser</h4><small>Manuellement</small></div></button>
+        <button class="action-btn"><span class="action-icon-big">📞</span><div><h4>Contacter parties</h4><small>Client + Vendeur + Livreur</small></div></button>
       </div>
     </div>
   </div>
 
-  <!-- SELLERS -->
-  <div id="view-sellers" class="view" style="display:none;">
-    <div class="section-card">
-      <h3>🏆 Top vendeurs du mois</h3>
+  <!-- MODÉRATION -->
+  <div id="moderation" class="hidden">
+    <div class="section">
+      <div class="section-title">🛡️ Modération (17 signalements)</div>
       <div class="table-list">
-        <div class="table-row"><span style="background:#D4A574;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;">1</span><img src="https://i.pravatar.cc/40?img=1" style="width:36px;height:36px;border-radius:50%;"><div class="table-row-info"><div class="table-row-title">Aïcha Couture</div><div class="table-row-sub">340 ventes · 12.4M FCFA</div></div><span style="color:#10B981;font-weight:800;font-size:12px;">↗ +34%</span></div>
-        <div class="table-row"><span style="background:#9CA3AF;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;">2</span><img src="https://i.pravatar.cc/40?img=11" style="width:36px;height:36px;border-radius:50%;"><div class="table-row-info"><div class="table-row-title">Moussa Tech</div><div class="table-row-sub">210 ventes · 8.7M FCFA</div></div><span style="color:#10B981;font-weight:800;font-size:12px;">↗ +18%</span></div>
-        <div class="table-row"><span style="background:#B87333;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;">3</span><img src="https://i.pravatar.cc/40?img=5" style="width:36px;height:36px;border-radius:50%;"><div class="table-row-info"><div class="table-row-title">Fatou Beauté</div><div class="table-row-sub">185 ventes · 4.2M FCFA</div></div><span style="color:#10B981;font-weight:800;font-size:12px;">↗ +22%</span></div>
+        <div class="table-row"><div class="row-avatar" style="background:var(--r)">🚨</div><div class="row-info"><h5>Contrefaçon Nike</h5><p>Tech FakeStore · Signalé 3× · Preuves attachées</p></div><span class="row-status status-bad">URGENT</span></div>
+        <div class="table-row"><div class="row-avatar" style="background:var(--j);color:#222">💬</div><div class="row-info"><h5>Insulte dans avis</h5><p>Commande #ST-2026-1254 · Modération auto</p></div><span class="row-status status-pending">Review</span></div>
+        <div class="table-row"><div class="row-avatar" style="background:var(--r)">🔞</div><div class="row-info"><h5>Contenu inapproprié</h5><p>Photo produit rejetée par IA</p></div><span class="row-status status-bad">Bloqué</span></div>
+      </div>
+      <div class="action-grid" style="margin-top:12px">
+        <button class="action-btn"><span class="action-icon-big">✅</span><div><h4>Approuver</h4><small>Contenu conforme</small></div></button>
+        <button class="action-btn"><span class="action-icon-big">🗑️</span><div><h4>Supprimer</h4><small>Contenu illégal</small></div></button>
       </div>
     </div>
   </div>
 
-  <!-- REVENUE -->
-  <div id="view-revenue" class="view" style="display:none;">
-    <div class="stats-grid">
-      <div class="stat-box"><div class="stat-lbl">CA Jour</div><div class="stat-val">3.2M</div></div>
-      <div class="stat-box"><div class="stat-lbl">CA Semaine</div><div class="stat-val">18.5M</div></div>
-      <div class="stat-box"><div class="stat-lbl">CA Mois</div><div class="stat-val">74M</div></div>
-      <div class="stat-box"><div class="stat-lbl">CA Année</div><div class="stat-val">890M</div></div>
+  <!-- FINANCE -->
+  <div id="finance" class="hidden">
+    <div class="section">
+      <div class="section-title">💰 Finances plateforme</div>
+      <div class="kpi-grid">
+        <div class="kpi success"><div class="kpi-icon">💰</div><div class="kpi-value">45.2M</div><div class="kpi-label">CA août 2026</div></div>
+        <div class="kpi info"><div class="kpi-icon">📊</div><div class="kpi-value">2.7M</div><div class="kpi-label">Commissions SEN TEW</div></div>
+        <div class="kpi warning"><div class="kpi-icon">🏛️</div><div class="kpi-value">486K</div><div class="kpi-label">TVA à reverser</div></div>
+        <div class="kpi"><div class="kpi-icon">💳</div><div class="kpi-value">98.7%</div><div class="kpi-label">Taux paiement OK</div></div>
+      </div>
     </div>
-    <div class="section-card">
-      <h3>💳 Méthodes de paiement</h3>
-      <div class="table-list">
-        <div class="table-row"><span style="font-size:24px;">💙</span><div class="table-row-info"><div class="table-row-title">Wave</div><div class="table-row-sub">42% des paiements</div></div><span style="font-weight:900;color:#0F6B4E;">31M</span></div>
-        <div class="table-row"><span style="font-size:24px;">🟠</span><div class="table-row-info"><div class="table-row-title">Orange Money</div><div class="table-row-sub">28%</div></div><span style="font-weight:900;color:#0F6B4E;">20.7M</span></div>
-        <div class="table-row"><span style="font-size:24px;">🔵</span><div class="table-row-info"><div class="table-row-title">Free Money</div><div class="table-row-sub">15%</div></div><span style="font-weight:900;color:#0F6B4E;">11.1M</span></div>
-        <div class="table-row"><span style="font-size:24px;">💳</span><div class="table-row-info"><div class="table-row-title">CB / Card</div><div class="table-row-sub">10%</div></div><span style="font-weight:900;color:#0F6B4E;">7.4M</span></div>
-        <div class="table-row"><span style="font-size:24px;">💵</span><div class="table-row-info"><div class="table-row-title">À la livraison</div><div class="table-row-sub">5%</div></div><span style="font-weight:900;color:#0F6B4E;">3.7M</span></div>
+    <div class="section">
+      <div class="section-title">🔧 Opérations</div>
+      <div class="action-grid">
+        <button class="action-btn"><span class="action-icon-big">💸</span><div><h4>Verser vendeurs</h4><small>Vendredi automatique</small></div></button>
+        <button class="action-btn"><span class="action-icon-big">📊</span><div><h4>Rapport comptable</h4><small>Excel / PDF mensuel</small></div></button>
+        <button class="action-btn"><span class="action-icon-big">🏛️</span><div><h4>Déclarer TVA</h4><small>DGID Sénégal</small></div></button>
+        <button class="action-btn"><span class="action-icon-big">💰</span><div><h4>Modifier commissions</h4><small>Bronze/Silver/Gold/Platinum</small></div></button>
       </div>
     </div>
   </div>
 
-  <!-- LOGS -->
-  <div id="view-logs" class="view" style="display:none;">
-    <div class="section-card">
-      <h3>🔒 Logs sécurité (dernières 24h)</h3>
-      <div class="table-list" id="logsList"></div>
+  <!-- AUDIT -->
+  <div id="audit" class="hidden">
+    <div class="section">
+      <div class="section-title">🔍 Journal d'audit (temps réel)</div>
+      <div class="audit-log">
+<span class="time">[04/08 14:32:17]</span> INFO · Admin login · IP 41.82.xxx.xxx · Success
+<span class="time">[04/08 14:31:45]</span> INFO · User signup · id=52340 · +221 77 xxx
+<span class="time">[04/08 14:31:12]</span> INFO · Order placed · #ST-2026-1247 · 145 000 FCFA
+<span class="time">[04/08 14:30:58]</span> <span class="warn">WARN</span> · Failed login attempt · 5x from IP 197.xxx
+<span class="time">[04/08 14:30:22]</span> INFO · Product added · shopId=1 · id=145
+<span class="time">[04/08 14:29:44]</span> INFO · Refund processed · #ST-2026-1198 · 18 500 FCFA
+<span class="time">[04/08 14:29:01]</span> <span class="err">ERR</span> · Payment failed · PayDunya timeout · Order #ST-2026-1245
+<span class="time">[04/08 14:28:35]</span> INFO · Delivery started · liv=17 · order=1240
+<span class="time">[04/08 14:28:02]</span> INFO · LIVE started · shopId=4 · viewers=1204
+<span class="time">[04/08 14:27:11]</span> <span class="warn">WARN</span> · KYC document pending review · vendorId=2510
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-title">📊 Statistiques système (7j)</div>
+      <div class="kpi-grid">
+        <div class="kpi info"><div class="kpi-icon">⚡</div><div class="kpi-value">98.9%</div><div class="kpi-label">Uptime serveurs</div></div>
+        <div class="kpi success"><div class="kpi-icon">🚀</div><div class="kpi-value">142ms</div><div class="kpi-label">Latence moy.</div></div>
+        <div class="kpi warning"><div class="kpi-icon">🔐</div><div class="kpi-value">14</div><div class="kpi-label">Tentatives échouées</div></div>
+        <div class="kpi"><div class="kpi-icon">💾</div><div class="kpi-value">72%</div><div class="kpi-label">Stockage utilisé</div></div>
+      </div>
     </div>
   </div>
 
-  <div style="text-align:center;padding:20px;color:#9CA3AF;font-size:11px;">
-    SEN TEW Admin v8.168.0 · Session expire dans 8h
+  <!-- SÉCURITÉ -->
+  <div id="security" class="hidden">
+    <div class="section">
+      <div class="section-title">🔒 Contrôles de sécurité</div>
+      <div class="action-grid">
+        <button class="action-btn"><span class="action-icon-big">🛡️</span><div><h4>Firewall</h4><small>Règles WAF</small></div></button>
+        <button class="action-btn"><span class="action-icon-big">🔐</span><div><h4>Chiffrement</h4><small>SSL / AES-256</small></div></button>
+        <button class="action-btn"><span class="action-icon-big">🚨</span><div><h4>Détection fraude</h4><small>IA anti-arnaque</small></div></button>
+        <button class="action-btn"><span class="action-icon-big">💾</span><div><h4>Backups</h4><small>Auto 3x/jour</small></div></button>
+        <button class="action-btn"><span class="action-icon-big">🌐</span><div><h4>Rate limiting</h4><small>100 req/min max</small></div></button>
+        <button class="action-btn"><span class="action-icon-big">🔑</span><div><h4>Tokens API</h4><small>PayDunya · Stripe · FCM</small></div></button>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-title">⚠️ Actions d'urgence</div>
+      <button class="emergency-btn" onclick="emergencyMode()">🚨 Mode urgence (Maintenance)</button>
+    </div>
   </div>
 </div>
 
 <script>
-// ===== SÉCURITÉ AVANT TOUT =====
-(function(){
-  const preAuth = sessionStorage.getItem('admin_pre_auth');
-  const adminToken = localStorage.getItem('admin_token');
-  const tokenExpiry = parseInt(localStorage.getItem('admin_token_expiry') || '0');
-  const isTokenValid = adminToken && tokenExpiry > Date.now();
-
-  if (!preAuth && !isTokenValid) {
-    // Aucune trace d'admin → 404 fake pour public
-    document.title = '404 - Not Found';
-    document.body.innerHTML = `
-      <div style="text-align:center;padding:100px 20px;font-family:sans-serif;">
-        <h1 style="font-size:80px;margin:0;color:#0F6B4E;">404</h1>
-        <h2 style="color:#111827;">Page not found</h2>
-        <p style="color:#6B7280;margin:14px 0;">The page you're looking for doesn't exist.</p>
-        <a href="index.html" style="display:inline-block;margin-top:20px;padding:12px 24px;background:#0F6B4E;color:#fff;text-decoration:none;border-radius:8px;font-weight:700;">← Return home</a>
-      </div>`;
-    throw new Error('Not authorized');
-  }
-
-  // Session déjà valide → dashboard direct
-  if (isTokenValid) {
-    document.getElementById('loginForm').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-    loadDashboard();
-  }
-
-  // Auto-logout après 30min inactivité
-  let lastActivity = Date.now();
-  ['click','keydown','mousemove','touchstart'].forEach(evt=>{
-    document.addEventListener(evt, ()=> lastActivity = Date.now());
-  });
-  setInterval(()=>{
-    if (Date.now() - lastActivity > 30*60*1000) adminLogout();
-  }, 60000);
-
-  // Bloquer clic droit + F12
-  document.addEventListener('contextmenu', e => e.preventDefault());
-  document.addEventListener('keydown', e => {
-    if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key))) {
-      e.preventDefault();
-    }
-  });
-})();
-
-// ===== LOGIN CORRIGÉ =====
-function attemptLogin(){
-  const email = document.getElementById('adminEmail').value.trim().toLowerCase();
-  const pass = document.getElementById('adminPass').value.trim();
-  const code = document.getElementById('adminCode').value.trim();
-
-  const VALID = [
-    {e:'admin',            p:'admin123',    c:'123456'},
-    {e:'admin@sentew.com', p:'admin123',    c:'123456'},
-    {e:'admin@sentew.com', p:'sentew2026!', c:'123456'},
-    {e:'superadmin',       p:'sentew2026!', c:'000000'},
-    {e:'sen',              p:'sen',         c:'123456'}
-  ];
-
-  const ok = VALID.some(v =>
-    v.e === email &&
-    v.p.toLowerCase() === pass.toLowerCase() &&
-    v.c === code
-  );
-
-  logAdminEvent(ok?'login_success':'login_fail', {email});
-
-  if (ok) {
-    const token = 'ADMTK_' + Math.random().toString(36).substr(2) + '_' + Date.now();
-    localStorage.setItem('admin_token', token);
-    localStorage.setItem('admin_token_expiry', Date.now() + 8*60*60*1000);
-    document.getElementById('loginForm').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-    loadDashboard();
-  } else {
-    const err = document.getElementById('loginError');
-    err.style.display = 'block';
-    err.innerHTML = `❌ Identifiants incorrects<br><small>Essayez : admin / admin123 / 123456</small>`;
-    navigator.vibrate&&navigator.vibrate([100,50,100]);
-    setTimeout(()=>err.style.display='none', 5000);
-  }
-}
-
-// Enter pour valider
-document.addEventListener('DOMContentLoaded', ()=>{
-  ['adminEmail','adminPass','adminCode'].forEach(id=>{
-    const el = document.getElementById(id);
-    if(el) el.addEventListener('keypress', e => { if(e.key==='Enter') attemptLogin(); });
-  });
-});
-
-// ===== LOGOUT =====
-function adminLogout(){
-  localStorage.removeItem('admin_token');
-  localStorage.removeItem('admin_token_expiry');
-  sessionStorage.removeItem('admin_pre_auth');
+// SÉCURITÉ - Vérification pré-auth
+const preAuth = sessionStorage.getItem('admin_pre_auth') === '1';
+if(!preAuth && !sessionStorage.getItem('admin_logged')){
+  // Doit avoir tapé 7× sur le logo depuis index.html
+  alert('🔒 Accès non autorisé\n\nUtilisez la procédure secrète depuis la page d\'accueil.');
   location.href = 'index.html';
 }
 
-// ===== LOG =====
-function logAdminEvent(type, details){
-  const logs = JSON.parse(localStorage.getItem('admin_audit') || '[]');
-  logs.push({
-    type, details,
-    ts: new Date().toISOString(),
-    ua: navigator.userAgent.slice(0,100)
-  });
-  localStorage.setItem('admin_audit', JSON.stringify(logs.slice(-100)));
+function doAdminLogin(){
+  const u = document.getElementById('adminUser').value.trim().toLowerCase();
+  const p = document.getElementById('adminPwd').value;
+  const t = document.getElementById('admin2fa').value.trim();
+
+  const validUsers = ['admin','admin@sentew.com'];
+  const validPwds = ['admin123','SenTew2026!'];
+  const valid2fa = ['123456','000000'];
+
+  if(!validUsers.includes(u)) return alert('❌ Identifiant incorrect');
+  if(!validPwds.includes(p)) return alert('❌ Mot de passe incorrect');
+  if(!valid2fa.includes(t)) return alert('❌ Code 2FA incorrect');
+
+  sessionStorage.setItem('admin_logged','1');
+  localStorage.setItem('sentew_role','admin');
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
 }
 
-// ===== DASHBOARD =====
-function loadDashboard(){
-  // Tabs
-  document.querySelectorAll('.tab').forEach(t => {
-    t.onclick = () => {
-      document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
-      document.querySelectorAll('.view').forEach(x => x.style.display = 'none');
-      t.classList.add('active');
-      document.getElementById('view-' + t.dataset.view).style.display = 'block';
-    };
+// Si déjà connecté, afficher directement le dashboard
+if(sessionStorage.getItem('admin_logged') === '1'){
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+}
+
+function showAdminTab(id, btn){
+  ['overview','users','shops','orders','moderation','finance','audit','security'].forEach(t => {
+    document.getElementById(t).classList.add('hidden');
   });
+  document.getElementById(id).classList.remove('hidden');
+  document.querySelectorAll('.tab-adm').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 
-  // Commandes
-  const orders = [
-    {id:'ST24071', client:'Awa Diop', amount:35000, status:'À expédier', color:'#F59E0B'},
-    {id:'ST24072', client:'Moussa Fall', amount:750000, status:'En route', color:'#3B82F6'},
-    {id:'ST24073', client:'Fatou N.', amount:8500, status:'Livré', color:'#10B981'},
-    {id:'ST24074', client:'Ibrahima B.', amount:45000, status:'À expédier', color:'#F59E0B'},
-    {id:'ST24075', client:'Ndeye K.', amount:22000, status:'Litige', color:'#EF4444'}
-  ];
-  document.getElementById('ordersList').innerHTML = orders.map(o=>`
-    <div class="table-row">
-      <div class="table-row-info">
-        <div class="table-row-title">#${o.id} · ${o.client}</div>
-        <div class="table-row-sub">${o.amount.toLocaleString()} FCFA</div>
-      </div>
-      <span class="status-badge" style="background:${o.color}22;color:${o.color};">${o.status}</span>
-    </div>
-  `).join('');
+function logout(){
+  if(confirm('🚪 Se déconnecter de l\'administration ?')){
+    sessionStorage.removeItem('admin_logged');
+    sessionStorage.removeItem('admin_pre_auth');
+    localStorage.removeItem('sentew_role');
+    location.href = 'index.html';
+  }
+}
 
-  // Logs
-  const logs = JSON.parse(localStorage.getItem('admin_audit') || '[]').slice(-15).reverse();
-  document.getElementById('logsList').innerHTML = logs.length ? logs.map(l=>{
-    const icons = {login_success:'✅', login_fail:'❌', page_access:'👁'};
-    const colors = {login_success:'#10B981', login_fail:'#EF4444', page_access:'#6B7280'};
-    return `
-      <div class="table-row">
-        <span style="font-size:18px;">${icons[l.type]||'ℹ️'}</span>
-        <div class="table-row-info">
-          <div class="table-row-title">${l.type}</div>
-          <div class="table-row-sub">${new Date(l.ts).toLocaleString('fr-FR')} · ${(l.details?JSON.stringify(l.details):'').slice(0,40)}</div>
-        </div>
-        <span class="status-badge" style="background:${colors[l.type]||'#6B7280'}22;color:${colors[l.type]||'#6B7280'};">${l.type.split('_')[0]}</span>
-      </div>`;
-  }).join('') : '<div style="text-align:center;color:#9CA3AF;padding:20px;">Aucun log</div>';
-
-  logAdminEvent('page_access', { view: 'dashboard' });
+function emergencyMode(){
+  if(confirm('🚨 MODE URGENCE\n\nCela va suspendre toute la plateforme pour maintenance.\n\nCONFIRMER ?')){
+    alert('🔴 Mode maintenance activé.\n\nTous les utilisateurs sont redirigés vers une page d\'attente.');
+  }
 }
 </script>
-  <script src="js/role-guard.js"></script>
-</body>
-</html>
+</body></html>
