@@ -1,282 +1,73 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Profil - SEN TEW</title>
-<link rel="stylesheet" href="css/app.css">
-<meta name="theme-color" content="#0F6B4E">
-<style>
-.profil-hero{
-  background:linear-gradient(135deg,#0F6B4E 0%,#0A4D38 100%);
-  padding:24px 16px 60px;color:#fff;position:relative;
-}
-.profil-avatar-wrap{
-  display:flex;align-items:center;gap:14px;
-}
-.profil-avatar{
-  width:72px;height:72px;border-radius:50%;
-  background:linear-gradient(135deg,#D4A574,#B8895C);
-  display:flex;align-items:center;justify-content:center;
-  font-size:32px;border:3px solid #D4A574;
-  overflow:hidden;
-}
-.profil-avatar img{width:100%;height:100%;object-fit:cover;}
-.profil-info h2{margin:0;font-size:18px;font-weight:900;}
-.profil-info p{margin:2px 0 0;font-size:12px;opacity:.85;}
-.profil-badges{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;}
-.profil-badge{background:rgba(255,255,255,.2);padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700;backdrop-filter:blur(10px);}
+(function(){
+  // Pages ENTIÈREMENT PUBLIQUES (aucune restriction)
+  const publicPages = [
+    'index.html','landing.html','login.html','inscription.html',
+    'onboarding.html','produit.html','boutique.html','categories.html',
+    'produits.html','recherche.html','recherche-ia.html','retouche-ia.html',
+    'panoramique.html','assistant-ia.html','mentions-legales.html',
+    'cgu.html','cgv.html','rgpd.html','contact.html',
+    'mot-de-passe-oublie.html','verified.html','bons-promo.html',
+    'stories.html','live.html',''
+  ];
 
-.stats-strip{
-  margin:-40px 14px 16px;background:#fff;border-radius:16px;
-  padding:14px;display:grid;grid-template-columns:repeat(4,1fr);
-  gap:6px;box-shadow:0 4px 20px rgba(0,0,0,.08);position:relative;z-index:2;
-}
-.stat-cell{text-align:center;}
-.stat-num{font-size:16px;font-weight:900;color:#0F6B4E;}
-.stat-lbl{font-size:9px;color:#6B7280;font-weight:600;text-transform:uppercase;}
+  // Pages CONNECTÉ (n'importe quel rôle connecté)
+  const authPages = [
+    'profil.html','panier.html','commandes.html','notifications.html',
+    'messages.html','chat.html','favoris.html','adresses.html',
+    'portefeuille.html','fidelite.html','parrainage.html',
+    'parametres.html','remboursement.html'
+  ];
 
-.menu-section{
-  background:#fff;border-radius:16px;
-  margin:12px 14px;padding:6px 0;
-  box-shadow:0 2px 10px rgba(0,0,0,.04);
-  overflow:hidden;
-}
-.menu-item{
-  display:flex;align-items:center;gap:12px;
-  padding:14px 16px;text-decoration:none;color:#111827;
-  border-bottom:1px solid #F3F4F6;transition:background .15s;
-}
-.menu-item:last-child{border-bottom:none;}
-.menu-item:active{background:#F9FAFB;}
-.menu-icon{
-  width:38px;height:38px;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:18px;flex-shrink:0;
-}
-.menu-text{flex:1;font-size:14px;font-weight:600;}
-.menu-arrow{color:#9CA3AF;font-size:18px;}
-.menu-badge{
-  background:#ef4444;color:#fff;
-  padding:2px 8px;border-radius:10px;
-  font-size:10px;font-weight:900;
-}
+  // Pages VENDEUR uniquement
+  const vendorPages = ['vendeur.html','vendeur-stats.html','ajouter-produit.html'];
 
-.section-header{
-  padding:8px 20px 4px;
-  font-size:11px;font-weight:800;color:#6B7280;
-  text-transform:uppercase;letter-spacing:1px;
-}
+  // Pages LIVREUR uniquement
+  const courierPages = ['livreur.html','logistique.html'];
 
-.logout-btn{
-  margin:16px 14px 20px;padding:14px;
-  background:#fff;border:2px solid #ef4444;color:#ef4444;
-  border-radius:12px;font-weight:800;
-  display:block;text-align:center;text-decoration:none;
-}
-</style>
-</head>
-<body>
-<div class="app">
-  <header class="app-header">
-    <button class="head-btn" onclick="history.back()" style="width:38px;height:38px;background:#F9FAFB;border:none;border-radius:50%;font-size:16px;">←</button>
-    <div style="flex:1;text-align:center;font-weight:900;color:#0A4D38;">Mon Profil</div>
-    <button class="head-btn" onclick="location.href='parametres.html'" style="width:38px;height:38px;background:#F9FAFB;border:none;border-radius:50%;font-size:16px;">⚙️</button>
-  </header>
+  // Pages ADMIN uniquement
+  const adminPages = ['admin.html','audit.html'];
 
-  <main class="app-content" style="padding:0 0 20px;">
-    <!-- HERO -->
-    <div class="profil-hero">
-      <div class="profil-avatar-wrap">
-        <div class="profil-avatar" onclick="changePhoto()">
-          <img src="https://i.pravatar.cc/200?img=32" alt="" id="userAvatar" onerror="this.style.display='none';this.parentElement.textContent='👤'">
-        </div>
-        <div class="profil-info" style="flex:1;">
-          <h2 id="userName">Utilisateur SEN TEW</h2>
-          <p id="userPhone">+221 77 000 00 00</p>
-          <div class="profil-badges">
-            <span class="profil-badge">✅ Vérifié</span>
-            <span class="profil-badge" style="background:#D4A574;">🥈 Silver</span>
-          </div>
-        </div>
-        <button onclick="editProfile()" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.4);padding:8px 14px;border-radius:20px;font-weight:700;font-size:12px;backdrop-filter:blur(10px);">✏️ Éditer</button>
-      </div>
-    </div>
+  const currentPage = location.pathname.split('/').pop() || 'index.html';
 
-    <!-- STATS -->
-    <div class="stats-strip">
-      <a href="commandes.html" class="stat-cell" style="text-decoration:none;">
-        <div class="stat-num">12</div>
-        <div class="stat-lbl">Commandes</div>
-      </a>
-      <a href="favoris.html" class="stat-cell" style="text-decoration:none;">
-        <div class="stat-num">28</div>
-        <div class="stat-lbl">Favoris</div>
-      </a>
-      <a href="fidelite.html" class="stat-cell" style="text-decoration:none;">
-        <div class="stat-num">450</div>
-        <div class="stat-lbl">Points</div>
-      </a>
-      <a href="portefeuille.html" class="stat-cell" style="text-decoration:none;">
-        <div class="stat-num">15K</div>
-        <div class="stat-lbl">FCFA</div>
-      </a>
-    </div>
+  // Public : accès libre pour tous
+  if(publicPages.includes(currentPage)) return;
 
-    <!-- MES ACTIVITÉS -->
-    <div class="section-header">Mes activités</div>
-    <div class="menu-section">
-      <a href="commandes.html" class="menu-item">
-        <div class="menu-icon" style="background:#0F6B4E22;color:#0F6B4E;">📦</div>
-        <span class="menu-text">Mes commandes</span>
-        <span class="menu-badge">2 en cours</span>
-        <span class="menu-arrow">›</span>
-      </a>
-      <a href="favoris.html" class="menu-item">
-        <div class="menu-icon" style="background:#ef444422;color:#ef4444;">❤️</div>
-        <span class="menu-text">Mes favoris</span>
-        <span class="menu-arrow">›</span>
-      </a>
-      <a href="avis.html" class="menu-item">
-        <div class="menu-icon" style="background:#D4A57422;color:#D4A574;">⭐</div>
-        <span class="menu-text">Mes avis</span>
-        <span class="menu-arrow">›</span>
-      </a>
-      <a href="adresses.html" class="menu-item">
-        <div class="menu-icon" style="background:#3B82F622;color:#3B82F6;">📍</div>
-        <span class="menu-text">Mes adresses</span>
-        <span class="menu-arrow">›</span>
-      </a>
-    </div>
+  const user = JSON.parse(localStorage.getItem('user') || 'null');
+  const role = user ? user.role : null;
+  const isAdmin = sessionStorage.getItem('admin_pre_auth') === '1' || role === 'admin';
 
-    <!-- FINANCES -->
-    <div class="section-header">Finances</div>
-    <div class="menu-section">
-      <a href="portefeuille.html" class="menu-item">
-        <div class="menu-icon" style="background:#10B98122;color:#10B981;">💰</div>
-        <span class="menu-text">Portefeuille</span>
-        <span style="font-size:12px;color:#0F6B4E;font-weight:800;">15 000 FCFA</span>
-        <span class="menu-arrow">›</span>
-      </a>
-      <a href="bons-promo.html" class="menu-item">
-        <div class="menu-icon" style="background:#F5946022;color:#F59460;">🎁</div>
-        <span class="menu-text">Bons & Promos</span>
-        <span class="menu-badge">3 dispo</span>
-        <span class="menu-arrow">›</span>
-      </a>
-      <a href="fidelite.html" class="menu-item">
-        <div class="menu-icon" style="background:#8B5CF622;color:#8B5CF6;">👑</div>
-        <span class="menu-text">Programme fidélité</span>
-        <span style="font-size:12px;color:#8B5CF6;font-weight:800;">Silver</span>
-        <span class="menu-arrow">›</span>
-      </a>
-      <a href="parrainage.html" class="menu-item">
-        <div class="menu-icon" style="background:#EC489922;color:#EC4899;">🎁</div>
-        <span class="menu-text">Parrainer un ami</span>
-        <span style="font-size:11px;color:#EC4899;font-weight:800;">+500 FCFA</span>
-        <span class="menu-arrow">›</span>
-      </a>
-    </div>
-
-    <!-- ESPACES PROS -->
-    <div class="section-header">Espaces professionnels</div>
-    <div class="menu-section">
-      <a href="vendeur.html" class="menu-item">
-        <div class="menu-icon" style="background:#0F6B4E22;color:#0F6B4E;">🏪</div>
-        <span class="menu-text">Devenir vendeur</span>
-        <span class="menu-arrow">›</span>
-      </a>
-      <a href="livreur.html" class="menu-item">
-        <div class="menu-icon" style="background:#F59E0B22;color:#F59E0B;">🚚</div>
-        <span class="menu-text">Devenir livreur</span>
-        <span class="menu-arrow">›</span>
-      </a>
-      <a href="verified.html" class="menu-item">
-        <div class="menu-icon" style="background:#D4A57422;color:#D4A574;">👑</div>
-        <span class="menu-text">SEN Verified Premium</span>
-        <span class="menu-badge" style="background:#D4A574;">GOLD</span>
-        <span class="menu-arrow">›</span>
-      </a>
-    </div>
-
-    <!-- SUPPORT -->
-    <div class="section-header">Aide & Support</div>
-    <div class="menu-section">
-      <a href="assistant-ia.html" class="menu-item">
-        <div class="menu-icon" style="background:#8B5CF622;color:#8B5CF6;">✨</div>
-        <span class="menu-text">Assistant IA 24/7</span>
-        <span class="menu-arrow">›</span>
-      </a>
-      <a href="messages.html?to=support" class="menu-item">
-        <div class="menu-icon" style="background:#3B82F622;color:#3B82F6;">💬</div>
-        <span class="menu-text">Contacter le support</span>
-        <span class="menu-arrow">›</span>
-      </a>
-      <a href="remboursement.html" class="menu-item">
-        <div class="menu-icon" style="background:#EF444422;color:#EF4444;">↩️</div>
-        <span class="menu-text">Retour & Remboursement</span>
-        <span class="menu-arrow">›</span>
-      </a>
-      <a href="parametres.html" class="menu-item">
-        <div class="menu-icon" style="background:#6B728022;color:#6B7280;">⚙️</div>
-        <span class="menu-text">Paramètres</span>
-        <span class="menu-arrow">›</span>
-      </a>
-      <a href="confidentialite-app.html" class="menu-item">
-        <div class="menu-icon" style="background:#0F6B4E22;color:#0F6B4E;">🔒</div>
-        <span class="menu-text">Confidentialité</span>
-        <span class="menu-arrow">›</span>
-      </a>
-    </div>
-
-    <a href="login.html" class="logout-btn" onclick="return confirm('Se déconnecter ?')">🚪 Se déconnecter</a>
-
-    <div style="text-align:center;color:#9CA3AF;font-size:11px;padding:10px;">
-      SEN TEW v8.168.0 · Dakar · 🇸🇳
-    </div>
-  </main>
-
-  <nav class="app-nav">
-    <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
-    <a href="categories.html"><div class="nav-icon">▦</div><div class="nav-label">Catégories</div></a>
-    <a href="panier.html"><div class="nav-icon">🛒<span class="badge">3</span></div><div class="nav-label">Panier</div></a>
-    <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
-    <a href="profil.html" class="active"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
-  </nav>
-</div>
-
-<script>
-// Charger données utilisateur
-const user = JSON.parse(localStorage.getItem('user') || '{"name":"Utilisateur SEN TEW","phone":"+221 77 000 00 00"}');
-document.getElementById('userName').textContent = user.name;
-document.getElementById('userPhone').textContent = user.phone;
-
-function editProfile(){
-  const name = prompt('Nouveau nom :', user.name);
-  if (name) {
-    user.name = name;
-    localStorage.setItem('user', JSON.stringify(user));
-    document.getElementById('userName').textContent = name;
+  // Pages auth : besoin d'être connecté (pas de restriction de rôle)
+  if(authPages.includes(currentPage)){
+    if(!user && !isAdmin){
+      alert('🔐 Veuillez vous connecter');
+      location.href = 'login.html?redirect='+encodeURIComponent(currentPage);
+    }
+    return;
   }
-}
 
-function changePhoto(){
-  const input = document.createElement('input');
-  input.type = 'file';
-  input.accept = 'image/*';
-  input.onchange = e => {
-    const r = new FileReader();
-    r.onload = ev => {
-      document.getElementById('userAvatar').src = ev.target.result;
-      localStorage.setItem('user_avatar', ev.target.result);
-    };
-    r.readAsDataURL(e.target.files[0]);
-  };
-  input.click();
-}
-if (localStorage.getItem('user_avatar')) {
-  document.getElementById('userAvatar').src = localStorage.getItem('user_avatar');
-}
-</script>
-</body>
-</html>
+  // Pages vendeur : rôle vendeur OU admin
+  if(vendorPages.includes(currentPage)){
+    if(role !== 'vendeur' && !isAdmin){
+      alert('⚠️ Accès réservé aux vendeurs');
+      location.href = 'index.html';
+    }
+    return;
+  }
+
+  // Pages livreur : rôle livreur OU admin
+  if(courierPages.includes(currentPage)){
+    if(role !== 'livreur' && !isAdmin){
+      alert('⚠️ Accès réservé aux livreurs');
+      location.href = 'index.html';
+    }
+    return;
+  }
+
+  // Pages admin : session admin_pre_auth requise
+  if(adminPages.includes(currentPage)){
+    if(!isAdmin){
+      location.href = 'index.html';
+    }
+    return;
+  }
+})();
