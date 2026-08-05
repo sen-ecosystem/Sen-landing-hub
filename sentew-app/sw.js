@@ -1,5 +1,5 @@
 // SEN TEW - Service Worker v10 (network-first)
-const CACHE = 'sentew-v27-2026-08-search-ai';
+const CACHE = 'sentew-v28-2026-08-retouche-ia';
 self.addEventListener('install', e => {
   self.skipWaiting();
 });
@@ -18,3 +18,4 @@ self.addEventListener('fetch', e => {
     fetch(e.request).catch(() => caches.match(e.request))
   );
 });
+ni
