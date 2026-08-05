@@ -5,17 +5,17 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Produit - SEN TEW</title>
 <style>
-:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a;--bg:#f5f5f5;--card:#fff;--text:#222}
-[data-theme="dark"]{--bg:#0a1f17;--card:#1a2e24;--text:#f3f4f6}
+:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a;--bg:#f5f5f5;--card:#fff;--text:#222;--muted:#666}
+[data-theme="dark"]{--bg:#0a1f17;--card:#1a2e24;--text:#f3f4f6;--muted:#9ca3af}
 *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif}
-body{background:var(--bg);color:var(--text);padding-bottom:140px}
+body{background:var(--bg);color:var(--text);padding-bottom:140px;max-width:600px;margin:0 auto}
 .top{background:var(--card);padding:12px 14px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10;box-shadow:0 1px 4px rgba(0,0,0,.06)}
 .back{background:#f0f0f0;border:none;width:38px;height:38px;border-radius:50%;font-size:18px;cursor:pointer}
 .top h1{flex:1;font-size:15px;font-weight:700}
 .share{background:#f0f0f0;border:none;width:38px;height:38px;border-radius:50%;font-size:16px;cursor:pointer}
 .gallery{width:100%;height:340px;background:#eee;position:relative;overflow:hidden}
 .gallery img{width:100%;height:100%;object-fit:cover}
-.gallery .dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
+.dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
 .dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5)}
 .dots span.on{background:#fff}
 .card{background:var(--card);margin:10px 12px;border-radius:14px;padding:14px}
@@ -24,26 +24,26 @@ body{background:var(--bg);color:var(--text);padding-bottom:140px}
 .promo{background:var(--r);color:#fff;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:800;margin-left:6px}
 .name{font-size:17px;font-weight:700;margin-top:6px}
 .stars{color:var(--j);margin-top:4px;font-size:13px}
-.stars .n{color:#666;margin-left:4px;font-size:12px}
+.stars .n{color:var(--muted);margin-left:4px;font-size:12px}
 .stock{color:var(--v);font-size:12px;font-weight:700;margin-top:6px}
-.section-t{font-size:14px;font-weight:800;margin-bottom:8px;color:var(--text)}
+.section-t{font-size:14px;font-weight:800;margin-bottom:8px}
 .opts{display:flex;flex-wrap:wrap;gap:8px}
-.opt{padding:8px 14px;border:1.5px solid #ddd;border-radius:20px;font-size:13px;background:#fff;cursor:pointer;font-weight:600}
+.opt{padding:8px 14px;border:1.5px solid #ddd;border-radius:20px;font-size:13px;background:var(--card);cursor:pointer;font-weight:600;color:var(--text)}
 .opt.sel{border-color:var(--v);background:var(--v);color:#fff}
 .seller{display:flex;align-items:center;gap:10px;padding:12px 0;border-top:1px solid #eee;margin-top:10px;cursor:pointer}
 .seller-av{width:44px;height:44px;border-radius:50%;background:var(--v);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px}
 .seller-body{flex:1}
 .seller-name{font-size:14px;font-weight:700}
-.seller-meta{font-size:11px;color:#666;margin-top:2px}
+.seller-meta{font-size:11px;color:var(--muted);margin-top:2px}
 .seller-btn{background:var(--v);color:#fff;border:none;padding:6px 14px;border-radius:16px;font-size:12px;font-weight:700;cursor:pointer}
-.desc{font-size:13px;line-height:1.6;color:#444}
+.desc{font-size:13px;line-height:1.6}
 .avis{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #f5f5f5}
 .avis-av{width:36px;height:36px;border-radius:50%;background:#e8f5e9;color:var(--v);display:flex;align-items:center;justify-content:center;font-weight:700}
 .avis-body{flex:1}
 .avis-name{font-size:13px;font-weight:700}
-.avis-txt{font-size:12px;color:#555;margin-top:3px;line-height:1.5}
+.avis-txt{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5}
 .similar{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.sim{background:#fafafa;border-radius:10px;padding:8px;cursor:pointer}
+.sim{background:var(--bg);border-radius:10px;padding:8px;cursor:pointer}
 .sim img{width:100%;height:100px;border-radius:8px;object-fit:cover;background:#ddd}
 .sim-n{font-size:12px;margin-top:6px;font-weight:600}
 .sim-p{color:var(--r);font-weight:800;font-size:13px;margin-top:3px}
@@ -73,14 +73,14 @@ body{background:var(--bg);color:var(--text);padding-bottom:140px}
     <span class="promo" id="pPromo" style="display:none">-40%</span>
   </div>
   <div class="name" id="pName">Nom du produit</div>
-  <div class="stars">★★★★★ <span class="n" id="pAvis">(0 avis)</span></div>
-  <div class="stock" id="pStock">✅ En stock</div>
+  <div class="stars">★★★★★ <span class="n" id="pAvis">(128 avis)</span></div>
+  <div class="stock">✅ En stock — Livraison 24h Dakar</div>
 </div>
 
 <div class="card">
   <div class="section-t">🎨 Couleur</div>
   <div class="opts" id="colOpts">
-    <div class="opt sel">Noir</div><div class="opt">Blanc</div><div class="opt">Bleu</div>
+    <div class="opt sel">Noir</div><div class="opt">Blanc</div><div class="opt">Bleu</div><div class="opt">Rouge</div>
   </div>
 </div>
 
@@ -105,7 +105,7 @@ body{background:var(--bg);color:var(--text);padding-bottom:140px}
 
 <div class="card">
   <div class="section-t">📝 Description</div>
-  <p class="desc" id="pDesc">Produit de qualité premium, disponible avec plusieurs options de couleur et taille. Livraison rapide au Sénégal.</p>
+  <p class="desc" id="pDesc">Produit de qualité premium, livraison rapide au Sénégal.</p>
 </div>
 
 <div class="card">
@@ -139,16 +139,15 @@ body{background:var(--bg);color:var(--text);padding-bottom:140px}
 </div>
 
 <script src="js/dark-mode.js"></script>
-<script src="js/role-guard.js"></script>
 <script>
 const PRODUCTS = {
-  1:{name:'Robe wax mariage',price:35000,old:50000,img:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600',desc:'Superbe robe en wax authentique, coupe traditionnelle sénégalaise.',sellerId:1,sellerName:'Aïssa Couture'},
+  1:{name:'Robe wax mariage',price:35000,old:50000,img:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600',desc:'Superbe robe en wax authentique, coupe traditionnelle sénégalaise.',sellerId:1,sellerName:'Aïcha Couture'},
   2:{name:'Sandales cuir Peul',price:8500,img:'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600',desc:'Sandales artisanales en cuir véritable, fabriquées à Dakar.',sellerId:2,sellerName:'Cuir Sénégal'},
-  6:{name:'Sac cuir africain premium',price:25000,img:'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600',desc:'Sac en cuir de qualité premium, style africain moderne.',sellerId:2,sellerName:'Cuir Sénégal'},
-  4:{name:'Boubou wax collection',price:18000,img:'https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=600',desc:'Boubou traditionnel en wax, coupe élégante.',sellerId:1,sellerName:'Aïssa Couture'},
-  10:{name:'iPhone 15 Pro 256GB',price:750000,old:850000,img:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=600',desc:'iPhone 15 Pro neuf sous blister, garantie 1 an.',sellerId:3,sellerName:'Tech Dakar'},
-  13:{name:'Écouteurs sans fil Pro',price:15000,img:'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600',desc:'Écouteurs Bluetooth avec réduction de bruit.',sellerId:3,sellerName:'Tech Dakar'},
-  30:{name:'Beurre karité 500g',price:4500,img:'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=600',desc:'Beurre de karité pur 100% naturel du Sénégal.',sellerId:4,sellerName:'Bio Sénégal'},
+  6:{name:'Sac cuir africain premium',price:15000,old:22000,img:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=600',desc:'Sac en cuir de qualité premium, style africain moderne.',sellerId:1,sellerName:'Aïcha Couture'},
+  4:{name:'Boubou wax collection',price:18000,old:25000,img:'https://images.unsplash.com/photo-1544441893-675973e31985?w=600',desc:'Boubou traditionnel en wax, coupe élégante.',sellerId:3,sellerName:'Fatou Fashion'},
+  10:{name:'iPhone 15 Pro 256GB',price:750000,old:850000,img:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=600',desc:'iPhone 15 Pro neuf sous blister, garantie 1 an.',sellerId:2,sellerName:'Moussa Tech'},
+  13:{name:'Écouteurs sans fil Pro',price:12000,old:18000,img:'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=600',desc:'Écouteurs Bluetooth avec réduction de bruit.',sellerId:2,sellerName:'Moussa Tech'},
+  30:{name:'Beurre karité 500g',price:4500,old:6000,img:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=600',desc:'Beurre de karité pur 100% naturel du Sénégal.',sellerId:4,sellerName:'Bio Sénégal'},
   50:{name:'Maillot Sénégal 2026',price:12000,img:'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=600',desc:'Maillot officiel équipe nationale du Sénégal.',sellerId:5,sellerName:'Sport SN'}
 };
 
@@ -169,7 +168,6 @@ if(product.old){
   document.getElementById('pPromo').textContent = '-'+p+'%';
 }
 
-// Produits similaires
 const simIds = Object.keys(PRODUCTS).filter(x=>x!=id).slice(0,4);
 const simGrid = document.getElementById('simGrid');
 simIds.forEach(sid=>{
@@ -181,7 +179,6 @@ simIds.forEach(sid=>{
   simGrid.appendChild(div);
 });
 
-// Sélection options
 document.querySelectorAll('.opts').forEach(box=>{
   box.querySelectorAll('.opt').forEach(o=>{
     o.onclick = ()=>{box.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));o.classList.add('sel')};
