@@ -1318,4 +1318,154 @@ html[data-theme="dark"] .tab-item.active {
 .theme-toggle:active { transform: scale(.9); }
 
 /* Script global à insérer dans chaque page */
+/* ===== FIX DARK MODE GLOBAL — TOUTES PAGES ===== */
+[data-theme="dark"] {
+  --bg: #0a1f17 !important;
+  --card: #1a2e24 !important;
+  --text: #f3f4f6 !important;
+  --muted: #9ca3af !important;
+  --border: #2a3e34 !important;
+  --v: #00c060 !important;
+  --j: #fcd116 !important;
+  --r: #ff4757 !important;
+  --o: #d4a574 !important;
+}
+
+/* Fond général */
+[data-theme="dark"] body,
+[data-theme="dark"] html,
+[data-theme="dark"] main,
+[data-theme="dark"] .content,
+[data-theme="dark"] .page {
+  background: #0a1f17 !important;
+  color: #f3f4f6 !important;
+}
+
+/* Cartes / conteneurs blancs */
+[data-theme="dark"] .card,
+[data-theme="dark"] .panel,
+[data-theme="dark"] .box,
+[data-theme="dark"] .item,
+[data-theme="dark"] .list-item,
+[data-theme="dark"] .promo-card,
+[data-theme="dark"] .plan-card,
+[data-theme="dark"] .order-card,
+[data-theme="dark"] .notif-item,
+[data-theme="dark"] .msg-bubble,
+[data-theme="dark"] .chat-bubble,
+[data-theme="dark"] .cart-item,
+[data-theme="dark"] .product-card,
+[data-theme="dark"] .pcard,
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .kpi-card,
+[data-theme="dark"] .menu-item,
+[data-theme="dark"] .menu-group,
+[data-theme="dark"] .fidelity,
+[data-theme="dark"] .role-switcher,
+[data-theme="dark"] .role-item,
+[data-theme="dark"] .section-title,
+[data-theme="dark"] .sec-t,
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select,
+[data-theme="dark"] .form-input,
+[data-theme="dark"] .search-box,
+[data-theme="dark"] .top,
+[data-theme="dark"] .app-header,
+[data-theme="dark"] .nav-bar,
+[data-theme="dark"] .bottom-bar,
+[data-theme="dark"] header,
+[data-theme="dark"] footer,
+[data-theme="dark"] nav {
+  background: #1a2e24 !important;
+  color: #f3f4f6 !important;
+  border-color: #2a3e34 !important;
+}
+
+/* Textes en général */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] p,
+[data-theme="dark"] span,
+[data-theme="dark"] div,
+[data-theme="dark"] a,
+[data-theme="dark"] label,
+[data-theme="dark"] li {
+  color: #f3f4f6 !important;
+}
+
+/* Textes secondaires / muted */
+[data-theme="dark"] .muted,
+[data-theme="dark"] .subtitle,
+[data-theme="dark"] .desc,
+[data-theme="dark"] .meta,
+[data-theme="dark"] .caption,
+[data-theme="dark"] small {
+  color: #9ca3af !important;
+}
+
+/* Boutons (garder couleurs) */
+[data-theme="dark"] .btn-primary,
+[data-theme="dark"] .btn-v,
+[data-theme="dark"] button[class*="green"] {
+  background: #00c060 !important;
+  color: #fff !important;
+}
+[data-theme="dark"] .btn-secondary,
+[data-theme="dark"] .btn-j,
+[data-theme="dark"] button[class*="yellow"] {
+  background: #fcd116 !important;
+  color: #111 !important;
+}
+
+/* Inputs */
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  background: #0f2018 !important;
+  color: #f3f4f6 !important;
+  border: 1px solid #2a3e34 !important;
+}
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: #6b7280 !important;
+}
+
+/* Fond gris clair → sombre */
+[data-theme="dark"] [style*="background:#f5f5f5"],
+[data-theme="dark"] [style*="background:#fff"],
+[data-theme="dark"] [style*="background:#fafafa"],
+[data-theme="dark"] [style*="background:#f8f8f8"],
+[data-theme="dark"] [style*="background: #f5f5f5"],
+[data-theme="dark"] [style*="background: #fff"],
+[data-theme="dark"] [style*="background:white"] {
+  background: #1a2e24 !important;
+  color: #f3f4f6 !important;
+}
+
+/* Texte foncé forcé → clair */
+[data-theme="dark"] [style*="color:#111"],
+[data-theme="dark"] [style*="color:#222"],
+[data-theme="dark"] [style*="color:#333"],
+[data-theme="dark"] [style*="color:#000"],
+[data-theme="dark"] [style*="color: #111"],
+[data-theme="dark"] [style*="color: #222"],
+[data-theme="dark"] [style*="color:black"] {
+  color: #f3f4f6 !important;
+}
+
+/* Bordures */
+[data-theme="dark"] * {
+  border-color: #2a3e34 !important;
+}
+
+/* Images / avatars pas altérés */
+[data-theme="dark"] img,
+[data-theme="dark"] .avatar,
+[data-theme="dark"] .logo {
+  filter: none !important;
+}
 
