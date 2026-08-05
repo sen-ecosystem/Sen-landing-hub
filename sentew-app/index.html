@@ -123,6 +123,21 @@ body{max-width:600px;margin:0 auto;position:relative;min-height:100vh;}
 </style>
 </head>
 <body>
+<script>
+// Init immédiat du profil invité SEN TEW
+if(!localStorage.getItem('user')){
+  localStorage.setItem('user', JSON.stringify({
+    id:'guest_'+Date.now(),
+    name:'Utilisateur SEN TEW',
+    email:'invite@sen-tew.com',
+    role:'guest',
+    avatar:'U',
+    isGuest:true
+  }));
+  localStorage.setItem('sen_role','guest');
+  localStorage.setItem('sen_wallet','500');
+}
+</script>
 
 <header class="app-header">
   <div class="logo-wrap" id="admTrig">
