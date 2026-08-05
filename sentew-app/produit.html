@@ -4,203 +4,380 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Produit - SEN TEW</title>
+<link rel="stylesheet" href="css/app.css">
 <style>
-:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a;--bg:#f5f5f5;--card:#fff;--text:#222;--muted:#666}
-[data-theme="dark"]{--bg:#0a1f17;--card:#1a2e24;--text:#f3f4f6;--muted:#9ca3af}
-*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif}
-body{background:var(--bg);color:var(--text);padding-bottom:140px;max-width:600px;margin:0 auto}
-.top{background:var(--card);padding:12px 14px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.back{background:#f0f0f0;border:none;width:38px;height:38px;border-radius:50%;font-size:18px;cursor:pointer}
-.top h1{flex:1;font-size:15px;font-weight:700}
-.share{background:#f0f0f0;border:none;width:38px;height:38px;border-radius:50%;font-size:16px;cursor:pointer}
-.gallery{width:100%;height:340px;background:#eee;position:relative;overflow:hidden}
-.gallery img{width:100%;height:100%;object-fit:cover}
-.dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
-.dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5)}
-.dots span.on{background:#fff}
-.card{background:var(--card);margin:10px 12px;border-radius:14px;padding:14px}
-.price{font-size:26px;font-weight:900;color:var(--r)}
-.old{font-size:14px;color:#999;text-decoration:line-through;margin-left:8px}
-.promo{background:var(--r);color:#fff;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:800;margin-left:6px}
-.name{font-size:17px;font-weight:700;margin-top:6px}
-.stars{color:var(--j);margin-top:4px;font-size:13px}
-.stars .n{color:var(--muted);margin-left:4px;font-size:12px}
-.stock{color:var(--v);font-size:12px;font-weight:700;margin-top:6px}
-.section-t{font-size:14px;font-weight:800;margin-bottom:8px}
+:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a;--bg:#f5f5f5;--card:#fff;--text:#111;--muted:#666;--border:#e5e5e5}
+[data-theme="dark"]{--bg:#0a1f17;--card:#1a2e24;--text:#f3f4f6;--muted:#9ca3af;--border:#2a3e34}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;font-family:-apple-system,'Segoe UI',sans-serif}
+body{background:var(--bg);color:var(--text);padding-bottom:80px;max-width:600px;margin:0 auto;transition:.3s}
+
+/* HEADER FLOTTANT */
+.hdr{position:fixed;top:0;left:0;right:0;max-width:600px;margin:0 auto;padding:12px 14px;display:flex;gap:10px;z-index:100;background:linear-gradient(180deg,rgba(0,0,0,.4),transparent);transition:.3s}
+.hdr.scrolled{background:var(--card);box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.hdr-btn{width:40px;height:40px;background:rgba(255,255,255,.9);border:none;border-radius:50%;font-size:18px;cursor:pointer;backdrop-filter:blur(10px);box-shadow:0 2px 6px rgba(0,0,0,.1);color:#111}
+.hdr-spacer{flex:1}
+
+/* GALERIE SWIPE */
+.gal{width:100%;height:400px;background:#eee;position:relative;overflow:hidden}
+.gal-track{display:flex;height:100%;transition:transform .3s;scroll-snap-type:x mandatory;overflow-x:auto;scrollbar-width:none}
+.gal-track::-webkit-scrollbar{display:none}
+.gal-track img{width:100%;height:100%;object-fit:cover;flex-shrink:0;scroll-snap-align:center}
+.gal-dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:6px;background:rgba(0,0,0,.4);padding:6px 12px;border-radius:20px;backdrop-filter:blur(10px)}
+.gal-dots span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.5);transition:.2s}
+.gal-dots span.on{background:#fff;width:16px;border-radius:3px}
+.gal-count{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.5);color:#fff;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:600;backdrop-filter:blur(10px)}
+.gal-360{position:absolute;bottom:14px;right:14px;background:rgba(0,0,0,.6);color:#fff;padding:8px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;backdrop-filter:blur(10px);text-decoration:none}
+
+/* PRIX HERO */
+.price-hero{background:var(--card);padding:16px 16px 12px;position:relative}
+.price-row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.price-big{font-size:32px;font-weight:900;color:var(--r);letter-spacing:-1px}
+.price-old{font-size:15px;color:var(--muted);text-decoration:line-through}
+.badge-promo{background:linear-gradient(135deg,var(--r),#c41217);color:#fff;padding:4px 10px;border-radius:8px;font-size:12px;font-weight:800}
+.badge-flash{background:linear-gradient(135deg,#ff6b00,#ff4500);color:#fff;padding:4px 10px;border-radius:8px;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:4px;margin-top:8px}
+.title-h{font-size:19px;font-weight:700;margin-top:10px;line-height:1.3;color:var(--text)}
+.rating-row{display:flex;align-items:center;gap:12px;margin-top:10px;flex-wrap:wrap}
+.rating-box{display:flex;align-items:center;gap:4px}
+.rating-num{font-size:15px;font-weight:800;color:var(--text)}
+.rating-stars{color:var(--j)}
+.rating-count{color:var(--muted);font-size:13px}
+.sold-count{color:var(--muted);font-size:13px}
+.tag-verif{background:linear-gradient(135deg,#1da1f2,#0d8bd9);color:#fff;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:3px}
+
+/* SECTIONS CARDS */
+.sec{background:var(--card);margin-top:8px;padding:14px 16px}
+.sec-h{font-size:14px;font-weight:800;margin-bottom:10px;color:var(--text);display:flex;align-items:center;gap:6px}
+.sec-h .a{color:var(--v);font-size:12px;margin-left:auto;font-weight:600}
+
+/* LIVRAISON */
+.deliv-row{display:flex;align-items:center;gap:12px;padding:10px;background:linear-gradient(135deg,rgba(0,166,81,.08),rgba(252,209,22,.05));border-radius:10px;margin-bottom:8px}
+.deliv-icon{font-size:22px}
+.deliv-body{flex:1}
+.deliv-t{font-size:13px;font-weight:700;color:var(--text)}
+.deliv-d{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* OPTIONS COULEUR/TAILLE */
 .opts{display:flex;flex-wrap:wrap;gap:8px}
-.opt{padding:8px 14px;border:1.5px solid #ddd;border-radius:20px;font-size:13px;background:var(--card);cursor:pointer;font-weight:600;color:var(--text)}
-.opt.sel{border-color:var(--v);background:var(--v);color:#fff}
-.seller{display:flex;align-items:center;gap:10px;padding:12px 0;border-top:1px solid #eee;margin-top:10px;cursor:pointer}
-.seller-av{width:44px;height:44px;border-radius:50%;background:var(--v);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px}
-.seller-body{flex:1}
-.seller-name{font-size:14px;font-weight:700}
-.seller-meta{font-size:11px;color:var(--muted);margin-top:2px}
-.seller-btn{background:var(--v);color:#fff;border:none;padding:6px 14px;border-radius:16px;font-size:12px;font-weight:700;cursor:pointer}
-.desc{font-size:13px;line-height:1.6}
-.avis{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #f5f5f5}
-.avis-av{width:36px;height:36px;border-radius:50%;background:#e8f5e9;color:var(--v);display:flex;align-items:center;justify-content:center;font-weight:700}
+.opt{padding:10px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:13px;background:var(--card);cursor:pointer;font-weight:600;color:var(--text);transition:.2s;position:relative}
+.opt.sel{border-color:var(--v);background:linear-gradient(135deg,var(--v),#008a44);color:#fff;box-shadow:0 4px 12px rgba(0,166,81,.3)}
+.opt.sel::after{content:'✓';position:absolute;top:-4px;right:-4px;background:var(--j);color:#111;width:16px;height:16px;border-radius:50%;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:900}
+
+/* BOUTIQUE */
+.seller-box{display:flex;align-items:center;gap:12px;padding:12px;background:linear-gradient(135deg,rgba(0,166,81,.05),rgba(252,209,22,.03));border-radius:12px;cursor:pointer;border:1px solid var(--border)}
+.seller-av{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--v),#008a44);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;box-shadow:0 4px 12px rgba(0,166,81,.3)}
+.seller-body{flex:1;min-width:0}
+.seller-name{font-size:14px;font-weight:800;display:flex;align-items:center;gap:6px;color:var(--text)}
+.seller-tick{background:#1da1f2;color:#fff;width:16px;height:16px;border-radius:50%;font-size:9px;display:inline-flex;align-items:center;justify-content:center}
+.seller-meta{font-size:11px;color:var(--muted);margin-top:3px;display:flex;gap:8px;flex-wrap:wrap}
+.seller-btn{background:linear-gradient(135deg,var(--v),#008a44);color:#fff;border:none;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:800;cursor:pointer;box-shadow:0 4px 10px rgba(0,166,81,.3)}
+.seller-actions{display:flex;gap:8px;margin-top:10px}
+.sa-btn{flex:1;padding:8px;background:var(--bg);border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;color:var(--text)}
+
+/* DESCRIPTION */
+.desc-box{font-size:13px;line-height:1.7;color:var(--muted)}
+.desc-more{color:var(--v);font-weight:700;font-size:12px;margin-top:6px;cursor:pointer}
+
+/* AVIS */
+.rating-summary{display:flex;align-items:center;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.rating-big{font-size:36px;font-weight:900;color:var(--text);line-height:1}
+.rating-side{flex:1}
+.rating-bars{display:flex;flex-direction:column;gap:3px}
+.rbar{display:flex;align-items:center;gap:6px;font-size:11px}
+.rbar-lbl{color:var(--muted);width:20px}
+.rbar-track{flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.rbar-fill{height:100%;background:var(--j)}
+.rbar-n{color:var(--muted);width:24px;text-align:right}
+.avis{display:flex;gap:10px;padding:12px 0;border-bottom:1px solid var(--border)}
+.avis:last-child{border:none}
+.avis-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--v),#008a44);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
 .avis-body{flex:1}
-.avis-name{font-size:13px;font-weight:700}
-.avis-txt{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5}
-.similar{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.sim{background:var(--bg);border-radius:10px;padding:8px;cursor:pointer}
-.sim img{width:100%;height:100px;border-radius:8px;object-fit:cover;background:#ddd}
-.sim-n{font-size:12px;margin-top:6px;font-weight:600}
-.sim-p{color:var(--r);font-weight:800;font-size:13px;margin-top:3px}
-.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:var(--card);padding:10px 12px;display:flex;gap:8px;box-shadow:0 -2px 10px rgba(0,0,0,.1);z-index:20;max-width:600px;margin:0 auto}
-.bb-icon{background:#f0f0f0;border:none;width:44px;height:44px;border-radius:12px;font-size:18px;cursor:pointer}
-.bb-cart{flex:1;background:var(--j);color:#222;border:none;padding:12px;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer}
-.bb-buy{flex:1;background:var(--v);color:#fff;border:none;padding:12px;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer}
+.avis-head{display:flex;align-items:center;gap:8px}
+.avis-name{font-size:13px;font-weight:700;color:var(--text)}
+.avis-verif{background:var(--v);color:#fff;font-size:9px;padding:1px 6px;border-radius:4px;font-weight:700}
+.avis-date{font-size:11px;color:var(--muted);margin-left:auto}
+.avis-stars{color:var(--j);font-size:11px;margin-top:3px}
+.avis-txt{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.5}
+.avis-imgs{display:flex;gap:6px;margin-top:6px}
+.avis-imgs img{width:60px;height:60px;border-radius:8px;object-fit:cover}
+
+/* SIMILAIRES */
+.sim{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.sim-c{background:var(--card);border-radius:12px;padding:8px;cursor:pointer;border:1px solid var(--border);transition:.2s}
+.sim-c:active{transform:scale(.97)}
+.sim-c img{width:100%;aspect-ratio:1;border-radius:8px;object-fit:cover;background:var(--bg)}
+.sim-n{font-size:12px;margin-top:8px;font-weight:600;color:var(--text);line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sim-p{color:var(--r);font-weight:900;font-size:14px;margin-top:4px}
+.sim-o{color:var(--muted);text-decoration:line-through;font-size:11px;margin-left:4px}
+
+/* BARRE FIXE ACHAT */
+.bar{position:fixed;bottom:0;left:0;right:0;max-width:600px;margin:0 auto;background:var(--card);padding:8px 10px;display:flex;gap:6px;box-shadow:0 -4px 16px rgba(0,0,0,.1);z-index:50;border-top:1px solid var(--border)}
+.bar-i{background:transparent;border:none;width:44px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--muted);cursor:pointer;padding:4px}
+.bar-i .ic{font-size:20px}
+.bar-cart{flex:1;background:linear-gradient(135deg,var(--j),#f0c000);color:#111;border:none;padding:12px;border-radius:24px;font-weight:800;font-size:13px;cursor:pointer;box-shadow:0 4px 12px rgba(252,209,22,.4)}
+.bar-buy{flex:1;background:linear-gradient(135deg,var(--r),#c41217);color:#fff;border:none;padding:12px;border-radius:24px;font-weight:800;font-size:13px;cursor:pointer;box-shadow:0 4px 12px rgba(227,27,35,.4)}
 </style>
 </head>
 <body>
 
-<div class="top">
-  <button class="back" onclick="history.back()">←</button>
-  <h1 id="pTitle">Détails produit</h1>
-  <button class="share" onclick="share()">🔗</button>
+<div class="hdr" id="hdr">
+  <button class="hdr-btn" onclick="history.back()">←</button>
+  <div class="hdr-spacer"></div>
+  <button class="hdr-btn" onclick="share()">🔗</button>
+  <button class="hdr-btn" onclick="location.href='panier.html'">🛒</button>
+  <button class="hdr-btn" onclick="location.href='index.html'">🏠</button>
 </div>
 
-<div class="gallery">
-  <img id="pImg" src="" alt="Produit">
-  <div class="dots"><span class="on"></span><span></span><span></span><span></span></div>
+<div class="gal">
+  <div class="gal-track" id="galTrack"></div>
+  <div class="gal-count" id="galCount">1 / 4</div>
+  <a href="panoramique.html" class="gal-360">🔄 360°</a>
+  <div class="gal-dots" id="galDots"></div>
 </div>
 
-<div class="card">
-  <div>
-    <span class="price" id="pPrice">— FCFA</span>
-    <span class="old" id="pOld"></span>
-    <span class="promo" id="pPromo" style="display:none">-40%</span>
+<div class="price-hero">
+  <div class="price-row">
+    <span class="price-big" id="pPrice">— FCFA</span>
+    <span class="price-old" id="pOld"></span>
+    <span class="badge-promo" id="pPromo" style="display:none">-40%</span>
   </div>
-  <div class="name" id="pName">Nom du produit</div>
-  <div class="stars">★★★★★ <span class="n" id="pAvis">(128 avis)</span></div>
-  <div class="stock">✅ En stock — Livraison 24h Dakar</div>
+  <div class="badge-flash" id="pFlash" style="display:none">⚡ Vente Flash · Fin dans <span id="flashT">02:14:36</span></div>
+  <div class="title-h" id="pName">Nom du produit</div>
+  <div class="rating-row">
+    <div class="rating-box">
+      <span class="rating-num">4.9</span>
+      <span class="rating-stars">★★★★★</span>
+      <span class="rating-count">(128)</span>
+    </div>
+    <span class="sold-count">🔥 <span id="pSold">1 245</span> vendus</span>
+    <span class="tag-verif">✓ Vérifié</span>
+  </div>
 </div>
 
-<div class="card">
-  <div class="section-t">🎨 Couleur</div>
+<div class="sec">
+  <div class="sec-h">🚚 Livraison</div>
+  <div class="deliv-row">
+    <div class="deliv-icon">⚡</div>
+    <div class="deliv-body">
+      <div class="deliv-t">Livraison express 24h · Dakar</div>
+      <div class="deliv-d">Gratuite dès 25 000 FCFA · Arrive demain</div>
+    </div>
+  </div>
+  <div class="deliv-row">
+    <div class="deliv-icon">🛡️</div>
+    <div class="deliv-body">
+      <div class="deliv-t">Retour gratuit 14 jours</div>
+      <div class="deliv-d">Remboursement garanti · Wave/OM/CB</div>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-h">🎨 Couleur : <span id="colSel" style="color:var(--v);margin-left:4px">Noir</span></div>
   <div class="opts" id="colOpts">
-    <div class="opt sel">Noir</div><div class="opt">Blanc</div><div class="opt">Bleu</div><div class="opt">Rouge</div>
+    <div class="opt sel">Noir</div>
+    <div class="opt">Blanc</div>
+    <div class="opt">Bleu</div>
+    <div class="opt">Rouge</div>
+    <div class="opt">Vert</div>
   </div>
 </div>
 
-<div class="card">
-  <div class="section-t">📏 Taille</div>
+<div class="sec">
+  <div class="sec-h">📏 Taille : <span id="sizeSel" style="color:var(--v);margin-left:4px">M</span><a class="a">Guide des tailles ›</a></div>
   <div class="opts" id="sizeOpts">
-    <div class="opt">S</div><div class="opt sel">M</div><div class="opt">L</div><div class="opt">XL</div>
+    <div class="opt">XS</div><div class="opt">S</div><div class="opt sel">M</div><div class="opt">L</div><div class="opt">XL</div><div class="opt">XXL</div>
   </div>
 </div>
 
-<div class="card" onclick="location.href='boutique.html?id='+(product.sellerId||1)">
-  <div class="section-t">🏪 Boutique</div>
-  <div class="seller">
+<div class="sec">
+  <div class="sec-h">🏪 Boutique <span class="a" onclick="location.href='boutique.html?id='+(product.sellerId||1)">Voir la boutique ›</span></div>
+  <div class="seller-box" onclick="location.href='boutique.html?id='+(product.sellerId||1)">
     <div class="seller-av" id="sAv">S</div>
     <div class="seller-body">
-      <div class="seller-name" id="sName">Sen Boutique</div>
-      <div class="seller-meta">⭐ 4.9 · 856 abonnés · Vérifié ✓</div>
+      <div class="seller-name"><span id="sName">Sen Boutique</span><span class="seller-tick">✓</span></div>
+      <div class="seller-meta">
+        <span>⭐ 4.9</span>
+        <span>👥 856 abonnés</span>
+        <span>📦 1.2k ventes</span>
+      </div>
     </div>
     <button class="seller-btn" onclick="event.stopPropagation();follow()">+ Suivre</button>
   </div>
+  <div class="seller-actions">
+    <button class="sa-btn" onclick="location.href='chat.html?seller='+(product.sellerId||1)">💬 Message</button>
+    <button class="sa-btn" onclick="location.href='boutique.html?id='+(product.sellerId||1)">🏪 Boutique</button>
+    <button class="sa-btn" onclick="location.href='boutique.html?id='+(product.sellerId||1)+'&promo=1'">🎁 Promos</button>
+  </div>
 </div>
 
-<div class="card">
-  <div class="section-t">📝 Description</div>
-  <p class="desc" id="pDesc">Produit de qualité premium, livraison rapide au Sénégal.</p>
+<div class="sec">
+  <div class="sec-h">📝 Description</div>
+  <p class="desc-box" id="pDesc">Produit premium.</p>
+  <div class="desc-more" onclick="alert('Description complète')">Lire la suite ›</div>
 </div>
 
-<div class="card">
-  <div class="section-t">💬 Avis clients (128)</div>
+<div class="sec">
+  <div class="sec-h">💬 Avis (128) <span class="a">Voir tous ›</span></div>
+  <div class="rating-summary">
+    <div class="rating-big">4.9</div>
+    <div class="rating-side">
+      <div style="color:var(--j);font-size:14px;margin-bottom:4px">★★★★★</div>
+      <div class="rating-bars">
+        <div class="rbar"><span class="rbar-lbl">5★</span><div class="rbar-track"><div class="rbar-fill" style="width:92%"></div></div><span class="rbar-n">118</span></div>
+        <div class="rbar"><span class="rbar-lbl">4★</span><div class="rbar-track"><div class="rbar-fill" style="width:6%"></div></div><span class="rbar-n">8</span></div>
+        <div class="rbar"><span class="rbar-lbl">3★</span><div class="rbar-track"><div class="rbar-fill" style="width:2%"></div></div><span class="rbar-n">2</span></div>
+      </div>
+    </div>
+  </div>
   <div class="avis">
     <div class="avis-av">A</div>
     <div class="avis-body">
-      <div class="avis-name">Aminata D. ★★★★★</div>
-      <div class="avis-txt">Excellent produit, livraison rapide. Je recommande !</div>
+      <div class="avis-head">
+        <span class="avis-name">Aminata D.</span>
+        <span class="avis-verif">Achat vérifié</span>
+        <span class="avis-date">Il y a 2j</span>
+      </div>
+      <div class="avis-stars">★★★★★</div>
+      <div class="avis-txt">Excellent produit, livraison rapide en 4h à Dakar. Emballage soigné, exactement conforme aux photos.</div>
+      <div class="avis-imgs">
+        <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=100" alt="">
+        <img src="https://images.unsplash.com/photo-1544441893-675973e31985?w=100" alt="">
+      </div>
     </div>
   </div>
   <div class="avis">
     <div class="avis-av">I</div>
     <div class="avis-body">
-      <div class="avis-name">Ibrahima S. ★★★★★</div>
-      <div class="avis-txt">Conforme à la description, très satisfait de mon achat.</div>
+      <div class="avis-head">
+        <span class="avis-name">Ibrahima S.</span>
+        <span class="avis-verif">Achat vérifié</span>
+        <span class="avis-date">Il y a 5j</span>
+      </div>
+      <div class="avis-stars">★★★★★</div>
+      <div class="avis-txt">Super qualité, je recommande vivement. Vendeur très professionnel et réactif.</div>
     </div>
   </div>
 </div>
 
-<div class="card">
-  <div class="section-t">🔥 Produits similaires</div>
-  <div class="similar" id="simGrid"></div>
+<div class="sec">
+  <div class="sec-h">🔥 Produits similaires <span class="a">Voir plus ›</span></div>
+  <div class="sim" id="simGrid"></div>
 </div>
 
-<div class="bottom-bar">
-  <button class="bb-icon" onclick="toggleFav()" id="favBtn">♡</button>
-  <button class="bb-icon" onclick="location.href='chat.html?seller='+(product.sellerId||1)">💬</button>
-  <button class="bb-cart" onclick="addCart()">🛒 Panier</button>
-  <button class="bb-buy" onclick="buyNow()">⚡ Acheter</button>
+<div class="bar">
+  <button class="bar-i" onclick="toggleFav()"><span class="ic" id="favIc">♡</span><span>Favori</span></button>
+  <button class="bar-i" onclick="location.href='chat.html?seller='+(product.sellerId||1)"><span class="ic">💬</span><span>Chat</span></button>
+  <button class="bar-cart" onclick="addCart()">🛒 Ajouter au panier</button>
+  <button class="bar-buy" onclick="buyNow()">⚡ Acheter</button>
 </div>
 
 <script src="js/dark-mode.js"></script>
 <script>
 const PRODUCTS = {
-  1:{name:'Robe wax mariage',price:35000,old:50000,img:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600',desc:'Superbe robe en wax authentique, coupe traditionnelle sénégalaise.',sellerId:1,sellerName:'Aïcha Couture'},
-  2:{name:'Sandales cuir Peul',price:8500,img:'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600',desc:'Sandales artisanales en cuir véritable, fabriquées à Dakar.',sellerId:2,sellerName:'Cuir Sénégal'},
-  6:{name:'Sac cuir africain premium',price:15000,old:22000,img:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=600',desc:'Sac en cuir de qualité premium, style africain moderne.',sellerId:1,sellerName:'Aïcha Couture'},
-  4:{name:'Boubou wax collection',price:18000,old:25000,img:'https://images.unsplash.com/photo-1544441893-675973e31985?w=600',desc:'Boubou traditionnel en wax, coupe élégante.',sellerId:3,sellerName:'Fatou Fashion'},
-  10:{name:'iPhone 15 Pro 256GB',price:750000,old:850000,img:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=600',desc:'iPhone 15 Pro neuf sous blister, garantie 1 an.',sellerId:2,sellerName:'Moussa Tech'},
-  13:{name:'Écouteurs sans fil Pro',price:12000,old:18000,img:'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=600',desc:'Écouteurs Bluetooth avec réduction de bruit.',sellerId:2,sellerName:'Moussa Tech'},
-  30:{name:'Beurre karité 500g',price:4500,old:6000,img:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=600',desc:'Beurre de karité pur 100% naturel du Sénégal.',sellerId:4,sellerName:'Bio Sénégal'},
-  50:{name:'Maillot Sénégal 2026',price:12000,img:'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=600',desc:'Maillot officiel équipe nationale du Sénégal.',sellerId:5,sellerName:'Sport SN'}
+  1:{name:'Robe wax mariage traditionnelle',price:35000,old:50000,imgs:['https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800','https://images.unsplash.com/photo-1544441893-675973e31985?w=800','https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=800','https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=800'],desc:'Superbe robe en wax authentique 100% coton, coupe traditionnelle sénégalaise avec broderies fines. Idéale pour mariage, baptême, cérémonie religieuse. Tissu de haute qualité importé du Nigéria, doublure intérieure incluse.',sellerId:1,sellerName:'Aïcha Couture',sold:1245,flash:true},
+  2:{name:'Sandales cuir Peul artisanales',price:8500,imgs:['https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800','https://images.unsplash.com/photo-1560343090-f0409e92791a?w=800'],desc:'Sandales artisanales en cuir véritable, fabriquées à Dakar par des artisans Peuls. Confortable pour toute la journée, semelle antidérapante.',sellerId:2,sellerName:'Cuir Sénégal',sold:432},
+  6:{name:'Sac cuir africain premium',price:15000,old:22000,imgs:['https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=800','https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800'],desc:'Sac en cuir de qualité premium, style africain moderne, plusieurs compartiments.',sellerId:1,sellerName:'Aïcha Couture',sold:856},
+  4:{name:'Boubou wax collection homme',price:18000,old:25000,imgs:['https://images.unsplash.com/photo-1544441893-675973e31985?w=800'],desc:'Boubou traditionnel en wax pour homme, coupe élégante moderne.',sellerId:3,sellerName:'Fatou Fashion',sold:678},
+  10:{name:'iPhone 15 Pro 256GB Titanium',price:750000,old:850000,imgs:['https://images.unsplash.com/photo-1592286927505-1def25115558?w=800','https://images.unsplash.com/photo-1611472173362-3f53dbd65d80?w=800'],desc:'iPhone 15 Pro neuf sous blister, garantie 1 an constructeur. Titanium, puce A17 Pro, appareil photo 48MP.',sellerId:2,sellerName:'Moussa Tech',sold:234,flash:true},
+  13:{name:'Écouteurs sans fil Pro ANC',price:12000,old:18000,imgs:['https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800'],desc:'Écouteurs Bluetooth 5.3 avec réduction de bruit active, autonomie 30h.',sellerId:2,sellerName:'Moussa Tech',sold:1567},
+  30:{name:'Beurre karité pur 500g',price:4500,old:6000,imgs:['https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=800'],desc:'Beurre de karité pur 100% naturel du Sénégal, non raffiné.',sellerId:4,sellerName:'Bio Sénégal',sold:3421},
+  50:{name:'Maillot Sénégal 2026 officiel',price:12000,imgs:['https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800'],desc:'Maillot officiel équipe nationale du Sénégal saison 2026, licence FSF.',sellerId:5,sellerName:'Sport SN',sold:892}
 };
 
 const id = parseInt(new URLSearchParams(location.search).get('id')) || 1;
 const product = PRODUCTS[id] || PRODUCTS[1];
 
-document.getElementById('pTitle').textContent = product.name;
 document.getElementById('pName').textContent = product.name;
 document.getElementById('pPrice').textContent = product.price.toLocaleString('fr-FR')+' FCFA';
-document.getElementById('pImg').src = product.img;
 document.getElementById('pDesc').textContent = product.desc;
 document.getElementById('sName').textContent = product.sellerName;
 document.getElementById('sAv').textContent = product.sellerName[0];
+document.getElementById('pSold').textContent = (product.sold||0).toLocaleString('fr-FR');
+
+// Galerie
+const track = document.getElementById('galTrack');
+const dots = document.getElementById('galDots');
+product.imgs.forEach((src,i)=>{
+  const img = document.createElement('img');
+  img.src = src; img.alt = product.name;
+  track.appendChild(img);
+  const dot = document.createElement('span');
+  if(i===0) dot.className='on';
+  dots.appendChild(dot);
+});
+track.addEventListener('scroll',()=>{
+  const idx = Math.round(track.scrollLeft/track.offsetWidth);
+  dots.querySelectorAll('span').forEach((s,i)=>s.className=i===idx?'on':'');
+  document.getElementById('galCount').textContent = (idx+1)+' / '+product.imgs.length;
+});
+
 if(product.old){
   document.getElementById('pOld').textContent = product.old.toLocaleString('fr-FR')+' FCFA';
   document.getElementById('pPromo').style.display='inline-block';
   const p = Math.round((1-product.price/product.old)*100);
   document.getElementById('pPromo').textContent = '-'+p+'%';
 }
+if(product.flash) document.getElementById('pFlash').style.display='inline-block';
 
-const simIds = Object.keys(PRODUCTS).filter(x=>x!=id).slice(0,4);
+// Similaires
 const simGrid = document.getElementById('simGrid');
-simIds.forEach(sid=>{
+Object.keys(PRODUCTS).filter(x=>x!=id).slice(0,4).forEach(sid=>{
   const p = PRODUCTS[sid];
   const div = document.createElement('div');
-  div.className='sim';
+  div.className='sim-c';
   div.onclick = ()=>{location.href='produit.html?id='+sid};
-  div.innerHTML = `<img src="${p.img}"><div class="sim-n">${p.name}</div><div class="sim-p">${p.price.toLocaleString('fr-FR')} FCFA</div>`;
+  const old = p.old?`<span class="sim-o">${p.old.toLocaleString('fr-FR')}</span>`:'';
+  div.innerHTML = `<img src="${p.imgs[0]}"><div class="sim-n">${p.name}</div><div class="sim-p">${p.price.toLocaleString('fr-FR')} FCFA${old}</div>`;
   simGrid.appendChild(div);
 });
 
+// Options
 document.querySelectorAll('.opts').forEach(box=>{
+  const label = box.previousElementSibling?.querySelector('span');
   box.querySelectorAll('.opt').forEach(o=>{
-    o.onclick = ()=>{box.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));o.classList.add('sel')};
+    o.onclick = ()=>{
+      box.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));
+      o.classList.add('sel');
+      if(navigator.vibrate)navigator.vibrate(20);
+    };
   });
 });
+document.querySelectorAll('#colOpts .opt').forEach(o=>o.addEventListener('click',()=>document.getElementById('colSel').textContent=o.textContent));
+document.querySelectorAll('#sizeOpts .opt').forEach(o=>o.addEventListener('click',()=>document.getElementById('sizeSel').textContent=o.textContent));
+
+// Header scroll
+window.addEventListener('scroll',()=>{
+  document.getElementById('hdr').classList.toggle('scrolled',window.scrollY>200);
+});
+
+// Flash countdown
+if(product.flash){
+  let sec = 2*3600+14*60+36;
+  setInterval(()=>{
+    sec--;
+    const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;
+    const el = document.getElementById('flashT');
+    if(el) el.textContent = String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  },1000);
+}
 
 function addCart(){
   const cart = JSON.parse(localStorage.getItem('cart')||'[]');
-  cart.push({id,name:product.name,price:product.price,img:product.img,qty:1});
+  cart.push({id,name:product.name,price:product.price,img:product.imgs[0],qty:1,color:document.getElementById('colSel').textContent,size:document.getElementById('sizeSel').textContent});
   localStorage.setItem('cart',JSON.stringify(cart));
-  if(navigator.vibrate)navigator.vibrate(50);
+  if(navigator.vibrate)navigator.vibrate([50,30,50]);
   alert('✅ Ajouté au panier !');
 }
 function buyNow(){addCart();location.href='panier.html'}
-function follow(){alert('✅ Vous suivez cette boutique')}
+function follow(){alert('✅ Vous suivez '+product.sellerName)}
 function share(){
   if(navigator.share){navigator.share({title:product.name,url:location.href})}
   else{navigator.clipboard.writeText(location.href);alert('🔗 Lien copié')}
 }
 function toggleFav(){
-  const btn=document.getElementById('favBtn');
+  const btn=document.getElementById('favIc');
   btn.textContent = btn.textContent==='♡'?'❤️':'♡';
+  if(navigator.vibrate)navigator.vibrate(30);
 }
 </script>
 </body>
