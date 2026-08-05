@@ -1,166 +1,542 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panoramique Produit - SEN TEW</title>
-<meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#000000">
-<link rel="stylesheet" href="css/app.css">
+<html lang="fr"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Vue 360° - SEN TEW</title>
 <style>
-body{background:#000;overflow:hidden}
-.app{background:#000;padding-bottom:0;max-width:100%}
+:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a;--b:#1976d2;--p:#9c27b0}
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,'Segoe UI',sans-serif;-webkit-tap-highlight-color:transparent}
+body{background:#0a0a0a;color:#fff;overflow:hidden;height:100vh;user-select:none;-webkit-user-select:none}
 
-.pano-container{position:fixed;top:0;left:0;right:0;bottom:0;background:#000;z-index:1}
-.pano-header{position:absolute;top:0;left:0;right:0;padding:20px;display:flex;justify-content:space-between;align-items:center;z-index:100;background:linear-gradient(180deg,rgba(0,0,0,0.8),transparent)}
-.pano-btn{background:rgba(0,0,0,0.6);backdrop-filter:blur(10px);width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:22px;border:1px solid rgba(212,165,116,0.3);cursor:pointer;text-decoration:none}
-.pano-title{color:white;font-size:14px;font-weight:600;text-align:center;flex:1;padding:0 12px}
-.pano-counter{background:rgba(0,0,0,0.6);backdrop-filter:blur(10px);padding:8px 14px;border-radius:20px;color:white;font-size:13px;font-weight:600;border:1px solid rgba(212,165,116,0.3)}
+/* HEADER */
+.header{position:fixed;top:0;left:0;right:0;padding:14px 16px;padding-top:calc(14px + env(safe-area-inset-top,0));z-index:100;background:linear-gradient(180deg,rgba(0,0,0,.8),transparent);display:flex;align-items:center;gap:12px}
+.back{background:rgba(255,255,255,.15);border:none;color:#fff;width:38px;height:38px;border-radius:50%;font-size:18px;cursor:pointer;backdrop-filter:blur(10px)}
+.header h1{color:#fff;flex:1;font-size:15px;font-weight:700;text-align:center;text-shadow:0 2px 6px rgba(0,0,0,.5)}
+.header-btn{background:rgba(255,255,255,.15);border:none;color:#fff;width:38px;height:38px;border-radius:50%;font-size:16px;cursor:pointer;backdrop-filter:blur(10px)}
 
-.pano-viewer{width:100%;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
-.pano-img{max-width:100%;max-height:100%;object-fit:contain;transition:transform 0.3s;cursor:zoom-in;user-select:none;pointer-events:none}
-.pano-img.zoomed{transform:scale(2);cursor:zoom-out}
+/* BADGE 360 */
+.badge-360{position:absolute;top:70px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--j),#f4b800);color:#222;padding:6px 14px;border-radius:20px;font-weight:800;font-size:12px;letter-spacing:1px;box-shadow:0 4px 16px rgba(252,209,22,.4);z-index:50;animation:pulse360 2s infinite}
+@keyframes pulse360{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.05)}}
 
-.pano-nav{position:absolute;top:50%;transform:translateY(-50%);width:50px;height:50px;background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:26px;cursor:pointer;border:1px solid rgba(212,165,116,0.3);z-index:50}
-.pano-nav.prev{left:15px}
-.pano-nav.next{right:15px}
-.pano-nav:disabled{opacity:0.3;cursor:not-allowed}
+/* VIEWER 360 */
+.viewer{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;cursor:grab;overflow:hidden;background:radial-gradient(ellipse at center,#1a1a1a 0%,#0a0a0a 70%)}
+.viewer:active{cursor:grabbing}
+.viewer::before{content:'';position:absolute;bottom:-30%;left:-30%;width:160%;height:60%;background:radial-gradient(ellipse,rgba(0,166,81,.15),transparent 70%);pointer-events:none}
+.product-360{width:80vw;max-width:400px;aspect-ratio:1;position:relative;transform-style:preserve-3d;transition:transform .1s ease-out}
+.product-360 img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .05s;filter:drop-shadow(0 20px 40px rgba(0,0,0,.6))}
+.product-360 img.active{opacity:1}
 
-.pano-footer{position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(0deg,rgba(0,0,0,0.9),transparent);z-index:100}
-.pano-thumbs{display:flex;gap:8px;overflow-x:auto;padding:12px 0;scrollbar-width:none;margin-bottom:12px}
-.pano-thumbs::-webkit-scrollbar{display:none}
-.pano-thumb{width:60px;height:60px;border-radius:10px;overflow:hidden;flex-shrink:0;border:2px solid transparent;cursor:pointer;opacity:0.6;transition:all 0.3s}
-.pano-thumb.active{border-color:var(--gold);opacity:1;transform:scale(1.05)}
-.pano-thumb img{width:100%;height:100%;object-fit:cover}
+/* GLOW EFFECT */
+.glow{position:absolute;bottom:20%;left:50%;transform:translateX(-50%);width:70vw;max-width:350px;height:20px;background:radial-gradient(ellipse,rgba(0,166,81,.4),transparent 70%);filter:blur(20px);pointer-events:none;animation:glow 3s ease-in-out infinite}
+@keyframes glow{0%,100%{opacity:.6;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.1)}}
 
-.pano-info-card{background:rgba(0,0,0,0.7);backdrop-filter:blur(20px);border:1px solid rgba(212,165,116,0.3);border-radius:14px;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:12px}
-.pano-prod-name{color:white;font-size:15px;font-weight:700;margin-bottom:4px}
-.pano-prod-price{color:var(--gold);font-size:20px;font-weight:900}
-.pano-buy-btn{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--bg-darker);padding:10px 20px;border-radius:20px;font-weight:800;font-size:13px;border:none;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+/* DRAG INDICATOR */
+.drag-hint{position:absolute;bottom:35%;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.5);font-size:12px;font-weight:600;display:flex;align-items:center;gap:8px;pointer-events:none;animation:hintPulse 2s infinite}
+.drag-hint.hidden{display:none}
+@keyframes hintPulse{0%,100%{opacity:.5}50%{opacity:1}}
+.hint-arrow{font-size:20px;animation:swipeArrow 2s infinite}
+@keyframes swipeArrow{0%,100%{transform:translateX(0)}50%{transform:translateX(10px)}}
 
-/* Dots */
-.pano-dots{display:flex;justify-content:center;gap:8px;margin-bottom:14px}
-.pano-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.3);transition:all 0.3s;cursor:pointer}
-.pano-dot.active{background:var(--gold);width:24px;border-radius:4px}
+/* PROGRESS 360 */
+.progress-360{position:fixed;bottom:280px;left:16px;right:16px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;z-index:50;overflow:hidden;backdrop-filter:blur(10px)}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--v),var(--j));width:0;transition:width .1s;box-shadow:0 0 12px rgba(252,209,22,.6)}
+.progress-marks{position:absolute;inset:0;display:flex;justify-content:space-between;pointer-events:none}
+.progress-marks span{width:2px;height:8px;background:rgba(255,255,255,.2);margin-top:-2px}
+.rotation-angle{position:fixed;bottom:290px;right:16px;background:rgba(0,0,0,.7);color:var(--j);padding:4px 10px;border-radius:12px;font-size:11px;font-weight:800;z-index:50;backdrop-filter:blur(10px);font-family:monospace}
 
-@keyframes shine{
-  0%,100%{opacity:0.3}
-  50%{opacity:1}
-}
-.zoom-hint{position:absolute;top:80px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.6);color:white;padding:8px 16px;border-radius:20px;font-size:12px;border:1px solid rgba(212,165,116,0.3);animation:shine 2s infinite}
-</style>
-</head>
-<body oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+/* CONTROLS 360 */
+.controls-360{position:fixed;bottom:200px;left:0;right:0;display:flex;justify-content:center;gap:14px;z-index:50;padding:0 20px}
+.ctrl-btn{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.2);color:#fff;width:52px;height:52px;border-radius:50%;font-size:22px;cursor:pointer;backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;transition:.2s}
+.ctrl-btn:active{transform:scale(.92)}
+.ctrl-btn.play{background:linear-gradient(135deg,var(--v),#008a44);border-color:var(--v);width:64px;height:64px;font-size:28px}
+.ctrl-btn.ar{background:linear-gradient(135deg,var(--p),#6a1b9a);border-color:var(--p)}
+.ctrl-btn.zoom{background:linear-gradient(135deg,var(--b),#0d47a1);border-color:var(--b)}
+.ctrl-btn.reset{background:rgba(255,255,255,.1)}
 
-<div class="pano-container">
+/* INFO PRODUIT */
+.product-info{position:fixed;bottom:64px;left:0;right:0;padding:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom,0));background:linear-gradient(0deg,rgba(0,0,0,.95),rgba(0,0,0,.7) 70%,transparent);z-index:60;color:#fff}
+.info-row{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:12px}
+.info-left{flex:1;min-width:0}
+.info-title{font-size:18px;font-weight:800;color:#fff;margin-bottom:4px;text-shadow:0 2px 6px rgba(0,0,0,.5);overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical}
+.info-shop{font-size:12px;color:rgba(255,255,255,.85);display:flex;align-items:center;gap:4px}
+.tick{background:#1da1f2;color:#fff;width:12px;height:12px;border-radius:50%;font-size:8px;display:inline-flex;align-items:center;justify-content:center}
+.info-price{text-align:right;flex-shrink:0}
+.price-amount{font-size:22px;font-weight:900;color:var(--j);text-shadow:0 2px 6px rgba(0,0,0,.5)}
+.price-old{font-size:12px;color:rgba(255,255,255,.6);text-decoration:line-through}
+.price-discount{background:var(--r);color:#fff;padding:2px 6px;border-radius:6px;font-size:10px;font-weight:800;margin-left:4px}
 
-  <!-- HEADER -->
-  <div class="pano-header">
-    <a href="produit.html" class="pano-btn" id="backBtn">←</a>
-    <div class="pano-title" id="prodTitle">Chargement...</div>
-    <div class="pano-counter"><span id="currentIdx">1</span>/<span id="totalIdx">5</span></div>
-  </div>
+/* FEATURES BAR */
+.features-bar{display:flex;gap:8px;margin-bottom:12px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+.features-bar::-webkit-scrollbar{display:none}
+.feature-chip{background:rgba(255,255,255,.15);color:#fff;padding:5px 10px;border-radius:12px;font-size:11px;font-weight:600;backdrop-filter:blur(10px);white-space:nowrap;display:flex;align-items:center;gap:4px;flex-shrink:0}
+.f-360{background:rgba(252,209,22,.25);color:var(--j)}
+.f-hd{background:rgba(29,161,242,.25);color:#1da1f2}
+.f-ar{background:rgba(156,39,176,.3);color:#e1bee7}
+.f-verified{background:rgba(0,166,81,.25);color:#4caf50}
 
-  <!-- HINT ZOOM -->
-  <div class="zoom-hint">🔍 Touchez pour zoomer</div>
+/* ACTIONS */
+.actions-360{display:flex;gap:8px}
+.act-360-btn{padding:12px;border-radius:14px;font-weight:700;font-size:14px;cursor:pointer;border:none;display:flex;align-items:center;justify-content:center;gap:6px}
+.act-fav{flex:0 0 52px;background:rgba(255,255,255,.15);color:#fff;backdrop-filter:blur(10px)}
+.act-fav.liked{background:var(--r);color:#fff}
+.act-cart{flex:1;background:rgba(255,255,255,.95);color:var(--v)}
+.act-buy{flex:1.5;background:linear-gradient(135deg,var(--v),#008a44);color:#fff;box-shadow:0 4px 20px rgba(0,166,81,.5)}
 
-  <!-- IMAGE VIEWER -->
-  <div class="pano-viewer">
-    <button class="pano-nav prev" onclick="prevImg()">‹</button>
-    <img class="pano-img" id="mainImg" src="" alt="Produit" onclick="this.classList.toggle('zoomed')">
-    <button class="pano-nav next" onclick="nextImg()">›</button>
-  </div>
+/* COLOR SELECTOR */
+.color-selector{position:fixed;right:14px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;z-index:60}
+.color-dot{width:34px;height:34px;border-radius:50%;cursor:pointer;border:3px solid rgba(255,255,255,.4);transition:.2s;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.color-dot.active{border-color:var(--j);transform:scale(1.15);box-shadow:0 4px 16px rgba(252,209,22,.5)}
+.c-blue{background:#1976d2}
+.c-red{background:#e31b23}
+.c-green{background:#00a651}
+.c-yellow{background:#fcd116}
+.c-black{background:#222}
 
-  <!-- FOOTER -->
-  <div class="pano-footer">
-    <!-- Dots -->
-    <div class="pano-dots" id="dotsRow"></div>
+/* PRODUCT SWITCHER */
+.product-switcher{position:fixed;left:14px;top:120px;display:flex;flex-direction:column;gap:8px;z-index:60;max-height:60vh;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.product-switcher::-webkit-scrollbar{display:none}
+.mini-prod{width:52px;height:52px;border-radius:10px;overflow:hidden;cursor:pointer;border:2px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);transition:.2s;position:relative}
+.mini-prod.active{border-color:var(--j);box-shadow:0 4px 16px rgba(252,209,22,.4)}
+.mini-prod img{width:100%;height:100%;object-fit:cover}
+.mini-prod-360{position:absolute;top:2px;right:2px;background:var(--j);color:#222;font-size:7px;font-weight:800;padding:1px 3px;border-radius:3px}
 
-    <!-- Thumbnails -->
-    <div class="pano-thumbs" id="thumbsRow"></div>
+/* ZOOM MODAL */
+.zoom-modal{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:999;display:none;align-items:center;justify-content:center;padding:20px}
+.zoom-modal.show{display:flex}
+.zoom-img{max-width:100%;max-height:100%;object-fit:contain}
+.zoom-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.2);border:none;color:#fff;width:40px;height:40px;border-radius:50%;font-size:20px;cursor:pointer;backdrop-filter:blur(10px)}
+.zoom-hint{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);color:#fff;font-size:12px;background:rgba(0,0,0,.6);padding:8px 16px;border-radius:20px;backdrop-filter:blur(10px)}
 
-    <!-- Info + Buy -->
-    <div class="pano-info-card">
-      <div>
-        <div class="pano-prod-name" id="prodName">Nom du produit</div>
-        <div class="pano-prod-price" id="prodPrice">0 FCFA</div>
-      </div>
-      <a href="#" class="pano-buy-btn" id="buyBtn">🛒 Acheter</a>
-    </div>
-  </div>
+/* AR MODAL */
+.ar-modal{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:999;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px)}
+.ar-modal.show{display:flex}
+.ar-content{background:linear-gradient(135deg,#1a2028,#0f1419);padding:24px;border-radius:20px;text-align:center;max-width:340px;color:#fff;border:1px solid rgba(255,255,255,.1)}
+.ar-icon{font-size:64px;margin-bottom:12px}
+.ar-content h3{color:var(--p);font-size:20px;font-weight:800;margin-bottom:6px}
+.ar-content p{color:rgba(255,255,255,.8);font-size:13px;margin-bottom:16px;line-height:1.5}
+.ar-content .btn{background:linear-gradient(135deg,var(--p),#6a1b9a);color:#fff;border:none;padding:12px 28px;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer;margin:4px}
+.ar-content .btn.secondary{background:rgba(255,255,255,.15)}
 
+/* LOADING */
+.loading{position:fixed;inset:0;background:#0a0a0a;z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;transition:opacity .5s}
+.loading.hide{opacity:0;pointer-events:none}
+.loader-360{width:80px;height:80px;border:4px solid rgba(255,255,255,.15);border-top-color:var(--j);border-radius:50%;animation:spin360 1.2s linear infinite;margin-bottom:16px}
+@keyframes spin360{to{transform:rotate(360deg)}}
+.loading h4{font-size:16px;font-weight:700;color:var(--j);letter-spacing:1px}
+.loading p{font-size:12px;opacity:.7;margin-top:6px}
+
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#000;border-top:1px solid rgba(255,255,255,.1);display:flex;padding:8px 0;padding-bottom:calc(8px + env(safe-area-inset-bottom,0));z-index:90;height:60px;backdrop-filter:blur(20px)}
+.nav-item{flex:1;text-align:center;color:rgba(255,255,255,.5);font-size:10px;background:none;border:none;cursor:pointer;font-family:inherit}
+.nav-item.active{color:var(--j);font-weight:700}
+.nav-icon{font-size:22px;display:block;margin-bottom:2px}
+</style></head><body>
+
+<!-- LOADING -->
+<div class="loading" id="loading">
+  <div class="loader-360"></div>
+  <h4>CHARGEMENT VUE 360°</h4>
+  <p>Préparation des 36 vues HD...</p>
 </div>
 
-<script src="js/data.js"></script>
-<script>
-const productId = parseInt(new URLSearchParams(window.location.search).get('id') || '5');
-const product = PRODUCTS.find(p => p.id === productId) || PRODUCTS[4];
+<!-- HEADER -->
+<div class="header">
+  <button class="back" onclick="history.back()">←</button>
+  <h1>Vue 360° Premium</h1>
+  <button class="header-btn" onclick="shareView()">↗</button>
+</div>
 
-// Générer 5 photos (dupliquer la photo principale avec variations)
-const photos = [
-  product.photo,
-  product.photo + '&sat=-100',
-  product.photo + '&blur=10',
-  product.photo,
-  product.photo
+<!-- BADGE 360 -->
+<div class="badge-360">🔄 VUE 360°</div>
+
+<!-- ROTATION ANGLE -->
+<div class="rotation-angle" id="angle">0°</div>
+
+<!-- SÉLECTEUR PRODUITS -->
+<div class="product-switcher">
+  <div class="mini-prod active" onclick="switchProduct(0)">
+    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=100" alt="">
+    <div class="mini-prod-360">360°</div>
+  </div>
+  <div class="mini-prod" onclick="switchProduct(1)">
+    <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=100" alt="">
+    <div class="mini-prod-360">360°</div>
+  </div>
+  <div class="mini-prod" onclick="switchProduct(2)">
+    <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=100" alt="">
+    <div class="mini-prod-360">360°</div>
+  </div>
+  <div class="mini-prod" onclick="switchProduct(3)">
+    <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=100" alt="">
+    <div class="mini-prod-360">360°</div>
+  </div>
+</div>
+
+<!-- SÉLECTEUR COULEURS -->
+<div class="color-selector">
+  <div class="color-dot c-blue active" onclick="switchColor(this,'blue')" title="Bleu"></div>
+  <div class="color-dot c-red" onclick="switchColor(this,'red')" title="Rouge"></div>
+  <div class="color-dot c-green" onclick="switchColor(this,'green')" title="Vert"></div>
+  <div class="color-dot c-yellow" onclick="switchColor(this,'yellow')" title="Jaune"></div>
+  <div class="color-dot c-black" onclick="switchColor(this,'black')" title="Noir"></div>
+</div>
+
+<!-- VIEWER 360 -->
+<div class="viewer" id="viewer">
+  <div class="product-360" id="product360"></div>
+  <div class="glow"></div>
+  <div class="drag-hint" id="dragHint">
+    <span>Glissez pour tourner</span>
+    <span class="hint-arrow">→</span>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-360">
+  <div class="progress-marks">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <div class="progress-fill" id="progressFill"></div>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls-360">
+  <button class="ctrl-btn reset" onclick="resetView()" title="Reset">↺</button>
+  <button class="ctrl-btn zoom" onclick="openZoom()" title="Zoom">🔍</button>
+  <button class="ctrl-btn play" id="playBtn" onclick="toggleAutoRotate()">▶</button>
+  <button class="ctrl-btn ar" onclick="tryAR()" title="Réalité augmentée">📱</button>
+  <button class="ctrl-btn" onclick="toggleFullscreen()" title="Plein écran">⛶</button>
+</div>
+
+<!-- PRODUCT INFO -->
+<div class="product-info">
+  <div class="features-bar">
+    <span class="feature-chip f-360">🔄 360° HD</span>
+    <span class="feature-chip f-hd">📐 4K</span>
+    <span class="feature-chip f-ar">📱 AR</span>
+    <span class="feature-chip f-verified">✓ Vérifié</span>
+    <span class="feature-chip">🚚 24h</span>
+    <span class="feature-chip">↩️ 14j retour</span>
+  </div>
+  <div class="info-row">
+    <div class="info-left">
+      <div class="info-title" id="pTitle">Boubou traditionnel brodé main</div>
+      <div class="info-shop">🏪 <span id="pShop">Aïcha Fashion</span> <span class="tick">✓</span></div>
+    </div>
+    <div class="info-price">
+      <div class="price-amount" id="pPrice">25 000 FCFA</div>
+      <div><span class="price-old" id="pOld">35 000</span><span class="price-discount">-29%</span></div>
+    </div>
+  </div>
+  <div class="actions-360">
+    <button class="act-360-btn act-fav" onclick="toggleFav(this)">🤍</button>
+    <button class="act-360-btn act-cart" onclick="addCart()">🛒 Panier</button>
+    <button class="act-360-btn act-buy" onclick="buyNow()">💳 Acheter</button>
+  </div>
+</div>
+
+<!-- ZOOM MODAL -->
+<div class="zoom-modal" id="zoomModal">
+  <button class="zoom-close" onclick="closeZoom()">✕</button>
+  <img class="zoom-img" id="zoomImg" src="">
+  <div class="zoom-hint">🔍 Pincez pour zoomer</div>
+</div>
+
+<!-- AR MODAL -->
+<div class="ar-modal" id="arModal">
+  <div class="ar-content">
+    <div class="ar-icon">📱</div>
+    <h3>Réalité Augmentée</h3>
+    <p>Visualisez ce produit dans votre espace réel avec la caméra de votre téléphone.<br><br><b>Compatibilité :</b> iOS 12+ / Android 8+</p>
+    <button class="btn" onclick="launchAR()">📸 Lancer AR</button>
+    <button class="btn secondary" onclick="closeAR()">Plus tard</button>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <button class="nav-item" onclick="location.href='index.html'"><span class="nav-icon">🏠</span>Accueil</button>
+  <button class="nav-item" onclick="location.href='categories.html'"><span class="nav-icon">🗂️</span>Catégories</button>
+  <button class="nav-item" onclick="location.href='panier.html'"><span class="nav-icon">🛒</span>Panier</button>
+  <button class="nav-item" onclick="location.href='favoris.html'"><span class="nav-icon">❤️</span>Favoris</button>
+  <button class="nav-item active"><span class="nav-icon">🔄</span>360°</button>
+</nav>
+
+<script src="js/dark-mode.js"></script>
+<script src="js/role-guard.js"></script>
+<script>
+// ===== PRODUITS 360 =====
+const PRODUCTS_360 = [
+  {
+    id:1,
+    title:'Boubou traditionnel brodé main',
+    shop:'Aïcha Fashion',
+    price:25000,
+    old:35000,
+    baseImg:'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600',
+    colorImgs:{
+      blue:'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600',
+      red:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600',
+      green:'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600',
+      yellow:'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&sat=-100&hue=60',
+      black:'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&sat=-100'
+    }
+  },
+  {
+    id:2,
+    title:'Robe wax mariage',
+    shop:'Aïcha Fashion',
+    price:18500,
+    old:22000,
+    baseImg:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600',
+    colorImgs:{}
+  },
+  {
+    id:3,
+    title:'Sac cuir artisanal Peul',
+    shop:'Aïcha Fashion',
+    price:15000,
+    old:null,
+    baseImg:'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600',
+    colorImgs:{}
+  },
+  {
+    id:4,
+    title:'Sandales cousues main',
+    shop:'Aïcha Fashion',
+    price:8500,
+    old:12000,
+    baseImg:'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600',
+    colorImgs:{}
+  }
 ];
 
-let currentIdx = 0;
+let currentProduct = 0;
+let currentAngle = 0;
+let currentFrame = 0;
+const totalFrames = 36; // 360° / 10° par frame
+let isDragging = false;
+let startX = 0;
+let autoRotate = null;
+let currentColor = 'blue';
 
-document.getElementById('prodTitle').textContent = product.name;
-document.getElementById('prodName').textContent = product.name;
-document.getElementById('prodPrice').textContent = formatPrice(product.price);
-document.getElementById('totalIdx').textContent = photos.length;
-document.getElementById('backBtn').href = 'produit.html?id=' + product.id;
-document.getElementById('buyBtn').href = 'produit.html?id=' + product.id;
-
-function updateImg(){
-  document.getElementById('mainImg').src = photos[currentIdx];
-  document.getElementById('mainImg').classList.remove('zoomed');
-  document.getElementById('currentIdx').textContent = currentIdx + 1;
-  renderDots();
-  renderThumbs();
+// Charger produit
+function loadProduct(idx){
+  const p = PRODUCTS_360[idx];
+  const container = document.getElementById('product360');
+  container.innerHTML = '';
+  const img = p.colorImgs[currentColor] || p.baseImg;
+  
+  // Créer 36 "frames" (simulation - même image avec rotation CSS)
+  for(let i=0; i<totalFrames; i++){
+    const el = document.createElement('img');
+    el.src = img;
+    el.alt = p.title;
+    el.style.transform = `rotateY(${i*10}deg)`;
+    if(i===0) el.classList.add('active');
+    container.appendChild(el);
+  }
+  
+  document.getElementById('pTitle').textContent = p.title;
+  document.getElementById('pShop').textContent = p.shop;
+  document.getElementById('pPrice').textContent = p.price.toLocaleString() + ' FCFA';
+  if(p.old){
+    document.getElementById('pOld').textContent = p.old.toLocaleString() + ' FCFA';
+    const pct = Math.round((1 - p.price/p.old)*100);
+    document.querySelector('.price-discount').textContent = '-'+pct+'%';
+    document.querySelector('.price-discount').style.display = 'inline-block';
+    document.getElementById('pOld').style.display = 'inline-block';
+  } else {
+    document.getElementById('pOld').style.display = 'none';
+    document.querySelector('.price-discount').style.display = 'none';
+  }
+  currentFrame = 0;
+  currentAngle = 0;
+  updateFrame();
 }
 
-function prevImg(){ if(currentIdx > 0){ currentIdx--; updateImg(); } }
-function nextImg(){ if(currentIdx < photos.length - 1){ currentIdx++; updateImg(); } }
-function goTo(idx){ currentIdx = idx; updateImg(); }
-
-function renderDots(){
-  document.getElementById('dotsRow').innerHTML = photos.map((_, i) => 
-    `<div class="pano-dot ${i===currentIdx?'active':''}" onclick="goTo(${i})"></div>`
-  ).join('');
+// Update frame affiché
+function updateFrame(){
+  document.querySelectorAll('.product-360 img').forEach((img,i) => {
+    img.classList.toggle('active', i === currentFrame);
+  });
+  currentAngle = currentFrame * 10;
+  document.getElementById('angle').textContent = currentAngle + '°';
+  document.getElementById('progressFill').style.width = ((currentFrame / (totalFrames-1)) * 100) + '%';
+  
+  // Cache le hint après première rotation
+  if(currentAngle > 30){
+    document.getElementById('dragHint').classList.add('hidden');
+  }
 }
 
-function renderThumbs(){
-  document.getElementById('thumbsRow').innerHTML = photos.map((p, i) => 
-    `<div class="pano-thumb ${i===currentIdx?'active':''}" onclick="goTo(${i})">
-      <img src="${p}" alt="Miniature ${i+1}">
-    </div>`
-  ).join('');
+// Rotation par swipe
+const viewer = document.getElementById('viewer');
+viewer.addEventListener('mousedown', startDrag);
+viewer.addEventListener('touchstart', startDrag, {passive:true});
+
+function startDrag(e){
+  isDragging = true;
+  startX = (e.touches ? e.touches[0].clientX : e.clientX);
+  stopAutoRotate();
 }
 
-updateImg();
+function onDrag(e){
+  if(!isDragging) return;
+  const x = (e.touches ? e.touches[0].clientX : e.clientX);
+  const deltaX = x - startX;
+  const frameChange = Math.floor(deltaX / 8);
+  if(Math.abs(frameChange) >= 1){
+    currentFrame = (currentFrame - frameChange + totalFrames*10) % totalFrames;
+    startX = x;
+    updateFrame();
+  }
+}
 
-// Swipe gestures
-let touchStartX = 0;
-document.querySelector('.pano-viewer').addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
-document.querySelector('.pano-viewer').addEventListener('touchend', e => {
-  const diff = e.changedTouches[0].clientX - touchStartX;
-  if(diff > 50) prevImg();
-  if(diff < -50) nextImg();
+function endDrag(){isDragging = false}
+
+viewer.addEventListener('mousemove', onDrag);
+viewer.addEventListener('touchmove', onDrag, {passive:true});
+viewer.addEventListener('mouseup', endDrag);
+viewer.addEventListener('touchend', endDrag);
+viewer.addEventListener('mouseleave', endDrag);
+
+// Auto-rotation
+function toggleAutoRotate(){
+  const btn = document.getElementById('playBtn');
+  if(autoRotate){
+    stopAutoRotate();
+  } else {
+    autoRotate = setInterval(()=>{
+      currentFrame = (currentFrame + 1) % totalFrames;
+      updateFrame();
+    }, 80);
+    btn.textContent = '⏸';
+  }
+}
+
+function stopAutoRotate(){
+  if(autoRotate){
+    clearInterval(autoRotate);
+    autoRotate = null;
+    document.getElementById('playBtn').textContent = '▶';
+  }
+}
+
+// Reset view
+function resetView(){
+  stopAutoRotate();
+  currentFrame = 0;
+  updateFrame();
+}
+
+// Switch produit
+function switchProduct(idx){
+  currentProduct = idx;
+  document.querySelectorAll('.mini-prod').forEach((el,i) => {
+    el.classList.toggle('active', i === idx);
+  });
+  loadProduct(idx);
+}
+
+// Switch couleur
+function switchColor(el, color){
+  document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+  el.classList.add('active');
+  currentColor = color;
+  loadProduct(currentProduct);
+}
+
+// Zoom
+function openZoom(){
+  stopAutoRotate();
+  const p = PRODUCTS_360[currentProduct];
+  document.getElementById('zoomImg').src = p.colorImgs[currentColor] || p.baseImg;
+  document.getElementById('zoomModal').classList.add('show');
+}
+function closeZoom(){
+  document.getElementById('zoomModal').classList.remove('show');
+}
+
+// AR
+function tryAR(){
+  document.getElementById('arModal').classList.add('show');
+}
+function closeAR(){
+  document.getElementById('arModal').classList.remove('show');
+}
+function launchAR(){
+  closeAR();
+  alert('📱 Lancement Réalité Augmentée...\n\n(Nécessite ARKit iOS / ARCore Android)\n\nPointez votre caméra vers une surface plane pour placer le produit en 3D.');
+}
+
+// Fullscreen
+function toggleFullscreen(){
+  if(!document.fullscreenElement){
+    document.documentElement.requestFullscreen().catch(()=>alert('Plein écran non supporté'));
+  } else {
+    document.exitFullscreen();
+  }
+}
+
+// Actions
+function toggleFav(btn){
+  const liked = btn.classList.toggle('liked');
+  btn.textContent = liked ? '❤️' : '🤍';
+  if(navigator.vibrate) navigator.vibrate(30);
+}
+
+function addCart(){
+  const p = PRODUCTS_360[currentProduct];
+  alert('✅ '+p.title+' ajouté au panier !\n\nCouleur : '+currentColor+'\nPrix : '+p.price.toLocaleString()+' FCFA');
+}
+
+function buyNow(){
+  location.href = 'panier.html?buy='+PRODUCTS_360[currentProduct].id;
+}
+
+function shareView(){
+  if(navigator.share){
+    navigator.share({
+      title: 'Vue 360° - '+PRODUCTS_360[currentProduct].title,
+      text: 'Découvre ce produit en 360° sur SEN TEW !',
+      url: location.href
+    });
+  } else {
+    navigator.clipboard.writeText(location.href);
+    alert('🔗 Lien copié !');
+  }
+}
+
+// Init
+window.addEventListener('load', () => {
+  loadProduct(0);
+  setTimeout(()=>{
+    document.getElementById('loading').classList.add('hide');
+    // Petit tour automatique de bienvenue
+    let i = 0;
+    const welcome = setInterval(()=>{
+      currentFrame = (currentFrame + 1) % totalFrames;
+      updateFrame();
+      i++;
+      if(i >= 5) clearInterval(welcome);
+    }, 100);
+  }, 1500);
 });
 
-// Keyboard
+// Keyboard shortcuts (desktop)
 document.addEventListener('keydown', e => {
-  if(e.key === 'ArrowLeft') prevImg();
-  if(e.key === 'ArrowRight') nextImg();
-  if(e.key === 'Escape') window.location.href = 'produit.html?id=' + product.id;
+  if(e.key === 'ArrowLeft'){
+    currentFrame = (currentFrame - 1 + totalFrames) % totalFrames;
+    updateFrame();
+  } else if(e.key === 'ArrowRight'){
+    currentFrame = (currentFrame + 1) % totalFrames;
+    updateFrame();
+  } else if(e.key === ' '){
+    e.preventDefault();
+    toggleAutoRotate();
+  } else if(e.key === 'Escape'){
+    closeZoom();
+    closeAR();
+  }
 });
-
-// Hide hint après 3s
-setTimeout(() => document.querySelector('.zoom-hint').style.display = 'none', 3000);
 </script>
-
-</body>
-</html>
+</body></html>
