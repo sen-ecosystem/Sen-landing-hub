@@ -1,565 +1,151 @@
 <!DOCTYPE html>
-<html lang="fr"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Mes Commandes - SEN TEW</title>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mes commandes - SEN TEW</title>
+<link rel="stylesheet" href="css/styles-pays.css">
 <style>
-:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a;--b:#1976d2}
-*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,'Segoe UI',sans-serif}
-body{background:#f5f5f5;color:#222;padding-bottom:100px;-webkit-overflow-scrolling:touch}
+:root{--v:#0f6b4e;--vd:#0a4d38;--or:#d4a574;--noir:#0a1f17;--card:#1a2e24;--text:#f5f5f0;--muted:#9ca3af;--border:#2a3e34;--rouge:#ef4444;--menthe:#00c060;--bleu:#1976d2}
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif}
+body{background:var(--noir);color:var(--text);padding-bottom:100px;max-width:600px;margin:0 auto}
+.top{background:var(--card);padding:12px 14px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10}
+.back{background:rgba(255,255,255,.1);border:none;width:38px;height:38px;border-radius:50%;color:var(--text);font-size:18px;cursor:pointer}
+.top h1{flex:1;font-size:15px;font-weight:700;color:var(--or)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 14px}
+.stat{background:var(--card);padding:12px;border-radius:12px;text-align:center;border:1px solid var(--border)}
+.stat-n{font-size:20px;font-weight:900;color:var(--or)}
+.stat-l{font-size:10px;color:var(--muted);margin-top:2px}
+.tabs{display:flex;gap:8px;padding:0 14px 12px;overflow-x:auto}
+.tab{padding:8px 14px;background:var(--card);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:700;color:var(--text);cursor:pointer;white-space:nowrap}
+.tab.on{background:var(--v);border-color:var(--or);color:#fff}
+.order{background:var(--card);margin:8px 14px;padding:14px;border-radius:14px;border:1px solid var(--border)}
+.order-h{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.order-id{font-size:13px;font-weight:800;color:var(--or)}
+.order-date{font-size:11px;color:var(--muted);margin-left:auto}
+.status{padding:3px 8px;border-radius:6px;font-size:10px;font-weight:800}
+.status.attente{background:rgba(212,165,116,.2);color:var(--or)}
+.status.prep{background:rgba(25,118,210,.2);color:var(--bleu)}
+.status.livr{background:rgba(0,192,96,.2);color:var(--menthe)}
+.status.livre{background:rgba(0,192,96,.3);color:#fff}
+.status.annule{background:rgba(239,68,68,.2);color:var(--rouge)}
+.order-body{display:flex;gap:10px;margin-bottom:10px}
+.order-img{width:60px;height:60px;border-radius:8px;object-fit:cover;background:var(--noir)}
+.order-info{flex:1}
+.order-name{font-size:13px;font-weight:700;color:var(--text)}
+.order-meta{font-size:11px;color:var(--muted);margin-top:2px}
+.order-amt{font-size:15px;font-weight:900;color:var(--or);margin-top:4px}
+.courier-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:8px}
+.btn-c{padding:8px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;border:none;color:#fff}
+.btn-call{background:linear-gradient(135deg,var(--menthe),#008a44)}
+.btn-chat{background:var(--noir);border:1px solid var(--or);color:var(--or)}
+.btn-track{background:linear-gradient(135deg,var(--bleu),#1565c0)}
+.info-security{text-align:center;font-size:10px;color:var(--muted);padding:8px 14px;line-height:1.5}
+</style>
+</head>
+<body>
 
-/* HEADER */
-.header{background:linear-gradient(135deg,var(--v),#008a44);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:100;box-shadow:0 4px 12px rgba(0,166,81,.2)}
-.header-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-.back{background:rgba(255,255,255,.25);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer}
-.header-top h1{color:#fff;font-size:17px;flex:1;font-weight:700}
-.total-count{background:var(--j);color:#222;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:800}
-.search-wrap{position:relative}
-.search-wrap input{width:100%;background:rgba(255,255,255,.2);border:none;color:#fff;padding:10px 14px 10px 38px;border-radius:20px;font-size:13px;outline:none;backdrop-filter:blur(10px)}
-.search-wrap input::placeholder{color:rgba(255,255,255,.7)}
-.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#fff;opacity:.7}
+<div class="top">
+  <button class="back" onclick="history.back()">←</button>
+  <h1>📦 Mes commandes</h1>
+</div>
 
-/* TABS */
-.tabs{background:#fff;display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-bottom:1px solid #eee;position:sticky;top:100px;z-index:80}
-.tabs::-webkit-scrollbar{display:none}
-.tab{flex:1;min-width:100px;padding:14px 8px;text-align:center;font-size:12px;font-weight:700;color:#666;background:none;border:none;cursor:pointer;position:relative;white-space:nowrap}
-.tab.active{color:var(--v)}
-.tab.active::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:3px;background:var(--v);border-radius:3px 3px 0 0}
-.tab-badge{background:var(--r);color:#fff;padding:1px 6px;border-radius:8px;font-size:9px;font-weight:800;margin-left:4px}
-
-/* SUMMARY */
-.summary-strip{background:linear-gradient(90deg,#e8f5ee,#fff);padding:12px 14px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;border-bottom:1px solid #eee}
-.sum-cell{text-align:center}
-.sum-cell b{display:block;font-size:16px;font-weight:800}
-.sum-cell.tot b{color:var(--v)}
-.sum-cell.pen b{color:var(--j)}
-.sum-cell.done b{color:var(--b)}
-.sum-cell.gain b{color:var(--o)}
-.sum-cell span{font-size:10px;color:#666;text-transform:uppercase}
-
-/* ORDER CARD */
-.order-card{background:#fff;margin:10px 12px;border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);cursor:pointer;transition:.2s}
-.order-card:active{transform:scale(.99)}
-.order-header{padding:12px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #f0f0f0}
-.order-num{font-size:11px;color:#666;font-weight:700}
-.order-status{padding:4px 10px;border-radius:10px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px}
-.st-pending{background:linear-gradient(135deg,#fff3cd,#ffe58a);color:#856404}
-.st-preparing{background:linear-gradient(135deg,#ffe0b2,#ffb74d);color:#e65100}
-.st-shipped{background:linear-gradient(135deg,#bbdefb,#64b5f6);color:#0d47a1}
-.st-delivering{background:linear-gradient(135deg,#c8e6c9,#66bb6a);color:#1b5e20;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.75}}
-.st-delivered{background:linear-gradient(135deg,#d1c4e9,#9575cd);color:#4a148c}
-.st-cancelled{background:linear-gradient(135deg,#ffcdd2,#ef9a9a);color:#b71c1c}
-.st-refund{background:linear-gradient(135deg,#ffe0b2,#ffb74d);color:#e65100}
-
-.order-body{padding:12px 14px}
-.order-shop{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.shop-mini-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#e91e63,#c2185b);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.shop-mini-name{font-size:13px;font-weight:700;color:#222;flex:1}
-.shop-mini-name .tick{background:#1da1f2;color:#fff;width:12px;height:12px;border-radius:50%;font-size:8px;display:inline-flex;align-items:center;justify-content:center;margin-left:2px}
-
-.order-items{display:flex;gap:8px;margin-bottom:10px}
-.item-thumb{width:52px;height:52px;border-radius:8px;object-fit:cover;background:#eee;flex-shrink:0}
-.items-info{flex:1;min-width:0}
-.items-info h4{font-size:13px;font-weight:600;color:#222;line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.items-info small{font-size:11px;color:#888}
-.items-count{background:#f5f5f5;padding:2px 8px;border-radius:8px;font-size:11px;color:#666;font-weight:600;flex-shrink:0;align-self:flex-start}
-
-.order-meta{display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid #f0f0f0}
-.order-date{font-size:11px;color:#888}
-.order-price{color:var(--o);font-weight:800;font-size:16px}
-
-/* TIMELINE */
-.timeline{padding:14px;background:linear-gradient(180deg,#f0f9f4,#fff);border-top:1px solid #eee;display:none}
-.order-card.expanded .timeline{display:block}
-.timeline-item{display:flex;gap:12px;padding:6px 0;position:relative}
-.tl-dot{width:14px;height:14px;border-radius:50%;background:#e0e0e0;flex-shrink:0;margin-top:2px;position:relative;z-index:1}
-.tl-dot.done{background:var(--v);box-shadow:0 0 0 3px rgba(0,166,81,.2)}
-.tl-dot.active{background:var(--j);box-shadow:0 0 0 3px rgba(252,209,22,.3);animation:pulse 2s infinite}
-.tl-line{position:absolute;left:20px;top:22px;width:2px;height:calc(100% - 4px);background:#e0e0e0}
-.tl-line.done{background:var(--v)}
-.tl-body{flex:1}
-.tl-body h5{font-size:13px;font-weight:700;color:#222;margin-bottom:2px}
-.tl-body h5.pending{color:#999}
-.tl-body p{font-size:11px;color:#666}
-
-/* ACTIONS */
-.order-actions{padding:10px 14px;background:#fafafa;border-top:1px solid #eee;display:flex;gap:6px;flex-wrap:wrap;display:none}
-.order-card.expanded .order-actions{display:flex}
-.act-btn{padding:8px 12px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:none;display:flex;align-items:center;gap:4px;flex:1;justify-content:center;min-width:0}
-.act-track{background:linear-gradient(135deg,var(--v),#008a44);color:#fff}
-.act-msg{background:#e3f2fd;color:var(--b)}
-.act-repeat{background:#fff3e0;color:#e65100}
-.act-refund{background:#ffebee;color:var(--r)}
-.act-invoice{background:#f3e5f5;color:#6a1b9a}
-.act-review{background:linear-gradient(135deg,var(--j),#f4b800);color:#222}
-
-/* Expand indicator */
-.expand-hint{text-align:center;padding:6px;color:var(--v);font-size:11px;font-weight:700;cursor:pointer;background:#fff}
-.order-card.expanded .expand-hint::before{content:'▲ Réduire'}
-.order-card:not(.expanded) .expand-hint::before{content:'▼ Détails'}
-
-/* Live tracking banner */
-.live-track{background:linear-gradient(90deg,var(--v),#00d96b);color:#fff;padding:8px 14px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:8px;animation:trackPulse 2s infinite}
-@keyframes trackPulse{0%,100%{background:linear-gradient(90deg,var(--v),#00d96b)}50%{background:linear-gradient(90deg,#008a44,var(--v))}}
-.live-track .pin{font-size:16px;animation:bounce 1s infinite}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-.live-track .eta{margin-left:auto;background:rgba(255,255,255,.25);padding:2px 8px;border-radius:8px;font-weight:800}
-
-/* EMPTY */
-.empty{text-align:center;padding:60px 20px}
-.empty-icon{font-size:80px;margin-bottom:16px}
-.empty h3{color:#666;font-size:18px;font-weight:700;margin-bottom:6px}
-.empty p{color:#999;font-size:13px;margin-bottom:20px}
-.empty .cta{background:linear-gradient(135deg,var(--v),#008a44);color:#fff;border:none;padding:12px 24px;border-radius:12px;font-weight:700;font-size:14px;cursor:pointer}
-
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;padding:8px 0;padding-bottom:calc(8px + env(safe-area-inset-bottom,0));z-index:90;height:60px}
-.nav-item{flex:1;text-align:center;color:#666;font-size:10px;background:none;border:none;cursor:pointer;font-family:inherit}
-.nav-item.active{color:var(--v);font-weight:700}
-.nav-icon{font-size:22px;display:block;margin-bottom:2px}
-
-/* DARK MODE */
-html[data-theme="dark"] body{background:#0f1419;color:#e8eaed}
-html[data-theme="dark"] .tabs,html[data-theme="dark"] .order-card,html[data-theme="dark"] .bottom-nav{background:#1a2028;color:#e8eaed}
-html[data-theme="dark"] .order-header,html[data-theme="dark"] .order-meta,html[data-theme="dark"] .timeline{border-color:#2d3540}
-html[data-theme="dark"] .timeline{background:linear-gradient(180deg,#152520,#1a2028)}
-html[data-theme="dark"] .order-actions{background:#232a33;border-color:#2d3540}
-html[data-theme="dark"] .items-info h4,html[data-theme="dark"] .shop-mini-name,html[data-theme="dark"] .tl-body h5{color:#e8eaed}
-html[data-theme="dark"] .summary-strip{background:linear-gradient(90deg,#152520,#1a2028)}
-</style></head><body>
-
-<header class="header">
-  <div class="header-top">
-    <button class="back" onclick="history.back()">←</button>
-    <h1>📦 Mes Commandes</h1>
-    <span class="total-count" id="totCount">7 total</span>
-  </div>
-  <div class="search-wrap">
-    <span class="search-icon">🔍</span>
-    <input type="search" placeholder="Chercher n° commande ou produit..." oninput="searchOrders(this.value)">
-  </div>
-</header>
+<div class="stats">
+  <div class="stat"><div class="stat-n">7</div><div class="stat-l">Total commandes</div></div>
+  <div class="stat"><div class="stat-n">287k</div><div class="stat-l">FCFA dépensés</div></div>
+  <div class="stat"><div class="stat-n">2</div><div class="stat-l">En livraison</div></div>
+</div>
 
 <div class="tabs">
-  <button class="tab active" onclick="filterTab('all',this)">Toutes <span class="tab-badge">7</span></button>
-  <button class="tab" onclick="filterTab('progress',this)">En cours <span class="tab-badge">3</span></button>
-  <button class="tab" onclick="filterTab('delivered',this)">Livrées <span class="tab-badge">2</span></button>
-  <button class="tab" onclick="filterTab('cancelled',this)">Annulées <span class="tab-badge">1</span></button>
-  <button class="tab" onclick="filterTab('refund',this)">Retours <span class="tab-badge">1</span></button>
+  <div class="tab on" onclick="filter('all')">Toutes (7)</div>
+  <div class="tab" onclick="filter('en_livraison')">En livraison (2)</div>
+  <div class="tab" onclick="filter('preparation')">Préparation (1)</div>
+  <div class="tab" onclick="filter('livre')">Livrées (4)</div>
 </div>
 
-<div class="summary-strip">
-  <div class="sum-cell tot"><b>7</b><span>Commandes</span></div>
-  <div class="sum-cell pen"><b>3</b><span>En cours</span></div>
-  <div class="sum-cell done"><b>2</b><span>Livrées</span></div>
-  <div class="sum-cell gain"><b>287k</b><span>Total FCFA</span></div>
-</div>
+<div id="ordersList"></div>
 
-<!-- COMMANDE 1 : LIVRAISON EN COURS -->
-<div class="order-card" data-status="progress" onclick="toggleExpand(this)">
-  <div class="live-track">
-    <span class="pin">🛵</span>
-    <span>Livreur en route · À 3.2 km</span>
-    <span class="eta">🕐 15 min</span>
-  </div>
-  <div class="order-header">
-    <span class="order-num">#ST-2026-08-1247</span>
-    <span class="order-status st-delivering">🚚 En livraison</span>
-  </div>
-  <div class="order-body">
-    <div class="order-shop">
-      <div class="shop-mini-avatar">👗</div>
-      <div class="shop-mini-name">Aïcha Fashion <span class="tick">✓</span></div>
-    </div>
-    <div class="order-items">
-      <img class="item-thumb" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=200" alt="">
-      <div class="items-info">
-        <h4>Boubou traditionnel brodé main</h4>
-        <small>Bleu · Taille XL · x1</small>
-      </div>
-      <span class="items-count">1 art.</span>
-    </div>
-    <div class="order-meta">
-      <span class="order-date">📅 Aujourd'hui à 11h15</span>
-      <span class="order-price">25 000 FCFA</span>
-    </div>
-  </div>
-  <div class="timeline">
-    <div class="timeline-item">
-      <div class="tl-dot done"></div>
-      <div class="tl-line done"></div>
-      <div class="tl-body">
-        <h5>✅ Commande confirmée</h5>
-        <p>Aujourd'hui à 11h15</p>
-      </div>
-    </div>
-    <div class="timeline-item">
-      <div class="tl-dot done"></div>
-      <div class="tl-line done"></div>
-      <div class="tl-body">
-        <h5>💳 Paiement validé (Wave)</h5>
-        <p>Aujourd'hui à 11h16 · 25 000 FCFA</p>
-      </div>
-    </div>
-    <div class="timeline-item">
-      <div class="tl-dot done"></div>
-      <div class="tl-line done"></div>
-      <div class="tl-body">
-        <h5>📦 Préparée par Aïcha Fashion</h5>
-        <p>Aujourd'hui à 12h30</p>
-      </div>
-    </div>
-    <div class="timeline-item">
-      <div class="tl-dot active"></div>
-      <div class="tl-line"></div>
-      <div class="tl-body">
-        <h5>🛵 En cours de livraison</h5>
-        <p>Ousmane N. · À 3.2 km · ETA 15 min</p>
-      </div>
-    </div>
-    <div class="timeline-item">
-      <div class="tl-dot"></div>
-      <div class="tl-body">
-        <h5 class="pending">🏠 Livré</h5>
-        <p>Sacré-Cœur 3, Villa 245</p>
-      </div>
-    </div>
-  </div>
-  <div class="order-actions">
-    <button class="act-btn act-track" onclick="event.stopPropagation();location.href='logistique.html?track=1247'">🗺️ GPS</button>
-    <button class="act-btn act-msg" onclick="event.stopPropagation();location.href='chat.html?id=ousmane-driver'">💬 Livreur</button>
-    <button class="act-btn act-invoice" onclick="event.stopPropagation();downloadInv(1247)">📄 Reçu</button>
-  </div>
-  <div class="expand-hint"></div>
+<div class="info-security">
+  🛡️ Les appels livreurs utilisent un numéro masqué SEN TEW pour votre sécurité<br>
+  📞 Disponible uniquement pendant une livraison active
 </div>
-
-<!-- COMMANDE 2 : PRÉPARATION -->
-<div class="order-card" data-status="progress" onclick="toggleExpand(this)">
-  <div class="order-header">
-    <span class="order-num">#ST-2026-08-1246</span>
-    <span class="order-status st-preparing">📦 Préparation</span>
-  </div>
-  <div class="order-body">
-    <div class="order-shop">
-      <div class="shop-mini-avatar" style="background:linear-gradient(135deg,#1976d2,#0d47a1)">📱</div>
-      <div class="shop-mini-name">Tech Modou <span class="tick">✓</span></div>
-    </div>
-    <div class="order-items">
-      <img class="item-thumb" src="https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=200" alt="">
-      <div class="items-info">
-        <h4>AirPods Pro 2ème génération</h4>
-        <small>Blanc · x1</small>
-      </div>
-      <span class="items-count">1 art.</span>
-    </div>
-    <div class="order-meta">
-      <span class="order-date">📅 Aujourd'hui à 09h42</span>
-      <span class="order-price">135 000 FCFA</span>
-    </div>
-  </div>
-  <div class="timeline">
-    <div class="timeline-item">
-      <div class="tl-dot done"></div><div class="tl-line done"></div>
-      <div class="tl-body"><h5>✅ Confirmée</h5><p>Aujourd'hui 09h42</p></div>
-    </div>
-    <div class="timeline-item">
-      <div class="tl-dot done"></div><div class="tl-line done"></div>
-      <div class="tl-body"><h5>💳 Payée (CB 3x sans frais)</h5><p>45 000 F/mois · Prochain : 04/09</p></div>
-    </div>
-    <div class="timeline-item">
-      <div class="tl-dot active"></div><div class="tl-line"></div>
-      <div class="tl-body"><h5>📦 Préparation vendeur</h5><p>Expédition estimée demain</p></div>
-    </div>
-    <div class="timeline-item">
-      <div class="tl-dot"></div><div class="tl-line"></div>
-      <div class="tl-body"><h5 class="pending">🚚 Expédition</h5><p>Attribution livreur</p></div>
-    </div>
-    <div class="timeline-item">
-      <div class="tl-dot"></div>
-      <div class="tl-body"><h5 class="pending">🏠 Livraison</h5><p>Sous 24-48h</p></div>
-    </div>
-  </div>
-  <div class="order-actions">
-    <button class="act-btn act-msg" onclick="event.stopPropagation();location.href='chat.html?id=tech-modou'">💬 Vendeur</button>
-    <button class="act-btn act-refund" onclick="event.stopPropagation();cancelOrder(1246)">❌ Annuler</button>
-    <button class="act-btn act-invoice" onclick="event.stopPropagation();downloadInv(1246)">📄 Reçu</button>
-  </div>
-  <div class="expand-hint"></div>
-</div>
-
-<!-- COMMANDE 3 : PAIEMENT EN ATTENTE -->
-<div class="order-card" data-status="progress" onclick="toggleExpand(this)">
-  <div class="order-header">
-    <span class="order-num">#ST-2026-08-1245</span>
-    <span class="order-status st-pending">⏳ Paiement</span>
-  </div>
-  <div class="order-body">
-    <div class="order-shop">
-      <div class="shop-mini-avatar" style="background:linear-gradient(135deg,#e91e63,#9c27b0)">💄</div>
-      <div class="shop-mini-name">Beauty Fatou <span class="tick">✓</span></div>
-    </div>
-    <div class="order-items">
-      <img class="item-thumb" src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200" alt="">
-      <div class="items-info">
-        <h4>Kit soin peau naturel + Rouge à lèvres</h4>
-        <small>2 articles</small>
-      </div>
-      <span class="items-count">2 art.</span>
-    </div>
-    <div class="order-meta">
-      <span class="order-date">📅 Aujourd'hui à 08h30</span>
-      <span class="order-price">27 500 FCFA</span>
-    </div>
-  </div>
-  <div class="timeline">
-    <div class="timeline-item">
-      <div class="tl-dot done"></div><div class="tl-line done"></div>
-      <div class="tl-body"><h5>✅ Commande enregistrée</h5><p>Aujourd'hui 08h30</p></div>
-    </div>
-    <div class="timeline-item">
-      <div class="tl-dot active"></div><div class="tl-line"></div>
-      <div class="tl-body"><h5>⏳ En attente de paiement</h5><p style="color:var(--r);font-weight:600">Expire dans 22h30min</p></div>
-    </div>
-    <div class="timeline-item">
-      <div class="tl-dot"></div>
-      <div class="tl-body"><h5 class="pending">📦 Préparation</h5><p>Dès paiement validé</p></div>
-    </div>
-  </div>
-  <div class="order-actions">
-    <button class="act-btn act-track" onclick="event.stopPropagation();payNow(1245)">💳 Payer maintenant</button>
-    <button class="act-btn act-refund" onclick="event.stopPropagation();cancelOrder(1245)">❌ Annuler</button>
-  </div>
-  <div class="expand-hint"></div>
-</div>
-
-<!-- COMMANDE 4 : LIVRÉE -->
-<div class="order-card" data-status="delivered" onclick="toggleExpand(this)">
-  <div class="order-header">
-    <span class="order-num">#ST-2026-08-1243</span>
-    <span class="order-status st-delivered">✅ Livrée</span>
-  </div>
-  <div class="order-body">
-    <div class="order-shop">
-      <div class="shop-mini-avatar">👗</div>
-      <div class="shop-mini-name">Aïcha Fashion <span class="tick">✓</span></div>
-    </div>
-    <div class="order-items">
-      <img class="item-thumb" src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=200" alt="">
-      <div class="items-info">
-        <h4>Sac cuir artisanal Peul</h4>
-        <small>Marron · x1</small>
-      </div>
-      <span class="items-count">1 art.</span>
-    </div>
-    <div class="order-meta">
-      <span class="order-date">📅 Hier à 15h14</span>
-      <span class="order-price">15 000 FCFA</span>
-    </div>
-  </div>
-  <div class="timeline">
-    <div class="timeline-item">
-      <div class="tl-dot done"></div><div class="tl-line done"></div>
-      <div class="tl-body"><h5>✅ Confirmée</h5><p>Hier 10h30</p></div>
-    </div>
-    <div class="timeline-item">
-      <div class="tl-dot done"></div><div class="tl-line done"></div>
-      <div class="tl-body"><h5>💳 Payée (Orange Money)</h5><p>Hier 10h32 · 15 000 F</p></div>
-    </div>
-    <div class="timeline-item">
-      <div class="tl-dot done"></div><div class="tl-line done"></div>
-      <div class="tl-body"><h5>📦 Préparée + expédiée</h5><p>Hier 13h10</p></div>
-    </div>
-    <div class="timeline-item">
-      <div class="tl-dot done"></div><div class="tl-line done"></div>
-      <div class="tl-body"><h5>🛵 Livrée par Cheikh D.</h5><p>Hier 15h14 · Signature confirmée ✓</p></div>
-    </div>
-    <div class="timeline-item">
-      <div class="tl-dot done"></div>
-      <div class="tl-body"><h5>🏠 Réceptionnée</h5><p>Sacré-Cœur 3 · Merci de votre confiance 🙏</p></div>
-    </div>
-  </div>
-  <div class="order-actions">
-    <button class="act-btn act-review" onclick="event.stopPropagation();location.href='avis.html?order=1243'">⭐ Noter</button>
-    <button class="act-btn act-repeat" onclick="event.stopPropagation();reorder(1243)">🔄 Recommander</button>
-    <button class="act-btn act-refund" onclick="event.stopPropagation();location.href='remboursement.html?order=1243'">↩️ Retour</button>
-    <button class="act-btn act-invoice" onclick="event.stopPropagation();downloadInv(1243)">📄 Facture</button>
-  </div>
-  <div class="expand-hint"></div>
-</div>
-
-<!-- COMMANDE 5 : LIVRÉE -->
-<div class="order-card" data-status="delivered" onclick="toggleExpand(this)">
-  <div class="order-header">
-    <span class="order-num">#ST-2026-08-1240</span>
-    <span class="order-status st-delivered">✅ Livrée</span>
-  </div>
-  <div class="order-body">
-    <div class="order-shop">
-      <div class="shop-mini-avatar" style="background:linear-gradient(135deg,var(--v),#008a44)">🍲</div>
-      <div class="shop-mini-name">Mamadou Foods <span class="tick">✓</span></div>
-    </div>
-    <div class="order-items">
-      <img class="item-thumb" src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=200" alt="">
-      <div class="items-info">
-        <h4>Riz local 25kg + Huile de palme 5L</h4>
-        <small>2 articles · Livraison groupée</small>
-      </div>
-      <span class="items-count">2 art.</span>
-    </div>
-    <div class="order-meta">
-      <span class="order-date">📅 30 juillet 2026</span>
-      <span class="order-price">24 500 FCFA</span>
-    </div>
-  </div>
-  <div class="timeline">
-    <div class="timeline-item"><div class="tl-dot done"></div><div class="tl-line done"></div><div class="tl-body"><h5>✅ Livrée avec succès</h5><p>30 juillet · Note ⭐⭐⭐⭐⭐</p></div></div>
-  </div>
-  <div class="order-actions">
-    <button class="act-btn act-repeat" onclick="event.stopPropagation();reorder(1240)">🔄 Recommander</button>
-    <button class="act-btn act-invoice" onclick="event.stopPropagation();downloadInv(1240)">📄 Facture</button>
-  </div>
-  <div class="expand-hint"></div>
-</div>
-
-<!-- COMMANDE 6 : ANNULÉE -->
-<div class="order-card" data-status="cancelled" onclick="toggleExpand(this)">
-  <div class="order-header">
-    <span class="order-num">#ST-2026-07-1235</span>
-    <span class="order-status st-cancelled">❌ Annulée</span>
-  </div>
-  <div class="order-body">
-    <div class="order-shop">
-      <div class="shop-mini-avatar" style="background:linear-gradient(135deg,#1976d2,#0d47a1)">📱</div>
-      <div class="shop-mini-name">Tech Modou <span class="tick">✓</span></div>
-    </div>
-    <div class="order-items">
-      <img class="item-thumb" src="https://images.unsplash.com/photo-1592286927505-1def25115558?w=200" alt="">
-      <div class="items-info">
-        <h4>iPhone 15 Pro Max 256Go</h4>
-        <small>Annulée par le client · Remboursée</small>
-      </div>
-      <span class="items-count">1 art.</span>
-    </div>
-    <div class="order-meta">
-      <span class="order-date">📅 25 juillet 2026</span>
-      <span class="order-price" style="text-decoration:line-through">850 000 FCFA</span>
-    </div>
-  </div>
-  <div class="timeline">
-    <div class="timeline-item"><div class="tl-dot done"></div><div class="tl-body"><h5>❌ Commande annulée</h5><p>25 juillet à 10h · Remboursée sur Wallet</p></div></div>
-  </div>
-  <div class="order-actions">
-    <button class="act-btn act-repeat" onclick="event.stopPropagation();reorder(1235)">🔄 Recommander</button>
-  </div>
-  <div class="expand-hint"></div>
-</div>
-
-<!-- COMMANDE 7 : RETOUR -->
-<div class="order-card" data-status="refund" onclick="toggleExpand(this)">
-  <div class="order-header">
-    <span class="order-num">#ST-2026-07-1198</span>
-    <span class="order-status st-refund">↩️ Remboursement</span>
-  </div>
-  <div class="order-body">
-    <div class="order-shop">
-      <div class="shop-mini-avatar" style="background:linear-gradient(135deg,#e91e63,#9c27b0)">💄</div>
-      <div class="shop-mini-name">Beauty Fatou <span class="tick">✓</span></div>
-    </div>
-    <div class="order-items">
-      <img class="item-thumb" src="https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=200" alt="">
-      <div class="items-info">
-        <h4>Rouge à lèvres mat</h4>
-        <small>Produit non conforme · Retour en cours</small>
-      </div>
-      <span class="items-count">1 art.</span>
-    </div>
-    <div class="order-meta">
-      <span class="order-date">📅 20 juillet 2026</span>
-      <span class="order-price">5 500 FCFA</span>
-    </div>
-  </div>
-  <div class="timeline">
-    <div class="timeline-item"><div class="tl-dot done"></div><div class="tl-line done"></div><div class="tl-body"><h5>✅ Demande créée</h5><p>28 juillet</p></div></div>
-    <div class="timeline-item"><div class="tl-dot done"></div><div class="tl-line done"></div><div class="tl-body"><h5>📦 Colis renvoyé</h5><p>29 juillet · N° suivi ST-RET-4521</p></div></div>
-    <div class="timeline-item"><div class="tl-dot active"></div><div class="tl-line"></div><div class="tl-body"><h5>💰 Traitement remboursement</h5><p>En cours · 2-5 jours ouvrés</p></div></div>
-    <div class="timeline-item"><div class="tl-dot"></div><div class="tl-body"><h5 class="pending">✅ Remboursé</h5><p>Sur Wallet SEN TEW</p></div></div>
-  </div>
-  <div class="order-actions">
-    <button class="act-btn act-msg" onclick="event.stopPropagation();location.href='chat.html?id=support-sen'">💬 Support</button>
-    <button class="act-btn act-invoice" onclick="event.stopPropagation();downloadInv(1198)">📄 Preuves</button>
-  </div>
-  <div class="expand-hint"></div>
-</div>
-
-<div class="empty" id="emptyState" style="display:none">
-  <div class="empty-icon">📦</div>
-  <h3>Aucune commande</h3>
-  <p>Commencez vos achats maintenant !</p>
-  <button class="cta" onclick="location.href='index.html'">🛍️ Explorer</button>
-</div>
-
-<nav class="bottom-nav">
-  <button class="nav-item" onclick="location.href='index.html'"><span class="nav-icon">🏠</span>Accueil</button>
-  <button class="nav-item" onclick="location.href='categories.html'"><span class="nav-icon">🗂️</span>Catégories</button>
-  <button class="nav-item" onclick="location.href='panier.html'"><span class="nav-icon">🛒</span>Panier</button>
-  <button class="nav-item active"><span class="nav-icon">📦</span>Commandes</button>
-  <button class="nav-item" onclick="location.href='profil.html'"><span class="nav-icon">👤</span>Compte</button>
-</nav>
 
 <script src="js/dark-mode.js"></script>
 <script src="js/role-guard.js"></script>
 <script>
-function toggleExpand(card){
-  card.classList.toggle('expanded');
+const orders = [
+  {id:'SEN-2026-8472',date:'26 mai 2026',name:'Sac à main bogolan',img:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=200',amount:45000,status:'en_livraison',courierId:'C124',courierName:'Mamadou Diop',eta:'25 min'},
+  {id:'SEN-2026-8465',date:'25 mai 2026',name:'iPhone 15 Pro',img:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=200',amount:750000,status:'en_livraison',courierId:'C089',courierName:'Fatou Ndiaye',eta:'1h 15min'},
+  {id:'SEN-2026-8412',date:'24 mai 2026',name:'Robe Wax Premium',img:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=200',amount:25000,status:'preparation'},
+  {id:'SEN-2026-8398',date:'20 mai 2026',name:'Sandales cuir Peul',img:'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=200',amount:8500,status:'livre'},
+  {id:'SEN-2026-8367',date:'18 mai 2026',name:'Beurre de karité 500g',img:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=200',amount:4500,status:'livre'},
+  {id:'SEN-2026-8352',date:'15 mai 2026',name:'Écouteurs sans fil Pro',img:'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=200',amount:12000,status:'livre'},
+  {id:'SEN-2026-8341',date:'12 mai 2026',name:'Maillot Sénégal 2026',img:'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=200',amount:12000,status:'livre'}
+];
+
+const statusLabels = {en_livraison:{lbl:'🛵 En livraison',cls:'livr'},preparation:{lbl:'📦 Préparation',cls:'prep'},livre:{lbl:'✅ Livrée',cls:'livre'},annule:{lbl:'❌ Annulée',cls:'annule'}};
+
+function render(filterVal='all'){
+  const list = document.getElementById('ordersList');
+  const filtered = filterVal==='all'?orders:orders.filter(o=>o.status===filterVal);
+  list.innerHTML = filtered.map(o=>{
+    const s = statusLabels[o.status];
+    let actions = '';
+    if(o.status === 'en_livraison'){
+      actions = `<div class="courier-actions">
+        <button class="btn-c btn-call" onclick="callCourier('${o.id}','${o.courierId}','${o.courierName}')">📞 Appeler</button>
+        <button class="btn-c btn-chat" onclick="location.href='chat.html?courier=${o.courierId}&order=${o.id}'">💬 Chat</button>
+        <button class="btn-c btn-track" onclick="location.href='suivi.html?order=${o.id}'">📍 Suivre</button>
+      </div>`;
+    }
+    return `<div class="order">
+      <div class="order-h">
+        <div class="order-id">#${o.id}</div>
+        <span class="status ${s.cls}">${s.lbl}</span>
+        <div class="order-date">${o.date}</div>
+      </div>
+      <div class="order-body" onclick="location.href='suivi.html?order=${o.id}'" style="cursor:pointer">
+        <img class="order-img" src="${o.img}">
+        <div class="order-info">
+          <div class="order-name">${o.name}</div>
+          ${o.courierName?`<div class="order-meta">🛵 ${o.courierName} · Arrive dans ${o.eta}</div>`:''}
+          <div class="order-amt">${o.amount.toLocaleString('fr-FR')} FCFA</div>
+        </div>
+      </div>
+      ${actions}
+    </div>`;
+  }).join('');
 }
 
-function filterTab(status, btn){
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  
-  let visible = 0;
-  document.querySelectorAll('.order-card').forEach(c => {
-    const show = (status === 'all') || (c.dataset.status === status);
-    c.style.display = show ? 'block' : 'none';
-    if(show) visible++;
-  });
-  
-  document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
+function filter(f){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  event.target.classList.add('on');
+  render(f);
 }
 
-function searchOrders(q){
-  q = q.trim().toLowerCase();
-  let visible = 0;
-  document.querySelectorAll('.order-card').forEach(c => {
-    const text = c.textContent.toLowerCase();
-    const show = q === '' || text.includes(q);
-    c.style.display = show ? 'block' : 'none';
-    if(show) visible++;
-  });
-  document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
-}
-
-function payNow(id){
-  if(confirm('💳 Payer maintenant la commande #' + id + ' ?\n\n27 500 FCFA via Wave/OM/CB')){
-    location.href = 'panier.html?resume=' + id;
+function callCourier(orderId, courierId, courierName){
+  const now = new Date();
+  const hour = now.getHours();
+  if(hour < 8 || hour >= 22){
+    if(!confirm('🌙 Il est '+hour+'h.\nAppel urgent uniquement ?')) return;
+  }
+  if(confirm('📞 Appeler '+courierName+' ?\n\n✅ Numéro masqué (protection anti-arnaque)\n✅ Appel enregistré (litiges)\n✅ Disponible pendant la livraison uniquement\n\nRappel : soyez courtois et bref.')){
+    const virtualNumber = '+22133800' + courierId.replace('C','').padStart(4,'0');
+    const callLog = JSON.parse(localStorage.getItem('call_logs')||'[]');
+    callLog.push({orderId, courierId, courierName, timestamp: new Date().toISOString(), type:'client_to_courier'});
+    localStorage.setItem('call_logs', JSON.stringify(callLog));
+    if(navigator.vibrate) navigator.vibrate([50,30,50]);
+    location.href = 'tel:'+virtualNumber;
+    setTimeout(()=>{
+      if(!confirm('📋 Comment s\'est passé l\'appel avec '+courierName+' ?\n\n✅ OK → merci\n🚨 Signaler un problème ?')){
+        location.href = 'signaler.html?type=courier&id='+courierId+'&order='+orderId;
+      }
+    }, 60000);
   }
 }
 
-function cancelOrder(id){
-  const reason = prompt('❌ Annuler la commande #' + id + ' ?\n\nRaison (obligatoire) :');
-  if(!reason || reason.trim().length < 5) return;
-  alert('✅ Commande #' + id + ' annulée.\n\n💰 Remboursement sur wallet sous 24h.');
-  location.reload();
-}
-
-function reorder(id){
-  if(confirm('🔄 Recommander cette commande ?\n\nLes articles seront ajoutés au panier.')){
-    alert('✅ Articles ajoutés au panier');
-    location.href = 'panier.html';
-  }
-}
-
-function downloadInv(id){
-  alert('📄 Téléchargement facture #ST-2026-' + id + '.pdf\n\nSauvegardée dans Documents.');
-}
+document.documentElement.setAttribute('data-country', localStorage.getItem('sen_country')||'SN');
+render();
 </script>
-</body></html>
+</body>
+</html>
