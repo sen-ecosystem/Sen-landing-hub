@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Signaler - SEN TEW</title>
+<style>
+:root{--v:#0f6b4e;--or:#d4a574;--noir:#0a1f17;--card:#1a2e24;--text:#f5f5f0;--rouge:#ef4444;--border:#2a3e34}
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif}
+body{background:var(--noir);color:var(--text);padding-bottom:100px;max-width:600px;margin:0 auto}
+.top{background:var(--card);padding:12px 14px;display:flex;align-items:center;gap:10px}
+.back{background:rgba(255,255,255,.1);border:none;width:38px;height:38px;border-radius:50%;color:var(--text);font-size:18px;cursor:pointer}
+.top h1{flex:1;font-size:15px;font-weight:700;color:var(--rouge)}
+.card{background:var(--card);margin:12px;padding:16px;border-radius:14px;border:1px solid var(--border)}
+h3{color:var(--or);margin-bottom:12px}
+.reason{display:flex;align-items:center;gap:10px;padding:12px;background:var(--noir);border-radius:10px;margin-bottom:8px;cursor:pointer;border:1.5px solid transparent}
+.reason.sel{border-color:var(--rouge);background:rgba(239,68,68,.1)}
+.reason input{accent-color:var(--rouge)}
+.reason span{font-size:13px;color:var(--text)}
+textarea{width:100%;background:var(--noir);border:1px solid var(--border);color:var(--text);padding:12px;border-radius:10px;font-size:13px;min-height:100px;font-family:inherit}
+.btn-send{width:100%;background:linear-gradient(135deg,var(--rouge),#c41217);color:#fff;border:none;padding:14px;border-radius:12px;font-weight:800;cursor:pointer;margin-top:16px;font-size:14px}
+</style>
+</head>
+<body>
+<div class="top">
+  <button class="back" onclick="history.back()">←</button>
+  <h1>🚨 Signaler un livreur</h1>
+</div>
+
+<div class="card">
+  <h3>Motif du signalement</h3>
+  <label class="reason"><input type="radio" name="motif" value="retard"><span>⏱️ Retard important non prévenu</span></label>
+  <label class="reason"><input type="radio" name="motif" value="impoli"><span>😠 Comportement impoli / agressif</span></label>
+  <label class="reason"><input type="radio" name="motif" value="harcele"><span>🔴 Harcèlement / drague</span></label>
+  <label class="reason"><input type="radio" name="motif" value="extorsion"><span>💰 Demande de pourboire abusif / extorsion</span></label>
+  <label class="reason"><input type="radio" name="motif" value="hors-app"><span>⚠️ Propose livraison hors application</span></label>
+  <label class="reason"><input type="radio" name="motif" value="vol"><span>🚨 Vol / manipulation colis</span></label>
+  <label class="reason"><input type="radio" name="motif" value="rgpd"><span>🔒 Utilise mon numéro sans consentement</span></label>
+  <label class="reason"><input type="radio" name="motif" value="autre"><span>📝 Autre problème</span></label>
+</div>
+
+<div class="card">
+  <h3>Décrivez la situation</h3>
+  <textarea id="desc" placeholder="Décrivez précisément ce qui s'est passé (date, heure, comportement, propos exacts si possible)..." maxlength="500"></textarea>
+  <div style="text-align:right;font-size:10px;color:#666;margin-top:4px">0 / 500</div>
+</div>
+
+<div class="card">
+  <h3>📎 Preuves (optionnel)</h3>
+  <input type="file" accept="image/*,audio/*" multiple style="width:100%;padding:8px;background:var(--noir);color:var(--text);border:1px dashed var(--border);border-radius:8px">
+  <div style="font-size:11px;color:#888;margin-top:4px">Captures, enregistrements audio, photos</div>
+</div>
+
+<button class="btn-send" onclick="sendReport()">🚨 Envoyer le signalement</button>
+
+<script src="js/dark-mode.js"></script>
+<script src="js/role-guard.js"></script>
+<script>
+document.querySelectorAll('.reason').forEach(r=>{
+  r.onclick = ()=>{
+    document.querySelectorAll('.reason').forEach(x=>x.classList.remove('sel'));
+    r.classList.add('sel');
+    r.querySelector('input').checked = true;
+  };
+});
+document.getElementById('desc').addEventListener('input',e=>{
+  e.target.nextElementSibling.textContent = e.target.value.length+' / 500';
+});
+
+function sendReport(){
+  const motif = document.querySelector('input[name="motif"]:checked');
+  const desc = document.getElementById('desc').value.trim();
+  if(!motif){alert('⚠️ Sélectionnez un motif');return;}
+  if(desc.length < 20){alert('⚠️ Décrivez la situation (minimum 20 caractères)');return;}
+
+  const params = new URLSearchParams(location.search);
+  const courierId = params.get('id') || 'inconnu';
+
+  const reports = JSON.parse(localStorage.getItem('reports')||'[]');
+  reports.push({
+    type: 'courier',
+    courierId,
+    motif: motif.value,
+    desc,
+    date: new Date().toISOString()
+  });
+  localStorage.setItem('reports', JSON.stringify(reports));
+
+  if(navigator.vibrate) navigator.vibrate([100,50,100]);
+  alert('✅ Signalement envoyé\n\nMerci pour votre vigilance. L\'équipe SEN TEW examinera ce livreur sous 24h.\n\n📌 Rappel : 3 signalements = suspension automatique du livreur.');
+  location.href = 'commandes.html';
+}
+</script>
+</body>
+</html>
