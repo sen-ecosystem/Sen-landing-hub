@@ -1,302 +1,248 @@
 <!DOCTYPE html>
-<html lang="fr"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Mon Panier - SEN TEW</title>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Panier - SEN TEW</title>
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/styles-pays.css">
 <style>
-:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a}
-*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif}
-body{background:#f5f5f5;color:#222;padding-bottom:180px;-webkit-overflow-scrolling:touch}
-.header{background:linear-gradient(135deg,var(--v),#008a44);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:12px}
-.back{background:rgba(255,255,255,.25);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer}
-.header h1{color:#fff;font-size:17px;flex:1}
-.count-badge{background:var(--j);color:#222;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:700}
+:root{--v:#0f6b4e;--vd:#0a4d38;--or:#d4a574;--noir:#0a1f17;--card:#1a2e24;--text:#f5f5f0;--muted:#9ca3af;--border:#2a3e34;--rouge:#ef4444}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;font-family:-apple-system,'Segoe UI',sans-serif}
+body{background:var(--noir);color:var(--text);padding-bottom:120px;max-width:600px;margin:0 auto}
+.top{background:var(--card);padding:12px 14px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.back{background:rgba(255,255,255,.1);border:none;width:38px;height:38px;border-radius:50%;font-size:18px;color:var(--text);cursor:pointer}
+.top h1{flex:1;font-size:15px;font-weight:700;color:var(--or)}
+.top .heart{background:rgba(255,255,255,.1);border:none;width:38px;height:38px;border-radius:50%;font-size:18px;color:var(--rouge);cursor:pointer}
+.section-title{padding:14px 16px 8px;font-size:14px;font-weight:800;color:var(--or)}
+.cart-empty{text-align:center;padding:60px 20px;color:var(--muted)}
+.cart-empty .emoji{font-size:60px;margin-bottom:14px}
+.cart-empty h3{color:var(--text);margin-bottom:8px}
+.cart-empty p{font-size:13px;margin-bottom:20px}
+.cart-empty a{background:var(--v);color:#fff;padding:12px 24px;border-radius:12px;text-decoration:none;font-weight:700}
+.item{display:flex;gap:12px;background:var(--card);margin:8px 14px;padding:12px;border-radius:12px;border:1px solid var(--border)}
+.item img{width:80px;height:80px;border-radius:10px;object-fit:cover;background:var(--noir)}
+.item-body{flex:1;min-width:0}
+.item-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.3}
+.item-seller{font-size:11px;color:var(--or);margin-bottom:6px}
+.item-price{font-size:16px;font-weight:900;color:var(--or)}
+.item-actions{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.qty{display:flex;align-items:center;gap:8px;background:var(--noir);border-radius:20px;padding:2px}
+.qty button{width:28px;height:28px;border-radius:50%;background:var(--v);color:#fff;border:none;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.qty button:active{transform:scale(.9)}
+.qty span{font-weight:700;min-width:26px;text-align:center;color:var(--text)}
+.del{background:rgba(239,68,68,.15);border:none;color:var(--rouge);width:34px;height:34px;border-radius:8px;font-size:16px;cursor:pointer}
+.promo-box{background:var(--card);margin:8px 14px;padding:10px;border-radius:12px;display:flex;gap:8px;border:1px solid var(--border)}
+.promo-box input{flex:1;background:var(--noir);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:8px;font-size:13px}
+.promo-box button{background:var(--v);color:#fff;border:none;padding:10px 16px;border-radius:8px;font-weight:700;cursor:pointer}
+.summary{background:var(--card);margin:8px 14px;padding:14px;border-radius:12px;border:1px solid var(--border)}
+.sum-line{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;color:var(--text)}
+.sum-line.dis{color:#00c060}
+.sum-total{display:flex;justify-content:space-between;padding-top:10px;border-top:1px solid var(--border);margin-top:8px;font-size:18px;font-weight:900;color:var(--or)}
+.suggestions{background:var(--card);margin:8px 14px;padding:14px;border-radius:12px;border:1px solid var(--border)}
+.suggestions h4{color:var(--or);margin-bottom:10px;font-size:14px}
+.sug-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px}
+.sug-scroll::-webkit-scrollbar{display:none}
+.sug-item{min-width:120px;background:var(--noir);border-radius:10px;padding:8px;cursor:pointer}
+.sug-item img{width:100%;height:100px;border-radius:8px;object-fit:cover}
+.sug-name{font-size:11px;color:var(--text);margin-top:6px;font-weight:600}
+.sug-price{font-size:12px;color:var(--or);font-weight:800;margin-top:2px}
+.bar{position:fixed;bottom:0;left:0;right:0;max-width:600px;margin:0 auto;background:var(--card);padding:12px;box-shadow:0 -4px 16px rgba(0,0,0,.4);z-index:50;border-top:1px solid var(--border)}
+.bar-total{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.bar-total .lbl{color:var(--muted);font-size:12px}
+.bar-total .amt{color:var(--or);font-size:22px;font-weight:900}
+.pay-btn{width:100%;background:linear-gradient(135deg,var(--v),var(--vd));color:#fff;border:none;padding:14px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 12px rgba(15,107,78,.4)}
+.pay-btn:active{transform:scale(.98)}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;max-width:600px;margin:0 auto;background:var(--card);border-top:1px solid var(--border);padding:8px 0;display:flex;justify-content:space-around;z-index:40;display:none}
+</style>
+</head>
+<body>
 
-.address-card{background:linear-gradient(135deg,var(--v),#008a44);color:#fff;margin:12px 14px;padding:14px;border-radius:14px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 12px rgba(0,166,81,.25);cursor:pointer}
-.address-pin{width:38px;height:38px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px}
-.address-info{flex:1;color:#fff}
-.address-info small{opacity:.85;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
-.address-info strong{display:block;font-size:15px;margin:2px 0;color:#fff}
-.address-info p{font-size:12px;opacity:.9;color:#fff}
-.address-edit{color:var(--j);font-size:22px}
-
-.section{padding:0 14px;margin-bottom:12px}
-.section-title{font-size:13px;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 8px;display:flex;justify-content:space-between}
-
-/* Articles */
-.cart-item{background:#fff;border-radius:12px;padding:12px;margin-bottom:10px;display:flex;gap:10px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.cart-img{width:80px;height:80px;border-radius:10px;object-fit:cover;background:#eee;flex-shrink:0}
-.cart-body{flex:1;min-width:0}
-.cart-name{font-size:13px;font-weight:600;color:#222;line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.cart-variant{font-size:11px;color:#888;margin-top:2px}
-.cart-shop{font-size:11px;color:var(--v);font-weight:600;margin-top:2px}
-.cart-price{color:var(--o);font-weight:800;font-size:16px;margin-top:4px}
-.cart-price .old{color:#999;text-decoration:line-through;font-size:11px;margin-left:4px;font-weight:400}
-.cart-actions{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
-.qty-box{display:flex;align-items:center;gap:6px;background:#f5f5f5;border-radius:20px;padding:2px}
-.qty-btn{width:28px;height:28px;border-radius:50%;border:none;background:#fff;font-weight:700;font-size:14px;cursor:pointer;color:#222}
-.qty-val{font-size:14px;font-weight:700;color:#222;min-width:20px;text-align:center}
-.remove-btn{background:none;border:none;color:var(--r);font-size:18px;cursor:pointer}
-
-.promo-strip{background:linear-gradient(90deg,var(--r),#ff6b35);color:#fff;padding:10px 14px;border-radius:12px;margin-bottom:10px;font-size:13px;text-align:center;font-weight:600}
-
-.coupon-input{background:#fff;padding:12px;border-radius:12px;display:flex;gap:8px;align-items:center;margin-bottom:10px;border:2px dashed var(--j)}
-.coupon-input input{flex:1;border:none;background:none;font-size:14px;color:#222;outline:none}
-.coupon-input input::placeholder{color:#999}
-.coupon-btn{background:linear-gradient(135deg,var(--j),#f4b800);color:#222;border:none;padding:8px 16px;border-radius:8px;font-weight:700;font-size:13px}
-
-.delivery-progress{background:#fff;padding:14px;border-radius:12px;margin-bottom:10px}
-.delivery-text{font-size:13px;color:#222;margin-bottom:8px}
-.delivery-text b{color:var(--v)}
-.progress-bar{height:8px;background:#e0e0e0;border-radius:4px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--v),var(--j));width:70%;transition:.5s}
-
-/* Récap prix */
-.summary{background:#fff;border-radius:14px;padding:16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.summary-row{display:flex;justify-content:space-between;padding:6px 0;font-size:14px;color:#333}
-.summary-row.discount{color:var(--v);font-weight:600}
-.summary-row.total{border-top:2px solid #eee;margin-top:8px;padding-top:12px;font-size:18px;font-weight:800;color:#222}
-.summary-row.total .amount{color:var(--o);font-size:22px}
-
-/* Paiement méthode */
-.pay-methods{background:#fff;padding:14px;border-radius:12px;margin-bottom:10px}
-.pay-title{font-size:13px;font-weight:700;color:#222;margin-bottom:10px}
-.pay-icons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-.pay-icon{padding:8px 12px;background:#f5f5f5;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:2px solid transparent}
-.pay-icon.active{border-color:var(--v);background:#e8f5ee}
-.pay-icon.wave{color:#4a90e2}
-.pay-icon.om{color:#ff6f00}
-.pay-icon.free{color:#00a651}
-.pay-icon.wizall{color:#e31b23}
-.pay-icon.visa{color:#1a1f71}
-.pay-icon.wallet{color:#b8863a}
-.pay-split-info{background:linear-gradient(90deg,#e8f5ee,#fff);border-left:3px solid var(--v);padding:10px;border-radius:6px;font-size:12px;color:#333}
-.pay-split-info b{color:var(--v)}
-
-/* Buy bar avec PAYER */
-.buy-bar{position:fixed;bottom:60px;left:0;right:0;background:#fff;padding:12px 14px;padding-bottom:12px;box-shadow:0 -2px 16px rgba(0,0,0,.15);z-index:88;border-top:1px solid #eee}
-.buy-bar-row{display:flex;gap:10px;align-items:center}
-.buy-bar-total{flex:1}
-.buy-bar-total small{color:#888;font-size:11px;display:block}
-.buy-bar-total b{color:var(--o);font-size:20px;font-weight:900}
-.pay-btn{background:linear-gradient(135deg,var(--v),#008a44);color:#fff;border:none;padding:14px 24px;border-radius:12px;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 4px 14px rgba(0,166,81,.3);display:flex;align-items:center;gap:6px}
-.pay-btn:active{transform:scale(.97)}
-
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;padding:6px 0;padding-bottom:calc(6px + env(safe-area-inset-bottom,0));z-index:90;height:60px}
-.nav-item{flex:1;text-align:center;color:#666;font-size:10px;background:none;border:none;cursor:pointer;font-family:inherit}
-.nav-item.active{color:var(--v);font-weight:700}
-.nav-icon{font-size:22px;display:block;margin-bottom:2px}
-
-/* Suggestions */
-.h-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.h-scroll::-webkit-scrollbar{display:none}
-.sug-card{flex:0 0 140px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06);cursor:pointer}
-.sug-img{width:100%;height:100px;object-fit:cover;background:#eee}
-.sug-body{padding:8px}
-.sug-body h4{font-size:12px;font-weight:600;color:#222;height:32px;overflow:hidden;line-height:1.3}
-.sug-price{color:var(--o);font-weight:800;font-size:14px;margin-top:4px}
-
-/* DARK MODE */
-html[data-theme="dark"] body{background:#0f1419;color:#e8eaed}
-html[data-theme="dark"] .cart-item,html[data-theme="dark"] .summary,
-html[data-theme="dark"] .pay-methods,html[data-theme="dark"] .delivery-progress,
-html[data-theme="dark"] .coupon-input,html[data-theme="dark"] .sug-card,
-html[data-theme="dark"] .buy-bar,html[data-theme="dark"] .bottom-nav{background:#1a2028;color:#e8eaed}
-html[data-theme="dark"] .cart-name,html[data-theme="dark"] .qty-val{color:#e8eaed}
-html[data-theme="dark"] .cart-variant{color:#9aa0a6}
-html[data-theme="dark"] .qty-box{background:#232a33}
-html[data-theme="dark"] .pay-icon{background:#232a33}
-</style></head><body>
-
-<header class="header">
+<div class="top">
   <button class="back" onclick="history.back()">←</button>
-  <h1>🛒 Mon Panier</h1>
-  <span class="count-badge" id="itemCount">3 articles</span>
-</header>
-
-<div class="address-card" onclick="location.href='adresses.html'">
-  <div class="address-pin">📍</div>
-  <div class="address-info">
-    <small>Adresse de livraison</small>
-    <strong>Sacré-Cœur 3, Villa 245</strong>
-    <p>Dakar · +221 77 XXX XX XX</p>
-  </div>
-  <div class="address-edit">✏️</div>
+  <h1>🛒 Mon Panier <span id="itemCount"></span></h1>
+  <button class="heart" onclick="location.href='favoris.html'">❤️</button>
 </div>
 
-<div class="section">
-  <div class="promo-strip">🔥 -30% avec le code RAMADAN30 · Copiez maintenant !</div>
+<div id="cartContent"></div>
+
+<div class="promo-box" id="promoBox" style="display:none">
+  <input type="text" id="promoCode" placeholder="Code promo (ex: RAMADAN30)">
+  <button onclick="applyPromo()">Appliquer</button>
 </div>
 
-<div class="section">
-  <div class="section-title"><span>🛍️ Vos articles</span></div>
-
-  <div class="cart-item">
-    <img class="cart-img" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=200" alt="">
-    <div class="cart-body">
-      <div class="cart-name">Boubou traditionnel brodé main</div>
-      <div class="cart-variant">🎨 Bleu · 📏 XL</div>
-      <div class="cart-shop">🏪 Aïcha Fashion</div>
-      <div class="cart-price">25 000 FCFA <span class="old">35 000</span></div>
-      <div class="cart-actions">
-        <div class="qty-box">
-          <button class="qty-btn" onclick="qty(this,-1)">−</button>
-          <span class="qty-val">1</span>
-          <button class="qty-btn" onclick="qty(this,1)">+</button>
-        </div>
-        <button class="remove-btn" onclick="removeItem(this)">🗑️</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="cart-item">
-    <img class="cart-img" src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=200" alt="">
-    <div class="cart-body">
-      <div class="cart-name">Sandales cousues main</div>
-      <div class="cart-variant">🎨 Marron · 📏 40</div>
-      <div class="cart-shop">🏪 Aïcha Fashion</div>
-      <div class="cart-price">8 500 FCFA <span class="old">12 000</span></div>
-      <div class="cart-actions">
-        <div class="qty-box">
-          <button class="qty-btn" onclick="qty(this,-1)">−</button>
-          <span class="qty-val">2</span>
-          <button class="qty-btn" onclick="qty(this,1)">+</button>
-        </div>
-        <button class="remove-btn" onclick="removeItem(this)">🗑️</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="cart-item">
-    <img class="cart-img" src="https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=200" alt="">
-    <div class="cart-body">
-      <div class="cart-name">AirPods Pro 2ème génération</div>
-      <div class="cart-variant">🎨 Blanc</div>
-      <div class="cart-shop">🏪 Tech Modou</div>
-      <div class="cart-price">135 000 FCFA <span class="old">180 000</span></div>
-      <div class="cart-actions">
-        <div class="qty-box">
-          <button class="qty-btn" onclick="qty(this,-1)">−</button>
-          <span class="qty-val">1</span>
-          <button class="qty-btn" onclick="qty(this,1)">+</button>
-        </div>
-        <button class="remove-btn" onclick="removeItem(this)">🗑️</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="coupon-input">
-    <span style="font-size:20px">🎟️</span>
-    <input placeholder="Code promo (ex: RAMADAN30)" id="promoCode">
-    <button class="coupon-btn" onclick="applyPromo()">Appliquer</button>
-  </div>
-
-  <div class="delivery-progress">
-    <div class="delivery-text">🚚 Vous bénéficiez de la <b>livraison gratuite</b> ! 🎉</div>
-    <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
-  </div>
-
-  <div class="section-title">💰 Récapitulatif</div>
-  <div class="summary">
-    <div class="summary-row"><span>Sous-total (4 articles)</span><span>177 000 FCFA</span></div>
-    <div class="summary-row discount"><span>🎟️ RAMADAN30 (-30%)</span><span>-53 100 FCFA</span></div>
-    <div class="summary-row"><span>🚚 Livraison</span><span style="color:var(--v);font-weight:700">GRATUIT</span></div>
-    <div class="summary-row"><span>TVA (18%)</span><span>18 250 FCFA</span></div>
-    <div class="summary-row total"><span>Total à payer</span><span class="amount">142 150 FCFA</span></div>
-  </div>
-
-  <div class="section-title">💳 Moyen de paiement</div>
-  <div class="pay-methods">
-    <div class="pay-title">Choisissez votre paiement</div>
-    <div class="pay-icons">
-      <div class="pay-icon wave active" onclick="pickPay(this)">Wave</div>
-      <div class="pay-icon om" onclick="pickPay(this)">Orange Money</div>
-      <div class="pay-icon free" onclick="pickPay(this)">Free Money</div>
-      <div class="pay-icon wizall" onclick="pickPay(this)">Wizall</div>
-      <div class="pay-icon visa" onclick="pickPay(this)">💳 Carte VISA/MC</div>
-      <div class="pay-icon wallet" onclick="pickPay(this)">💰 Wallet SEN TEW</div>
-      <div class="pay-icon" style="color:#795548" onclick="pickPay(this)">📦 Paiement livraison</div>
-    </div>
-    <div class="pay-split-info">
-      <b>💳 Paiement 2x ou 3x sans frais</b><br>
-      Disponible avec carte bancaire dès 15 000 FCFA
-    </div>
-  </div>
-
-  <div class="section-title">✨ Vous pourriez aimer</div>
-  <div class="h-scroll">
-    <div class="sug-card" onclick="location.href='produit.html?id=2'">
-      <img class="sug-img" src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=200">
-      <div class="sug-body">
-        <h4>Robe wax mariage</h4>
-        <div class="sug-price">18 500 F</div>
-      </div>
-    </div>
-    <div class="sug-card" onclick="location.href='produit.html?id=3'">
-      <img class="sug-img" src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=200">
-      <div class="sug-body">
-        <h4>Sac cuir artisanal</h4>
-        <div class="sug-price">15 000 F</div>
-      </div>
-    </div>
-    <div class="sug-card" onclick="location.href='produit.html?id=5'">
-      <img class="sug-img" src="https://images.unsplash.com/photo-1592286927505-1def25115558?w=200">
-      <div class="sug-body">
-        <h4>iPhone 15 Pro</h4>
-        <div class="sug-price">850 000 F</div>
-      </div>
-    </div>
-  </div>
+<div class="summary" id="summary" style="display:none">
+  <div class="sum-line"><span>Sous-total</span><span id="subtotal">0 FCFA</span></div>
+  <div class="sum-line"><span>Livraison</span><span id="delivery">2 500 FCFA</span></div>
+  <div class="sum-line dis" id="discountLine" style="display:none"><span>Remise</span><span id="discount">-0 FCFA</span></div>
+  <div class="sum-total"><span>TOTAL</span><span id="total">0 FCFA</span></div>
 </div>
 
-<div class="buy-bar">
-  <div class="buy-bar-row">
-    <div class="buy-bar-total">
-      <small>Total à payer</small>
-      <b id="totalAmount">142 150 FCFA</b>
-    </div>
-    <button class="pay-btn" onclick="payNow()">
-      💳 <span>Payer maintenant</span>
-    </button>
-  </div>
+<div class="suggestions" id="suggestions" style="display:none">
+  <h4>⭐ Vous pourriez aimer</h4>
+  <div class="sug-scroll" id="sugScroll"></div>
 </div>
 
-<nav class="bottom-nav">
-  <button class="nav-item" onclick="location.href='index.html'"><span class="nav-icon">🏠</span>Accueil</button>
-  <button class="nav-item" onclick="location.href='categories.html'"><span class="nav-icon">🗂️</span>Catégories</button>
-  <button class="nav-item active"><span class="nav-icon">🛒</span>Panier</button>
-  <button class="nav-item" onclick="location.href='messages.html'"><span class="nav-icon">💬</span>Messages</button>
-  <button class="nav-item" onclick="location.href='profil.html'"><span class="nav-icon">👤</span>Profil</button>
-</nav>
+<div class="bar" id="payBar" style="display:none">
+  <div class="bar-total">
+    <span class="lbl">Total à payer</span>
+    <span class="amt" id="barTotal">0 FCFA</span>
+  </div>
+  <button class="pay-btn" onclick="checkout()">🔒 Passer la commande</button>
+</div>
 
 <script src="js/dark-mode.js"></script>
+<script src="js/role-guard.js"></script>
 <script>
-function qty(btn,d){
-  const val = btn.parentElement.querySelector('.qty-val');
-  let n = parseInt(val.textContent)+d;
-  if(n<1) n=1;
-  val.textContent = n;
+let cart = JSON.parse(localStorage.getItem('cart')||'[]');
+
+// Produits de démo si panier vide (pour test)
+if(cart.length === 0){
+  cart = [
+    {id:1,name:'Robe Wax Premium',price:25000,img:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=200',qty:1,seller:'Wax & Co'},
+    {id:6,name:'Sac cuir artisanal',price:18500,img:'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=200',qty:1,seller:'Cuir d\'Afrique'},
+    {id:20,name:'Bijoux dorés',price:8000,img:'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=200',qty:1,seller:'Méda d\'Or'}
+  ];
+  localStorage.setItem('cart', JSON.stringify(cart));
 }
-function removeItem(btn){
-  if(confirm('Retirer cet article du panier ?')){
-    btn.closest('.cart-item').remove();
+
+let discount = 0;
+
+function render(){
+  const content = document.getElementById('cartContent');
+  const itemCount = document.getElementById('itemCount');
+
+  if(cart.length === 0){
+    content.innerHTML = `
+      <div class="cart-empty">
+        <div class="emoji">🛒</div>
+        <h3>Votre panier est vide</h3>
+        <p>Découvrez nos produits et remplissez votre panier</p>
+        <a href="index.html">🏠 Retour à l'accueil</a>
+      </div>`;
+    itemCount.textContent = '';
+    document.getElementById('promoBox').style.display = 'none';
+    document.getElementById('summary').style.display = 'none';
+    document.getElementById('payBar').style.display = 'none';
+    return;
+  }
+
+  itemCount.textContent = '('+cart.length+' article'+(cart.length>1?'s':'')+')';
+
+  content.innerHTML = cart.map((item,idx)=>`
+    <div class="item">
+      <img src="${item.img}" alt="${item.name}" onclick="location.href='produit.html?id=${item.id}'" style="cursor:pointer">
+      <div class="item-body">
+        <div class="item-name">${item.name}</div>
+        <div class="item-seller">Vendeur : ${item.seller||'SEN TEW'}</div>
+        <div class="item-price">${(item.price*item.qty).toLocaleString('fr-FR')} FCFA</div>
+        <div class="item-actions">
+          <div class="qty">
+            <button onclick="changeQty(${idx},-1)">−</button>
+            <span>${item.qty}</span>
+            <button onclick="changeQty(${idx},1)">+</button>
+          </div>
+          <button class="del" onclick="removeItem(${idx})">🗑️</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('promoBox').style.display = 'flex';
+  document.getElementById('summary').style.display = 'block';
+  document.getElementById('payBar').style.display = 'block';
+  document.getElementById('suggestions').style.display = 'block';
+  updateTotals();
+  renderSuggestions();
+}
+
+function changeQty(idx, delta){
+  cart[idx].qty += delta;
+  if(cart[idx].qty <= 0){
+    if(confirm('Retirer '+cart[idx].name+' du panier ?')){
+      cart.splice(idx,1);
+    } else {
+      cart[idx].qty = 1;
+    }
+  }
+  localStorage.setItem('cart', JSON.stringify(cart));
+  if(navigator.vibrate) navigator.vibrate(15);
+  render();
+}
+
+function removeItem(idx){
+  if(confirm('Retirer '+cart[idx].name+' du panier ?')){
+    cart.splice(idx,1);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    if(navigator.vibrate) navigator.vibrate(30);
+    render();
   }
 }
+
+function updateTotals(){
+  const sub = cart.reduce((s,i)=>s + i.price*i.qty, 0);
+  const delivery = sub > 50000 ? 0 : 2500;
+  const total = sub + delivery - discount;
+
+  document.getElementById('subtotal').textContent = sub.toLocaleString('fr-FR')+' FCFA';
+  document.getElementById('delivery').textContent = delivery === 0 ? 'GRATUITE 🎉' : delivery.toLocaleString('fr-FR')+' FCFA';
+  document.getElementById('total').textContent = total.toLocaleString('fr-FR')+' FCFA';
+  document.getElementById('barTotal').textContent = total.toLocaleString('fr-FR')+' FCFA';
+
+  if(discount > 0){
+    document.getElementById('discountLine').style.display = 'flex';
+    document.getElementById('discount').textContent = '-'+discount.toLocaleString('fr-FR')+' FCFA';
+  }
+}
+
 function applyPromo(){
   const code = document.getElementById('promoCode').value.trim().toUpperCase();
-  if(!code) return alert('Entrez un code');
-  if(code==='RAMADAN30') alert('✅ Code RAMADAN30 appliqué : -30% !');
-  else alert('❌ Code invalide ou expiré');
-}
-function pickPay(el){
-  document.querySelectorAll('.pay-icon').forEach(p=>p.classList.remove('active'));
-  el.classList.add('active');
-}
-function payNow(){
-  const method = document.querySelector('.pay-icon.active').textContent;
-  if(confirm('💳 Confirmer le paiement de 142 150 FCFA via '+method+' ?')){
-    alert('✅ Paiement en cours...\n\n📱 Redirection vers '+method);
-    setTimeout(()=>location.href='paiement-success.html', 1500);
+  const promos = {
+    'RAMADAN30': 0.30, 'NOUVEAU10': 0.10, 'SOLDES2026': 0.20, 'LIVRAISON0': 'delivery'
+  };
+  if(promos[code]){
+    const sub = cart.reduce((s,i)=>s + i.price*i.qty, 0);
+    if(promos[code] === 'delivery'){
+      discount = 2500;
+      alert('✅ Livraison gratuite appliquée !');
+    } else {
+      discount = Math.round(sub * promos[code]);
+      alert('✅ Promo -'+(promos[code]*100)+'% appliquée ! Économie : '+discount.toLocaleString('fr-FR')+' FCFA');
+    }
+    updateTotals();
+  } else {
+    alert('❌ Code promo invalide');
   }
 }
+
+function renderSuggestions(){
+  const sugs = [
+    {id:100,name:'Coussin décoratif',price:7500,img:'https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=200'},
+    {id:101,name:'Chapeau traditionnel',price:6500,img:'https://images.unsplash.com/photo-1521369909029-2afed882baee?w=200'},
+    {id:102,name:'Ceinture en cuir',price:9000,img:'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=200'},
+    {id:103,name:'Panier tressé',price:10000,img:'https://images.unsplash.com/photo-1622470953794-aa9c70b0fb9d?w=200'},
+  ];
+  document.getElementById('sugScroll').innerHTML = sugs.map(s=>`
+    <div class="sug-item" onclick="location.href='produit.html?id=${s.id}'">
+      <img src="${s.img}">
+      <div class="sug-name">${s.name}</div>
+      <div class="sug-price">${s.price.toLocaleString('fr-FR')} FCFA</div>
+    </div>
+  `).join('');
+}
+
+function checkout(){
+  if(cart.length === 0){ alert('Panier vide'); return; }
+  const total = cart.reduce((s,i)=>s + i.price*i.qty, 0) + (cart.reduce((s,i)=>s + i.price*i.qty, 0) > 50000 ? 0 : 2500) - discount;
+  if(navigator.vibrate) navigator.vibrate([50,30,50]);
+  sessionStorage.setItem('checkout_total', total);
+  location.href = 'paiement.html?total='+total;
+}
+
+// Applique le style pays
+document.documentElement.setAttribute('data-country', localStorage.getItem('sen_country')||'SN');
+
+render();
 </script>
-</body></html>
+</body>
+</html>
