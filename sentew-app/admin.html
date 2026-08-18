@@ -4,99 +4,79 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Admin Panel - SEN TEW</title>
+<link rel="stylesheet" href="css/styles-pays.css">
 <style>
-:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a;--b:#1976d2;--p:#8b5cf6;--bg:#f5f5f5;--card:#fff;--text:#111;--muted:#666;--border:#e5e5e5}
-[data-theme="dark"]{--bg:#0a1f17;--card:#1a2e24;--text:#f3f4f6;--muted:#9ca3af;--border:#2a3e34}
+:root{--v:#0f6b4e;--vd:#0a4d38;--or:#d4a574;--or-clair:#f0c99a;--noir:#0a1f17;--card:#1a2e24;--text:#f5f5f0;--muted:#9ca3af;--border:#2a3e34;--rouge:#ef4444;--menthe:#00c060;--bleu:#1976d2}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;font-family:-apple-system,'Segoe UI',sans-serif}
-body{background:var(--bg);color:var(--text);padding-bottom:80px;max-width:900px;margin:0 auto;transition:.3s}
-
-.admin-hero{background:linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 50%,#0a0a0a 100%);color:#fff;padding:20px 16px;position:relative;overflow:hidden}
-.admin-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(252,209,22,.2),transparent);border-radius:50%}
+body{background:var(--noir);color:var(--text);padding-bottom:80px;max-width:900px;margin:0 auto}
+.admin-hero{background:linear-gradient(135deg,#0a0a0a 0%,var(--vd) 50%,#0a0a0a 100%);color:#fff;padding:20px 16px;position:relative;overflow:hidden}
+.admin-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(212,165,116,.25),transparent);border-radius:50%}
 .admin-top{display:flex;align-items:center;gap:12px;position:relative;z-index:1;margin-bottom:16px}
 .admin-back{background:rgba(255,255,255,.15);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer}
-.admin-title{flex:1;font-size:17px;font-weight:800}
-.admin-badge{background:linear-gradient(135deg,var(--r),#c41217);color:#fff;padding:4px 10px;border-radius:12px;font-size:10px;font-weight:800}
+.admin-title{flex:1;font-size:17px;font-weight:800;color:var(--or)}
+.admin-badge{background:linear-gradient(135deg,var(--rouge),#c41217);color:#fff;padding:4px 10px;border-radius:12px;font-size:10px;font-weight:800}
 .admin-user{display:flex;align-items:center;gap:12px;position:relative;z-index:1}
-.admin-avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--r),#c41217);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;border:2px solid var(--j)}
-.admin-info h2{font-size:18px;font-weight:800}
+.admin-avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--rouge),#c41217);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;border:2px solid var(--or)}
+.admin-info h2{font-size:18px;font-weight:800;color:var(--or)}
 .admin-info p{font-size:12px;opacity:.8;margin-top:2px}
-.admin-status{display:inline-flex;align-items:center;gap:4px;background:rgba(0,166,81,.2);color:#00c060;padding:3px 8px;border-radius:8px;font-size:10px;font-weight:800;margin-top:4px}
-.admin-status::before{content:'';width:6px;height:6px;background:#00c060;border-radius:50%;animation:pulse 2s infinite}
+.admin-status{display:inline-flex;align-items:center;gap:4px;background:rgba(0,192,96,.2);color:var(--menthe);padding:3px 8px;border-radius:8px;font-size:10px;font-weight:800;margin-top:4px}
+.admin-status::before{content:'';width:6px;height:6px;background:var(--menthe);border-radius:50%;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-
-/* KPI GRID */
-.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:12px}
-.kpi{background:var(--card);border-radius:12px;padding:12px;box-shadow:0 2px 6px rgba(0,0,0,.05);position:relative;overflow:hidden}
-.kpi-icon{position:absolute;top:8px;right:8px;font-size:24px;opacity:.2}
+.section-t{padding:12px 16px 4px;font-size:12px;font-weight:800;color:var(--or);text-transform:uppercase;letter-spacing:.5px}
+.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:0 12px}
+.kpi{background:var(--card);border-radius:12px;padding:12px;position:relative;overflow:hidden;border:1px solid var(--border)}
+.kpi-icon{position:absolute;top:8px;right:8px;font-size:24px;opacity:.3}
 .kpi-label{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase}
-.kpi-value{font-size:22px;font-weight:900;color:var(--text);margin-top:4px}
+.kpi-value{font-size:22px;font-weight:900;color:var(--or);margin-top:4px}
 .kpi-trend{font-size:11px;font-weight:700;margin-top:4px}
-.kpi-trend.up{color:#00c060}
-.kpi-trend.down{color:var(--r)}
-
-/* SECTION TITRE */
-.section-t{padding:8px 16px 4px;font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-
-/* MODULES GRID */
-.modules{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 12px 12px}
-.mod{background:var(--card);border-radius:12px;padding:14px 6px;text-align:center;cursor:pointer;border:1px solid var(--border);position:relative;transition:.2s;text-decoration:none;color:var(--text)}
-.mod:active{transform:scale(.95)}
-.mod-icon{font-size:26px;margin-bottom:4px}
-.mod-name{font-size:10px;font-weight:700;color:var(--text);line-height:1.2}
-.mod-badge{position:absolute;top:4px;right:4px;background:var(--r);color:#fff;font-size:9px;padding:1px 5px;border-radius:8px;font-weight:800}
-
-/* ALERTES */
-.alert-box{background:var(--card);margin:12px;border-radius:14px;padding:14px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
-.alert-h{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.alert-h h3{font-size:14px;font-weight:800;flex:1}
-.alert-all{color:var(--v);font-size:11px;font-weight:700;text-decoration:none}
-.alert-item{display:flex;gap:10px;padding:10px;border-radius:10px;margin-bottom:6px;background:var(--bg)}
-.alert-item.urgent{background:linear-gradient(135deg,rgba(227,27,35,.08),rgba(227,27,35,.03));border-left:3px solid var(--r)}
-.alert-item.warn{background:linear-gradient(135deg,rgba(252,209,22,.08),rgba(252,209,22,.03));border-left:3px solid var(--j)}
-.alert-item.info{background:linear-gradient(135deg,rgba(25,118,210,.08),rgba(25,118,210,.03));border-left:3px solid var(--b)}
-.alert-ic{font-size:22px;flex-shrink:0}
+.kpi-trend.up{color:var(--menthe)}
+.kpi-trend.down{color:var(--rouge)}
+.quick-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:0 12px}
+.qa{padding:14px;border-radius:12px;border:none;cursor:pointer;text-align:left;color:#fff}
+.qa.green{background:linear-gradient(135deg,var(--v),var(--vd))}
+.qa.red{background:linear-gradient(135deg,var(--rouge),#c41217)}
+.qa.yellow{background:linear-gradient(135deg,var(--or),var(--or-clair));color:#111}
+.qa.blue{background:linear-gradient(135deg,var(--bleu),#1565c0)}
+.qa-ic{font-size:22px;margin-bottom:6px}
+.qa-t{font-size:13px;font-weight:800}
+.qa-d{font-size:10px;opacity:.9;margin-top:2px}
+.alert-box{background:var(--card);margin:12px;border-radius:14px;padding:14px;border:1px solid var(--border)}
+.alert-h{display:flex;align-items:center;margin-bottom:10px}
+.alert-h h3{font-size:14px;font-weight:800;flex:1;color:var(--or)}
+.alert-all{color:var(--menthe);font-size:11px;font-weight:700;text-decoration:none;cursor:pointer}
+.alert-item{display:flex;gap:10px;padding:10px;border-radius:10px;margin-bottom:6px;background:var(--noir)}
+.alert-item.urgent{background:linear-gradient(135deg,rgba(239,68,68,.15),rgba(239,68,68,.03));border-left:3px solid var(--rouge)}
+.alert-item.warn{background:linear-gradient(135deg,rgba(252,209,22,.1),rgba(252,209,22,.02));border-left:3px solid var(--or)}
+.alert-item.info{background:linear-gradient(135deg,rgba(25,118,210,.1),rgba(25,118,210,.02));border-left:3px solid var(--bleu)}
+.alert-ic{font-size:22px}
 .alert-body{flex:1;min-width:0}
 .alert-t{font-size:13px;font-weight:700;color:var(--text)}
 .alert-d{font-size:11px;color:var(--muted);margin-top:2px}
 .alert-btn{background:var(--v);color:#fff;border:none;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;align-self:center}
-
-/* ACTIONS RAPIDES */
-.quick-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:0 12px 12px}
-.qa{background:linear-gradient(135deg,var(--v),#008a44);color:#fff;padding:14px;border-radius:12px;border:none;cursor:pointer;text-align:left;box-shadow:0 4px 12px rgba(0,166,81,.2)}
-.qa.red{background:linear-gradient(135deg,var(--r),#c41217);box-shadow:0 4px 12px rgba(227,27,35,.2)}
-.qa.yellow{background:linear-gradient(135deg,var(--j),#f0c000);color:#111;box-shadow:0 4px 12px rgba(252,209,22,.3)}
-.qa.blue{background:linear-gradient(135deg,var(--b),#1565c0);box-shadow:0 4px 12px rgba(25,118,210,.2)}
-.qa-ic{font-size:22px;margin-bottom:6px}
-.qa-t{font-size:13px;font-weight:800}
-.qa-d{font-size:10px;opacity:.9;margin-top:2px}
-
-/* CHART CARD */
-.chart-card{background:var(--card);margin:12px;padding:14px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.modules{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 12px}
+.mod{background:var(--card);border-radius:12px;padding:14px 6px;text-align:center;cursor:pointer;border:1px solid var(--border);position:relative;transition:.2s;color:var(--text);text-decoration:none}
+.mod:active{transform:scale(.95)}
+.mod-icon{font-size:26px;margin-bottom:4px}
+.mod-name{font-size:10px;font-weight:700;color:var(--text);line-height:1.2}
+.mod-badge{position:absolute;top:4px;right:4px;background:var(--rouge);color:#fff;font-size:9px;padding:1px 5px;border-radius:8px;font-weight:800}
+.chart-card{background:var(--card);margin:12px;padding:14px;border-radius:14px;border:1px solid var(--border)}
 .chart-h{display:flex;align-items:center;margin-bottom:12px}
-.chart-h h3{font-size:14px;font-weight:800;flex:1}
-.chart-period{background:var(--bg);border:none;padding:4px 10px;border-radius:8px;font-size:11px;font-weight:700;color:var(--text)}
+.chart-h h3{font-size:14px;font-weight:800;flex:1;color:var(--or)}
+.chart-period{background:var(--noir);border:1px solid var(--border);padding:4px 10px;border-radius:8px;font-size:11px;font-weight:700;color:var(--text)}
 .chart-bar{display:flex;align-items:flex-end;gap:6px;height:120px;padding:4px 0}
-.chart-col{flex:1;background:linear-gradient(180deg,var(--v),#008a44);border-radius:6px 6px 0 0;position:relative;min-height:20px}
+.chart-col{flex:1;background:linear-gradient(180deg,var(--or),var(--v));border-radius:6px 6px 0 0;position:relative;min-height:20px}
 .chart-col::after{content:attr(data-val);position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:700;color:var(--muted);white-space:nowrap}
 .chart-labels{display:flex;gap:6px;margin-top:6px}
 .chart-lbl{flex:1;text-align:center;font-size:10px;color:var(--muted);font-weight:600}
-
-/* NAV BAR */
 .nav-bar{position:fixed;bottom:0;left:0;right:0;max-width:900px;margin:0 auto;background:var(--card);border-top:1px solid var(--border);padding:8px 0;display:flex;justify-content:space-around;z-index:50}
 .nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--muted);font-size:11px;font-weight:600;padding:4px 8px;cursor:pointer;background:none;border:none}
-.nav-item.active{color:var(--r)}
+.nav-item.active{color:var(--or)}
 .nav-item .ic{font-size:22px}
-
-@media(min-width:768px){
-  .kpi-grid{grid-template-columns:repeat(4,1fr)}
-  .modules{grid-template-columns:repeat(6,1fr)}
-  .quick-actions{grid-template-columns:repeat(4,1fr)}
-}
+@media(min-width:768px){.kpi-grid{grid-template-columns:repeat(4,1fr)}.modules{grid-template-columns:repeat(6,1fr)}.quick-actions{grid-template-columns:repeat(4,1fr)}}
 </style>
 </head>
 <body>
 
-<!-- HERO ADMIN -->
 <div class="admin-hero">
   <div class="admin-top">
     <button class="admin-back" onclick="location.href='index.html'">←</button>
@@ -113,181 +93,64 @@ body{background:var(--bg);color:var(--text);padding-bottom:80px;max-width:900px;
   </div>
 </div>
 
-<!-- KPIs -->
 <div class="section-t">📊 Indicateurs clés (Août 2026)</div>
 <div class="kpi-grid">
-  <div class="kpi">
-    <span class="kpi-icon">💰</span>
-    <div class="kpi-label">CA Total</div>
-    <div class="kpi-value">45.2 M</div>
-    <div class="kpi-trend up">↗ +18% vs Juillet</div>
-  </div>
-  <div class="kpi">
-    <span class="kpi-icon">👥</span>
-    <div class="kpi-label">Utilisateurs</div>
-    <div class="kpi-value">52 486</div>
-    <div class="kpi-trend up">↗ +2 156 ce mois</div>
-  </div>
-  <div class="kpi">
-    <span class="kpi-icon">🏪</span>
-    <div class="kpi-label">Vendeurs</div>
-    <div class="kpi-value">2 512</div>
-    <div class="kpi-trend up">↗ +124 ce mois</div>
-  </div>
-  <div class="kpi">
-    <span class="kpi-icon">📦</span>
-    <div class="kpi-label">Cmd / jour</div>
-    <div class="kpi-value">1 247</div>
-    <div class="kpi-trend up">↗ +9% cette semaine</div>
-  </div>
+  <div class="kpi"><span class="kpi-icon">💰</span><div class="kpi-label">CA Total</div><div class="kpi-value">45.2 M</div><div class="kpi-trend up">↗ +18% vs Juillet</div></div>
+  <div class="kpi"><span class="kpi-icon">👥</span><div class="kpi-label">Utilisateurs</div><div class="kpi-value">52 486</div><div class="kpi-trend up">↗ +2 156 ce mois</div></div>
+  <div class="kpi"><span class="kpi-icon">🏪</span><div class="kpi-label">Vendeurs</div><div class="kpi-value">2 512</div><div class="kpi-trend up">↗ +124 ce mois</div></div>
+  <div class="kpi"><span class="kpi-icon">📦</span><div class="kpi-label">Cmd / jour</div><div class="kpi-value">1 247</div><div class="kpi-trend up">↗ +9% cette semaine</div></div>
 </div>
 
-<!-- ACTIONS RAPIDES -->
 <div class="section-t">⚡ Actions rapides</div>
 <div class="quick-actions">
-  <button class="qa" onclick="broadcast()">
-    <div class="qa-ic">📢</div>
-    <div class="qa-t">Diffusion</div>
-    <div class="qa-d">Envoyer à tous</div>
-  </button>
-  <button class="qa red" onclick="emergency()">
-    <div class="qa-ic">🚨</div>
-    <div class="qa-t">Urgence</div>
-    <div class="qa-d">Mode maintenance</div>
-  </button>
-  <button class="qa yellow" onclick="promoBoost()">
-    <div class="qa-ic">🎁</div>
-    <div class="qa-t">Promo Flash</div>
-    <div class="qa-d">Créer opération</div>
-  </button>
-  <button class="qa blue" onclick="location.href='audit.html'">
-    <div class="qa-ic">🔍</div>
-    <div class="qa-t">Audit</div>
-    <div class="qa-d">Sécurité complète</div>
-  </button>
+  <button class="qa green" onclick="broadcast()"><div class="qa-ic">📢</div><div class="qa-t">Diffusion</div><div class="qa-d">Envoyer à tous</div></button>
+  <button class="qa red" onclick="emergency()"><div class="qa-ic">🚨</div><div class="qa-t">Urgence</div><div class="qa-d">Mode maintenance</div></button>
+  <button class="qa yellow" onclick="promoBoost()"><div class="qa-ic">🎁</div><div class="qa-t">Promo Flash</div><div class="qa-d">Créer opération</div></button>
+  <button class="qa blue" onclick="location.href='audit.html'"><div class="qa-ic">🔍</div><div class="qa-t">Audit</div><div class="qa-d">Sécurité complète</div></button>
 </div>
 
-<!-- ALERTES CRITIQUES -->
 <div class="alert-box">
-  <div class="alert-h">
-    <h3>🔔 Alertes en cours</h3>
-    <a class="alert-all" onclick="location.href='audit.html'">Tout voir ›</a>
-  </div>
+  <div class="alert-h"><h3>🔔 Alertes en cours</h3><a class="alert-all" onclick="location.href='audit.html'">Tout voir ›</a></div>
   <div class="alert-item urgent">
     <div class="alert-ic">🚨</div>
-    <div class="alert-body">
-      <div class="alert-t">3 vendeurs signalés (fraude suspectée)</div>
-      <div class="alert-d">Aïcha Couture #124, Moussa Tech #256 · Il y a 2h</div>
-    </div>
+    <div class="alert-body"><div class="alert-t">3 vendeurs signalés (fraude suspectée)</div><div class="alert-d">Aïcha Couture #124, Moussa Tech #256 · Il y a 2h</div></div>
     <button class="alert-btn" onclick="reviewVendor()">Traiter</button>
   </div>
   <div class="alert-item warn">
     <div class="alert-ic">⚠️</div>
-    <div class="alert-body">
-      <div class="alert-t">12 produits en attente de modération</div>
-      <div class="alert-d">Photos, descriptions à valider</div>
-    </div>
+    <div class="alert-body"><div class="alert-t">12 produits en attente de modération</div><div class="alert-d">Photos, descriptions à valider</div></div>
     <button class="alert-btn" onclick="moderate()">Modérer</button>
   </div>
   <div class="alert-item info">
     <div class="alert-ic">💬</div>
-    <div class="alert-body">
-      <div class="alert-t">28 tickets support ouverts</div>
-      <div class="alert-d">Temps réponse moyen : 2h</div>
-    </div>
+    <div class="alert-body"><div class="alert-t">28 tickets support ouverts</div><div class="alert-d">Temps réponse moyen : 2h</div></div>
     <button class="alert-btn" onclick="supportTickets()">Ouvrir</button>
   </div>
 </div>
 
-<!-- MODULES ADMIN -->
-<div class="section-t">🛠️ Modules de gestion</div>
+<div class="section-t">🛠️ Modules de gestion (16)</div>
 <div class="modules">
-  <a class="mod" onclick="location.href='#users'">
-    <div class="mod-icon">👥</div>
-    <div class="mod-name">Utilisateurs</div>
-    <span class="mod-badge">52k</span>
-  </a>
-  <a class="mod" onclick="location.href='#vendors'">
-    <div class="mod-icon">🏪</div>
-    <div class="mod-name">Vendeurs</div>
-    <span class="mod-badge">3</span>
-  </a>
-  <a class="mod" onclick="location.href='#couriers'">
-    <div class="mod-icon">🛵</div>
-    <div class="mod-name">Livreurs</div>
-    <span class="mod-badge">142</span>
-  </a>
-  <a class="mod" onclick="location.href='#products'">
-    <div class="mod-icon">📦</div>
-    <div class="mod-name">Produits</div>
-    <span class="mod-badge">12</span>
-  </a>
-  <a class="mod" onclick="location.href='#orders'">
-    <div class="mod-icon">🛒</div>
-    <div class="mod-name">Commandes</div>
-  </a>
-  <a class="mod" onclick="location.href='#payments'">
-    <div class="mod-icon">💳</div>
-    <div class="mod-name">Paiements</div>
-  </a>
-  <a class="mod" onclick="location.href='#finance'">
-    <div class="mod-icon">💰</div>
-    <div class="mod-name">Finance</div>
-  </a>
-  <a class="mod" onclick="location.href='#analytics'">
-    <div class="mod-icon">📈</div>
-    <div class="mod-name">Analytics</div>
-  </a>
-  <a class="mod" onclick="location.href='#marketing'">
-    <div class="mod-icon">📣</div>
-    <div class="mod-name">Marketing</div>
-  </a>
-  <a class="mod" onclick="location.href='#promo'">
-    <div class="mod-icon">🎁</div>
-    <div class="mod-name">Promo</div>
-  </a>
-  <a class="mod" onclick="location.href='#reviews'">
-    <div class="mod-icon">⭐</div>
-    <div class="mod-name">Avis</div>
-    <span class="mod-badge">7</span>
-  </a>
-  <a class="mod" onclick="location.href='#reports'">
-    <div class="mod-icon">🚩</div>
-    <div class="mod-name">Signalements</div>
-    <span class="mod-badge">3</span>
-  </a>
-  <a class="mod" onclick="location.href='#chat'">
-    <div class="mod-icon">💬</div>
-    <div class="mod-name">Support</div>
-    <span class="mod-badge">28</span>
-  </a>
-  <a class="mod" onclick="location.href='#kyc'">
-    <div class="mod-icon">🪪</div>
-    <div class="mod-name">KYC</div>
-    <span class="mod-badge">9</span>
-  </a>
-  <a class="mod" onclick="location.href='#logs'">
-    <div class="mod-icon">📋</div>
-    <div class="mod-name">Logs</div>
-  </a>
-  <a class="mod" onclick="location.href='#settings'">
-    <div class="mod-icon">⚙️</div>
-    <div class="mod-name">Paramètres</div>
-  </a>
+  <a class="mod" onclick="openMod('users')"><div class="mod-icon">👥</div><div class="mod-name">Utilisateurs</div><span class="mod-badge">52k</span></a>
+  <a class="mod" onclick="openMod('vendors')"><div class="mod-icon">🏪</div><div class="mod-name">Vendeurs</div><span class="mod-badge">3</span></a>
+  <a class="mod" onclick="openMod('couriers')"><div class="mod-icon">🛵</div><div class="mod-name">Livreurs</div><span class="mod-badge">142</span></a>
+  <a class="mod" onclick="openMod('products')"><div class="mod-icon">📦</div><div class="mod-name">Produits</div><span class="mod-badge">12</span></a>
+  <a class="mod" onclick="openMod('orders')"><div class="mod-icon">🛒</div><div class="mod-name">Commandes</div></a>
+  <a class="mod" onclick="openMod('payments')"><div class="mod-icon">💳</div><div class="mod-name">Paiements</div></a>
+  <a class="mod" onclick="openMod('finance')"><div class="mod-icon">💰</div><div class="mod-name">Finance</div></a>
+  <a class="mod" onclick="openMod('analytics')"><div class="mod-icon">📈</div><div class="mod-name">Analytics</div></a>
+  <a class="mod" onclick="openMod('marketing')"><div class="mod-icon">📣</div><div class="mod-name">Marketing</div></a>
+  <a class="mod" onclick="openMod('promo')"><div class="mod-icon">🎁</div><div class="mod-name">Promo</div></a>
+  <a class="mod" onclick="openMod('reviews')"><div class="mod-icon">⭐</div><div class="mod-name">Avis</div><span class="mod-badge">7</span></a>
+  <a class="mod" onclick="openMod('reports')"><div class="mod-icon">🚩</div><div class="mod-name">Signalements</div><span class="mod-badge">3</span></a>
+  <a class="mod" onclick="openMod('chat')"><div class="mod-icon">💬</div><div class="mod-name">Support</div><span class="mod-badge">28</span></a>
+  <a class="mod" onclick="openMod('kyc')"><div class="mod-icon">🪪</div><div class="mod-name">KYC</div><span class="mod-badge">9</span></a>
+  <a class="mod" onclick="openMod('logs')"><div class="mod-icon">📋</div><div class="mod-name">Logs</div></a>
+  <a class="mod" onclick="openMod('settings')"><div class="mod-icon">⚙️</div><div class="mod-name">Paramètres</div></a>
 </div>
 
-<!-- GRAPHIQUE VENTES -->
 <div class="chart-card">
-  <div class="chart-h">
-    <h3>📈 Ventes derniers 7 jours</h3>
-    <select class="chart-period" onchange="updateChart(this.value)">
-      <option>7 jours</option>
-      <option>30 jours</option>
-      <option>90 jours</option>
-      <option>1 an</option>
-    </select>
-  </div>
-  <div class="chart-bar" id="chartBar">
+  <div class="chart-h"><h3>📈 Ventes 7 derniers jours</h3><select class="chart-period"><option>7 jours</option><option>30 jours</option><option>90 jours</option><option>1 an</option></select></div>
+  <div class="chart-bar">
     <div class="chart-col" style="height:45%" data-val="1.8M"></div>
     <div class="chart-col" style="height:62%" data-val="2.5M"></div>
     <div class="chart-col" style="height:55%" data-val="2.2M"></div>
@@ -302,141 +165,75 @@ body{background:var(--bg);color:var(--text);padding-bottom:80px;max-width:900px;
   </div>
 </div>
 
-<!-- TOP VENDEURS -->
 <div class="alert-box">
-  <div class="alert-h">
-    <h3>🏆 Top vendeurs du mois</h3>
-    <a class="alert-all">Voir tous ›</a>
-  </div>
-  <div class="alert-item info">
-    <div class="alert-ic">🥇</div>
-    <div class="alert-body">
-      <div class="alert-t">Aïcha Couture · 2.4M FCFA</div>
-      <div class="alert-d">856 ventes · 4.9★ · Vérifié Platinum</div>
-    </div>
-    <button class="alert-btn" onclick="viewVendor(1)">Voir</button>
-  </div>
-  <div class="alert-item info">
-    <div class="alert-ic">🥈</div>
-    <div class="alert-body">
-      <div class="alert-t">Moussa Tech · 1.8M FCFA</div>
-      <div class="alert-d">432 ventes · 4.8★ · Vérifié Gold</div>
-    </div>
-    <button class="alert-btn" onclick="viewVendor(2)">Voir</button>
-  </div>
-  <div class="alert-item info">
-    <div class="alert-ic">🥉</div>
-    <div class="alert-body">
-      <div class="alert-t">Fatou Fashion · 1.2M FCFA</div>
-      <div class="alert-d">378 ventes · 4.9★ · Vérifié Gold</div>
-    </div>
-    <button class="alert-btn" onclick="viewVendor(3)">Voir</button>
-  </div>
+  <div class="alert-h"><h3>🏆 Top 3 vendeurs</h3><a class="alert-all">Voir tous ›</a></div>
+  <div class="alert-item info"><div class="alert-ic">🥇</div><div class="alert-body"><div class="alert-t">Aïcha Couture · 2.4M FCFA</div><div class="alert-d">856 ventes · 4.9★ · Platinum</div></div><button class="alert-btn" onclick="viewVendor(1)">Voir</button></div>
+  <div class="alert-item info"><div class="alert-ic">🥈</div><div class="alert-body"><div class="alert-t">Moussa Tech · 1.8M FCFA</div><div class="alert-d">432 ventes · 4.8★ · Gold</div></div><button class="alert-btn" onclick="viewVendor(2)">Voir</button></div>
+  <div class="alert-item info"><div class="alert-ic">🥉</div><div class="alert-body"><div class="alert-t">Fatou Fashion · 1.2M FCFA</div><div class="alert-d">378 ventes · 4.9★ · Gold</div></div><button class="alert-btn" onclick="viewVendor(3)">Voir</button></div>
 </div>
 
-<!-- INFOS SYSTÈME -->
 <div class="alert-box">
-  <div class="alert-h">
-    <h3>🖥️ État du système</h3>
-  </div>
-  <div class="alert-item info">
-    <div class="alert-ic">✅</div>
-    <div class="alert-body">
-      <div class="alert-t">Serveur : opérationnel</div>
-      <div class="alert-d">Uptime 99.98% · Latence 42ms</div>
-    </div>
-  </div>
-  <div class="alert-item info">
-    <div class="alert-ic">💾</div>
-    <div class="alert-body">
-      <div class="alert-t">Base de données : saine</div>
-      <div class="alert-d">2.4 Go / 50 Go · Dernière sauvegarde il y a 2h</div>
-    </div>
-  </div>
-  <div class="alert-item warn">
-    <div class="alert-ic">⚠️</div>
-    <div class="alert-body">
-      <div class="alert-t">Backend Firebase : à configurer</div>
-      <div class="alert-d">Passer en production pour PayDunya LIVE</div>
-    </div>
-    <button class="alert-btn" onclick="setupBackend()">Config</button>
-  </div>
+  <div class="alert-h"><h3>🖥️ État du système</h3></div>
+  <div class="alert-item info"><div class="alert-ic">✅</div><div class="alert-body"><div class="alert-t">Serveur : opérationnel</div><div class="alert-d">Uptime 99.98% · Latence 42ms</div></div></div>
+  <div class="alert-item info"><div class="alert-ic">💾</div><div class="alert-body"><div class="alert-t">Base de données : saine</div><div class="alert-d">2.4 Go / 50 Go · Backup il y a 2h</div></div></div>
+  <div class="alert-item warn"><div class="alert-ic">⚠️</div><div class="alert-body"><div class="alert-t">Backend Firebase : à configurer</div><div class="alert-d">Passer en production pour PayDunya LIVE</div></div><button class="alert-btn" onclick="setupBackend()">Config</button></div>
 </div>
 
-<!-- NAV BAR -->
 <nav class="nav-bar">
   <button class="nav-item active" onclick="scrollTo(0,0)"><span class="ic">🏠</span><span>Dashboard</span></button>
-  <button class="nav-item" onclick="location.href='#users'"><span class="ic">👥</span><span>Users</span></button>
-  <button class="nav-item" onclick="location.href='#orders'"><span class="ic">📦</span><span>Cmd</span></button>
-  <button class="nav-item" onclick="location.href='#analytics'"><span class="ic">📊</span><span>Stats</span></button>
+  <button class="nav-item" onclick="openMod('users')"><span class="ic">👥</span><span>Users</span></button>
+  <button class="nav-item" onclick="openMod('orders')"><span class="ic">📦</span><span>Cmd</span></button>
+  <button class="nav-item" onclick="openMod('analytics')"><span class="ic">📊</span><span>Stats</span></button>
   <button class="nav-item" onclick="logout()"><span class="ic">🚪</span><span>Sortir</span></button>
 </nav>
 
 <script src="js/dark-mode.js"></script>
 <script src="js/role-guard.js"></script>
 <script>
-// Vérification admin
 if(sessionStorage.getItem('admin_pre_auth') !== '1' && localStorage.getItem('sen_role') !== 'admin'){
   alert('⚠️ Accès refusé — session admin requise');
   location.href = 'index.html';
 }
 
-// ===== FONCTIONS BOUTONS =====
-function broadcast(){
-  const msg = prompt('📢 Message à diffuser à tous les utilisateurs :');
-  if(msg){alert('✅ Message envoyé à 52 486 utilisateurs\n\n"'+msg+'"');}
-}
-function emergency(){
-  if(confirm('🚨 Activer le mode maintenance ?\n\nL\'app sera inaccessible pour tous les utilisateurs.')){
-    alert('✅ Mode maintenance activé\n\nLes utilisateurs voient la page maintenance.html');
-  }
-}
-function promoBoost(){
-  const pct = prompt('🎁 Pourcentage de la promo flash (ex: 40) :');
-  if(pct){
-    const h = prompt('⏱️ Durée en heures :');
-    if(h){alert('✅ Promo Flash créée\n\n-'+pct+'% pendant '+h+'h\n\nBanners activés sur toutes les pages');}
-  }
-}
-function reviewVendor(){
-  if(confirm('🔍 Ouvrir la fiche de vérification vendeur ?\n\n3 vendeurs à examiner en priorité.')){
-    alert('📋 Fiches ouvertes\n\n1. Aïcha Couture #124\n2. Moussa Tech #256\n3. Fatou Fashion #378');
-  }
-}
-function moderate(){
-  alert('📦 12 produits en attente\n\nOuvrant la file de modération...');
-}
-function supportTickets(){
-  alert('💬 28 tickets ouverts\n\nOuvrant l\'inbox support...');
-}
-function viewVendor(id){
-  alert('👤 Fiche vendeur #'+id+'\n\nStats, ventes, produits, KYC...');
-}
-function setupBackend(){
-  if(confirm('☁️ Configurer Firebase / Backend production ?\n\nDémarrer le Plan B ?')){
-    alert('🚀 Démarrage Plan B\n\nÉtapes B1→B10 en attente d\'exécution.');
-  }
-}
-function updateChart(period){
-  alert('📊 Période : '+period+'\n\nRechargement des données...');
-}
-function logout(){
-  if(confirm('🚪 Quitter le panel admin ?')){
-    sessionStorage.removeItem('admin_pre_auth');
-    location.href = 'index.html';
+function openMod(m){
+  const mods = {
+    users:{t:'👥 Gestion Utilisateurs',c:'52 486 utilisateurs · 2 156 nouveaux ce mois · 47 comptes suspendus\n\nActions : Rechercher · Bannir · Réinitialiser mot de passe · Voir commandes · Export CSV'},
+    vendors:{t:'🏪 Gestion Vendeurs',c:'2 512 vendeurs actifs · 3 en attente KYC · 124 nouveaux ce mois\n\nActions : Valider KYC · Suspendre · Modifier commission · Voir stats'},
+    couriers:{t:'🛵 Gestion Livreurs',c:'142 livreurs actifs · 8 en cours · 24 candidatures\n\nActions : Approuver · Zone GPS · Historique · Notation'},
+    products:{t:'📦 Gestion Produits',c:'85 234 produits · 12 en modération · 47 signalés\n\nActions : Valider · Retirer · Modérer photos'},
+    orders:{t:'🛒 Toutes les Commandes',c:'1 247 commandes/jour · 45.2M FCFA CA · 23 litiges en cours\n\nActions : Rechercher · Rembourser · Contacter'},
+    payments:{t:'💳 Paiements & Transactions',c:'Wave: 42% · OM: 31% · CB: 15% · Free Money: 8% · Wizall: 4%\n\nActions : Rembourser · Bloquer · Historique · Escrow'},
+    finance:{t:'💰 Finance & Comptabilité',c:'CA mois : 45.2M · Commissions : 2.7M · TVA : 8.1M · Cashout vendeurs : 12.4M\n\nActions : Bilan · Rapport DGID · Export comptable'},
+    analytics:{t:'📈 Analytics Avancés',c:'Trafic : 128k/jour · Panier moyen : 29 640 FCFA · Conversion : 3.8%\n\nActions : GA · Hotjar · Exports · Segments'},
+    marketing:{t:'📣 Marketing & Campagnes',c:'3 campagnes actives · Push envoyés : 42 350 · Email opening : 34%\n\nActions : Nouvelle campagne · Push · Email · SMS'},
+    promo:{t:'🎁 Promotions & Codes',c:'RAMADAN30 : 1 245 usages · NOUVEAU10 : 3 421 usages · Coupons : 89 actifs\n\nActions : Créer promo · Vente flash · Bons cadeaux'},
+    reviews:{t:'⭐ Modération Avis',c:'128 456 avis · 7 signalés à traiter · Note globale plateforme : 4.7★\n\nActions : Valider · Supprimer · Répondre'},
+    reports:{t:'🚩 Signalements & Litiges',c:'3 urgents · 12 en cours · 156 résolus ce mois\n\nActions : Enquêter · Médiation · Sanction · Escrow'},
+    chat:{t:'💬 Support Client',c:'28 tickets ouverts · 156 résolus · Temps moyen : 2h · Satisfaction : 4.6★\n\nActions : Répondre · Escalader · FAQ · Chatbot IA'},
+    kyc:{t:'🪪 Vérification KYC',c:'9 en attente · 2 512 validés · 47 rejetés\n\nActions : Approuver CNI · Justificatif domicile · RCCM'},
+    logs:{t:'📋 Logs & Audit Trail',c:'Connexions admin : 47 · Actions sensibles : 12 · Erreurs 500 : 3\n\nActions : Export logs · Filtrer · Alertes · SIEM'},
+    settings:{t:'⚙️ Paramètres Système',c:'App version : v36 · Firebase : à configurer\n\nActions : Config app · API keys · Backup DB · Maintenance'}
+  };
+  const md = mods[m];
+  if(md){
+    if(confirm(md.t+'\n\n'+md.c+'\n\n✓ Ouvrir la vue détaillée ?')){
+      alert('📋 Chargement de la vue '+md.t+'...\n\nCette vue sera pleinement fonctionnelle après connexion Firebase (Plan B1-B10).');
+    }
   }
 }
 
-// Auto-refresh KPIs chaque 30s (simulation)
-setInterval(()=>{
-  document.querySelectorAll('.kpi-value').forEach(el=>{
-    el.style.transition='color .5s';
-    el.style.color='var(--v)';
-    setTimeout(()=>el.style.color='',500);
-  });
-}, 30000);
+function broadcast(){const msg=prompt('📢 Message à diffuser à tous les utilisateurs :');if(msg){alert('✅ Message envoyé à 52 486 utilisateurs\n\n"'+msg+'"');}}
+function emergency(){if(confirm('🚨 Activer le mode maintenance ?\n\nL\'app sera inaccessible pour tous les utilisateurs.')){alert('✅ Mode maintenance activé');}}
+function promoBoost(){const p=prompt('🎁 % de la promo flash (ex: 40) :');if(p){const h=prompt('⏱️ Durée en heures :');if(h){alert('✅ Promo Flash créée : -'+p+'% pendant '+h+'h');}}}
+function reviewVendor(){alert('📋 3 fiches ouvertes\n\n1. Aïcha Couture #124\n2. Moussa Tech #256\n3. Fatou Fashion #378');}
+function moderate(){alert('📦 12 produits en attente\n\nOuverture de la file de modération...');}
+function supportTickets(){alert('💬 28 tickets ouverts\n\nOuverture de l\'inbox support...');}
+function viewVendor(id){alert('👤 Fiche vendeur #'+id+'\n\nStats, ventes, produits, KYC...');}
+function setupBackend(){if(confirm('☁️ Configurer Firebase / Backend production ?')){alert('🚀 Démarrage Plan B — Étapes B1→B10 à exécuter.');}}
+function logout(){if(confirm('🚪 Quitter le panel admin ?')){sessionStorage.removeItem('admin_pre_auth');location.href='index.html';}}
 
-console.log('🔐 Admin Panel SEN TEW chargé — 5 août 2026');
+document.documentElement.setAttribute('data-country', localStorage.getItem('sen_country')||'SN');
+console.log('🔐 Admin Panel SEN TEW chargé — 18 août 2026');
 </script>
 </body>
 </html>
