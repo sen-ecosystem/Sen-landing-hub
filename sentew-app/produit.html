@@ -3,242 +3,230 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Produit - SEN TEW</title>
-<link rel="stylesheet" href="css/app.css">
+<title>Ajouter un produit - SEN TEW</title>
 <link rel="stylesheet" href="css/styles-pays.css">
 <style>
 :root{--v:#0f6b4e;--vd:#0a4d38;--or:#d4a574;--or-clair:#f0c99a;--noir:#0a1f17;--card:#1a2e24;--text:#f5f5f0;--muted:#9ca3af;--border:#2a3e34;--rouge:#ef4444;--menthe:#00c060}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;font-family:-apple-system,'Segoe UI',sans-serif}
-body{background:var(--noir);color:var(--text);padding-bottom:150px;max-width:600px;margin:0 auto}
-.hdr{position:fixed;top:0;left:0;right:0;max-width:600px;margin:0 auto;padding:12px 14px;display:flex;gap:10px;z-index:100;background:linear-gradient(180deg,rgba(0,0,0,.7),transparent)}
-.hdr-btn{width:40px;height:40px;background:rgba(26,46,36,.9);border:none;border-radius:50%;font-size:18px;cursor:pointer;color:var(--text);backdrop-filter:blur(10px)}
-.hdr-spacer{flex:1}
-.gal{width:100%;height:400px;background:var(--card);position:relative;overflow:hidden}
-.gal-track{display:flex;height:100%;transition:transform .3s;scroll-snap-type:x mandatory;overflow-x:auto;scrollbar-width:none}
-.gal-track::-webkit-scrollbar{display:none}
-.gal-track img{width:100%;height:100%;object-fit:cover;flex-shrink:0;scroll-snap-align:center}
-.gal-dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:6px;background:rgba(0,0,0,.5);padding:6px 12px;border-radius:20px}
-.gal-dots span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.5)}
-.gal-dots span.on{background:var(--or);width:18px;border-radius:3px}
-.gal-count{position:absolute;top:70px;right:14px;background:rgba(0,0,0,.6);color:#fff;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:600}
-.etat-badge{position:absolute;top:70px;left:14px;background:linear-gradient(135deg,var(--or),var(--or-clair));color:#111;padding:6px 12px;border-radius:12px;font-size:11px;font-weight:800}
-.price-hero{background:var(--card);padding:16px;border-bottom:1px solid var(--border)}
-.price-row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-.price-big{font-size:32px;font-weight:900;color:var(--or)}
-.price-old{font-size:15px;color:var(--muted);text-decoration:line-through}
-.badge-promo{background:var(--rouge);color:#fff;padding:4px 10px;border-radius:8px;font-size:12px;font-weight:800}
-.title-h{font-size:19px;font-weight:700;margin-top:10px;color:var(--text);line-height:1.3}
-.rating-row{display:flex;align-items:center;gap:12px;margin-top:10px;flex-wrap:wrap}
-.rating-num{font-size:15px;font-weight:800;color:var(--text)}
-.rating-stars{color:var(--or)}
-.rating-count{color:var(--muted);font-size:13px}
-.sold-count{color:var(--menthe);font-size:12px;font-weight:700}
-.tag-verif{background:linear-gradient(135deg,#1da1f2,#0d8bd9);color:#fff;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700}
-.sec{background:var(--card);margin-top:8px;padding:14px 16px}
-.sec-h{font-size:14px;font-weight:800;margin-bottom:10px;color:var(--or);display:flex;align-items:center;gap:6px}
-.sec-h .a{color:var(--menthe);font-size:12px;margin-left:auto;font-weight:600;cursor:pointer}
-.deliv-row{display:flex;align-items:center;gap:12px;padding:10px;background:var(--noir);border-radius:10px;margin-bottom:8px;border:1px solid var(--border)}
-.deliv-icon{font-size:22px}
-.deliv-body{flex:1}
-.deliv-t{font-size:13px;font-weight:700;color:var(--text)}
-.deliv-d{font-size:11px;color:var(--muted);margin-top:2px}
-.opts{display:flex;flex-wrap:wrap;gap:8px}
-.opt{padding:10px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:13px;background:var(--noir);cursor:pointer;font-weight:600;color:var(--text)}
-.opt.sel{border-color:var(--or);background:linear-gradient(135deg,var(--v),var(--vd));color:#fff}
-.seller-box{display:flex;align-items:center;gap:12px;padding:12px;background:var(--noir);border-radius:12px;cursor:pointer;border:1px solid var(--border)}
-.seller-av{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--v),var(--vd));color:var(--or);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;border:2px solid var(--or)}
-.seller-body{flex:1;min-width:0}
-.seller-name{font-size:14px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:6px}
-.seller-tick{background:#1da1f2;color:#fff;width:16px;height:16px;border-radius:50%;font-size:9px;display:inline-flex;align-items:center;justify-content:center}
-.seller-meta{font-size:11px;color:var(--muted);margin-top:3px}
-.seller-btn{background:linear-gradient(135deg,var(--v),var(--vd));color:#fff;border:none;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:800;cursor:pointer}
-.seller-actions{display:flex;gap:8px;margin-top:10px}
-.sa-btn{flex:1;padding:8px;background:var(--noir);border:1px solid var(--border);border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;color:var(--text)}
-.desc-box{font-size:13px;line-height:1.7;color:var(--muted)}
-.avis{display:flex;gap:10px;padding:12px 0;border-bottom:1px solid var(--border)}
-.avis-av{width:38px;height:38px;border-radius:50%;background:var(--v);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
-.avis-body{flex:1}
-.avis-head{display:flex;align-items:center;gap:8px}
-.avis-name{font-size:13px;font-weight:700;color:var(--text)}
-.avis-verif{background:var(--menthe);color:#fff;font-size:9px;padding:1px 6px;border-radius:4px}
-.avis-date{font-size:11px;color:var(--muted);margin-left:auto}
-.avis-stars{color:var(--or);font-size:11px;margin-top:3px}
-.avis-txt{font-size:12px;color:var(--muted);margin-top:5px}
-.sim{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.sim-c{background:var(--noir);border-radius:12px;padding:8px;cursor:pointer;border:1px solid var(--border)}
-.sim-c img{width:100%;aspect-ratio:1;border-radius:8px;object-fit:cover}
-.sim-n{font-size:12px;margin-top:8px;font-weight:600;color:var(--text)}
-.sim-p{color:var(--or);font-weight:900;font-size:14px;margin-top:4px}
-.bar{position:fixed;bottom:0;left:0;right:0;max-width:600px;margin:0 auto;background:var(--card);padding:10px;display:flex;gap:6px;box-shadow:0 -4px 16px rgba(0,0,0,.4);z-index:50;border-top:1px solid var(--border)}
-.bar-i{background:transparent;border:none;width:50px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--muted);cursor:pointer}
-.bar-i .ic{font-size:20px;color:var(--or)}
-.bar-cart{flex:1;background:linear-gradient(135deg,var(--or),var(--or-clair));color:#111;border:none;padding:12px;border-radius:24px;font-weight:800;font-size:13px;cursor:pointer}
-.bar-buy{flex:1;background:linear-gradient(135deg,var(--v),var(--vd));color:#fff;border:none;padding:12px;border-radius:24px;font-weight:800;font-size:13px;cursor:pointer}
-.info-security{text-align:center;font-size:10px;color:var(--muted);padding:6px;background:var(--card);border-top:1px solid var(--border)}
+body{background:var(--noir);color:var(--text);padding-bottom:110px;max-width:600px;margin:0 auto}
+.top{background:var(--card);padding:12px 14px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.back{background:rgba(255,255,255,.1);border:none;width:38px;height:38px;border-radius:50%;color:var(--text);font-size:18px;cursor:pointer}
+.top h1{flex:1;font-size:15px;font-weight:700;color:var(--or)}
+.top .save{background:var(--noir);border:1px solid var(--or);color:var(--or);padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer}
+.form-group{background:var(--card);margin:8px 14px;padding:14px;border-radius:12px;border:1px solid var(--border)}
+.lbl{display:block;font-size:13px;font-weight:700;color:var(--or);margin-bottom:8px}
+.lbl .req{color:var(--rouge)}
+.inp{width:100%;background:var(--noir);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:8px;font-size:13px;outline:none}
+.inp:focus{border-color:var(--or)}
+textarea.inp{min-height:80px;font-family:inherit;resize:vertical}
+.photo-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.photo-box{aspect-ratio:1;background:var(--noir);border:2px dashed var(--border);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font-size:20px;color:var(--or);gap:2px}
+.photo-box small{font-size:9px;color:var(--muted)}
+.photo-box.main{border-color:var(--or);background:linear-gradient(135deg,rgba(212,165,116,.1),transparent)}
+.radio-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.radio-card{background:var(--noir);border:1.5px solid var(--border);border-radius:10px;padding:10px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:.2s}
+.radio-card input{accent-color:var(--or);flex-shrink:0}
+.radio-card span{font-size:12px;color:var(--text)}
+.radio-card:has(input:checked){border-color:var(--or);background:linear-gradient(135deg,rgba(212,165,116,.15),rgba(212,165,116,.05))}
+.chip-grid{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:6px 12px;background:var(--noir);border:1px solid var(--border);border-radius:20px;font-size:12px;cursor:pointer;color:var(--text);transition:.2s;-webkit-user-select:none;user-select:none}
+.chip.sel{background:linear-gradient(135deg,var(--v),var(--vd));border-color:var(--or);color:#fff;font-weight:700}
+.alert-warn{background:rgba(239,68,68,.1);border:1px solid var(--rouge);border-radius:10px;padding:10px;color:var(--rouge);font-size:12px;margin-top:10px;line-height:1.5}
+.alert-info{background:rgba(0,192,96,.08);border:1px solid var(--menthe);border-radius:10px;padding:10px;color:var(--menthe);font-size:12px;margin-top:10px;line-height:1.5}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bar{position:fixed;bottom:0;left:0;right:0;max-width:600px;margin:0 auto;background:var(--card);padding:12px;display:flex;gap:8px;box-shadow:0 -4px 12px rgba(0,0,0,.4);border-top:1px solid var(--border);z-index:50}
+.btn-draft{flex:1;background:var(--noir);border:1.5px solid var(--or);color:var(--or);padding:12px;border-radius:12px;font-weight:800;cursor:pointer;font-size:13px}
+.btn-pub{flex:2;background:linear-gradient(135deg,var(--v),var(--vd));color:#fff;border:none;padding:12px;border-radius:12px;font-weight:800;cursor:pointer;font-size:14px;box-shadow:0 4px 12px rgba(15,107,78,.4)}
+.section-title{padding:12px 16px 4px;font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
 </style>
 </head>
 <body>
 
-<div class="hdr">
-  <button class="hdr-btn" onclick="history.back()">←</button>
-  <div class="hdr-spacer"></div>
-  <button class="hdr-btn" onclick="share()">🔗</button>
-  <button class="hdr-btn" onclick="location.href='panier.html'">🛒</button>
+<div class="top">
+  <button class="back" onclick="history.back()">←</button>
+  <h1>➕ Ajouter un produit</h1>
+  <button class="save" onclick="saveDraft()">💾 Sauver</button>
 </div>
 
-<div class="gal">
-  <div class="gal-track" id="galTrack"></div>
-  <div class="etat-badge" id="etatBadge">🆕 Neuf</div>
-  <div class="gal-count" id="galCount">1 / 4</div>
-  <div class="gal-dots" id="galDots"></div>
-</div>
-
-<div class="price-hero">
-  <div class="price-row">
-    <span class="price-big" id="pPrice">— FCFA</span>
-    <span class="price-old" id="pOld"></span>
-    <span class="badge-promo" id="pPromo" style="display:none">-40%</span>
+<div class="section-title">📸 Photos du produit</div>
+<div class="form-group">
+  <label class="lbl">Photos (max 8) <span class="req">*</span></label>
+  <div class="photo-row">
+    <div class="photo-box main">📷<small>Principale</small></div>
+    <div class="photo-box">➕<small>Photo 2</small></div>
+    <div class="photo-box">➕<small>Photo 3</small></div>
+    <div class="photo-box">➕<small>Photo 4</small></div>
+    <div class="photo-box">➕<small>Photo 5</small></div>
+    <div class="photo-box">➕<small>Photo 6</small></div>
+    <div class="photo-box">➕<small>Photo 7</small></div>
+    <div class="photo-box">➕<small>Photo 8</small></div>
   </div>
-  <div class="title-h" id="pName">Produit</div>
-  <div class="rating-row">
-    <span class="rating-num">4.9</span>
-    <span class="rating-stars">★★★★★</span>
-    <span class="rating-count">(128 avis)</span>
-    <span class="sold-count">🔥 1 245 vendus</span>
-    <span class="tag-verif">✓ Vérifié</span>
+  <div class="alert-info">✨ Astuce : utilisez notre <b>Retouche IA</b> pour améliorer vos photos automatiquement</div>
+</div>
+
+<div class="section-title">📝 Informations du produit</div>
+<div class="form-group">
+  <label class="lbl">Nom du produit <span class="req">*</span></label>
+  <input type="text" class="inp" id="pName" placeholder="Ex: Robe Wax Premium Dakar" maxlength="100">
+</div>
+
+<div class="form-group">
+  <label class="lbl">📦 État du produit <span class="req">*</span></label>
+  <div class="radio-grid">
+    <label class="radio-card"><input type="radio" name="etat" value="neuf" checked><span>🆕 Neuf sous blister</span></label>
+    <label class="radio-card"><input type="radio" name="etat" value="occasion-parfait"><span>✨ Occasion comme neuf</span></label>
+    <label class="radio-card"><input type="radio" name="etat" value="occasion-tresbon"><span>👍 Occasion très bon</span></label>
+    <label class="radio-card"><input type="radio" name="etat" value="occasion-bon"><span>👌 Occasion bon état</span></label>
+    <label class="radio-card"><input type="radio" name="etat" value="reconditionne"><span>🔧 Reconditionné certifié</span></label>
+  </div>
+  <div class="alert-warn" id="occasionWarn" style="display:none">
+    ⚠️ <b>Catégories INTERDITES en occasion :</b><br>
+    Alimentation · Cosmétiques · Hygiène · Sous-vêtements · Produits bébé · Médicaments · Parfums entamés
   </div>
 </div>
 
-<div class="sec">
-  <div class="sec-h">🚚 Livraison & Retour</div>
-  <div class="deliv-row"><div class="deliv-icon">⚡</div><div class="deliv-body"><div class="deliv-t">Livraison 24h Dakar</div><div class="deliv-d">Gratuite dès 50 000 FCFA</div></div></div>
-  <div class="deliv-row"><div class="deliv-icon">🛡️</div><div class="deliv-body"><div class="deliv-t">Retour gratuit 14 jours</div><div class="deliv-d">Remboursement garanti · Escrow SEN TEW</div></div></div>
+<div class="form-group">
+  <label class="lbl">📄 Description <span class="req">*</span></label>
+  <textarea class="inp" id="pDesc" placeholder="Décrivez votre produit en détail (matériaux, dimensions, particularités)..." maxlength="1000"></textarea>
 </div>
 
-<div class="sec">
-  <div class="sec-h">🎨 Couleur : <span id="colSel" style="color:var(--menthe);margin-left:4px">Noir</span></div>
-  <div class="opts" id="colOpts"><div class="opt sel">Noir</div><div class="opt">Blanc</div><div class="opt">Bleu</div><div class="opt">Rouge</div></div>
+<div class="form-group">
+  <label class="lbl">🏷️ Catégorie <span class="req">*</span></label>
+  <select class="inp" id="pCat">
+    <option>Mode & Vêtements</option>
+    <option>Électronique</option>
+    <option>Maison & Déco</option>
+    <option>Beauté & Cosmétique</option>
+    <option>Alimentation & Boissons</option>
+    <option>Bébé & Enfant</option>
+    <option>Sport & Loisirs</option>
+    <option>Auto & Moto</option>
+    <option>Artisanat Africain</option>
+    <option>Livres</option>
+    <option>Santé</option>
+    <option>Bijoux</option>
+  </select>
 </div>
 
-<div class="sec">
-  <div class="sec-h">📏 Taille : <span id="sizeSel" style="color:var(--menthe);margin-left:4px">M</span></div>
-  <div class="opts" id="sizeOpts"><div class="opt">S</div><div class="opt sel">M</div><div class="opt">L</div><div class="opt">XL</div></div>
-</div>
-
-<div class="sec">
-  <div class="sec-h">🏪 Boutique <span class="a" onclick="location.href='boutique.html?id='+(product.sellerId||1)">Voir boutique ›</span></div>
-  <div class="seller-box" onclick="location.href='boutique.html?id='+(product.sellerId||1)">
-    <div class="seller-av" id="sAv">A</div>
-    <div class="seller-body">
-      <div class="seller-name"><span id="sName">Aïcha Couture</span><span class="seller-tick">✓</span></div>
-      <div class="seller-meta">⭐ 4.9 · 856 abonnés · 1.2k ventes</div>
+<div class="section-title">💰 Prix et stock</div>
+<div class="form-group">
+  <div class="two-col">
+    <div>
+      <label class="lbl">Prix (FCFA) <span class="req">*</span></label>
+      <input type="number" class="inp" id="pPrice" placeholder="25000">
     </div>
-    <button class="seller-btn" onclick="event.stopPropagation();follow()">+ Suivre</button>
+    <div>
+      <label class="lbl">Prix barré</label>
+      <input type="number" class="inp" id="pOld" placeholder="40000">
+    </div>
   </div>
-  <div class="seller-actions">
-    <button class="sa-btn" onclick="location.href='chat.html?seller='+(product.sellerId||1)">💬 Message</button>
-    <button class="sa-btn" onclick="location.href='boutique.html?id='+(product.sellerId||1)">🏪 Boutique</button>
-    <button class="sa-btn" onclick="location.href='boutique.html?id='+(product.sellerId||1)+'&promo=1'">🎁 Promos</button>
+  <label class="lbl" style="margin-top:12px">📦 Stock disponible <span class="req">*</span></label>
+  <input type="number" class="inp" id="pStock" placeholder="Ex: 50" value="1">
+</div>
+
+<div class="section-title">🎨 Variantes</div>
+<div class="form-group">
+  <label class="lbl">Couleurs disponibles</label>
+  <div class="chip-grid">
+    <span class="chip sel">Noir</span><span class="chip">Blanc</span><span class="chip">Bleu</span>
+    <span class="chip">Rouge</span><span class="chip">Vert</span><span class="chip">Jaune</span>
+    <span class="chip">Orange</span><span class="chip">Rose</span><span class="chip">Violet</span>
+    <span class="chip">Marron</span><span class="chip">Beige</span><span class="chip">Or</span>
+    <span class="chip">Multicolore</span>
   </div>
 </div>
 
-<div class="sec">
-  <div class="sec-h">📝 Description</div>
-  <p class="desc-box" id="pDesc">Produit premium livré au Sénégal.</p>
+<div class="form-group">
+  <label class="lbl">📏 Tailles disponibles</label>
+  <div class="chip-grid">
+    <span class="chip">XS</span><span class="chip">S</span><span class="chip sel">M</span>
+    <span class="chip">L</span><span class="chip">XL</span><span class="chip">XXL</span>
+    <span class="chip">36</span><span class="chip">38</span><span class="chip">40</span>
+    <span class="chip">42</span><span class="chip">44</span><span class="chip">Unique</span>
+  </div>
 </div>
 
-<div class="sec">
-  <div class="sec-h">💬 Avis (128) <span class="a">Tous ›</span></div>
-  <div class="avis"><div class="avis-av">A</div><div class="avis-body"><div class="avis-head"><span class="avis-name">Aminata D.</span><span class="avis-verif">Vérifié</span><span class="avis-date">2j</span></div><div class="avis-stars">★★★★★</div><div class="avis-txt">Excellent produit, livraison rapide.</div></div></div>
-  <div class="avis"><div class="avis-av">I</div><div class="avis-body"><div class="avis-head"><span class="avis-name">Ibrahima S.</span><span class="avis-verif">Vérifié</span><span class="avis-date">5j</span></div><div class="avis-stars">★★★★★</div><div class="avis-txt">Conforme, très satisfait.</div></div></div>
+<div class="form-group">
+  <label class="lbl">🧵 Matériaux</label>
+  <div class="chip-grid">
+    <span class="chip">Wax</span><span class="chip">Bazin</span><span class="chip">Coton</span>
+    <span class="chip">Cuir</span><span class="chip">Lin</span><span class="chip">Polyester</span>
+    <span class="chip">Bois</span><span class="chip">Métal</span><span class="chip">Plastique</span>
+  </div>
 </div>
 
-<div class="sec">
-  <div class="sec-h">🔥 Produits similaires</div>
-  <div class="sim" id="simGrid"></div>
+<div class="section-title">🚚 Livraison & Retour</div>
+<div class="form-group">
+  <label class="lbl">Options de livraison</label>
+  <select class="inp" id="pDeliv">
+    <option>Livraison Dakar 24h — 1 500 FCFA</option>
+    <option>Livraison régions 2-5 jours — 3 000 FCFA</option>
+    <option>Livraison internationale 7-15 jours — 15 000 FCFA</option>
+    <option>Retrait boutique — Gratuit</option>
+  </select>
+  <label class="lbl" style="margin-top:12px">↩️ Politique de retour</label>
+  <select class="inp" id="pReturn">
+    <option>Retour 14 jours (recommandé neuf)</option>
+    <option>Retour 7 jours (occasion)</option>
+    <option>Pas de retour (produits périssables)</option>
+  </select>
+</div>
+
+<div class="section-title">🏷️ Tags & SEO</div>
+<div class="form-group">
+  <label class="lbl">Tags de recherche (séparez par virgule)</label>
+  <input type="text" class="inp" id="pTags" placeholder="wax, mariage, tradition, dakar, cérémonie">
 </div>
 
 <div class="bar">
-  <button class="bar-i" onclick="toggleFav()"><span class="ic" id="favIc">♡</span><span>Favori</span></button>
-  <button class="bar-i" onclick="location.href='chat.html?seller='+(product.sellerId||1)"><span class="ic">💬</span><span>Message</span></button>
-  <button class="bar-cart" onclick="addCart()">🛒 Panier</button>
-  <button class="bar-buy" onclick="buyNow()">⚡ Acheter</button>
+  <button class="btn-draft" onclick="saveDraft()">💾 Brouillon</button>
+  <button class="btn-pub" onclick="publish()">🚀 Publier le produit</button>
 </div>
-
-<div class="info-security">💬 Communication avec les vendeurs uniquement via messagerie sécurisée (comme Amazon)</div>
 
 <script src="js/dark-mode.js"></script>
 <script src="js/role-guard.js"></script>
 <script>
-const PRODUCTS = {
-  1:{name:'Robe Wax Premium Dakar',price:25000,old:40000,imgs:['https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800','https://images.unsplash.com/photo-1544441893-675973e31985?w=800','https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=800','https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=800'],desc:'Superbe robe en wax authentique, coupe traditionnelle sénégalaise.',sellerId:1,sellerName:'Aïcha Couture',sold:1245,etat:'neuf'},
-  2:{name:'Sandales cuir Peul',price:8500,imgs:['https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800'],desc:'Sandales artisanales cuir véritable.',sellerId:2,sellerName:'Cuir Sénégal',sold:432,etat:'neuf'},
-  6:{name:'Sac cuir africain premium',price:15000,old:22000,imgs:['https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=800'],desc:'Sac cuir premium.',sellerId:1,sellerName:'Aïcha Couture',sold:856,etat:'occasion-parfait'},
-  10:{name:'iPhone 15 Pro 256GB',price:750000,old:850000,imgs:['https://images.unsplash.com/photo-1592286927505-1def25115558?w=800'],desc:'iPhone 15 Pro neuf sous blister, garantie 1 an.',sellerId:2,sellerName:'Moussa Tech',sold:234,etat:'neuf'},
-  13:{name:'Écouteurs sans fil Pro',price:12000,old:18000,imgs:['https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800'],desc:'Bluetooth 5.3 avec ANC.',sellerId:2,sellerName:'Moussa Tech',sold:1567,etat:'reconditionne'},
-  30:{name:'Beurre karité 500g',price:4500,imgs:['https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=800'],desc:'Beurre karité pur 100% naturel.',sellerId:4,sellerName:'Bio Sénégal',sold:3421,etat:'neuf'}
-};
-
-const ETATS = {
-  'neuf':'🆕 Neuf sous blister','occasion-parfait':'✨ Occasion comme neuf','occasion-tresbon':'👍 Occasion très bon état','occasion-bon':'👌 Occasion bon état','reconditionne':'🔧 Reconditionné certifié'
-};
-
-const id = parseInt(new URLSearchParams(location.search).get('id')) || 1;
-const product = PRODUCTS[id] || PRODUCTS[1];
-
-document.getElementById('pName').textContent = product.name;
-document.getElementById('pPrice').textContent = product.price.toLocaleString('fr-FR')+' FCFA';
-document.getElementById('pDesc').textContent = product.desc;
-document.getElementById('sName').textContent = product.sellerName;
-document.getElementById('sAv').textContent = product.sellerName[0];
-document.getElementById('etatBadge').textContent = ETATS[product.etat||'neuf'];
-
-const track = document.getElementById('galTrack');
-const dots = document.getElementById('galDots');
-product.imgs.forEach((src,i)=>{
-  const img = document.createElement('img'); img.src = src; track.appendChild(img);
-  const dot = document.createElement('span'); if(i===0) dot.className='on'; dots.appendChild(dot);
-});
-track.addEventListener('scroll',()=>{
-  const idx = Math.round(track.scrollLeft/track.offsetWidth);
-  dots.querySelectorAll('span').forEach((s,i)=>s.className=i===idx?'on':'');
-  document.getElementById('galCount').textContent = (idx+1)+' / '+product.imgs.length;
-});
-
-if(product.old){
-  document.getElementById('pOld').textContent = product.old.toLocaleString('fr-FR')+' FCFA';
-  document.getElementById('pPromo').style.display='inline-block';
-  document.getElementById('pPromo').textContent = '-'+Math.round((1-product.price/product.old)*100)+'%';
-}
-
-const simGrid = document.getElementById('simGrid');
-Object.keys(PRODUCTS).filter(x=>x!=id).slice(0,4).forEach(sid=>{
-  const p = PRODUCTS[sid];
-  const div = document.createElement('div');
-  div.className='sim-c'; div.onclick = ()=>location.href='produit.html?id='+sid;
-  div.innerHTML = `<img src="${p.imgs[0]}"><div class="sim-n">${p.name}</div><div class="sim-p">${p.price.toLocaleString('fr-FR')} FCFA</div>`;
-  simGrid.appendChild(div);
-});
-
-document.querySelectorAll('.opts').forEach(box=>{
-  box.querySelectorAll('.opt').forEach(o=>{
-    o.onclick = ()=>{box.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));o.classList.add('sel');if(navigator.vibrate)navigator.vibrate(20);};
+document.querySelectorAll('input[name="etat"]').forEach(r=>{
+  r.addEventListener('change',()=>{
+    document.getElementById('occasionWarn').style.display = r.value!=='neuf'?'block':'none';
+    if(navigator.vibrate) navigator.vibrate(15);
   });
 });
-document.querySelectorAll('#colOpts .opt').forEach(o=>o.addEventListener('click',()=>document.getElementById('colSel').textContent=o.textContent));
-document.querySelectorAll('#sizeOpts .opt').forEach(o=>o.addEventListener('click',()=>document.getElementById('sizeSel').textContent=o.textContent));
 
-function addCart(){
-  const cart = JSON.parse(localStorage.getItem('cart')||'[]');
-  cart.push({id,name:product.name,price:product.price,img:product.imgs[0],qty:1,seller:product.sellerName});
-  localStorage.setItem('cart',JSON.stringify(cart));
-  if(navigator.vibrate)navigator.vibrate([50,30,50]);
-  alert('✅ Ajouté au panier !');
+document.querySelectorAll('.chip').forEach(c=>{
+  c.onclick = ()=>{
+    c.classList.toggle('sel');
+    if(navigator.vibrate) navigator.vibrate(10);
+  };
+});
+
+function saveDraft(){
+  const name = document.getElementById('pName').value;
+  if(!name){alert('⚠️ Le nom du produit est obligatoire pour sauvegarder');return;}
+  const drafts = JSON.parse(localStorage.getItem('drafts')||'[]');
+  drafts.push({name, date: new Date().toISOString()});
+  localStorage.setItem('drafts', JSON.stringify(drafts));
+  if(navigator.vibrate) navigator.vibrate(30);
+  alert('💾 Brouillon sauvegardé !');
 }
-function buyNow(){addCart();location.href='panier.html';}
-function follow(){alert('✅ Vous suivez '+product.sellerName);}
-function share(){if(navigator.share){navigator.share({title:product.name,url:location.href});}else{navigator.clipboard.writeText(location.href);alert('🔗 Lien copié');}}
-function toggleFav(){const b=document.getElementById('favIc');b.textContent=b.textContent==='♡'?'❤️':'♡';if(navigator.vibrate)navigator.vibrate(30);}
+
+function publish(){
+  const name = document.getElementById('pName').value;
+  const desc = document.getElementById('pDesc').value;
+  const price = document.getElementById('pPrice').value;
+  const stock = document.getElementById('pStock').value;
+
+  if(!name){alert('⚠️ Nom du produit obligatoire');return;}
+  if(!desc || desc.length < 20){alert('⚠️ Description obligatoire (min 20 caractères)');return;}
+  if(!price || price < 100){alert('⚠️ Prix invalide');return;}
+  if(!stock || stock < 1){alert('⚠️ Stock invalide');return;}
+
+  if(confirm('🚀 Publier ce produit sur SEN TEW ?\n\n📋 Nom : '+name+'\n💰 Prix : '+parseInt(price).toLocaleString('fr-FR')+' FCFA\n📦 Stock : '+stock+'\n\n✓ Modération sous 24h')){
+    if(navigator.vibrate) navigator.vibrate([50,30,50]);
+    alert('✅ Produit publié avec succès !\n\n📬 Vous recevrez une notification après validation.\n🎯 Modération sous 24h.');
+    location.href='vendeur.html';
+  }
+}
 
 document.documentElement.setAttribute('data-country', localStorage.getItem('sen_country')||'SN');
 </script>
