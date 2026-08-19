@@ -1552,4 +1552,200 @@ html[data-theme="dark"] .tab-item.active {
   border: 1px solid #2a3e34 !important;
   color: #f3f4f6 !important;
 }
+/* ===== FIX MODE SOMBRE AUTOMATIQUE UNIVERSEL v4 ===== */
+/* Application automatique dark mode via prefers-color-scheme */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:#0a1f17 !important;
+    --card:#1a2e24 !important;
+    --text:#f5f5f0 !important;
+    --muted:#c0c8c4 !important;
+    --border:#2a3e34 !important;
+  }
+  html:not([data-theme="light"]) { background: #0a1f17 !important; }
+}
+
+/* Force dark si data-theme="dark" */
+[data-theme="dark"], html[data-theme="dark"] {
+  --bg:#0a1f17 !important;
+  --card:#1a2e24 !important;
+  --text:#f5f5f0 !important;
+  --muted:#c0c8c4 !important;
+  --border:#2a3e34 !important;
+}
+
+/* Fond noir profond partout */
+[data-theme="dark"] body,
+[data-theme="dark"] html,
+[data-theme="dark"] main,
+[data-theme="dark"] .content,
+[data-theme="dark"] .page,
+[data-theme="dark"] section {
+  background: #0a1f17 !important;
+  color: #f5f5f0 !important;
+}
+
+/* TOUTES les cartes claires → sombres */
+[data-theme="dark"] .card,
+[data-theme="dark"] .box,
+[data-theme="dark"] .item,
+[data-theme="dark"] .panel,
+[data-theme="dark"] .list-item,
+[data-theme="dark"] .address-card,
+[data-theme="dark"] .adresse-card,
+[data-theme="dark"] .addr-box,
+[data-theme="dark"] .relay-card,
+[data-theme="dark"] .wallet-balance,
+[data-theme="dark"] .balance-card,
+[data-theme="dark"] .entry-card,
+[data-theme="dark"] .exit-card,
+[data-theme="dark"] .method-card,
+[data-theme="dark"] .transaction-card,
+[data-theme="dark"] .gain-card,
+[data-theme="dark"] .stat-gain,
+[data-theme="dark"] .code-box,
+[data-theme="dark"] .step-card,
+[data-theme="dark"] .delivery-mode,
+[data-theme="dark"] .courier-card,
+[data-theme="dark"] .promo-card,
+[data-theme="dark"] .plan-card,
+[data-theme="dark"] .order-card,
+[data-theme="dark"] .kpi-card,
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .menu-item,
+[data-theme="dark"] .menu-group,
+[data-theme="dark"] .fidelity,
+[data-theme="dark"] .role-switcher,
+[data-theme="dark"] .role-item,
+[data-theme="dark"] .form-group,
+[data-theme="dark"] .radio-card,
+[data-theme="dark"] .settings-item,
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select,
+[data-theme="dark"] .top,
+[data-theme="dark"] .app-header,
+[data-theme="dark"] .nav-bar,
+[data-theme="dark"] .bottom-bar,
+[data-theme="dark"] header,
+[data-theme="dark"] footer,
+[data-theme="dark"] nav {
+  background: #1a2e24 !important;
+  color: #f5f5f0 !important;
+  border-color: #2a3e34 !important;
+}
+
+/* Textes lisibles PARTOUT */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] p,
+[data-theme="dark"] span:not([class*="badge"]):not([class*="status"]):not([class*="chip"]),
+[data-theme="dark"] div:not([class*="badge"]):not([class*="btn"]),
+[data-theme="dark"] label,
+[data-theme="dark"] li,
+[data-theme="dark"] td,
+[data-theme="dark"] th {
+  color: #f5f5f0 !important;
+}
+
+/* Force les textes gris ou muted à rester LISIBLES */
+[data-theme="dark"] .muted,
+[data-theme="dark"] .subtitle,
+[data-theme="dark"] .desc,
+[data-theme="dark"] .meta,
+[data-theme="dark"] .caption,
+[data-theme="dark"] small,
+[data-theme="dark"] [class*="date"],
+[data-theme="dark"] [class*="meta"] {
+  color: #b8c0bb !important;
+}
+
+/* Fonds blancs/clairs FORCÉS → sombres */
+[data-theme="dark"] *[style*="background:#fff"],
+[data-theme="dark"] *[style*="background: #fff"],
+[data-theme="dark"] *[style*="background:white"],
+[data-theme="dark"] *[style*="background:#ffffff"],
+[data-theme="dark"] *[style*="background:#f9f9f9"],
+[data-theme="dark"] *[style*="background:#f0f0f0"],
+[data-theme="dark"] *[style*="background:#fafafa"],
+[data-theme="dark"] *[style*="background:#f5f5f5"],
+[data-theme="dark"] *[style*="background:#e8f5e9"],
+[data-theme="dark"] *[style*="background:#fef3c7"] {
+  background: #1a2e24 !important;
+}
+
+/* Textes noirs/foncés FORCÉS → clairs */
+[data-theme="dark"] *[style*="color:#000"],
+[data-theme="dark"] *[style*="color:#111"],
+[data-theme="dark"] *[style*="color:#222"],
+[data-theme="dark"] *[style*="color:#333"],
+[data-theme="dark"] *[style*="color:#444"],
+[data-theme="dark"] *[style*="color:#555"],
+[data-theme="dark"] *[style*="color:#666"],
+[data-theme="dark"] *[style*="color:black"] {
+  color: #f5f5f0 !important;
+}
+
+/* Inputs texte lisible */
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  background: #0f2018 !important;
+  color: #f5f5f0 !important;
+  border: 1px solid #2a3e34 !important;
+}
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: #8a9490 !important;
+}
+
+/* Icônes de méthodes de paiement */
+[data-theme="dark"] .payment-method,
+[data-theme="dark"] .method-btn,
+[data-theme="dark"] [class*="wave-btn"],
+[data-theme="dark"] [class*="om-btn"],
+[data-theme="dark"] [class*="free-btn"],
+[data-theme="dark"] [class*="wizall-btn"] {
+  background: #0f2018 !important;
+  border: 1px solid #2a3e34 !important;
+  color: #f5f5f0 !important;
+}
+
+/* Boutons Modifier / Défaut / Supprimer visibles */
+[data-theme="dark"] button[class*="modif"],
+[data-theme="dark"] button[class*="defaut"],
+[data-theme="dark"] button[class*="suppr"],
+[data-theme="dark"] .btn-outline {
+  background: #0f2018 !important;
+  color: #f5f5f0 !important;
+  border: 1px solid #d4a574 !important;
+}
+
+/* Chiffres/prix TOUJOURS lisibles */
+[data-theme="dark"] .amount,
+[data-theme="dark"] .price,
+[data-theme="dark"] .balance,
+[data-theme="dark"] .kpi-value,
+[data-theme="dark"] [class*="FCFA"],
+[data-theme="dark"] [class*="montant"] {
+  color: #d4a574 !important;
+  font-weight: 800;
+}
+
+/* Modes de livraison lisibles */
+[data-theme="dark"] .delivery-option,
+[data-theme="dark"] .livreur-card,
+[data-theme="dark"] [class*="mode-livraison"] {
+  background: #1a2e24 !important;
+  color: #f5f5f0 !important;
+  border: 1px solid #2a3e34 !important;
+}
+[data-theme="dark"] .delivery-option *,
+[data-theme="dark"] .livreur-card *,
+[data-theme="dark"] [class*="mode-livraison"] * {
+  color: #f5f5f0 !important;
+}
 
