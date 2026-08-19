@@ -4,56 +4,84 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Panier - SEN TEW</title>
-<link rel="stylesheet" href="css/app.css">
 <link rel="stylesheet" href="css/styles-pays.css">
 <style>
-:root{--v:#0f6b4e;--vd:#0a4d38;--or:#d4a574;--noir:#0a1f17;--card:#1a2e24;--text:#f5f5f0;--muted:#9ca3af;--border:#2a3e34;--rouge:#ef4444}
+:root{--v:#0f6b4e;--vd:#0a4d38;--or:#d4a574;--or-clair:#f0c99a;--noir:#0a1f17;--card:#1a2e24;--text:#f5f5f0;--muted:#9ca3af;--border:#2a3e34;--rouge:#ef4444;--menthe:#00c060;--bleu:#1976d2}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;font-family:-apple-system,'Segoe UI',sans-serif}
-body{background:var(--noir);color:var(--text);padding-bottom:120px;max-width:600px;margin:0 auto}
+body{background:var(--noir);color:var(--text);padding-bottom:130px;max-width:600px;margin:0 auto}
 .top{background:var(--card);padding:12px 14px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10;box-shadow:0 1px 4px rgba(0,0,0,.3)}
-.back{background:rgba(255,255,255,.1);border:none;width:38px;height:38px;border-radius:50%;font-size:18px;color:var(--text);cursor:pointer}
+.back{background:rgba(255,255,255,.1);border:none;width:38px;height:38px;border-radius:50%;color:var(--text);font-size:18px;cursor:pointer}
 .top h1{flex:1;font-size:15px;font-weight:700;color:var(--or)}
-.top .heart{background:rgba(255,255,255,.1);border:none;width:38px;height:38px;border-radius:50%;font-size:18px;color:var(--rouge);cursor:pointer}
-.section-title{padding:14px 16px 8px;font-size:14px;font-weight:800;color:var(--or)}
+.top .heart{background:rgba(255,255,255,.1);border:none;width:38px;height:38px;border-radius:50%;font-size:16px;color:var(--rouge);cursor:pointer}
+.section-title{padding:12px 16px 6px;font-size:12px;font-weight:800;color:var(--or);text-transform:uppercase;letter-spacing:.5px;display:flex;align-items:center;gap:6px}
+.section-title .link{color:var(--menthe);margin-left:auto;font-size:11px;cursor:pointer}
+.address-card{background:var(--card);margin:0 14px 8px;padding:12px;border-radius:12px;border:1px solid var(--border);display:flex;align-items:center;gap:10px;cursor:pointer}
+.addr-ic{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--v),var(--vd));display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--or);flex-shrink:0}
+.addr-body{flex:1;min-width:0}
+.addr-t{font-size:13px;font-weight:700;color:var(--text)}
+.addr-d{font-size:11px;color:var(--muted);margin-top:2px}
+.addr-arrow{color:var(--muted);font-size:20px}
 .cart-empty{text-align:center;padding:60px 20px;color:var(--muted)}
 .cart-empty .emoji{font-size:60px;margin-bottom:14px}
 .cart-empty h3{color:var(--text);margin-bottom:8px}
 .cart-empty p{font-size:13px;margin-bottom:20px}
-.cart-empty a{background:var(--v);color:#fff;padding:12px 24px;border-radius:12px;text-decoration:none;font-weight:700}
-.item{display:flex;gap:12px;background:var(--card);margin:8px 14px;padding:12px;border-radius:12px;border:1px solid var(--border)}
-.item img{width:80px;height:80px;border-radius:10px;object-fit:cover;background:var(--noir)}
+.cart-empty a{background:var(--v);color:#fff;padding:12px 24px;border-radius:12px;text-decoration:none;font-weight:700;display:inline-block}
+.item{display:flex;gap:12px;background:var(--card);margin:8px 14px;padding:12px;border-radius:14px;border:1px solid var(--border);position:relative;overflow:hidden}
+.item::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,var(--or),var(--v))}
+.item img{width:80px;height:80px;border-radius:10px;object-fit:cover;background:var(--noir);cursor:pointer}
 .item-body{flex:1;min-width:0}
-.item-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.3}
-.item-seller{font-size:11px;color:var(--or);margin-bottom:6px}
+.item-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;line-height:1.3;cursor:pointer}
+.item-seller{font-size:11px;color:var(--or);margin-bottom:3px;display:flex;align-items:center;gap:4px}
+.item-variant{font-size:10px;color:var(--muted);margin-bottom:6px}
+.item-price-row{display:flex;align-items:baseline;gap:6px}
 .item-price{font-size:16px;font-weight:900;color:var(--or)}
+.item-old{font-size:11px;color:var(--muted);text-decoration:line-through}
 .item-actions{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
-.qty{display:flex;align-items:center;gap:8px;background:var(--noir);border-radius:20px;padding:2px}
-.qty button{width:28px;height:28px;border-radius:50%;background:var(--v);color:#fff;border:none;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.qty{display:flex;align-items:center;gap:8px;background:var(--noir);border-radius:20px;padding:3px;border:1px solid var(--border)}
+.qty button{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--v),var(--vd));color:#fff;border:none;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .qty button:active{transform:scale(.9)}
-.qty span{font-weight:700;min-width:26px;text-align:center;color:var(--text)}
-.del{background:rgba(239,68,68,.15);border:none;color:var(--rouge);width:34px;height:34px;border-radius:8px;font-size:16px;cursor:pointer}
-.promo-box{background:var(--card);margin:8px 14px;padding:10px;border-radius:12px;display:flex;gap:8px;border:1px solid var(--border)}
-.promo-box input{flex:1;background:var(--noir);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:8px;font-size:13px}
-.promo-box button{background:var(--v);color:#fff;border:none;padding:10px 16px;border-radius:8px;font-weight:700;cursor:pointer}
-.summary{background:var(--card);margin:8px 14px;padding:14px;border-radius:12px;border:1px solid var(--border)}
+.qty span{font-weight:700;min-width:26px;text-align:center;color:var(--text);font-size:13px}
+.item-mini-actions{display:flex;gap:6px}
+.mini-btn{background:rgba(255,255,255,.05);border:none;color:var(--text);width:32px;height:32px;border-radius:8px;font-size:14px;cursor:pointer}
+.mini-btn.del{background:rgba(239,68,68,.15);color:var(--rouge)}
+.promo-box{background:var(--card);margin:8px 14px;padding:12px;border-radius:12px;display:flex;gap:8px;border:1px solid var(--border);align-items:center}
+.promo-ic{font-size:20px}
+.promo-input{flex:1;background:var(--noir);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:8px;font-size:13px;outline:none}
+.promo-btn{background:linear-gradient(135deg,var(--or),var(--or-clair));color:#111;border:none;padding:10px 16px;border-radius:8px;font-weight:800;cursor:pointer;font-size:12px}
+.promo-applied{background:rgba(0,192,96,.15);border:1px solid var(--menthe);border-radius:10px;padding:8px 12px;margin:8px 14px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--menthe)}
+.promo-applied .rm{margin-left:auto;background:none;border:none;color:var(--rouge);cursor:pointer;font-size:16px}
+.summary{background:var(--card);margin:8px 14px;padding:14px;border-radius:14px;border:1px solid var(--border)}
 .sum-line{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;color:var(--text)}
-.sum-line.dis{color:#00c060}
-.sum-total{display:flex;justify-content:space-between;padding-top:10px;border-top:1px solid var(--border);margin-top:8px;font-size:18px;font-weight:900;color:var(--or)}
-.suggestions{background:var(--card);margin:8px 14px;padding:14px;border-radius:12px;border:1px solid var(--border)}
-.suggestions h4{color:var(--or);margin-bottom:10px;font-size:14px}
-.sug-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px}
+.sum-line.dis{color:var(--menthe)}
+.sum-line small{font-size:10px;color:var(--muted)}
+.sum-total{display:flex;justify-content:space-between;padding-top:12px;border-top:1px solid var(--border);margin-top:8px;font-size:20px;font-weight:900;color:var(--or)}
+.sum-savings{display:flex;justify-content:space-between;padding-top:6px;font-size:11px;color:var(--menthe)}
+.payment-methods{background:var(--card);margin:8px 14px;padding:12px;border-radius:12px;border:1px solid var(--border)}
+.pm-title{font-size:12px;font-weight:700;color:var(--or);margin-bottom:8px}
+.pm-icons{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.pm-icon{background:var(--noir);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:10px;font-weight:700;color:var(--text)}
+.suggestions{background:var(--card);margin:8px 14px;padding:12px;border-radius:12px;border:1px solid var(--border)}
+.sug-h{display:flex;align-items:center;margin-bottom:10px}
+.sug-h h4{color:var(--or);font-size:14px;flex:1}
+.sug-h .more{color:var(--menthe);font-size:11px;cursor:pointer}
+.sug-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
 .sug-scroll::-webkit-scrollbar{display:none}
-.sug-item{min-width:120px;background:var(--noir);border-radius:10px;padding:8px;cursor:pointer}
+.sug-item{min-width:130px;max-width:130px;background:var(--noir);border-radius:10px;padding:8px;cursor:pointer;border:1px solid var(--border)}
 .sug-item img{width:100%;height:100px;border-radius:8px;object-fit:cover}
-.sug-name{font-size:11px;color:var(--text);margin-top:6px;font-weight:600}
+.sug-name{font-size:11px;color:var(--text);margin-top:6px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .sug-price{font-size:12px;color:var(--or);font-weight:800;margin-top:2px}
-.bar{position:fixed;bottom:0;left:0;right:0;max-width:600px;margin:0 auto;background:var(--card);padding:12px;box-shadow:0 -4px 16px rgba(0,0,0,.4);z-index:50;border-top:1px solid var(--border)}
+.sug-add{background:var(--v);color:#fff;border:none;width:100%;padding:5px;border-radius:6px;font-size:10px;font-weight:700;margin-top:6px;cursor:pointer}
+.trust-badges{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:12px 14px;padding:10px;background:var(--card);border-radius:12px;border:1px solid var(--border)}
+.tb{text-align:center}
+.tb-ic{font-size:18px;margin-bottom:2px}
+.tb-t{font-size:9px;font-weight:700;color:var(--or)}
+.tb-d{font-size:8px;color:var(--muted);margin-top:1px}
+.bar{position:fixed;bottom:0;left:0;right:0;max-width:600px;margin:0 auto;background:var(--card);padding:10px 12px;box-shadow:0 -4px 16px rgba(0,0,0,.5);z-index:50;border-top:1px solid var(--border)}
 .bar-total{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .bar-total .lbl{color:var(--muted);font-size:12px}
 .bar-total .amt{color:var(--or);font-size:22px;font-weight:900}
-.pay-btn{width:100%;background:linear-gradient(135deg,var(--v),var(--vd));color:#fff;border:none;padding:14px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 12px rgba(15,107,78,.4)}
+.pay-btn{width:100%;background:linear-gradient(135deg,var(--v),var(--vd));color:#fff;border:none;padding:14px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 12px rgba(15,107,78,.4);display:flex;align-items:center;justify-content:center;gap:8px}
 .pay-btn:active{transform:scale(.98)}
-.nav-bar{position:fixed;bottom:0;left:0;right:0;max-width:600px;margin:0 auto;background:var(--card);border-top:1px solid var(--border);padding:8px 0;display:flex;justify-content:space-around;z-index:40;display:none}
 </style>
 </head>
 <body>
@@ -66,21 +94,65 @@ body{background:var(--noir);color:var(--text);padding-bottom:120px;max-width:600
 
 <div id="cartContent"></div>
 
-<div class="promo-box" id="promoBox" style="display:none">
-  <input type="text" id="promoCode" placeholder="Code promo (ex: RAMADAN30)">
-  <button onclick="applyPromo()">Appliquer</button>
-</div>
+<div id="restCart" style="display:none">
+  <div class="section-title">📍 Adresse de livraison <span class="link" onclick="location.href='adresses.html'">Modifier ›</span></div>
+  <div class="address-card" onclick="location.href='adresses.html'">
+    <div class="addr-ic">📍</div>
+    <div class="addr-body">
+      <div class="addr-t">Ousseynou Lam · Domicile</div>
+      <div class="addr-d">52 Rue Mohamed V, Dakar-Plateau · 🇸🇳 +221 77 123 45 67</div>
+    </div>
+    <div class="addr-arrow">›</div>
+  </div>
 
-<div class="summary" id="summary" style="display:none">
-  <div class="sum-line"><span>Sous-total</span><span id="subtotal">0 FCFA</span></div>
-  <div class="sum-line"><span>Livraison</span><span id="delivery">2 500 FCFA</span></div>
-  <div class="sum-line dis" id="discountLine" style="display:none"><span>Remise</span><span id="discount">-0 FCFA</span></div>
-  <div class="sum-total"><span>TOTAL</span><span id="total">0 FCFA</span></div>
-</div>
+  <div class="section-title">🎁 Code promo</div>
+  <div class="promo-box">
+    <span class="promo-ic">🏷️</span>
+    <input type="text" class="promo-input" id="promoCode" placeholder="Ex: RAMADAN30, NOUVEAU10">
+    <button class="promo-btn" onclick="applyPromo()">Appliquer</button>
+  </div>
+  <div class="promo-applied" id="promoApplied" style="display:none">
+    <span>✅</span><span id="promoText"></span>
+    <button class="rm" onclick="removePromo()">✕</button>
+  </div>
 
-<div class="suggestions" id="suggestions" style="display:none">
-  <h4>⭐ Vous pourriez aimer</h4>
-  <div class="sug-scroll" id="sugScroll"></div>
+  <div class="section-title">💰 Récapitulatif</div>
+  <div class="summary">
+    <div class="sum-line"><span>Sous-total (<span id="subCount">0</span> articles)</span><span id="subtotal">0 FCFA</span></div>
+    <div class="sum-line"><span>Livraison<br><small>Dakar 24h · Yobante Express</small></span><span id="delivery">2 500 FCFA</span></div>
+    <div class="sum-line dis" id="discountLine" style="display:none"><span>Remise promo</span><span id="discount">-0 FCFA</span></div>
+    <div class="sum-line"><span>Assurance colis<br><small>Protection escrow SEN TEW</small></span><span style="color:var(--menthe)">Gratuite</span></div>
+    <div class="sum-total"><span>TOTAL</span><span id="total">0 FCFA</span></div>
+    <div class="sum-savings" id="savingsLine" style="display:none"><span>💰 Vous économisez</span><span id="savings">0 FCFA</span></div>
+  </div>
+
+  <div class="payment-methods">
+    <div class="pm-title">💳 Moyens de paiement acceptés</div>
+    <div class="pm-icons">
+      <span class="pm-icon">🌊 Wave</span>
+      <span class="pm-icon">🟠 Orange Money</span>
+      <span class="pm-icon">🆓 Free Money</span>
+      <span class="pm-icon">💚 Wizall</span>
+      <span class="pm-icon">💳 CB Visa/MC</span>
+      <span class="pm-icon">🏦 Virement</span>
+      <span class="pm-icon">📦 À la livraison</span>
+      <span class="pm-icon">💰 2×/3× sans frais</span>
+    </div>
+  </div>
+
+  <div class="trust-badges">
+    <div class="tb"><div class="tb-ic">🔒</div><div class="tb-t">Paiement sécurisé</div><div class="tb-d">SSL 256 bits</div></div>
+    <div class="tb"><div class="tb-ic">🛡️</div><div class="tb-t">Escrow protégé</div><div class="tb-d">Remboursement garanti</div></div>
+    <div class="tb"><div class="tb-ic">↩️</div><div class="tb-t">Retour 14 jours</div><div class="tb-d">Sans conditions</div></div>
+  </div>
+
+  <div class="suggestions">
+    <div class="sug-h">
+      <h4>⭐ Vous pourriez aimer</h4>
+      <span class="more" onclick="location.href='index.html'">Voir plus ›</span>
+    </div>
+    <div class="sug-scroll" id="sugScroll"></div>
+  </div>
 </div>
 
 <div class="bar" id="payBar" style="display:none">
@@ -95,63 +167,61 @@ body{background:var(--noir);color:var(--text);padding-bottom:120px;max-width:600
 <script src="js/role-guard.js"></script>
 <script>
 let cart = JSON.parse(localStorage.getItem('cart')||'[]');
-
-// Produits de démo si panier vide (pour test)
 if(cart.length === 0){
   cart = [
-    {id:1,name:'Robe Wax Premium',price:25000,img:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=200',qty:1,seller:'Wax & Co'},
-    {id:6,name:'Sac cuir artisanal',price:18500,img:'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=200',qty:1,seller:'Cuir d\'Afrique'},
-    {id:20,name:'Bijoux dorés',price:8000,img:'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=200',qty:1,seller:'Méda d\'Or'}
+    {id:1,name:'Robe Wax Premium',price:25000,old:40000,img:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=200',qty:1,seller:'Aïcha Couture',color:'Noir',size:'M'},
+    {id:6,name:'Sac cuir artisanal',price:18500,old:25000,img:'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=200',qty:1,seller:'Cuir d\'Afrique',color:'Marron',size:'Unique'},
+    {id:20,name:'Bijoux dorés',price:8000,img:'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=200',qty:1,seller:'Méda d\'Or',color:'Or',size:'Unique'}
   ];
   localStorage.setItem('cart', JSON.stringify(cart));
 }
-
 let discount = 0;
+let promoName = '';
 
 function render(){
   const content = document.getElementById('cartContent');
   const itemCount = document.getElementById('itemCount');
+  const restCart = document.getElementById('restCart');
+  const payBar = document.getElementById('payBar');
 
   if(cart.length === 0){
-    content.innerHTML = `
-      <div class="cart-empty">
-        <div class="emoji">🛒</div>
-        <h3>Votre panier est vide</h3>
-        <p>Découvrez nos produits et remplissez votre panier</p>
-        <a href="index.html">🏠 Retour à l'accueil</a>
-      </div>`;
+    content.innerHTML = `<div class="cart-empty"><div class="emoji">🛒</div><h3>Votre panier est vide</h3><p>Découvrez nos produits et remplissez votre panier</p><a href="index.html">🏠 Retour à l'accueil</a></div>`;
     itemCount.textContent = '';
-    document.getElementById('promoBox').style.display = 'none';
-    document.getElementById('summary').style.display = 'none';
-    document.getElementById('payBar').style.display = 'none';
+    restCart.style.display = 'none';
+    payBar.style.display = 'none';
     return;
   }
 
-  itemCount.textContent = '('+cart.length+' article'+(cart.length>1?'s':'')+')';
-
-  content.innerHTML = cart.map((item,idx)=>`
-    <div class="item">
-      <img src="${item.img}" alt="${item.name}" onclick="location.href='produit.html?id=${item.id}'" style="cursor:pointer">
+  itemCount.textContent = '('+cart.length+')';
+  content.innerHTML = cart.map((item,idx)=>{
+    const oldPrice = item.old ? `<span class="item-old">${(item.old*item.qty).toLocaleString('fr-FR')} FCFA</span>` : '';
+    return `<div class="item">
+      <img src="${item.img}" alt="${item.name}" onclick="location.href='produit.html?id=${item.id}'">
       <div class="item-body">
-        <div class="item-name">${item.name}</div>
-        <div class="item-seller">Vendeur : ${item.seller||'SEN TEW'}</div>
-        <div class="item-price">${(item.price*item.qty).toLocaleString('fr-FR')} FCFA</div>
+        <div class="item-name" onclick="location.href='produit.html?id=${item.id}'">${item.name}</div>
+        <div class="item-seller">🏪 ${item.seller||'SEN TEW'}</div>
+        <div class="item-variant">🎨 ${item.color||'-'} · 📏 ${item.size||'-'}</div>
+        <div class="item-price-row">
+          <span class="item-price">${(item.price*item.qty).toLocaleString('fr-FR')} FCFA</span>
+          ${oldPrice}
+        </div>
         <div class="item-actions">
           <div class="qty">
             <button onclick="changeQty(${idx},-1)">−</button>
             <span>${item.qty}</span>
             <button onclick="changeQty(${idx},1)">+</button>
           </div>
-          <button class="del" onclick="removeItem(${idx})">🗑️</button>
+          <div class="item-mini-actions">
+            <button class="mini-btn" onclick="moveToFav(${idx})" title="Favoris">❤️</button>
+            <button class="mini-btn del" onclick="removeItem(${idx})" title="Supprimer">🗑️</button>
+          </div>
         </div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 
-  document.getElementById('promoBox').style.display = 'flex';
-  document.getElementById('summary').style.display = 'block';
-  document.getElementById('payBar').style.display = 'block';
-  document.getElementById('suggestions').style.display = 'block';
+  restCart.style.display = 'block';
+  payBar.style.display = 'block';
   updateTotals();
   renderSuggestions();
 }
@@ -159,13 +229,10 @@ function render(){
 function changeQty(idx, delta){
   cart[idx].qty += delta;
   if(cart[idx].qty <= 0){
-    if(confirm('Retirer '+cart[idx].name+' du panier ?')){
-      cart.splice(idx,1);
-    } else {
-      cart[idx].qty = 1;
-    }
+    if(confirm('Retirer '+cart[idx].name+' du panier ?')){cart.splice(idx,1);}
+    else{cart[idx].qty=1;}
   }
-  localStorage.setItem('cart', JSON.stringify(cart));
+  localStorage.setItem('cart',JSON.stringify(cart));
   if(navigator.vibrate) navigator.vibrate(15);
   render();
 }
@@ -173,17 +240,31 @@ function changeQty(idx, delta){
 function removeItem(idx){
   if(confirm('Retirer '+cart[idx].name+' du panier ?')){
     cart.splice(idx,1);
-    localStorage.setItem('cart', JSON.stringify(cart));
+    localStorage.setItem('cart',JSON.stringify(cart));
     if(navigator.vibrate) navigator.vibrate(30);
     render();
   }
 }
 
+function moveToFav(idx){
+  const item = cart[idx];
+  const favs = JSON.parse(localStorage.getItem('favs')||'[]');
+  favs.push(item);
+  localStorage.setItem('favs',JSON.stringify(favs));
+  cart.splice(idx,1);
+  localStorage.setItem('cart',JSON.stringify(cart));
+  alert('❤️ Déplacé dans les favoris');
+  render();
+}
+
 function updateTotals(){
   const sub = cart.reduce((s,i)=>s + i.price*i.qty, 0);
+  const oldSub = cart.reduce((s,i)=>s + (i.old||i.price)*i.qty, 0);
   const delivery = sub > 50000 ? 0 : 2500;
   const total = sub + delivery - discount;
+  const savings = (oldSub - sub) + discount;
 
+  document.getElementById('subCount').textContent = cart.length;
   document.getElementById('subtotal').textContent = sub.toLocaleString('fr-FR')+' FCFA';
   document.getElementById('delivery').textContent = delivery === 0 ? 'GRATUITE 🎉' : delivery.toLocaleString('fr-FR')+' FCFA';
   document.getElementById('total').textContent = total.toLocaleString('fr-FR')+' FCFA';
@@ -192,56 +273,84 @@ function updateTotals(){
   if(discount > 0){
     document.getElementById('discountLine').style.display = 'flex';
     document.getElementById('discount').textContent = '-'+discount.toLocaleString('fr-FR')+' FCFA';
+  } else {
+    document.getElementById('discountLine').style.display = 'none';
+  }
+  if(savings > 0){
+    document.getElementById('savingsLine').style.display = 'flex';
+    document.getElementById('savings').textContent = savings.toLocaleString('fr-FR')+' FCFA';
+  } else {
+    document.getElementById('savingsLine').style.display = 'none';
   }
 }
 
 function applyPromo(){
   const code = document.getElementById('promoCode').value.trim().toUpperCase();
-  const promos = {
-    'RAMADAN30': 0.30, 'NOUVEAU10': 0.10, 'SOLDES2026': 0.20, 'LIVRAISON0': 'delivery'
-  };
+  const promos = {'RAMADAN30':0.30,'NOUVEAU10':0.10,'SOLDES2026':0.20,'LIVRAISON0':'delivery','TABASKI25':0.25};
   if(promos[code]){
     const sub = cart.reduce((s,i)=>s + i.price*i.qty, 0);
     if(promos[code] === 'delivery'){
       discount = 2500;
-      alert('✅ Livraison gratuite appliquée !');
+      promoName = 'Livraison gratuite';
     } else {
       discount = Math.round(sub * promos[code]);
-      alert('✅ Promo -'+(promos[code]*100)+'% appliquée ! Économie : '+discount.toLocaleString('fr-FR')+' FCFA');
+      promoName = '-'+(promos[code]*100)+'% ('+code+')';
     }
+    document.getElementById('promoApplied').style.display = 'flex';
+    document.getElementById('promoText').innerHTML = '<b>'+promoName+'</b> · Économie : '+discount.toLocaleString('fr-FR')+' FCFA';
+    document.getElementById('promoCode').value = '';
+    if(navigator.vibrate) navigator.vibrate([50,30,50]);
     updateTotals();
   } else {
-    alert('❌ Code promo invalide');
+    alert('❌ Code promo invalide\n\nEssayez : RAMADAN30 · NOUVEAU10 · SOLDES2026 · LIVRAISON0 · TABASKI25');
   }
+}
+
+function removePromo(){
+  discount = 0;
+  promoName = '';
+  document.getElementById('promoApplied').style.display = 'none';
+  updateTotals();
 }
 
 function renderSuggestions(){
   const sugs = [
-    {id:100,name:'Coussin décoratif',price:7500,img:'https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=200'},
+    {id:100,name:'Coussin décoratif wax',price:7500,img:'https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=200'},
     {id:101,name:'Chapeau traditionnel',price:6500,img:'https://images.unsplash.com/photo-1521369909029-2afed882baee?w=200'},
-    {id:102,name:'Ceinture en cuir',price:9000,img:'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=200'},
-    {id:103,name:'Panier tressé',price:10000,img:'https://images.unsplash.com/photo-1622470953794-aa9c70b0fb9d?w=200'},
+    {id:102,name:'Ceinture en cuir Peul',price:9000,img:'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=200'},
+    {id:103,name:'Panier tressé senegalais',price:10000,img:'https://images.unsplash.com/photo-1622470953794-aa9c70b0fb9d?w=200'},
+    {id:104,name:'Bracelet artisanal',price:5500,img:'https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=200'},
+    {id:105,name:'Éventail wax',price:3500,img:'https://images.unsplash.com/photo-1544441893-675973e31985?w=200'},
   ];
   document.getElementById('sugScroll').innerHTML = sugs.map(s=>`
-    <div class="sug-item" onclick="location.href='produit.html?id=${s.id}'">
-      <img src="${s.img}">
-      <div class="sug-name">${s.name}</div>
+    <div class="sug-item">
+      <img src="${s.img}" onclick="location.href='produit.html?id=${s.id}'">
+      <div class="sug-name" onclick="location.href='produit.html?id=${s.id}'">${s.name}</div>
       <div class="sug-price">${s.price.toLocaleString('fr-FR')} FCFA</div>
+      <button class="sug-add" onclick="quickAdd(${s.id},'${s.name}',${s.price},'${s.img}')">+ Ajouter</button>
     </div>
   `).join('');
 }
 
+function quickAdd(id,name,price,img){
+  cart.push({id,name,price,img,qty:1,seller:'SEN TEW',color:'-',size:'-'});
+  localStorage.setItem('cart',JSON.stringify(cart));
+  if(navigator.vibrate) navigator.vibrate([30,20,30]);
+  render();
+}
+
 function checkout(){
-  if(cart.length === 0){ alert('Panier vide'); return; }
-  const total = cart.reduce((s,i)=>s + i.price*i.qty, 0) + (cart.reduce((s,i)=>s + i.price*i.qty, 0) > 50000 ? 0 : 2500) - discount;
+  if(cart.length === 0){alert('Panier vide');return;}
+  const sub = cart.reduce((s,i)=>s + i.price*i.qty, 0);
+  const delivery = sub > 50000 ? 0 : 2500;
+  const total = sub + delivery - discount;
   if(navigator.vibrate) navigator.vibrate([50,30,50]);
-  sessionStorage.setItem('checkout_total', total);
+  sessionStorage.setItem('checkout_total',total);
+  sessionStorage.setItem('checkout_items',JSON.stringify(cart));
   location.href = 'paiement.html?total='+total;
 }
 
-// Applique le style pays
 document.documentElement.setAttribute('data-country', localStorage.getItem('sen_country')||'SN');
-
 render();
 </script>
 </body>
