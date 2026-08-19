@@ -1,32 +1,36 @@
-// ===== SEN TEW DARK MODE - Global =====
+// ===== DARK MODE AUTO SEN TEW v3 =====
 (function(){
-  const saved = localStorage.getItem('sentew_theme');
-  if(saved) document.documentElement.setAttribute('data-theme', saved);
-  
-  window.toggleTheme = function(){
-    const cur = document.documentElement.getAttribute('data-theme');
-    const next = cur === 'dark' ? 'light' : 'dark';
+
+  // Récupère la préférence utilisateur, sinon dark par défaut
+  const savedTheme = localStorage.getItem('sen_theme');
+  const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const theme = savedTheme || 'dark'; // ← DARK PAR DÉFAUT
+
+  // Applique immédiatement
+  document.documentElement.setAttribute('data-theme', theme);
+
+  // Applique aussi le pays si défini
+  const country = localStorage.getItem('sen_country') || 'SN';
+  document.documentElement.setAttribute('data-country', country);
+
+  // Fonction toggle (utilisée par le bouton ☀️/🌙 dans les paramètres)
+  window.toggleDarkMode = function(){
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    const next = current === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('sentew_theme', next);
-    
-    // Update icon
-    document.querySelectorAll('.theme-toggle').forEach(btn => {
-      btn.textContent = next === 'dark' ? '☀️' : '🌙';
-    });
+    localStorage.setItem('sen_theme', next);
+    if(navigator.vibrate) navigator.vibrate(30);
   };
-  
-  // Auto-inject toggle button in headers
-  document.addEventListener('DOMContentLoaded', () => {
-    const headers = document.querySelectorAll('.header, header.header');
-    headers.forEach(h => {
-      if(h.querySelector('.theme-toggle')) return;
-      const cur = document.documentElement.getAttribute('data-theme') || 'light';
-      const btn = document.createElement('button');
-      btn.className = 'theme-toggle';
-      btn.textContent = cur === 'dark' ? '☀️' : '🌙';
-      btn.onclick = window.toggleTheme;
-      btn.title = 'Mode sombre / clair';
-      h.appendChild(btn);
+
+  // Écoute les changements système
+  if(window.matchMedia){
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if(!localStorage.getItem('sen_theme')){
+        document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+      }
     });
-  });
+  }
+
+  // Debug console
+  console.log('🌙 Dark mode auto-appliqué :', theme);
 })();
