@@ -498,5 +498,58 @@ console.log('✅ SEN TEW chargé:', PRODUCTS.length, 'produits');
   });
 })();
 </script>
+  <script>
+// ===== FIX DÉFINITIF — Forcer TOUS les clics vers produit.html =====
+(function(){
+  function fixLinks(){
+    // Corriger tous les liens qui vont vers ajouter-produit par erreur
+    document.querySelectorAll('a[href*="ajouter-produit"]').forEach(link => {
+      const parent = link.closest('.pcard, .grid > *, .h-scroll > *, [class*="card"]');
+      if(parent){
+        // Extraire l'ID produit
+        let pid = link.getAttribute('data-id') || parent.getAttribute('data-id');
+        if(!pid){
+          // Chercher via le nom du produit
+          const nameEl = parent.querySelector('.pcard-name, [class*="name"]');
+          if(nameEl && typeof PRODUCTS !== 'undefined'){
+            const found = PRODUCTS.find(p => p.name === nameEl.textContent.trim());
+            if(found) pid = found.id;
+          }
+        }
+        if(!pid) pid = 1;
+        link.href = 'produit.html?id=' + pid;
+        link.setAttribute('data-fixed','1');
+      }
+    });
+
+    // Intercepter aussi les onclick qui pointent vers ajouter-produit
+    document.querySelectorAll('[onclick*="ajouter-produit"]').forEach(el => {
+      const parent = el.closest('.pcard, .grid > *, .h-scroll > *');
+      if(parent){
+        let pid = 1;
+        const nameEl = parent.querySelector('[class*="name"]');
+        if(nameEl && typeof PRODUCTS !== 'undefined'){
+          const found = PRODUCTS.find(p => p.name === nameEl.textContent.trim());
+          if(found) pid = found.id;
+        }
+        el.removeAttribute('onclick');
+        el.addEventListener('click', ()=> location.href = 'produit.html?id=' + pid);
+      }
+    });
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', fixLinks);
+  } else {
+    fixLinks();
+  }
+  setTimeout(fixLinks, 500);
+  setTimeout(fixLinks, 1500);
+  setTimeout(fixLinks, 3000);
+
+  new MutationObserver(fixLinks).observe(document.body, {childList:true, subtree:true});
+})();
+</script>
+</body>
 </body>
 </html>
