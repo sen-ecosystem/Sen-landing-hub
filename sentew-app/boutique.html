@@ -1,440 +1,276 @@
 <!DOCTYPE html>
-<html lang="fr"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Boutique - SEN TEW</title>
+<link rel="stylesheet" href="css/styles-pays.css">
 <style>
-:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a}
-*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif}
-body{background:#f5f5f5;color:#222;padding-bottom:100px;-webkit-overflow-scrolling:touch}
+:root{--v:#0f6b4e;--vd:#0a4d38;--or:#d4a574;--or-clair:#f0c99a;--noir:#0a1f17;--card:#1a2e24;--text:#f5f5f0;--muted:#9ca3af;--border:#2a3e34;--rouge:#ef4444;--menthe:#00c060}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;font-family:-apple-system,'Segoe UI',sans-serif}
+body{background:var(--noir);color:var(--text);padding-bottom:80px;max-width:600px;margin:0 auto}
+.top-nav{position:fixed;top:0;left:0;right:0;max-width:600px;margin:0 auto;padding:10px 14px;display:flex;gap:10px;z-index:100;background:linear-gradient(180deg,rgba(0,0,0,.6),transparent)}
+.top-btn{width:38px;height:38px;background:rgba(26,46,36,.9);border:none;border-radius:50%;font-size:16px;color:var(--text);cursor:pointer;backdrop-filter:blur(10px)}
+.top-spacer{flex:1}
+.hero{background:linear-gradient(135deg,var(--v),var(--vd));padding:60px 16px 20px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(212,165,116,.3),transparent);border-radius:50%}
+.hero-content{display:flex;gap:14px;position:relative;z-index:1;align-items:center}
+.shop-avatar{width:80px;height:80px;border-radius:50%;background:var(--noir);color:var(--or);display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;border:3px solid var(--or);box-shadow:0 4px 12px rgba(0,0,0,.4)}
+.shop-info{flex:1}
+.shop-name{font-size:20px;font-weight:800;color:#fff;display:flex;align-items:center;gap:6px}
+.shop-tick{background:#1da1f2;color:#fff;width:20px;height:20px;border-radius:50%;font-size:11px;display:inline-flex;align-items:center;justify-content:center}
+.shop-badge{display:inline-block;background:var(--or);color:#111;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:800;margin-top:4px}
+.shop-loc{color:#fff;opacity:.9;font-size:12px;margin-top:6px}
+.shop-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 14px;padding:12px;background:var(--card);border-radius:12px;border:1px solid var(--border)}
+.st{text-align:center}
+.st-n{font-size:16px;font-weight:900;color:var(--or)}
+.st-l{font-size:9px;color:var(--muted);margin-top:2px}
+.shop-actions{display:flex;gap:8px;margin:8px 14px}
+.sa-follow{flex:1;background:linear-gradient(135deg,var(--v),var(--vd));color:#fff;border:none;padding:10px;border-radius:10px;font-weight:800;cursor:pointer;font-size:13px}
+.sa-chat{flex:1;background:var(--card);border:1px solid var(--or);color:var(--or);padding:10px;border-radius:10px;font-weight:800;cursor:pointer;font-size:13px}
+.sa-share{background:var(--card);border:1px solid var(--border);color:var(--or);width:44px;padding:10px;border-radius:10px;cursor:pointer;font-size:14px}
+.tabs{display:flex;background:var(--card);margin:8px 14px 0;border-radius:12px;padding:4px;border:1px solid var(--border)}
+.tab{flex:1;padding:10px;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;border-radius:8px}
+.tab.on{background:linear-gradient(135deg,var(--v),var(--vd));color:#fff}
+.section{background:var(--card);margin:8px 14px;padding:14px;border-radius:12px;border:1px solid var(--border)}
+.sec-title{font-size:13px;font-weight:800;color:var(--or);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.sec-title .link{margin-left:auto;color:var(--menthe);font-size:11px;cursor:pointer}
+.filter-row{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.f-chip{padding:6px 12px;background:var(--noir);border:1px solid var(--border);border-radius:16px;font-size:11px;font-weight:700;color:var(--text);cursor:pointer;white-space:nowrap}
+.f-chip.on{background:var(--or);color:#111;border-color:var(--or)}
+.products-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.p-card{background:var(--noir);border-radius:12px;overflow:hidden;cursor:pointer;border:1px solid var(--border);position:relative}
+.p-card img{width:100%;aspect-ratio:1;object-fit:cover;background:var(--card)}
+.p-badge{position:absolute;top:6px;left:6px;background:var(--rouge);color:#fff;padding:2px 6px;border-radius:6px;font-size:9px;font-weight:800}
+.p-info{padding:8px}
+.p-name{font-size:12px;color:var(--text);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.p-price{color:var(--or);font-weight:900;font-size:13px;margin-top:2px}
+.p-old{color:var(--muted);text-decoration:line-through;font-size:10px;margin-left:4px}
+.p-stars{color:var(--or);font-size:10px;margin-top:2px}
+.promo-card{background:linear-gradient(135deg,rgba(212,165,116,.15),rgba(15,107,78,.1));border:1px solid var(--or);border-radius:12px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:12px}
+.promo-ic{font-size:28px}
+.promo-body{flex:1}
+.promo-t{font-size:14px;font-weight:800;color:var(--or)}
+.promo-d{font-size:11px;color:var(--muted);margin-top:2px}
+.promo-code{background:var(--noir);border:1px dashed var(--or);color:var(--or);padding:6px 10px;border-radius:6px;font-family:monospace;font-weight:800;font-size:12px;cursor:pointer}
+.review{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.review:last-child{border:none}
+.rv-av{width:36px;height:36px;border-radius:50%;background:var(--v);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+.rv-body{flex:1}
+.rv-name{font-size:12px;font-weight:700}
+.rv-stars{color:var(--or);font-size:11px;margin-top:2px}
+.rv-txt{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.5}
+.rv-date{font-size:10px;color:var(--muted);margin-top:4px}
+.tracking-card{background:var(--noir);border-radius:10px;padding:12px;margin-bottom:8px;border:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.tc-ic{font-size:22px}
+.tc-body{flex:1}
+.tc-t{font-size:12px;font-weight:700;color:var(--text)}
+.tc-d{font-size:10px;color:var(--muted);margin-top:2px}
+.info-privacy{background:rgba(0,192,96,.05);border:1px solid var(--menthe);border-radius:10px;padding:10px;margin:8px 14px;font-size:11px;color:var(--menthe);line-height:1.5;text-align:center}
+</style>
+</head>
+<body>
 
-/* HERO BOUTIQUE - PUBLIQUE */
-.shop-hero{background:linear-gradient(135deg,var(--v) 0%,#008a44 60%,#005f2f 100%);color:#fff;padding:16px 16px 20px;position:relative;overflow:hidden}
-.shop-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:rgba(252,209,22,.15);border-radius:50%;filter:blur(30px)}
-.hero-top{display:flex;align-items:center;gap:10px;position:relative;z-index:1;margin-bottom:16px}
-.back{background:rgba(255,255,255,.25);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer}
-.hero-top .actions{margin-left:auto;display:flex;gap:8px}
-.hero-btn{background:rgba(255,255,255,.2);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:16px;cursor:pointer}
+<div class="top-nav">
+  <button class="top-btn" onclick="history.back()">←</button>
+  <div class="top-spacer"></div>
+  <button class="top-btn" onclick="share()">🔗</button>
+  <button class="top-btn" onclick="location.href='recherche.html'">🔍</button>
+</div>
 
-.shop-header{display:flex;gap:14px;align-items:center;position:relative;z-index:1}
-.shop-avatar{width:80px;height:80px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:38px;border:3px solid var(--j);flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,.15)}
-.shop-details{flex:1;color:#fff}
-.shop-name{font-size:20px;font-weight:800;color:#fff;display:flex;align-items:center;gap:6px;line-height:1.2}
-.tick-verified{background:#1da1f2;color:#fff;width:20px;height:20px;border-radius:50%;font-size:11px;display:inline-flex;align-items:center;justify-content:center;font-weight:700}
-.badge-level{background:linear-gradient(135deg,var(--j),#f4b800);color:#222;padding:2px 8px;border-radius:8px;font-size:10px;font-weight:800;margin-left:4px}
-.shop-desc{font-size:12px;opacity:.9;color:#fff;margin-top:4px}
-.shop-meta{font-size:12px;color:#fff;margin-top:6px;display:flex;flex-wrap:wrap;gap:10px}
-.shop-meta span{opacity:.95}
-
-.follow-row{display:flex;gap:8px;margin-top:14px;position:relative;z-index:1}
-.follow-main{flex:1;background:var(--j);color:#222;border:none;padding:12px;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer;box-shadow:0 4px 12px rgba(252,209,22,.35)}
-.follow-main.following{background:#fff;color:var(--v)}
-.chat-btn{background:#fff;color:var(--v);border:none;padding:12px 16px;border-radius:12px;font-weight:700;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:6px}
-
-/* STATS PUBLIQUES (aucune donnée privée) */
-.stats-strip{background:#fff;display:grid;grid-template-columns:repeat(4,1fr);gap:2px;border-bottom:1px solid #eee}
-.stat-cell{text-align:center;padding:14px 6px}
-.stat-cell b{display:block;font-size:16px;color:var(--v);font-weight:800}
-.stat-cell span{font-size:10px;color:#666;text-transform:uppercase;letter-spacing:.3px;margin-top:2px;display:block}
-
-/* ONGLETS PUBLICS (4 max) */
-.shop-tabs{background:#fff;display:flex;border-bottom:1px solid #eee;position:sticky;top:0;z-index:80;box-shadow:0 2px 6px rgba(0,0,0,.04)}
-.shop-tab{flex:1;padding:14px 6px;text-align:center;font-size:13px;font-weight:700;color:#666;background:none;border:none;cursor:pointer;position:relative}
-.shop-tab.active{color:var(--v)}
-.shop-tab.active::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:3px;background:var(--v);border-radius:3px 3px 0 0}
-
-/* CONTENU */
-.section{padding:14px}
-.section-title{font-size:13px;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
-
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.prod-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06);cursor:pointer;transition:.2s}
-.prod-card:active{transform:scale(.98)}
-.prod-img{width:100%;height:140px;object-fit:cover;background:#eee}
-.prod-body{padding:8px 10px 10px}
-.prod-body h4{font-size:13px;font-weight:600;color:#222;line-height:1.3;height:34px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.prod-price{color:var(--o);font-weight:800;font-size:15px;margin-top:6px}
-.prod-old{color:#999;text-decoration:line-through;font-size:11px;margin-left:4px;font-weight:400}
-.prod-tags{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap}
-.tag-badge{padding:2px 6px;border-radius:6px;font-size:9px;font-weight:700}
-.tag-live{background:var(--r);color:#fff}
-.tag-local{background:var(--v);color:#fff}
-.tag-promo{background:linear-gradient(135deg,var(--j),#f4b800);color:#222}
-
-/* AVIS */
-.rating-overview{background:linear-gradient(135deg,#fff9e6,#fff);padding:16px;border-radius:14px;text-align:center;margin-bottom:12px;border:1px solid #f0e6c0}
-.rating-big{font-size:44px;font-weight:900;color:var(--o);line-height:1}
-.rating-stars{color:var(--j);font-size:22px;margin:6px 0}
-.rating-count{font-size:13px;color:#666}
-.rating-bars{margin-top:14px;padding-top:12px;border-top:1px solid #eee}
-.rating-line{display:flex;align-items:center;gap:8px;margin-bottom:4px;font-size:12px}
-.rating-line .stars{width:50px;color:var(--j)}
-.rating-line .bar{flex:1;height:6px;background:#eee;border-radius:3px;overflow:hidden}
-.rating-line .fill{height:100%;background:var(--j)}
-.rating-line .pct{width:40px;text-align:right;color:#666}
-
-.review-card{background:#fff;padding:12px;border-radius:12px;margin-bottom:8px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.review-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.reviewer-info{display:flex;align-items:center;gap:8px}
-.reviewer-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--v),#008a44);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
-.reviewer-name{font-weight:700;font-size:13px;color:#222}
-.reviewer-date{font-size:11px;color:#888}
-.review-stars{color:var(--j);font-size:14px}
-.review-text{font-size:13px;color:#333;line-height:1.5;margin-top:4px}
-.review-product{font-size:11px;color:var(--v);margin-top:6px;font-weight:600}
-
-/* PROMOS */
-.promo-item{background:linear-gradient(90deg,#ffebee,#fff);border-left:4px solid var(--r);padding:14px;border-radius:12px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:12px}
-.promo-info{flex:1}
-.promo-code{color:var(--r);font-weight:800;font-size:16px;letter-spacing:.5px}
-.promo-desc{color:#555;font-size:12px;margin:2px 0}
-.promo-valid{color:var(--o);font-size:11px;font-weight:600}
-.promo-reduc-box{text-align:right}
-.promo-reduc-big{color:var(--r);font-weight:900;font-size:22px}
-.promo-use-btn{background:var(--r);color:#fff;border:none;padding:6px 14px;border-radius:14px;font-size:11px;font-weight:700;cursor:pointer;margin-top:4px}
-
-/* INFO PUBLIQUE (aucune donnée perso) */
-.info-card{background:#fff;padding:12px 14px;border-radius:10px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.info-card b{color:#666;font-size:13px;font-weight:600}
-.info-card span{color:#222;font-weight:700;font-size:13px}
-.info-card.highlight{background:linear-gradient(90deg,#e8f5ee,#fff);border-left:3px solid var(--v)}
-.info-card.highlight span{color:var(--v)}
-
-.trust-badges{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}
-.trust-badge{background:#fff;padding:10px;border-radius:10px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.trust-icon{font-size:24px;margin-bottom:4px;display:block}
-.trust-badge h5{font-size:12px;font-weight:700;color:#222}
-.trust-badge p{font-size:10px;color:#666;margin-top:2px}
-
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;padding:8px 0;padding-bottom:calc(8px + env(safe-area-inset-bottom,0));z-index:90}
-.nav-item{flex:1;text-align:center;color:#666;font-size:10px;background:none;border:none;cursor:pointer;font-family:inherit}
-.nav-item.active{color:var(--v);font-weight:700}
-.nav-icon{font-size:22px;display:block;margin-bottom:2px}
-
-/* DARK MODE */
-html[data-theme="dark"] body{background:#0f1419;color:#e8eaed}
-html[data-theme="dark"] .stats-strip,html[data-theme="dark"] .shop-tabs,html[data-theme="dark"] .prod-card,
-html[data-theme="dark"] .review-card,html[data-theme="dark"] .info-card,html[data-theme="dark"] .trust-badge,
-html[data-theme="dark"] .rating-overview,html[data-theme="dark"] .bottom-nav{background:#1a2028;color:#e8eaed}
-html[data-theme="dark"] .prod-body h4,html[data-theme="dark"] .reviewer-name,html[data-theme="dark"] .info-card span{color:#e8eaed}
-</style></head><body>
-
-<div class="shop-hero">
-  <div class="hero-top">
-    <button class="back" onclick="history.back()">←</button>
-    <div class="actions">
-      <button class="hero-btn" onclick="share()">↗</button>
-      <button class="hero-btn" onclick="report()">⚠️</button>
+<div class="hero">
+  <div class="hero-content">
+    <div class="shop-avatar" id="shopAv">A</div>
+    <div class="shop-info">
+      <div class="shop-name"><span id="shopName">Aïcha Couture</span><span class="shop-tick">✓</span></div>
+      <div class="shop-badge">⭐ VÉRIFIÉ GOLD</div>
+      <div class="shop-loc">📍 Dakar, Sénégal 🇸🇳 · Ouvert depuis 2022</div>
     </div>
   </div>
-  <div class="shop-header">
-    <div class="shop-avatar" id="avatar">🛍️</div>
-    <div class="shop-details">
-      <div class="shop-name" id="shopName">— <span class="tick-verified">✓</span><span class="badge-level" id="lvl">SILVER</span></div>
-      <div class="shop-desc" id="shopDesc">—</div>
-      <div class="shop-meta">
-        <span>⭐ <b id="rating">4.9</b></span>
-        <span>👥 <b id="followers">856</b> abonnés</span>
-        <span>📅 Actif depuis <b id="since">2024</b></span>
+</div>
+
+<div class="shop-stats">
+  <div class="st"><div class="st-n">4.9★</div><div class="st-l">Note</div></div>
+  <div class="st"><div class="st-n">856</div><div class="st-l">Abonnés</div></div>
+  <div class="st"><div class="st-n">1.2k</div><div class="st-l">Ventes</div></div>
+  <div class="st"><div class="st-n">85</div><div class="st-l">Produits</div></div>
+</div>
+
+<div class="shop-actions">
+  <button class="sa-follow" onclick="follow()">+ Suivre</button>
+  <button class="sa-chat" onclick="location.href='chat.html?seller='+sellerId">💬 Message</button>
+  <button class="sa-share" onclick="share()">🔗</button>
+</div>
+
+<div class="info-privacy">
+  🔒 Boutique publique · Les infos personnelles du vendeur restent privées (comme Alibaba)
+</div>
+
+<div class="tabs">
+  <div class="tab on" onclick="switchTab('products')">🛍️ Produits</div>
+  <div class="tab" onclick="switchTab('promos')">🎁 Promos</div>
+  <div class="tab" onclick="switchTab('reviews')">💬 Avis</div>
+  <div class="tab" onclick="switchTab('tracking')">📦 Suivi</div>
+</div>
+
+<div id="tabProducts">
+  <div class="section">
+    <div class="sec-title">🛍️ Tous les produits <span class="link">Trier ↕</span></div>
+    <div class="filter-row">
+      <span class="f-chip on">Tous (85)</span>
+      <span class="f-chip">Nouveautés</span>
+      <span class="f-chip">Promos</span>
+      <span class="f-chip">Best-sellers</span>
+      <span class="f-chip">Mode</span>
+      <span class="f-chip">Accessoires</span>
+    </div>
+    <div style="margin-top:12px" class="products-grid" id="productsList"></div>
+  </div>
+</div>
+
+<div id="tabPromos" style="display:none">
+  <div class="section">
+    <div class="sec-title">🎁 Promotions actives</div>
+    <div class="promo-card">
+      <div class="promo-ic">🔥</div>
+      <div class="promo-body">
+        <div class="promo-t">-30% sur toute la collection Wax</div>
+        <div class="promo-d">Jusqu'au 25 août 2026</div>
+      </div>
+      <div class="promo-code" onclick="copyCode('WAX30')">WAX30</div>
+    </div>
+    <div class="promo-card">
+      <div class="promo-ic">🎉</div>
+      <div class="promo-body">
+        <div class="promo-t">Livraison gratuite dès 30 000 FCFA</div>
+        <div class="promo-d">Cumulable avec toutes promos</div>
+      </div>
+      <div class="promo-code" onclick="copyCode('LIVAICHA')">LIVAICHA</div>
+    </div>
+    <div class="promo-card">
+      <div class="promo-ic">👑</div>
+      <div class="promo-body">
+        <div class="promo-t">Bundle : 2 achetés = 1 offert</div>
+        <div class="promo-d">Sur les accessoires sélectionnés</div>
+      </div>
+      <div class="promo-code" onclick="copyCode('BUNDLE3')">BUNDLE3</div>
+    </div>
+  </div>
+</div>
+
+<div id="tabReviews" style="display:none">
+  <div class="section">
+    <div class="sec-title">💬 Avis clients (234)</div>
+    <div style="display:flex;align-items:center;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--border);margin-bottom:8px">
+      <div style="font-size:36px;font-weight:900;color:var(--or)">4.9</div>
+      <div style="flex:1">
+        <div style="color:var(--or);font-size:16px">★★★★★</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px">Basé sur 234 avis vérifiés</div>
+      </div>
+    </div>
+    <div class="review"><div class="rv-av">A</div><div class="rv-body"><div class="rv-name">Aminata D. ✓ Achat vérifié</div><div class="rv-stars">★★★★★</div><div class="rv-txt">Vendeur professionnel, colis emballé avec soin. Robe conforme, tissu de qualité premium.</div><div class="rv-date">Il y a 2 jours · Robe Wax Premium</div></div></div>
+    <div class="review"><div class="rv-av">I</div><div class="rv-body"><div class="rv-name">Ibrahima S. ✓ Achat vérifié</div><div class="rv-stars">★★★★★</div><div class="rv-txt">Communication au top, livraison rapide en 24h. Je recommande vivement !</div><div class="rv-date">Il y a 5 jours · Sac cuir africain</div></div></div>
+    <div class="review"><div class="rv-av">F</div><div class="rv-body"><div class="rv-name">Fatou N. ✓ Achat vérifié</div><div class="rv-stars">★★★★☆</div><div class="rv-txt">Très belle robe, taille conforme. Un léger retard mais rien de grave.</div><div class="rv-date">Il y a 1 semaine · Boubou wax</div></div></div>
+  </div>
+</div>
+
+<div id="tabTracking" style="display:none">
+  <div class="section">
+    <div class="sec-title">📦 Informations de suivi</div>
+    <div class="tracking-card">
+      <div class="tc-ic">🚚</div>
+      <div class="tc-body">
+        <div class="tc-t">Livraison Dakar 24h</div>
+        <div class="tc-d">Gratuite dès 30 000 FCFA · Yobante Express</div>
+      </div>
+    </div>
+    <div class="tracking-card">
+      <div class="tc-ic">🌍</div>
+      <div class="tc-body">
+        <div class="tc-t">Livraison régions 2-5 jours</div>
+        <div class="tc-d">3 000 FCFA · Poste Sénégal</div>
+      </div>
+    </div>
+    <div class="tracking-card">
+      <div class="tc-ic">✈️</div>
+      <div class="tc-body">
+        <div class="tc-t">Livraison internationale 7-15 jours</div>
+        <div class="tc-d">15 000 FCFA · DHL Express</div>
+      </div>
+    </div>
+    <div class="tracking-card">
+      <div class="tc-ic">↩️</div>
+      <div class="tc-body">
+        <div class="tc-t">Retour 14 jours acceptés</div>
+        <div class="tc-d">Escrow SEN TEW · Remboursement garanti</div>
+      </div>
+    </div>
+    <div class="tracking-card">
+      <div class="tc-ic">💳</div>
+      <div class="tc-body">
+        <div class="tc-t">Paiements acceptés</div>
+        <div class="tc-d">Wave · OM · Free · Wizall · CB · 2×/3× sans frais</div>
       </div>
     </div>
   </div>
-  <div class="follow-row">
-    <button class="follow-main" id="followBtn" onclick="toggleFollow()">+ SUIVRE LA BOUTIQUE</button>
-    <button class="chat-btn" onclick="chatShop()">💬 Chat</button>
-  </div>
 </div>
-
-<div class="stats-strip">
-  <div class="stat-cell"><b id="s1">85</b><span>Produits</span></div>
-  <div class="stat-cell"><b id="s2">1.2k</b><span>Ventes</span></div>
-  <div class="stat-cell"><b id="s3">98%</b><span>Satisfait</span></div>
-  <div class="stat-cell"><b id="s4">24h</b><span>Expédition</span></div>
-</div>
-
-<div class="shop-tabs">
-  <button class="shop-tab active" onclick="showTab('products',this)">🛍️ Produits</button>
-  <button class="shop-tab" onclick="showTab('promo',this)">🔥 Promos</button>
-  <button class="shop-tab" onclick="showTab('avis',this)">⭐ Avis</button>
-  <button class="shop-tab" onclick="showTab('info',this)">ℹ️ Info</button>
-</div>
-
-<!-- PRODUITS -->
-<div class="section" id="products">
-  <div class="section-title">
-    <span>🛍️ Tous les produits</span>
-    <span style="color:var(--v)"><span id="prodCount">4</span> articles</span>
-  </div>
-  <div class="grid" id="productGrid"></div>
-</div>
-
-<!-- PROMOS -->
-<div class="section" id="promo" style="display:none">
-  <div class="section-title">🔥 Promotions actives</div>
-  <div class="promo-item">
-    <div class="promo-info">
-      <div class="promo-code">AICHA15</div>
-      <div class="promo-desc">-15% sur toute la boutique</div>
-      <div class="promo-valid">📅 Valable jusqu'au 30/09/2026</div>
-    </div>
-    <div class="promo-reduc-box">
-      <div class="promo-reduc-big">-15%</div>
-      <button class="promo-use-btn" onclick="useCode('AICHA15')">Utiliser</button>
-    </div>
-  </div>
-  <div class="promo-item" style="border-left-color:var(--o);background:linear-gradient(90deg,#fff9e6,#fff)">
-    <div class="promo-info">
-      <div class="promo-code" style="color:var(--o)">BOUBOU20</div>
-      <div class="promo-desc">-20% sur les boubous traditionnels</div>
-      <div class="promo-valid">📅 Valable jusqu'au 15/08/2026</div>
-    </div>
-    <div class="promo-reduc-box">
-      <div class="promo-reduc-big" style="color:var(--o)">-20%</div>
-      <button class="promo-use-btn" style="background:var(--o)" onclick="useCode('BOUBOU20')">Utiliser</button>
-    </div>
-  </div>
-  <div class="promo-item" style="border-left-color:var(--v);background:linear-gradient(90deg,#e8f5ee,#fff)">
-    <div class="promo-info">
-      <div class="promo-code" style="color:var(--v)">LIVRAISON0</div>
-      <div class="promo-desc">Livraison gratuite dès 15 000 FCFA</div>
-      <div class="promo-valid">♾️ Valable illimité</div>
-    </div>
-    <div class="promo-reduc-box">
-      <div class="promo-reduc-big" style="color:var(--v);font-size:16px">GRATUIT</div>
-      <button class="promo-use-btn" style="background:var(--v)" onclick="useCode('LIVRAISON0')">Utiliser</button>
-    </div>
-  </div>
-</div>
-
-<!-- AVIS -->
-<div class="section" id="avis" style="display:none">
-  <div class="rating-overview">
-    <div class="rating-big" id="ratingBig">4.9</div>
-    <div class="rating-stars">★★★★★</div>
-    <div class="rating-count"><span id="reviewCount">1234</span> avis vérifiés</div>
-    <div class="rating-bars">
-      <div class="rating-line"><span class="stars">★★★★★</span><div class="bar"><div class="fill" style="width:85%"></div></div><span class="pct">85%</span></div>
-      <div class="rating-line"><span class="stars">★★★★☆</span><div class="bar"><div class="fill" style="width:10%"></div></div><span class="pct">10%</span></div>
-      <div class="rating-line"><span class="stars">★★★☆☆</span><div class="bar"><div class="fill" style="width:3%"></div></div><span class="pct">3%</span></div>
-      <div class="rating-line"><span class="stars">★★☆☆☆</span><div class="bar"><div class="fill" style="width:1%"></div></div><span class="pct">1%</span></div>
-      <div class="rating-line"><span class="stars">★☆☆☆☆</span><div class="bar"><div class="fill" style="width:1%"></div></div><span class="pct">1%</span></div>
-    </div>
-  </div>
-  <div class="review-card">
-    <div class="review-head">
-      <div class="reviewer-info">
-        <div class="reviewer-avatar">AD</div>
-        <div>
-          <div class="reviewer-name">Awa D.</div>
-          <div class="reviewer-date">Il y a 2 jours · Achat vérifié ✓</div>
-        </div>
-      </div>
-      <div class="review-stars">★★★★★</div>
-    </div>
-    <div class="review-text">« Super qualité, livraison rapide, je recommande à 100% ! La boubou est magnifique et le tissu de très bonne qualité. »</div>
-    <div class="review-product">📦 Boubou traditionnel brodé main</div>
-  </div>
-  <div class="review-card">
-    <div class="review-head">
-      <div class="reviewer-info">
-        <div class="reviewer-avatar" style="background:linear-gradient(135deg,#1976d2,#0d47a1)">IS</div>
-        <div>
-          <div class="reviewer-name">Ibrahima S.</div>
-          <div class="reviewer-date">Il y a 5 jours · Achat vérifié ✓</div>
-        </div>
-      </div>
-      <div class="review-stars">★★★★★</div>
-    </div>
-    <div class="review-text">« Vendeur très professionnel, produit conforme à la description. Emballage soigné. »</div>
-    <div class="review-product">📦 Sac cuir artisanal</div>
-  </div>
-  <div class="review-card">
-    <div class="review-head">
-      <div class="reviewer-info">
-        <div class="reviewer-avatar" style="background:linear-gradient(135deg,#e91e63,#9c27b0)">FM</div>
-        <div>
-          <div class="reviewer-name">Fatou M.</div>
-          <div class="reviewer-date">Il y a 1 semaine · Achat vérifié ✓</div>
-        </div>
-      </div>
-      <div class="review-stars">★★★★☆</div>
-    </div>
-    <div class="review-text">« Très joli produit, mais un peu petit. Je conseille de prendre une taille au-dessus. »</div>
-    <div class="review-product">📦 Robe wax colorée mariage</div>
-  </div>
-  <div class="review-card">
-    <div class="review-head">
-      <div class="reviewer-info">
-        <div class="reviewer-avatar" style="background:linear-gradient(135deg,#ff6b35,#e31b23)">MK</div>
-        <div>
-          <div class="reviewer-name">Moussa K.</div>
-          <div class="reviewer-date">Il y a 2 semaines · Achat vérifié ✓</div>
-        </div>
-      </div>
-      <div class="review-stars">★★★★★</div>
-    </div>
-    <div class="review-text">« Parfait, rien à dire ! Je recommande cette boutique à tous mes amis. »</div>
-    <div class="review-product">📦 Sandales cousues main</div>
-  </div>
-</div>
-
-<!-- INFO PUBLIQUE (aucune donnée perso vendeur) -->
-<div class="section" id="info" style="display:none">
-  <div class="info-card highlight"><b>✅ Boutique vérifiée</b><span>SEN Verified Silver</span></div>
-  <div class="info-card"><b>📅 Membre depuis</b><span id="i-since">Mars 2024</span></div>
-  <div class="info-card"><b>📍 Localisation</b><span id="i-loc">Dakar, Sénégal</span></div>
-  <div class="info-card"><b>🕐 Horaires</b><span>Lun-Sam · 8h-20h</span></div>
-  <div class="info-card"><b>🚚 Expédition</b><span>24h (Dakar) · 3-5j (régions)</span></div>
-  <div class="info-card"><b>🌍 Livraison</b><span>Sénégal · Afrique · International</span></div>
-  <div class="info-card"><b>💳 Paiements</b><span>Wave · OM · Free · CB · Cash</span></div>
-  <div class="info-card"><b>↩️ Retour</b><span>14 jours (droit de rétractation)</span></div>
-  <div class="info-card"><b>🔒 Garantie</b><span>2 ans (obligation légale)</span></div>
-  <div class="info-card"><b>📞 Contact</b><span>Via chat SEN TEW uniquement</span></div>
-
-  <div class="section-title" style="margin-top:20px">🛡️ Certifications & confiance</div>
-  <div class="trust-badges">
-    <div class="trust-badge">
-      <span class="trust-icon">🛡️</span>
-      <h5>Vendeur vérifié</h5>
-      <p>Identité contrôlée</p>
-    </div>
-    <div class="trust-badge">
-      <span class="trust-icon">✅</span>
-      <h5>Qualité garantie</h5>
-      <p>Note ≥ 4.5⭐</p>
-    </div>
-    <div class="trust-badge">
-      <span class="trust-icon">🚚</span>
-      <h5>Expédition rapide</h5>
-      <p>&lt; 48h ouvrées</p>
-    </div>
-    <div class="trust-badge">
-      <span class="trust-icon">💰</span>
-      <h5>Paiement sécurisé</h5>
-      <p>SEN TEW Escrow</p>
-    </div>
-  </div>
-
-  <div class="section-title" style="margin-top:20px">⚠️ Signaler</div>
-  <button style="width:100%;background:#fff;border:1px solid #eee;color:var(--r);padding:12px;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer" onclick="report()">
-    ⚠️ Signaler un problème avec cette boutique
-  </button>
-</div>
-
-<nav class="bottom-nav">
-  <button class="nav-item" onclick="location.href='index.html'"><span class="nav-icon">🏠</span>Accueil</button>
-  <button class="nav-item" onclick="location.href='categories.html'"><span class="nav-icon">🗂️</span>Catégories</button>
-  <button class="nav-item" onclick="location.href='panier.html'"><span class="nav-icon">🛒</span>Panier</button>
-  <button class="nav-item" onclick="location.href='favoris.html'"><span class="nav-icon">❤️</span>Favoris</button>
-  <button class="nav-item" onclick="location.href='profil.html'"><span class="nav-icon">👤</span>Compte</button>
-</nav>
 
 <script src="js/dark-mode.js"></script>
+<script src="js/role-guard.js"></script>
 <script>
-// ===== DONNÉES PUBLIQUES BOUTIQUE (aucune info perso vendeur) =====
-const SHOPS = {
-  '1':{name:'Aïcha Fashion',avatar:'👗',desc:'Mode & tendances africaines',rating:4.9,followers:856,level:'SILVER',since:'2024',city:'Dakar',stats:[85,1200,98,'24h'],reviewCount:1234},
-  '2':{name:'Tech Modou',avatar:'📱',desc:'Smartphones & accessoires premium',rating:4.7,followers:650,level:'GOLD',since:'2023',city:'Dakar',stats:[120,890,96,'24h'],reviewCount:723},
-  '3':{name:'Mamadou Foods',avatar:'🍲',desc:'Produits locaux frais & bio',rating:4.8,followers:890,level:'SILVER',since:'2024',city:'Thiès',stats:[65,1560,98,'48h'],reviewCount:945},
-  '4':{name:'Beauty Fatou',avatar:'💄',desc:'Cosmétiques & soins naturels',rating:4.9,followers:2100,level:'GOLD',since:'2023',city:'Dakar',stats:[95,3200,99,'24h'],reviewCount:1876}
+const SELLERS = {
+  1:{name:'Aïcha Couture',av:'A',loc:'Dakar, Sénégal',verified:'gold',since:2022,rating:4.9,followers:856,sales:1200,products:85},
+  2:{name:'Moussa Tech',av:'M',loc:'Dakar Plateau',verified:'gold',since:2021,rating:4.8,followers:1240,sales:2100,products:145},
+  3:{name:'Fatou Fashion',av:'F',loc:'Thiès',verified:'platinum',since:2020,rating:4.9,followers:2100,sales:3400,products:210},
+  4:{name:'Bio Sénégal',av:'B',loc:'Saint-Louis',verified:'silver',since:2023,rating:4.7,followers:456,sales:678,products:42},
+  5:{name:'Sport SN',av:'S',loc:'Dakar',verified:'gold',since:2022,rating:4.8,followers:892,sales:1560,products:96}
 };
 
-const PRODUCTS = [
-  {id:1,shop:'1',name:'Boubou traditionnel brodé main',price:25000,old:35000,img:'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=300',tags:['promo','local']},
-  {id:2,shop:'1',name:'Robe wax colorée mariage',price:18500,old:22000,img:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=300',tags:['live','promo']},
-  {id:3,shop:'1',name:'Sac cuir artisanal Peul',price:15000,img:'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=300',tags:['local']},
-  {id:4,shop:'1',name:'Sandales cousues main',price:8500,old:12000,img:'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=300',tags:['promo','local']},
-  {id:5,shop:'2',name:'iPhone 15 Pro Max 256Go',price:850000,img:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=300',tags:[]},
-  {id:6,shop:'2',name:'AirPods Pro 2ème gen',price:135000,old:180000,img:'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=300',tags:['promo','live']},
-  {id:7,shop:'3',name:'Riz local 25kg',price:18000,img:'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300',tags:['local']},
-  {id:8,shop:'3',name:'Huile de palme 5L',price:6500,old:8000,img:'https://images.unsplash.com/photo-1620705242131-3f4f1de5d90c?w=300',tags:['promo','local']},
-  {id:9,shop:'4',name:'Kit soin peau naturel',price:22000,img:'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=300',tags:['local']},
-  {id:10,shop:'4',name:'Rouge à lèvres mat',price:5500,old:7500,img:'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=300',tags:['promo']}
+const PRODUCTS_SHOP = [
+  {id:1,name:'Robe Wax mariage',price:35000,old:50000,img:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=300',promo:true,rating:'4.9★'},
+  {id:6,name:'Sac cuir africain',price:15000,old:22000,img:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=300',promo:true,rating:'4.8★'},
+  {id:4,name:'Boubou wax homme',price:18000,old:25000,img:'https://images.unsplash.com/photo-1544441893-675973e31985?w=300',promo:true,rating:'4.9★'},
+  {id:2,name:'Sandales Peul',price:8500,img:'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=300',rating:'4.7★'},
+  {id:20,name:'Bijoux dorés wax',price:8000,img:'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=300',rating:'4.8★'},
+  {id:21,name:'Éventail traditionnel',price:5500,img:'https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=300',rating:'4.9★'},
+  {id:22,name:'Coussin décoratif',price:7500,img:'https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=300',rating:'4.6★'},
+  {id:23,name:'Chapeau traditionnel',price:6500,img:'https://images.unsplash.com/photo-1521369909029-2afed882baee?w=300',rating:'4.7★'},
 ];
 
-const params = new URLSearchParams(location.search);
-const shopId = params.get('id') || '1';
-const activeTab = params.get('tab') || 'products';
-const shop = SHOPS[shopId] || SHOPS['1'];
+const sellerId = parseInt(new URLSearchParams(location.search).get('id')) || 1;
+const seller = SELLERS[sellerId] || SELLERS[1];
 
-document.getElementById('avatar').textContent = shop.avatar;
-document.getElementById('shopName').innerHTML = shop.name + ' <span class="tick-verified">✓</span><span class="badge-level">'+shop.level+'</span>';
-document.getElementById('shopDesc').textContent = shop.desc;
-document.getElementById('rating').textContent = shop.rating;
-document.getElementById('followers').textContent = shop.followers.toLocaleString();
-document.getElementById('since').textContent = shop.since;
-document.getElementById('s1').textContent = shop.stats[0];
-document.getElementById('s2').textContent = shop.stats[1].toLocaleString();
-document.getElementById('s3').textContent = shop.stats[2]+'%';
-document.getElementById('s4').textContent = shop.stats[3];
-document.getElementById('ratingBig').textContent = shop.rating;
-document.getElementById('reviewCount').textContent = shop.reviewCount.toLocaleString();
-document.getElementById('i-loc').textContent = shop.city + ', Sénégal';
-document.getElementById('i-since').textContent = 'Mars ' + shop.since;
+document.getElementById('shopName').textContent = seller.name;
+document.getElementById('shopAv').textContent = seller.av;
 
-// Produits de cette boutique uniquement
-const shopProducts = PRODUCTS.filter(p => p.shop === shopId);
-document.getElementById('prodCount').textContent = shopProducts.length;
-
-document.getElementById('productGrid').innerHTML = shopProducts.map(p => {
-  const tagHtml = (p.tags||[]).map(t => {
-    if(t==='live') return '<span class="tag-badge tag-live">🔴 LIVE</span>';
-    if(t==='local') return '<span class="tag-badge tag-local">📍 Local</span>';
-    if(t==='promo') return '<span class="tag-badge tag-promo">🔥 Promo</span>';
-    return '';
-  }).join('');
-  return `<div class="prod-card" onclick="location.href='produit.html?id=${p.id}'">
-    <img class="prod-img" src="${p.img}" alt="${p.name}" loading="lazy">
-    <div class="prod-body">
-      <h4>${p.name}</h4>
-      <div class="prod-price">${p.price.toLocaleString()} FCFA
-        ${p.old?`<span class="prod-old">${p.old.toLocaleString()}</span>`:''}
-      </div>
-      <div class="prod-tags">${tagHtml}</div>
+document.getElementById('productsList').innerHTML = PRODUCTS_SHOP.map(p=>{
+  const discount = p.old ? Math.round((1-p.price/p.old)*100) : 0;
+  return `<div class="p-card" onclick="location.href='produit.html?id=${p.id}'">
+    ${p.promo?`<span class="p-badge">-${discount}%</span>`:''}
+    <img src="${p.img}" alt="${p.name}">
+    <div class="p-info">
+      <div class="p-name">${p.name}</div>
+      <div class="p-price">${p.price.toLocaleString('fr-FR')} FCFA${p.old?`<span class="p-old">${p.old.toLocaleString('fr-FR')}</span>`:''}</div>
+      <div class="p-stars">${p.rating}</div>
     </div>
   </div>`;
 }).join('');
 
-function showTab(id, btn){
-  ['products','promo','avis','info'].forEach(t => document.getElementById(t).style.display = 'none');
-  document.getElementById(id).style.display = 'block';
-  document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  else {
-    const idx = ['products','promo','avis','info'].indexOf(id);
-    if(idx>=0) document.querySelectorAll('.shop-tab')[idx].classList.add('active');
-  }
-  window.scrollTo({top:0,behavior:'smooth'});
+function switchTab(t){
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  event.target.classList.add('on');
+  ['Products','Promos','Reviews','Tracking'].forEach(x=>{
+    document.getElementById('tab'+x).style.display = 'none';
+  });
+  document.getElementById('tab'+t.charAt(0).toUpperCase()+t.slice(1)).style.display = 'block';
 }
 
-// Ouvre l'onglet demandé via URL
-if(activeTab !== 'products') showTab(activeTab);
+function follow(){alert('✅ Vous suivez '+seller.name);}
+function share(){if(navigator.share){navigator.share({title:seller.name+' - SEN TEW',url:location.href});}else{navigator.clipboard.writeText(location.href);alert('🔗 Lien copié');}}
+function copyCode(c){navigator.clipboard.writeText(c);alert('✅ Code '+c+' copié !\n\nUtilisez-le au paiement pour la réduction.');}
 
-function toggleFollow(){
-  const btn = document.getElementById('followBtn');
-  if(btn.textContent.includes('+ SUIVRE')){
-    btn.textContent = '✓ ABONNÉ';
-    btn.classList.add('following');
-    alert('✅ Vous suivez ' + shop.name + '\n\nVous recevrez ses nouveautés et promos.');
-  } else {
-    btn.textContent = '+ SUIVRE LA BOUTIQUE';
-    btn.classList.remove('following');
-  }
-}
-function chatShop(){
-  location.href='messages.html?shop='+shopId;
-}
-function useCode(code){
-  navigator.clipboard.writeText(code);
-  alert('✅ Code "'+code+'" copié !\n\nAppliquez-le au panier pour bénéficier de la réduction.');
-}
-function share(){
-  if(navigator.share) navigator.share({title:shop.name+' - SEN TEW',url:location.href});
-  else{navigator.clipboard.writeText(location.href);alert('🔗 Lien de la boutique copié !')}
-}
-function report(){
-  if(confirm('⚠️ Signaler cette boutique à SEN TEW ?\n\n• Contrefaçon\n• Arnaque\n• Contenu inapproprié\n• Autre')){
-    alert('📩 Signalement enregistré.\n\nL\'équipe SEN TEW examinera sous 48h.');
-  }
-}
+document.documentElement.setAttribute('data-country', localStorage.getItem('sen_country')||'SN');
 </script>
-</body></html>
+</body>
+</html>
