@@ -498,19 +498,17 @@ console.log('✅ SEN TEW chargé:', PRODUCTS.length, 'produits');
   });
 })();
 </script>
-  <script>
-// ===== FIX DÉFINITIF — Forcer TOUS les clics vers produit.html =====
+<script>
+// ===== FIX DÉFINITIF v40 — Forcer TOUS les clics vers produit.html =====
 (function(){
   function fixLinks(){
-    // Corriger tous les liens qui vont vers ajouter-produit par erreur
-    document.querySelectorAll('a[href*="ajouter-produit"]').forEach(link => {
-      const parent = link.closest('.pcard, .grid > *, .h-scroll > *, [class*="card"]');
+    // 1. Corriger tous les <a href> mal placés
+    document.querySelectorAll('a[href*="ajouter-produit"]').forEach(link=>{
+      const parent = link.closest('.pcard, .top-seller, .live-item, .product-card');
       if(parent){
-        // Extraire l'ID produit
         let pid = link.getAttribute('data-id') || parent.getAttribute('data-id');
         if(!pid){
-          // Chercher via le nom du produit
-          const nameEl = parent.querySelector('.pcard-name, [class*="name"]');
+          const nameEl = parent.querySelector('.pcard-name, .top-name, .live-name');
           if(nameEl && typeof PRODUCTS !== 'undefined'){
             const found = PRODUCTS.find(p => p.name === nameEl.textContent.trim());
             if(found) pid = found.id;
@@ -522,19 +520,47 @@ console.log('✅ SEN TEW chargé:', PRODUCTS.length, 'produits');
       }
     });
 
-    // Intercepter aussi les onclick qui pointent vers ajouter-produit
-    document.querySelectorAll('[onclick*="ajouter-produit"]').forEach(el => {
-      const parent = el.closest('.pcard, .grid > *, .h-scroll > *');
+    // 2. Intercepter les onclick suspects
+    document.querySelectorAll('[onclick*="ajouter-produit"]').forEach(el=>{
+      const parent = el.closest('.pcard, .top-seller, .live-item, .product-card');
       if(parent){
         let pid = 1;
-        const nameEl = parent.querySelector('[class*="name"]');
+        const nameEl = parent.querySelector('.pcard-name, .top-name, .live-name');
         if(nameEl && typeof PRODUCTS !== 'undefined'){
           const found = PRODUCTS.find(p => p.name === nameEl.textContent.trim());
           if(found) pid = found.id;
         }
         el.removeAttribute('onclick');
-        el.addEventListener('click', ()=> location.href = 'produit.html?id=' + pid);
+        el.addEventListener('click', ()=> location.href='produit.html?id='+pid);
       }
+    });
+
+    // 3. FIX BRUTAL : intercepter TOUS les clics sur .pcard/.top-seller/.live-item
+    document.querySelectorAll('.pcard, .top-seller, .live-item, .product-card').forEach(card=>{
+      if(card.dataset.brutalFixed) return;
+      card.dataset.brutalFixed = '1';
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function(e){
+        // Ignorer clics sur boutons (favori, panier, etc.)
+        if(e.target.closest('button, .pcard-fav, .btn-add-cart')) return;
+        e.preventDefault();
+        e.stopPropagation();
+        let pid = card.dataset.id || card.getAttribute('data-product-id');
+        if(!pid){
+          const nameEl = card.querySelector('.pcard-name, .top-name, .live-name');
+          if(nameEl && typeof PRODUCTS !== 'undefined'){
+            const found = PRODUCTS.find(p => p.name === nameEl.textContent.trim());
+            if(found) pid = found.id;
+          }
+        }
+        if(!pid) pid = 1;
+        location.href = 'produit.html?id=' + pid;
+      }, true);
+    });
+
+    // 4. Bouton "+" flottant → SEUL endroit autorisé pour ajouter-produit
+    document.querySelectorAll('.fab-add, #btn-add-product, [data-add-product]').forEach(btn=>{
+      btn.onclick = ()=> location.href='ajouter-produit.html';
     });
   }
 
@@ -547,9 +573,12 @@ console.log('✅ SEN TEW chargé:', PRODUCTS.length, 'produits');
   setTimeout(fixLinks, 1500);
   setTimeout(fixLinks, 3000);
 
+  // Observer les nouveaux éléments ajoutés dynamiquement
   new MutationObserver(fixLinks).observe(document.body, {childList:true, subtree:true});
 })();
 </script>
 </body>
+</html>
+
 </body>
 </html>
