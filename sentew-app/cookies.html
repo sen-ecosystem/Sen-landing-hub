@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cookies - SEN TEW</title>
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<header class="topbar">
+<button onclick="history.back()" class="btn-back">←</button>
+<h1>Politique Cookies</h1>
+</header>
+
+<main class="legal-page">
+<section>
+<h2>1. Qu'est-ce qu'un cookie ?</h2>
+<p>Un cookie est un petit fichier texte déposé sur votre appareil lors de votre visite. Il permet de mémoriser vos préférences et améliorer votre expérience.</p>
+</section>
+
+<section>
+<h2>2. Cookies utilisés par SEN TEW</h2>
+<table class="cookie-table">
+<tr><th>Type</th><th>Finalité</th><th>Durée</th></tr>
+<tr><td>Essentiels</td><td>Session, panier, connexion</td><td>Session</td></tr>
+<tr><td>Préférences</td><td>Mode sombre, langue</td><td>1 an</td></tr>
+<tr><td>Analytiques</td><td>Statistiques anonymes</td><td>13 mois</td></tr>
+<tr><td>Marketing</td><td>Publicités ciblées</td><td>6 mois</td></tr>
+</table>
+</section>
+
+<section>
+<h2>3. Consentement</h2>
+<p>Conformément à la loi 2008-12 sénégalaise et au RGPD, votre consentement est demandé au premier accès. Vous pouvez le retirer à tout moment via <a href="parametres.html">Paramètres → Confidentialité</a>.</p>
+</section>
+
+<section>
+<h2>4. Gestion depuis votre navigateur</h2>
+<ul>
+<li>Chrome : Paramètres → Confidentialité → Cookies</li>
+<li>Safari : Préférences → Confidentialité</li>
+<li>Firefox : Options → Vie privée</li>
+</ul>
+</section>
+
+<section>
+<h2>5. Cookies tiers</h2>
+<p>SEN TEW peut utiliser : Firebase (auth, base de données), Wave/Orange Money (paiement), Google Maps (géolocalisation livreurs).</p>
+</section>
+
+<section>
+<h2>6. Contact DPO</h2>
+<p>Délégué à la Protection des Données : <a href="mailto:dpo@sen-tew.com">dpo@sen-tew.com</a></p>
+</section>
+
+<div class="cookie-actions">
+<button onclick="acceptAll()" class="btn-primary">Tout accepter</button>
+<button onclick="rejectAll()" class="btn-secondary">Refuser optionnels</button>
+<button onclick="location.href='parametres.html'" class="btn-tertiary">Personnaliser</button>
+</div>
+
+<p class="legal-date">Version 1.0 - 20 août 2026</p>
+</main>
+
+<script>
+function acceptAll(){localStorage.setItem('cookies','all');alert('✅ Tous les cookies acceptés');history.back();}
+function rejectAll(){localStorage.setItem('cookies','essential');alert('✅ Seuls les cookies essentiels');history.back();}
+</script>
+<script src="js/dark-mode.js"></script>
+</body>
+</html>
