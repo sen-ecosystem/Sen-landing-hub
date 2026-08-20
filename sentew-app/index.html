@@ -498,84 +498,18 @@ console.log('✅ SEN TEW chargé:', PRODUCTS.length, 'produits');
   });
 })();
 </script>
-<script>
-// ===== FIX DÉFINITIF v40 — Forcer TOUS les clics vers produit.html =====
-(function(){
-  function fixLinks(){
-    // 1. Corriger tous les <a href> mal placés
-    document.querySelectorAll('a[href*="ajouter-produit"]').forEach(link=>{
-      const parent = link.closest('.pcard, .top-seller, .live-item, .product-card');
-      if(parent){
-        let pid = link.getAttribute('data-id') || parent.getAttribute('data-id');
-        if(!pid){
-          const nameEl = parent.querySelector('.pcard-name, .top-name, .live-name');
-          if(nameEl && typeof PRODUCTS !== 'undefined'){
-            const found = PRODUCTS.find(p => p.name === nameEl.textContent.trim());
-            if(found) pid = found.id;
-          }
-        }
-        if(!pid) pid = 1;
-        link.href = 'produit.html?id=' + pid;
-        link.setAttribute('data-fixed','1');
-      }
-    });
 
-    // 2. Intercepter les onclick suspects
+</<script>
+// FIX MINIMAL v41 - Nettoyer onclick pollués uniquement
+document.addEventListener('DOMContentLoaded', ()=>{
+  setTimeout(()=>{
     document.querySelectorAll('[onclick*="ajouter-produit"]').forEach(el=>{
-      const parent = el.closest('.pcard, .top-seller, .live-item, .product-card');
-      if(parent){
-        let pid = 1;
-        const nameEl = parent.querySelector('.pcard-name, .top-name, .live-name');
-        if(nameEl && typeof PRODUCTS !== 'undefined'){
-          const found = PRODUCTS.find(p => p.name === nameEl.textContent.trim());
-          if(found) pid = found.id;
-        }
+      if(el.closest('.pcard, .top-seller, .live-item')){
         el.removeAttribute('onclick');
-        el.addEventListener('click', ()=> location.href='produit.html?id='+pid);
       }
     });
-
-    // 3. FIX BRUTAL : intercepter TOUS les clics sur .pcard/.top-seller/.live-item
-    document.querySelectorAll('.pcard, .top-seller, .live-item, .product-card').forEach(card=>{
-      if(card.dataset.brutalFixed) return;
-      card.dataset.brutalFixed = '1';
-      card.style.cursor = 'pointer';
-      card.addEventListener('click', function(e){
-        // Ignorer clics sur boutons (favori, panier, etc.)
-        if(e.target.closest('button, .pcard-fav, .btn-add-cart')) return;
-        e.preventDefault();
-        e.stopPropagation();
-        let pid = card.dataset.id || card.getAttribute('data-product-id');
-        if(!pid){
-          const nameEl = card.querySelector('.pcard-name, .top-name, .live-name');
-          if(nameEl && typeof PRODUCTS !== 'undefined'){
-            const found = PRODUCTS.find(p => p.name === nameEl.textContent.trim());
-            if(found) pid = found.id;
-          }
-        }
-        if(!pid) pid = 1;
-        location.href = 'produit.html?id=' + pid;
-      }, true);
-    });
-
-    // 4. Bouton "+" flottant → SEUL endroit autorisé pour ajouter-produit
-    document.querySelectorAll('.fab-add, #btn-add-product, [data-add-product]').forEach(btn=>{
-      btn.onclick = ()=> location.href='ajouter-produit.html';
-    });
-  }
-
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', fixLinks);
-  } else {
-    fixLinks();
-  }
-  setTimeout(fixLinks, 500);
-  setTimeout(fixLinks, 1500);
-  setTimeout(fixLinks, 3000);
-
-  // Observer les nouveaux éléments ajoutés dynamiquement
-  new MutationObserver(fixLinks).observe(document.body, {childList:true, subtree:true});
-})();
+  }, 300);
+});
 </script>
 </body>
 </html>
