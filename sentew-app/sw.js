@@ -1,13 +1,23 @@
 /* ==========================================
-   SEN TEW - Service Worker v42
-   23 août 2026 - RESET FONDATIONS
+   SEN TEW - Service Worker v43 FINAL
+   23 août 2026 - RESET COMPLET
    ========================================== */
 
-const CACHE = 'sentew-v42-2026-08-23-reset-fondations';
+const CACHE = 'sentew-v43-2026-08-23-reset-final';
 const ASSETS = [
   './',
   'index.html',
   'landing.html',
+  'produit.html',
+  'panier.html',
+  'boutique.html',
+  'vendeur.html',
+  'profil.html',
+  'mentions-legales.html',
+  'cgu.html',
+  'cgv.html',
+  'cookies.html',
+  'confidentialite-app.html',
   'css/app.css',
   'js/role-guard.js',
   'js/dark-mode.js',
@@ -30,11 +40,11 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
+  // Network first, cache fallback
   event.respondWith(
     fetch(event.request)
       .then(response => {
-        // Mise à jour cache silencieuse
-        if (response && response.status === 200 && event.request.method === 'GET') {
+        if (response && response.status === 200 && event.request.method === 'GET' && event.request.url.startsWith(self.location.origin)) {
           const clone = response.clone();
           caches.open(CACHE).then(cache => cache.put(event.request, clone).catch(() => {}));
         }
