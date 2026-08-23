@@ -2,145 +2,189 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>SEN TEW – Marketplace #1 du Sénégal 🇸🇳</title>
-<meta name="description" content="SEN TEW : la marketplace #1 du Sénégal. Achetez, vendez, livrez. Paiement Wave/OM/Stripe. Livraison 24h Dakar.">
-<meta name="keywords" content="marketplace sénégal, e-commerce dakar, wave, orange money, livraison dakar">
-<meta property="og:title" content="SEN TEW – Marketplace Sénégal">
-<meta property="og:description" content="Achetez vendez livrez au Sénégal">
-<meta property="og:image" content="https://sen-ecosystem.com/sentew-app/img/og-cover.jpg">
-<link rel="manifest" href="manifest.json">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SEN TEW - Marketplace numéro 1 du Sénégal</title>
+<meta name="description" content="SEN TEW - La marketplace africaine multi-vendeurs 100% sénégalaise. Achetez et vendez en toute sécurité. Livraison rapide, paiement Wave, Orange Money accepté.">
+<meta name="theme-color" content="#0f6b4e">
+<meta property="og:title" content="SEN TEW Marketplace">
+<meta property="og:description" content="Marketplace africaine premium - Achat et vente en ligne au Sénégal">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="css/app.css">
+<script src="https://unpkg.com/lucide@latest"></script>
 <style>
-:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--d:#0a0a0a}
-*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,'Segoe UI',sans-serif}
-body{background:#fff;color:#111;-webkit-overflow-scrolling:touch}
-.hero{background:linear-gradient(135deg,#00a651,#008a43);color:#fff;padding:60px 20px 40px;text-align:center;position:relative;overflow:hidden}
-.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 30%,rgba(252,209,22,.25),transparent 40%)}
-.hero-content{position:relative;z-index:2;max-width:900px;margin:0 auto}
-.logo-big{font-size:48px;font-weight:900;letter-spacing:-2px;margin-bottom:8px}
-.tagline{font-size:20px;opacity:.95;margin-bottom:24px}
-.cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px}
-.btn{padding:14px 28px;border-radius:30px;font-weight:700;text-decoration:none;font-size:16px;display:inline-flex;align-items:center;gap:8px;transition:transform .2s}
-.btn:active{transform:scale(.96)}
-.btn-w{background:#fff;color:#00a651}
-.btn-y{background:#fcd116;color:#111}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:30px 20px;background:#f8f8f8}
-.stat{text-align:center}
-.stat-n{font-size:26px;font-weight:900;color:#00a651}
-.stat-l{font-size:12px;color:#666;margin-top:4px}
-.section{padding:40px 20px;max-width:1100px;margin:0 auto}
-.section h2{font-size:26px;margin-bottom:20px;text-align:center;color:#111}
-.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-.feat{background:#fff;border:2px solid #eee;border-radius:16px;padding:20px;transition:.2s}
-.feat:hover{border-color:#00a651;transform:translateY(-4px)}
-.feat-icon{font-size:36px;margin-bottom:10px}
-.feat h3{font-size:17px;margin-bottom:6px;color:#00a651}
-.feat p{font-size:14px;color:#555;line-height:1.5}
-.roles{background:#0a0a0a;color:#fff;padding:50px 20px}
-.roles h2{color:#fcd116;text-align:center;margin-bottom:30px}
-.role-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;max-width:1000px;margin:0 auto}
-.role{background:linear-gradient(135deg,#1a1a1a,#0a0a0a);border:2px solid #333;border-radius:16px;padding:24px;text-align:center}
-.role.c{border-color:#00a651}
-.role.v{border-color:#fcd116}
-.role.l{border-color:#e31b23}
-.role.a{border-color:#b8863a}
-.role .em{font-size:44px;margin-bottom:10px}
-.role h3{font-size:18px;margin-bottom:8px}
-.role p{font-size:13px;opacity:.85;line-height:1.5;margin-bottom:14px}
-.role a{color:#fcd116;font-weight:700;text-decoration:none;font-size:14px}
-.testi{background:#f8f8f8;padding:40px 20px}
-.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;max-width:1000px;margin:0 auto}
-.tcard{background:#fff;border-radius:14px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
-.stars{color:#fcd116;margin-bottom:6px}
-.tcard p{font-size:14px;color:#333;line-height:1.5;font-style:italic;margin-bottom:10px}
-.tauth{font-size:13px;color:#666;font-weight:600}
-.download{background:linear-gradient(135deg,#fcd116,#f0c000);padding:50px 20px;text-align:center}
-.download h2{color:#111;margin-bottom:12px}
-.download p{color:#333;margin-bottom:20px;font-size:15px}
-.dl-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.dl{background:#111;color:#fff;padding:12px 22px;border-radius:12px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;font-weight:600}
-footer{background:#0a0a0a;color:#888;padding:30px 20px;text-align:center;font-size:13px}
-footer a{color:#00a651;text-decoration:none;margin:0 8px}
-@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}.logo-big{font-size:36px}.tagline{font-size:16px}}
+.hero {
+  background: linear-gradient(135deg, #0a4d38 0%, #0f6b4e 50%, #00c060 100%);
+  color: white;
+  padding: 60px 20px;
+  text-align: center;
+}
+.hero h1 { font-size: 36px; font-weight: 900; margin-bottom: 12px; }
+.hero p { font-size: 16px; opacity: 0.95; margin-bottom: 24px; max-width: 500px; margin-left: auto; margin-right: auto; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 600px; margin: 20px auto; }
+.stat { background: rgba(255,255,255,0.15); padding: 14px; border-radius: 12px; text-align: center; }
+.stat .n { font-size: 22px; font-weight: 900; color: var(--or-clair); }
+.stat .l { font-size: 11px; opacity: 0.9; }
+.feature { padding: 20px; background: var(--bg-card); border-radius: 12px; text-align: center; }
+.feature .icon-wrap { width: 60px; height: 60px; background: var(--v-clair); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
+.role-card { padding: 20px; border-radius: 14px; color: white; }
 </style>
 </head>
 <body>
 
-<section class="hero">
-  <div class="hero-content">
-    <div class="logo-big">🛍️ SEN TEW</div>
-    <div class="tagline">La marketplace #1 du Sénégal 🇸🇳</div>
-    <p style="margin-top:10px;opacity:.9">Achetez • Vendez • Livrez au Sénégal 🇸🇳</p>
-    <div class="cta-row">
-      <a href="onboarding.html" class="btn btn-w">🚀 Commencer maintenant</a>
-      <a href="login.html" class="btn btn-y">🔐 Se connecter</a>
+<!-- HERO -->
+<div class="hero">
+  <div style="font-size:14px;font-weight:700;letter-spacing:2px;opacity:0.9;margin-bottom:8px;">SEN ECOSYSTEM</div>
+  <h1>🌍 SEN TEW</h1>
+  <p>La marketplace africaine numéro 1 du Sénégal.<br>Achetez, vendez, livrez en toute sécurité.</p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;">
+    <button style="background:var(--or-royal);color:var(--noir-profond);padding:14px 28px;border-radius:12px;font-weight:800;" onclick="location.href='index.html'">
+      🚀 Commencer maintenant
+    </button>
+    <button style="background:rgba(255,255,255,0.2);color:white;padding:14px 28px;border-radius:12px;font-weight:800;border:2px solid white;" onclick="location.href='inscription.html'">
+      Créer un compte
+    </button>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="n">52k+</div><div class="l">Utilisateurs</div></div>
+    <div class="stat"><div class="n">2 512</div><div class="l">Vendeurs</div></div>
+    <div class="stat"><div class="n">85k+</div><div class="l">Produits</div></div>
+  </div>
+  <div style="font-size:14px;opacity:0.95;margin-top:16px;">
+    ⭐⭐⭐⭐⭐ <strong>4.9/5</strong> · Plus de 12 000 avis
+  </div>
+</div>
+
+<!-- FONCTIONNALITÉS -->
+<section style="padding:40px 20px;">
+  <h2 style="text-align:center;font-size:24px;font-weight:800;color:var(--v-emeraude);margin-bottom:8px;">
+    Pourquoi choisir SEN TEW ?
+  </h2>
+  <p style="text-align:center;color:var(--text-muted);margin-bottom:32px;">
+    Une expérience shopping unique adaptée à l'Afrique
+  </p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;max-width:1200px;margin:0 auto;">
+    <div class="feature">
+      <div class="icon-wrap"><i data-lucide="shopping-bag" class="icon icon-lg icon-vert"></i></div>
+      <h3 style="font-size:16px;font-weight:800;margin-bottom:6px;">85k+ Produits</h3>
+      <p style="font-size:13px;color:var(--text-muted);">Mode, tech, beauté, alimentation, artisanat africain premium</p>
+    </div>
+    <div class="feature">
+      <div class="icon-wrap"><i data-lucide="shield-check" class="icon icon-lg icon-vert"></i></div>
+      <h3 style="font-size:16px;font-weight:800;margin-bottom:6px;">100% Sécurisé</h3>
+      <p style="font-size:13px;color:var(--text-muted);">Paiement séquestré jusqu'à confirmation de livraison</p>
+    </div>
+    <div class="feature">
+      <div class="icon-wrap"><i data-lucide="truck" class="icon icon-lg icon-vert"></i></div>
+      <h3 style="font-size:16px;font-weight:800;margin-bottom:6px;">Livraison Rapide</h3>
+      <p style="font-size:13px;color:var(--text-muted);">24-48h Dakar · 3-7 jours toutes régions Sénégal</p>
+    </div>
+    <div class="feature">
+      <div class="icon-wrap"><i data-lucide="wand-2" class="icon icon-lg icon-violet"></i></div>
+      <h3 style="font-size:16px;font-weight:800;margin-bottom:6px;">Outils IA</h3>
+      <p style="font-size:13px;color:var(--text-muted);">Retouche photo, recherche visuelle, vue 360°, assistant</p>
+    </div>
+    <div class="feature">
+      <div class="icon-wrap"><i data-lucide="wallet" class="icon icon-lg icon-or"></i></div>
+      <h3 style="font-size:16px;font-weight:800;margin-bottom:6px;">Wave & Orange Money</h3>
+      <p style="font-size:13px;color:var(--text-muted);">Paiement mobile local + carte bancaire acceptée</p>
+    </div>
+    <div class="feature">
+      <div class="icon-wrap"><i data-lucide="badge-check" class="icon icon-lg icon-or"></i></div>
+      <h3 style="font-size:16px;font-weight:800;margin-bottom:6px;">Vendeurs Vérifiés</h3>
+      <p style="font-size:13px;color:var(--text-muted);">Badge Platine, Or, Argent · Notation 5 étoiles</p>
     </div>
   </div>
 </section>
 
-<section class="stats">
-  <div class="stat"><div class="stat-n">52k+</div><div class="stat-l">Utilisateurs</div></div>
-  <div class="stat"><div class="stat-n">2 512</div><div class="stat-l">Vendeurs</div></div>
-  <div class="stat"><div class="stat-n">85k+</div><div class="stat-l">Produits</div></div>
-  <div class="stat"><div class="stat-n">4.9★</div><div class="stat-l">Note moyenne</div></div>
-</section>
-
-<section class="section">
-  <h2>✨ Pourquoi SEN TEW ?</h2>
-  <div class="features">
-    <div class="feat"><div class="feat-icon">💳</div><h3>Paiement local</h3><p>Wave, Orange Money, Free Money, Stripe. Paiement en 2× ou 3× sans frais.</p></div>
-    <div class="feat"><div class="feat-icon">🚚</div><h3>Livraison 24h</h3><p>Dakar : livraison en 24h. Régions : 2–5 jours. Suivi GPS temps réel.</p></div>
-    <div class="feat"><div class="feat-icon">🎥</div><h3>LIVE Shopping</h3><p>Achetez en direct pendant les lives des vendeurs. Réductions exclusives.</p></div>
-    <div class="feat"><div class="feat-icon">🤖</div><h3>Recherche IA</h3><p>Prenez une photo → l'IA trouve le produit. Retouche IA incluse (abonnement).</p></div>
-    <div class="feat"><div class="feat-icon">🛡️</div><h3>Retour 14 jours</h3><p>Remboursement garanti. Produits vérifiés. Vendeurs certifiés SEN Verified.</p></div>
-    <div class="feat"><div class="feat-icon">🌍</div><h3>4 langues</h3><p>Français, Wolof, English, العربية. Devises : FCFA, EUR, USD.</p></div>
-  </div>
-</section>
-
-<section class="roles">
-  <h2>👥 Rejoignez SEN TEW</h2>
-  <div class="role-grid">
-    <div class="role c"><div class="em">🛒</div><h3>Client</h3><p>Achetez 85 000+ produits. Livraison rapide. Cadeau 500 FCFA à l'inscription.</p><a href="inscription.html?role=client">Créer un compte →</a></div>
-    <div class="role v"><div class="em">🏪</div><h3>Vendeur</h3><p>Ouvrez votre boutique. Commission dès 4%. Formation gratuite. Paiement hebdo.</p><a href="inscription.html?role=vendeur">Devenir vendeur →</a></div>
-    <div class="role l"><div class="em">🏍️</div><h3>Livreur</h3><p>Livrez à Dakar. Gagnez 3 000–8 000 FCFA/jour. Horaires flexibles.</p><a href="inscription.html?role=livreur">Devenir livreur →</a></div>
-    <div class="role a"><div class="em">👔</div><h3>Partenaire</h3><p>Marques, grossistes, franchises. Contactez-nous pour un partenariat B2B.</p><a href="contact.html">Nous contacter →</a></div>
-  </div>
-</section>
-
-<section class="testi">
-  <div class="section" style="padding:0">
-    <h2>💬 Ils parlent de nous</h2>
-    <div class="testi-grid">
-      <div class="tcard"><div class="stars">★★★★★</div><p>« Livraison en 4h à Dakar, incroyable ! Paiement Wave fluide. »</p><div class="tauth">— Aminata D., Dakar</div></div>
-      <div class="tcard"><div class="stars">★★★★★</div><p>« Ma boutique cartonne : 42 ventes ce mois. Commission juste. »</p><div class="tauth">— Ibrahima S., vendeur</div></div>
-      <div class="tcard"><div class="stars">★★★★★</div><p>« Le LIVE shopping est addictif, j'ai eu -30% sur un iPhone. »</p><div class="tauth">— Fatou N., Thiès</div></div>
+<!-- 3 RÔLES -->
+<section style="padding:40px 20px;background:var(--bg-card);">
+  <h2 style="text-align:center;font-size:24px;font-weight:800;color:var(--v-emeraude);margin-bottom:32px;">
+    Une plateforme, 3 façons de participer
+  </h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;max-width:1200px;margin:0 auto;">
+    <div class="role-card" style="background:linear-gradient(135deg,#0f6b4e,#00c060);">
+      <i data-lucide="shopping-cart" class="icon icon-xl icon-blanc"></i>
+      <h3 style="font-size:20px;font-weight:800;margin:12px 0 8px;">🛒 Acheteur</h3>
+      <p style="font-size:13px;opacity:0.95;line-height:1.5;margin-bottom:14px;">
+        Accédez à 85k+ produits authentiques. Paiement sécurisé, livraison rapide, retour 7 jours.
+      </p>
+      <button style="background:white;color:var(--v-emeraude);padding:10px 20px;border-radius:10px;font-weight:800;font-size:13px;" onclick="location.href='inscription.html'">
+        Créer mon compte
+      </button>
+    </div>
+    <div class="role-card" style="background:linear-gradient(135deg,#a67c3a,#d4a574);">
+      <i data-lucide="store" class="icon icon-xl icon-blanc"></i>
+      <h3 style="font-size:20px;font-weight:800;margin:12px 0 8px;">🏪 Vendeur</h3>
+      <p style="font-size:13px;opacity:0.95;line-height:1.5;margin-bottom:14px;">
+        Vendez à 52k+ clients. Outils IA gratuits, stats en temps réel, commission 8% seulement.
+      </p>
+      <button style="background:white;color:var(--or-sombre);padding:10px 20px;border-radius:10px;font-weight:800;font-size:13px;" onclick="location.href='vendeur.html'">
+        Devenir vendeur
+      </button>
+    </div>
+    <div class="role-card" style="background:linear-gradient(135deg,#3b82f6,#60a5fa);">
+      <i data-lucide="truck" class="icon icon-xl icon-blanc"></i>
+      <h3 style="font-size:20px;font-weight:800;margin:12px 0 8px;">🚚 Livreur</h3>
+      <p style="font-size:13px;opacity:0.95;line-height:1.5;margin-bottom:14px;">
+        Livrez avec votre moto ou véhicule. Missions flexibles, paiement Wave hebdo, GPS intégré.
+      </p>
+      <button style="background:white;color:#3b82f6;padding:10px 20px;border-radius:10px;font-weight:800;font-size:13px;" onclick="location.href='livreur.html'">
+        Devenir livreur
+      </button>
     </div>
   </div>
 </section>
 
-<section class="download">
-  <h2>📱 Téléchargez l'app</h2>
-  <p>Installez SEN TEW sur iPhone, Android, ordinateur — 100% gratuit</p>
-  <div class="dl-row">
-    <a href="index.html" class="dl">🍎 iPhone (PWA)</a>
-    <a href="index.html" class="dl">🤖 Android (PWA)</a>
-    <a href="index.html" class="dl">💻 Ordinateur</a>
+<!-- DOWNLOAD -->
+<section style="padding:40px 20px;text-align:center;">
+  <h2 style="font-size:24px;font-weight:800;color:var(--v-emeraude);margin-bottom:12px;">
+    📱 Téléchargez l'application
+  </h2>
+  <p style="color:var(--text-muted);margin-bottom:24px;">Installez SEN TEW sur votre écran d'accueil (PWA)</p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+    <button style="background:var(--noir-profond);color:white;padding:14px 24px;border-radius:12px;font-weight:700;display:flex;align-items:center;gap:10px;" onclick="alert('Sur Safari iPhone: Partager → Ajouter à l\\'écran d\\'accueil')">
+      <i data-lucide="smartphone" class="icon icon-md icon-blanc"></i>
+      iPhone (Safari)
+    </button>
+    <button style="background:var(--v-emeraude);color:white;padding:14px 24px;border-radius:12px;font-weight:700;display:flex;align-items:center;gap:10px;" onclick="alert('Sur Chrome Android: Menu → Installer l\\'application')">
+      <i data-lucide="smartphone" class="icon icon-md icon-blanc"></i>
+      Android (Chrome)
+    </button>
   </div>
-  <p style="margin-top:16px;font-size:13px;color:#555">Bientôt sur App Store & Google Play</p>
 </section>
 
-<footer>
-  <div style="margin-bottom:12px">
-    <a href="mentions-legales.html">Mentions légales</a>•
-    <a href="cgu.html">CGU</a>•
-    <a href="cgv.html">CGV</a>•
-    <a href="rgpd.html">RGPD</a>•
-    <a href="contact.html">Contact</a>
+<!-- FOOTER -->
+<footer style="background:var(--noir-profond);color:var(--blanc-nacre);padding:40px 20px 20px;">
+  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;">
+    <div>
+      <h3 style="color:var(--or-clair);font-size:18px;font-weight:800;margin-bottom:12px;">🌍 SEN TEW</h3>
+      <p style="font-size:12px;opacity:0.8;line-height:1.6;">Marketplace africaine premium.<br>Membre du groupe SEN ECOSYSTEM.</p>
+    </div>
+    <div>
+      <h4 style="color:var(--or-clair);font-size:14px;font-weight:700;margin-bottom:10px;">Produits</h4>
+      <a href="index.html" style="display:block;font-size:12px;color:inherit;opacity:0.8;margin-bottom:6px;">Marketplace</a>
+      <a href="#" style="display:block;font-size:12px;color:inherit;opacity:0.8;margin-bottom:6px;">SENBANC (bientôt)</a>
+      <a href="#" style="display:block;font-size:12px;color:inherit;opacity:0.8;margin-bottom:6px;">SENCRYPT (bientôt)</a>
+    </div>
+    <div>
+      <h4 style="color:var(--or-clair);font-size:14px;font-weight:700;margin-bottom:10px;">Légal</h4>
+      <a href="mentions-legales.html" style="display:block;font-size:12px;color:inherit;opacity:0.8;margin-bottom:6px;">Mentions légales</a>
+      <a href="cgu.html" style="display:block;font-size:12px;color:inherit;opacity:0.8;margin-bottom:6px;">CGU</a>
+      <a href="cgv.html" style="display:block;font-size:12px;color:inherit;opacity:0.8;margin-bottom:6px;">CGV</a>
+      <a href="confidentialite-app.html" style="display:block;font-size:12px;color:inherit;opacity:0.8;margin-bottom:6px;">Confidentialité</a>
+      <a href="cookies.html" style="display:block;font-size:12px;color:inherit;opacity:0.8;margin-bottom:6px;">Cookies</a>
+    </div>
+    <div>
+      <h4 style="color:var(--or-clair);font-size:14px;font-weight:700;margin-bottom:10px;">Contact</h4>
+      <a href="mailto:contact@sen-ecosystem.com" style="display:block;font-size:12px;color:inherit;opacity:0.8;margin-bottom:6px;">📧 contact@sen-ecosystem.com</a>
+      <a href="signaler.html" style="display:block;font-size:12px;color:inherit;opacity:0.8;margin-bottom:6px;">🚩 Signaler un contenu</a>
+    </div>
   </div>
-  <div>© 2026 SEN TEW SAS — Marketplace Sénégal 🇸🇳 — Tous droits réservés</div>
-  <div style="margin-top:8px;font-size:11px;opacity:.6">Powered by SEN Ecosystem</div>
+  <div style="text-align:center;margin-top:30px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);font-size:11px;opacity:0.6;">
+    © 2026 SEN ECOSYSTEM · SEN TEW SUARL · Dakar, Sénégal · Tous droits réservés
+  </div>
 </footer>
 
-<script src="js/dark-mode.js"></script>
+<script>lucide.createIcons();</script>
 </body>
 </html>
