@@ -2,356 +2,184 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Panier - SEN TEW</title>
-<link rel="stylesheet" href="css/styles-pays.css">
-<style>
-:root{--v:#0f6b4e;--vd:#0a4d38;--or:#d4a574;--or-clair:#f0c99a;--noir:#0a1f17;--card:#1a2e24;--text:#f5f5f0;--muted:#9ca3af;--border:#2a3e34;--rouge:#ef4444;--menthe:#00c060;--bleu:#1976d2}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;font-family:-apple-system,'Segoe UI',sans-serif}
-body{background:var(--noir);color:var(--text);padding-bottom:130px;max-width:600px;margin:0 auto}
-.top{background:var(--card);padding:12px 14px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10;box-shadow:0 1px 4px rgba(0,0,0,.3)}
-.back{background:rgba(255,255,255,.1);border:none;width:38px;height:38px;border-radius:50%;color:var(--text);font-size:18px;cursor:pointer}
-.top h1{flex:1;font-size:15px;font-weight:700;color:var(--or)}
-.top .heart{background:rgba(255,255,255,.1);border:none;width:38px;height:38px;border-radius:50%;font-size:16px;color:var(--rouge);cursor:pointer}
-.section-title{padding:12px 16px 6px;font-size:12px;font-weight:800;color:var(--or);text-transform:uppercase;letter-spacing:.5px;display:flex;align-items:center;gap:6px}
-.section-title .link{color:var(--menthe);margin-left:auto;font-size:11px;cursor:pointer}
-.address-card{background:var(--card);margin:0 14px 8px;padding:12px;border-radius:12px;border:1px solid var(--border);display:flex;align-items:center;gap:10px;cursor:pointer}
-.addr-ic{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--v),var(--vd));display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--or);flex-shrink:0}
-.addr-body{flex:1;min-width:0}
-.addr-t{font-size:13px;font-weight:700;color:var(--text)}
-.addr-d{font-size:11px;color:var(--muted);margin-top:2px}
-.addr-arrow{color:var(--muted);font-size:20px}
-.cart-empty{text-align:center;padding:60px 20px;color:var(--muted)}
-.cart-empty .emoji{font-size:60px;margin-bottom:14px}
-.cart-empty h3{color:var(--text);margin-bottom:8px}
-.cart-empty p{font-size:13px;margin-bottom:20px}
-.cart-empty a{background:var(--v);color:#fff;padding:12px 24px;border-radius:12px;text-decoration:none;font-weight:700;display:inline-block}
-.item{display:flex;gap:12px;background:var(--card);margin:8px 14px;padding:12px;border-radius:14px;border:1px solid var(--border);position:relative;overflow:hidden}
-.item::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,var(--or),var(--v))}
-.item img{width:80px;height:80px;border-radius:10px;object-fit:cover;background:var(--noir);cursor:pointer}
-.item-body{flex:1;min-width:0}
-.item-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;line-height:1.3;cursor:pointer}
-.item-seller{font-size:11px;color:var(--or);margin-bottom:3px;display:flex;align-items:center;gap:4px}
-.item-variant{font-size:10px;color:var(--muted);margin-bottom:6px}
-.item-price-row{display:flex;align-items:baseline;gap:6px}
-.item-price{font-size:16px;font-weight:900;color:var(--or)}
-.item-old{font-size:11px;color:var(--muted);text-decoration:line-through}
-.item-actions{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
-.qty{display:flex;align-items:center;gap:8px;background:var(--noir);border-radius:20px;padding:3px;border:1px solid var(--border)}
-.qty button{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--v),var(--vd));color:#fff;border:none;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.qty button:active{transform:scale(.9)}
-.qty span{font-weight:700;min-width:26px;text-align:center;color:var(--text);font-size:13px}
-.item-mini-actions{display:flex;gap:6px}
-.mini-btn{background:rgba(255,255,255,.05);border:none;color:var(--text);width:32px;height:32px;border-radius:8px;font-size:14px;cursor:pointer}
-.mini-btn.del{background:rgba(239,68,68,.15);color:var(--rouge)}
-.promo-box{background:var(--card);margin:8px 14px;padding:12px;border-radius:12px;display:flex;gap:8px;border:1px solid var(--border);align-items:center}
-.promo-ic{font-size:20px}
-.promo-input{flex:1;background:var(--noir);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:8px;font-size:13px;outline:none}
-.promo-btn{background:linear-gradient(135deg,var(--or),var(--or-clair));color:#111;border:none;padding:10px 16px;border-radius:8px;font-weight:800;cursor:pointer;font-size:12px}
-.promo-applied{background:rgba(0,192,96,.15);border:1px solid var(--menthe);border-radius:10px;padding:8px 12px;margin:8px 14px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--menthe)}
-.promo-applied .rm{margin-left:auto;background:none;border:none;color:var(--rouge);cursor:pointer;font-size:16px}
-.summary{background:var(--card);margin:8px 14px;padding:14px;border-radius:14px;border:1px solid var(--border)}
-.sum-line{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;color:var(--text)}
-.sum-line.dis{color:var(--menthe)}
-.sum-line small{font-size:10px;color:var(--muted)}
-.sum-total{display:flex;justify-content:space-between;padding-top:12px;border-top:1px solid var(--border);margin-top:8px;font-size:20px;font-weight:900;color:var(--or)}
-.sum-savings{display:flex;justify-content:space-between;padding-top:6px;font-size:11px;color:var(--menthe)}
-.payment-methods{background:var(--card);margin:8px 14px;padding:12px;border-radius:12px;border:1px solid var(--border)}
-.pm-title{font-size:12px;font-weight:700;color:var(--or);margin-bottom:8px}
-.pm-icons{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-.pm-icon{background:var(--noir);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:10px;font-weight:700;color:var(--text)}
-.suggestions{background:var(--card);margin:8px 14px;padding:12px;border-radius:12px;border:1px solid var(--border)}
-.sug-h{display:flex;align-items:center;margin-bottom:10px}
-.sug-h h4{color:var(--or);font-size:14px;flex:1}
-.sug-h .more{color:var(--menthe);font-size:11px;cursor:pointer}
-.sug-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
-.sug-scroll::-webkit-scrollbar{display:none}
-.sug-item{min-width:130px;max-width:130px;background:var(--noir);border-radius:10px;padding:8px;cursor:pointer;border:1px solid var(--border)}
-.sug-item img{width:100%;height:100px;border-radius:8px;object-fit:cover}
-.sug-name{font-size:11px;color:var(--text);margin-top:6px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.sug-price{font-size:12px;color:var(--or);font-weight:800;margin-top:2px}
-.sug-add{background:var(--v);color:#fff;border:none;width:100%;padding:5px;border-radius:6px;font-size:10px;font-weight:700;margin-top:6px;cursor:pointer}
-.trust-badges{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:12px 14px;padding:10px;background:var(--card);border-radius:12px;border:1px solid var(--border)}
-.tb{text-align:center}
-.tb-ic{font-size:18px;margin-bottom:2px}
-.tb-t{font-size:9px;font-weight:700;color:var(--or)}
-.tb-d{font-size:8px;color:var(--muted);margin-top:1px}
-.bar{position:fixed;bottom:0;left:0;right:0;max-width:600px;margin:0 auto;background:var(--card);padding:10px 12px;box-shadow:0 -4px 16px rgba(0,0,0,.5);z-index:50;border-top:1px solid var(--border)}
-.bar-total{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.bar-total .lbl{color:var(--muted);font-size:12px}
-.bar-total .amt{color:var(--or);font-size:22px;font-weight:900}
-.pay-btn{width:100%;background:linear-gradient(135deg,var(--v),var(--vd));color:#fff;border:none;padding:14px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 12px rgba(15,107,78,.4);display:flex;align-items:center;justify-content:center;gap:8px}
-.pay-btn:active{transform:scale(.98)}
-</style>
+<meta name="theme-color" content="#0f6b4e">
+<link rel="stylesheet" href="css/app.css">
+<script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
-<div class="top">
-  <button class="back" onclick="history.back()">←</button>
-  <h1>🛒 Mon Panier <span id="itemCount"></span></h1>
-  <button class="heart" onclick="location.href='favoris.html'">❤️</button>
+<header class="topbar">
+  <button class="btn-back" onclick="history.back()">
+    <i data-lucide="arrow-left" class="icon icon-md icon-vert"></i>
+  </button>
+  <h1>Mon panier <span id="cartCount" style="font-size:14px;color:var(--text-muted);"></span></h1>
+</header>
+
+<main id="cartMain" style="padding:12px 16px 200px;">
+  <!-- Généré par JS -->
+</main>
+
+<div id="cartFooter" style="position:fixed;bottom:0;left:0;right:0;background:var(--bg);border-top:1px solid var(--border);padding:12px 16px;z-index:99;display:none;">
+  <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px;">
+    <span>Sous-total</span>
+    <span id="subtotal">0 FCFA</span>
+  </div>
+  <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px;">
+    <span>Livraison</span>
+    <span id="shipping">1 500 FCFA</span>
+  </div>
+  <div style="display:flex;justify-content:space-between;margin-bottom:12px;font-size:16px;font-weight:800;color:var(--v-emeraude);">
+    <span>TOTAL</span>
+    <span id="total">0 FCFA</span>
+  </div>
+  <div style="display:flex;gap:8px;margin-bottom:10px;">
+    <button style="flex:1;padding:8px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;">1× · Comptant</button>
+    <button style="flex:1;padding:8px;background:var(--bg-card);border:1px solid var(--v-emeraude);border-radius:8px;font-size:12px;font-weight:600;color:var(--v-emeraude);">2× sans frais</button>
+    <button style="flex:1;padding:8px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;">3× sans frais</button>
+  </div>
+  <button class="btn-primary" style="width:100%;" onclick="checkout()">
+    <i data-lucide="lock" class="icon icon-sm icon-blanc" style="margin-right:6px;"></i>
+    Passer commande
+  </button>
 </div>
 
-<div id="cartContent"></div>
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
+  <a href="recherche-ia.html"><i data-lucide="search" class="icon icon-md"></i><span>Rechercher</span></a>
+  <a href="panier.html" class="active"><i data-lucide="shopping-cart" class="icon icon-md icon-or"></i><span>Panier</span></a>
+  <a href="favoris.html"><i data-lucide="heart" class="icon icon-md"></i><span>Favoris</span></a>
+  <a href="profil.html"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
+</nav>
 
-<div id="restCart" style="display:none">
-  <div class="section-title">📍 Adresse de livraison <span class="link" onclick="location.href='adresses.html'">Modifier ›</span></div>
-  <div class="address-card" onclick="location.href='adresses.html'">
-    <div class="addr-ic">📍</div>
-    <div class="addr-body">
-      <div class="addr-t">Ousseynou Lam · Domicile</div>
-      <div class="addr-d">52 Rue Mohamed V, Dakar-Plateau · 🇸🇳 +221 77 123 45 67</div>
-    </div>
-    <div class="addr-arrow">›</div>
-  </div>
-
-  <div class="section-title">🎁 Code promo</div>
-  <div class="promo-box">
-    <span class="promo-ic">🏷️</span>
-    <input type="text" class="promo-input" id="promoCode" placeholder="Ex: RAMADAN30, NOUVEAU10">
-    <button class="promo-btn" onclick="applyPromo()">Appliquer</button>
-  </div>
-  <div class="promo-applied" id="promoApplied" style="display:none">
-    <span>✅</span><span id="promoText"></span>
-    <button class="rm" onclick="removePromo()">✕</button>
-  </div>
-
-  <div class="section-title">💰 Récapitulatif</div>
-  <div class="summary">
-    <div class="sum-line"><span>Sous-total (<span id="subCount">0</span> articles)</span><span id="subtotal">0 FCFA</span></div>
-    <div class="sum-line"><span>Livraison<br><small>Dakar 24h · Yobante Express</small></span><span id="delivery">2 500 FCFA</span></div>
-    <div class="sum-line dis" id="discountLine" style="display:none"><span>Remise promo</span><span id="discount">-0 FCFA</span></div>
-    <div class="sum-line"><span>Assurance colis<br><small>Protection escrow SEN TEW</small></span><span style="color:var(--menthe)">Gratuite</span></div>
-    <div class="sum-total"><span>TOTAL</span><span id="total">0 FCFA</span></div>
-    <div class="sum-savings" id="savingsLine" style="display:none"><span>💰 Vous économisez</span><span id="savings">0 FCFA</span></div>
-  </div>
-
-  <div class="payment-methods">
-    <div class="pm-title">💳 Moyens de paiement acceptés</div>
-    <div class="pm-icons">
-      <span class="pm-icon">🌊 Wave</span>
-      <span class="pm-icon">🟠 Orange Money</span>
-      <span class="pm-icon">🆓 Free Money</span>
-      <span class="pm-icon">💚 Wizall</span>
-      <span class="pm-icon">💳 CB Visa/MC</span>
-      <span class="pm-icon">🏦 Virement</span>
-      <span class="pm-icon">📦 À la livraison</span>
-      <span class="pm-icon">💰 2×/3× sans frais</span>
-    </div>
-  </div>
-
-  <div class="trust-badges">
-    <div class="tb"><div class="tb-ic">🔒</div><div class="tb-t">Paiement sécurisé</div><div class="tb-d">SSL 256 bits</div></div>
-    <div class="tb"><div class="tb-ic">🛡️</div><div class="tb-t">Escrow protégé</div><div class="tb-d">Remboursement garanti</div></div>
-    <div class="tb"><div class="tb-ic">↩️</div><div class="tb-t">Retour 14 jours</div><div class="tb-d">Sans conditions</div></div>
-  </div>
-
-  <div class="suggestions">
-    <div class="sug-h">
-      <h4>⭐ Vous pourriez aimer</h4>
-      <span class="more" onclick="location.href='index.html'">Voir plus ›</span>
-    </div>
-    <div class="sug-scroll" id="sugScroll"></div>
-  </div>
-</div>
-
-<div class="bar" id="payBar" style="display:none">
-  <div class="bar-total">
-    <span class="lbl">Total à payer</span>
-    <span class="amt" id="barTotal">0 FCFA</span>
-  </div>
-  <button class="pay-btn" onclick="checkout()">🔒 Passer la commande</button>
-</div>
-
-<script src="js/dark-mode.js"></script>
 <script src="js/role-guard.js"></script>
+<script src="js/dark-mode.js"></script>
 <script>
-let cart = JSON.parse(localStorage.getItem('cart')||'[]');
-if(cart.length === 0){
-  cart = [
-    {id:1,name:'Robe Wax Premium',price:25000,old:40000,img:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=200',qty:1,seller:'Aïcha Couture',color:'Noir',size:'M'},
-    {id:6,name:'Sac cuir artisanal',price:18500,old:25000,img:'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=200',qty:1,seller:'Cuir d\'Afrique',color:'Marron',size:'Unique'},
-    {id:20,name:'Bijoux dorés',price:8000,img:'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=200',qty:1,seller:'Méda d\'Or',color:'Or',size:'Unique'}
-  ];
-  localStorage.setItem('cart', JSON.stringify(cart));
-}
-let discount = 0;
-let promoName = '';
+function renderCart() {
+  const cart = JSON.parse(localStorage.getItem('cart')||'[]');
+  const main = document.getElementById('cartMain');
+  const footer = document.getElementById('cartFooter');
+  const countEl = document.getElementById('cartCount');
 
-function render(){
-  const content = document.getElementById('cartContent');
-  const itemCount = document.getElementById('itemCount');
-  const restCart = document.getElementById('restCart');
-  const payBar = document.getElementById('payBar');
-
-  if(cart.length === 0){
-    content.innerHTML = `<div class="cart-empty"><div class="emoji">🛒</div><h3>Votre panier est vide</h3><p>Découvrez nos produits et remplissez votre panier</p><a href="index.html">🏠 Retour à l'accueil</a></div>`;
-    itemCount.textContent = '';
-    restCart.style.display = 'none';
-    payBar.style.display = 'none';
+  if(cart.length === 0) {
+    countEl.textContent = '';
+    footer.style.display = 'none';
+    main.innerHTML = `
+      <div style="text-align:center;padding:60px 20px;">
+        <i data-lucide="shopping-cart" class="icon icon-xl icon-vert" style="opacity:0.3;"></i>
+        <h2 style="margin-top:16px;">Votre panier est vide</h2>
+        <p style="color:var(--text-muted);margin:12px 0 24px;">Découvrez nos produits tendance</p>
+        <button class="btn-primary" onclick="location.href='index.html'">Commencer mes achats</button>
+      </div>
+    `;
+    lucide.createIcons();
     return;
   }
 
-  itemCount.textContent = '('+cart.length+')';
-  content.innerHTML = cart.map((item,idx)=>{
-    const oldPrice = item.old ? `<span class="item-old">${(item.old*item.qty).toLocaleString('fr-FR')} FCFA</span>` : '';
-    return `<div class="item">
-      <img src="${item.img}" alt="${item.name}" onclick="location.href='produit.html?id=${item.id}'">
-      <div class="item-body">
-        <div class="item-name" onclick="location.href='produit.html?id=${item.id}'">${item.name}</div>
-        <div class="item-seller">🏪 ${item.seller||'SEN TEW'}</div>
-        <div class="item-variant">🎨 ${item.color||'-'} · 📏 ${item.size||'-'}</div>
-        <div class="item-price-row">
-          <span class="item-price">${(item.price*item.qty).toLocaleString('fr-FR')} FCFA</span>
-          ${oldPrice}
-        </div>
-        <div class="item-actions">
-          <div class="qty">
-            <button onclick="changeQty(${idx},-1)">−</button>
-            <span>${item.qty}</span>
-            <button onclick="changeQty(${idx},1)">+</button>
+  countEl.textContent = `(${cart.length})`;
+
+  main.innerHTML = cart.map((item, i) => `
+    <div style="display:flex;gap:12px;padding:12px;background:var(--bg-card);border-radius:12px;margin-bottom:10px;">
+      <img src="${item.image}" style="width:80px;height:80px;border-radius:10px;object-fit:cover;">
+      <div style="flex:1;">
+        <div style="font-size:14px;font-weight:600;margin-bottom:4px;">${item.name}</div>
+        <div style="font-size:15px;font-weight:800;color:var(--v-emeraude);margin-bottom:8px;">${item.price.toLocaleString('fr-FR')} FCFA</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:8px;background:var(--bg);border-radius:8px;padding:2px;">
+            <button onclick="updateQty(${i},-1)" style="padding:4px 10px;background:transparent;font-size:16px;font-weight:800;color:var(--v-emeraude);">−</button>
+            <span style="min-width:20px;text-align:center;font-weight:700;">${item.qty}</span>
+            <button onclick="updateQty(${i},1)" style="padding:4px 10px;background:transparent;font-size:16px;font-weight:800;color:var(--v-emeraude);">+</button>
           </div>
-          <div class="item-mini-actions">
-            <button class="mini-btn" onclick="moveToFav(${idx})" title="Favoris">❤️</button>
-            <button class="mini-btn del" onclick="removeItem(${idx})" title="Supprimer">🗑️</button>
-          </div>
+          <button onclick="removeItem(${i})" style="background:transparent;color:var(--rouge);padding:6px;">
+            <i data-lucide="trash-2" class="icon icon-sm icon-rouge"></i>
+          </button>
         </div>
       </div>
-    </div>`;
-  }).join('');
-
-  restCart.style.display = 'block';
-  payBar.style.display = 'block';
-  updateTotals();
-  renderSuggestions();
-}
-
-function changeQty(idx, delta){
-  cart[idx].qty += delta;
-  if(cart[idx].qty <= 0){
-    if(confirm('Retirer '+cart[idx].name+' du panier ?')){cart.splice(idx,1);}
-    else{cart[idx].qty=1;}
-  }
-  localStorage.setItem('cart',JSON.stringify(cart));
-  if(navigator.vibrate) navigator.vibrate(15);
-  render();
-}
-
-function removeItem(idx){
-  if(confirm('Retirer '+cart[idx].name+' du panier ?')){
-    cart.splice(idx,1);
-    localStorage.setItem('cart',JSON.stringify(cart));
-    if(navigator.vibrate) navigator.vibrate(30);
-    render();
-  }
-}
-
-function moveToFav(idx){
-  const item = cart[idx];
-  const favs = JSON.parse(localStorage.getItem('favs')||'[]');
-  favs.push(item);
-  localStorage.setItem('favs',JSON.stringify(favs));
-  cart.splice(idx,1);
-  localStorage.setItem('cart',JSON.stringify(cart));
-  alert('❤️ Déplacé dans les favoris');
-  render();
-}
-
-function updateTotals(){
-  const sub = cart.reduce((s,i)=>s + i.price*i.qty, 0);
-  const oldSub = cart.reduce((s,i)=>s + (i.old||i.price)*i.qty, 0);
-  const delivery = sub > 50000 ? 0 : 2500;
-  const total = sub + delivery - discount;
-  const savings = (oldSub - sub) + discount;
-
-  document.getElementById('subCount').textContent = cart.length;
-  document.getElementById('subtotal').textContent = sub.toLocaleString('fr-FR')+' FCFA';
-  document.getElementById('delivery').textContent = delivery === 0 ? 'GRATUITE 🎉' : delivery.toLocaleString('fr-FR')+' FCFA';
-  document.getElementById('total').textContent = total.toLocaleString('fr-FR')+' FCFA';
-  document.getElementById('barTotal').textContent = total.toLocaleString('fr-FR')+' FCFA';
-
-  if(discount > 0){
-    document.getElementById('discountLine').style.display = 'flex';
-    document.getElementById('discount').textContent = '-'+discount.toLocaleString('fr-FR')+' FCFA';
-  } else {
-    document.getElementById('discountLine').style.display = 'none';
-  }
-  if(savings > 0){
-    document.getElementById('savingsLine').style.display = 'flex';
-    document.getElementById('savings').textContent = savings.toLocaleString('fr-FR')+' FCFA';
-  } else {
-    document.getElementById('savingsLine').style.display = 'none';
-  }
-}
-
-function applyPromo(){
-  const code = document.getElementById('promoCode').value.trim().toUpperCase();
-  const promos = {'RAMADAN30':0.30,'NOUVEAU10':0.10,'SOLDES2026':0.20,'LIVRAISON0':'delivery','TABASKI25':0.25};
-  if(promos[code]){
-    const sub = cart.reduce((s,i)=>s + i.price*i.qty, 0);
-    if(promos[code] === 'delivery'){
-      discount = 2500;
-      promoName = 'Livraison gratuite';
-    } else {
-      discount = Math.round(sub * promos[code]);
-      promoName = '-'+(promos[code]*100)+'% ('+code+')';
-    }
-    document.getElementById('promoApplied').style.display = 'flex';
-    document.getElementById('promoText').innerHTML = '<b>'+promoName+'</b> · Économie : '+discount.toLocaleString('fr-FR')+' FCFA';
-    document.getElementById('promoCode').value = '';
-    if(navigator.vibrate) navigator.vibrate([50,30,50]);
-    updateTotals();
-  } else {
-    alert('❌ Code promo invalide\n\nEssayez : RAMADAN30 · NOUVEAU10 · SOLDES2026 · LIVRAISON0 · TABASKI25');
-  }
-}
-
-function removePromo(){
-  discount = 0;
-  promoName = '';
-  document.getElementById('promoApplied').style.display = 'none';
-  updateTotals();
-}
-
-function renderSuggestions(){
-  const sugs = [
-    {id:100,name:'Coussin décoratif wax',price:7500,img:'https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=200'},
-    {id:101,name:'Chapeau traditionnel',price:6500,img:'https://images.unsplash.com/photo-1521369909029-2afed882baee?w=200'},
-    {id:102,name:'Ceinture en cuir Peul',price:9000,img:'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=200'},
-    {id:103,name:'Panier tressé senegalais',price:10000,img:'https://images.unsplash.com/photo-1622470953794-aa9c70b0fb9d?w=200'},
-    {id:104,name:'Bracelet artisanal',price:5500,img:'https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=200'},
-    {id:105,name:'Éventail wax',price:3500,img:'https://images.unsplash.com/photo-1544441893-675973e31985?w=200'},
-  ];
-  document.getElementById('sugScroll').innerHTML = sugs.map(s=>`
-    <div class="sug-item">
-      <img src="${s.img}" onclick="location.href='produit.html?id=${s.id}'">
-      <div class="sug-name" onclick="location.href='produit.html?id=${s.id}'">${s.name}</div>
-      <div class="sug-price">${s.price.toLocaleString('fr-FR')} FCFA</div>
-      <button class="sug-add" onclick="quickAdd(${s.id},'${s.name}',${s.price},'${s.img}')">+ Ajouter</button>
     </div>
   `).join('');
+
+  // Code promo + Livraison
+  main.innerHTML += `
+    <div style="background:var(--bg-card);padding:14px;border-radius:12px;margin:16px 0;">
+      <div style="font-size:14px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+        <i data-lucide="tag" class="icon icon-sm icon-or"></i>
+        Code promo
+      </div>
+      <div style="display:flex;gap:8px;">
+        <input type="text" placeholder="Entrez votre code" style="flex:1;">
+        <button class="btn-primary" style="padding:12px 20px;">Appliquer</button>
+      </div>
+    </div>
+
+    <div style="background:var(--bg-card);padding:14px;border-radius:12px;margin-bottom:16px;">
+      <div style="font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+        <i data-lucide="truck" class="icon icon-sm icon-or"></i>
+        Adresse de livraison
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <i data-lucide="map-pin" class="icon icon-md icon-vert"></i>
+        <div style="flex:1;">
+          <div style="font-weight:600;font-size:13px;">Domicile</div>
+          <div style="font-size:12px;color:var(--text-muted);">Cité Keur Gorgui, Dakar</div>
+        </div>
+        <button style="color:var(--v-emeraude);font-size:12px;font-weight:600;" onclick="location.href='adresses.html'">Changer</button>
+      </div>
+    </div>
+
+    <div style="background:var(--bg-card);padding:14px;border-radius:12px;margin-bottom:16px;">
+      <div style="font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+        <i data-lucide="credit-card" class="icon icon-sm icon-vert"></i>
+        Moyens de paiement
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+        <div style="padding:10px;background:var(--v-clair);border-radius:8px;text-align:center;font-size:11px;font-weight:700;">🌊 Wave</div>
+        <div style="padding:10px;background:var(--bg);border-radius:8px;text-align:center;font-size:11px;font-weight:700;">🍊 Orange Money</div>
+        <div style="padding:10px;background:var(--bg);border-radius:8px;text-align:center;font-size:11px;font-weight:700;">💳 Carte</div>
+      </div>
+    </div>
+
+    <div style="background:var(--v-clair);padding:12px;border-radius:12px;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+      <i data-lucide="shield-check" class="icon icon-md icon-vert"></i>
+      <div style="font-size:12px;color:var(--v-forest);">
+        <strong>Paiement 100 % sécurisé</strong><br>
+        Fonds séquestrés jusqu'à confirmation de livraison
+      </div>
+    </div>
+  `;
+
+  const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const shipping = 1500;
+  const total = subtotal + shipping;
+
+  document.getElementById('subtotal').textContent = subtotal.toLocaleString('fr-FR') + ' FCFA';
+  document.getElementById('total').textContent = total.toLocaleString('fr-FR') + ' FCFA';
+  footer.style.display = 'block';
+  lucide.createIcons();
 }
 
-function quickAdd(id,name,price,img){
-  cart.push({id,name,price,img,qty:1,seller:'SEN TEW',color:'-',size:'-'});
-  localStorage.setItem('cart',JSON.stringify(cart));
-  if(navigator.vibrate) navigator.vibrate([30,20,30]);
-  render();
+function updateQty(idx, delta) {
+  let cart = JSON.parse(localStorage.getItem('cart')||'[]');
+  cart[idx].qty = Math.max(1, cart[idx].qty + delta);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  renderCart();
+  if(navigator.vibrate) navigator.vibrate(20);
 }
 
-function checkout(){
-  if(cart.length === 0){alert('Panier vide');return;}
-  const sub = cart.reduce((s,i)=>s + i.price*i.qty, 0);
-  const delivery = sub > 50000 ? 0 : 2500;
-  const total = sub + delivery - discount;
-  if(navigator.vibrate) navigator.vibrate([50,30,50]);
-  sessionStorage.setItem('checkout_total',total);
-  sessionStorage.setItem('checkout_items',JSON.stringify(cart));
-  location.href = 'paiement.html?total='+total;
+function removeItem(idx) {
+  let cart = JSON.parse(localStorage.getItem('cart')||'[]');
+  cart.splice(idx, 1);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  renderCart();
+  if(navigator.vibrate) navigator.vibrate(30);
 }
 
-document.documentElement.setAttribute('data-country', localStorage.getItem('sen_country')||'SN');
-render();
+function checkout() {
+  location.href = 'paiement-success.html';
+}
+
+renderCart();
 </script>
+<script>lucide.createIcons();</script>
 </body>
 </html>
