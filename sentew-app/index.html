@@ -1,516 +1,315 @@
 <!DOCTYPE html>
-<html lang="fr" id="html">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SEN TEW - Marketplace</title>
-<meta name="theme-color" content="#0F6B4E" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0A1F17" media="(prefers-color-scheme: dark)">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>SEN TEW Marketplace</title>
+<meta name="theme-color" content="#0f6b4e">
 <link rel="manifest" href="manifest.json">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-:root{
-  --bg:#F5F5F0;--card:#fff;--text:#111827;--muted:#6B7280;
-  --primary:#0F6B4E;--gold:#D4A574;--border:#F3F4F6;
-  --shadow:0 2px 8px rgba(0,0,0,.06);
-}
-[data-theme="dark"]{
-  --bg:#0A1F17;--card:#1A2E24;--text:#F3F4F6;--muted:#9CA3AF;
-  --border:#2A3E34;--shadow:0 2px 8px rgba(0,0,0,.3);
-}
-html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Segoe UI,Roboto,sans-serif;overscroll-behavior:none;transition:background .3s,color .3s;}
-body{max-width:600px;margin:0 auto;position:relative;min-height:100vh;}
-
-.app-header{display:flex;align-items:center;gap:8px;padding:12px 14px;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
-.logo-wrap{display:flex;align-items:center;gap:8px;cursor:pointer;}
-.logo-svg{width:42px;height:42px;flex-shrink:0;}
-.logo-txt{font-weight:900;color:var(--primary);font-size:16px;letter-spacing:1px;line-height:1;}
-.logo-sub{font-size:9px;color:var(--gold);letter-spacing:2px;font-weight:700;}
-.hd-actions{margin-left:auto;display:flex;gap:6px;align-items:center;}
-.hd-pill{height:38px;padding:0 10px;background:var(--bg);border:none;border-radius:19px;display:flex;align-items:center;gap:4px;font-size:12px;font-weight:800;color:var(--primary);cursor:pointer;transition:transform .1s;}
-.hd-pill:active{transform:scale(.95);}
-.hd-icon{width:38px;height:38px;background:var(--bg);border:none;border-radius:19px;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--primary);text-decoration:none;position:relative;cursor:pointer;}
-.hd-icon .bdg{position:absolute;top:-2px;right:-2px;background:#ef4444;color:#fff;font-size:9px;font-weight:900;padding:2px 5px;border-radius:8px;}
-
-.sc-wrap{padding:12px 14px;background:var(--card);}
-.sc-box{display:flex;gap:8px;align-items:center;background:var(--bg);border-radius:14px;padding:8px 12px;border:1px solid var(--border);}
-.sc-box input{flex:1;background:none;border:none;font-size:14px;outline:none;color:var(--text);}
-.sc-box input::placeholder{color:var(--muted);}
-.ia-btn{background:linear-gradient(135deg,var(--primary),#0A4D38);color:#fff;padding:6px 10px;border-radius:10px;text-decoration:none;font-size:11px;font-weight:800;}
-
-.ad-carousel{margin:12px 14px;border-radius:16px;overflow:hidden;position:relative;height:110px;}
-.ad-slide{position:absolute;inset:0;display:flex;align-items:center;padding:14px;color:#fff;opacity:0;transition:opacity .5s;text-decoration:none;}
-.ad-slide.active{opacity:1;}
-.ad-slide-1{background:linear-gradient(135deg,#D4A574,#B8895C);}
-.ad-slide-2{background:linear-gradient(135deg,#EF4444,#F97316);}
-.ad-slide-3{background:linear-gradient(135deg,#0F6B4E,#0A4D38);}
-.ad-emoji{font-size:52px;flex-shrink:0;}
-.ad-content{flex:1;margin-left:14px;}
-.ad-title{font-weight:900;font-size:15px;}
-.ad-desc{font-size:11px;opacity:.95;margin:4px 0;}
-.ad-btn{display:inline-block;background:rgba(255,255,255,.25);padding:4px 10px;border-radius:12px;font-size:11px;font-weight:700;}
-.ad-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:4px;}
-.ad-dot{width:6px;height:6px;background:rgba(255,255,255,.5);border-radius:50%;}
-.ad-dot.active{background:#fff;width:20px;border-radius:3px;}
-
-.cats-row{display:flex;gap:14px;padding:16px 14px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
-.cats-row::-webkit-scrollbar{display:none;}
-.cat-item{flex-shrink:0;text-align:center;text-decoration:none;color:var(--text);}
-.cat-circle{width:60px;height:60px;background:linear-gradient(135deg,var(--primary),#0A4D38);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:6px;box-shadow:0 4px 12px rgba(15,107,78,.25);}
-.cat-lbl{font-size:11px;font-weight:700;}
-
-.sec-t{padding:14px 14px 8px;display:flex;justify-content:space-between;align-items:center;}
-.sec-t h3{margin:0;color:var(--primary);font-size:16px;}
-.sec-t a{color:var(--primary);font-size:12px;font-weight:700;text-decoration:none;}
-
-.h-scroll{display:flex;gap:10px;padding:0 14px 12px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
-.h-scroll::-webkit-scrollbar{display:none;}
-
-.live-item{flex-shrink:0;text-align:center;text-decoration:none;width:80px;}
-.live-avatar-wrap{position:relative;width:70px;height:70px;margin:0 auto;}
-.live-avatar-wrap img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:3px solid #ef4444;}
-.live-tag{position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);background:#ef4444;color:#fff;padding:2px 6px;border-radius:6px;font-size:9px;font-weight:900;}
-.live-name{font-size:11px;font-weight:700;color:var(--primary);margin-top:8px;}
-
-.top-seller{flex-shrink:0;background:var(--card);border-radius:14px;padding:12px;text-align:center;text-decoration:none;color:var(--text);box-shadow:var(--shadow);width:120px;}
-.top-rank{width:24px;height:24px;background:linear-gradient(135deg,var(--gold),#F4C685);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;margin:0 auto 6px;}
-.top-avatar{width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);margin:0 auto 6px;display:block;}
-.top-name{font-weight:800;font-size:12px;margin-bottom:2px;display:flex;align-items:center;justify-content:center;gap:3px;color:var(--text);}
-.top-stats{font-size:10px;color:var(--muted);}
-.top-live{margin-top:4px;background:#ef4444;color:#fff;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:900;display:inline-block;}
-
-.verified{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#1D9BF0;color:#fff;border-radius:50%;font-size:8px;font-weight:900;flex-shrink:0;}
-.verified.gold{background:linear-gradient(135deg,#D4A574,#B8895C);}
-.verified.platinum{background:linear-gradient(135deg,#8B5CF6,#EC4899);}
-
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 14px 20px;}
-@media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr);}}
-@media(min-width:900px){.grid{grid-template-columns:repeat(4,1fr);}}
-
-.pcard{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);text-decoration:none;color:var(--text);display:flex;flex-direction:column;transition:transform .15s;}
-.pcard:active{transform:scale(.98);}
-.pcard-img{position:relative;width:100%;aspect-ratio:1/1;background:var(--bg);overflow:hidden;}
-.pcard-img img{width:100%;height:100%;object-fit:cover;}
-.pcard-badges{position:absolute;top:6px;left:6px;display:flex;flex-direction:column;gap:4px;z-index:2;}
-.pcard-badge{padding:3px 8px;border-radius:6px;font-size:9px;font-weight:900;color:#fff;}
-.pcard-live{background:#ef4444;animation:pulse 1.5s infinite;}
-.pcard-local{background:#10B981;}
-.pcard-promo{background:#F97316;}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
-.pcard-fav{position:absolute;top:8px;right:8px;width:30px;height:30px;background:rgba(255,255,255,.95);border-radius:50%;border:none;font-size:14px;z-index:2;cursor:pointer;}
-.pcard-info{padding:10px;}
-.pcard-slr{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--muted);margin-bottom:4px;}
-.pcard-slr img{width:14px;height:14px;border-radius:50%;object-fit:cover;flex-shrink:0;}
-.pcard-name{font-size:13px;font-weight:700;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px;margin-bottom:6px;color:var(--text);}
-.pcard-prices{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;}
-.pcard-price{font-weight:900;color:var(--gold);font-size:14px;}
-.pcard-old{text-decoration:line-through;color:var(--muted);font-size:11px;}
-.pcard-disc{background:#ef4444;color:#fff;padding:1px 5px;border-radius:4px;font-size:9px;font-weight:900;}
-
-.cat-list-item{background:var(--card);border-radius:14px;padding:14px;text-decoration:none;color:var(--text);box-shadow:var(--shadow);display:flex;gap:12px;align-items:center;}
-.cat-list-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
-
-.ia-fab{position:fixed;right:14px;bottom:80px;width:56px;height:56px;background:linear-gradient(135deg,var(--primary),var(--gold));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;box-shadow:0 6px 20px rgba(15,107,78,.4);text-decoration:none;z-index:50;}
-
-.nav-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:600px;background:var(--card);border-top:1px solid var(--border);padding:6px 0 max(6px,env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr);z-index:90;}
-.nav-bar a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--muted);font-size:10px;font-weight:600;padding:4px;}
-.nav-bar a.active{color:var(--primary);}
-.nav-bar a.active .nav-i{background:linear-gradient(135deg,var(--primary),#0A4D38);color:#fff;}
-.nav-i{width:34px;height:34px;background:var(--bg);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;position:relative;}
-.nav-i .badge{position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;font-size:8px;padding:1px 4px;border-radius:6px;font-weight:900;}
-
-.content{padding-bottom:80px;}
-</style>
+<link rel="stylesheet" href="css/app.css">
+<script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-<script>
-// Init immédiat du profil invité SEN TEW
-if(!localStorage.getItem('user')){
-  localStorage.setItem('user', JSON.stringify({
-    id:'guest_'+Date.now(),
-    name:'Utilisateur SEN TEW',
-    email:'invite@sen-tew.com',
-    role:'guest',
-    avatar:'U',
-    isGuest:true
-  }));
-  localStorage.setItem('sen_role','guest');
-  localStorage.setItem('sen_wallet','500');
-}
-</script>
 
-<header class="app-header">
-  <div class="logo-wrap" id="admTrig">
-    <svg class="logo-svg" viewBox="0 0 100 100">
-      <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0F6B4E"/><stop offset="1" stop-color="#D4A574"/></linearGradient></defs>
-      <circle cx="50" cy="50" r="48" fill="url(#lg)"/>
-      <text x="50" y="45" text-anchor="middle" font-family="Arial Black" font-size="22" font-weight="900" fill="white">SEN</text>
-      <text x="50" y="72" text-anchor="middle" font-family="Arial Black" font-size="20" font-weight="900" fill="#D4A574">TEW</text>
-    </svg>
-    <div>
-      <div class="logo-txt">SEN TEW</div>
-      <div class="logo-sub">MARKETPLACE</div>
-    </div>
+<!-- TOPBAR -->
+<header class="topbar">
+  <div id="admTrig" style="display:flex;align-items:center;gap:8px;font-size:20px;font-weight:800;color:var(--v-emeraude);cursor:pointer;">
+    <span style="font-size:24px;">🌍</span> SEN TEW
   </div>
-  <div class="hd-actions">
-    <button class="hd-pill" onclick="toggleDark()" id="darkBtn">🌙</button>
-    <button class="hd-pill" onclick="cycleCurr()"><span id="cFlag">💰</span><span id="cCode">FCFA</span></button>
-    <button class="hd-pill" onclick="cycleLang()"><span id="lFlag">🇫🇷</span><span id="lCode">FR</span></button>
-    <a href="notifications.html" class="hd-icon">🔔<span class="bdg">3</span></a>
-  </div>
+  <div style="flex:1"></div>
+  <button class="icon-btn" onclick="cycleLang()"><span id="lFlag">🇫🇷</span></button>
+  <button class="icon-btn" onclick="cycleCurr()"><span id="cFlag">💰</span></button>
+  <button class="icon-btn" onclick="toggleTheme()">
+    <i data-lucide="moon" class="icon icon-md icon-vert"></i>
+  </button>
 </header>
 
-<main class="content">
-  <div class="sc-wrap">
-    <div class="sc-box">
-      <span>🔍</span>
-      <input type="text" placeholder="Rechercher un produit..." onclick="location.href='recherche-ia.html'" readonly>
-      <a href="recherche-ia.html" class="ia-btn">📷 IA</a>
+<!-- SEARCH BAR -->
+<div style="padding:12px 16px;">
+  <div style="display:flex;gap:8px;background:var(--bg-card);padding:10px 14px;border-radius:12px;cursor:pointer;" onclick="location.href='recherche-ia.html'">
+    <i data-lucide="search" class="icon icon-md icon-vert"></i>
+    <span style="color:var(--text-muted);flex:1;">Rechercher un produit, vendeur...</span>
+    <i data-lucide="sparkles" class="icon icon-md icon-violet"></i>
+  </div>
+</div>
+
+<!-- QUICK ACTIONS GRID (Temu style) -->
+<div style="padding:0 16px;">
+  <div class="icon-grid">
+    <div class="icon-grid-item" onclick="location.href='commandes.html'">
+      <div class="icon-bg bg-or-soft"><i data-lucide="package" class="icon icon-md icon-or"></i></div>
+      <span class="label">Commandes</span>
+    </div>
+    <div class="icon-grid-item" onclick="location.href='portefeuille.html'">
+      <div class="icon-bg bg-vert-soft"><i data-lucide="wallet" class="icon icon-md icon-vert"></i></div>
+      <span class="label">Portefeuille</span>
+    </div>
+    <div class="icon-grid-item" onclick="location.href='favoris.html'">
+      <div class="icon-bg bg-rouge-soft"><i data-lucide="heart" class="icon icon-md icon-rouge"></i></div>
+      <span class="label">Favoris</span>
+    </div>
+    <div class="icon-grid-item" onclick="location.href='fidelite.html'">
+      <div class="icon-bg bg-violet-soft"><i data-lucide="badge-check" class="icon icon-md icon-violet"></i></div>
+      <span class="label">Fidélité</span>
+    </div>
+    <div class="icon-grid-item" onclick="location.href='live.html'">
+      <div class="icon-bg bg-rouge-soft"><i data-lucide="video" class="icon icon-md icon-rouge"></i></div>
+      <span class="label">Live</span>
+    </div>
+    <div class="icon-grid-item" onclick="location.href='bons-promo.html'">
+      <div class="icon-bg bg-orange-soft"><i data-lucide="tag" class="icon icon-md icon-orange"></i></div>
+      <span class="label">Promos</span>
+    </div>
+    <div class="icon-grid-item" onclick="location.href='retouche-ia.html'">
+      <div class="icon-bg bg-gradient-ia"><i data-lucide="wand-2" class="icon icon-md icon-blanc"></i></div>
+      <span class="label">Retouche IA</span>
+    </div>
+    <div class="icon-grid-item" onclick="location.href='panoramique.html'">
+      <div class="icon-bg bg-gradient-fintech"><i data-lucide="rotate-3d" class="icon icon-md icon-blanc"></i></div>
+      <span class="label">Vue 360°</span>
     </div>
   </div>
-
-  <div class="ad-carousel">
-    <a href="verified.html" class="ad-slide active ad-slide-1">
-      <div class="ad-emoji">👑</div>
-      <div class="ad-content">
-        <div class="ad-title">Devenez SEN Verified</div>
-        <div class="ad-desc">Gagnez 3x plus · Bronze/Gold/Platinum</div>
-        <span class="ad-btn">EN PROFITER ›</span>
-      </div>
-    </a>
-    <a href="produits.html?promo=1" class="ad-slide ad-slide-2">
-      <div class="ad-emoji">🔥</div>
-      <div class="ad-content">
-        <div class="ad-title">SOLDES -40%</div>
-        <div class="ad-desc">Sélection tendance · Fin dans 24h</div>
-        <span class="ad-btn">SHOPPER ›</span>
-      </div>
-    </a>
-    <a href="live.html" class="ad-slide ad-slide-3">
-      <div class="ad-emoji">🔴</div>
-      <div class="ad-content">
-        <div class="ad-title">5 vendeurs en LIVE</div>
-        <div class="ad-desc">Achats flash -30% exclusifs</div>
-        <span class="ad-btn">REGARDER ›</span>
-      </div>
-    </a>
-    <div class="ad-dots"><div class="ad-dot active"></div><div class="ad-dot"></div><div class="ad-dot"></div></div>
-  </div>
-
-  <div class="cats-row">
-    <a href="produits.html?cat=mode" class="cat-item"><div class="cat-circle">👕</div><div class="cat-lbl">Mode</div></a>
-    <a href="produits.html?cat=tech" class="cat-item"><div class="cat-circle">🎧</div><div class="cat-lbl">Élec.</div></a>
-    <a href="produits.html?cat=maison" class="cat-item"><div class="cat-circle">🛋</div><div class="cat-lbl">Maison</div></a>
-    <a href="produits.html?cat=beauty" class="cat-item"><div class="cat-circle">💄</div><div class="cat-lbl">Beauté</div></a>
-    <a href="produits.html?cat=food" class="cat-item"><div class="cat-circle">🧺</div><div class="cat-lbl">Alim.</div></a>
-    <a href="produits.html?cat=sport" class="cat-item"><div class="cat-circle">⚽</div><div class="cat-lbl">Sport</div></a>
-    <a href="live.html" class="cat-item"><div class="cat-circle" style="background:linear-gradient(135deg,#ef4444,#f97316);">🔴</div><div class="cat-lbl">LIVE</div></a>
-  </div>
-
-  <div class="sec-t"><h3>🔴 En LIVE maintenant</h3><a href="live.html">Voir tout ›</a></div>
-  <div class="h-scroll" id="livesBox"></div>
-
-  <div class="sec-t"><h3>🏆 Top vendeurs</h3><a href="produits.html">Tout voir ›</a></div>
-  <div class="h-scroll" id="topBox"></div>
-
-  <div class="sec-t"><h3>🔥 Tendances</h3><a href="produits.html">Tout voir ›</a></div>
-  <div class="grid" id="trendGrid"></div>
-<!-- OUTILS IA SEN TEW -->
-<div class="sec-t"><h3>🤖 Outils IA SEN TEW</h3></div>
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 14px 14px">
-  <a href="retouche-ia.html" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9);color:#fff;padding:14px 8px;border-radius:12px;text-align:center;text-decoration:none">
-    <div style="font-size:26px">✨</div>
-    <div style="font-size:11px;font-weight:700;margin-top:4px">Retouche IA</div>
-  </a>
-  <a href="recherche-ia.html" style="background:linear-gradient(135deg,#06b6d4,#0891b2);color:#fff;padding:14px 8px;border-radius:12px;text-align:center;text-decoration:none">
-    <div style="font-size:26px">🔍</div>
-    <div style="font-size:11px;font-weight:700;margin-top:4px">Photo Search</div>
-  </a>
-  <a href="panoramique.html" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;padding:14px 8px;border-radius:12px;text-align:center;text-decoration:none">
-    <div style="font-size:26px">🔄</div>
-    <div style="font-size:11px;font-weight:700;margin-top:4px">Vue 360°</div>
-  </a>
 </div>
-  <div class="sec-t"><h3>🛍 Explorer par catégorie</h3></div>
-  <div class="grid" id="catsGrid"></div>
-</main>
 
-<a href="assistant-ia.html" class="ia-fab">✨</a>
+<!-- LIVES -->
+<div class="section-title">
+  <i data-lucide="video" class="icon icon-md icon-rouge"></i>
+  Vendeurs en Live
+</div>
+<div id="livesBox" style="display:flex;gap:10px;overflow-x:auto;padding:0 16px 16px;"></div>
 
-<nav class="nav-bar">
-  <a href="index.html" class="active"><div class="nav-i">🏠</div><div>Accueil</div></a>
-  <a href="categories.html"><div class="nav-i">▦</div><div>Catégories</div></a>
-  <a href="panier.html"><div class="nav-i">🛒<span class="badge">3</span></div><div>Panier</div></a>
-  <a href="messages.html"><div class="nav-i">💬</div><div>Messages</div></a>
-  <a href="profil.html"><div class="nav-i">👤</div><div>Profil</div></a>
+<!-- TOP SELLERS -->
+<div class="section-title">
+  <i data-lucide="award" class="icon icon-md icon-or"></i>
+  Top Vendeurs
+</div>
+<div id="topBox" style="display:flex;gap:10px;overflow-x:auto;padding:0 16px 16px;"></div>
+
+<!-- CATÉGORIES -->
+<div class="section-title">
+  <i data-lucide="layout-grid" class="icon icon-md icon-vert"></i>
+  Catégories
+</div>
+<div id="catsGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 16px 16px;"></div>
+
+<!-- TENDANCES -->
+<div class="section-title">
+  <i data-lucide="trending-up" class="icon icon-md icon-vert"></i>
+  Tendances
+</div>
+<div id="trendGrid" class="pcard-grid"></div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a href="index.html" class="active">
+    <i data-lucide="home" class="icon icon-md icon-vert"></i>
+    <span>Accueil</span>
+  </a>
+  <a href="recherche-ia.html">
+    <i data-lucide="search" class="icon icon-md"></i>
+    <span>Rechercher</span>
+  </a>
+  <a href="panier.html" class="icon-badge" data-count="0">
+    <i data-lucide="shopping-cart" class="icon icon-md icon-or"></i>
+    <span>Panier</span>
+  </a>
+  <a href="favoris.html">
+    <i data-lucide="heart" class="icon icon-md"></i>
+    <span>Favoris</span>
+  </a>
+  <a href="profil.html">
+    <i data-lucide="user" class="icon icon-md"></i>
+    <span>Profil</span>
+  </a>
 </nav>
 
+<script src="js/role-guard.js"></script>
+<script src="js/dark-mode.js"></script>
 <script>
-// ===== DONNÉES INTÉGRÉES (rendu 100% garanti) =====
-const PRODUCTS = [
-  {id:1,name:'Robe wax mariage',price:35000,oldPrice:50000,image:'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=400',seller:'Aïcha Couture',sellerAvatar:'https://i.pravatar.cc/40?img=1',sellerLive:true,sellerId:'1',local:true,verified:'gold'},
-  {id:2,name:'Sandales cuir Peul',price:8500,oldPrice:12000,image:'https://images.unsplash.com/photo-1603487742131-4160ec999306?w=400',seller:'Aïcha Couture',sellerAvatar:'https://i.pravatar.cc/40?img=1',sellerLive:true,sellerId:'1',local:true,verified:'gold'},
-  {id:6,name:'Sac cuir africain premium',price:15000,oldPrice:22000,image:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400',seller:'Aïcha Couture',sellerAvatar:'https://i.pravatar.cc/40?img=1',sellerId:'1',local:true,verified:'gold'},
-  {id:4,name:'Boubou wax collection',price:18000,oldPrice:25000,image:'https://images.unsplash.com/photo-1544441893-675973e31985?w=400',seller:'Fatou Fashion',sellerAvatar:'https://i.pravatar.cc/40?img=5',sellerId:'3',local:true,verified:'platinum'},
-  {id:10,name:'iPhone 15 Pro 256GB',price:750000,oldPrice:850000,image:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=400',seller:'Moussa Tech',sellerAvatar:'https://i.pravatar.cc/40?img=11',sellerLive:true,sellerId:'2',verified:'gold'},
-  {id:13,name:'Écouteurs sans fil Pro',price:12000,oldPrice:18000,image:'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400',seller:'Moussa Tech',sellerAvatar:'https://i.pravatar.cc/40?img=11',sellerId:'2',verified:'gold'},
-  {id:30,name:'Beurre karité 500g',price:4500,oldPrice:6000,image:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400',seller:'Fatou Beauté',sellerAvatar:'https://i.pravatar.cc/40?img=5',sellerLive:true,sellerId:'3',local:true,verified:'platinum'},
-  {id:50,name:'Maillot Sénégal 2026',price:18000,oldPrice:25000,image:'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=400',seller:'Ibrahima Sport',sellerAvatar:'https://i.pravatar.cc/40?img=13',sellerLive:true,sellerId:'9',local:true,verified:'gold'}
-];
-
+// ===== DONNÉES =====
 const SELLERS = [
-  {id:'1',name:'Aïcha Couture',avatar:'https://i.pravatar.cc/100?img=1',live:true,followers:12400,verified:'gold',sales:3200},
-  {id:'2',name:'Moussa Tech',avatar:'https://i.pravatar.cc/100?img=11',live:true,followers:8900,verified:'gold',sales:2100},
-  {id:'3',name:'Fatou Beauté',avatar:'https://i.pravatar.cc/100?img=5',live:true,followers:5600,verified:'platinum',sales:1400},
-  {id:'9',name:'Ibrahima Sport',avatar:'https://i.pravatar.cc/100?img=13',live:true,followers:6700,verified:'gold',sales:1800},
-  {id:'6',name:'Déco Sénégal',avatar:'https://i.pravatar.cc/100?img=20',live:false,followers:4300,verified:'gold',sales:1200}
+  {id:1,name:'Aïcha Couture',avatar:'https://i.pravatar.cc/100?img=1',verified:'platinum',live:true,sales:2400000,city:'Dakar'},
+  {id:2,name:'Moussa Tech',avatar:'https://i.pravatar.cc/100?img=13',verified:'gold',live:true,sales:1800000,city:'Dakar'},
+  {id:3,name:'Fatou Fashion',avatar:'https://i.pravatar.cc/100?img=5',verified:'gold',live:false,sales:1200000,city:'Thiès'},
+  {id:4,name:'Ibrahim Bio',avatar:'https://i.pravatar.cc/100?img=8',verified:'silver',live:false,sales:800000,city:'Saint-Louis'},
+  {id:5,name:'Mariama Beauté',avatar:'https://i.pravatar.cc/100?img=9',verified:'gold',live:true,sales:1500000,city:'Dakar'}
 ];
-
 const CATEGORIES = [
-  {id:'mode',name:'Mode',icon:'👕',color:'#EC4899',count:1240},
-  {id:'tech',name:'Électronique',icon:'🎧',color:'#3B82F6',count:856},
-  {id:'maison',name:'Maison',icon:'🛋',color:'#F59E0B',count:642},
-  {id:'beauty',name:'Beauté',icon:'💄',color:'#EC4899',count:498},
-  {id:'food',name:'Alimentation',icon:'🧺',color:'#10B981',count:387},
-  {id:'sport',name:'Sport',icon:'⚽',color:'#EF4444',count:234}
+  {id:'mode',name:'Mode',icon:'👗',color:'#ef4444'},
+  {id:'tech',name:'Tech',icon:'📱',color:'#3b82f6'},
+  {id:'beauty',name:'Beauté',icon:'💄',color:'#a855f7'},
+  {id:'food',name:'Alimentation',icon:'🍎',color:'#f59e0b'},
+  {id:'sport',name:'Sport',icon:'⚽',color:'#0f6b4e'},
+  {id:'home',name:'Maison',icon:'🏠',color:'#d4a574'},
+  {id:'bio',name:'Bio',icon:'🌿',color:'#00c060'},
+  {id:'kids',name:'Enfants',icon:'🧸',color:'#f472b6'}
+];
+const PRODUCTS = [
+  {id:1,name:'Boubou wax collection',price:18000,oldPrice:25000,image:'https://images.unsplash.com/photo-1544441893-675973e31985?w=400',seller:'Fatou Fashion',sellerAvatar:'https://i.pravatar.cc/50?img=5',verified:'gold',cat:'mode',sellerLive:false,local:true},
+  {id:2,name:'iPhone 15 Pro 256GB',price:750000,image:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=400',seller:'Moussa Tech',sellerAvatar:'https://i.pravatar.cc/50?img=13',verified:'gold',cat:'tech',sellerLive:true,local:false},
+  {id:3,name:'Sac cuir africain premium',price:15000,oldPrice:22000,image:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400',seller:'Aïcha Couture',sellerAvatar:'https://i.pravatar.cc/50?img=1',verified:'platinum',cat:'mode',sellerLive:true,local:true},
+  {id:4,name:'Écouteurs sans fil Pro',price:12000,image:'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400',seller:'Moussa Tech',sellerAvatar:'https://i.pravatar.cc/50?img=13',verified:'gold',cat:'tech',sellerLive:true,local:false},
+  {id:5,name:'Beurre karité 500g',price:4500,image:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400',seller:'Ibrahim Bio',sellerAvatar:'https://i.pravatar.cc/50?img=8',verified:'silver',cat:'beauty',sellerLive:false,local:true},
+  {id:6,name:'Robe bogolan traditionnelle',price:22000,oldPrice:30000,image:'https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=400',seller:'Aïcha Couture',sellerAvatar:'https://i.pravatar.cc/50?img=1',verified:'platinum',cat:'mode',sellerLive:true,local:true},
+  {id:7,name:'Masque visage bio',price:6500,image:'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400',seller:'Mariama Beauté',sellerAvatar:'https://i.pravatar.cc/50?img=9',verified:'gold',cat:'beauty',sellerLive:true,local:true},
+  {id:8,name:'Montre connectée Sport',price:35000,oldPrice:45000,image:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400',seller:'Moussa Tech',sellerAvatar:'https://i.pravatar.cc/50?img=13',verified:'gold',cat:'tech',sellerLive:true,local:false}
 ];
 
-const CURR = [{c:'FCFA',f:'💰',r:1,s:'FCFA'},{c:'EUR',f:'💶',r:1/655,s:'€'},{c:'USD',f:'💵',r:1/600,s:'$'},{c:'MAD',f:'🇲🇦',r:1/60,s:'DH'}];
-const LANGS = [{c:'FR',f:'🇫🇷',n:'Français'},{c:'WO',f:'🇸🇳',n:'Wolof'},{c:'EN',f:'🇬🇧',n:'English'},{c:'AR',f:'🇸🇦',n:'العربية'}];
+const CURR = [{c:'FCFA',f:'💰',r:1,s:'FCFA'},{c:'EUR',f:'🇪🇺',r:0.00153,s:'€'},{c:'USD',f:'🇺🇸',r:0.00167,s:'$'}];
+const LANGS = [{c:'FR',f:'🇫🇷',n:'Français',d:'ltr'},{c:'EN',f:'🇬🇧',n:'English',d:'ltr'},{c:'AR',f:'🇸🇦',n:'العربية',d:'rtl'}];
 
-function fmt(price){
-  const i = +(localStorage.getItem('curr_idx')||'0');
+function fmt(price) {
+  const i = +(localStorage.getItem('curr_idx')||0);
   const c = CURR[i];
   const v = price * c.r;
-  return c.c==='FCFA'?Math.round(v).toLocaleString('fr-FR')+' FCFA':v.toFixed(2)+' '+c.s;
+  return c.c==='FCFA' ? Math.round(v).toLocaleString('fr-FR')+' '+c.s : v.toFixed(2)+' '+c.s;
 }
 
-// ===== MODE SOMBRE =====
-function applyTheme(){
-  const dark = localStorage.getItem('dark')==='1';
-  document.documentElement.setAttribute('data-theme', dark?'dark':'light');
-  const btn = document.getElementById('darkBtn');
-  if(btn) btn.textContent = dark?'☀️':'🌙';
+function cycleCurr() {
+  let i = +(localStorage.getItem('curr_idx')||0);
+  i = (i+1) % CURR.length;
+  localStorage.setItem('curr_idx', i);
+  document.getElementById('cFlag').textContent = CURR[i].f;
+  renderAll();
+  if(navigator.vibrate) navigator.vibrate(30);
 }
-function toggleDark(){
-  const cur = localStorage.getItem('dark')==='1';
-  localStorage.setItem('dark', cur?'0':'1');
-  applyTheme();
-  if(navigator.vibrate)navigator.vibrate(20);
-}
-applyTheme();
 
-// ===== DEVISE/LANGUE =====
-function refreshHead(){
-  const ci = +(localStorage.getItem('curr_idx')||'0');
-  const li = +(localStorage.getItem('lang_idx')||'0');
-  document.getElementById('cFlag').textContent = CURR[ci].f;
-  document.getElementById('cCode').textContent = CURR[ci].c;
-  document.getElementById('lFlag').textContent = LANGS[li].f;
-  document.getElementById('lCode').textContent = LANGS[li].c;
-}
-refreshHead();
-function cycleCurr(){
-  let i = +(localStorage.getItem('curr_idx')||'0');
-  localStorage.setItem('curr_idx', (i+1)%CURR.length);
-  refreshHead();renderAll();
-  if(navigator.vibrate)navigator.vibrate(20);
-}
-function cycleLang(){
-  let i = +(localStorage.getItem('lang_idx')||'0');
-  i = (i+1)%LANGS.length;
+function cycleLang() {
+  let i = +(localStorage.getItem('lang_idx')||0);
+  i = (i+1) % LANGS.length;
   localStorage.setItem('lang_idx', i);
-  refreshHead();
-  document.documentElement.dir = LANGS[i].c==='AR'?'rtl':'ltr';
-  if(navigator.vibrate)navigator.vibrate(20);
-  setTimeout(()=>alert('🌐 '+LANGS[i].n),100);
+  document.getElementById('lFlag').textContent = LANGS[i].f;
+  document.documentElement.dir = LANGS[i].d;
+  if(navigator.vibrate) navigator.vibrate(30);
 }
+
+// Init flags
+document.getElementById('cFlag').textContent = CURR[+(localStorage.getItem('curr_idx')||0)].f;
+document.getElementById('lFlag').textContent = LANGS[+(localStorage.getItem('lang_idx')||0)].f;
 
 // ===== RENDU =====
-function renderLives(){
-  const html = SELLERS.filter(s=>s.live).map(s=>`
-    <a href="boutique.html?id=${s.id}" class="live-item">
-      <div class="live-avatar-wrap">
-        <img src="${s.avatar}" alt="${s.name}">
-        <span class="live-tag">LIVE</span>
+function renderLives() {
+  const lives = SELLERS.filter(s => s.live);
+  document.getElementById('livesBox').innerHTML = lives.map(s => `
+    <a href="boutique.html?id=${s.id}" style="min-width:80px;text-decoration:none;color:inherit;">
+      <div style="position:relative;">
+        <img src="${s.avatar}" alt="${s.name}" style="width:70px;height:70px;border-radius:50%;border:3px solid var(--rouge);object-fit:cover;">
+        <span style="position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);background:var(--rouge);color:white;font-size:9px;font-weight:800;padding:2px 6px;border-radius:6px;">LIVE</span>
       </div>
-      <div class="live-name">${s.name.split(' ')[0]}</div>
+      <div style="text-align:center;font-size:11px;margin-top:6px;font-weight:600;">${s.name.split(' ')[0]}</div>
     </a>
   `).join('');
-  document.getElementById('livesBox').innerHTML = html;
 }
 
-function renderTop(){
-  const top = [...SELLERS].sort((a,b)=>b.sales-a.sales).slice(0,5);
-  const html = top.map((s,i)=>{
-    const vc = s.verified==='platinum'?'platinum':(s.verified==='gold'?'gold':'');
-    return `
-    <a href="boutique.html?id=${s.id}" class="top-seller">
-      <div class="top-rank">${i+1}</div>
-      <img src="${s.avatar}" class="top-avatar" alt="${s.name}">
-      <div class="top-name">${s.name.split(' ')[0]} ${s.verified?`<span class="verified ${vc}">✓</span>`:''}</div>
-      <div class="top-stats">${s.sales.toLocaleString()} ventes</div>
-      ${s.live?'<div class="top-live">🔴 LIVE</div>':''}
-    </a>`;
-  }).join('');
-  document.getElementById('topBox').innerHTML = html;
-}
-
-function renderTrends(){
-  const trend = [...PRODUCTS].sort((a,b)=>(b.sellerLive?1:0)-(a.sellerLive?1:0));
-  const html = trend.map(p=>{
-    const disc = p.oldPrice?Math.round((1-p.price/p.oldPrice)*100):0;
-    const vc = p.verified==='platinum'?'platinum':(p.verified==='gold'?'gold':'');
-    return `
-    <a href="produit.html?id=${p.id}" class="pcard">
-      <div class="pcard-img">
-        <div class="pcard-badges">
-          ${p.sellerLive?'<span class="pcard-badge pcard-live">🔴 LIVE</span>':''}
-          ${p.local?'<span class="pcard-badge pcard-local">🇸🇳 LOCAL</span>':''}
-          ${disc>0&&!p.sellerLive?`<span class="pcard-badge pcard-promo">-${disc}%</span>`:''}
-        </div>
-        <button class="pcard-fav" onclick="event.preventDefault();this.textContent=this.textContent==='🤍'?'❤️':'🤍'">🤍</button>
-        <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/300/0F6B4E/fff?text=SEN'">
-      </div>
-      <div class="pcard-info">
-        <div class="pcard-slr">
-          <img src="${p.sellerAvatar}" alt="" onerror="this.style.display='none'">
-          <span>${p.seller}</span>
-          ${p.verified?`<span class="verified ${vc}">✓</span>`:''}
-        </div>
-        <div class="pcard-name">${p.name}</div>
-        <div class="pcard-prices">
-          <span class="pcard-price">${fmt(p.price)}</span>
-          ${p.oldPrice?`<span class="pcard-old">${fmt(p.oldPrice)}</span>`:''}
-          ${disc>0?`<span class="pcard-disc">-${disc}%</span>`:''}
-        </div>
-      </div>
-    </a>`;
-  }).join('');
-  document.getElementById('trendGrid').innerHTML = html;
-}
-
-function renderCats(){
-  const html = CATEGORIES.map(c=>`
-    <a href="produits.html?cat=${c.id}" class="cat-list-item">
-      <div class="cat-list-icon" style="background:${c.color}22;color:${c.color};">${c.icon}</div>
-      <div>
-        <div style="font-weight:800;color:var(--primary);font-size:14px;">${c.name}</div>
-        <div style="font-size:11px;color:var(--muted);">${c.count} produits</div>
+function renderTop() {
+  const top = [...SELLERS].sort((a,b) => b.sales - a.sales).slice(0, 5);
+  document.getElementById('topBox').innerHTML = top.map((s, i) => `
+    <a href="boutique.html?id=${s.id}" style="min-width:120px;background:var(--bg-card);border-radius:12px;padding:10px;text-decoration:none;color:inherit;">
+      <div style="text-align:center;">
+        <img src="${s.avatar}" alt="${s.name}" style="width:60px;height:60px;border-radius:50%;object-fit:cover;">
+        <div style="font-size:12px;font-weight:700;margin-top:6px;">${s.name}</div>
+        <div style="font-size:11px;color:var(--v-emeraude);font-weight:800;">${fmt(s.sales)}</div>
       </div>
     </a>
   `).join('');
-  document.getElementById('catsGrid').innerHTML = html;
 }
 
-function renderAll(){
+function renderCats() {
+  document.getElementById('catsGrid').innerHTML = CATEGORIES.map(c => `
+    <a href="produits.html?cat=${c.id}" style="text-decoration:none;color:inherit;">
+      <div style="background:${c.color}22;border-radius:12px;padding:12px;text-align:center;">
+        <div style="font-size:28px;">${c.icon}</div>
+        <div style="font-size:11px;font-weight:700;margin-top:4px;">${c.name}</div>
+      </div>
+    </a>
+  `).join('');
+}
+
+function renderTrends() {
+  const trend = [...PRODUCTS];
+  document.getElementById('trendGrid').innerHTML = trend.map(p => {
+    const disc = p.oldPrice ? Math.round((1 - p.price/p.oldPrice)*100) : 0;
+    return `
+      <a href="produit.html?id=${p.id}" class="pcard" data-id="${p.id}" style="text-decoration:none;color:inherit;">
+        <div class="pcard-img">
+          <div class="pcard-badges">
+            ${p.sellerLive ? '<span class="pcard-badge pcard-badge-live">LIVE</span>' : ''}
+            ${p.local ? '<span class="pcard-badge pcard-badge-local">LOCAL</span>' : ''}
+            ${disc > 0 ? `<span class="pcard-badge pcard-badge-disc">-${disc}%</span>` : ''}
+          </div>
+          <button class="pcard-fav" onclick="event.preventDefault();event.stopPropagation();toggleFav(${p.id});">
+            <i data-lucide="heart" class="icon icon-sm icon-rouge"></i>
+          </button>
+          <img src="${p.image}" alt="${p.name}">
+        </div>
+        <div class="pcard-info">
+          <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;">
+            <img src="${p.sellerAvatar}" style="width:16px;height:16px;border-radius:50%;">
+            <span style="font-size:10px;color:var(--text-muted);">${p.seller}</span>
+            ${p.verified === 'platinum' ? '<i data-lucide="badge-check" class="icon icon-sm icon-violet" style="width:12px;height:12px;"></i>' : ''}
+            ${p.verified === 'gold' ? '<i data-lucide="badge-check" class="icon icon-sm icon-or" style="width:12px;height:12px;"></i>' : ''}
+          </div>
+          <div class="pcard-name">${p.name}</div>
+          <div style="display:flex;align-items:baseline;gap:6px;">
+            <span class="pcard-price">${fmt(p.price)}</span>
+            ${p.oldPrice ? `<span class="pcard-old">${fmt(p.oldPrice)}</span>` : ''}
+            ${disc > 0 ? `<span class="pcard-disc">-${disc}%</span>` : ''}
+          </div>
+        </div>
+      </a>
+    `;
+  }).join('');
+  lucide.createIcons();
+}
+
+function renderAll() {
   renderLives();
   renderTop();
-  renderTrends();
   renderCats();
+  renderTrends();
+  lucide.createIcons();
 }
 
-// EXÉCUTION IMMÉDIATE (pas d'attente de DOMContentLoaded)
+function toggleFav(id) {
+  let favs = JSON.parse(localStorage.getItem('favs')||'[]');
+  if(favs.includes(id)) favs = favs.filter(x => x !== id);
+  else favs.push(id);
+  localStorage.setItem('favs', JSON.stringify(favs));
+  if(navigator.vibrate) navigator.vibrate(20);
+}
+
 renderAll();
 
-// PUB CAROUSEL
-let adIdx = 0;
-setInterval(()=>{
-  document.querySelectorAll('.ad-slide').forEach((s,i)=>s.classList.toggle('active',i===adIdx));
-  document.querySelectorAll('.ad-dot').forEach((d,i)=>d.classList.toggle('active',i===adIdx));
-  adIdx = (adIdx+1)%3;
-},4000);
-
-// ADMIN (7 taps)
-(function(){
+// ===== ADMIN 7 TAPS =====
+(function() {
   let taps = 0, timer = null;
-  document.getElementById('admTrig').addEventListener('click', ()=>{
+  document.getElementById('admTrig').addEventListener('click', function() {
     taps++;
     clearTimeout(timer);
-    timer = setTimeout(()=>taps=0, 3000);
-    if(taps>=7){
-      taps=0;
-      const code = (prompt('🔐 Code admin :')||'').trim().toUpperCase();
-      if(['SENADMIN2026','ADMIN2026','SUPERADMIN'].includes(code)){
-        sessionStorage.setItem('admin_pre_auth','1');
-        location.href='admin.html';
-      } else if(code) alert('❌ Code incorrect');
-    }
-  });
-})();
-
-// SERVICE WORKER (auto-update)
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.getRegistrations().then(regs=>{
-    regs.forEach(r=>r.update());
-  });
-}
-
-console.log('✅ SEN TEW chargé:', PRODUCTS.length, 'produits');
-</script>
-  <script src="js/role-guard.js"></script>
-  <script src="js/dark-mode.js"></script>
-<script>
-// ===== ACCÈS ADMIN SECRET (7 taps sur logo) =====
-(function(){
-  const logo = document.getElementById('admTrig');
-  if(!logo) return;
-  
-  logo.style.cursor = 'pointer';
-  logo.style.userSelect = 'none';
-  
-  let tapCount = 0;
-  let tapTimer = null;
-  
-  logo.addEventListener('click', function(){
-    tapCount++;
-    clearTimeout(tapTimer);
-    
-    if(navigator.vibrate) navigator.vibrate(30);
-    
-    // Feedback visuel discret après 3 taps
-    if(tapCount >= 3 && tapCount < 7){
-      logo.style.transform = 'scale(1.05)';
-      setTimeout(()=>logo.style.transform='scale(1)', 100);
-    }
-    
-    // 7 taps atteints
-    if(tapCount >= 7){
-      tapCount = 0;
-      const code = prompt('🔐 Code administrateur SEN TEW :');
+    timer = setTimeout(() => taps = 0, 3000);
+    if(taps >= 7) {
+      taps = 0;
+      const code = prompt('🔒 Code administrateur :');
       if(!code) return;
-      
-      const clean = code.trim().replace(/[\u200B-\u200D\uFEFF]/g,'').toUpperCase();
-      const validCodes = ['SENADMIN2026','ADMIN2026','SENTEW2026','SUPERADMIN'];
-      
-      if(validCodes.includes(clean)){
-        sessionStorage.setItem('admin_pre_auth','1');
-        if(navigator.vibrate) navigator.vibrate([100,50,100]);
-        alert('✅ Accès autorisé\n\nRedirection vers l\'administration...');
+      const validCodes = ['SENADMIN2026','ADMIN2026'];
+      if(validCodes.includes(code.trim())) {
+        sessionStorage.setItem('admin_pro', '1');
+        alert('✅ Accès autorisé\n\nRedirection...');
         location.href = 'admin.html';
       } else {
-        alert('❌ Code incorrect\n\nCode saisi : "'+clean+'"\nRéessayez.');
+        alert('❌ Code incorrect');
       }
     }
-    
-    // Reset compteur après 3 sec d'inactivité
-    tapTimer = setTimeout(()=>{tapCount = 0;}, 3000);
   });
 })();
-</script>
 
-</<script>
-// FIX MINIMAL v41 - Nettoyer onclick pollués uniquement
-document.addEventListener('DOMContentLoaded', ()=>{
-  setTimeout(()=>{
-    document.querySelectorAll('[onclick*="ajouter-produit"]').forEach(el=>{
-      if(el.closest('.pcard, .top-seller, .live-item')){
-        el.removeAttribute('onclick');
-      }
-    });
-  }, 300);
-});
+// Auto-update SW
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.update()));
+}
+
+console.log('✅ SEN TEW v42 chargé :', PRODUCTS.length, 'produits');
 </script>
+<script>lucide.createIcons();</script>
 </body>
 </html>
-
