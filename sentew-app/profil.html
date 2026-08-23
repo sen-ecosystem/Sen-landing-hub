@@ -2,358 +2,209 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Mon Compte - SEN TEW</title>
-<style>
-:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a;--b:#1976d2;--bg:#f5f5f5;--card:#fff;--text:#222;--muted:#666;--border:#eee}
-[data-theme="dark"]{--bg:#0a1f17;--card:#1a2e24;--text:#f3f4f6;--muted:#9ca3af;--border:#2a3e34}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;font-family:-apple-system,'Segoe UI',sans-serif}
-body{background:var(--bg);color:var(--text);padding-bottom:100px;max-width:600px;margin:0 auto;transition:.3s;-webkit-overflow-scrolling:touch}
-
-/* HERO PROFIL */
-.hero{background:linear-gradient(135deg,var(--v) 0%,#008a44 60%,#005f2f 100%);color:#fff;padding:20px 16px 24px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;background:rgba(252,209,22,.18);border-radius:50%;filter:blur(30px)}
-.hero-top{display:flex;align-items:center;gap:12px;position:relative;z-index:1;margin-bottom:16px}
-.back-btn{background:rgba(255,255,255,.25);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer}
-.hero-top h1{color:#fff;flex:1;font-size:16px;font-weight:700}
-.settings-btn{background:rgba(255,255,255,.2);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:16px;cursor:pointer}
-
-.profil-info{display:flex;align-items:center;gap:14px;position:relative;z-index:1;margin-bottom:14px}
-.avatar-wrap{position:relative}
-.avatar{width:80px;height:80px;border-radius:50%;background:#fff;color:var(--v);display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;border:3px solid var(--j);box-shadow:0 4px 12px rgba(0,0,0,.2)}
-.edit-avatar{position:absolute;bottom:0;right:0;background:var(--j);color:#222;width:26px;height:26px;border-radius:50%;font-size:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.2)}
-.profil-details{flex:1}
-.profil-name{font-size:20px;font-weight:800;color:#fff;display:flex;align-items:center;gap:6px}
-.tick-blue{background:#1da1f2;color:#fff;width:18px;height:18px;border-radius:50%;font-size:10px;display:inline-flex;align-items:center;justify-content:center}
-.profil-email{font-size:12px;opacity:.9;color:#fff;margin-top:2px}
-.role-badge{display:inline-flex;align-items:center;gap:4px;background:var(--j);color:#222;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:800;margin-top:6px}
-
-/* WALLET CARD */
-.wallet-card{background:linear-gradient(135deg,var(--o),#d4a04c);color:#fff;margin:14px;padding:16px;border-radius:16px;box-shadow:0 6px 20px rgba(184,134,58,.3);cursor:pointer;position:relative;overflow:hidden}
-.wallet-card::before{content:'💳';position:absolute;top:-20px;right:-10px;font-size:100px;opacity:.1}
-.wallet-label{font-size:12px;opacity:.9;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
-.wallet-amount{font-size:28px;font-weight:900;color:#fff}
-.wallet-actions{display:flex;gap:8px;margin-top:12px}
-.wallet-btn{background:rgba(255,255,255,.25);border:none;color:#fff;padding:8px 14px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;flex:1;backdrop-filter:blur(10px)}
-
-/* FIDÉLITÉ */
-.fidelity{background:var(--card);margin:0 14px 14px;padding:14px;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,.05);display:flex;align-items:center;gap:12px;cursor:pointer}
-.fidelity-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--j),#f4b800);color:#222;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
-.fidelity-body{flex:1}
-.fidelity-body h4{font-size:14px;font-weight:800;color:var(--text)}
-.fidelity-body p{font-size:11px;color:var(--muted);margin-top:2px}
-.fidelity-bar{height:6px;background:#f0f0f0;border-radius:3px;margin-top:6px;overflow:hidden}
-.fidelity-fill{height:100%;background:linear-gradient(90deg,var(--j),#f4b800);width:65%}
-.fidelity-arrow{color:var(--muted);font-size:20px}
-
-/* BASCULE RÔLE */
-.role-switcher{background:var(--card);margin:0 14px 14px;padding:14px;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.role-title{font-size:13px;font-weight:800;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.role-list{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.role-item{padding:12px 8px;border-radius:12px;border:1.5px solid var(--border);text-align:center;cursor:pointer;background:var(--card);transition:.2s}
-.role-item.active{border-color:var(--v);background:linear-gradient(135deg,rgba(0,166,81,.08),rgba(0,166,81,.03))}
-.role-item.active .role-name{color:var(--v);font-weight:800}
-.role-item.other{opacity:.7}
-.role-icon-big{font-size:26px;display:block;margin-bottom:4px}
-.role-name{font-size:12px;font-weight:600;color:var(--text)}
-
-/* SECTION TITRE */
-.section-title{padding:0 16px;margin:12px 0 8px;font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;display:flex;align-items:center;gap:6px}
-
-/* MENU GROUP */
-.menu-group{background:var(--card);margin:0 14px 14px;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,.05);overflow:hidden}
-.menu-item{display:flex;align-items:center;padding:12px 14px;cursor:pointer;border-bottom:1px solid var(--border);transition:.15s}
-.menu-item:last-child{border-bottom:none}
-.menu-item:active{background:var(--bg)}
-.menu-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;color:#fff}
-.menu-body{flex:1;margin-left:12px;min-width:0}
-.menu-title{font-weight:700;font-size:14px;color:var(--text)}
-.menu-desc{font-size:11px;color:var(--muted);margin-top:2px}
-.menu-arrow{color:var(--muted);font-size:20px;margin-left:4px}
-.menu-badge{background:var(--r);color:#fff;font-size:10px;padding:2px 6px;border-radius:8px;font-weight:800;margin-left:4px}
-
-/* NAV BAR BOTTOM */
-.nav-bar{position:fixed;bottom:0;left:0;right:0;max-width:600px;margin:0 auto;background:var(--card);border-top:1px solid var(--border);padding:8px 0;display:flex;justify-content:space-around;z-index:50}
-.nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--muted);font-size:11px;font-weight:600;padding:4px 8px}
-.nav-item.active{color:var(--v)}
-.nav-item .nav-i{font-size:22px}
-</style>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Profil - SEN TEW</title>
+<meta name="theme-color" content="#0f6b4e">
+<link rel="stylesheet" href="css/app.css">
+<script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-top">
-    <button class="back-btn" onclick="history.back()">←</button>
-    <h1>👤 Mon Compte</h1>
-    <button class="settings-btn" onclick="location.href='parametres.html'">⚙️</button>
-  </div>
-  <div class="profil-info">
-    <div class="avatar-wrap">
-      <div class="avatar" id="userAvatar">OD</div>
-      <div class="edit-avatar" onclick="editAvatar()">📷</div>
-    </div>
-    <div class="profil-details">
-      <div class="profil-name"><span id="userName">Ousseynou Diop</span><span class="tick-blue">✓</span></div>
-      <div class="profil-email" id="userEmail">ousseynou@example.com</div>
-      <div class="role-badge" id="userRole">🛒 CLIENT</div>
-    </div>
-  </div>
-</div>
+<header class="topbar">
+  <h1>Mon Profil</h1>
+  <button class="icon-btn" onclick="toggleTheme()">
+    <i data-lucide="moon" class="icon icon-md icon-vert"></i>
+  </button>
+  <button class="icon-btn" onclick="location.href='parametres.html'">
+    <i data-lucide="settings" class="icon icon-md icon-vert"></i>
+  </button>
+</header>
 
-<!-- WALLET -->
-<div class="wallet-card" onclick="location.href='portefeuille.html'">
-  <div class="wallet-label">💰 Mon Wallet SEN TEW</div>
-  <div class="wallet-amount" id="walletAmount">500 FCFA</div>
-  <div class="wallet-actions">
-    <button class="wallet-btn" onclick="event.stopPropagation();recharge()">➕ Recharger</button>
-    <button class="wallet-btn" onclick="event.stopPropagation();withdraw()">💸 Retirer</button>
-    <button class="wallet-btn" onclick="event.stopPropagation();location.href='portefeuille.html'">📊 Historique</button>
-  </div>
-</div>
+<main style="padding:16px;padding-bottom:100px;">
 
-<!-- FIDÉLITÉ -->
-<div class="fidelity" onclick="location.href='fidelite.html'">
-  <div class="fidelity-icon">⭐</div>
-  <div class="fidelity-body">
-    <h4>Niveau Bronze · 1 245 points</h4>
-    <p>Plus que 755 points pour Silver 🥈</p>
-    <div class="fidelity-bar"><div class="fidelity-fill"></div></div>
+  <!-- Carte profil -->
+  <div style="background:linear-gradient(135deg,var(--v-emeraude),var(--v-forest));color:white;padding:20px;border-radius:16px;margin-bottom:16px;">
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div id="userAvatar" style="width:70px;height:70px;border-radius:50%;background:var(--or-royal);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:var(--noir-profond);">U</div>
+      <div style="flex:1;">
+        <h2 id="userName" style="font-size:18px;font-weight:800;">Utilisateur SEN TEW</h2>
+        <div id="userEmail" style="font-size:12px;opacity:0.9;">invite@sen-tew.com</div>
+        <div style="margin-top:6px;">
+          <span id="userRole" style="background:rgba(255,255,255,0.2);padding:3px 10px;border-radius:8px;font-size:11px;font-weight:700;">👤 Invité</span>
+        </div>
+      </div>
+      <button class="icon-btn" onclick="location.href='inscription.html'">
+        <i data-lucide="log-in" class="icon icon-md icon-blanc"></i>
+      </button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px;">
+      <div style="text-align:center;background:rgba(255,255,255,0.15);padding:10px;border-radius:10px;">
+        <div id="userWallet" style="font-size:14px;font-weight:800;">500</div>
+        <div style="font-size:10px;opacity:0.9;">FCFA</div>
+      </div>
+      <div style="text-align:center;background:rgba(255,255,255,0.15);padding:10px;border-radius:10px;">
+        <div style="font-size:14px;font-weight:800;">0</div>
+        <div style="font-size:10px;opacity:0.9;">Commandes</div>
+      </div>
+      <div style="text-align:center;background:rgba(255,255,255,0.15);padding:10px;border-radius:10px;">
+        <div style="font-size:14px;font-weight:800;">🔥 Bronze</div>
+        <div style="font-size:10px;opacity:0.9;">Fidélité</div>
+      </div>
+    </div>
   </div>
-  <div class="fidelity-arrow">›</div>
-</div>
 
-<!-- BASCULE RÔLE -->
-<div class="role-switcher">
-  <div class="role-title">🔄 Basculer de rôle</div>
-  <div class="role-list">
-    <div class="role-item active" onclick="switchToRole('client')">
-      <span class="role-icon-big">🛒</span>
-      <div class="role-name">Client</div>
+  <!-- Actions rapides -->
+  <div class="section-title" style="margin:16px 0 12px;">
+    <i data-lucide="zap" class="icon icon-md icon-or"></i>
+    Actions rapides
+  </div>
+  <div class="icon-grid">
+    <div class="icon-grid-item" onclick="location.href='commandes.html'">
+      <div class="icon-bg bg-or-soft"><i data-lucide="package" class="icon icon-md icon-or"></i></div>
+      <span class="label">Commandes</span>
     </div>
-    <div class="role-item other" onclick="switchToRole('vendeur')">
-      <span class="role-icon-big">🏪</span>
-      <div class="role-name">Devenir vendeur</div>
+    <div class="icon-grid-item" onclick="location.href='favoris.html'">
+      <div class="icon-bg bg-rouge-soft"><i data-lucide="heart" class="icon icon-md icon-rouge"></i></div>
+      <span class="label">Favoris</span>
     </div>
-    <div class="role-item other" onclick="switchToRole('livreur')">
-      <span class="role-icon-big">🛵</span>
-      <div class="role-name">Devenir livreur</div>
+    <div class="icon-grid-item" onclick="location.href='portefeuille.html'">
+      <div class="icon-bg bg-vert-soft"><i data-lucide="wallet" class="icon icon-md icon-vert"></i></div>
+      <span class="label">Portefeuille</span>
+    </div>
+    <div class="icon-grid-item" onclick="location.href='parrainage.html'">
+      <div class="icon-bg bg-violet-soft"><i data-lucide="gift" class="icon icon-md icon-violet"></i></div>
+      <span class="label">Parrainage</span>
     </div>
   </div>
-</div>
 
-<!-- 🤖 OUTILS IA (Commit 224) -->
-<div class="section-title">🤖 Outils IA SEN TEW</div>
-<div class="menu-group">
-  <div class="menu-item" onclick="location.href='retouche-ia.html'">
-    <div class="menu-icon" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9)">✨</div>
-    <div class="menu-body">
-      <div class="menu-title">Retouche photo IA</div>
-      <div class="menu-desc">Améliorez vos photos automatiquement</div>
+  <!-- 🤖 Section IA -->
+  <div style="background:linear-gradient(135deg,var(--violet),var(--bleu));color:white;padding:16px;border-radius:14px;margin:20px 0;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+      <div style="width:40px;height:40px;background:rgba(255,255,255,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+        <i data-lucide="sparkles" class="icon icon-md icon-blanc"></i>
+      </div>
+      <div style="flex:1;">
+        <h3 style="font-size:16px;font-weight:800;">🤖 Outils IA SEN TEW</h3>
+        <div style="font-size:12px;opacity:0.9;">Boostez votre expérience</div>
+      </div>
     </div>
-    <span class="menu-badge">NEW</span>
-    <span class="menu-arrow">›</span>
-  </div>
-  <div class="menu-item" onclick="location.href='recherche-ia.html'">
-    <div class="menu-icon" style="background:linear-gradient(135deg,#06b6d4,#0891b2)">🔍</div>
-    <div class="menu-body">
-      <div class="menu-title">Recherche par photo</div>
-      <div class="menu-desc">Trouvez un produit avec une image</div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">
+      <button onclick="location.href='retouche-ia.html'" style="background:rgba(255,255,255,0.15);color:white;padding:10px;border-radius:10px;font-size:12px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <i data-lucide="wand-2" class="icon icon-md icon-blanc"></i>
+        <span>Retouche</span>
+      </button>
+      <button onclick="location.href='recherche-ia.html'" style="background:rgba(255,255,255,0.15);color:white;padding:10px;border-radius:10px;font-size:12px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <i data-lucide="scan" class="icon icon-md icon-blanc"></i>
+        <span>Recherche</span>
+      </button>
+      <button onclick="location.href='panoramique.html'" style="background:rgba(255,255,255,0.15);color:white;padding:10px;border-radius:10px;font-size:12px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <i data-lucide="rotate-3d" class="icon icon-md icon-blanc"></i>
+        <span>Vue 360°</span>
+      </button>
+      <button onclick="location.href='assistant-ia.html'" style="background:rgba(255,255,255,0.15);color:white;padding:10px;border-radius:10px;font-size:12px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <i data-lucide="bot" class="icon icon-md icon-blanc"></i>
+        <span>Assistant</span>
+      </button>
     </div>
-    <span class="menu-arrow">›</span>
   </div>
-  <div class="menu-item" onclick="location.href='panoramique.html'">
-    <div class="menu-icon" style="background:linear-gradient(135deg,#f59e0b,#d97706)">🔄</div>
-    <div class="menu-body">
-      <div class="menu-title">Vue 360° panoramique</div>
-      <div class="menu-desc">Visualisez les produits en 3D</div>
-    </div>
-    <span class="menu-arrow">›</span>
-  </div>
-  <div class="menu-item" onclick="location.href='assistant-ia.html'">
-    <div class="menu-icon" style="background:linear-gradient(135deg,var(--v),#008a44)">🤖</div>
-    <div class="menu-body">
-      <div class="menu-title">Assistant IA SEN TEW</div>
-      <div class="menu-desc">Chatbot conseiller shopping</div>
-    </div>
-    <span class="menu-arrow">›</span>
-  </div>
-</div>
 
-<!-- MES ACHATS -->
-<div class="section-title">📦 Mes achats</div>
-<div class="menu-group">
-  <div class="menu-item" onclick="location.href='commandes.html'">
-    <div class="menu-icon" style="background:linear-gradient(135deg,var(--v),#008a44)">📦</div>
-    <div class="menu-body">
-      <div class="menu-title">Mes commandes</div>
-      <div class="menu-desc">7 commandes · 287k FCFA</div>
+  <!-- Menu -->
+  <div style="background:var(--bg-card);border-radius:12px;overflow:hidden;margin-bottom:16px;">
+    <div onclick="location.href='adresses.html'" style="padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid var(--border);">
+      <i data-lucide="map-pin" class="icon icon-md icon-vert"></i>
+      <span style="flex:1;font-size:14px;font-weight:600;">Mes adresses</span>
+      <i data-lucide="chevron-right" class="icon icon-sm"></i>
     </div>
-    <span class="menu-arrow">›</span>
-  </div>
-  <div class="menu-item" onclick="location.href='favoris.html'">
-    <div class="menu-icon" style="background:linear-gradient(135deg,#ef4444,#dc2626)">❤️</div>
-    <div class="menu-body">
-      <div class="menu-title">Mes favoris</div>
-      <div class="menu-desc">12 produits sauvegardés</div>
+    <div onclick="location.href='messages.html'" style="padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid var(--border);">
+      <i data-lucide="message-circle" class="icon icon-md icon-vert"></i>
+      <span style="flex:1;font-size:14px;font-weight:600;">Messages</span>
+      <i data-lucide="chevron-right" class="icon icon-sm"></i>
     </div>
-    <span class="menu-arrow">›</span>
-  </div>
-  <div class="menu-item" onclick="location.href='panier.html'">
-    <div class="menu-icon" style="background:linear-gradient(135deg,var(--j),#f4b800);color:#222">🛒</div>
-    <div class="menu-body">
-      <div class="menu-title">Mon panier</div>
-      <div class="menu-desc">3 articles en attente</div>
+    <div onclick="location.href='notifications.html'" style="padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid var(--border);">
+      <i data-lucide="bell" class="icon icon-md icon-or"></i>
+      <span style="flex:1;font-size:14px;font-weight:600;">Notifications</span>
+      <i data-lucide="chevron-right" class="icon icon-sm"></i>
     </div>
-    <span class="menu-arrow">›</span>
-  </div>
-  <div class="menu-item" onclick="location.href='remboursement.html'">
-    <div class="menu-icon" style="background:linear-gradient(135deg,#f97316,#ea580c)">↩️</div>
-    <div class="menu-body">
-      <div class="menu-title">Retour & remboursement</div>
-      <div class="menu-desc">Gérer mes demandes de retour</div>
+    <div onclick="location.href='vendeur.html'" style="padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;">
+      <i data-lucide="store" class="icon icon-md icon-vert"></i>
+      <span style="flex:1;font-size:14px;font-weight:600;">Devenir vendeur</span>
+      <i data-lucide="chevron-right" class="icon icon-sm"></i>
     </div>
-    <span class="menu-arrow">›</span>
   </div>
-</div>
 
-<!-- MON COMPTE -->
-<div class="section-title">⚙️ Mon compte</div>
-<div class="menu-group">
-  <div class="menu-item" onclick="location.href='adresses.html'">
-    <div class="menu-icon" style="background:linear-gradient(135deg,#3b82f6,#2563eb)">📍</div>
-    <div class="menu-body">
-      <div class="menu-title">Mes adresses</div>
-      <div class="menu-desc">3 adresses enregistrées</div>
-    </div>
-    <span class="menu-arrow">›</span>
+  <!-- Aide & Légal -->
+  <div class="section-title" style="margin:16px 0 12px;">
+    <i data-lucide="help-circle" class="icon icon-md icon-vert"></i>
+    Aide & Légal
   </div>
-  <div class="menu-item" onclick="location.href='notifications.html'">
-    <div class="menu-icon" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)">🔔</div>
-    <div class="menu-body">
-      <div class="menu-title">Notifications</div>
-      <div class="menu-desc">8 non lues</div>
+  <div style="background:var(--bg-card);border-radius:12px;overflow:hidden;margin-bottom:16px;">
+    <div onclick="location.href='mentions-legales.html'" style="padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid var(--border);">
+      <i data-lucide="scroll-text" class="icon icon-md icon-vert"></i>
+      <span style="flex:1;font-size:14px;font-weight:600;">Mentions légales</span>
+      <i data-lucide="chevron-right" class="icon icon-sm"></i>
     </div>
-    <span class="menu-badge">8</span>
-    <span class="menu-arrow">›</span>
-  </div>
-  <div class="menu-item" onclick="location.href='messages.html'">
-    <div class="menu-icon" style="background:linear-gradient(135deg,#0ea5e9,#0284c7)">💬</div>
-    <div class="menu-body">
-      <div class="menu-title">Messages</div>
-      <div class="menu-desc">Chat avec vendeurs & support</div>
+    <div onclick="location.href='cgu.html'" style="padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid var(--border);">
+      <i data-lucide="file-text" class="icon icon-md icon-vert"></i>
+      <span style="flex:1;font-size:14px;font-weight:600;">CGU</span>
+      <i data-lucide="chevron-right" class="icon icon-sm"></i>
     </div>
-    <span class="menu-arrow">›</span>
-  </div>
-  <div class="menu-item" onclick="location.href='parrainage.html'">
-    <div class="menu-icon" style="background:linear-gradient(135deg,#ec4899,#db2777)">🎁</div>
-    <div class="menu-body">
-      <div class="menu-title">Parrainage</div>
-      <div class="menu-desc">Gagnez 500 FCFA par ami invité</div>
+    <div onclick="location.href='cgv.html'" style="padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid var(--border);">
+      <i data-lucide="file-text" class="icon icon-md icon-vert"></i>
+      <span style="flex:1;font-size:14px;font-weight:600;">CGV</span>
+      <i data-lucide="chevron-right" class="icon icon-sm"></i>
     </div>
-    <span class="menu-arrow">›</span>
-  </div>
-  <div class="menu-item" onclick="location.href='parametres.html'">
-    <div class="menu-icon" style="background:linear-gradient(135deg,#64748b,#475569)">⚙️</div>
-    <div class="menu-body">
-      <div class="menu-title">Paramètres</div>
-      <div class="menu-desc">Compte, sécurité, langue, thème</div>
+    <div onclick="location.href='confidentialite-app.html'" style="padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid var(--border);">
+      <i data-lucide="shield-check" class="icon icon-md icon-vert"></i>
+      <span style="flex:1;font-size:14px;font-weight:600;">Confidentialité</span>
+      <i data-lucide="chevron-right" class="icon icon-sm"></i>
     </div>
-    <span class="menu-arrow">›</span>
+    <div onclick="location.href='cookies.html'" style="padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid var(--border);">
+      <i data-lucide="cookie" class="icon icon-md icon-or"></i>
+      <span style="flex:1;font-size:14px;font-weight:600;">Cookies</span>
+      <i data-lucide="chevron-right" class="icon icon-sm"></i>
+    </div>
+    <div onclick="location.href='signaler.html'" style="padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;">
+      <i data-lucide="flag" class="icon icon-md icon-rouge"></i>
+      <span style="flex:1;font-size:14px;font-weight:600;">Signaler un contenu</span>
+      <i data-lucide="chevron-right" class="icon icon-sm"></i>
+    </div>
   </div>
-</div>
 
-<!-- SUPPORT -->
-<div class="section-title">💡 Aide & Support</div>
-<div class="menu-group">
-  <div class="menu-item" onclick="location.href='contact.html'">
-    <div class="menu-icon" style="background:linear-gradient(135deg,var(--v),#008a44)">📞</div>
-    <div class="menu-body">
-      <div class="menu-title">Contacter le support</div>
-      <div class="menu-desc">7j/7 · Wave, WhatsApp, Email</div>
-    </div>
-    <span class="menu-arrow">›</span>
-  </div>
-  <div class="menu-item" onclick="location.href='mentions-legales.html'">
-    <div class="menu-icon" style="background:linear-gradient(135deg,#64748b,#475569)">📄</div>
-    <div class="menu-body">
-      <div class="menu-title">Mentions légales</div>
-      <div class="menu-desc">CGU, CGV, RGPD, cookies</div>
-    </div>
-    <span class="menu-arrow">›</span>
-  </div>
-  <div class="menu-item" onclick="logout()">
-    <div class="menu-icon" style="background:linear-gradient(135deg,var(--r),#c41217)">🚪</div>
-    <div class="menu-body">
-      <div class="menu-title" style="color:var(--r)">Se déconnecter</div>
-      <div class="menu-desc">Effacer la session actuelle</div>
-    </div>
-    <span class="menu-arrow">›</span>
-  </div>
-</div>
+  <!-- Déconnexion -->
+  <button onclick="if(confirm('Se déconnecter ?')) window.RoleGuard.logout()" style="width:100%;padding:14px;background:var(--bg-card);color:var(--rouge);border-radius:12px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;">
+    <i data-lucide="log-out" class="icon icon-sm icon-rouge"></i>
+    Se déconnecter
+  </button>
 
-<!-- NAV BAR -->
-<nav class="nav-bar">
-  <a href="index.html" class="nav-item"><span class="nav-i">🏠</span><span>Accueil</span></a>
-  <a href="categories.html" class="nav-item"><span class="nav-i">📂</span><span>Catégories</span></a>
-  <a href="panier.html" class="nav-item"><span class="nav-i">🛒</span><span>Panier</span></a>
-  <a href="favoris.html" class="nav-item"><span class="nav-i">❤️</span><span>Favoris</span></a>
-  <a href="profil.html" class="nav-item active"><span class="nav-i">👤</span><span>Compte</span></a>
+  <div style="text-align:center;color:var(--text-muted);font-size:11px;margin-top:20px;">
+    SEN TEW v42 · © SEN ECOSYSTEM 2026
+  </div>
+
+</main>
+
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
+  <a href="recherche-ia.html"><i data-lucide="search" class="icon icon-md"></i><span>Rechercher</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md icon-or"></i><span>Panier</span></a>
+  <a href="favoris.html"><i data-lucide="heart" class="icon icon-md"></i><span>Favoris</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user" class="icon icon-md icon-vert"></i><span>Profil</span></a>
 </nav>
 
-<script src="js/dark-mode.js"></script>
 <script src="js/role-guard.js"></script>
+<script src="js/dark-mode.js"></script>
 <script>
-// Charge données locales
-const wallet = localStorage.getItem('sen_wallet') || '500';
-document.getElementById('walletAmount').textContent = parseInt(wallet).toLocaleString('fr-FR') + ' FCFA';
-
-const role = localStorage.getItem('sen_role') || 'client';
-const roleLabels = {client:'🛒 CLIENT', vendeur:'🏪 VENDEUR', livreur:'🛵 LIVREUR', admin:'👔 ADMIN'};
-document.getElementById('userRole').textContent = roleLabels[role] || '🛒 CLIENT';
-
-// Marquer le rôle actif
-document.querySelectorAll('.role-item').forEach((el,i)=>{
-  const roles = ['client','vendeur','livreur'];
-  el.classList.toggle('active', roles[i]===role);
-  el.classList.toggle('other', roles[i]!==role);
-});
-
-// Utilisateur
-const user = JSON.parse(localStorage.getItem('user') || '{}');
-if(user.name) document.getElementById('userName').textContent = user.name;
-if(user.email) document.getElementById('userEmail').textContent = user.email;
-if(user.avatar) document.getElementById('userAvatar').textContent = user.avatar;
-
-function switchToRole(newRole){
-  if(newRole === role){alert('✅ Vous êtes déjà en mode ' + roleLabels[newRole]);return;}
-  if(newRole === 'vendeur'){
-    if(confirm('🏪 Devenir vendeur ?\n\nAccédez à votre boutique, ajoutez des produits, gérez vos ventes.')){
-      localStorage.setItem('sen_role','vendeur');
-      location.href = 'vendeur.html';
-    }
-  } else if(newRole === 'livreur'){
-    if(confirm('🛵 Devenir livreur ?\n\nRecevez des missions, livrez à Dakar, gagnez 3000-8000 FCFA/jour.')){
-      localStorage.setItem('sen_role','livreur');
-      location.href = 'livreur.html';
-    }
-  } else {
-    localStorage.setItem('sen_role','client');
-    location.reload();
-  }
+// Init user data
+const user = window.RoleGuard.getUser();
+if(user) {
+  document.getElementById('userName').textContent = user.name || 'Utilisateur SEN TEW';
+  document.getElementById('userEmail').textContent = user.email || 'invite@sen-tew.com';
+  document.getElementById('userWallet').textContent = (user.wallet || 500).toLocaleString('fr-FR');
+  document.getElementById('userAvatar').textContent = (user.name || 'U').charAt(0).toUpperCase();
+  const roleLabels = {guest:'👤 Invité', user:'✅ Client', vendeur:'🏪 Vendeur', admin:'👑 Admin'};
+  document.getElementById('userRole').textContent = roleLabels[user.role] || '👤 Invité';
 }
-
-function recharge(){location.href='portefeuille.html?action=recharge'}
-function withdraw(){location.href='portefeuille.html?action=withdraw'}
-function editAvatar(){alert('📷 Fonctionnalité photo de profil bientôt disponible')}
-function logout(){
-  if(confirm('🚪 Vous déconnecter de SEN TEW ?')){
-    localStorage.removeItem('user');
-    sessionStorage.clear();
-    alert('✅ Déconnecté');
-    location.href='login.html';
-  }
-}
+lucide.createIcons();
 </script>
+<script>lucide.createIcons();</script>
 </body>
 </html>
