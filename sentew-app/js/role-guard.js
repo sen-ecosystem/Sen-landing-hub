@@ -1,73 +1,127 @@
-// ===== ROLE GUARD v4 — Session invité + Retouche IA vendeurs =====
-(function(){
-  // AUTO-CRÉATION PROFIL INVITÉ
-  if(!localStorage.getItem('user') && !localStorage.getItem('sen_role')){
-    localStorage.setItem('user', JSON.stringify({
-      id:'guest_'+Date.now(), name:'Utilisateur SEN TEW',
-      email:'invite@sen-tew.com', role:'guest', avatar:'U', isGuest:true
-    }));
-    localStorage.setItem('sen_role','guest');
-    localStorage.setItem('sen_wallet','500');
-  }
+/* ==========================================
+   SEN TEW - Role Guard v42
+   23 août 2026
+   Gestion des rôles + session invité
+   ========================================== */
 
+(function() {
+  'use strict';
+
+  // Pages publiques accessibles sans connexion
   const publicPages = [
-    'index.html','landing.html','login.html','inscription.html',
-    'onboarding.html','produit.html','boutique.html','categories.html',
-    'produits.html','recherche.html','recherche-ia.html',
-    'panoramique.html','assistant-ia.html','mentions-legales.html',
-    'cgu.html','cgv.html','rgpd.html','contact.html',
-    'mot-de-passe-oublie.html','verified.html','bons-promo.html',
-    'stories.html','live.html','profil.html','panier.html',
-    'favoris.html','notifications.html','messages.html','chat.html',
-    'commandes.html','adresses.html','portefeuille.html','fidelite.html',
-    'parrainage.html','parametres.html','remboursement.html','signaler.html',
-    'paiement.html','suivi.html',''
+    'index.html',
+    'landing.html',
+    'onboarding.html',
+    'login.html',
+    'login-guest.html',
+    'inscription.html',
+    'mot-de-passe-oublie.html',
+    'reset.html',
+    'produit.html',
+    'produits.html',
+    'boutique.html',
+    'categories.html',
+    'recherche-ia.html',
+    'mentions-legales.html',
+    'cgu.html',
+    'cgv.html',
+    'cookies.html',
+    'confidentialite-app.html',
+    'signaler.html',
+    'sw-kill.html',
+    ''
   ];
 
-  const vendorOnlyIA = ['retouche-ia.html'];
-  const vendorPages = ['vendeur.html','vendeur-stats.html','ajouter-produit.html'];
-  const courierPages = ['livreur.html','logistique.html'];
-  const adminPages = ['admin.html','audit.html'];
+  // Initialiser profil invité si aucun utilisateur
+  function initGuestProfile() {
+    if (!localStorage.getItem('user')) {
+      const guest = {
+        id: 'guest-' + Date.now(),
+        name: 'Utilisateur SEN TEW',
+        email: 'invite@sen-tew.com',
+        role: 'guest',
+        wallet: 500,
+        avatar: '',
+        verified: false,
+        createdAt: Date.now(),
+        isGuest: true
+      };
+      localStorage.setItem('user', JSON.stringify(guest));
+    }
+  }
 
-  const currentPage = location.pathname.split('/').pop() || 'index.html';
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
-  const role = user.role || localStorage.getItem('sen_role') || 'guest';
-  const isAdmin = sessionStorage.getItem('admin_pre_auth') === '1' || role === 'admin';
+  // Récupérer utilisateur courant
+  function getCurrentUser() {
+    try {
+      return JSON.parse(localStorage.getItem('user') || 'null');
+    } catch(e) {
+      return null;
+    }
+  }
 
-  if(publicPages.includes(currentPage)) return;
+  // Vérifier accès à la page courante
+  function checkPageAccess() {
+    const currentPage = location.pathname.split('/').pop() || 'index.html';
 
-  if(vendorOnlyIA.includes(currentPage)){
-    if(role !== 'vendeur' && !isAdmin){
-      if(confirm('✨ Retouche Photo IA — Réservée aux vendeurs\n\n🎯 Améliorez vos photos produits automatiquement\n💰 Incluse dans plan Gold (15 000 FCFA/mois)\n📈 Augmentez vos ventes de 40%\n\n✓ Devenir vendeur maintenant ?')){
-        location.href = 'inscription.html?role=vendeur&from=retouche-ia';
-      } else {
+    // Pages publiques : accès libre
+    if (publicPages.includes(currentPage)) return true;
+
+    // Pages restreintes : nécessitent un utilisateur
+    const user = getCurrentUser();
+    if (!user) {
+      // Créer profil invité automatiquement
+      initGuestProfile();
+      return true;
+    }
+
+    // Pages admin uniquement
+    if (currentPage === 'admin.html' && user.role !== 'admin') {
+      const isAdmin = sessionStorage.getItem('admin_pro') === '1';
+      if (!isAdmin) {
         location.href = 'index.html';
+        return false;
       }
     }
-    return;
-  }
-  if(vendorPages.includes(currentPage)){
-    if(role !== 'vendeur' && !isAdmin){
-      if(confirm('🏪 Section réservée aux vendeurs.\n\n✓ OK → Devenir vendeur\n✗ Annuler → Accueil')){
-        localStorage.setItem('sen_role','vendeur');
-        localStorage.setItem('user', JSON.stringify({...user, role:'vendeur'}));
-        location.reload();
-      } else { location.href = 'index.html'; }
+
+    // Pages vendeur
+    if (['vendeur.html', 'vendeur-stats.html', 'ajouter-produit.html'].includes(currentPage)) {
+      if (user.role !== 'vendeur' && user.role !== 'admin') {
+        // Permettre l'accès en mode "démo" pour invités
+        return true;
+      }
     }
-    return;
+
+    return true;
   }
-  if(courierPages.includes(currentPage)){
-    if(role !== 'livreur' && !isAdmin){
-      if(confirm('🛵 Section réservée aux livreurs.\n\n✓ Livrez à Dakar\n✓ 3 000–8 000 FCFA/jour')){
-        localStorage.setItem('sen_role','livreur');
-        localStorage.setItem('user', JSON.stringify({...user, role:'livreur'}));
-        location.reload();
-      } else { location.href = 'index.html'; }
+
+  // Exposer API globale
+  window.RoleGuard = {
+    initGuest: initGuestProfile,
+    getUser: getCurrentUser,
+    checkAccess: checkPageAccess,
+
+    setRole: function(role) {
+      const user = getCurrentUser() || {};
+      user.role = role;
+      localStorage.setItem('user', JSON.stringify(user));
+    },
+
+    logout: function() {
+      localStorage.removeItem('user');
+      sessionStorage.removeItem('admin_pro');
+      initGuestProfile();
+      location.href = 'index.html';
     }
-    return;
-  }
-  if(adminPages.includes(currentPage)){
-    if(!isAdmin){ location.href = 'index.html'; }
-    return;
+  };
+
+  // Init au chargement
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      initGuestProfile();
+      checkPageAccess();
+    });
+  } else {
+    initGuestProfile();
+    checkPageAccess();
   }
 })();
