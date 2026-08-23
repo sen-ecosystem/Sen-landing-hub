@@ -11,29 +11,55 @@
 </head>
 <body>
 
-<!-- TOPBAR -->
 <header class="topbar">
-  <div id="admTrig" style="display:flex;align-items:center;gap:8px;font-size:20px;font-weight:800;color:var(--v-emeraude);cursor:pointer;">
-    <span style="font-size:24px;">🌍</span> SEN TEW
+  <div id="admTrig" style="display:flex;align-items:center;gap:8px;font-size:18px;font-weight:800;color:var(--v-emeraude);cursor:pointer;">
+    <span class="emoji-fix" style="font-size:22px;">🌍</span> SEN TEW
   </div>
   <div style="flex:1"></div>
-  <button class="icon-btn" onclick="cycleLang()"><span id="lFlag">🇫🇷</span></button>
-  <button class="icon-btn" onclick="cycleCurr()"><span id="cFlag">💰</span></button>
+  <button class="icon-btn" onclick="cycleLang()"><span id="lFlag" class="emoji-fix">🇫🇷</span></button>
+  <button class="icon-btn" onclick="cycleCurr()"><span id="cFlag" class="emoji-fix">💰</span></button>
   <button class="icon-btn" onclick="toggleTheme()">
     <i data-lucide="moon" class="icon icon-md icon-vert"></i>
   </button>
 </header>
 
-<!-- SEARCH BAR -->
+<!-- SEARCH -->
 <div style="padding:12px 16px;">
   <div style="display:flex;gap:8px;background:var(--bg-card);padding:10px 14px;border-radius:12px;cursor:pointer;" onclick="location.href='recherche-ia.html'">
     <i data-lucide="search" class="icon icon-md icon-vert"></i>
-    <span style="color:var(--text-muted);flex:1;">Rechercher un produit, vendeur...</span>
+    <span style="color:var(--text-muted);flex:1;">Rechercher un produit, boutique...</span>
     <i data-lucide="sparkles" class="icon icon-md icon-violet"></i>
   </div>
 </div>
 
-<!-- QUICK ACTIONS GRID (Temu style) -->
+<!-- PANNEAU PUBLICITAIRE -->
+<div class="ad-carousel">
+  <div class="ad-slide ad-slide-1 active" onclick="location.href='bons-promo.html'">
+    <div>
+      <h3>🎉 Rentrée SEN TEW</h3>
+      <p>Jusqu'à -30% sur mode et tech · Code : RENTREE26</p>
+    </div>
+  </div>
+  <div class="ad-slide ad-slide-2" onclick="location.href='fidelite.html'">
+    <div>
+      <h3>🏆 Programme fidélité</h3>
+      <p>Gagnez 10% cashback dès votre 2e commande</p>
+    </div>
+  </div>
+  <div class="ad-slide ad-slide-3" onclick="location.href='parrainage.html'">
+    <div>
+      <h3>🎁 Parrainez vos amis</h3>
+      <p>500 FCFA offerts pour chaque ami inscrit</p>
+    </div>
+  </div>
+  <div class="ad-dots">
+    <span class="ad-dot active"></span>
+    <span class="ad-dot"></span>
+    <span class="ad-dot"></span>
+  </div>
+</div>
+
+<!-- QUICK ACTIONS (sans Retouche IA) -->
 <div style="padding:0 16px;">
   <div class="icon-grid">
     <div class="icon-grid-item" onclick="location.href='commandes.html'">
@@ -60,13 +86,13 @@
       <div class="icon-bg bg-orange-soft"><i data-lucide="tag" class="icon icon-md icon-orange"></i></div>
       <span class="label">Promos</span>
     </div>
-    <div class="icon-grid-item" onclick="location.href='retouche-ia.html'">
-      <div class="icon-bg bg-gradient-ia"><i data-lucide="wand-2" class="icon icon-md icon-blanc"></i></div>
-      <span class="label">Retouche IA</span>
-    </div>
     <div class="icon-grid-item" onclick="location.href='panoramique.html'">
       <div class="icon-bg bg-gradient-fintech"><i data-lucide="rotate-3d" class="icon icon-md icon-blanc"></i></div>
       <span class="label">Vue 360°</span>
+    </div>
+    <div class="icon-grid-item" onclick="location.href='messages.html'">
+      <div class="icon-bg bg-bleu-soft"><i data-lucide="message-circle" class="icon icon-md icon-bleu"></i></div>
+      <span class="label">Messages</span>
     </div>
   </div>
 </div>
@@ -74,21 +100,21 @@
 <!-- LIVES -->
 <div class="section-title">
   <i data-lucide="video" class="icon icon-md icon-rouge"></i>
-  Vendeurs en Live
+  Boutiques en Live
 </div>
 <div id="livesBox" style="display:flex;gap:10px;overflow-x:auto;padding:0 16px 16px;"></div>
 
-<!-- TOP SELLERS -->
+<!-- TOP BOUTIQUES (renommé, sans chiffres ventes) -->
 <div class="section-title">
   <i data-lucide="award" class="icon icon-md icon-or"></i>
-  Top Vendeurs
+  Top Boutiques
 </div>
 <div id="topBox" style="display:flex;gap:10px;overflow-x:auto;padding:0 16px 16px;"></div>
 
 <!-- CATÉGORIES -->
 <div class="section-title">
   <i data-lucide="layout-grid" class="icon icon-md icon-vert"></i>
-  Catégories
+  Explorer par catégorie
 </div>
 <div id="catsGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 16px 16px;"></div>
 
@@ -99,7 +125,6 @@
 </div>
 <div id="trendGrid" class="pcard-grid"></div>
 
-<!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <a href="index.html" class="active">
     <i data-lucide="home" class="icon icon-md icon-vert"></i>
@@ -126,13 +151,12 @@
 <script src="js/role-guard.js"></script>
 <script src="js/dark-mode.js"></script>
 <script>
-// ===== DONNÉES =====
 const SELLERS = [
-  {id:1,name:'Aïcha Couture',avatar:'https://i.pravatar.cc/100?img=1',verified:'platinum',live:true,sales:2400000,city:'Dakar'},
-  {id:2,name:'Moussa Tech',avatar:'https://i.pravatar.cc/100?img=13',verified:'gold',live:true,sales:1800000,city:'Dakar'},
-  {id:3,name:'Fatou Fashion',avatar:'https://i.pravatar.cc/100?img=5',verified:'gold',live:false,sales:1200000,city:'Thiès'},
-  {id:4,name:'Ibrahim Bio',avatar:'https://i.pravatar.cc/100?img=8',verified:'silver',live:false,sales:800000,city:'Saint-Louis'},
-  {id:5,name:'Mariama Beauté',avatar:'https://i.pravatar.cc/100?img=9',verified:'gold',live:true,sales:1500000,city:'Dakar'}
+  {id:1,name:'Aïcha Couture',avatar:'https://i.pravatar.cc/100?img=1',verified:'platinum',live:true,city:'Dakar',rating:4.9},
+  {id:2,name:'Moussa Tech',avatar:'https://i.pravatar.cc/100?img=13',verified:'gold',live:true,city:'Dakar',rating:4.7},
+  {id:3,name:'Fatou Fashion',avatar:'https://i.pravatar.cc/100?img=5',verified:'gold',live:false,city:'Thiès',rating:4.6},
+  {id:4,name:'Ibrahim Bio',avatar:'https://i.pravatar.cc/100?img=8',verified:'silver',live:false,city:'Saint-Louis',rating:4.8},
+  {id:5,name:'Mariama Beauté',avatar:'https://i.pravatar.cc/100?img=9',verified:'gold',live:true,city:'Dakar',rating:4.9}
 ];
 const CATEGORIES = [
   {id:'mode',name:'Mode',icon:'👗',color:'#ef4444'},
@@ -154,61 +178,62 @@ const PRODUCTS = [
   {id:7,name:'Masque visage bio',price:6500,image:'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400',seller:'Mariama Beauté',sellerAvatar:'https://i.pravatar.cc/50?img=9',verified:'gold',cat:'beauty',sellerLive:true,local:true},
   {id:8,name:'Montre connectée Sport',price:35000,oldPrice:45000,image:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400',seller:'Moussa Tech',sellerAvatar:'https://i.pravatar.cc/50?img=13',verified:'gold',cat:'tech',sellerLive:true,local:false}
 ];
-
 const CURR = [{c:'FCFA',f:'💰',r:1,s:'FCFA'},{c:'EUR',f:'🇪🇺',r:0.00153,s:'€'},{c:'USD',f:'🇺🇸',r:0.00167,s:'$'}];
 const LANGS = [{c:'FR',f:'🇫🇷',n:'Français',d:'ltr'},{c:'EN',f:'🇬🇧',n:'English',d:'ltr'},{c:'AR',f:'🇸🇦',n:'العربية',d:'rtl'}];
 
-function fmt(price) {
+function fmt(p) {
   const i = +(localStorage.getItem('curr_idx')||0);
   const c = CURR[i];
-  const v = price * c.r;
+  const v = p * c.r;
   return c.c==='FCFA' ? Math.round(v).toLocaleString('fr-FR')+' '+c.s : v.toFixed(2)+' '+c.s;
 }
-
 function cycleCurr() {
   let i = +(localStorage.getItem('curr_idx')||0);
   i = (i+1) % CURR.length;
   localStorage.setItem('curr_idx', i);
   document.getElementById('cFlag').textContent = CURR[i].f;
   renderAll();
-  if(navigator.vibrate) navigator.vibrate(30);
 }
-
 function cycleLang() {
   let i = +(localStorage.getItem('lang_idx')||0);
   i = (i+1) % LANGS.length;
   localStorage.setItem('lang_idx', i);
   document.getElementById('lFlag').textContent = LANGS[i].f;
   document.documentElement.dir = LANGS[i].d;
-  if(navigator.vibrate) navigator.vibrate(30);
 }
-
-// Init flags
 document.getElementById('cFlag').textContent = CURR[+(localStorage.getItem('curr_idx')||0)].f;
 document.getElementById('lFlag').textContent = LANGS[+(localStorage.getItem('lang_idx')||0)].f;
 
-// ===== RENDU =====
 function renderLives() {
   const lives = SELLERS.filter(s => s.live);
   document.getElementById('livesBox').innerHTML = lives.map(s => `
     <a href="boutique.html?id=${s.id}" style="min-width:80px;text-decoration:none;color:inherit;">
       <div style="position:relative;">
-        <img src="${s.avatar}" alt="${s.name}" style="width:70px;height:70px;border-radius:50%;border:3px solid var(--rouge);object-fit:cover;">
+        <img src="${s.avatar}" style="width:70px;height:70px;border-radius:50%;border:3px solid var(--rouge);object-fit:cover;">
         <span style="position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);background:var(--rouge);color:white;font-size:9px;font-weight:800;padding:2px 6px;border-radius:6px;">LIVE</span>
       </div>
-      <div style="text-align:center;font-size:11px;margin-top:6px;font-weight:600;">${s.name.split(' ')[0]}</div>
+      <div style="text-align:center;font-size:11px;margin-top:6px;font-weight:600;">${s.name}</div>
     </a>
   `).join('');
 }
 
 function renderTop() {
-  const top = [...SELLERS].sort((a,b) => b.sales - a.sales).slice(0, 5);
-  document.getElementById('topBox').innerHTML = top.map((s, i) => `
-    <a href="boutique.html?id=${s.id}" style="min-width:120px;background:var(--bg-card);border-radius:12px;padding:10px;text-decoration:none;color:inherit;">
+  // Top boutiques par note, SANS chiffres ventes
+  const top = [...SELLERS].sort((a,b) => b.rating - a.rating);
+  document.getElementById('topBox').innerHTML = top.map(s => `
+    <a href="boutique.html?id=${s.id}" style="min-width:130px;background:var(--bg-card);border-radius:12px;padding:12px;text-decoration:none;color:inherit;">
       <div style="text-align:center;">
-        <img src="${s.avatar}" alt="${s.name}" style="width:60px;height:60px;border-radius:50%;object-fit:cover;">
-        <div style="font-size:12px;font-weight:700;margin-top:6px;">${s.name}</div>
-        <div style="font-size:11px;color:var(--v-emeraude);font-weight:800;">${fmt(s.sales)}</div>
+        <img src="${s.avatar}" style="width:60px;height:60px;border-radius:50%;object-fit:cover;">
+        <div style="display:flex;align-items:center;justify-content:center;gap:4px;margin-top:6px;">
+          <span style="font-size:13px;font-weight:700;">${s.name}</span>
+          ${s.verified === 'platinum' ? '<i data-lucide="badge-check" class="icon icon-sm icon-violet" style="width:12px;height:12px;"></i>' : ''}
+          ${s.verified === 'gold' ? '<i data-lucide="badge-check" class="icon icon-sm icon-or" style="width:12px;height:12px;"></i>' : ''}
+        </div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:3px;font-size:11px;color:var(--or-royal);font-weight:700;margin-top:2px;">
+          <i data-lucide="star" class="icon icon-sm icon-or" style="width:11px;height:11px;"></i>
+          ${s.rating}
+        </div>
+        <div style="font-size:10px;color:var(--text-muted);">${s.city}</div>
       </div>
     </a>
   `).join('');
@@ -218,7 +243,7 @@ function renderCats() {
   document.getElementById('catsGrid').innerHTML = CATEGORIES.map(c => `
     <a href="produits.html?cat=${c.id}" style="text-decoration:none;color:inherit;">
       <div style="background:${c.color}22;border-radius:12px;padding:12px;text-align:center;">
-        <div style="font-size:28px;">${c.icon}</div>
+        <div class="emoji-fix" style="font-size:28px;">${c.icon}</div>
         <div style="font-size:11px;font-weight:700;margin-top:4px;">${c.name}</div>
       </div>
     </a>
@@ -226,8 +251,7 @@ function renderCats() {
 }
 
 function renderTrends() {
-  const trend = [...PRODUCTS];
-  document.getElementById('trendGrid').innerHTML = trend.map(p => {
+  document.getElementById('trendGrid').innerHTML = PRODUCTS.map(p => {
     const disc = p.oldPrice ? Math.round((1 - p.price/p.oldPrice)*100) : 0;
     return `
       <a href="produit.html?id=${p.id}" class="pcard" data-id="${p.id}" style="text-decoration:none;color:inherit;">
@@ -246,14 +270,11 @@ function renderTrends() {
           <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;">
             <img src="${p.sellerAvatar}" style="width:16px;height:16px;border-radius:50%;">
             <span style="font-size:10px;color:var(--text-muted);">${p.seller}</span>
-            ${p.verified === 'platinum' ? '<i data-lucide="badge-check" class="icon icon-sm icon-violet" style="width:12px;height:12px;"></i>' : ''}
-            ${p.verified === 'gold' ? '<i data-lucide="badge-check" class="icon icon-sm icon-or" style="width:12px;height:12px;"></i>' : ''}
           </div>
           <div class="pcard-name">${p.name}</div>
           <div style="display:flex;align-items:baseline;gap:6px;">
             <span class="pcard-price">${fmt(p.price)}</span>
             ${p.oldPrice ? `<span class="pcard-old">${fmt(p.oldPrice)}</span>` : ''}
-            ${disc > 0 ? `<span class="pcard-disc">-${disc}%</span>` : ''}
           </div>
         </div>
       </a>
@@ -262,25 +283,26 @@ function renderTrends() {
   lucide.createIcons();
 }
 
-function renderAll() {
-  renderLives();
-  renderTop();
-  renderCats();
-  renderTrends();
-  lucide.createIcons();
-}
+function renderAll() { renderLives(); renderTop(); renderCats(); renderTrends(); lucide.createIcons(); }
 
 function toggleFav(id) {
   let favs = JSON.parse(localStorage.getItem('favs')||'[]');
-  if(favs.includes(id)) favs = favs.filter(x => x !== id);
+  if(favs.includes(id)) favs = favs.filter(x=>x!==id);
   else favs.push(id);
   localStorage.setItem('favs', JSON.stringify(favs));
-  if(navigator.vibrate) navigator.vibrate(20);
 }
 
 renderAll();
 
-// ===== ADMIN 7 TAPS =====
+// Panneau pub carousel auto
+let adIdx = 0;
+setInterval(() => {
+  document.querySelectorAll('.ad-slide').forEach((s,i) => s.classList.toggle('active', i === adIdx));
+  document.querySelectorAll('.ad-dot').forEach((d,i) => d.classList.toggle('active', i === adIdx));
+  adIdx = (adIdx + 1) % 3;
+}, 4000);
+
+// Admin 7 taps
 (function() {
   let taps = 0, timer = null;
   document.getElementById('admTrig').addEventListener('click', function() {
@@ -291,24 +313,18 @@ renderAll();
       taps = 0;
       const code = prompt('🔒 Code administrateur :');
       if(!code) return;
-      const validCodes = ['SENADMIN2026','ADMIN2026'];
-      if(validCodes.includes(code.trim())) {
+      if(['SENADMIN2026','ADMIN2026'].includes(code.trim())) {
         sessionStorage.setItem('admin_pro', '1');
-        alert('✅ Accès autorisé\n\nRedirection...');
         location.href = 'admin.html';
-      } else {
-        alert('❌ Code incorrect');
-      }
+      } else alert('❌ Code incorrect');
     }
   });
 })();
 
-// Auto-update SW
 if('serviceWorker' in navigator) {
   navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.update()));
 }
-
-console.log('✅ SEN TEW v42 chargé :', PRODUCTS.length, 'produits');
+console.log('✅ SEN TEW v43 chargé');
 </script>
 <script>lucide.createIcons();</script>
 </body>
