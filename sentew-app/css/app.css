@@ -508,3 +508,129 @@ body.dark-mode .legal-page h2 { color: var(--or-clair) !important; }
   box-shadow: 0 4px 12px rgba(15, 107, 78, 0.3);
   z-index: 99;
 }
+/* ========== FIX EMOJIS CASSÉS ========== */
+/* Force affichage emoji système (résout les carrés "?" iOS) */
+.emoji, .emoji-fix {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif !important;
+  font-style: normal !important;
+  font-variant: normal !important;
+  font-weight: normal !important;
+  line-height: 1 !important;
+  text-rendering: optimizeLegibility !important;
+}
+
+/* Icônes headers (résout les ? dans titres H1/H2) */
+h1, h2, h3, h4, .section-title, .topbar h1 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple Color Emoji", "Segoe UI Emoji", sans-serif !important;
+}
+
+/* ========== DARK/LIGHT UNIVERSAL FIX v43 ========== */
+/* Force fond correct sur toute page en dark mode */
+@media (prefers-color-scheme: dark) {
+  html, body { background: #0a1f17 !important; }
+  main, article, section:not(.hero), div, aside, header, footer, nav {
+    color: #f5f5f0;
+  }
+  /* Cards */
+  .card, .pcard, .top-seller, .live-item, .box, .stat-card,
+  [class*="card"], [style*="background:#fff"], [style*="background:white"] {
+    background: #1a2e24 !important;
+    color: #f5f5f0 !important;
+  }
+  /* Titres colorés dark - beige/or doux */
+  h1, h2, h3, h4, .title, .section-title, .topbar h1 {
+    color: #f0c99a !important;
+  }
+  /* Prix vert menthe visible */
+  .price, .pcard-price, [class*="price"] {
+    color: #00c060 !important;
+  }
+  /* Texte principal blanc cassé */
+  p, span, li, div:not([class*="btn"]) {
+    color: #f5f5f0;
+  }
+  /* Texte muted plus clair */
+  .text-muted, [class*="muted"] { color: #a0b0a8 !important; }
+  /* Fond pages légales */
+  .legal-page, .legal-page section { background: transparent !important; }
+  .legal-page section { background: #1a2e24 !important; padding: 12px; border-radius: 10px; margin-bottom: 12px; }
+  /* Bottom nav dark */
+  .bottom-nav { background: #0a1f17 !important; border-top-color: #2a3f34 !important; }
+  .bottom-nav a { color: #a0b0a8 !important; }
+  .bottom-nav a.active, .bottom-nav a.active span { color: #00c060 !important; }
+  /* Inputs */
+  input, textarea, select {
+    background: #1a2e24 !important;
+    color: #f5f5f0 !important;
+    border-color: #2a3f34 !important;
+  }
+  input::placeholder, textarea::placeholder { color: #6a7a72 !important; }
+  /* Boutons primaires or */
+  .btn-or { color: #0a1f17 !important; }
+  /* Suppression fonds blancs cassants */
+  [style*="background:#ffffff"], [style*="background: #ffffff"],
+  [style*="background:#fff;"], [style*="background: #fff;"] {
+    background: #1a2e24 !important;
+  }
+}
+
+/* Light mode force sur pages qui restent sombres à tort */
+@media (prefers-color-scheme: light) {
+  html, body { background: #ffffff; color: #0a1f17; }
+  .pcard, .card { background: #f5f5f0; color: #0a1f17; }
+}
+
+/* Body dark-mode class (toggle manuel) */
+body.dark-mode { background: #0a1f17 !important; }
+body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4 { color: #f0c99a !important; }
+body.dark-mode .pcard, body.dark-mode .card { background: #1a2e24 !important; }
+body.dark-mode .price { color: #00c060 !important; }
+body.dark-mode input, body.dark-mode select, body.dark-mode textarea {
+  background: #1a2e24 !important; color: #f5f5f0 !important; border-color: #2a3f34 !important;
+}
+
+/* ========== PANNEAU PUBLICITAIRE ========== */
+.ad-carousel {
+  position: relative;
+  margin: 12px 16px;
+  border-radius: 14px;
+  overflow: hidden;
+  height: 140px;
+  box-shadow: 0 4px 12px rgba(15,107,78,0.15);
+}
+.ad-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  cursor: pointer;
+}
+.ad-slide.active { opacity: 1; }
+.ad-slide h3 { font-size: 20px; font-weight: 900; margin-bottom: 4px; }
+.ad-slide p { font-size: 12px; opacity: 0.95; }
+.ad-slide-1 { background: linear-gradient(135deg, #0f6b4e, #00c060); }
+.ad-slide-2 { background: linear-gradient(135deg, #d4a574, #f0c99a); color: #0a1f17 !important; }
+.ad-slide-3 { background: linear-gradient(135deg, #a855f7, #3b82f6); }
+.ad-dots {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 2;
+}
+.ad-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.5); }
+.ad-dot.active { background: white; width: 18px; border-radius: 3px; }
+
+/* ========== FIX SEEDS EMOJI dans HEADERS ========== */
+.icon-emoji-safe::before {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif !important;
+  content: attr(data-emoji);
+  margin-right: 6px;
+}
+
