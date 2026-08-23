@@ -2,275 +2,186 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Boutique - SEN TEW</title>
-<link rel="stylesheet" href="css/styles-pays.css">
-<style>
-:root{--v:#0f6b4e;--vd:#0a4d38;--or:#d4a574;--or-clair:#f0c99a;--noir:#0a1f17;--card:#1a2e24;--text:#f5f5f0;--muted:#9ca3af;--border:#2a3e34;--rouge:#ef4444;--menthe:#00c060}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;font-family:-apple-system,'Segoe UI',sans-serif}
-body{background:var(--noir);color:var(--text);padding-bottom:80px;max-width:600px;margin:0 auto}
-.top-nav{position:fixed;top:0;left:0;right:0;max-width:600px;margin:0 auto;padding:10px 14px;display:flex;gap:10px;z-index:100;background:linear-gradient(180deg,rgba(0,0,0,.6),transparent)}
-.top-btn{width:38px;height:38px;background:rgba(26,46,36,.9);border:none;border-radius:50%;font-size:16px;color:var(--text);cursor:pointer;backdrop-filter:blur(10px)}
-.top-spacer{flex:1}
-.hero{background:linear-gradient(135deg,var(--v),var(--vd));padding:60px 16px 20px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(212,165,116,.3),transparent);border-radius:50%}
-.hero-content{display:flex;gap:14px;position:relative;z-index:1;align-items:center}
-.shop-avatar{width:80px;height:80px;border-radius:50%;background:var(--noir);color:var(--or);display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;border:3px solid var(--or);box-shadow:0 4px 12px rgba(0,0,0,.4)}
-.shop-info{flex:1}
-.shop-name{font-size:20px;font-weight:800;color:#fff;display:flex;align-items:center;gap:6px}
-.shop-tick{background:#1da1f2;color:#fff;width:20px;height:20px;border-radius:50%;font-size:11px;display:inline-flex;align-items:center;justify-content:center}
-.shop-badge{display:inline-block;background:var(--or);color:#111;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:800;margin-top:4px}
-.shop-loc{color:#fff;opacity:.9;font-size:12px;margin-top:6px}
-.shop-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 14px;padding:12px;background:var(--card);border-radius:12px;border:1px solid var(--border)}
-.st{text-align:center}
-.st-n{font-size:16px;font-weight:900;color:var(--or)}
-.st-l{font-size:9px;color:var(--muted);margin-top:2px}
-.shop-actions{display:flex;gap:8px;margin:8px 14px}
-.sa-follow{flex:1;background:linear-gradient(135deg,var(--v),var(--vd));color:#fff;border:none;padding:10px;border-radius:10px;font-weight:800;cursor:pointer;font-size:13px}
-.sa-chat{flex:1;background:var(--card);border:1px solid var(--or);color:var(--or);padding:10px;border-radius:10px;font-weight:800;cursor:pointer;font-size:13px}
-.sa-share{background:var(--card);border:1px solid var(--border);color:var(--or);width:44px;padding:10px;border-radius:10px;cursor:pointer;font-size:14px}
-.tabs{display:flex;background:var(--card);margin:8px 14px 0;border-radius:12px;padding:4px;border:1px solid var(--border)}
-.tab{flex:1;padding:10px;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;border-radius:8px}
-.tab.on{background:linear-gradient(135deg,var(--v),var(--vd));color:#fff}
-.section{background:var(--card);margin:8px 14px;padding:14px;border-radius:12px;border:1px solid var(--border)}
-.sec-title{font-size:13px;font-weight:800;color:var(--or);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.sec-title .link{margin-left:auto;color:var(--menthe);font-size:11px;cursor:pointer}
-.filter-row{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
-.filter-row::-webkit-scrollbar{display:none}
-.f-chip{padding:6px 12px;background:var(--noir);border:1px solid var(--border);border-radius:16px;font-size:11px;font-weight:700;color:var(--text);cursor:pointer;white-space:nowrap}
-.f-chip.on{background:var(--or);color:#111;border-color:var(--or)}
-.products-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.p-card{background:var(--noir);border-radius:12px;overflow:hidden;cursor:pointer;border:1px solid var(--border);position:relative}
-.p-card img{width:100%;aspect-ratio:1;object-fit:cover;background:var(--card)}
-.p-badge{position:absolute;top:6px;left:6px;background:var(--rouge);color:#fff;padding:2px 6px;border-radius:6px;font-size:9px;font-weight:800}
-.p-info{padding:8px}
-.p-name{font-size:12px;color:var(--text);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.p-price{color:var(--or);font-weight:900;font-size:13px;margin-top:2px}
-.p-old{color:var(--muted);text-decoration:line-through;font-size:10px;margin-left:4px}
-.p-stars{color:var(--or);font-size:10px;margin-top:2px}
-.promo-card{background:linear-gradient(135deg,rgba(212,165,116,.15),rgba(15,107,78,.1));border:1px solid var(--or);border-radius:12px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:12px}
-.promo-ic{font-size:28px}
-.promo-body{flex:1}
-.promo-t{font-size:14px;font-weight:800;color:var(--or)}
-.promo-d{font-size:11px;color:var(--muted);margin-top:2px}
-.promo-code{background:var(--noir);border:1px dashed var(--or);color:var(--or);padding:6px 10px;border-radius:6px;font-family:monospace;font-weight:800;font-size:12px;cursor:pointer}
-.review{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
-.review:last-child{border:none}
-.rv-av{width:36px;height:36px;border-radius:50%;background:var(--v);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
-.rv-body{flex:1}
-.rv-name{font-size:12px;font-weight:700}
-.rv-stars{color:var(--or);font-size:11px;margin-top:2px}
-.rv-txt{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.5}
-.rv-date{font-size:10px;color:var(--muted);margin-top:4px}
-.tracking-card{background:var(--noir);border-radius:10px;padding:12px;margin-bottom:8px;border:1px solid var(--border);display:flex;align-items:center;gap:10px}
-.tc-ic{font-size:22px}
-.tc-body{flex:1}
-.tc-t{font-size:12px;font-weight:700;color:var(--text)}
-.tc-d{font-size:10px;color:var(--muted);margin-top:2px}
-.info-privacy{background:rgba(0,192,96,.05);border:1px solid var(--menthe);border-radius:10px;padding:10px;margin:8px 14px;font-size:11px;color:var(--menthe);line-height:1.5;text-align:center}
-</style>
+<meta name="theme-color" content="#0f6b4e">
+<link rel="stylesheet" href="css/app.css">
+<script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
-<div class="top-nav">
-  <button class="top-btn" onclick="history.back()">←</button>
-  <div class="top-spacer"></div>
-  <button class="top-btn" onclick="share()">🔗</button>
-  <button class="top-btn" onclick="location.href='recherche.html'">🔍</button>
-</div>
+<header class="topbar">
+  <button class="btn-back" onclick="history.back()">
+    <i data-lucide="arrow-left" class="icon icon-md icon-vert"></i>
+  </button>
+  <h1 id="shopTitle">Boutique</h1>
+  <button class="icon-btn">
+    <i data-lucide="share-2" class="icon icon-md icon-vert"></i>
+  </button>
+</header>
 
-<div class="hero">
-  <div class="hero-content">
-    <div class="shop-avatar" id="shopAv">A</div>
-    <div class="shop-info">
-      <div class="shop-name"><span id="shopName">Aïcha Couture</span><span class="shop-tick">✓</span></div>
-      <div class="shop-badge">⭐ VÉRIFIÉ GOLD</div>
-      <div class="shop-loc">📍 Dakar, Sénégal 🇸🇳 · Ouvert depuis 2022</div>
-    </div>
-  </div>
-</div>
+<main id="shopMain" style="padding-bottom:100px;">
+  <!-- Généré JS -->
+</main>
 
-<div class="shop-stats">
-  <div class="st"><div class="st-n">4.9★</div><div class="st-l">Note</div></div>
-  <div class="st"><div class="st-n">856</div><div class="st-l">Abonnés</div></div>
-  <div class="st"><div class="st-n">1.2k</div><div class="st-l">Ventes</div></div>
-  <div class="st"><div class="st-n">85</div><div class="st-l">Produits</div></div>
-</div>
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
+  <a href="recherche-ia.html"><i data-lucide="search" class="icon icon-md"></i><span>Rechercher</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md icon-or"></i><span>Panier</span></a>
+  <a href="favoris.html"><i data-lucide="heart" class="icon icon-md"></i><span>Favoris</span></a>
+  <a href="profil.html"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
+</nav>
 
-<div class="shop-actions">
-  <button class="sa-follow" onclick="follow()">+ Suivre</button>
-  <button class="sa-chat" onclick="location.href='chat.html?seller='+sellerId">💬 Message</button>
-  <button class="sa-share" onclick="share()">🔗</button>
-</div>
-
-<div class="info-privacy">
-  🔒 Boutique publique · Les infos personnelles du vendeur restent privées (comme Alibaba)
-</div>
-
-<div class="tabs">
-  <div class="tab on" onclick="switchTab('products')">🛍️ Produits</div>
-  <div class="tab" onclick="switchTab('promos')">🎁 Promos</div>
-  <div class="tab" onclick="switchTab('reviews')">💬 Avis</div>
-  <div class="tab" onclick="switchTab('tracking')">📦 Suivi</div>
-</div>
-
-<div id="tabProducts">
-  <div class="section">
-    <div class="sec-title">🛍️ Tous les produits <span class="link">Trier ↕</span></div>
-    <div class="filter-row">
-      <span class="f-chip on">Tous (85)</span>
-      <span class="f-chip">Nouveautés</span>
-      <span class="f-chip">Promos</span>
-      <span class="f-chip">Best-sellers</span>
-      <span class="f-chip">Mode</span>
-      <span class="f-chip">Accessoires</span>
-    </div>
-    <div style="margin-top:12px" class="products-grid" id="productsList"></div>
-  </div>
-</div>
-
-<div id="tabPromos" style="display:none">
-  <div class="section">
-    <div class="sec-title">🎁 Promotions actives</div>
-    <div class="promo-card">
-      <div class="promo-ic">🔥</div>
-      <div class="promo-body">
-        <div class="promo-t">-30% sur toute la collection Wax</div>
-        <div class="promo-d">Jusqu'au 25 août 2026</div>
-      </div>
-      <div class="promo-code" onclick="copyCode('WAX30')">WAX30</div>
-    </div>
-    <div class="promo-card">
-      <div class="promo-ic">🎉</div>
-      <div class="promo-body">
-        <div class="promo-t">Livraison gratuite dès 30 000 FCFA</div>
-        <div class="promo-d">Cumulable avec toutes promos</div>
-      </div>
-      <div class="promo-code" onclick="copyCode('LIVAICHA')">LIVAICHA</div>
-    </div>
-    <div class="promo-card">
-      <div class="promo-ic">👑</div>
-      <div class="promo-body">
-        <div class="promo-t">Bundle : 2 achetés = 1 offert</div>
-        <div class="promo-d">Sur les accessoires sélectionnés</div>
-      </div>
-      <div class="promo-code" onclick="copyCode('BUNDLE3')">BUNDLE3</div>
-    </div>
-  </div>
-</div>
-
-<div id="tabReviews" style="display:none">
-  <div class="section">
-    <div class="sec-title">💬 Avis clients (234)</div>
-    <div style="display:flex;align-items:center;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--border);margin-bottom:8px">
-      <div style="font-size:36px;font-weight:900;color:var(--or)">4.9</div>
-      <div style="flex:1">
-        <div style="color:var(--or);font-size:16px">★★★★★</div>
-        <div style="font-size:11px;color:var(--muted);margin-top:2px">Basé sur 234 avis vérifiés</div>
-      </div>
-    </div>
-    <div class="review"><div class="rv-av">A</div><div class="rv-body"><div class="rv-name">Aminata D. ✓ Achat vérifié</div><div class="rv-stars">★★★★★</div><div class="rv-txt">Vendeur professionnel, colis emballé avec soin. Robe conforme, tissu de qualité premium.</div><div class="rv-date">Il y a 2 jours · Robe Wax Premium</div></div></div>
-    <div class="review"><div class="rv-av">I</div><div class="rv-body"><div class="rv-name">Ibrahima S. ✓ Achat vérifié</div><div class="rv-stars">★★★★★</div><div class="rv-txt">Communication au top, livraison rapide en 24h. Je recommande vivement !</div><div class="rv-date">Il y a 5 jours · Sac cuir africain</div></div></div>
-    <div class="review"><div class="rv-av">F</div><div class="rv-body"><div class="rv-name">Fatou N. ✓ Achat vérifié</div><div class="rv-stars">★★★★☆</div><div class="rv-txt">Très belle robe, taille conforme. Un léger retard mais rien de grave.</div><div class="rv-date">Il y a 1 semaine · Boubou wax</div></div></div>
-  </div>
-</div>
-
-<div id="tabTracking" style="display:none">
-  <div class="section">
-    <div class="sec-title">📦 Informations de suivi</div>
-    <div class="tracking-card">
-      <div class="tc-ic">🚚</div>
-      <div class="tc-body">
-        <div class="tc-t">Livraison Dakar 24h</div>
-        <div class="tc-d">Gratuite dès 30 000 FCFA · Yobante Express</div>
-      </div>
-    </div>
-    <div class="tracking-card">
-      <div class="tc-ic">🌍</div>
-      <div class="tc-body">
-        <div class="tc-t">Livraison régions 2-5 jours</div>
-        <div class="tc-d">3 000 FCFA · Poste Sénégal</div>
-      </div>
-    </div>
-    <div class="tracking-card">
-      <div class="tc-ic">✈️</div>
-      <div class="tc-body">
-        <div class="tc-t">Livraison internationale 7-15 jours</div>
-        <div class="tc-d">15 000 FCFA · DHL Express</div>
-      </div>
-    </div>
-    <div class="tracking-card">
-      <div class="tc-ic">↩️</div>
-      <div class="tc-body">
-        <div class="tc-t">Retour 14 jours acceptés</div>
-        <div class="tc-d">Escrow SEN TEW · Remboursement garanti</div>
-      </div>
-    </div>
-    <div class="tracking-card">
-      <div class="tc-ic">💳</div>
-      <div class="tc-body">
-        <div class="tc-t">Paiements acceptés</div>
-        <div class="tc-d">Wave · OM · Free · Wizall · CB · 2×/3× sans frais</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script src="js/dark-mode.js"></script>
 <script src="js/role-guard.js"></script>
+<script src="js/dark-mode.js"></script>
 <script>
-const SELLERS = {
-  1:{name:'Aïcha Couture',av:'A',loc:'Dakar, Sénégal',verified:'gold',since:2022,rating:4.9,followers:856,sales:1200,products:85},
-  2:{name:'Moussa Tech',av:'M',loc:'Dakar Plateau',verified:'gold',since:2021,rating:4.8,followers:1240,sales:2100,products:145},
-  3:{name:'Fatou Fashion',av:'F',loc:'Thiès',verified:'platinum',since:2020,rating:4.9,followers:2100,sales:3400,products:210},
-  4:{name:'Bio Sénégal',av:'B',loc:'Saint-Louis',verified:'silver',since:2023,rating:4.7,followers:456,sales:678,products:42},
-  5:{name:'Sport SN',av:'S',loc:'Dakar',verified:'gold',since:2022,rating:4.8,followers:892,sales:1560,products:96}
-};
-
-const PRODUCTS_SHOP = [
-  {id:1,name:'Robe Wax mariage',price:35000,old:50000,img:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=300',promo:true,rating:'4.9★'},
-  {id:6,name:'Sac cuir africain',price:15000,old:22000,img:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=300',promo:true,rating:'4.8★'},
-  {id:4,name:'Boubou wax homme',price:18000,old:25000,img:'https://images.unsplash.com/photo-1544441893-675973e31985?w=300',promo:true,rating:'4.9★'},
-  {id:2,name:'Sandales Peul',price:8500,img:'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=300',rating:'4.7★'},
-  {id:20,name:'Bijoux dorés wax',price:8000,img:'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=300',rating:'4.8★'},
-  {id:21,name:'Éventail traditionnel',price:5500,img:'https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=300',rating:'4.9★'},
-  {id:22,name:'Coussin décoratif',price:7500,img:'https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=300',rating:'4.6★'},
-  {id:23,name:'Chapeau traditionnel',price:6500,img:'https://images.unsplash.com/photo-1521369909029-2afed882baee?w=300',rating:'4.7★'},
+const SELLERS = [
+  {id:1,name:'Aïcha Couture',avatar:'https://i.pravatar.cc/200?img=1',cover:'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800',verified:'platinum',live:true,sales:2400000,city:'Dakar',rating:4.9,reviews:527,followers:2340,products:47,bio:'Créatrice de mode africaine premium. Vêtements traditionnels revisités.',since:'2023'},
+  {id:2,name:'Moussa Tech',avatar:'https://i.pravatar.cc/200?img=13',cover:'https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=800',verified:'gold',live:true,sales:1800000,city:'Dakar',rating:4.7,reviews:389,followers:1820,products:32,bio:'High-tech neuf et reconditionné. Garantie 1 an.',since:'2024'},
+  {id:3,name:'Fatou Fashion',avatar:'https://i.pravatar.cc/200?img=5',cover:'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800',verified:'gold',live:false,sales:1200000,city:'Thiès',rating:4.6,reviews:245,followers:987,products:28,bio:'Collection wax authentique. Artisanat local.',since:'2024'},
+  {id:4,name:'Ibrahim Bio',avatar:'https://i.pravatar.cc/200?img=8',cover:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800',verified:'silver',live:false,sales:800000,city:'Saint-Louis',rating:4.8,reviews:456,followers:672,products:15,bio:'Produits bio 100% Sénégal. Karité, hibiscus, moringa.',since:'2025'},
+  {id:5,name:'Mariama Beauté',avatar:'https://i.pravatar.cc/200?img=9',cover:'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800',verified:'gold',live:true,sales:1500000,city:'Dakar',rating:4.9,reviews:334,followers:1567,products:41,bio:'Cosmétiques naturels africains.',since:'2024'}
 ];
 
-const sellerId = parseInt(new URLSearchParams(location.search).get('id')) || 1;
-const seller = SELLERS[sellerId] || SELLERS[1];
+const PRODUCTS = [
+  {id:1,name:'Boubou wax collection',price:18000,oldPrice:25000,image:'https://images.unsplash.com/photo-1544441893-675973e31985?w=400',sellerId:3,cat:'mode'},
+  {id:2,name:'iPhone 15 Pro 256GB',price:750000,image:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=400',sellerId:2,cat:'tech'},
+  {id:3,name:'Sac cuir africain premium',price:15000,oldPrice:22000,image:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400',sellerId:1,cat:'mode'},
+  {id:4,name:'Écouteurs sans fil Pro',price:12000,image:'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400',sellerId:2,cat:'tech'},
+  {id:5,name:'Beurre karité 500g',price:4500,image:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400',sellerId:4,cat:'beauty'},
+  {id:6,name:'Robe bogolan',price:22000,oldPrice:30000,image:'https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=400',sellerId:1,cat:'mode'},
+  {id:7,name:'Masque visage bio',price:6500,image:'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400',sellerId:5,cat:'beauty'},
+  {id:8,name:'Montre connectée',price:35000,oldPrice:45000,image:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400',sellerId:2,cat:'tech'}
+];
 
-document.getElementById('shopName').textContent = seller.name;
-document.getElementById('shopAv').textContent = seller.av;
-
-document.getElementById('productsList').innerHTML = PRODUCTS_SHOP.map(p=>{
-  const discount = p.old ? Math.round((1-p.price/p.old)*100) : 0;
-  return `<div class="p-card" onclick="location.href='produit.html?id=${p.id}'">
-    ${p.promo?`<span class="p-badge">-${discount}%</span>`:''}
-    <img src="${p.img}" alt="${p.name}">
-    <div class="p-info">
-      <div class="p-name">${p.name}</div>
-      <div class="p-price">${p.price.toLocaleString('fr-FR')} FCFA${p.old?`<span class="p-old">${p.old.toLocaleString('fr-FR')}</span>`:''}</div>
-      <div class="p-stars">${p.rating}</div>
-    </div>
-  </div>`;
-}).join('');
-
-function switchTab(t){
-  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
-  event.target.classList.add('on');
-  ['Products','Promos','Reviews','Tracking'].forEach(x=>{
-    document.getElementById('tab'+x).style.display = 'none';
-  });
-  document.getElementById('tab'+t.charAt(0).toUpperCase()+t.slice(1)).style.display = 'block';
+function getSellerId() {
+  const params = new URLSearchParams(location.search);
+  return parseInt(params.get('id')) || 1;
 }
 
-function follow(){alert('✅ Vous suivez '+seller.name);}
-function share(){if(navigator.share){navigator.share({title:seller.name+' - SEN TEW',url:location.href});}else{navigator.clipboard.writeText(location.href);alert('🔗 Lien copié');}}
-function copyCode(c){navigator.clipboard.writeText(c);alert('✅ Code '+c+' copié !\n\nUtilisez-le au paiement pour la réduction.');}
+function renderShop() {
+  const id = getSellerId();
+  const s = SELLERS.find(x => x.id === id) || SELLERS[0];
+  const shopProducts = PRODUCTS.filter(p => p.sellerId === s.id);
 
-document.documentElement.setAttribute('data-country', localStorage.getItem('sen_country')||'SN');
+  document.getElementById('shopTitle').textContent = s.name;
+
+  document.getElementById('shopMain').innerHTML = `
+    <!-- Cover -->
+    <div style="position:relative;height:160px;background:url('${s.cover}') center/cover;">
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(10,31,23,0.7));"></div>
+      ${s.live ? '<div style="position:absolute;top:12px;right:12px;background:var(--rouge);color:white;padding:6px 12px;border-radius:8px;font-weight:800;font-size:11px;display:flex;align-items:center;gap:4px;"><span class="pulse">●</span> EN LIVE</div>' : ''}
+    </div>
+
+    <!-- Profil vendeur -->
+    <div style="padding:16px;background:var(--bg-card);margin-top:-40px;position:relative;border-radius:20px 20px 0 0;">
+      <div style="display:flex;align-items:flex-end;gap:16px;margin-bottom:12px;">
+        <img src="${s.avatar}" style="width:80px;height:80px;border-radius:50%;border:4px solid var(--bg-card);object-fit:cover;">
+        <div style="flex:1;padding-bottom:8px;">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <h2 style="font-size:20px;font-weight:800;">${s.name}</h2>
+            ${s.verified === 'platinum' ? '<i data-lucide="badge-check" class="icon icon-md icon-violet"></i>' : ''}
+            ${s.verified === 'gold' ? '<i data-lucide="badge-check" class="icon icon-md icon-or"></i>' : ''}
+            ${s.verified === 'silver' ? '<i data-lucide="badge-check" class="icon icon-md" style="color:#9ca3af;stroke:#9ca3af;"></i>' : ''}
+          </div>
+          <div style="font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:4px;">
+            <i data-lucide="map-pin" class="icon icon-sm"></i>
+            <span>${s.city} · Depuis ${s.since}</span>
+          </div>
+        </div>
+      </div>
+
+      <p style="font-size:13px;color:var(--text-muted);line-height:1.5;margin-bottom:16px;">${s.bio}</p>
+
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;">
+        <div style="text-align:center;padding:10px;background:var(--bg);border-radius:10px;">
+          <div style="font-size:16px;font-weight:800;color:var(--v-emeraude);">${s.products}</div>
+          <div style="font-size:10px;color:var(--text-muted);">Produits</div>
+        </div>
+        <div style="text-align:center;padding:10px;background:var(--bg);border-radius:10px;">
+          <div style="font-size:16px;font-weight:800;color:var(--v-emeraude);">${s.followers}</div>
+          <div style="font-size:10px;color:var(--text-muted);">Abonnés</div>
+        </div>
+        <div style="text-align:center;padding:10px;background:var(--bg);border-radius:10px;">
+          <div style="font-size:16px;font-weight:800;color:var(--or-royal);">${s.rating}★</div>
+          <div style="font-size:10px;color:var(--text-muted);">${s.reviews} avis</div>
+        </div>
+        <div style="text-align:center;padding:10px;background:var(--bg);border-radius:10px;">
+          <div style="font-size:12px;font-weight:800;color:var(--v-emeraude);">${(s.sales/1000).toFixed(0)}K</div>
+          <div style="font-size:10px;color:var(--text-muted);">Ventes</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:8px;">
+        <button class="btn-primary" style="flex:1;" onclick="followSeller(${s.id})">
+          <i data-lucide="user-plus" class="icon icon-sm icon-blanc" style="margin-right:4px;"></i>
+          Suivre
+        </button>
+        <button class="btn-secondary" style="flex:1;" onclick="location.href='chat.html?vendor=${s.id}'">
+          <i data-lucide="message-circle" class="icon icon-sm icon-vert" style="margin-right:4px;"></i>
+          Message
+        </button>
+      </div>
+    </div>
+
+    <!-- Filtres catégories -->
+    <div style="display:flex;gap:8px;padding:16px;overflow-x:auto;">
+      <button style="padding:8px 16px;background:var(--v-emeraude);color:white;border-radius:20px;font-size:12px;font-weight:700;white-space:nowrap;">Tous (${shopProducts.length})</button>
+      <button style="padding:8px 16px;background:var(--bg-card);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap;">Populaires</button>
+      <button style="padding:8px 16px;background:var(--bg-card);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap;">Nouveautés</button>
+      <button style="padding:8px 16px;background:var(--bg-card);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap;">Promotions</button>
+    </div>
+
+    <!-- Produits -->
+    <div class="section-title">
+      <i data-lucide="package" class="icon icon-md icon-vert"></i>
+      Produits (${shopProducts.length})
+    </div>
+    <div class="pcard-grid">
+      ${shopProducts.length === 0 ? `
+        <div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--text-muted);">
+          <i data-lucide="package-x" class="icon icon-xl" style="opacity:0.3;"></i>
+          <p style="margin-top:16px;">Aucun produit pour le moment</p>
+        </div>
+      ` : shopProducts.map(p => {
+        const disc = p.oldPrice ? Math.round((1 - p.price/p.oldPrice)*100) : 0;
+        return `
+          <a href="produit.html?id=${p.id}" class="pcard" style="text-decoration:none;color:inherit;">
+            <div class="pcard-img">
+              ${disc > 0 ? `<div class="pcard-badges"><span class="pcard-badge pcard-badge-disc">-${disc}%</span></div>` : ''}
+              <img src="${p.image}" alt="${p.name}">
+            </div>
+            <div class="pcard-info">
+              <div class="pcard-name">${p.name}</div>
+              <div style="display:flex;align-items:baseline;gap:6px;">
+                <span class="pcard-price">${p.price.toLocaleString('fr-FR')} FCFA</span>
+                ${p.oldPrice ? `<span class="pcard-old">${p.oldPrice.toLocaleString('fr-FR')}</span>` : ''}
+              </div>
+            </div>
+          </a>
+        `;
+      }).join('')}
+    </div>
+  `;
+
+  lucide.createIcons();
+}
+
+function followSeller(id) {
+  let follows = JSON.parse(localStorage.getItem('follows')||'[]');
+  if(follows.includes(id)) {
+    follows = follows.filter(x => x !== id);
+    alert('❌ Vous ne suivez plus ce vendeur');
+  } else {
+    follows.push(id);
+    alert('✅ Vous suivez maintenant ce vendeur');
+  }
+  localStorage.setItem('follows', JSON.stringify(follows));
+  if(navigator.vibrate) navigator.vibrate(30);
+}
+
+renderShop();
 </script>
+<script>lucide.createIcons();</script>
 </body>
 </html>
