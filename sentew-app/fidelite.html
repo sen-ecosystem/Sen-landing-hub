@@ -2,137 +2,156 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Fidélité - SEN TEW</title>
-<meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0F6B4E">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Programme fidélité - SEN TEW</title>
+<meta name="theme-color" content="#0f6b4e">
 <link rel="stylesheet" href="css/app.css">
+<script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body oncontextmenu="return false">
-<div class="app">
-  <header class="app-header">
-    <button class="header-btn" onclick="history.back()">←</button>
-    <div class="app-logo" style="text-align:center;">🎁 Programme fidélité</div>
-    <button class="header-btn" onclick="alert('❓ Comment ça marche')">❓</button>
-  </header>
+<body>
 
-  <main class="app-content">
-    <!-- Carte GOLD -->
-    <div style="margin:16px;background:linear-gradient(135deg,#D4A574 0%,#B8945F 50%,#8B6F42 100%);border-radius:20px;padding:24px;position:relative;overflow:hidden;color:#0A1F17;">
-      <div style="position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:rgba(255,255,255,.15);border-radius:50%;"></div>
-      <div style="font-size:11px;text-transform:uppercase;letter-spacing:2px;opacity:.7;">Membre GOLD</div>
-      <div style="font-size:24px;font-weight:800;margin:6px 0;">Ousseynou Lam</div>
-      <div style="font-size:12px;opacity:.8;">Depuis février 2026</div>
-      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:20px;">
-        <div>
-          <div style="font-size:11px;opacity:.7;">Points</div>
-          <div style="font-size:28px;font-weight:800;">1 250</div>
-        </div>
-        <div style="font-size:40px;">🏆</div>
+<header class="topbar">
+  <button class="btn-back" onclick="history.back()">
+    <i data-lucide="arrow-left" class="icon icon-md icon-vert"></i>
+  </button>
+  <h1 style="display:flex;align-items:center;gap:8px;">
+    <i data-lucide="badge-check" class="icon icon-md icon-or"></i>
+    Programme fidélité
+  </h1>
+  <button class="icon-btn">
+    <i data-lucide="info" class="icon icon-md icon-vert"></i>
+  </button>
+</header>
+
+<main style="padding:16px;padding-bottom:100px;">
+
+  <!-- Carte membre GOLD -->
+  <div style="background:linear-gradient(135deg,#d4a574,#f0c99a);color:var(--noir-profond);padding:24px 20px;border-radius:16px;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:0 6px 20px rgba(212,165,116,0.35);">
+    <div style="position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:rgba(255,255,255,0.2);border-radius:50%;"></div>
+    <div style="font-size:11px;letter-spacing:2px;font-weight:700;opacity:0.85;color:var(--noir-profond);">MEMBRE GOLD</div>
+    <h2 style="font-size:24px;font-weight:900;margin:8px 0 4px;color:var(--noir-profond);">Ousseynou Lam</h2>
+    <div style="font-size:12px;opacity:0.85;color:var(--noir-profond);">Depuis février 2026</div>
+    <div style="margin-top:18px;display:flex;align-items:center;justify-content:space-between;">
+      <div>
+        <div style="font-size:11px;opacity:0.85;color:var(--noir-profond);">Points</div>
+        <div style="font-size:32px;font-weight:900;color:var(--noir-profond);">1 250</div>
+      </div>
+      <i data-lucide="trophy" class="icon" style="width:50px;height:50px;color:var(--noir-profond);stroke:var(--noir-profond);opacity:0.6;"></i>
+    </div>
+  </div>
+
+  <!-- Progression -->
+  <div style="background:var(--bg-card);padding:14px;border-radius:12px;margin-bottom:14px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <span style="font-size:13px;font-weight:700;color:var(--text);">Prochain niveau : PLATINE</span>
+      <span style="font-size:12px;color:var(--or-royal);font-weight:700;">750 pts restants</span>
+    </div>
+    <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden;">
+      <div style="height:100%;width:62.5%;background:linear-gradient(90deg,var(--or-royal),var(--v-menthe));border-radius:4px;"></div>
+    </div>
+    <div style="font-size:11px;color:var(--text-muted);margin-top:8px;display:flex;align-items:center;gap:4px;">
+      <i data-lucide="target" class="icon icon-sm icon-or" style="width:12px;height:12px;"></i>
+      Objectif : 2 000 points pour cashback 15% permanent
+    </div>
+  </div>
+
+  <!-- Avantages GOLD -->
+  <div class="section-title" style="margin:8px 0 12px;">
+    <i data-lucide="sparkles" class="icon icon-md icon-or"></i>
+    Vos avantages GOLD
+  </div>
+  <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+    <div style="background:var(--bg-card);padding:14px;border-radius:12px;display:flex;align-items:center;gap:12px;">
+      <div style="width:40px;height:40px;background:rgba(15,107,78,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+        <i data-lucide="wallet" class="icon icon-md icon-vert"></i>
+      </div>
+      <div style="flex:1;">
+        <div style="font-size:14px;font-weight:800;color:var(--text);">Cashback 10%</div>
+        <div style="font-size:12px;color:var(--text-muted);">Sur toutes vos commandes</div>
+      </div>
+      <i data-lucide="check-circle" class="icon icon-md icon-vert"></i>
+    </div>
+    <div style="background:var(--bg-card);padding:14px;border-radius:12px;display:flex;align-items:center;gap:12px;">
+      <div style="width:40px;height:40px;background:rgba(212,165,116,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+        <i data-lucide="truck" class="icon icon-md icon-or"></i>
+      </div>
+      <div style="flex:1;">
+        <div style="font-size:14px;font-weight:800;color:var(--text);">Livraison prioritaire</div>
+        <div style="font-size:12px;color:var(--text-muted);">Express gratuit dès 20 000 FCFA</div>
+      </div>
+      <i data-lucide="check-circle" class="icon icon-md icon-vert"></i>
+    </div>
+    <div style="background:var(--bg-card);padding:14px;border-radius:12px;display:flex;align-items:center;gap:12px;">
+      <div style="width:40px;height:40px;background:rgba(168,85,247,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+        <i data-lucide="party-popper" class="icon icon-md icon-violet"></i>
+      </div>
+      <div style="flex:1;">
+        <div style="font-size:14px;font-weight:800;color:var(--text);">Ventes exclusives</div>
+        <div style="font-size:12px;color:var(--text-muted);">Accès 24h avant les autres</div>
+      </div>
+      <i data-lucide="check-circle" class="icon icon-md icon-vert"></i>
+    </div>
+    <div style="background:var(--bg-card);padding:14px;border-radius:12px;display:flex;align-items:center;gap:12px;">
+      <div style="width:40px;height:40px;background:rgba(59,130,246,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+        <i data-lucide="headphones" class="icon icon-md icon-bleu"></i>
+      </div>
+      <div style="flex:1;">
+        <div style="font-size:14px;font-weight:800;color:var(--text);">Support prioritaire</div>
+        <div style="font-size:12px;color:var(--text-muted);">Réponse en 15 min max</div>
+      </div>
+      <i data-lucide="check-circle" class="icon icon-md icon-vert"></i>
+    </div>
+  </div>
+
+  <!-- Niveaux -->
+  <div class="section-title" style="margin:16px 0 12px;">
+    <i data-lucide="award" class="icon icon-md icon-or"></i>
+    Tous les niveaux
+  </div>
+  <div style="background:var(--bg-card);padding:14px;border-radius:12px;">
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);">
+      <div style="width:32px;height:32px;background:#cd7f32;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;">🥉</div>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:700;color:var(--text);">BRONZE</div>
+        <div style="font-size:11px;color:var(--text-muted);">0-499 pts · Cashback 3%</div>
       </div>
     </div>
-
-    <!-- Progression PLATINE -->
-    <div style="margin:0 16px 16px;background:rgba(255,255,255,.05);border-radius:14px;padding:16px;">
-      <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
-        <span style="font-weight:700;font-size:13px;">Prochain niveau : PLATINE</span>
-        <span style="color:#D4A574;font-weight:700;font-size:13px;">750 pts restants</span>
-      </div>
-      <div style="height:10px;background:rgba(255,255,255,.1);border-radius:5px;overflow:hidden;margin-bottom:8px;">
-        <div style="height:100%;width:62.5%;background:linear-gradient(90deg,#D4A574,#0F6B4E);"></div>
-      </div>
-      <div style="font-size:11px;color:rgba(255,255,255,.6);">🎯 Objectif : 2 000 points pour cashback 15% permanent</div>
-    </div>
-
-    <!-- Avantages GOLD -->
-    <div class="card-title">✨ Vos avantages GOLD</div>
-    <div class="card">
-      <div class="list-item">
-        <div class="list-icon">💰</div>
-        <div class="list-text"><div class="list-title">Cashback 10%</div><div class="list-sub">Sur toutes vos commandes</div></div>
-        <span style="color:#22c55e;">●</span>
-      </div>
-      <div class="list-item">
-        <div class="list-icon">🚚</div>
-        <div class="list-text"><div class="list-title">Livraison prioritaire</div><div class="list-sub">Express gratuit dès 20 000 FCFA</div></div>
-        <span style="color:#22c55e;">●</span>
-      </div>
-      <div class="list-item">
-        <div class="list-icon">🎉</div>
-        <div class="list-text"><div class="list-title">Ventes exclusives</div><div class="list-sub">Accès 24h avant les autres</div></div>
-        <span style="color:#22c55e;">●</span>
-      </div>
-      <div class="list-item">
-        <div class="list-icon">🤝</div>
-        <div class="list-text"><div class="list-title">Support prioritaire</div><div class="list-sub">Réponse en 15 min max</div></div>
-        <span style="color:#22c55e;">●</span>
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);">
+      <div style="width:32px;height:32px;background:#c0c0c0;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;">🥈</div>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:700;color:var(--text);">ARGENT</div>
+        <div style="font-size:11px;color:var(--text-muted);">500-999 pts · Cashback 5%</div>
       </div>
     </div>
-
-    <!-- Niveaux -->
-    <div class="card-title">🏆 Niveaux</div>
-    <div class="card">
-      <div class="list-item">
-        <div class="list-icon" style="background:rgba(120,120,120,.3);">🥉</div>
-        <div class="list-text"><div class="list-title">BRONZE</div><div class="list-sub">0-500 pts · Cashback 3%</div></div>
-        <span style="color:rgba(255,255,255,.4);font-size:11px;">Passé</span>
-      </div>
-      <div class="list-item">
-        <div class="list-icon" style="background:rgba(192,192,192,.3);">🥈</div>
-        <div class="list-text"><div class="list-title">ARGENT</div><div class="list-sub">500-1000 pts · Cashback 5%</div></div>
-        <span style="color:rgba(255,255,255,.4);font-size:11px;">Passé</span>
-      </div>
-      <div class="list-item" style="background:rgba(212,165,116,.1);">
-        <div class="list-icon" style="background:#D4A574;">🥇</div>
-        <div class="list-text"><div class="list-title" style="color:#D4A574;">GOLD (actuel)</div><div class="list-sub">1000-2000 pts · Cashback 10%</div></div>
-        <span style="color:#D4A574;font-weight:800;">✓</span>
-      </div>
-      <div class="list-item">
-        <div class="list-icon" style="background:linear-gradient(135deg,#E5E4E2,#B0B0B0);">💎</div>
-        <div class="list-text"><div class="list-title">PLATINE</div><div class="list-sub">2000-5000 pts · Cashback 15%</div></div>
-        <span style="color:#D4A574;font-size:11px;">-750 pts</span>
-      </div>
-      <div class="list-item">
-        <div class="list-icon" style="background:linear-gradient(135deg,#B9F2FF,#00A5C8);">💠</div>
-        <div class="list-text"><div class="list-title">DIAMANT</div><div class="list-sub">5000+ pts · Cashback 20%</div></div>
-        <span style="color:rgba(255,255,255,.4);font-size:11px;">Verrouillé</span>
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);background:rgba(212,165,116,0.1);border-radius:8px;padding:10px;">
+      <div style="width:32px;height:32px;background:var(--or-royal);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--noir-profond);font-weight:800;">🥇</div>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:700;color:var(--or-royal);">GOLD (Vous êtes ici)</div>
+        <div style="font-size:11px;color:var(--text-muted);">1000-1999 pts · Cashback 10%</div>
       </div>
     </div>
-
-    <!-- Comment gagner -->
-    <div class="card-title">💡 Comment gagner des points</div>
-    <div class="card">
-      <div class="list-item">
-        <div class="list-icon">🛍</div>
-        <div class="list-text"><div class="list-title">1 achat = 10 points / 1000 FCFA</div></div>
-      </div>
-      <div class="list-item">
-        <div class="list-icon">⭐</div>
-        <div class="list-text"><div class="list-title">Avis avec photo = 50 points</div></div>
-      </div>
-      <div class="list-item">
-        <div class="list-icon">👥</div>
-        <div class="list-text"><div class="list-title">Parrainage = 500 points / ami</div></div>
-      </div>
-      <div class="list-item">
-        <div class="list-icon">🎂</div>
-        <div class="list-text"><div class="list-title">Anniversaire = 200 points offerts</div></div>
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 0;">
+      <div style="width:32px;height:32px;background:linear-gradient(135deg,#e5e5e5,#a0a0a0);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;">💎</div>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:700;color:var(--text);">PLATINE</div>
+        <div style="font-size:11px;color:var(--text-muted);">2000+ pts · Cashback 15% + Concierge VIP</div>
       </div>
     </div>
+  </div>
 
-    <div style="height:20px;"></div>
-  </main>
+</main>
 
-  <nav class="app-nav">
-    <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
-    <a href="categories.html"><div class="nav-icon">📊</div><div class="nav-label">Catégories</div></a>
-    <a href="panier.html"><div class="nav-icon">🛒</div><div class="nav-label">Panier</div></a>
-    <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
-    <a href="profil.html" class="active"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
-  </nav>
-</div>
-  <script src="js/dark-mode.js"></script>
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
+  <a href="recherche-ia.html"><i data-lucide="search" class="icon icon-md"></i><span>Rechercher</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md icon-or"></i><span>Panier</span></a>
+  <a href="favoris.html"><i data-lucide="heart" class="icon icon-md"></i><span>Favoris</span></a>
+  <a href="profil.html"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
+</nav>
+
 <script src="js/role-guard.js"></script>
-
+<script src="js/dark-mode.js"></script>
+<script>lucide.createIcons();</script>
+<script>lucide.createIcons();</script>
 </body>
 </html>
