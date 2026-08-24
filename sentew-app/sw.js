@@ -1,10 +1,10 @@
-const CACHE = 'sentew-v44-2026-08-23-batch4';
+const CACHE = 'sentew-v45-2026-08-24-light-design';
 const ASSETS = [
   './','index.html','landing.html','produit.html','panier.html','boutique.html',
   'vendeur.html','profil.html','parametres.html','confidentialite-app.html',
-  'css/app.css','js/role-guard.js','js/dark-mode.js','manifest.json'
+  'favoris.html','fidelite.html','portefeuille.html','parrainage.html',
+  'produits.html','css/app.css','js/role-guard.js','js/dark-mode.js','manifest.json'
 ];
-
 self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS).catch(()=>{}))); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(k => Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())); });
 self.addEventListener('fetch', e => {
