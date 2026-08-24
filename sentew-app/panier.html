@@ -14,34 +14,36 @@
   <button class="btn-back" onclick="history.back()">
     <i data-lucide="arrow-left" class="icon icon-md icon-vert"></i>
   </button>
-  <h1>Mon panier <span id="cartCount" style="font-size:14px;color:var(--text-muted);"></span></h1>
+  <h1 style="display:flex;align-items:center;gap:8px;">
+    <i data-lucide="shopping-cart" class="icon icon-md icon-or"></i>
+    Mon panier <span id="cartCount" style="font-size:14px;color:var(--text-muted);font-weight:400;"></span>
+  </h1>
 </header>
 
-<main id="cartMain" style="padding:12px 16px 200px;">
-  <!-- Généré par JS -->
+<main id="cartMain" style="padding:12px 16px 260px;">
 </main>
 
-<div id="cartFooter" style="position:fixed;bottom:0;left:0;right:0;background:var(--bg);border-top:1px solid var(--border);padding:12px 16px;z-index:99;display:none;">
-  <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px;">
+<div id="cartFooter" style="position:fixed;bottom:0;left:0;right:0;background:var(--bg);border-top:1px solid var(--border);padding:12px 16px 20px;z-index:99;display:none;box-shadow:0 -4px 12px rgba(0,0,0,0.08);">
+  <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px;color:var(--text);">
     <span>Sous-total</span>
-    <span id="subtotal">0 FCFA</span>
+    <span id="subtotal" style="font-weight:600;">0 FCFA</span>
   </div>
-  <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px;">
+  <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px;color:var(--text);">
     <span>Livraison</span>
-    <span id="shipping">1 500 FCFA</span>
+    <span id="shipping" style="font-weight:600;">1 500 FCFA</span>
   </div>
-  <div style="display:flex;justify-content:space-between;margin-bottom:12px;font-size:16px;font-weight:800;color:var(--v-emeraude);">
-    <span>TOTAL</span>
-    <span id="total">0 FCFA</span>
+  <div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:17px;font-weight:900;">
+    <span style="color:var(--v-emeraude);">TOTAL</span>
+    <span id="total" style="color:var(--v-emeraude);">0 FCFA</span>
   </div>
-  <div style="display:flex;gap:8px;margin-bottom:10px;">
-    <button style="flex:1;padding:8px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;">1× · Comptant</button>
-    <button style="flex:1;padding:8px;background:var(--bg-card);border:1px solid var(--v-emeraude);border-radius:8px;font-size:12px;font-weight:600;color:var(--v-emeraude);">2× sans frais</button>
-    <button style="flex:1;padding:8px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;">3× sans frais</button>
+  <div style="display:flex;gap:6px;margin-bottom:10px;">
+    <button style="flex:1;padding:8px 6px;background:var(--v-clair);border:1.5px solid var(--v-emeraude);border-radius:8px;font-size:11px;font-weight:700;color:var(--v-emeraude);">1× Comptant</button>
+    <button style="flex:1;padding:8px 6px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;font-size:11px;font-weight:600;color:var(--text);">2× sans frais</button>
+    <button style="flex:1;padding:8px 6px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;font-size:11px;font-weight:600;color:var(--text);">3× sans frais</button>
   </div>
   <button class="btn-primary" style="width:100%;" onclick="checkout()">
     <i data-lucide="lock" class="icon icon-sm icon-blanc" style="margin-right:6px;"></i>
-    Passer commande
+    Passer commande sécurisée
   </button>
 </div>
 
@@ -56,6 +58,23 @@
 <script src="js/role-guard.js"></script>
 <script src="js/dark-mode.js"></script>
 <script>
+// Init démo panier si vide
+if(!localStorage.getItem('cart') || JSON.parse(localStorage.getItem('cart')).length === 0) {
+  const demo = [
+    {id:12,name:'Robe Wax Premium',price:25000,image:'https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=400',seller:'Aïcha Couture',size:'M',color:'Bleu',qty:1},
+    {id:6,name:'Sac cuir artisanal',price:18500,image:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400',seller:'Aïcha Couture',size:'Unique',color:'Marron',qty:1},
+    {id:9,name:'Bijoux dorés',price:8000,image:'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400',seller:'Aïcha Couture',size:'-',color:'Or',qty:1}
+  ];
+  localStorage.setItem('cart', JSON.stringify(demo));
+}
+
+const SIMILAR = [
+  {id:20,name:'Boubou grand teint',price:45000,image:'https://images.unsplash.com/photo-1544441893-675973e31985?w=400'},
+  {id:21,name:'Sandales cuir Peul',price:8500,image:'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400'},
+  {id:22,name:'Robe bogolan',price:22000,image:'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400'},
+  {id:23,name:'Chemise brodée',price:12000,image:'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400'}
+];
+
 function renderCart() {
   const cart = JSON.parse(localStorage.getItem('cart')||'[]');
   const main = document.getElementById('cartMain');
@@ -68,7 +87,7 @@ function renderCart() {
     main.innerHTML = `
       <div style="text-align:center;padding:60px 20px;">
         <i data-lucide="shopping-cart" class="icon icon-xl icon-vert" style="opacity:0.3;"></i>
-        <h2 style="margin-top:16px;">Votre panier est vide</h2>
+        <h2 style="margin-top:16px;color:var(--text);">Votre panier est vide</h2>
         <p style="color:var(--text-muted);margin:12px 0 24px;">Découvrez nos produits tendance</p>
         <button class="btn-primary" onclick="location.href='index.html'">Commencer mes achats</button>
       </div>
@@ -79,19 +98,26 @@ function renderCart() {
 
   countEl.textContent = `(${cart.length})`;
 
-  main.innerHTML = cart.map((item, i) => `
-    <div style="display:flex;gap:12px;padding:12px;background:var(--bg-card);border-radius:12px;margin-bottom:10px;">
-      <img src="${item.image}" style="width:80px;height:80px;border-radius:10px;object-fit:cover;">
-      <div style="flex:1;">
-        <div style="font-size:14px;font-weight:600;margin-bottom:4px;">${item.name}</div>
+  let html = '';
+
+  // Articles panier
+  html += cart.map((item, i) => `
+    <div style="display:flex;gap:12px;padding:14px;background:var(--bg-card);border-radius:12px;margin-bottom:10px;">
+      <img src="${item.image}" style="width:90px;height:90px;border-radius:10px;object-fit:cover;flex-shrink:0;">
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;line-height:1.3;">${item.name}</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">Par ${item.seller || 'Vendeur'}</div>
+        <div style="font-size:10px;color:var(--text-muted);margin-bottom:8px;">
+          ${item.size ? `Taille: <b>${item.size}</b>` : ''} ${item.color ? ` · Couleur: <b>${item.color}</b>` : ''}
+        </div>
         <div style="font-size:15px;font-weight:800;color:var(--v-emeraude);margin-bottom:8px;">${item.price.toLocaleString('fr-FR')} FCFA</div>
         <div style="display:flex;align-items:center;justify-content:space-between;">
-          <div style="display:flex;align-items:center;gap:8px;background:var(--bg);border-radius:8px;padding:2px;">
+          <div style="display:flex;align-items:center;gap:2px;background:var(--bg);border-radius:8px;padding:2px;border:1px solid var(--border);">
             <button onclick="updateQty(${i},-1)" style="padding:4px 10px;background:transparent;font-size:16px;font-weight:800;color:var(--v-emeraude);">−</button>
-            <span style="min-width:20px;text-align:center;font-weight:700;">${item.qty}</span>
+            <span style="min-width:24px;text-align:center;font-weight:700;color:var(--text);">${item.qty}</span>
             <button onclick="updateQty(${i},1)" style="padding:4px 10px;background:transparent;font-size:16px;font-weight:800;color:var(--v-emeraude);">+</button>
           </div>
-          <button onclick="removeItem(${i})" style="background:transparent;color:var(--rouge);padding:6px;">
+          <button onclick="removeItem(${i})" style="background:transparent;padding:6px;">
             <i data-lucide="trash-2" class="icon icon-sm icon-rouge"></i>
           </button>
         </div>
@@ -99,59 +125,83 @@ function renderCart() {
     </div>
   `).join('');
 
-  // Code promo + Livraison
-  main.innerHTML += `
+  // Code promo
+  html += `
     <div style="background:var(--bg-card);padding:14px;border-radius:12px;margin:16px 0;">
-      <div style="font-size:14px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+      <div style="font-size:13px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px;color:var(--or-royal);">
         <i data-lucide="tag" class="icon icon-sm icon-or"></i>
         Code promo
       </div>
       <div style="display:flex;gap:8px;">
         <input type="text" placeholder="Entrez votre code" style="flex:1;">
-        <button class="btn-primary" style="padding:12px 20px;">Appliquer</button>
+        <button class="btn-primary" style="padding:10px 16px;">Appliquer</button>
       </div>
     </div>
 
-    <div style="background:var(--bg-card);padding:14px;border-radius:12px;margin-bottom:16px;">
-      <div style="font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+    <div style="background:var(--bg-card);padding:14px;border-radius:12px;margin-bottom:12px;">
+      <div style="font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;color:var(--or-royal);">
         <i data-lucide="truck" class="icon icon-sm icon-or"></i>
         Adresse de livraison
       </div>
       <div style="display:flex;align-items:center;gap:10px;">
         <i data-lucide="map-pin" class="icon icon-md icon-vert"></i>
         <div style="flex:1;">
-          <div style="font-weight:600;font-size:13px;">Domicile</div>
+          <div style="font-weight:700;font-size:13px;color:var(--text);">Domicile</div>
           <div style="font-size:12px;color:var(--text-muted);">Cité Keur Gorgui, Dakar</div>
         </div>
-        <button style="color:var(--v-emeraude);font-size:12px;font-weight:600;" onclick="location.href='adresses.html'">Changer</button>
+        <button style="color:var(--v-emeraude);font-size:12px;font-weight:700;background:var(--v-clair);padding:6px 12px;border-radius:8px;" onclick="location.href='adresses.html'">Changer</button>
       </div>
     </div>
 
-    <div style="background:var(--bg-card);padding:14px;border-radius:12px;margin-bottom:16px;">
-      <div style="font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+    <div style="background:var(--bg-card);padding:14px;border-radius:12px;margin-bottom:12px;">
+      <div style="font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;color:var(--v-emeraude);">
         <i data-lucide="credit-card" class="icon icon-sm icon-vert"></i>
         Moyens de paiement
       </div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
-        <div style="padding:10px;background:var(--v-clair);border-radius:8px;text-align:center;font-size:11px;font-weight:700;">🌊 Wave</div>
-        <div style="padding:10px;background:var(--bg);border-radius:8px;text-align:center;font-size:11px;font-weight:700;">🍊 Orange Money</div>
-        <div style="padding:10px;background:var(--bg);border-radius:8px;text-align:center;font-size:11px;font-weight:700;">💳 Carte</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
+        <div style="padding:10px 6px;background:var(--v-clair);border:1.5px solid var(--v-emeraude);border-radius:8px;text-align:center;font-size:11px;font-weight:700;color:var(--v-emeraude);">
+          <span class="emoji-fix" style="font-size:18px;display:block;">🌊</span>Wave
+        </div>
+        <div style="padding:10px 6px;background:var(--bg);border:1px solid var(--border);border-radius:8px;text-align:center;font-size:11px;font-weight:700;color:var(--text);">
+          <span class="emoji-fix" style="font-size:18px;display:block;">🍊</span>Orange
+        </div>
+        <div style="padding:10px 6px;background:var(--bg);border:1px solid var(--border);border-radius:8px;text-align:center;font-size:11px;font-weight:700;color:var(--text);">
+          <i data-lucide="credit-card" class="icon icon-md icon-vert" style="display:block;margin:0 auto 2px;"></i>Carte
+        </div>
       </div>
     </div>
 
-    <div style="background:var(--v-clair);padding:12px;border-radius:12px;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+    <div style="background:rgba(15,107,78,0.12);padding:12px;border-radius:12px;margin-bottom:12px;display:flex;align-items:center;gap:10px;">
       <i data-lucide="shield-check" class="icon icon-md icon-vert"></i>
-      <div style="font-size:12px;color:var(--v-forest);">
+      <div style="font-size:12px;color:var(--v-forest);line-height:1.4;">
         <strong>Paiement 100 % sécurisé</strong><br>
-        Fonds séquestrés jusqu'à confirmation de livraison
+        <span style="color:var(--text-muted);">Fonds séquestrés jusqu'à confirmation de livraison</span>
       </div>
     </div>
+
+    <!-- Similaires -->
+    <div class="section-title" style="margin:20px 0 12px;">
+      <i data-lucide="sparkles" class="icon icon-md icon-or"></i>
+      Vous aimerez aussi
+    </div>
+    <div class="pcard-grid">
+      ${SIMILAR.map(p => `
+        <a href="produit.html?id=${p.id}" class="pcard" style="text-decoration:none;color:inherit;">
+          <div class="pcard-img"><img src="${p.image}" alt="${p.name}"></div>
+          <div class="pcard-info">
+            <div class="pcard-name">${p.name}</div>
+            <div class="pcard-price">${p.price.toLocaleString('fr-FR')} FCFA</div>
+          </div>
+        </a>
+      `).join('')}
+    </div>
   `;
+
+  main.innerHTML = html;
 
   const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
   const shipping = 1500;
   const total = subtotal + shipping;
-
   document.getElementById('subtotal').textContent = subtotal.toLocaleString('fr-FR') + ' FCFA';
   document.getElementById('total').textContent = total.toLocaleString('fr-FR') + ' FCFA';
   footer.style.display = 'block';
