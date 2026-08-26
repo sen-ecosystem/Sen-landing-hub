@@ -2,250 +2,225 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Produit - SEN TEW</title>
-<meta name="theme-color" content="#0f6b4e">
-<link rel="stylesheet" href="css/app.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Produit · SEN TEW</title>
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="css/app.css?v=46">
 <script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/dark-mode.js?v=46" defer></script>
+<script src="js/role-guard.js?v=46" defer></script>
+<style>
+.gallery{position:relative;width:100%;aspect-ratio:1/1;background:#e5e5e0;overflow:hidden}
+.gallery img{width:100%;height:100%;object-fit:cover}
+.gallery-dots{position:absolute;bottom:14px;left:0;right:0;display:flex;justify-content:center;gap:6px}
+.gallery-dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.5)}
+.gallery-dots span.active{background:#ffffff;width:22px;border-radius:4px}
+.hero-info{padding:16px}
+.hero-info .breadcrumb{font-size:12px;color:var(--text-gold);margin-bottom:8px}
+.hero-info h1{font-size:22px;font-weight:800;color:var(--text-primary);margin:0 0 8px}
+.rating-row{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.stars{color:#d4a574}
+.rating-num{font-weight:700;color:var(--text-primary)}
+.rating-count{color:var(--text-muted);font-size:13px}
+.price-hero{display:flex;align-items:baseline;gap:10px;margin:12px 0}
+.price-current{font-size:32px;font-weight:900;color:var(--text-emerald)}
+.price-old{font-size:16px;color:var(--text-muted);text-decoration:line-through}
+.price-discount{background:#ef4444;color:#fff;padding:2px 8px;border-radius:6px;font-size:12px;font-weight:800}
+.vendeur-card{display:flex;align-items:center;gap:12px;padding:12px;background:var(--bg-card);border:1px solid var(--border);border-radius:14px;margin:16px}
+.vendeur-card .avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4a574,#a67c3a);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800}
+.vendeur-card .info{flex:1}
+.vendeur-card .name{font-weight:700;color:var(--text-primary)}
+.vendeur-card .rank{font-size:12px;color:var(--text-gold)}
+.section{padding:16px}
+.section h2{font-size:15px;font-weight:800;color:var(--text-gold);letter-spacing:.5px;margin:0 0 12px}
+.description{color:var(--text-secondary);line-height:1.6;font-size:14px}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.spec-item{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+.spec-item .k{font-size:11px;color:var(--text-muted);margin-bottom:2px}
+.spec-item .v{font-weight:700;color:var(--text-primary);font-size:13px}
+.options-row{display:flex;flex-wrap:wrap;gap:8px}
+.option-chip{padding:8px 14px;border-radius:20px;border:1px solid var(--border);background:var(--bg-card);color:var(--text-primary);font-size:13px;font-weight:600;cursor:pointer}
+.option-chip.active{background:#c8f0d8;border-color:#0f6b4e;color:#0a4d38}
+.color-chip{width:36px;height:36px;border-radius:50%;border:2px solid var(--border);cursor:pointer}
+.color-chip.active{border-color:#0f6b4e;box-shadow:0 0 0 3px #c8f0d8}
+.avis-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px}
+.avis-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.avis-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:13px}
+.avis-name{font-weight:700;color:var(--text-primary);font-size:13px}
+.avis-date{font-size:11px;color:var(--text-muted)}
+.avis-text{color:var(--text-secondary);font-size:13px;line-height:1.5}
+.similaires-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.similaire-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer}
+.similaire-card img{width:100%;height:130px;object-fit:cover;background:#e5e5e0}
+.similaire-card .body{padding:8px 10px}
+.similaire-card h4{font-size:13px;font-weight:700;margin:0 0 3px;color:var(--text-primary)}
+.similaire-card .vd{font-size:11px;color:var(--text-gold);margin:0 0 3px}
+.similaire-card .pr{font-size:14px;font-weight:800;color:var(--text-emerald)}
+.action-bar{position:fixed;left:0;right:0;bottom:56px;background:var(--bg-card);border-top:1px solid var(--border);padding:12px 16px;display:flex;gap:10px;z-index:80}
+.action-bar button{flex:1;padding:14px;border-radius:12px;border:none;font-weight:800;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-fav{max-width:60px;background:var(--bg-card-alt);color:#ef4444;border:1px solid var(--border)}
+.btn-cart{background:#d4a574;color:#0a1f17}
+.btn-buy{background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff}
+</style>
 </head>
-<body>
-
-<header class="topbar">
-  <button class="btn-back" onclick="history.back()">
-    <i data-lucide="arrow-left" class="icon icon-md icon-vert"></i>
-  </button>
-  <h1 id="productTitle">Produit</h1>
-  <button class="icon-btn" onclick="shareProduct()">
-    <i data-lucide="share-2" class="icon icon-md icon-vert"></i>
-  </button>
+<body class="light-mode" data-theme="light">
+<header class="topbar" style="position:absolute;background:transparent;border:none;z-index:10">
+  <button class="btn-back" onclick="history.back()" style="background:rgba(255,255,255,0.9);border-radius:50%;padding:8px"><i data-lucide="arrow-left"></i></button>
+  <div></div>
+  <div style="display:flex;gap:8px">
+    <button style="background:rgba(255,255,255,0.9);border-radius:50%;padding:8px;border:none"><i data-lucide="share-2"></i></button>
+    <button class="btn-theme" data-theme-toggle style="background:rgba(255,255,255,0.9);border-radius:50%;padding:8px"><i data-lucide="moon"></i></button>
+  </div>
 </header>
 
-<main id="productMain" style="padding-bottom:100px;">
-  <!-- Généré par JS -->
+<main style="padding-bottom:160px">
+  <!-- GALERIE -->
+  <div class="gallery">
+    <img id="mainImage" src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=800" alt="Produit">
+    <div class="gallery-dots">
+      <span class="active"></span><span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <!-- HERO INFO -->
+  <div class="hero-info">
+    <p class="breadcrumb">Mode & Vêtements › Mode africaine</p>
+    <h1>Boubou wax collection premium</h1>
+    <div class="rating-row">
+      <span class="stars">★★★★★</span>
+      <span class="rating-num">4.9</span>
+      <span class="rating-count">(243 avis · 1 200+ vendus)</span>
+    </div>
+    <div class="price-hero">
+      <span class="price-current">18 000 FCFA</span>
+      <span class="price-old">25 000 FCFA</span>
+      <span class="price-discount">-28%</span>
+    </div>
+    <p style="color:#0f6b4e;font-weight:700;font-size:13px"><i data-lucide="truck" class="icon-sm"></i> Livraison en 24-48h à Dakar</p>
+  </div>
+
+  <!-- VENDEUR -->
+  <div class="vendeur-card">
+    <div class="avatar">FF</div>
+    <div class="info">
+      <div class="name">Fatou Fashion <i data-lucide="badge-check" class="icon-vert icon-sm"></i></div>
+      <div class="rank">Vendeur GOLD · 98% satisfaction</div>
+    </div>
+    <button style="background:#0f6b4e;color:#fff;border:none;padding:8px 14px;border-radius:20px;font-weight:700;font-size:13px">Voir boutique</button>
+  </div>
+
+  <!-- OPTIONS COULEURS -->
+  <div class="section">
+    <h2><i data-lucide="palette" class="icon-or icon-sm"></i> Couleur</h2>
+    <div class="options-row">
+      <div class="color-chip active" style="background:#0f6b4e" title="Vert"></div>
+      <div class="color-chip" style="background:#d4a574" title="Or"></div>
+      <div class="color-chip" style="background:#3b82f6" title="Bleu"></div>
+      <div class="color-chip" style="background:#ef4444" title="Rouge"></div>
+      <div class="color-chip" style="background:#0a1f17" title="Noir"></div>
+    </div>
+  </div>
+
+  <!-- OPTIONS TAILLES -->
+  <div class="section">
+    <h2><i data-lucide="ruler" class="icon-or icon-sm"></i> Taille</h2>
+    <div class="options-row">
+      <button class="option-chip">S</button>
+      <button class="option-chip active">M</button>
+      <button class="option-chip">L</button>
+      <button class="option-chip">XL</button>
+      <button class="option-chip">XXL</button>
+    </div>
+  </div>
+
+  <!-- DESCRIPTION -->
+  <div class="section">
+    <h2><i data-lucide="align-left" class="icon-or icon-sm"></i> Description</h2>
+    <p class="description">
+      Boubou traditionnel en wax africain 100% coton. Motifs authentiques, coupe moderne
+      et confort premium. Confectionné à Dakar par nos artisans locaux. Idéal pour
+      cérémonies, mariages et occasions spéciales. Lavable en machine à 30°C.
+    </p>
+  </div>
+
+  <!-- SPÉCIFICATIONS -->
+  <div class="section">
+    <h2><i data-lucide="info" class="icon-or icon-sm"></i> Spécifications</h2>
+    <div class="specs">
+      <div class="spec-item"><div class="k">Matériau</div><div class="v">100% Coton wax</div></div>
+      <div class="spec-item"><div class="k">Origine</div><div class="v">🇸🇳 Dakar</div></div>
+      <div class="spec-item"><div class="k">Entretien</div><div class="v">Machine 30°C</div></div>
+      <div class="spec-item"><div class="k">Garantie</div><div class="v">30 jours</div></div>
+      <div class="spec-item"><div class="k">Livraison</div><div class="v">24-48h Dakar</div></div>
+      <div class="spec-item"><div class="k">Retour</div><div class="v">Gratuit 7 jours</div></div>
+    </div>
+  </div>
+
+  <!-- AVIS -->
+  <div class="section">
+    <h2><i data-lucide="message-square" class="icon-or icon-sm"></i> Avis clients (243)</h2>
+    <div class="avis-card">
+      <div class="avis-header">
+        <div class="avis-avatar">AD</div>
+        <div style="flex:1">
+          <div class="avis-name">Awa Diop</div>
+          <div class="avis-date">Il y a 3 jours · <span class="stars">★★★★★</span></div>
+        </div>
+      </div>
+      <p class="avis-text">Superbe qualité ! Les motifs sont magnifiques et la coupe parfaite. Livré en 24h à Dakar.</p>
+    </div>
+    <div class="avis-card">
+      <div class="avis-header">
+        <div class="avis-avatar">MF</div>
+        <div style="flex:1">
+          <div class="avis-name">Moussa Fall</div>
+          <div class="avis-date">Il y a 1 semaine · <span class="stars">★★★★★</span></div>
+        </div>
+      </div>
+      <p class="avis-text">Excellent produit, conforme à la description. Je recommande vivement !</p>
+    </div>
+    <button style="width:100%;background:transparent;border:1px solid #0f6b4e;color:#0f6b4e;padding:12px;border-radius:12px;font-weight:700;margin-top:8px">Voir tous les avis</button>
+  </div>
+
+  <!-- ARTICLES SIMILAIRES -->
+  <div class="section">
+    <h2><i data-lucide="grid-3x3" class="icon-or icon-sm"></i> Articles similaires</h2>
+    <div class="similaires-grid">
+      <div class="similaire-card" onclick="location.href='produit.html?id=2'">
+        <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=300" alt="">
+        <div class="body"><h4>Boubou grand teint</h4><p class="vd">Aïcha Couture</p><p class="pr">45 000 FCFA</p></div>
+      </div>
+      <div class="similaire-card" onclick="location.href='produit.html?id=3'">
+        <img src="https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=300" alt="">
+        <div class="body"><h4>Robe wax mariage</h4><p class="vd">Fatou Fashion</p><p class="pr">35 000 FCFA</p></div>
+      </div>
+      <div class="similaire-card" onclick="location.href='produit.html?id=4'">
+        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=300" alt="">
+        <div class="body"><h4>Sac cuir africain</h4><p class="vd">Aïcha Couture</p><p class="pr">22 000 FCFA</p></div>
+      </div>
+      <div class="similaire-card" onclick="location.href='produit.html?id=5'">
+        <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=300" alt="">
+        <div class="body"><h4>Sandales cuir Peul</h4><p class="vd">Aïcha Couture</p><p class="pr">8 500 FCFA</p></div>
+      </div>
+    </div>
+  </div>
 </main>
 
-<!-- BOTTOM BAR ACTIONS -->
-<div style="position:fixed;bottom:0;left:0;right:0;background:var(--bg);border-top:1px solid var(--border);padding:12px 16px;display:flex;gap:10px;z-index:99;">
-  <button class="icon-btn" onclick="toggleFavProduct()" id="favBtn" style="border:1.5px solid var(--rouge);padding:12px;">
-    <i data-lucide="heart" class="icon icon-md icon-rouge"></i>
-  </button>
-  <button class="icon-btn" onclick="location.href='chat.html?vendor='+currentProduct.seller" style="border:1.5px solid var(--v-emeraude);padding:12px;">
-    <i data-lucide="message-circle" class="icon icon-md icon-vert"></i>
-  </button>
-  <button class="btn-primary" style="flex:1;" onclick="addToCart()">
-    <i data-lucide="shopping-cart" class="icon icon-sm icon-blanc" style="margin-right:6px;"></i>
-    Ajouter au panier
-  </button>
-  <button class="btn-or" onclick="buyNow()">Acheter</button>
+<!-- ACTION BAR -->
+<div class="action-bar">
+  <button class="btn-fav"><i data-lucide="heart"></i></button>
+  <button class="btn-cart"><i data-lucide="shopping-cart"></i> Panier</button>
+  <button class="btn-buy"><i data-lucide="zap"></i> Acheter</button>
 </div>
 
-<script src="js/role-guard.js"></script>
-<script src="js/dark-mode.js"></script>
-<script>
-const PRODUCTS = [
-  {id:1,name:'Boubou wax collection',price:18000,oldPrice:25000,image:'https://images.unsplash.com/photo-1544441893-675973e31985?w=800',seller:'Fatou Fashion',sellerAvatar:'https://i.pravatar.cc/50?img=5',verified:'gold',cat:'mode',stock:12,rating:4.8,reviews:127,city:'Thiès',description:'Magnifique boubou en wax authentique, tissu 100% coton de haute qualité. Coupe traditionnelle sénégalaise. Livraison rapide sur tout le Sénégal.'},
-  {id:2,name:'iPhone 15 Pro 256GB',price:750000,image:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=800',seller:'Moussa Tech',sellerAvatar:'https://i.pravatar.cc/50?img=13',verified:'gold',cat:'tech',stock:5,rating:4.9,reviews:89,city:'Dakar',description:'iPhone 15 Pro 256GB - Neuf sous blister - Garantie internationale 1 an. Puce A17 Pro, appareil photo 48MP, écran ProMotion 120Hz.'},
-  {id:3,name:'Sac cuir africain premium',price:15000,oldPrice:22000,image:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=800',seller:'Aïcha Couture',sellerAvatar:'https://i.pravatar.cc/50?img=1',verified:'platinum',cat:'mode',stock:8,rating:5.0,reviews:203,city:'Dakar',description:'Sac en cuir véritable travaillé à la main. Fabrication artisanale sénégalaise. Motifs africains uniques. Pièce numérotée.'},
-  {id:4,name:'Écouteurs sans fil Pro',price:12000,image:'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800',seller:'Moussa Tech',sellerAvatar:'https://i.pravatar.cc/50?img=13',verified:'gold',cat:'tech',stock:25,rating:4.6,reviews:312,city:'Dakar',description:'Écouteurs bluetooth 5.3, autonomie 30h avec boîtier, réduction de bruit active, résistants à l\'eau IPX5.'},
-  {id:5,name:'Beurre karité 500g',price:4500,image:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=800',seller:'Ibrahim Bio',sellerAvatar:'https://i.pravatar.cc/50?img=8',verified:'silver',cat:'beauty',stock:50,rating:4.9,reviews:456,city:'Saint-Louis',description:'Beurre de karité 100% naturel du Sénégal. Non raffiné, riche en vitamines A et E. Idéal pour hydratation profonde peau et cheveux.'}
-];
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="recherche-ia.html"><i data-lucide="search"></i><span>Rechercher</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="favoris.html"><i data-lucide="heart"></i><span>Favoris</span></a>
+  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
+</nav>
 
-let currentProduct = null;
-
-function getProductId() {
-  const params = new URLSearchParams(location.search);
-  return parseInt(params.get('id')) || 1;
-}
-
-function renderProduct() {
-  const id = getProductId();
-  currentProduct = PRODUCTS.find(p => p.id === id) || PRODUCTS[0];
-  const p = currentProduct;
-  const disc = p.oldPrice ? Math.round((1 - p.price/p.oldPrice)*100) : 0;
-
-  document.getElementById('productTitle').textContent = p.name;
-
-  document.getElementById('productMain').innerHTML = `
-    <!-- Galerie -->
-    <div style="aspect-ratio:1/1;background:var(--bg-card);position:relative;overflow:hidden;">
-      <img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;">
-      ${disc > 0 ? `<div style="position:absolute;top:12px;left:12px;background:var(--rouge);color:white;padding:6px 12px;border-radius:8px;font-weight:800;font-size:14px;">-${disc}%</div>` : ''}
-    </div>
-
-    <!-- Prix hero -->
-    <div style="padding:16px;background:var(--bg-card);margin-bottom:8px;">
-      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px;">
-        <span style="font-size:28px;font-weight:900;color:var(--v-emeraude);">${p.price.toLocaleString('fr-FR')} FCFA</span>
-        ${p.oldPrice ? `<span style="font-size:16px;text-decoration:line-through;color:var(--text-muted);">${p.oldPrice.toLocaleString('fr-FR')} FCFA</span>` : ''}
-      </div>
-      <h2 style="font-size:18px;font-weight:700;margin-bottom:8px;">${p.name}</h2>
-      <div style="display:flex;align-items:center;gap:12px;font-size:13px;color:var(--text-muted);">
-        <div style="display:flex;align-items:center;gap:4px;">
-          <i data-lucide="star" class="icon icon-sm icon-or"></i>
-          <span style="font-weight:700;color:var(--text);">${p.rating}</span>
-          <span>(${p.reviews} avis)</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:4px;">
-          <i data-lucide="package" class="icon icon-sm icon-vert"></i>
-          <span>Stock : ${p.stock}</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Options -->
-    <div style="padding:16px;background:var(--bg-card);margin-bottom:8px;">
-      <div style="font-size:14px;font-weight:700;margin-bottom:10px;">Options</div>
-      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
-        <span style="padding:6px 12px;border:1.5px solid var(--v-emeraude);border-radius:8px;font-size:13px;font-weight:600;color:var(--v-emeraude);">Taille M</span>
-        <span style="padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;">Taille L</span>
-        <span style="padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;">Taille XL</span>
-      </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <span style="padding:6px 12px;border:1.5px solid var(--v-emeraude);border-radius:8px;font-size:13px;font-weight:600;color:var(--v-emeraude);">Bleu</span>
-        <span style="padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;">Rouge</span>
-        <span style="padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;">Vert</span>
-      </div>
-    </div>
-
-    <!-- Vendeur -->
-    <div style="padding:16px;background:var(--bg-card);margin-bottom:8px;cursor:pointer;" onclick="location.href='boutique.html?id=${p.id}'">
-      <div style="display:flex;align-items:center;gap:12px;">
-        <img src="${p.sellerAvatar}" style="width:50px;height:50px;border-radius:50%;">
-        <div style="flex:1;">
-          <div style="display:flex;align-items:center;gap:6px;">
-            <span style="font-weight:700;">${p.seller}</span>
-            ${p.verified === 'platinum' ? '<i data-lucide="badge-check" class="icon icon-sm icon-violet"></i>' : ''}
-            ${p.verified === 'gold' ? '<i data-lucide="badge-check" class="icon icon-sm icon-or"></i>' : ''}
-          </div>
-          <div style="font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:4px;">
-            <i data-lucide="map-pin" class="icon icon-sm"></i>
-            <span>${p.city}</span>
-          </div>
-        </div>
-        <i data-lucide="chevron-right" class="icon icon-md icon-vert"></i>
-      </div>
-    </div>
-
-    <!-- Description -->
-    <div style="padding:16px;background:var(--bg-card);margin-bottom:8px;">
-      <div style="font-size:14px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
-        <i data-lucide="file-text" class="icon icon-sm icon-vert"></i>
-        Description
-      </div>
-      <p style="font-size:14px;line-height:1.6;color:var(--text);">${p.description}</p>
-    </div>
-
-    <!-- Avis -->
-    <div style="padding:16px;background:var(--bg-card);margin-bottom:8px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-        <div style="font-size:14px;font-weight:700;display:flex;align-items:center;gap:6px;">
-          <i data-lucide="star" class="icon icon-sm icon-or"></i>
-          Avis clients (${p.reviews})
-        </div>
-        <a href="avis.html?id=${p.id}" style="font-size:13px;font-weight:600;">Voir tous</a>
-      </div>
-      <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px;">
-        <div style="text-align:center;">
-          <div style="font-size:36px;font-weight:900;color:var(--v-emeraude);">${p.rating}</div>
-          <div style="display:flex;gap:2px;">
-            ${[1,2,3,4,5].map(i => `<i data-lucide="star" class="icon icon-sm ${i <= Math.round(p.rating) ? 'icon-or' : ''}" style="width:14px;height:14px;"></i>`).join('')}
-          </div>
-        </div>
-        <div style="flex:1;">
-          ${[5,4,3,2,1].map(n => `
-            <div style="display:flex;align-items:center;gap:6px;font-size:11px;">
-              <span>${n}★</span>
-              <div style="flex:1;background:var(--border);border-radius:4px;height:6px;overflow:hidden;">
-                <div style="background:var(--or-royal);height:100%;width:${n === 5 ? 70 : n === 4 ? 20 : n === 3 ? 7 : n === 2 ? 2 : 1}%;"></div>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    </div>
-
-    <!-- Livraison -->
-    <div style="padding:16px;background:var(--bg-card);margin-bottom:8px;">
-      <div style="font-size:14px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
-        <i data-lucide="truck" class="icon icon-sm icon-or"></i>
-        Livraison
-      </div>
-      <div style="font-size:13px;line-height:1.6;">
-        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-          <span>Dakar</span>
-          <span style="font-weight:700;color:var(--v-emeraude);">24-48h · 1 500 FCFA</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;">
-          <span>Autres régions</span>
-          <span style="font-weight:700;color:var(--v-emeraude);">3-7 jours · 3 500 FCFA</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Garanties -->
-    <div style="padding:16px;background:var(--bg-card);margin-bottom:8px;">
-      <div style="font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
-        <i data-lucide="shield-check" class="icon icon-sm icon-vert"></i>
-        Garanties SEN TEW
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
-        <div style="display:flex;align-items:center;gap:8px;font-size:12px;">
-          <i data-lucide="rotate-ccw" class="icon icon-sm icon-vert"></i>
-          <span>Retour 7 jours</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;font-size:12px;">
-          <i data-lucide="shield" class="icon icon-sm icon-vert"></i>
-          <span>Paiement sécurisé</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;font-size:12px;">
-          <i data-lucide="check-circle" class="icon icon-sm icon-vert"></i>
-          <span>Vendeur vérifié</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;font-size:12px;">
-          <i data-lucide="phone" class="icon icon-sm icon-vert"></i>
-          <span>Support 24/7</span>
-        </div>
-      </div>
-    </div>
-  `;
-
-  lucide.createIcons();
-}
-
-function addToCart() {
-  let cart = JSON.parse(localStorage.getItem('cart')||'[]');
-  const existing = cart.find(c => c.id === currentProduct.id);
-  if(existing) existing.qty++;
-  else cart.push({id: currentProduct.id, name: currentProduct.name, price: currentProduct.price, image: currentProduct.image, qty: 1});
-  localStorage.setItem('cart', JSON.stringify(cart));
-  if(navigator.vibrate) navigator.vibrate(30);
-  alert('✅ Ajouté au panier !');
-}
-
-function buyNow() {
-  addToCart();
-  location.href = 'panier.html';
-}
-
-function toggleFavProduct() {
-  let favs = JSON.parse(localStorage.getItem('favs')||'[]');
-  if(favs.includes(currentProduct.id)) favs = favs.filter(x => x !== currentProduct.id);
-  else favs.push(currentProduct.id);
-  localStorage.setItem('favs', JSON.stringify(favs));
-  if(navigator.vibrate) navigator.vibrate(20);
-}
-
-function shareProduct() {
-  if(navigator.share) {
-    navigator.share({title: currentProduct.name, text: `Découvre ${currentProduct.name} sur SEN TEW`, url: location.href});
-  } else {
-    navigator.clipboard.writeText(location.href);
-    alert('📋 Lien copié !');
-  }
-}
-
-renderProduct();
-</script>
 <script>lucide.createIcons();</script>
 </body>
 </html>
