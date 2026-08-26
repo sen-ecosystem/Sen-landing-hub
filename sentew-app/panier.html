@@ -2,282 +2,181 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Panier - SEN TEW</title>
-<meta name="theme-color" content="#0f6b4e">
-<link rel="stylesheet" href="css/app.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>🛒 Mon panier · SEN TEW</title>
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="css/app.css?v=46">
 <script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/dark-mode.js?v=46" defer></script>
+<script src="js/role-guard.js?v=46" defer></script>
 <style>
-.cart-item {
-  display: grid;
-  grid-template-columns: 100px 1fr auto;
-  gap: 12px;
-  padding: 14px;
-  background: var(--bg-card);
-  border-radius: 14px;
-  margin-bottom: 10px;
-  align-items: center;
-}
-.cart-item img {
-  width: 100px;
-  height: 100px;
-  border-radius: 10px;
-  object-fit: cover;
-  background: #e5e5e0;
-}
-.cart-item-info { min-width: 0; }
-.cart-item-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
-.qty-box {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  background: var(--bg);
-  border-radius: 8px;
-  padding: 2px;
-  border: 1px solid var(--border);
-}
-.qty-box button {
-  padding: 4px 10px;
-  background: transparent;
-  font-size: 15px;
-  font-weight: 800;
-  color: var(--v-emeraude);
-  cursor: pointer;
-  border: none;
-}
+.cart-item{display:grid;grid-template-columns:96px 1fr auto;gap:12px;padding:12px;background:var(--bg-card);border:1px solid var(--border);border-radius:14px;margin:10px 16px;align-items:center}
+.cart-item img{width:96px;height:96px;object-fit:cover;border-radius:12px;background:#e5e5e0}
+.cart-info h3{font-size:14px;font-weight:700;margin:0 0 4px;color:var(--text-primary)}
+.cart-info .vendeur{font-size:12px;color:var(--text-gold);margin:0 0 6px}
+.cart-info .prix{font-size:15px;font-weight:800;color:var(--text-emerald);margin:0}
+.qty-ctrl{display:flex;align-items:center;gap:6px;margin-top:6px}
+.qty-ctrl button{width:26px;height:26px;border-radius:50%;background:var(--bg-card-alt);border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-primary)}
+.qty-ctrl span{min-width:22px;text-align:center;font-weight:700}
+.item-remove{background:none;border:none;color:#ef4444;cursor:pointer;padding:8px}
+.suggest-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 200px}
+.suggest-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.suggest-card img{width:100%;height:140px;object-fit:cover;background:#e5e5e0}
+.suggest-card .body{padding:10px}
+.suggest-card h4{font-size:13px;font-weight:700;margin:0 0 4px;color:var(--text-primary)}
+.suggest-card .vd{font-size:11px;color:var(--text-gold);margin:0 0 4px}
+.suggest-card .pr{font-size:14px;font-weight:800;color:var(--text-emerald)}
+.recap{position:fixed;left:0;right:0;bottom:56px;background:var(--bg-card);border-top:1px solid var(--border);padding:12px 16px;z-index:80}
+.recap-line{display:flex;justify-content:space-between;font-size:13px;color:var(--text-secondary);margin:2px 0}
+.recap-total{display:flex;justify-content:space-between;font-size:18px;font-weight:900;color:var(--text-emerald);margin:8px 0}
+.pay-opts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:6px}
+.pay-opts button{padding:10px 6px;border-radius:10px;border:1px solid var(--border);background:var(--bg-card-alt);font-size:12px;font-weight:700;color:var(--text-primary);cursor:pointer}
+.pay-opts button.active{background:#c8f0d8;border-color:#0f6b4e;color:#0a4d38}
+.secure-badge{background:#f0c99a;color:#0a1f17;padding:12px 16px;border-radius:12px;margin:16px;display:flex;gap:10px;align-items:flex-start}
+.secure-badge i{color:#a67c3a;flex-shrink:0}
+.secure-badge strong{color:#0a4d38;display:block;margin-bottom:2px}
 </style>
 </head>
-<body>
-
+<body class="light-mode" data-theme="light">
 <header class="topbar">
-  <button class="btn-back" onclick="history.back()">
-    <i data-lucide="arrow-left" class="icon icon-md icon-vert"></i>
-  </button>
-  <h1 style="display:flex;align-items:center;gap:8px;">
-    <i data-lucide="shopping-cart" class="icon icon-md icon-or"></i>
-    Mon panier <span id="cartCount" style="font-size:14px;color:var(--text-muted);font-weight:400;"></span>
-  </h1>
-  <button class="icon-btn" data-theme-toggle onclick="toggleTheme()">
-    <i data-lucide="moon" class="icon icon-md icon-vert"></i>
-  </button>
+  <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="shopping-cart" class="icon-vert"></i> Mon panier <span style="color:var(--text-muted);font-weight:400">(3)</span></h1>
+  <button class="btn-theme" data-theme-toggle><i data-lucide="moon"></i></button>
 </header>
 
-<main id="cartMain" style="padding:12px 16px 280px;"></main>
+<main style="padding-bottom:280px">
+  <!-- ARTICLES PANIER -->
+  <article class="cart-item">
+    <img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=200" alt="Boubou wax">
+    <div class="cart-info">
+      <h3>Boubou wax collection</h3>
+      <p class="vendeur">Fatou Fashion</p>
+      <p class="prix">18 000 FCFA</p>
+      <div class="qty-ctrl">
+        <button><i data-lucide="minus" class="icon-sm"></i></button>
+        <span>1</span>
+        <button><i data-lucide="plus" class="icon-sm"></i></button>
+      </div>
+    </div>
+    <button class="item-remove"><i data-lucide="trash-2"></i></button>
+  </article>
 
-<div id="cartFooter" style="position:fixed;bottom:0;left:0;right:0;background:var(--bg);border-top:1px solid var(--border);padding:12px 16px 20px;z-index:99;display:none;box-shadow:0 -4px 12px rgba(0,0,0,0.08);">
-  <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px;color:var(--text);">
-    <span>Sous-total</span>
-    <span id="subtotal" style="font-weight:600;">0 FCFA</span>
+  <article class="cart-item">
+    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200" alt="Sneakers">
+    <div class="cart-info">
+      <h3>Sneakers premium blanc</h3>
+      <p class="vendeur">Moussa Tech</p>
+      <p class="prix">28 000 FCFA</p>
+      <div class="qty-ctrl">
+        <button><i data-lucide="minus" class="icon-sm"></i></button>
+        <span>1</span>
+        <button><i data-lucide="plus" class="icon-sm"></i></button>
+      </div>
+    </div>
+    <button class="item-remove"><i data-lucide="trash-2"></i></button>
+  </article>
+
+  <article class="cart-item">
+    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200" alt="Casque">
+    <div class="cart-info">
+      <h3>Écouteurs sans fil Pro</h3>
+      <p class="vendeur">Moussa Tech</p>
+      <p class="prix">12 000 FCFA</p>
+      <div class="qty-ctrl">
+        <button><i data-lucide="minus" class="icon-sm"></i></button>
+        <span>1</span>
+        <button><i data-lucide="plus" class="icon-sm"></i></button>
+      </div>
+    </div>
+    <button class="item-remove"><i data-lucide="trash-2"></i></button>
+  </article>
+
+  <!-- BADGE SÉCURITÉ -->
+  <div class="secure-badge">
+    <i data-lucide="shield-check"></i>
+    <div>
+      <strong>Paiement 100 % sécurisé</strong>
+      <span style="font-size:13px;color:#4a5a52">Fonds séquestrés jusqu'à confirmation de livraison</span>
+    </div>
   </div>
-  <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px;color:var(--text);">
-    <span>Livraison</span>
-    <span id="shipping" style="font-weight:600;">1 500 FCFA</span>
+
+  <!-- SUGGESTIONS -->
+  <h2 class="section-title"><i data-lucide="sparkles" class="icon-or"></i> Vous aimerez aussi</h2>
+  <div class="suggest-grid">
+    <div class="suggest-card">
+      <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=300" alt="Boubou grand teint">
+      <div class="body">
+        <h4>Boubou grand teint</h4>
+        <p class="vd">Aïcha Couture</p>
+        <p class="pr">45 000 FCFA</p>
+      </div>
+    </div>
+    <div class="suggest-card">
+      <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=300" alt="Sandales">
+      <div class="body">
+        <h4>Sandales cuir Peul</h4>
+        <p class="vd">Aïcha Couture</p>
+        <p class="pr">8 500 FCFA</p>
+      </div>
+    </div>
+    <div class="suggest-card">
+      <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300" alt="Montre">
+      <div class="body">
+        <h4>Montre élégante</h4>
+        <p class="vd">Moussa Tech</p>
+        <p class="pr">32 000 FCFA</p>
+      </div>
+    </div>
+    <div class="suggest-card">
+      <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300" alt="Chemise">
+      <div class="body">
+        <h4>Chemise en lin bleu</h4>
+        <p class="vd">Fatou Fashion</p>
+        <p class="pr">15 000 FCFA</p>
+      </div>
+    </div>
+    <div class="suggest-card">
+      <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=300" alt="Sac">
+      <div class="body">
+        <h4>Sac cuir africain</h4>
+        <p class="vd">Aïcha Couture</p>
+        <p class="pr">22 000 FCFA</p>
+      </div>
+    </div>
+    <div class="suggest-card">
+      <img src="https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=300" alt="Perruque">
+      <div class="body">
+        <h4>Perruque brésilienne</h4>
+        <p class="vd">Beauty Fatou</p>
+        <p class="pr">55 000 FCFA</p>
+      </div>
+    </div>
   </div>
-  <div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:17px;font-weight:900;">
-    <span style="color:var(--v-emeraude);">TOTAL</span>
-    <span id="total" style="color:var(--v-emeraude);">0 FCFA</span>
+</main>
+
+<!-- RÉCAPITULATIF FIXE -->
+<div class="recap">
+  <div class="recap-line"><span>Sous-total</span><span>58 000 FCFA</span></div>
+  <div class="recap-line"><span>Livraison</span><span>1 500 FCFA</span></div>
+  <div class="recap-total"><span>TOTAL</span><span>59 500 FCFA</span></div>
+  <div class="pay-opts">
+    <button class="active">1× Comptant</button>
+    <button>2× sans frais</button>
+    <button>3× sans frais</button>
   </div>
-  <div style="display:flex;gap:6px;margin-bottom:10px;">
-    <button style="flex:1;padding:8px 6px;background:var(--v-clair);border:1.5px solid var(--v-emeraude);border-radius:8px;font-size:11px;font-weight:700;color:var(--v-emeraude);">1× Comptant</button>
-    <button style="flex:1;padding:8px 6px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;font-size:11px;font-weight:600;color:var(--text);">2× sans frais</button>
-    <button style="flex:1;padding:8px 6px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;font-size:11px;font-weight:600;color:var(--text);">3× sans frais</button>
-  </div>
-  <button class="btn-primary" style="width:100%;" onclick="checkout()">
-    <i data-lucide="lock" class="icon icon-sm icon-blanc" style="margin-right:6px;"></i>
-    Passer commande sécurisée
+  <button style="width:100%;margin-top:8px;background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;padding:14px;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px">
+    <i data-lucide="lock"></i> Passer la commande
   </button>
 </div>
 
 <nav class="bottom-nav">
-  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
-  <a href="recherche-ia.html"><i data-lucide="search" class="icon icon-md"></i><span>Rechercher</span></a>
-  <a href="panier.html" class="active"><i data-lucide="shopping-cart" class="icon icon-md icon-or"></i><span>Panier</span></a>
-  <a href="favoris.html"><i data-lucide="heart" class="icon icon-md"></i><span>Favoris</span></a>
-  <a href="profil.html"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="recherche-ia.html"><i data-lucide="search"></i><span>Rechercher</span></a>
+  <a href="panier.html" class="active"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="favoris.html"><i data-lucide="heart"></i><span>Favoris</span></a>
+  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
-<script src="js/role-guard.js"></script>
-<script src="js/dark-mode.js"></script>
-<script>
-// PANIER DÉMO ENRICHI (6 articles)
-if(!localStorage.getItem('cart') || JSON.parse(localStorage.getItem('cart')).length === 0) {
-  const demo = [
-    {id:12,name:'Robe Wax Premium',price:25000,image:'https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=400',seller:'Aïcha Couture',size:'M',color:'Noir',qty:1},
-    {id:6,name:'Sac cuir artisanal',price:18500,image:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400',seller:'Cuir d\'Afrique',size:'Unique',color:'Marron',qty:1},
-    {id:9,name:'Bijoux dorés collection',price:8000,image:'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400',seller:'Méda d\'Or',size:'Unique',color:'Or',qty:1},
-    {id:4,name:'Écouteurs Bluetooth Pro',price:12000,image:'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400',seller:'Moussa Tech',size:'-',color:'Noir',qty:1},
-    {id:5,name:'Beurre karité 500g',price:4500,image:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400',seller:'Ibrahim Bio',size:'500g',color:'-',qty:2},
-    {id:7,name:'Masque visage bio',price:6500,image:'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400',seller:'Mariama Beauté',size:'250ml',color:'-',qty:1}
-  ];
-  localStorage.setItem('cart', JSON.stringify(demo));
-}
-
-const SIMILAR = [
-  {id:20,name:'Boubou grand teint',price:45000,image:'https://images.unsplash.com/photo-1544441893-675973e31985?w=400',seller:'Aïcha Couture'},
-  {id:21,name:'Sandales cuir Peul',price:8500,image:'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400',seller:'Aïcha Couture'},
-  {id:22,name:'Robe bogolan',price:22000,image:'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400',seller:'Fatou Fashion'},
-  {id:23,name:'Chemise brodée',price:12000,image:'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400',seller:'Aïcha Couture'},
-  {id:24,name:'iPhone 15 Pro',price:750000,image:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=400',seller:'Moussa Tech'},
-  {id:25,name:'Montre connectée',price:35000,image:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400',seller:'Moussa Tech'}
-];
-
-function renderCart() {
-  const cart = JSON.parse(localStorage.getItem('cart')||'[]');
-  const main = document.getElementById('cartMain');
-  const footer = document.getElementById('cartFooter');
-  const countEl = document.getElementById('cartCount');
-
-  if(cart.length === 0) {
-    countEl.textContent = '';
-    footer.style.display = 'none';
-    main.innerHTML = `
-      <div style="text-align:center;padding:60px 20px;">
-        <i data-lucide="shopping-cart" class="icon icon-xl icon-vert" style="opacity:0.3;"></i>
-        <h2 style="margin-top:16px;color:var(--text);">Votre panier est vide</h2>
-        <p style="color:var(--text-muted);margin:12px 0 24px;">Découvrez nos produits tendance</p>
-        <button class="btn-primary" onclick="location.href='index.html'">Commencer mes achats</button>
-      </div>
-    `;
-    lucide.createIcons();
-    return;
-  }
-
-  countEl.textContent = `(${cart.length})`;
-
-  let html = '';
-
-  // Articles panier (grille horizontale image-info-actions)
-  html += cart.map((item, i) => `
-    <div class="cart-item">
-      <img src="${item.image}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/100x100/0f6b4e/ffffff?text=SEN'">
-      <div class="cart-item-info">
-        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;line-height:1.3;">${item.name}</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:3px;">Par ${item.seller || 'Vendeur'}</div>
-        <div style="font-size:10px;color:var(--text-muted);margin-bottom:6px;">
-          ${item.size && item.size !== '-' ? `Taille: <b style="color:var(--text);">${item.size}</b>` : ''}${item.size && item.size !== '-' && item.color && item.color !== '-' ? ' · ' : ''}${item.color && item.color !== '-' ? `Couleur: <b style="color:var(--text);">${item.color}</b>` : ''}
-        </div>
-        <div style="font-size:16px;font-weight:900;color:var(--v-emeraude);">${item.price.toLocaleString('fr-FR')} FCFA</div>
-      </div>
-      <div class="cart-item-actions">
-        <button onclick="removeItem(${i})" style="background:transparent;padding:4px;border:none;cursor:pointer;">
-          <i data-lucide="trash-2" class="icon icon-sm icon-rouge"></i>
-        </button>
-        <div class="qty-box">
-          <button onclick="updateQty(${i},-1)">−</button>
-          <span style="min-width:22px;text-align:center;font-weight:700;color:var(--text);">${item.qty}</span>
-          <button onclick="updateQty(${i},1)">+</button>
-        </div>
-      </div>
-    </div>
-  `).join('');
-
-  // Code promo
-  html += `
-    <div style="background:var(--bg-card);padding:14px;border-radius:12px;margin:16px 0;">
-      <div style="font-size:13px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px;color:var(--or-royal);">
-        <i data-lucide="tag" class="icon icon-sm icon-or"></i>
-        Code promo
-      </div>
-      <div style="display:flex;gap:8px;">
-        <input type="text" placeholder="Entrez votre code" style="flex:1;">
-        <button class="btn-primary" style="padding:10px 16px;">Appliquer</button>
-      </div>
-    </div>
-
-    <div style="background:var(--bg-card);padding:14px;border-radius:12px;margin-bottom:12px;">
-      <div style="font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;color:var(--or-royal);">
-        <i data-lucide="truck" class="icon icon-sm icon-or"></i>
-        Adresse de livraison
-      </div>
-      <div style="display:flex;align-items:center;gap:10px;">
-        <i data-lucide="map-pin" class="icon icon-md icon-vert"></i>
-        <div style="flex:1;">
-          <div style="font-weight:700;font-size:13px;color:var(--text);">Domicile</div>
-          <div style="font-size:12px;color:var(--text-muted);">Cité Keur Gorgui, Dakar</div>
-        </div>
-        <button style="color:var(--v-emeraude);font-size:12px;font-weight:700;background:var(--v-clair);padding:6px 12px;border-radius:8px;border:none;cursor:pointer;" onclick="location.href='adresses.html'">Changer</button>
-      </div>
-    </div>
-
-    <div style="background:var(--bg-card);padding:14px;border-radius:12px;margin-bottom:12px;">
-      <div style="font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;color:var(--v-emeraude);">
-        <i data-lucide="credit-card" class="icon icon-sm icon-vert"></i>
-        Moyens de paiement
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
-        <div style="padding:10px 6px;background:var(--v-clair);border:1.5px solid var(--v-emeraude);border-radius:8px;text-align:center;font-size:11px;font-weight:700;color:var(--v-emeraude);">
-          <span class="emoji-fix" style="font-size:18px;display:block;">🌊</span>Wave
-        </div>
-        <div style="padding:10px 6px;background:var(--bg);border:1px solid var(--border);border-radius:8px;text-align:center;font-size:11px;font-weight:700;color:var(--text);">
-          <span class="emoji-fix" style="font-size:18px;display:block;">🍊</span>Orange
-        </div>
-        <div style="padding:10px 6px;background:var(--bg);border:1px solid var(--border);border-radius:8px;text-align:center;font-size:11px;font-weight:700;color:var(--text);">
-          <i data-lucide="credit-card" class="icon icon-md icon-vert" style="display:block;margin:0 auto 2px;"></i>Carte
-        </div>
-      </div>
-    </div>
-
-    <div style="background:rgba(15,107,78,0.12);padding:12px;border-radius:12px;margin-bottom:12px;display:flex;align-items:center;gap:10px;">
-      <i data-lucide="shield-check" class="icon icon-md icon-vert"></i>
-      <div style="font-size:12px;color:var(--v-forest);line-height:1.4;">
-        <strong>Paiement 100 % sécurisé</strong><br>
-        <span style="color:var(--text-muted);">Fonds séquestrés jusqu'à confirmation de livraison</span>
-      </div>
-    </div>
-
-    <div class="section-title" style="margin:20px 0 12px;">
-      <i data-lucide="sparkles" class="icon icon-md icon-or"></i>
-      Vous aimerez aussi
-    </div>
-    <div class="pcard-grid">
-      ${SIMILAR.map(p => `
-        <a href="produit.html?id=${p.id}" class="pcard" style="text-decoration:none;color:inherit;">
-          <div class="pcard-img">
-            <img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/200x200/0f6b4e/ffffff?text=SEN'">
-          </div>
-          <div class="pcard-info">
-            <div class="pcard-name">${p.name}</div>
-            <div style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">${p.seller}</div>
-            <div class="pcard-price">${p.price.toLocaleString('fr-FR')} FCFA</div>
-          </div>
-        </a>
-      `).join('')}
-    </div>
-  `;
-
-  main.innerHTML = html;
-
-  const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
-  const shipping = 1500;
-  const total = subtotal + shipping;
-  document.getElementById('subtotal').textContent = subtotal.toLocaleString('fr-FR') + ' FCFA';
-  document.getElementById('total').textContent = total.toLocaleString('fr-FR') + ' FCFA';
-  footer.style.display = 'block';
-  lucide.createIcons();
-}
-
-function updateQty(idx, delta) {
-  let cart = JSON.parse(localStorage.getItem('cart')||'[]');
-  cart[idx].qty = Math.max(1, cart[idx].qty + delta);
-  localStorage.setItem('cart', JSON.stringify(cart));
-  renderCart();
-  if(navigator.vibrate) navigator.vibrate(20);
-}
-
-function removeItem(idx) {
-  let cart = JSON.parse(localStorage.getItem('cart')||'[]');
-  cart.splice(idx, 1);
-  localStorage.setItem('cart', JSON.stringify(cart));
-  renderCart();
-  if(navigator.vibrate) navigator.vibrate(30);
-}
-
-function checkout() {
-  location.href = 'paiement-success.html';
-}
-
-renderCart();
-</script>
 <script>lucide.createIcons();</script>
 </body>
 </html>
