@@ -1,238 +1,145 @@
 <!DOCTYPE html>
-<html lang="fr"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Inscription - SEN TEW</title>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Inscription · SEN TEW</title>
+<meta name="theme-color" content="#0f6b4e">
+<link rel="stylesheet" href="css/app.css?v=46">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/dark-mode.js?v=46" defer></script>
 <style>
-:root{--v:#00a651;--j:#fcd116;--o:#b8863a}
-*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif}
-body{background:linear-gradient(180deg,#f8fbf9 0%,#fff 40%);min-height:100vh;color:#222;padding:0 24px;padding-top:env(safe-area-inset-top,20px);padding-bottom:env(safe-area-inset-bottom,20px)}
-.top{display:flex;align-items:center;gap:12px;padding:20px 0}
-.back{background:#fff;border:1px solid #eee;color:#222;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.05)}
-.top h1{font-size:16px;font-weight:700;flex:1}
-
-.logo-mini{text-align:center;margin-bottom:16px}
-.logo-mini .crown{font-size:36px}
-.logo-mini .name{color:var(--v);font-size:20px;font-weight:900;letter-spacing:1px}
-
-.card{background:#fff;border-radius:20px;padding:22px;box-shadow:0 8px 32px rgba(0,0,0,.06)}
-.title{font-size:22px;font-weight:800;margin-bottom:6px}
-.subtitle{font-size:14px;color:#666;margin-bottom:20px}
-
-.step-dots{display:flex;gap:6px;justify-content:center;margin-bottom:18px}
-.dot{width:8px;height:8px;border-radius:50%;background:#e0e0e0}
-.dot.active{background:var(--v);width:22px;border-radius:4px}
-
-.role-select{display:grid;gap:10px;margin-bottom:18px}
-.role-card{padding:14px;border:2px solid #e8e8e8;border-radius:14px;cursor:pointer;display:flex;align-items:center;gap:12px;background:#fafafa;transition:.2s}
-.role-card.active{border-color:var(--v);background:#e8f5ee}
-.role-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px}
-.role-card:nth-child(1) .role-icon{background:linear-gradient(135deg,#1da1f2,#0d47a1);color:#fff}
-.role-card:nth-child(2) .role-icon{background:linear-gradient(135deg,#00a651,#008a44);color:#fff}
-.role-card:nth-child(3) .role-icon{background:linear-gradient(135deg,#ff6b35,#d84315);color:#fff}
-.role-text{flex:1}
-.role-text h4{font-size:15px;font-weight:700;color:#222}
-.role-text p{font-size:12px;color:#666;margin-top:2px}
-.role-check{color:var(--v);font-size:20px;opacity:0}
-.role-card.active .role-check{opacity:1}
-
+body{background:linear-gradient(135deg,#f5f5f0 0%,#f0c99a 100%);min-height:100vh;margin:0;font-family:-apple-system,'Segoe UI',sans-serif}
+.auth-wrap{max-width:420px;margin:0 auto;padding:24px 20px;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+.auth-logo{text-align:center;margin-bottom:24px}
+.auth-logo .badge{width:72px;height:72px;border-radius:22px;background:linear-gradient(135deg,#0f6b4e 0%,#d4a574 100%);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:18px;box-shadow:0 8px 24px rgba(15,107,78,0.3);margin-bottom:12px}
+.auth-logo h1{color:#0f6b4e;font-size:24px;font-weight:900;margin:0}
+.auth-logo p{color:#a67c3a;font-weight:600;margin:2px 0 0;font-size:12px;letter-spacing:2px}
+.auth-card{background:#ffffff;border-radius:24px;padding:24px 20px;box-shadow:0 20px 60px rgba(15,107,78,0.15)}
+.auth-card h2{color:#0a1f17;font-size:20px;margin:0 0 4px;font-weight:800}
+.auth-card .sub{color:#4a5a52;font-size:13px;margin:0 0 18px}
 .field{margin-bottom:12px}
-.field label{display:block;font-size:12px;color:#666;font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
-.input-wrap{position:relative}
-.input-wrap .icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;color:#999}
-.field input{width:100%;border:2px solid #e8e8e8;padding:12px 12px 12px 40px;border-radius:12px;font-size:14px;color:#222;background:#fafafa;outline:none}
-.field input:focus{border-color:var(--v);background:#fff}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-
-.pwd-strength{height:4px;background:#eee;border-radius:2px;margin-top:6px;overflow:hidden}
-.pwd-strength div{height:100%;transition:.3s;width:0}
-.pwd-hint{font-size:11px;color:#888;margin-top:4px}
-
-.cgu-check{display:flex;align-items:flex-start;gap:8px;margin:14px 0;font-size:12px;color:#555;line-height:1.4}
-.cgu-check input{margin-top:2px;accent-color:var(--v);width:16px;height:16px}
-.cgu-check a{color:var(--v);font-weight:600}
-
-.signup-btn{width:100%;background:linear-gradient(135deg,var(--v),#008a44);color:#fff;border:none;padding:14px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(0,166,81,.3)}
-.signup-btn:disabled{opacity:.5;box-shadow:none}
-
-.divider{display:flex;align-items:center;gap:12px;margin:18px 0;color:#999;font-size:11px;font-weight:600}
-.divider::before,.divider::after{content:'';flex:1;height:1px;background:#e0e0e0}
-
-.social{width:100%;padding:12px;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;border:2px solid #e8e8e8;background:#fff;color:#222;margin-bottom:8px}
-.social.apple{background:#000;color:#fff;border-color:#000}
-.social.facebook{background:#1877f2;color:#fff;border-color:#1877f2}
-
-.have-account{text-align:center;margin-top:18px;font-size:13px;color:#666}
-.have-account a{color:var(--v);font-weight:700;text-decoration:none}
-</style></head><body>
-
-<div class="top">
-  <button class="back" onclick="history.back()">←</button>
-  <h1>Créer un compte</h1>
-</div>
-
-<div class="logo-mini">
-  <div class="crown">👑</div>
-  <div class="name">SEN TEW</div>
-</div>
-
-<div class="card">
-  <div class="title">Bienvenue ! ✨</div>
-  <div class="subtitle">Rejoignez la marketplace africaine n°1</div>
-
-  <div class="step-dots">
-    <div class="dot active"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
+.field label{display:block;font-size:11px;font-weight:700;color:#4a5a52;margin-bottom:5px;letter-spacing:.3px}
+.field .input-wrap{position:relative;display:flex;align-items:center}
+.field .input-wrap i{position:absolute;left:12px;color:#0f6b4e;width:18px;height:18px}
+.field input,.field select{width:100%;padding:12px 12px 12px 38px;border:1.5px solid #e5e5e0;border-radius:10px;font-size:14px;background:#f5f5f0;color:#0a1f17;box-sizing:border-box}
+.field input:focus,.field select:focus{border-color:#0f6b4e;background:#ffffff;outline:2px solid #c8f0d8}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pwd-strength{height:4px;border-radius:2px;background:#e5e5e0;margin-top:6px;overflow:hidden}
+.pwd-strength div{height:100%;width:60%;background:linear-gradient(90deg,#ef4444,#f59e0b,#0f6b4e);border-radius:2px}
+.terms{display:flex;gap:8px;align-items:flex-start;margin:14px 0;font-size:12px;color:#4a5a52;line-height:1.5}
+.terms input{margin-top:2px;flex-shrink:0}
+.terms a{color:#0f6b4e;font-weight:700;text-decoration:none}
+.btn-signup{width:100%;background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;padding:14px;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 24px rgba(15,107,78,0.3)}
+.divider{display:flex;align-items:center;gap:12px;margin:18px 0;color:#4a5a52;font-size:11px}
+.divider:before,.divider:after{content:'';flex:1;height:1px;background:#e5e5e0}
+.social{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.social button{padding:11px;border:1.5px solid #e5e5e0;background:#fff;border-radius:10px;font-weight:700;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;color:#0a1f17}
+.footer-auth{text-align:center;margin-top:18px;color:#4a5a52;font-size:13px}
+.footer-auth a{color:#0f6b4e;font-weight:800;text-decoration:none}
+.benefits{background:linear-gradient(135deg,#c8f0d8,#f0c99a);border-radius:14px;padding:12px 14px;margin:12px 0 18px;font-size:12px;color:#0a4d38}
+.benefits ul{margin:6px 0 0;padding-left:20px}
+.benefits li{margin:3px 0}
+</style>
+</head>
+<body>
+<div class="auth-wrap">
+  <div class="auth-logo">
+    <div class="badge">SEN<br>TEW</div>
+    <h1>SEN TEW</h1>
+    <p>MARKETPLACE</p>
   </div>
 
-  <label style="display:block;font-size:12px;color:#666;font-weight:700;margin-bottom:8px;text-transform:uppercase">Je suis...</label>
-  <div class="role-select">
-    <div class="role-card active" onclick="pickRole(this,'client')">
-      <div class="role-icon">🛒</div>
-      <div class="role-text">
-        <h4>Client</h4>
-        <p>Acheter des produits</p>
-      </div>
-      <div class="role-check">✓</div>
-    </div>
-    <div class="role-card" onclick="pickRole(this,'vendeur')">
-      <div class="role-icon">🏪</div>
-      <div class="role-text">
-        <h4>Vendeur</h4>
-        <p>Ouvrir une boutique en ligne</p>
-      </div>
-      <div class="role-check">✓</div>
-    </div>
-    <div class="role-card" onclick="pickRole(this,'livreur')">
-      <div class="role-icon">🛵</div>
-      <div class="role-text">
-        <h4>Livreur</h4>
-        <p>Livrer et gagner de l'argent</p>
-      </div>
-      <div class="role-check">✓</div>
-    </div>
-  </div>
+  <div class="auth-card">
+    <h2>Créer un compte 🎉</h2>
+    <p class="sub">Rejoignez la marketplace #1 au Sénégal</p>
 
-  <form onsubmit="doSignup(event)">
-    <div class="row">
-      <div class="field">
-        <label>Prénom</label>
-        <div class="input-wrap">
-          <span class="icon">👤</span>
-          <input required placeholder="Ousseynou">
+    <div class="benefits">
+      <strong>✨ En vous inscrivant, vous bénéficiez de :</strong>
+      <ul>
+        <li>500 FCFA offerts sur votre 1ère commande</li>
+        <li>Livraison gratuite dès 15 000 FCFA</li>
+        <li>Programme fidélité GOLD gratuit</li>
+      </ul>
+    </div>
+
+    <form onsubmit="event.preventDefault();window.RoleGuard?.signup()">
+      <div class="row-2">
+        <div class="field">
+          <label>Prénom</label>
+          <div class="input-wrap">
+            <i data-lucide="user"></i>
+            <input type="text" placeholder="Karim" required>
+          </div>
+        </div>
+        <div class="field">
+          <label>Nom</label>
+          <div class="input-wrap">
+            <i data-lucide="user"></i>
+            <input type="text" placeholder="Niang" required>
+          </div>
         </div>
       </div>
+
       <div class="field">
-        <label>Nom</label>
+        <label>Email</label>
         <div class="input-wrap">
-          <span class="icon">👤</span>
-          <input required placeholder="Diop">
+          <i data-lucide="mail"></i>
+          <input type="email" placeholder="karim@example.com" required>
         </div>
       </div>
-    </div>
 
-    <div class="field">
-      <label>Email</label>
-      <div class="input-wrap">
-        <span class="icon">📧</span>
-        <input type="email" required placeholder="ousseynou@example.com">
+      <div class="field">
+        <label>Téléphone (Sénégal)</label>
+        <div class="input-wrap">
+          <i data-lucide="phone"></i>
+          <input type="tel" placeholder="+221 77 456 78 90" required>
+        </div>
       </div>
-    </div>
 
-    <div class="field">
-      <label>Téléphone (avec code pays)</label>
-      <div class="input-wrap">
-        <span class="icon">📱</span>
-        <input type="tel" required placeholder="+221 77 XXX XX XX">
+      <div class="field">
+        <label>Mot de passe</label>
+        <div class="input-wrap">
+          <i data-lucide="lock"></i>
+          <input type="password" placeholder="Minimum 10 caractères" required minlength="10">
+        </div>
+        <div class="pwd-strength"><div></div></div>
       </div>
-    </div>
 
-    <div class="field">
-      <label>Mot de passe</label>
-      <div class="input-wrap">
-        <span class="icon">🔒</span>
-        <input id="pwd" type="password" required minlength="8" placeholder="Min. 8 caractères" oninput="checkPwd(this.value)">
+      <div class="field">
+        <label>Code de parrainage (optionnel)</label>
+        <div class="input-wrap">
+          <i data-lucide="gift"></i>
+          <input type="text" placeholder="SENTEW-XXXX">
+        </div>
       </div>
-      <div class="pwd-strength"><div id="strength"></div></div>
-      <div class="pwd-hint" id="pwdHint">Utilisez 8+ caractères, majuscules, chiffres et symboles</div>
+
+      <div class="terms">
+        <input type="checkbox" id="cgu" required>
+        <label for="cgu">
+          J'accepte les <a href="cgu.html">CGU</a>, les <a href="cgv.html">CGV</a>
+          et la <a href="confidentialite-app.html">politique de confidentialité</a>
+        </label>
+      </div>
+
+      <button type="submit" class="btn-signup">
+        <i data-lucide="user-plus"></i> Créer mon compte
+      </button>
+    </form>
+
+    <div class="divider">ou s'inscrire avec</div>
+
+    <div class="social">
+      <button><i data-lucide="smartphone" style="color:#0f6b4e"></i> Wave</button>
+      <button><i data-lucide="smartphone" style="color:#f97316"></i> Orange Money</button>
     </div>
-
-    <label class="cgu-check">
-      <input type="checkbox" required>
-      <span>J'accepte les <a href="https://sen-ecosystem.com/mentions-legales.html">CGU / CGV</a> et la <a href="https://sen-ecosystem.com/mentions-legales.html">politique de confidentialité</a> de SEN TEW</span>
-    </label>
-
-    <label class="cgu-check">
-      <input type="checkbox">
-      <span>Je souhaite recevoir les offres promotionnelles (optionnel)</span>
-    </label>
-
-    <button class="signup-btn" type="submit">CRÉER MON COMPTE →</button>
-  </form>
-
-  <div class="divider">OU S'INSCRIRE AVEC</div>
-
-  <button class="social" onclick="socialSignup('google')">
-    <span>🇬</span> Google
-  </button>
-  <button class="social apple" onclick="socialSignup('apple')">
-    <span>🍎</span> Apple
-  </button>
-  <button class="social facebook" onclick="socialSignup('facebook')">
-    <span>f</span> Facebook
-  </button>
-
-  <div class="have-account">
-    Déjà un compte ? <a href="login.html">Se connecter</a>
   </div>
+
+  <p class="footer-auth">
+    Déjà inscrit ? <a href="login.html">Se connecter</a>
+  </p>
 </div>
 
-<script>
-let selectedRole = 'client';
-function pickRole(el, role){
-  document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  selectedRole = role;
-}
-function checkPwd(v){
-  let score = 0;
-  if(v.length>=8) score++;
-  if(/[A-Z]/.test(v)) score++;
-  if(/[0-9]/.test(v)) score++;
-  if(/[^A-Za-z0-9]/.test(v)) score++;
-  const bar = document.getElementById('strength');
-  const hint = document.getElementById('pwdHint');
-  const colors = ['#e31b23','#ff6b35','#fcd116','#00a651'];
-  const labels = ['Trop faible','Faible','Moyen','Fort'];
-  bar.style.width = (score*25)+'%';
-  bar.style.background = colors[score-1] || '#eee';
-  hint.textContent = score>0 ? '🔒 '+labels[score-1] : 'Utilisez 8+ caractères, majuscules, chiffres et symboles';
-}
-function doSignup(e){
-  e.preventDefault();
-  localStorage.setItem('sentew_logged','1');
-  localStorage.setItem('sentew_role', selectedRole);
-  alert('✅ Compte créé avec succès !\n\n📩 Un email de confirmation vous a été envoyé.');
-  
-  // Redirection intelligente
-  if(selectedRole === 'client'){
-    // Client : onboarding 3 étapes
-    location.href = 'onboarding.html';
-  } else if(selectedRole === 'vendeur'){
-    // Vendeur : espace KYC
-    location.href = 'vendeur.html?first=1';
-  } else if(selectedRole === 'livreur'){
-    // Livreur : espace onboarding livreur
-    location.href = 'livreur.html?first=1';
-  }
-}
-function socialSignup(provider){
-  const names = {google:'Google',apple:'Apple',facebook:'Facebook'};
-  if(confirm('S\'inscrire avec '+names[provider]+' en tant que '+selectedRole+' ?')){
-    localStorage.setItem('sentew_logged','1');
-    localStorage.setItem('sentew_role', selectedRole);
-    location.href = 'onboarding.html';
-  }
-}
-</script>
-</body></html>
+<script>lucide.createIcons();</script>
+</body>
+</html>
