@@ -1,57 +1,69 @@
-/* ==========================================
-   SEN TEW - Dark/Light Mode v44
-   24 août 2026 - Priorité utilisateur
-   ========================================== */
+// ================================================================
+// SEN TEW — Dark/Light Mode Manager v46
+// 26 août 2026 — Bascule robuste avec persistance localStorage
+// ================================================================
+
 (function() {
   'use strict';
 
-  function applyMode() {
-    const saved = localStorage.getItem('theme');
-    // PRIORITÉ AU CHOIX UTILISATEUR
-    let useDark;
-    if (saved === 'dark') useDark = true;
-    else if (saved === 'light') useDark = false;
-    else {
-      // Par défaut : LIGHT (mode clair pour meilleure lisibilité)
-      useDark = false;
+  const STORAGE_KEY = 'sentew-theme';
+  const DEFAULT_THEME = 'light'; // Mode clair par défaut
+
+  function applyTheme(theme) {
+    const body = document.body;
+    if (!body) {
+      document.addEventListener('DOMContentLoaded', () => applyTheme(theme));
+      return;
     }
+    body.classList.remove('light-mode', 'dark-mode');
+    body.classList.add(theme + '-mode');
+    body.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
 
-    document.body.classList.toggle('dark-mode', useDark);
-    document.body.classList.toggle('light-mode', !useDark);
-    document.documentElement.setAttribute('data-theme', useDark ? 'dark' : 'light');
-
-    // Meta theme-color
-    let metaTheme = document.querySelector('meta[name="theme-color"]');
-    if (!metaTheme) {
-      metaTheme = document.createElement('meta');
-      metaTheme.name = 'theme-color';
-      document.head.appendChild(metaTheme);
+    // Meta theme-color (barre statut mobile)
+    let meta = document.querySelector('meta[name="theme-color"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.name = 'theme-color';
+      document.head.appendChild(meta);
     }
-    metaTheme.content = useDark ? '#0a1f17' : '#ffffff';
+    meta.content = theme === 'dark' ? '#0a1f17' : '#ffffff';
 
-    // Update icons dans les boutons toggle
-    document.querySelectorAll('[data-theme-toggle]').forEach(btn => {
-      btn.innerHTML = useDark
-        ? '<i data-lucide="sun" class="icon icon-md icon-or"></i>'
-        : '<i data-lucide="moon" class="icon icon-md icon-vert"></i>';
+    // Mettre à jour l'icône du bouton toggle
+    document.querySelectorAll('[data-theme-toggle], .btn-theme').forEach(btn => {
+      const icon = btn.querySelector('[data-lucide]');
+      if (icon) {
+        icon.setAttribute('data-lucide', theme === 'dark' ? 'sun' : 'moon');
+      }
     });
-    if (window.lucide) lucide.createIcons();
+    if (window.lucide && lucide.createIcons) lucide.createIcons();
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', applyMode);
-  } else {
-    applyMode();
+  function getTheme() {
+    return localStorage.getItem(STORAGE_KEY) || DEFAULT_THEME;
+  }
+
+  function setTheme(theme) {
+    localStorage.setItem(STORAGE_KEY, theme);
+    applyTheme(theme);
   }
 
   window.toggleTheme = function() {
-    const current = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
-    localStorage.setItem('theme', current);
-    applyMode();
-    if (navigator.vibrate) navigator.vibrate(30);
+    const current = getTheme();
+    const next = current === 'light' ? 'dark' : 'light';
+    setTheme(next);
   };
 
-  document.addEventListener('visibilitychange', function() {
-    if (!document.hidden) applyMode();
+  // Application immédiate
+  applyTheme(getTheme());
+
+  // Après DOM prêt : brancher les boutons
+  document.addEventListener('DOMContentLoaded', () => {
+    applyTheme(getTheme());
+    document.querySelectorAll('[data-theme-toggle], .btn-theme').forEach(btn => {
+      btn.addEventListener('click', window.toggleTheme);
+    });
   });
+
+  console.log('[SEN TEW] Theme manager v46 loaded — current:', getTheme());
 })();
