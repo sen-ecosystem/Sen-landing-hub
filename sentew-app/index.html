@@ -2,333 +2,552 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>SEN TEW Marketplace</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>🌍 SEN TEW — Marketplace du Sénégal</title>
 <meta name="theme-color" content="#0f6b4e">
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/app.css?v=47">
 <script src="https://unpkg.com/lucide@latest"></script>
-</head>
-<body>
+<script src="js/dark-mode.js?v=47" defer></script>
+<script src="js/role-guard.js?v=47" defer></script>
+<style>
+/* ============================================
+   PAGE D'ACCUEIL — Design premium v47
+   Couvre émeraude + or unifié
+   ============================================ */
 
-<header class="topbar">
-  <div id="admTrig" style="display:flex;align-items:center;gap:8px;font-size:18px;font-weight:800;color:var(--v-emeraude);cursor:pointer;">
-    <span class="emoji-fix" style="font-size:22px;">🌍</span> SEN TEW
+/* Top bar avec identité SEN TEW */
+.home-topbar{
+  background:var(--bg-card);
+  padding:12px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:50;
+}
+.home-topbar .brand{
+  display:flex;align-items:center;gap:8px;
+  font-size:20px;font-weight:900;color:#0f6b4e;
+  letter-spacing:1px;
+}
+.home-topbar .brand .globe{font-size:22px}
+.home-topbar .actions{display:flex;gap:8px}
+.home-topbar .icon-btn{
+  width:38px;height:38px;border-radius:12px;
+  background:var(--bg-card-alt);
+  border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:16px;
+}
+
+/* Barre de recherche premium */
+.search-hero{padding:12px 16px 8px}
+.search-box{
+  display:flex;align-items:center;gap:10px;
+  background:var(--bg-card);
+  border:1.5px solid var(--border);
+  border-radius:14px;padding:12px 14px;
+  box-shadow:0 2px 8px rgba(15,107,78,0.05);
+}
+.search-box i{color:#0f6b4e;flex-shrink:0}
+.search-box input{
+  flex:1;border:none;background:transparent;
+  font-size:14px;color:var(--text-primary);outline:none;
+}
+.search-box .ia-btn{
+  background:linear-gradient(135deg,#a855f7,#7c3aed);
+  color:#fff;border:none;width:32px;height:32px;
+  border-radius:10px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;flex-shrink:0;
+}
+
+/* Hero promo carousel — couvre émeraude+or */
+.promo-hero{
+  margin:0 16px 20px;
+  border-radius:20px;
+  padding:22px 20px;
+  background:linear-gradient(135deg,#0f6b4e 0%,#0a4d38 55%,#d4a574 130%);
+  color:#fff;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 12px 32px rgba(15,107,78,0.25);
+}
+.promo-hero::before{
+  content:'';position:absolute;right:-20px;top:-20px;
+  width:120px;height:120px;border-radius:50%;
+  background:rgba(255,255,255,0.08);
+}
+.promo-hero::after{
+  content:'';position:absolute;left:-40px;bottom:-40px;
+  width:140px;height:140px;border-radius:50%;
+  background:rgba(212,165,116,0.15);
+}
+.promo-hero .icon{font-size:32px;margin-bottom:8px}
+.promo-hero h2{font-size:20px;font-weight:900;margin:0 0 4px;letter-spacing:.3px}
+.promo-hero p{font-size:13px;opacity:.92;margin:0}
+.promo-hero .code-badge{
+  display:inline-block;margin-top:12px;
+  background:rgba(255,255,255,0.2);
+  backdrop-filter:blur(4px);
+  padding:6px 12px;border-radius:8px;
+  font-size:12px;font-weight:800;letter-spacing:1px;
+  border:1.5px dashed rgba(255,255,255,0.4);
+}
+.promo-dots{
+  position:absolute;bottom:12px;left:0;right:0;
+  display:flex;justify-content:center;gap:6px;
+}
+.promo-dots span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.4)}
+.promo-dots span.active{width:20px;border-radius:3px;background:#fff}
+
+/* Sections titles cohérentes */
+.section-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 16px 12px;
+}
+.section-head h2{
+  font-size:16px;font-weight:800;
+  color:var(--text-emerald);
+  margin:0;display:flex;align-items:center;gap:8px;
+  letter-spacing:.2px;
+}
+.section-head .see-all{
+  font-size:12px;color:var(--text-gold);
+  font-weight:700;text-decoration:none;
+}
+
+/* Boutiques Live — carrousel horizontal */
+.live-scroll{display:flex;gap:14px;overflow-x:auto;padding:0 16px 4px;scrollbar-width:none}
+.live-scroll::-webkit-scrollbar{display:none}
+.live-item{flex-shrink:0;text-align:center;width:80px}
+.live-avatar{
+  width:76px;height:76px;border-radius:50%;
+  border:3px solid #ef4444;padding:2px;
+  background:#fff;position:relative;
+  box-shadow:0 4px 12px rgba(239,68,68,0.2);
+}
+.live-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover}
+.live-badge{
+  position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);
+  background:#ef4444;color:#fff;font-size:9px;font-weight:800;
+  padding:2px 8px;border-radius:6px;letter-spacing:.5px;
+}
+.live-item strong{
+  display:block;margin-top:10px;
+  font-size:12px;font-weight:700;color:var(--text-primary);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+
+/* Top Boutiques — carrousel horizontal */
+.top-scroll{display:flex;gap:16px;overflow-x:auto;padding:0 16px 4px;scrollbar-width:none}
+.top-scroll::-webkit-scrollbar{display:none}
+.top-item{flex-shrink:0;width:110px;text-align:center}
+.top-avatar{
+  width:96px;height:96px;border-radius:50%;
+  border:3px solid #d4a574;padding:2px;
+  background:linear-gradient(135deg,#f5f5f0,#f0c99a);
+  position:relative;box-shadow:0 4px 12px rgba(212,165,116,0.25);
+  margin:0 auto;
+}
+.top-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover}
+.top-item strong{
+  display:block;margin-top:10px;
+  font-size:13px;font-weight:800;color:var(--text-primary);
+  line-height:1.2;
+}
+.top-item .verified{
+  display:inline-flex;align-items:center;gap:2px;
+  font-size:11px;color:#0f6b4e;margin-top:4px;
+}
+.top-item .rating{
+  display:flex;align-items:center;justify-content:center;gap:3px;
+  font-size:12px;color:var(--text-gold);font-weight:700;margin-top:2px;
+}
+.top-item small{display:block;font-size:11px;color:var(--text-muted);margin-top:2px}
+
+/* Catégories — grille 4 colonnes premium */
+.cats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 16px 4px}
+.cat-card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:14px 8px;
+  text-align:center;
+  cursor:pointer;
+  transition:transform .2s;
+  box-shadow:0 2px 8px rgba(15,107,78,0.06);
+}
+.cat-card:active{transform:scale(0.95)}
+.cat-card .cat-icon{
+  width:44px;height:44px;
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;margin:0 auto 6px;
+}
+.cat-card .cat-icon.mode{background:linear-gradient(135deg,#c8f0d8,#0f6b4e33)}
+.cat-card .cat-icon.tech{background:linear-gradient(135deg,#dbeafe,#3b82f633)}
+.cat-card .cat-icon.beaute{background:linear-gradient(135deg,#fce7f3,#ec489933)}
+.cat-card .cat-icon.alim{background:linear-gradient(135deg,#fef3c7,#d4a57433)}
+.cat-card strong{font-size:12px;font-weight:700;color:var(--text-primary)}
+
+/* Tendances — grille produits 2 colonnes */
+.trend-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;
+  padding:0 16px 20px;
+}
+.pcard{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+  cursor:pointer;
+  transition:transform .2s;
+  box-shadow:0 4px 12px rgba(15,107,78,0.06);
+  display:flex;flex-direction:column;
+}
+.pcard:active{transform:scale(0.97)}
+.pcard-img{position:relative;width:100%;aspect-ratio:1/1;background:#e5e5e0;overflow:hidden}
+.pcard-img img{width:100%;height:100%;object-fit:cover}
+.pcard-badges{position:absolute;top:8px;left:8px;display:flex;flex-direction:column;gap:4px}
+.pcard-badge{
+  background:#0a1f17;color:#fff;
+  font-size:10px;font-weight:800;
+  padding:3px 8px;border-radius:6px;letter-spacing:.3px;
+}
+.pcard-badge.live{background:#ef4444}
+.pcard-badge.local{background:#0f6b4e}
+.pcard-badge.discount{background:#d4a574;color:#0a1f17}
+.pcard-fav{
+  position:absolute;top:8px;right:8px;
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,0.95);
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  color:#ef4444;
+}
+.pcard-body{padding:10px 12px;flex:1;display:flex;flex-direction:column;gap:4px}
+.pcard-seller{
+  display:flex;align-items:center;gap:4px;
+  font-size:11px;color:var(--text-gold);font-weight:600;
+}
+.pcard-seller .avatar-mini{
+  width:16px;height:16px;border-radius:50%;
+  background:linear-gradient(135deg,#d4a574,#a67c3a);
+  display:inline-block;flex-shrink:0;
+}
+.pcard-name{
+  font-size:13px;font-weight:700;
+  color:var(--text-primary);
+  line-height:1.3;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;min-height:34px;
+}
+.pcard-price-row{display:flex;align-items:baseline;gap:6px;margin-top:2px}
+.pcard-price{font-size:15px;font-weight:900;color:#0f6b4e}
+.pcard-old-price{font-size:11px;color:var(--text-muted);text-decoration:line-through}
+
+/* Mode sombre : renforcer contraste */
+body.dark-mode .home-topbar{background:#0a1f17}
+body.dark-mode .home-topbar .brand{color:#c8f0d8}
+body.dark-mode .search-box{background:#1a2e24;border-color:#2a4438}
+body.dark-mode .search-box input{color:#f5f5f0}
+body.dark-mode .search-box input::placeholder{color:#a3b8ac}
+body.dark-mode .pcard{background:#1a2e24;border-color:#2a4438}
+body.dark-mode .pcard-name{color:#f5f5f0}
+body.dark-mode .pcard-seller{color:#f0c99a}
+body.dark-mode .pcard-price{color:#c8f0d8}
+body.dark-mode .cat-card{background:#1a2e24;border-color:#2a4438}
+body.dark-mode .cat-card strong{color:#f5f5f0}
+body.dark-mode .section-head h2{color:#c8f0d8}
+body.dark-mode .top-item strong{color:#f5f5f0}
+body.dark-mode .live-item strong{color:#f5f5f0}
+
+/* Espace bottom pour promo + nav */
+main{padding-bottom:140px}
+</style>
+</head>
+<body class="light-mode" data-theme="light">
+
+<!-- TOPBAR -->
+<header class="home-topbar">
+  <div class="brand">
+    <span class="globe">🌍</span> SEN TEW
   </div>
-  <div style="flex:1"></div>
-  <button class="icon-btn" onclick="cycleLang()"><span id="lFlag" class="emoji-fix">🇫🇷</span></button>
-  <button class="icon-btn" onclick="cycleCurr()"><span id="cFlag" class="emoji-fix">💰</span></button>
-  <button class="icon-btn" onclick="toggleTheme()">
-    <i data-lucide="moon" class="icon icon-md icon-vert"></i>
-  </button>
+  <div class="actions">
+    <button class="icon-btn" title="Langue">🇫🇷</button>
+    <button class="icon-btn" title="Portefeuille">💰</button>
+    <button class="icon-btn btn-theme" data-theme-toggle><i data-lucide="moon" style="color:#0f6b4e;width:18px;height:18px"></i></button>
+  </div>
 </header>
 
-<!-- SEARCH -->
-<div style="padding:12px 16px;">
-  <div style="display:flex;gap:8px;background:var(--bg-card);padding:10px 14px;border-radius:12px;cursor:pointer;" onclick="location.href='recherche-ia.html'">
-    <i data-lucide="search" class="icon icon-md icon-vert"></i>
-    <span style="color:var(--text-muted);flex:1;">Rechercher un produit, boutique...</span>
-    <i data-lucide="sparkles" class="icon icon-md icon-violet"></i>
-  </div>
-</div>
-
-<!-- PANNEAU PUBLICITAIRE -->
-<div class="ad-carousel">
-  <div class="ad-slide ad-slide-1 active" onclick="location.href='bons-promo.html'">
-    <div>
-      <h3>🎉 Rentrée SEN TEW</h3>
-      <p>Jusqu'à -30% sur mode et tech · Code : RENTREE26</p>
+<main>
+  <!-- SEARCH -->
+  <div class="search-hero">
+    <div class="search-box" onclick="location.href='recherche-ia.html'">
+      <i data-lucide="search"></i>
+      <input placeholder="Rechercher un produit, boutique..." readonly>
+      <button class="ia-btn" title="Recherche IA"><i data-lucide="sparkles" style="width:16px;height:16px"></i></button>
     </div>
   </div>
-  <div class="ad-slide ad-slide-2" onclick="location.href='fidelite.html'">
-    <div>
-      <h3>🏆 Programme fidélité</h3>
-      <p>Gagnez 10% cashback dès votre 2e commande</p>
+
+  <!-- HERO PROMO — Couvre émeraude + or -->
+  <section class="promo-hero" id="promoHero">
+    <div class="icon">🎉</div>
+    <h2>Rentrée SEN TEW</h2>
+    <p>Jusqu'à -30% sur mode et tech · Livraison offerte dès 15 000 FCFA</p>
+    <span class="code-badge">CODE : RENTREE26</span>
+    <div class="promo-dots">
+      <span class="active"></span><span></span><span></span>
+    </div>
+  </section>
+
+  <!-- BOUTIQUES EN LIVE -->
+  <div class="section-head">
+    <h2><i data-lucide="radio" style="color:#ef4444"></i> Boutiques en Live</h2>
+    <a href="live.html" class="see-all">Voir tout ›</a>
+  </div>
+  <div class="live-scroll">
+    <div class="live-item" onclick="location.href='boutique.html?id=1'">
+      <div class="live-avatar">
+        <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=200">
+        <span class="live-badge">LIVE</span>
+      </div>
+      <strong>Aïcha Couture</strong>
+    </div>
+    <div class="live-item" onclick="location.href='boutique.html?id=2'">
+      <div class="live-avatar">
+        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200">
+        <span class="live-badge">LIVE</span>
+      </div>
+      <strong>Moussa Tech</strong>
+    </div>
+    <div class="live-item" onclick="location.href='boutique.html?id=3'">
+      <div class="live-avatar">
+        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200">
+        <span class="live-badge">LIVE</span>
+      </div>
+      <strong>Mariama Beauté</strong>
+    </div>
+    <div class="live-item" onclick="location.href='boutique.html?id=4'">
+      <div class="live-avatar">
+        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200">
+        <span class="live-badge">LIVE</span>
+      </div>
+      <strong>Fatou Fashion</strong>
     </div>
   </div>
-  <div class="ad-slide ad-slide-3" onclick="location.href='parrainage.html'">
-    <div>
-      <h3>🎁 Parrainez vos amis</h3>
-      <p>500 FCFA offerts pour chaque ami inscrit</p>
+
+  <!-- TOP BOUTIQUES -->
+  <div class="section-head">
+    <h2><i data-lucide="award" style="color:#d4a574"></i> Top Boutiques</h2>
+    <a href="boutique.html" class="see-all">Voir tout ›</a>
+  </div>
+  <div class="top-scroll">
+    <div class="top-item" onclick="location.href='boutique.html?id=1'">
+      <div class="top-avatar"><img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=200"></div>
+      <strong>Aïcha Couture</strong>
+      <div class="verified"><i data-lucide="badge-check" style="width:12px;height:12px"></i></div>
+      <div class="rating">⭐ 4.9</div>
+      <small>Dakar</small>
+    </div>
+    <div class="top-item" onclick="location.href='boutique.html?id=3'">
+      <div class="top-avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200"></div>
+      <strong>Mariama Beauté</strong>
+      <div class="verified"><i data-lucide="badge-check" style="width:12px;height:12px"></i></div>
+      <div class="rating">⭐ 4.9</div>
+      <small>Dakar</small>
+    </div>
+    <div class="top-item" onclick="location.href='boutique.html?id=5'">
+      <div class="top-avatar"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200"></div>
+      <strong>Ibrahim B.</strong>
+      <div class="verified"><i data-lucide="badge-check" style="width:12px;height:12px"></i></div>
+      <div class="rating">⭐ 4.8</div>
+      <small>Saint-Louis</small>
+    </div>
+    <div class="top-item" onclick="location.href='boutique.html?id=2'">
+      <div class="top-avatar"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200"></div>
+      <strong>Moussa Tech</strong>
+      <div class="verified"><i data-lucide="badge-check" style="width:12px;height:12px"></i></div>
+      <div class="rating">⭐ 4.7</div>
+      <small>Thiès</small>
     </div>
   </div>
-  <div class="ad-dots">
-    <span class="ad-dot active"></span>
-    <span class="ad-dot"></span>
-    <span class="ad-dot"></span>
-  </div>
-</div>
 
-<!-- QUICK ACTIONS (sans Retouche IA) -->
-<div style="padding:0 16px;">
-  <div class="icon-grid">
-    <div class="icon-grid-item" onclick="location.href='commandes.html'">
-      <div class="icon-bg bg-or-soft"><i data-lucide="package" class="icon icon-md icon-or"></i></div>
-      <span class="label">Commandes</span>
+  <!-- CATÉGORIES -->
+  <div class="section-head">
+    <h2><i data-lucide="grid-3x3" style="color:#0f6b4e"></i> Explorer par catégorie</h2>
+    <a href="categories.html" class="see-all">Voir tout ›</a>
+  </div>
+  <div class="cats-grid">
+    <div class="cat-card" onclick="location.href='categories.html?c=mode'">
+      <div class="cat-icon mode">👗</div>
+      <strong>Mode</strong>
     </div>
-    <div class="icon-grid-item" onclick="location.href='portefeuille.html'">
-      <div class="icon-bg bg-vert-soft"><i data-lucide="wallet" class="icon icon-md icon-vert"></i></div>
-      <span class="label">Portefeuille</span>
+    <div class="cat-card" onclick="location.href='categories.html?c=tech'">
+      <div class="cat-icon tech">📱</div>
+      <strong>Tech</strong>
     </div>
-    <div class="icon-grid-item" onclick="location.href='favoris.html'">
-      <div class="icon-bg bg-rouge-soft"><i data-lucide="heart" class="icon icon-md icon-rouge"></i></div>
-      <span class="label">Favoris</span>
+    <div class="cat-card" onclick="location.href='categories.html?c=beaute'">
+      <div class="cat-icon beaute">💄</div>
+      <strong>Beauté</strong>
     </div>
-    <div class="icon-grid-item" onclick="location.href='fidelite.html'">
-      <div class="icon-bg bg-violet-soft"><i data-lucide="badge-check" class="icon icon-md icon-violet"></i></div>
-      <span class="label">Fidélité</span>
-    </div>
-    <div class="icon-grid-item" onclick="location.href='live.html'">
-      <div class="icon-bg bg-rouge-soft"><i data-lucide="video" class="icon icon-md icon-rouge"></i></div>
-      <span class="label">Live</span>
-    </div>
-    <div class="icon-grid-item" onclick="location.href='bons-promo.html'">
-      <div class="icon-bg bg-orange-soft"><i data-lucide="tag" class="icon icon-md icon-orange"></i></div>
-      <span class="label">Promos</span>
-    </div>
-    <div class="icon-grid-item" onclick="location.href='panoramique.html'">
-      <div class="icon-bg bg-gradient-fintech"><i data-lucide="rotate-3d" class="icon icon-md icon-blanc"></i></div>
-      <span class="label">Vue 360°</span>
-    </div>
-    <div class="icon-grid-item" onclick="location.href='messages.html'">
-      <div class="icon-bg bg-bleu-soft"><i data-lucide="message-circle" class="icon icon-md icon-bleu"></i></div>
-      <span class="label">Messages</span>
+    <div class="cat-card" onclick="location.href='categories.html?c=alim'">
+      <div class="cat-icon alim">🍎</div>
+      <strong>Alimentation</strong>
     </div>
   </div>
-</div>
 
-<!-- LIVES -->
-<div class="section-title">
-  <i data-lucide="video" class="icon icon-md icon-rouge"></i>
-  Boutiques en Live
-</div>
-<div id="livesBox" style="display:flex;gap:10px;overflow-x:auto;padding:0 16px 16px;"></div>
+  <!-- TENDANCES -->
+  <div class="section-head">
+    <h2><i data-lucide="trending-up" style="color:#0f6b4e"></i> Tendances</h2>
+    <a href="produits.html" class="see-all">Voir tout ›</a>
+  </div>
+  <div class="trend-grid">
 
-<!-- TOP BOUTIQUES (renommé, sans chiffres ventes) -->
-<div class="section-title">
-  <i data-lucide="award" class="icon icon-md icon-or"></i>
-  Top Boutiques
-</div>
-<div id="topBox" style="display:flex;gap:10px;overflow-x:auto;padding:0 16px 16px;"></div>
+    <article class="pcard" onclick="location.href='produit.html?id=1'">
+      <div class="pcard-img">
+        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" alt="">
+        <div class="pcard-badges">
+          <span class="pcard-badge local">LOCAL</span>
+          <span class="pcard-badge discount">-28%</span>
+        </div>
+        <button class="pcard-fav"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-seller"><span class="avatar-mini"></span> Fatou Fashion</div>
+        <div class="pcard-name">Boubou wax collection</div>
+        <div class="pcard-price-row">
+          <span class="pcard-price">18 000 FCFA</span>
+          <span class="pcard-old-price">25 000</span>
+        </div>
+      </div>
+    </article>
 
-<!-- CATÉGORIES -->
-<div class="section-title">
-  <i data-lucide="layout-grid" class="icon icon-md icon-vert"></i>
-  Explorer par catégorie
-</div>
-<div id="catsGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 16px 16px;"></div>
+    <article class="pcard" onclick="location.href='produit.html?id=2'">
+      <div class="pcard-img">
+        <img src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400" alt="">
+        <div class="pcard-badges">
+          <span class="pcard-badge live">LIVE</span>
+        </div>
+        <button class="pcard-fav"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-seller"><span class="avatar-mini"></span> Moussa Tech</div>
+        <div class="pcard-name">iPhone 15 Pro 256GB</div>
+        <div class="pcard-price-row">
+          <span class="pcard-price">750 000 FCFA</span>
+        </div>
+      </div>
+    </article>
 
-<!-- TENDANCES -->
-<div class="section-title">
-  <i data-lucide="trending-up" class="icon icon-md icon-vert"></i>
-  Tendances
-</div>
-<div id="trendGrid" class="pcard-grid"></div>
+    <article class="pcard" onclick="location.href='produit.html?id=3'">
+      <div class="pcard-img" style="background:#facc15">
+        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400" alt="">
+        <div class="pcard-badges">
+          <span class="pcard-badge live">LIVE</span>
+          <span class="pcard-badge local">LOCAL</span>
+          <span class="pcard-badge discount">-32%</span>
+        </div>
+        <button class="pcard-fav"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-seller"><span class="avatar-mini"></span> Aïcha Couture</div>
+        <div class="pcard-name">Sac cuir africain premium</div>
+        <div class="pcard-price-row">
+          <span class="pcard-price">15 000 FCFA</span>
+          <span class="pcard-old-price">22 000</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="pcard" onclick="location.href='produit.html?id=4'">
+      <div class="pcard-img">
+        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400" alt="">
+        <div class="pcard-badges">
+          <span class="pcard-badge live">LIVE</span>
+        </div>
+        <button class="pcard-fav"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-seller"><span class="avatar-mini"></span> Moussa Tech</div>
+        <div class="pcard-name">Écouteurs sans fil Pro</div>
+        <div class="pcard-price-row">
+          <span class="pcard-price">12 000 FCFA</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="pcard" onclick="location.href='produit.html?id=5'">
+      <div class="pcard-img">
+        <img src="https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=400" alt="">
+        <div class="pcard-badges">
+          <span class="pcard-badge local">LOCAL</span>
+        </div>
+        <button class="pcard-fav"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-seller"><span class="avatar-mini"></span> Beauty Fatou</div>
+        <div class="pcard-name">Perruque brésilienne</div>
+        <div class="pcard-price-row">
+          <span class="pcard-price">55 000 FCFA</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="pcard" onclick="location.href='produit.html?id=6'">
+      <div class="pcard-img">
+        <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400" alt="">
+        <div class="pcard-badges">
+          <span class="pcard-badge live">LIVE</span>
+          <span class="pcard-badge local">LOCAL</span>
+        </div>
+        <button class="pcard-fav"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-seller"><span class="avatar-mini"></span> Aïcha Couture</div>
+        <div class="pcard-name">Boubou grand teint</div>
+        <div class="pcard-price-row">
+          <span class="pcard-price">45 000 FCFA</span>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</main>
 
 <nav class="bottom-nav">
-  <a href="index.html" class="active">
-    <i data-lucide="home" class="icon icon-md icon-vert"></i>
-    <span>Accueil</span>
-  </a>
-  <a href="recherche-ia.html">
-    <i data-lucide="search" class="icon icon-md"></i>
-    <span>Rechercher</span>
-  </a>
-  <a href="panier.html" class="icon-badge" data-count="0">
-    <i data-lucide="shopping-cart" class="icon icon-md icon-or"></i>
-    <span>Panier</span>
-  </a>
-  <a href="favoris.html">
-    <i data-lucide="heart" class="icon icon-md"></i>
-    <span>Favoris</span>
-  </a>
-  <a href="profil.html">
-    <i data-lucide="user" class="icon icon-md"></i>
-    <span>Profil</span>
-  </a>
+  <a href="index.html" class="active"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="recherche-ia.html"><i data-lucide="search"></i><span>Rechercher</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="favoris.html"><i data-lucide="heart"></i><span>Favoris</span></a>
+  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
-<script src="js/role-guard.js"></script>
-<script src="js/dark-mode.js"></script>
+<!-- Cookies & Promo v47 -->
+<script src="js/cookies-modal.js?v=47" defer></script>
+<script src="js/promo-banner.js?v=47" defer></script>
+
 <script>
-const SELLERS = [
-  {id:1,name:'Aïcha Couture',avatar:'https://i.pravatar.cc/100?img=1',verified:'platinum',live:true,city:'Dakar',rating:4.9},
-  {id:2,name:'Moussa Tech',avatar:'https://i.pravatar.cc/100?img=13',verified:'gold',live:true,city:'Dakar',rating:4.7},
-  {id:3,name:'Fatou Fashion',avatar:'https://i.pravatar.cc/100?img=5',verified:'gold',live:false,city:'Thiès',rating:4.6},
-  {id:4,name:'Ibrahim Bio',avatar:'https://i.pravatar.cc/100?img=8',verified:'silver',live:false,city:'Saint-Louis',rating:4.8},
-  {id:5,name:'Mariama Beauté',avatar:'https://i.pravatar.cc/100?img=9',verified:'gold',live:true,city:'Dakar',rating:4.9}
+lucide.createIcons();
+
+// Rotation du hero promo
+const heroPromos = [
+  {icon:'🎉',title:'Rentrée SEN TEW',sub:'Jusqu\'à -30% sur mode et tech · Livraison offerte dès 15 000 FCFA',code:'RENTREE26'},
+  {icon:'⚡',title:'Flash Weekend',sub:'-40% sur toute la beauté · 48h seulement',code:'FLASH40'},
+  {icon:'🎁',title:'Bienvenue !',sub:'500 FCFA offerts sur votre 1ère commande',code:'WELCOME500'}
 ];
-const CATEGORIES = [
-  {id:'mode',name:'Mode',icon:'👗',color:'#ef4444'},
-  {id:'tech',name:'Tech',icon:'📱',color:'#3b82f6'},
-  {id:'beauty',name:'Beauté',icon:'💄',color:'#a855f7'},
-  {id:'food',name:'Alimentation',icon:'🍎',color:'#f59e0b'},
-  {id:'sport',name:'Sport',icon:'⚽',color:'#0f6b4e'},
-  {id:'home',name:'Maison',icon:'🏠',color:'#d4a574'},
-  {id:'bio',name:'Bio',icon:'🌿',color:'#00c060'},
-  {id:'kids',name:'Enfants',icon:'🧸',color:'#f472b6'}
-];
-const PRODUCTS = [
-  {id:1,name:'Boubou wax collection',price:18000,oldPrice:25000,image:'https://images.unsplash.com/photo-1544441893-675973e31985?w=400',seller:'Fatou Fashion',sellerAvatar:'https://i.pravatar.cc/50?img=5',verified:'gold',cat:'mode',sellerLive:false,local:true},
-  {id:2,name:'iPhone 15 Pro 256GB',price:750000,image:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=400',seller:'Moussa Tech',sellerAvatar:'https://i.pravatar.cc/50?img=13',verified:'gold',cat:'tech',sellerLive:true,local:false},
-  {id:3,name:'Sac cuir africain premium',price:15000,oldPrice:22000,image:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400',seller:'Aïcha Couture',sellerAvatar:'https://i.pravatar.cc/50?img=1',verified:'platinum',cat:'mode',sellerLive:true,local:true},
-  {id:4,name:'Écouteurs sans fil Pro',price:12000,image:'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400',seller:'Moussa Tech',sellerAvatar:'https://i.pravatar.cc/50?img=13',verified:'gold',cat:'tech',sellerLive:true,local:false},
-  {id:5,name:'Beurre karité 500g',price:4500,image:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400',seller:'Ibrahim Bio',sellerAvatar:'https://i.pravatar.cc/50?img=8',verified:'silver',cat:'beauty',sellerLive:false,local:true},
-  {id:6,name:'Robe bogolan traditionnelle',price:22000,oldPrice:30000,image:'https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=400',seller:'Aïcha Couture',sellerAvatar:'https://i.pravatar.cc/50?img=1',verified:'platinum',cat:'mode',sellerLive:true,local:true},
-  {id:7,name:'Masque visage bio',price:6500,image:'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400',seller:'Mariama Beauté',sellerAvatar:'https://i.pravatar.cc/50?img=9',verified:'gold',cat:'beauty',sellerLive:true,local:true},
-  {id:8,name:'Montre connectée Sport',price:35000,oldPrice:45000,image:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400',seller:'Moussa Tech',sellerAvatar:'https://i.pravatar.cc/50?img=13',verified:'gold',cat:'tech',sellerLive:true,local:false}
-];
-const CURR = [{c:'FCFA',f:'💰',r:1,s:'FCFA'},{c:'EUR',f:'🇪🇺',r:0.00153,s:'€'},{c:'USD',f:'🇺🇸',r:0.00167,s:'$'}];
-const LANGS = [{c:'FR',f:'🇫🇷',n:'Français',d:'ltr'},{c:'EN',f:'🇬🇧',n:'English',d:'ltr'},{c:'AR',f:'🇸🇦',n:'العربية',d:'rtl'}];
-
-function fmt(p) {
-  const i = +(localStorage.getItem('curr_idx')||0);
-  const c = CURR[i];
-  const v = p * c.r;
-  return c.c==='FCFA' ? Math.round(v).toLocaleString('fr-FR')+' '+c.s : v.toFixed(2)+' '+c.s;
-}
-function cycleCurr() {
-  let i = +(localStorage.getItem('curr_idx')||0);
-  i = (i+1) % CURR.length;
-  localStorage.setItem('curr_idx', i);
-  document.getElementById('cFlag').textContent = CURR[i].f;
-  renderAll();
-}
-function cycleLang() {
-  let i = +(localStorage.getItem('lang_idx')||0);
-  i = (i+1) % LANGS.length;
-  localStorage.setItem('lang_idx', i);
-  document.getElementById('lFlag').textContent = LANGS[i].f;
-  document.documentElement.dir = LANGS[i].d;
-}
-document.getElementById('cFlag').textContent = CURR[+(localStorage.getItem('curr_idx')||0)].f;
-document.getElementById('lFlag').textContent = LANGS[+(localStorage.getItem('lang_idx')||0)].f;
-
-function renderLives() {
-  const lives = SELLERS.filter(s => s.live);
-  document.getElementById('livesBox').innerHTML = lives.map(s => `
-    <a href="boutique.html?id=${s.id}" style="min-width:80px;text-decoration:none;color:inherit;">
-      <div style="position:relative;">
-        <img src="${s.avatar}" style="width:70px;height:70px;border-radius:50%;border:3px solid var(--rouge);object-fit:cover;">
-        <span style="position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);background:var(--rouge);color:white;font-size:9px;font-weight:800;padding:2px 6px;border-radius:6px;">LIVE</span>
-      </div>
-      <div style="text-align:center;font-size:11px;margin-top:6px;font-weight:600;">${s.name}</div>
-    </a>
-  `).join('');
-}
-
-function renderTop() {
-  // Top boutiques par note, SANS chiffres ventes
-  const top = [...SELLERS].sort((a,b) => b.rating - a.rating);
-  document.getElementById('topBox').innerHTML = top.map(s => `
-    <a href="boutique.html?id=${s.id}" style="min-width:130px;background:var(--bg-card);border-radius:12px;padding:12px;text-decoration:none;color:inherit;">
-      <div style="text-align:center;">
-        <img src="${s.avatar}" style="width:60px;height:60px;border-radius:50%;object-fit:cover;">
-        <div style="display:flex;align-items:center;justify-content:center;gap:4px;margin-top:6px;">
-          <span style="font-size:13px;font-weight:700;">${s.name}</span>
-          ${s.verified === 'platinum' ? '<i data-lucide="badge-check" class="icon icon-sm icon-violet" style="width:12px;height:12px;"></i>' : ''}
-          ${s.verified === 'gold' ? '<i data-lucide="badge-check" class="icon icon-sm icon-or" style="width:12px;height:12px;"></i>' : ''}
-        </div>
-        <div style="display:flex;align-items:center;justify-content:center;gap:3px;font-size:11px;color:var(--or-royal);font-weight:700;margin-top:2px;">
-          <i data-lucide="star" class="icon icon-sm icon-or" style="width:11px;height:11px;"></i>
-          ${s.rating}
-        </div>
-        <div style="font-size:10px;color:var(--text-muted);">${s.city}</div>
-      </div>
-    </a>
-  `).join('');
-}
-
-function renderCats() {
-  document.getElementById('catsGrid').innerHTML = CATEGORIES.map(c => `
-    <a href="produits.html?cat=${c.id}" style="text-decoration:none;color:inherit;">
-      <div style="background:${c.color}22;border-radius:12px;padding:12px;text-align:center;">
-        <div class="emoji-fix" style="font-size:28px;">${c.icon}</div>
-        <div style="font-size:11px;font-weight:700;margin-top:4px;">${c.name}</div>
-      </div>
-    </a>
-  `).join('');
-}
-
-function renderTrends() {
-  document.getElementById('trendGrid').innerHTML = PRODUCTS.map(p => {
-    const disc = p.oldPrice ? Math.round((1 - p.price/p.oldPrice)*100) : 0;
-    return `
-      <a href="produit.html?id=${p.id}" class="pcard" data-id="${p.id}" style="text-decoration:none;color:inherit;">
-        <div class="pcard-img">
-          <div class="pcard-badges">
-            ${p.sellerLive ? '<span class="pcard-badge pcard-badge-live">LIVE</span>' : ''}
-            ${p.local ? '<span class="pcard-badge pcard-badge-local">LOCAL</span>' : ''}
-            ${disc > 0 ? `<span class="pcard-badge pcard-badge-disc">-${disc}%</span>` : ''}
-          </div>
-          <button class="pcard-fav" onclick="event.preventDefault();event.stopPropagation();toggleFav(${p.id});">
-            <i data-lucide="heart" class="icon icon-sm icon-rouge"></i>
-          </button>
-          <img src="${p.image}" alt="${p.name}">
-        </div>
-        <div class="pcard-info">
-          <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;">
-            <img src="${p.sellerAvatar}" style="width:16px;height:16px;border-radius:50%;">
-            <span style="font-size:10px;color:var(--text-muted);">${p.seller}</span>
-          </div>
-          <div class="pcard-name">${p.name}</div>
-          <div style="display:flex;align-items:baseline;gap:6px;">
-            <span class="pcard-price">${fmt(p.price)}</span>
-            ${p.oldPrice ? `<span class="pcard-old">${fmt(p.oldPrice)}</span>` : ''}
-          </div>
-        </div>
-      </a>
-    `;
-  }).join('');
-  lucide.createIcons();
-}
-
-function renderAll() { renderLives(); renderTop(); renderCats(); renderTrends(); lucide.createIcons(); }
-
-function toggleFav(id) {
-  let favs = JSON.parse(localStorage.getItem('favs')||'[]');
-  if(favs.includes(id)) favs = favs.filter(x=>x!==id);
-  else favs.push(id);
-  localStorage.setItem('favs', JSON.stringify(favs));
-}
-
-renderAll();
-
-// Panneau pub carousel auto
-let adIdx = 0;
+let heroIdx = 0;
 setInterval(() => {
-  document.querySelectorAll('.ad-slide').forEach((s,i) => s.classList.toggle('active', i === adIdx));
-  document.querySelectorAll('.ad-dot').forEach((d,i) => d.classList.toggle('active', i === adIdx));
-  adIdx = (adIdx + 1) % 3;
-}, 4000);
-
-// Admin 7 taps
-(function() {
-  let taps = 0, timer = null;
-  document.getElementById('admTrig').addEventListener('click', function() {
-    taps++;
-    clearTimeout(timer);
-    timer = setTimeout(() => taps = 0, 3000);
-    if(taps >= 7) {
-      taps = 0;
-      const code = prompt('🔒 Code administrateur :');
-      if(!code) return;
-      if(['SENADMIN2026','ADMIN2026'].includes(code.trim())) {
-        sessionStorage.setItem('admin_pro', '1');
-        location.href = 'admin.html';
-      } else alert('❌ Code incorrect');
-    }
-  });
-})();
-
-if('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.update()));
-}
-console.log('✅ SEN TEW v43 chargé');
+  heroIdx = (heroIdx + 1) % heroPromos.length;
+  const p = heroPromos[heroIdx];
+  const hero = document.getElementById('promoHero');
+  if (!hero) return;
+  hero.querySelector('.icon').textContent = p.icon;
+  hero.querySelector('h2').textContent = p.title;
+  hero.querySelector('p').textContent = p.sub;
+  hero.querySelector('.code-badge').textContent = 'CODE : ' + p.code;
+  hero.querySelectorAll('.promo-dots span').forEach((d,i)=>d.classList.toggle('active',i===heroIdx));
+}, 6000);
 </script>
-<script>lucide.createIcons();</script>
-  <!-- Cookies & Promo (v46) -->
-<script src="js/cookies-modal.js?v=46" defer></script>
-<script src="js/promo-banner.js?v=46" defer></script>
 </body>
 </html>
