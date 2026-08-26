@@ -5,55 +5,89 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>🌍 SEN TEW — Marketplace du Sénégal</title>
 <meta name="theme-color" content="#0f6b4e">
-<link rel="stylesheet" href="css/app.css?v=47">
+<link rel="stylesheet" href="css/app.css?v=48">
 <script src="https://unpkg.com/lucide@latest"></script>
-<script src="js/dark-mode.js?v=47" defer></script>
-<script src="js/role-guard.js?v=47" defer></script>
+<script src="js/dark-mode.js?v=48" defer></script>
+<script src="js/role-guard.js?v=48" defer></script>
 <style>
 /* ============================================
-   PAGE D'ACCUEIL — Design premium v47
-   Couvre émeraude + or unifié
+   PAGE ACCUEIL v48 — Style Notifications
+   Cartes claires + bordure accent verte
    ============================================ */
 
-/* Top bar avec identité SEN TEW */
+body{background:#f5f5f0;margin:0;font-family:-apple-system,'Segoe UI',sans-serif}
+body.dark-mode{background:#0a1f17}
+
+/* TOPBAR */
 .home-topbar{
-  background:var(--bg-card);
-  padding:12px 16px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  border-bottom:1px solid var(--border);
+  background:#ffffff;
+  padding:14px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid #e5e5e0;
   position:sticky;top:0;z-index:50;
 }
-.home-topbar .brand{
-  display:flex;align-items:center;gap:8px;
-  font-size:20px;font-weight:900;color:#0f6b4e;
-  letter-spacing:1px;
-}
+body.dark-mode .home-topbar{background:#0a1f17;border-bottom-color:#2a4438}
+.home-topbar .brand{display:flex;align-items:center;gap:8px;font-size:22px;font-weight:900;color:#0f6b4e;letter-spacing:1px}
+body.dark-mode .home-topbar .brand{color:#c8f0d8}
 .home-topbar .brand .globe{font-size:22px}
 .home-topbar .actions{display:flex;gap:8px}
 .home-topbar .icon-btn{
   width:38px;height:38px;border-radius:12px;
-  background:var(--bg-card-alt);
-  border:1px solid var(--border);
+  background:#f5f5f0;border:1px solid #e5e5e0;
   display:flex;align-items:center;justify-content:center;
   cursor:pointer;font-size:16px;
 }
+body.dark-mode .home-topbar .icon-btn{background:#1a2e24;border-color:#2a4438}
 
-/* Barre de recherche premium */
-.search-hero{padding:12px 16px 8px}
+/* HERO LOGO SEN TEW MARKETPLACE — dégradé émeraude + or */
+.brand-hero{
+  margin:12px 16px 16px;
+  padding:20px 20px 22px;
+  background:linear-gradient(135deg,#0f6b4e 0%,#0a4d38 50%,#d4a574 130%);
+  border-radius:20px;
+  color:#fff;
+  position:relative;overflow:hidden;
+  box-shadow:0 12px 32px rgba(15,107,78,0.25);
+  display:flex;align-items:center;gap:14px;
+}
+.brand-hero::before{content:'';position:absolute;right:-30px;top:-30px;width:130px;height:130px;border-radius:50%;background:rgba(212,165,116,0.25)}
+.brand-hero::after{content:'';position:absolute;left:-20px;bottom:-40px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.08)}
+.brand-hero .badge-logo{
+  width:64px;height:64px;border-radius:18px;
+  background:linear-gradient(135deg,#ffffff 0%,#f0c99a 100%);
+  color:#0f6b4e;font-weight:900;font-size:13px;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;line-height:1;
+  box-shadow:0 6px 16px rgba(0,0,0,0.15);
+  flex-shrink:0;position:relative;z-index:1;
+}
+.brand-hero .badge-logo span{display:block;margin:1px 0}
+.brand-hero .brand-info{position:relative;z-index:1;flex:1}
+.brand-hero h1{font-size:24px;font-weight:900;margin:0 0 2px;letter-spacing:1.5px}
+.brand-hero p{font-size:11px;font-weight:700;letter-spacing:3px;margin:0;opacity:.9;color:#f0c99a}
+.brand-hero .cta{
+  position:relative;z-index:1;
+  background:rgba(255,255,255,0.2);
+  backdrop-filter:blur(4px);
+  border:1.5px solid rgba(255,255,255,0.3);
+  padding:8px 12px;border-radius:10px;
+  font-size:12px;font-weight:800;color:#fff;cursor:pointer;
+  display:flex;align-items:center;gap:4px;flex-shrink:0;
+}
+
+/* SEARCH */
+.search-hero{padding:8px 16px 12px}
 .search-box{
   display:flex;align-items:center;gap:10px;
-  background:var(--bg-card);
-  border:1.5px solid var(--border);
+  background:#ffffff;border:1.5px solid #e5e5e0;
   border-radius:14px;padding:12px 14px;
   box-shadow:0 2px 8px rgba(15,107,78,0.05);
 }
+body.dark-mode .search-box{background:#1a2e24;border-color:#2a4438}
 .search-box i{color:#0f6b4e;flex-shrink:0}
-.search-box input{
-  flex:1;border:none;background:transparent;
-  font-size:14px;color:var(--text-primary);outline:none;
-}
+.search-box input{flex:1;border:none;background:transparent;font-size:14px;color:#0a1f17;outline:none}
+body.dark-mode .search-box input{color:#f5f5f0}
+.search-box input::placeholder{color:#a3b8ac}
 .search-box .ia-btn{
   background:linear-gradient(135deg,#a855f7,#7c3aed);
   color:#fff;border:none;width:32px;height:32px;
@@ -61,70 +95,159 @@
   cursor:pointer;flex-shrink:0;
 }
 
-/* Hero promo carousel — couvre émeraude+or */
-.promo-hero{
-  margin:0 16px 20px;
-  border-radius:20px;
-  padding:22px 20px;
-  background:linear-gradient(135deg,#0f6b4e 0%,#0a4d38 55%,#d4a574 130%);
-  color:#fff;
-  position:relative;
-  overflow:hidden;
-  box-shadow:0 12px 32px rgba(15,107,78,0.25);
+/* TABS filtres style notifications */
+.tabs-filters{
+  display:flex;gap:8px;padding:0 16px 12px;overflow-x:auto;scrollbar-width:none;
 }
-.promo-hero::before{
-  content:'';position:absolute;right:-20px;top:-20px;
-  width:120px;height:120px;border-radius:50%;
-  background:rgba(255,255,255,0.08);
+.tabs-filters::-webkit-scrollbar{display:none}
+.tab-filter{
+  display:flex;align-items:center;gap:6px;
+  padding:8px 14px;border-radius:20px;
+  background:#ffffff;border:1px solid #e5e5e0;
+  font-size:13px;font-weight:700;color:#4a5a52;
+  cursor:pointer;white-space:nowrap;
 }
-.promo-hero::after{
-  content:'';position:absolute;left:-40px;bottom:-40px;
-  width:140px;height:140px;border-radius:50%;
-  background:rgba(212,165,116,0.15);
+.tab-filter.active{background:#0f6b4e;color:#fff;border-color:#0f6b4e}
+.tab-filter .count{
+  background:#ef4444;color:#fff;
+  padding:1px 6px;border-radius:10px;font-size:10px;font-weight:800;
 }
-.promo-hero .icon{font-size:32px;margin-bottom:8px}
-.promo-hero h2{font-size:20px;font-weight:900;margin:0 0 4px;letter-spacing:.3px}
-.promo-hero p{font-size:13px;opacity:.92;margin:0}
-.promo-hero .code-badge{
-  display:inline-block;margin-top:12px;
-  background:rgba(255,255,255,0.2);
-  backdrop-filter:blur(4px);
-  padding:6px 12px;border-radius:8px;
-  font-size:12px;font-weight:800;letter-spacing:1px;
-  border:1.5px dashed rgba(255,255,255,0.4);
-}
-.promo-dots{
-  position:absolute;bottom:12px;left:0;right:0;
-  display:flex;justify-content:center;gap:6px;
-}
-.promo-dots span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.4)}
-.promo-dots span.active{width:20px;border-radius:3px;background:#fff}
+.tab-filter.active .count{background:rgba(255,255,255,0.25)}
+body.dark-mode .tab-filter{background:#1a2e24;border-color:#2a4438;color:#c8f0d8}
+body.dark-mode .tab-filter.active{background:#c8f0d8;color:#0a4d38}
 
-/* Sections titles cohérentes */
+/* Section title */
 .section-head{
   display:flex;align-items:center;justify-content:space-between;
-  padding:20px 16px 12px;
+  padding:16px 16px 10px;
 }
 .section-head h2{
-  font-size:16px;font-weight:800;
-  color:var(--text-emerald);
+  font-size:14px;font-weight:800;
+  color:#0f6b4e;
   margin:0;display:flex;align-items:center;gap:8px;
-  letter-spacing:.2px;
+  letter-spacing:.3px;text-transform:uppercase;
 }
+body.dark-mode .section-head h2{color:#c8f0d8}
 .section-head .see-all{
-  font-size:12px;color:var(--text-gold);
-  font-weight:700;text-decoration:none;
+  font-size:12px;color:#a67c3a;font-weight:700;text-decoration:none;
+}
+.section-head .date-badge{
+  background:#c8f0d8;color:#0a4d38;
+  padding:3px 10px;border-radius:10px;
+  font-size:11px;font-weight:800;
+}
+body.dark-mode .section-head .date-badge{background:#0f6b4e;color:#c8f0d8}
+
+/* ═══════════════════════════════════════════
+   ⭐ CARTES PRODUITS STYLE NOTIFICATIONS
+   Fond blanc + bordure gauche accent verte
+   ═══════════════════════════════════════════ */
+.notif-list{padding:0 16px}
+.notif-card{
+  display:grid;
+  grid-template-columns:80px 1fr auto;
+  gap:12px;
+  background:#ffffff;
+  border:1px solid #e5e5e0;
+  border-left:4px solid #0f6b4e;
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:10px;
+  box-shadow:0 2px 8px rgba(15,107,78,0.06);
+  cursor:pointer;
+  transition:transform .15s;
+  align-items:center;
+}
+.notif-card:active{transform:scale(0.98)}
+.notif-card.flash{border-left-color:#ef4444}
+.notif-card.live{border-left-color:#f59e0b}
+.notif-card.local{border-left-color:#0f6b4e}
+body.dark-mode .notif-card{background:#1a2e24;border-color:#2a4438;border-left-color:#0f6b4e}
+
+.notif-img{
+  width:80px;height:80px;border-radius:12px;overflow:hidden;
+  background:#e5e5e0;position:relative;
+}
+.notif-img img{width:100%;height:100%;object-fit:cover}
+.notif-badge-tag{
+  position:absolute;top:4px;left:4px;
+  background:#0a1f17;color:#fff;
+  font-size:9px;font-weight:800;
+  padding:2px 6px;border-radius:5px;letter-spacing:.3px;
+}
+.notif-badge-tag.live{background:#ef4444}
+.notif-badge-tag.discount{background:#d4a574;color:#0a1f17}
+
+.notif-body{min-width:0;display:flex;flex-direction:column;gap:3px}
+.notif-title{
+  font-size:14px;font-weight:800;color:#0a1f17;
+  line-height:1.3;margin:0;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+body.dark-mode .notif-title{color:#f5f5f0}
+
+.notif-seller{
+  font-size:12px;color:#4a5a52;font-weight:600;
+  display:flex;align-items:center;gap:4px;
+}
+body.dark-mode .notif-seller{color:#a3b8ac}
+.notif-seller .avatar-mini{
+  width:14px;height:14px;border-radius:50%;
+  background:linear-gradient(135deg,#d4a574,#a67c3a);
+  flex-shrink:0;
 }
 
-/* Boutiques Live — carrousel horizontal */
-.live-scroll{display:flex;gap:14px;overflow-x:auto;padding:0 16px 4px;scrollbar-width:none}
-.live-scroll::-webkit-scrollbar{display:none}
-.live-item{flex-shrink:0;text-align:center;width:80px}
+.notif-meta{
+  font-size:11px;color:#a3b8ac;
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+}
+.notif-meta .dot-sep{color:#e5e5e0}
+
+.notif-price{
+  font-size:16px;font-weight:900;color:#0f6b4e;
+  margin-top:2px;display:flex;align-items:baseline;gap:6px;
+}
+body.dark-mode .notif-price{color:#c8f0d8}
+.notif-price .old{font-size:11px;color:#a3b8ac;text-decoration:line-through;font-weight:600}
+
+.notif-actions{
+  display:flex;flex-direction:column;gap:6px;
+  align-items:flex-end;
+}
+.notif-actions .dot-new{
+  width:10px;height:10px;border-radius:50%;background:#22c55e;
+  box-shadow:0 0 0 2px rgba(34,197,94,0.2);
+}
+.notif-actions .fav-btn{
+  width:32px;height:32px;border-radius:8px;
+  background:#f5f5f0;border:none;color:#ef4444;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+}
+body.dark-mode .notif-actions .fav-btn{background:#223a2e}
+
+/* Notif quick action buttons (comme Copier code / Voir dans notifications) */
+.notif-actions-row{
+  display:flex;gap:8px;margin-top:8px;
+  grid-column:1 / -1;padding-top:8px;border-top:1px dashed #e5e5e0;
+}
+body.dark-mode .notif-actions-row{border-top-color:#2a4438}
+.notif-actions-row button{
+  padding:6px 12px;border-radius:8px;border:none;
+  font-size:12px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;gap:5px;
+}
+.notif-btn-primary{background:#0f6b4e;color:#fff}
+.notif-btn-secondary{background:#f0c99a;color:#0a1f17}
+.notif-btn-ghost{background:transparent;color:#0f6b4e;border:1px solid #0f6b4e !important}
+
+/* HORIZONTAL Boutiques Live / Top */
+.h-scroll{display:flex;gap:12px;overflow-x:auto;padding:0 16px 4px;scrollbar-width:none}
+.h-scroll::-webkit-scrollbar{display:none}
+.live-item{flex-shrink:0;text-align:center;width:80px;cursor:pointer}
 .live-avatar{
-  width:76px;height:76px;border-radius:50%;
-  border:3px solid #ef4444;padding:2px;
-  background:#fff;position:relative;
-  box-shadow:0 4px 12px rgba(239,68,68,0.2);
+  width:74px;height:74px;border-radius:50%;
+  border:3px solid #ef4444;padding:2px;background:#fff;
+  position:relative;box-shadow:0 4px 12px rgba(239,68,68,0.2);
 }
 .live-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover}
 .live-badge{
@@ -132,137 +255,34 @@
   background:#ef4444;color:#fff;font-size:9px;font-weight:800;
   padding:2px 8px;border-radius:6px;letter-spacing:.5px;
 }
-.live-item strong{
-  display:block;margin-top:10px;
-  font-size:12px;font-weight:700;color:var(--text-primary);
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
+.live-item strong{display:block;margin-top:10px;font-size:12px;font-weight:700;color:#0a1f17;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.dark-mode .live-item strong{color:#f5f5f0}
 
-/* Top Boutiques — carrousel horizontal */
-.top-scroll{display:flex;gap:16px;overflow-x:auto;padding:0 16px 4px;scrollbar-width:none}
-.top-scroll::-webkit-scrollbar{display:none}
-.top-item{flex-shrink:0;width:110px;text-align:center}
+.top-item{flex-shrink:0;width:110px;text-align:center;cursor:pointer}
 .top-avatar{
-  width:96px;height:96px;border-radius:50%;
-  border:3px solid #d4a574;padding:2px;
-  background:linear-gradient(135deg,#f5f5f0,#f0c99a);
-  position:relative;box-shadow:0 4px 12px rgba(212,165,116,0.25);
-  margin:0 auto;
+  width:90px;height:90px;border-radius:50%;
+  border:3px solid #d4a574;padding:2px;background:#fff;
+  margin:0 auto;box-shadow:0 4px 12px rgba(212,165,116,0.25);
 }
 .top-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover}
-.top-item strong{
-  display:block;margin-top:10px;
-  font-size:13px;font-weight:800;color:var(--text-primary);
-  line-height:1.2;
-}
-.top-item .verified{
-  display:inline-flex;align-items:center;gap:2px;
-  font-size:11px;color:#0f6b4e;margin-top:4px;
-}
-.top-item .rating{
-  display:flex;align-items:center;justify-content:center;gap:3px;
-  font-size:12px;color:var(--text-gold);font-weight:700;margin-top:2px;
-}
-.top-item small{display:block;font-size:11px;color:var(--text-muted);margin-top:2px}
+.top-item strong{display:block;margin-top:8px;font-size:13px;font-weight:800;color:#0a1f17}
+body.dark-mode .top-item strong{color:#f5f5f0}
+.top-item .rating{font-size:12px;color:#a67c3a;font-weight:700;margin-top:2px}
+.top-item small{display:block;font-size:11px;color:#a3b8ac;margin-top:1px}
 
-/* Catégories — grille 4 colonnes premium */
+/* Catégories grille */
 .cats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 16px 4px}
-.cat-card{
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:14px 8px;
-  text-align:center;
-  cursor:pointer;
-  transition:transform .2s;
-  box-shadow:0 2px 8px rgba(15,107,78,0.06);
-}
+.cat-card{background:#ffffff;border:1px solid #e5e5e0;border-radius:14px;padding:14px 8px;text-align:center;cursor:pointer;transition:transform .15s;box-shadow:0 2px 8px rgba(15,107,78,0.06)}
+body.dark-mode .cat-card{background:#1a2e24;border-color:#2a4438}
 .cat-card:active{transform:scale(0.95)}
-.cat-card .cat-icon{
-  width:44px;height:44px;
-  border-radius:12px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:22px;margin:0 auto 6px;
-}
+.cat-card .cat-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 6px}
 .cat-card .cat-icon.mode{background:linear-gradient(135deg,#c8f0d8,#0f6b4e33)}
 .cat-card .cat-icon.tech{background:linear-gradient(135deg,#dbeafe,#3b82f633)}
 .cat-card .cat-icon.beaute{background:linear-gradient(135deg,#fce7f3,#ec489933)}
 .cat-card .cat-icon.alim{background:linear-gradient(135deg,#fef3c7,#d4a57433)}
-.cat-card strong{font-size:12px;font-weight:700;color:var(--text-primary)}
-
-/* Tendances — grille produits 2 colonnes */
-.trend-grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:12px;
-  padding:0 16px 20px;
-}
-.pcard{
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:16px;
-  overflow:hidden;
-  cursor:pointer;
-  transition:transform .2s;
-  box-shadow:0 4px 12px rgba(15,107,78,0.06);
-  display:flex;flex-direction:column;
-}
-.pcard:active{transform:scale(0.97)}
-.pcard-img{position:relative;width:100%;aspect-ratio:1/1;background:#e5e5e0;overflow:hidden}
-.pcard-img img{width:100%;height:100%;object-fit:cover}
-.pcard-badges{position:absolute;top:8px;left:8px;display:flex;flex-direction:column;gap:4px}
-.pcard-badge{
-  background:#0a1f17;color:#fff;
-  font-size:10px;font-weight:800;
-  padding:3px 8px;border-radius:6px;letter-spacing:.3px;
-}
-.pcard-badge.live{background:#ef4444}
-.pcard-badge.local{background:#0f6b4e}
-.pcard-badge.discount{background:#d4a574;color:#0a1f17}
-.pcard-fav{
-  position:absolute;top:8px;right:8px;
-  width:32px;height:32px;border-radius:50%;
-  background:rgba(255,255,255,0.95);
-  border:none;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  color:#ef4444;
-}
-.pcard-body{padding:10px 12px;flex:1;display:flex;flex-direction:column;gap:4px}
-.pcard-seller{
-  display:flex;align-items:center;gap:4px;
-  font-size:11px;color:var(--text-gold);font-weight:600;
-}
-.pcard-seller .avatar-mini{
-  width:16px;height:16px;border-radius:50%;
-  background:linear-gradient(135deg,#d4a574,#a67c3a);
-  display:inline-block;flex-shrink:0;
-}
-.pcard-name{
-  font-size:13px;font-weight:700;
-  color:var(--text-primary);
-  line-height:1.3;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
-  overflow:hidden;min-height:34px;
-}
-.pcard-price-row{display:flex;align-items:baseline;gap:6px;margin-top:2px}
-.pcard-price{font-size:15px;font-weight:900;color:#0f6b4e}
-.pcard-old-price{font-size:11px;color:var(--text-muted);text-decoration:line-through}
-
-/* Mode sombre : renforcer contraste */
-body.dark-mode .home-topbar{background:#0a1f17}
-body.dark-mode .home-topbar .brand{color:#c8f0d8}
-body.dark-mode .search-box{background:#1a2e24;border-color:#2a4438}
-body.dark-mode .search-box input{color:#f5f5f0}
-body.dark-mode .search-box input::placeholder{color:#a3b8ac}
-body.dark-mode .pcard{background:#1a2e24;border-color:#2a4438}
-body.dark-mode .pcard-name{color:#f5f5f0}
-body.dark-mode .pcard-seller{color:#f0c99a}
-body.dark-mode .pcard-price{color:#c8f0d8}
-body.dark-mode .cat-card{background:#1a2e24;border-color:#2a4438}
+.cat-card strong{font-size:12px;font-weight:700;color:#0a1f17}
 body.dark-mode .cat-card strong{color:#f5f5f0}
-body.dark-mode .section-head h2{color:#c8f0d8}
-body.dark-mode .top-item strong{color:#f5f5f0}
-body.dark-mode .live-item strong{color:#f5f5f0}
 
-/* Espace bottom pour promo + nav */
 main{padding-bottom:140px}
 </style>
 </head>
@@ -270,9 +290,7 @@ main{padding-bottom:140px}
 
 <!-- TOPBAR -->
 <header class="home-topbar">
-  <div class="brand">
-    <span class="globe">🌍</span> SEN TEW
-  </div>
+  <div class="brand"><span class="globe">🌍</span> SEN TEW</div>
   <div class="actions">
     <button class="icon-btn" title="Langue">🇫🇷</button>
     <button class="icon-btn" title="Portefeuille">💰</button>
@@ -281,6 +299,21 @@ main{padding-bottom:140px}
 </header>
 
 <main>
+  <!-- HERO LOGO SEN TEW MARKETPLACE -->
+  <section class="brand-hero">
+    <div class="badge-logo">
+      <span>SEN</span>
+      <span>TEW</span>
+    </div>
+    <div class="brand-info">
+      <h1>SEN TEW</h1>
+      <p>MARKETPLACE</p>
+    </div>
+    <button class="cta">
+      <i data-lucide="zap" style="width:14px;height:14px"></i> -30%
+    </button>
+  </section>
+
   <!-- SEARCH -->
   <div class="search-hero">
     <div class="search-box" onclick="location.href='recherche-ia.html'">
@@ -290,23 +323,31 @@ main{padding-bottom:140px}
     </div>
   </div>
 
-  <!-- HERO PROMO — Couvre émeraude + or -->
-  <section class="promo-hero" id="promoHero">
-    <div class="icon">🎉</div>
-    <h2>Rentrée SEN TEW</h2>
-    <p>Jusqu'à -30% sur mode et tech · Livraison offerte dès 15 000 FCFA</p>
-    <span class="code-badge">CODE : RENTREE26</span>
-    <div class="promo-dots">
-      <span class="active"></span><span></span><span></span>
-    </div>
-  </section>
+  <!-- TABS FILTRES (style notifications) -->
+  <div class="tabs-filters">
+    <button class="tab-filter active">
+      <i data-lucide="flame" style="width:14px;height:14px"></i> Tendances <span class="count">18</span>
+    </button>
+    <button class="tab-filter">
+      <i data-lucide="zap" style="width:14px;height:14px"></i> Flash <span class="count">6</span>
+    </button>
+    <button class="tab-filter">
+      <i data-lucide="radio" style="width:14px;height:14px"></i> Live <span class="count">4</span>
+    </button>
+    <button class="tab-filter">
+      <i data-lucide="map-pin" style="width:14px;height:14px"></i> Local
+    </button>
+    <button class="tab-filter">
+      <i data-lucide="star" style="width:14px;height:14px"></i> Top
+    </button>
+  </div>
 
   <!-- BOUTIQUES EN LIVE -->
   <div class="section-head">
-    <h2><i data-lucide="radio" style="color:#ef4444"></i> Boutiques en Live</h2>
+    <h2><i data-lucide="radio" style="color:#ef4444;width:16px;height:16px"></i> Boutiques en Live</h2>
     <a href="live.html" class="see-all">Voir tout ›</a>
   </div>
-  <div class="live-scroll">
+  <div class="h-scroll">
     <div class="live-item" onclick="location.href='boutique.html?id=1'">
       <div class="live-avatar">
         <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=200">
@@ -339,35 +380,31 @@ main{padding-bottom:140px}
 
   <!-- TOP BOUTIQUES -->
   <div class="section-head">
-    <h2><i data-lucide="award" style="color:#d4a574"></i> Top Boutiques</h2>
+    <h2><i data-lucide="award" style="color:#d4a574;width:16px;height:16px"></i> Top Boutiques</h2>
     <a href="boutique.html" class="see-all">Voir tout ›</a>
   </div>
-  <div class="top-scroll">
+  <div class="h-scroll">
     <div class="top-item" onclick="location.href='boutique.html?id=1'">
       <div class="top-avatar"><img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=200"></div>
       <strong>Aïcha Couture</strong>
-      <div class="verified"><i data-lucide="badge-check" style="width:12px;height:12px"></i></div>
       <div class="rating">⭐ 4.9</div>
       <small>Dakar</small>
     </div>
     <div class="top-item" onclick="location.href='boutique.html?id=3'">
       <div class="top-avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200"></div>
       <strong>Mariama Beauté</strong>
-      <div class="verified"><i data-lucide="badge-check" style="width:12px;height:12px"></i></div>
       <div class="rating">⭐ 4.9</div>
       <small>Dakar</small>
     </div>
     <div class="top-item" onclick="location.href='boutique.html?id=5'">
       <div class="top-avatar"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200"></div>
       <strong>Ibrahim B.</strong>
-      <div class="verified"><i data-lucide="badge-check" style="width:12px;height:12px"></i></div>
       <div class="rating">⭐ 4.8</div>
       <small>Saint-Louis</small>
     </div>
     <div class="top-item" onclick="location.href='boutique.html?id=2'">
       <div class="top-avatar"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200"></div>
       <strong>Moussa Tech</strong>
-      <div class="verified"><i data-lucide="badge-check" style="width:12px;height:12px"></i></div>
       <div class="rating">⭐ 4.7</div>
       <small>Thiès</small>
     </div>
@@ -375,7 +412,7 @@ main{padding-bottom:140px}
 
   <!-- CATÉGORIES -->
   <div class="section-head">
-    <h2><i data-lucide="grid-3x3" style="color:#0f6b4e"></i> Explorer par catégorie</h2>
+    <h2><i data-lucide="grid-3x3" style="color:#0f6b4e;width:16px;height:16px"></i> Explorer</h2>
     <a href="categories.html" class="see-all">Voir tout ›</a>
   </div>
   <div class="cats-grid">
@@ -393,126 +430,167 @@ main{padding-bottom:140px}
     </div>
     <div class="cat-card" onclick="location.href='categories.html?c=alim'">
       <div class="cat-icon alim">🍎</div>
-      <strong>Alimentation</strong>
+      <strong>Alim.</strong>
     </div>
   </div>
 
-  <!-- TENDANCES -->
+  <!-- TENDANCES — Cartes style NOTIFICATIONS -->
   <div class="section-head">
-    <h2><i data-lucide="trending-up" style="color:#0f6b4e"></i> Tendances</h2>
-    <a href="produits.html" class="see-all">Voir tout ›</a>
+    <h2><i data-lucide="flame" style="color:#ef4444;width:16px;height:16px"></i> Aujourd'hui · 26 août 2026</h2>
+    <span class="date-badge">18 nouveautés</span>
   </div>
-  <div class="trend-grid">
 
-    <article class="pcard" onclick="location.href='produit.html?id=1'">
-      <div class="pcard-img">
-        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" alt="">
-        <div class="pcard-badges">
-          <span class="pcard-badge local">LOCAL</span>
-          <span class="pcard-badge discount">-28%</span>
-        </div>
-        <button class="pcard-fav"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+  <div class="notif-list">
+
+    <!-- Carte produit style notification #1 -->
+    <article class="notif-card local" onclick="location.href='produit.html?id=1'">
+      <div class="notif-img">
+        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300" alt="">
+        <span class="notif-badge-tag discount">-28%</span>
       </div>
-      <div class="pcard-body">
-        <div class="pcard-seller"><span class="avatar-mini"></span> Fatou Fashion</div>
-        <div class="pcard-name">Boubou wax collection</div>
-        <div class="pcard-price-row">
-          <span class="pcard-price">18 000 FCFA</span>
-          <span class="pcard-old-price">25 000</span>
+      <div class="notif-body">
+        <h3 class="notif-title">Boubou wax collection premium</h3>
+        <div class="notif-seller"><span class="avatar-mini"></span> Fatou Fashion</div>
+        <div class="notif-meta">
+          <i data-lucide="clock" style="width:11px;height:11px"></i> Il y a 12 min
+          <span class="dot-sep">·</span>
+          <i data-lucide="map-pin" style="width:11px;height:11px"></i> Dakar
         </div>
+        <div class="notif-price">18 000 FCFA <span class="old">25 000</span></div>
+      </div>
+      <div class="notif-actions">
+        <span class="dot-new"></span>
+        <button class="fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
       </div>
     </article>
 
-    <article class="pcard" onclick="location.href='produit.html?id=2'">
-      <div class="pcard-img">
-        <img src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400" alt="">
-        <div class="pcard-badges">
-          <span class="pcard-badge live">LIVE</span>
-        </div>
-        <button class="pcard-fav"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+    <!-- Carte produit style notification #2 - LIVE -->
+    <article class="notif-card live" onclick="location.href='produit.html?id=2'">
+      <div class="notif-img">
+        <img src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=300" alt="">
+        <span class="notif-badge-tag live">LIVE</span>
       </div>
-      <div class="pcard-body">
-        <div class="pcard-seller"><span class="avatar-mini"></span> Moussa Tech</div>
-        <div class="pcard-name">iPhone 15 Pro 256GB</div>
-        <div class="pcard-price-row">
-          <span class="pcard-price">750 000 FCFA</span>
+      <div class="notif-body">
+        <h3 class="notif-title">iPhone 15 Pro 256GB - Titanium</h3>
+        <div class="notif-seller"><span class="avatar-mini"></span> Moussa Tech ✓</div>
+        <div class="notif-meta">
+          <i data-lucide="radio" style="width:11px;height:11px;color:#ef4444"></i> EN LIVE
+          <span class="dot-sep">·</span>
+          <i data-lucide="eye" style="width:11px;height:11px"></i> 245 spectateurs
         </div>
+        <div class="notif-price">750 000 FCFA</div>
       </div>
-    </article>
-
-    <article class="pcard" onclick="location.href='produit.html?id=3'">
-      <div class="pcard-img" style="background:#facc15">
-        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400" alt="">
-        <div class="pcard-badges">
-          <span class="pcard-badge live">LIVE</span>
-          <span class="pcard-badge local">LOCAL</span>
-          <span class="pcard-badge discount">-32%</span>
-        </div>
-        <button class="pcard-fav"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
-      </div>
-      <div class="pcard-body">
-        <div class="pcard-seller"><span class="avatar-mini"></span> Aïcha Couture</div>
-        <div class="pcard-name">Sac cuir africain premium</div>
-        <div class="pcard-price-row">
-          <span class="pcard-price">15 000 FCFA</span>
-          <span class="pcard-old-price">22 000</span>
-        </div>
+      <div class="notif-actions">
+        <span class="dot-new"></span>
+        <button class="fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
       </div>
     </article>
 
-    <article class="pcard" onclick="location.href='produit.html?id=4'">
-      <div class="pcard-img">
-        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400" alt="">
-        <div class="pcard-badges">
-          <span class="pcard-badge live">LIVE</span>
-        </div>
-        <button class="pcard-fav"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+    <!-- Carte produit style notification #3 - FLASH -->
+    <article class="notif-card flash" onclick="location.href='produit.html?id=3'">
+      <div class="notif-img">
+        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300" alt="">
+        <span class="notif-badge-tag discount">-32%</span>
       </div>
-      <div class="pcard-body">
-        <div class="pcard-seller"><span class="avatar-mini"></span> Moussa Tech</div>
-        <div class="pcard-name">Écouteurs sans fil Pro</div>
-        <div class="pcard-price-row">
-          <span class="pcard-price">12 000 FCFA</span>
+      <div class="notif-body">
+        <h3 class="notif-title">🔥 Sac cuir africain premium</h3>
+        <div class="notif-seller"><span class="avatar-mini"></span> Aïcha Couture ✓</div>
+        <div class="notif-meta">
+          <i data-lucide="zap" style="width:11px;height:11px;color:#ef4444"></i> Vente FLASH
+          <span class="dot-sep">·</span>
+          <i data-lucide="clock" style="width:11px;height:11px"></i> Expire dans 2h
         </div>
+        <div class="notif-price">15 000 FCFA <span class="old">22 000</span></div>
       </div>
-    </article>
-
-    <article class="pcard" onclick="location.href='produit.html?id=5'">
-      <div class="pcard-img">
-        <img src="https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=400" alt="">
-        <div class="pcard-badges">
-          <span class="pcard-badge local">LOCAL</span>
-        </div>
-        <button class="pcard-fav"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+      <div class="notif-actions">
+        <span class="dot-new"></span>
+        <button class="fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
       </div>
-      <div class="pcard-body">
-        <div class="pcard-seller"><span class="avatar-mini"></span> Beauty Fatou</div>
-        <div class="pcard-name">Perruque brésilienne</div>
-        <div class="pcard-price-row">
-          <span class="pcard-price">55 000 FCFA</span>
-        </div>
+      <div class="notif-actions-row">
+        <button class="notif-btn-primary">
+          <i data-lucide="shopping-cart" style="width:12px;height:12px"></i> Ajouter au panier
+        </button>
+        <button class="notif-btn-secondary">
+          <i data-lucide="eye" style="width:12px;height:12px"></i> Voir détails
+        </button>
       </div>
     </article>
 
-    <article class="pcard" onclick="location.href='produit.html?id=6'">
-      <div class="pcard-img">
-        <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400" alt="">
-        <div class="pcard-badges">
-          <span class="pcard-badge live">LIVE</span>
-          <span class="pcard-badge local">LOCAL</span>
-        </div>
-        <button class="pcard-fav"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+    <!-- Carte produit style notification #4 -->
+    <article class="notif-card live" onclick="location.href='produit.html?id=4'">
+      <div class="notif-img">
+        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300" alt="">
+        <span class="notif-badge-tag live">LIVE</span>
       </div>
-      <div class="pcard-body">
-        <div class="pcard-seller"><span class="avatar-mini"></span> Aïcha Couture</div>
-        <div class="pcard-name">Boubou grand teint</div>
-        <div class="pcard-price-row">
-          <span class="pcard-price">45 000 FCFA</span>
+      <div class="notif-body">
+        <h3 class="notif-title">Écouteurs sans fil Pro Bluetooth</h3>
+        <div class="notif-seller"><span class="avatar-mini"></span> Moussa Tech ✓</div>
+        <div class="notif-meta">
+          <i data-lucide="clock" style="width:11px;height:11px"></i> Il y a 45 min
+          <span class="dot-sep">·</span>
+          <i data-lucide="star" style="width:11px;height:11px;color:#d4a574"></i> 4.8
         </div>
+        <div class="notif-price">12 000 FCFA</div>
+      </div>
+      <div class="notif-actions">
+        <button class="fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+      </div>
+    </article>
+
+    <!-- Carte produit style notification #5 - LOCAL -->
+    <article class="notif-card local" onclick="location.href='produit.html?id=5'">
+      <div class="notif-img">
+        <img src="https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=300" alt="">
+        <span class="notif-badge-tag">LOCAL</span>
+      </div>
+      <div class="notif-body">
+        <h3 class="notif-title">Perruque brésilienne 100% naturelle</h3>
+        <div class="notif-seller"><span class="avatar-mini"></span> Beauty Fatou ✓</div>
+        <div class="notif-meta">
+          <i data-lucide="clock" style="width:11px;height:11px"></i> Il y a 1h
+          <span class="dot-sep">·</span>
+          <i data-lucide="truck" style="width:11px;height:11px"></i> Livraison 24h
+        </div>
+        <div class="notif-price">55 000 FCFA</div>
+      </div>
+      <div class="notif-actions">
+        <button class="fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+      </div>
+    </article>
+
+    <!-- Carte produit style notification #6 -->
+    <article class="notif-card local" onclick="location.href='produit.html?id=6'">
+      <div class="notif-img">
+        <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=300" alt="">
+        <span class="notif-badge-tag">LIVE</span>
+      </div>
+      <div class="notif-body">
+        <h3 class="notif-title">Boubou grand teint traditionnel</h3>
+        <div class="notif-seller"><span class="avatar-mini"></span> Aïcha Couture ✓</div>
+        <div class="notif-meta">
+          <i data-lucide="clock" style="width:11px;height:11px"></i> Il y a 2h
+          <span class="dot-sep">·</span>
+          <i data-lucide="map-pin" style="width:11px;height:11px"></i> Dakar
+        </div>
+        <div class="notif-price">45 000 FCFA</div>
+      </div>
+      <div class="notif-actions">
+        <button class="fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
       </div>
     </article>
 
   </div>
+
+  <!-- ACTIONS BAS style notifications -->
+  <div style="display:flex;gap:10px;padding:16px">
+    <button style="flex:1;background:#f5f5f0;border:1px solid #e5e5e0;padding:12px;border-radius:12px;font-weight:700;color:#4a5a52;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px">
+      <i data-lucide="refresh-cw" style="width:14px;height:14px"></i> Actualiser
+    </button>
+    <button style="flex:1;background:#0f6b4e;color:#fff;border:none;padding:12px;border-radius:12px;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px" onclick="location.href='produits.html'">
+      <i data-lucide="grid-3x3" style="width:14px;height:14px"></i> Voir tout
+    </button>
+  </div>
+
 </main>
 
 <nav class="bottom-nav">
@@ -523,31 +601,19 @@ main{padding-bottom:140px}
   <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
-<!-- Cookies & Promo v47 -->
-<script src="js/cookies-modal.js?v=47" defer></script>
-<script src="js/promo-banner.js?v=47" defer></script>
+<script src="js/cookies-modal.js?v=48" defer></script>
+<script src="js/promo-banner.js?v=48" defer></script>
 
 <script>
 lucide.createIcons();
 
-// Rotation du hero promo
-const heroPromos = [
-  {icon:'🎉',title:'Rentrée SEN TEW',sub:'Jusqu\'à -30% sur mode et tech · Livraison offerte dès 15 000 FCFA',code:'RENTREE26'},
-  {icon:'⚡',title:'Flash Weekend',sub:'-40% sur toute la beauté · 48h seulement',code:'FLASH40'},
-  {icon:'🎁',title:'Bienvenue !',sub:'500 FCFA offerts sur votre 1ère commande',code:'WELCOME500'}
-];
-let heroIdx = 0;
-setInterval(() => {
-  heroIdx = (heroIdx + 1) % heroPromos.length;
-  const p = heroPromos[heroIdx];
-  const hero = document.getElementById('promoHero');
-  if (!hero) return;
-  hero.querySelector('.icon').textContent = p.icon;
-  hero.querySelector('h2').textContent = p.title;
-  hero.querySelector('p').textContent = p.sub;
-  hero.querySelector('.code-badge').textContent = 'CODE : ' + p.code;
-  hero.querySelectorAll('.promo-dots span').forEach((d,i)=>d.classList.toggle('active',i===heroIdx));
-}, 6000);
+// Tabs filter click
+document.querySelectorAll('.tab-filter').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
 </script>
 </body>
 </html>
