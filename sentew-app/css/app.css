@@ -1193,4 +1193,205 @@ main > div.section-head + * {
   bottom: 76px !important;
   z-index: 90 !important;
 }
+/* ============================================
+   🎨 v48 — FIX FONDS VERTS ILLISIBLES
+   26 août 2026 — Textes clairs sans overlay
+   ============================================ */
+
+/* SUPPRIMER TOUS LES FONDS VERTS SUR TITRES ET NOMS */
+.pcard-name,
+.pcard-name span,
+.pcard h3,
+.pcard h4,
+.pcard p,
+.pcard-body *,
+.notif-title,
+.notif-body *,
+.card-fav h3,
+.card-fav .nom,
+.card-fav p,
+.similaire-card h4,
+.similaire-card .body *,
+.suggest-card h4,
+.suggest-card .body *,
+.top-item strong,
+.top-item small,
+.live-item strong,
+.live-item span:not(.live-badge),
+[class*="pcard"] h3,
+[class*="pcard"] h4 {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* NOMS PRODUITS — texte noir sur fond blanc (mode clair) */
+body.light-mode .pcard-name,
+body.light-mode .pcard h3,
+body.light-mode .pcard h4,
+body.light-mode .notif-title,
+body.light-mode .similaire-card h4,
+body.light-mode .suggest-card h4,
+body.light-mode .card-fav .nom {
+  color: #0a1f17 !important;
+  background: transparent !important;
+  padding: 0 !important;
+  font-weight: 700 !important;
+  text-shadow: none !important;
+}
+
+/* NOMS PRODUITS — texte clair sur fond sombre (mode sombre) */
+body.dark-mode .pcard-name,
+body.dark-mode .pcard h3,
+body.dark-mode .pcard h4,
+body.dark-mode .notif-title,
+body.dark-mode .similaire-card h4,
+body.dark-mode .suggest-card h4,
+body.dark-mode .card-fav .nom {
+  color: #f5f5f0 !important;
+  background: transparent !important;
+  padding: 0 !important;
+  font-weight: 700 !important;
+  text-shadow: none !important;
+}
+
+/* NOMS BOUTIQUES LIVE + TOP — sur fond page (pas de bandeau) */
+body.light-mode .live-item strong,
+body.light-mode .top-item strong,
+body.light-mode .top-item small {
+  background: transparent !important;
+  color: #0a1f17 !important;
+  padding: 0 !important;
+}
+body.dark-mode .live-item strong,
+body.dark-mode .top-item strong {
+  background: transparent !important;
+  color: #f5f5f0 !important;
+}
+body.dark-mode .top-item small {
+  color: #a3b8ac !important;
+  background: transparent !important;
+}
+
+/* PRIX — vert émeraude visible, jamais en fond */
+.pcard-price,
+.notif-price,
+.similaire-card .pr,
+.suggest-card .pr,
+.card-fav .prix,
+.card-fav .pcard-price {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #0f6b4e !important;
+  font-weight: 900 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+body.dark-mode .pcard-price,
+body.dark-mode .notif-price,
+body.dark-mode .similaire-card .pr,
+body.dark-mode .suggest-card .pr,
+body.dark-mode .card-fav .prix {
+  color: #c8f0d8 !important;
+  background: transparent !important;
+}
+
+/* PRIX BARRÉ (ancien prix) — gris muted transparent */
+.pcard-old-price,
+.notif-price .old,
+.price-old {
+  background: transparent !important;
+  color: #a3b8ac !important;
+  text-decoration: line-through !important;
+  padding: 0 !important;
+}
+
+/* NOM VENDEUR — or foncé (light) / or clair (dark) */
+.pcard-seller,
+.notif-seller,
+.similaire-card .vd,
+.suggest-card .vd,
+.card-fav .vendeur {
+  background: transparent !important;
+  padding: 0 !important;
+}
+body.light-mode .pcard-seller,
+body.light-mode .notif-seller,
+body.light-mode .similaire-card .vd,
+body.light-mode .suggest-card .vd,
+body.light-mode .card-fav .vendeur {
+  color: #a67c3a !important;
+}
+body.dark-mode .pcard-seller,
+body.dark-mode .notif-seller,
+body.dark-mode .similaire-card .vd,
+body.dark-mode .suggest-card .vd,
+body.dark-mode .card-fav .vendeur {
+  color: #f0c99a !important;
+}
+
+/* CARTES PRODUITS — fond blanc net partout en mode clair */
+body.light-mode .pcard,
+body.light-mode .pcard-body,
+body.light-mode article.pcard,
+body.light-mode .card-fav,
+body.light-mode .similaire-card,
+body.light-mode .similaire-card .body,
+body.light-mode .suggest-card,
+body.light-mode .suggest-card .body {
+  background: #ffffff !important;
+  color: #0a1f17 !important;
+}
+
+/* CARTES PRODUITS — fond sombre net en mode sombre */
+body.dark-mode .pcard,
+body.dark-mode .pcard-body,
+body.dark-mode article.pcard,
+body.dark-mode .card-fav,
+body.dark-mode .similaire-card,
+body.dark-mode .similaire-card .body,
+body.dark-mode .suggest-card,
+body.dark-mode .suggest-card .body {
+  background: #1a2e24 !important;
+  color: #f5f5f0 !important;
+}
+
+/* SUPPRIMER TOUS OVERLAYS VERTS RÉSIDUELS */
+.pcard-body::before,
+.pcard-body::after,
+.pcard-name::before,
+.pcard-name::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* FAVORIS PAGE — cartes propres */
+body.light-mode .card-fav {
+  background: #ffffff !important;
+  border: 1px solid #e5e5e0 !important;
+}
+body.light-mode .card-fav h3,
+body.light-mode .card-fav .nom {
+  background: transparent !important;
+  color: #0a1f17 !important;
+}
+body.light-mode .card-fav .vendeur {
+  background: transparent !important;
+  color: #a67c3a !important;
+}
+body.light-mode .card-fav .prix {
+  background: transparent !important;
+  color: #0f6b4e !important;
+}
+
+/* PRODUITS PAGE (tous les produits) */
+body.light-mode .produits-grid .pcard,
+body.light-mode .products-list .pcard {
+  background: #ffffff !important;
+}
+body.light-mode .produits-grid .pcard-name,
+body.light-mode .products-list .pcard-name {
+  background: transparent !important;
+  color: #0a1f17 !important;
+}
 
