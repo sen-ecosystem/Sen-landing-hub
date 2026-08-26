@@ -1,341 +1,160 @@
 <!DOCTYPE html>
-<html lang="fr"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Espace Livreur - SEN TEW</title>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>🚚 Espace Livreur · SEN TEW</title>
+<meta name="theme-color" content="#0f6b4e">
+<link rel="stylesheet" href="css/app.css?v=46">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/dark-mode.js?v=46" defer></script>
+<script src="js/role-guard.js?v=46" defer></script>
 <style>
-:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a;--b:#1976d2}
-*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif}
-body{background:#f5f5f5;color:#222;padding-bottom:100px;-webkit-overflow-scrolling:touch}
-
-.header{background:linear-gradient(135deg,#ff6b35,#d84315);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:100;box-shadow:0 4px 12px rgba(255,107,53,.25)}
-.hero-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.back{background:rgba(255,255,255,.25);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px}
-.hero-top h1{flex:1;color:#fff;font-size:17px;font-weight:700}
-.badge-actif{background:var(--v);color:#fff;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:700;display:flex;align-items:center;gap:4px;animation:blink 2s infinite}
-@keyframes blink{50%{opacity:.7}}
-.driver-info{display:flex;align-items:center;gap:12px}
-.driver-avatar{width:56px;height:56px;border-radius:50%;background:#fff;color:#ff6b35;display:flex;align-items:center;justify-content:center;font-size:28px;border:3px solid var(--j)}
-.driver-name h2{font-size:16px;font-weight:700;color:#fff}
-.driver-name p{font-size:12px;opacity:.95;color:#fff;margin-top:2px}
-
-.online-toggle{background:#fff;margin:12px 14px;padding:14px;border-radius:14px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.online-toggle .info b{font-size:14px;color:#222;display:block}
-.online-toggle .info span{font-size:12px;color:#666}
-.switch{position:relative;width:60px;height:32px;background:#ddd;border-radius:16px;cursor:pointer;transition:.3s}
-.switch.on{background:var(--v)}
-.switch::after{content:'';position:absolute;top:3px;left:3px;width:26px;height:26px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 2px 4px rgba(0,0,0,.2)}
-.switch.on::after{left:31px}
-
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 14px 14px}
-.stat-mini{background:#fff;padding:12px 6px;border-radius:12px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.stat-mini b{display:block;font-size:16px;font-weight:800}
-.stat-mini.today b{color:var(--v)}
-.stat-mini.rating b{color:var(--j)}
-.stat-mini.dist b{color:var(--b)}
-.stat-mini.gains b{color:var(--o)}
-.stat-mini span{font-size:10px;color:#666;margin-top:2px;display:block}
-
-.notif-alert{background:linear-gradient(90deg,var(--r),#ff6b35);color:#fff;padding:14px;margin:0 14px 14px;border-radius:12px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 12px rgba(227,27,35,.25);animation:notifPulse 2s infinite}
-@keyframes notifPulse{0%,100%{box-shadow:0 4px 12px rgba(227,27,35,.25)}50%{box-shadow:0 4px 20px rgba(227,27,35,.5)}}
-.notif-icon{font-size:28px}
-.notif-body{flex:1}
-.notif-body b{display:block;font-size:14px;color:#fff}
-.notif-body p{font-size:12px;color:#fff;opacity:.95;margin-top:2px}
-.notif-btn{background:#fff;color:var(--r);border:none;padding:8px 14px;border-radius:10px;font-weight:800;font-size:12px;cursor:pointer}
-
-.section{padding:0 14px 14px}
-.section-title{font-size:13px;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;display:flex;justify-content:space-between}
-.section-title a{color:var(--v);font-size:12px;text-decoration:none;font-weight:600}
-
-/* NOUVELLES COMMANDES */
-.delivery-card{background:#fff;padding:14px;border-radius:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-left:4px solid var(--v)}
-.delivery-card.urgent{border-left-color:var(--r);background:linear-gradient(90deg,#ffebee,#fff)}
-.delivery-card.new{border-left-color:var(--j);background:linear-gradient(90deg,#fff9e6,#fff);animation:newPulse 3s infinite}
-@keyframes newPulse{0%,100%{border-left-width:4px}50%{border-left-width:8px}}
-.del-head{display:flex;justify-content:space-between;align-items:start;margin-bottom:10px}
-.del-num{font-size:11px;color:#888;font-weight:700}
-.del-tag{padding:3px 8px;border-radius:6px;font-size:10px;font-weight:800}
-.tag-new{background:var(--j);color:#222}
-.tag-urgent{background:var(--r);color:#fff}
-.tag-progress{background:var(--b);color:#fff}
-
-.del-route{display:flex;gap:12px;margin-bottom:10px}
-.del-point{flex:1;display:flex;gap:8px;align-items:start}
-.point-dot{width:10px;height:10px;border-radius:50%;background:var(--v);margin-top:4px;flex-shrink:0}
-.point-dot.end{background:var(--r)}
-.point-line{position:absolute;left:4px;top:14px;width:2px;height:20px;background:#ddd}
-.point-info{flex:1;min-width:0}
-.point-label{font-size:10px;color:#888;font-weight:700;text-transform:uppercase}
-.point-addr{font-size:13px;color:#222;font-weight:600;margin-top:2px;line-height:1.3}
-.point-name{font-size:11px;color:#666;margin-top:2px}
-
-.del-details{display:flex;justify-content:space-between;padding:10px 0;border-top:1px solid #f0f0f0;border-bottom:1px solid #f0f0f0;margin-bottom:10px}
-.del-detail{text-align:center}
-.del-detail b{display:block;font-size:14px;color:#222;font-weight:700}
-.del-detail span{font-size:10px;color:#888;text-transform:uppercase}
-
-.del-actions{display:flex;gap:8px}
-.btn-accept{flex:1;background:linear-gradient(135deg,var(--v),#008a44);color:#fff;border:none;padding:10px;border-radius:10px;font-weight:800;font-size:13px;cursor:pointer;box-shadow:0 4px 12px rgba(0,166,81,.3)}
-.btn-decline{flex:0 0 40%;background:#fff;border:1px solid #ddd;color:#666;padding:10px;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer}
-.btn-details{width:100%;background:#f5f5f5;border:none;padding:10px;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;color:#222}
-.btn-track{width:100%;background:linear-gradient(135deg,var(--b),#0d47a1);color:#fff;border:none;padding:10px;border-radius:10px;font-weight:800;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
-
-/* QUICK ACTIONS */
-.quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
-.q-btn{background:#fff;border:none;padding:12px 6px;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.05);cursor:pointer;text-align:center}
-.q-icon{font-size:24px;display:block;margin-bottom:4px}
-.q-btn h5{font-size:11px;color:#222;font-weight:600;line-height:1.2}
-
-/* MAP MINI */
-.mini-map{background:linear-gradient(135deg,#e3f2fd,#bbdefb);height:140px;border-radius:14px;position:relative;overflow:hidden;margin-bottom:14px}
-.map-pins{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-around;padding:0 40px}
-.map-pin{font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
-.map-overlay{position:absolute;bottom:10px;left:10px;right:10px;background:rgba(255,255,255,.95);padding:8px 12px;border-radius:10px;display:flex;justify-content:space-between;font-size:12px;color:#222;font-weight:600}
-
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;padding:8px 0;padding-bottom:calc(8px + env(safe-area-inset-bottom,0));z-index:90}
-.nav-item{flex:1;text-align:center;color:#666;font-size:10px;background:none;border:none;cursor:pointer;font-family:inherit}
-.nav-item.active{color:#ff6b35;font-weight:700}
-.nav-icon{font-size:22px;display:block;margin-bottom:2px}
-
-/* DARK MODE */
-html[data-theme="dark"] body{background:#0f1419;color:#e8eaed}
-html[data-theme="dark"] .online-toggle,html[data-theme="dark"] .stat-mini,html[data-theme="dark"] .delivery-card,
-html[data-theme="dark"] .q-btn,html[data-theme="dark"] .bottom-nav{background:#1a2028;color:#e8eaed}
-html[data-theme="dark"] .point-addr,html[data-theme="dark"] .del-detail b,html[data-theme="dark"] .q-btn h5{color:#e8eaed}
-</style></head><body>
-
-<header class="header">
-  <div class="hero-top">
-    <button class="back" onclick="history.back()">←</button>
-    <h1>🛵 Espace Livreur</h1>
-    <span class="badge-actif">🟢 EN LIGNE</span>
-  </div>
-  <div class="driver-info">
-    <div class="driver-avatar">🛵</div>
-    <div class="driver-name">
-      <h2>Ousmane Ndiaye</h2>
-      <p>⭐ 4.9 · 342 livraisons · Zone Dakar</p>
-    </div>
-  </div>
+.liv-hero{background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;padding:20px 16px;border-radius:0 0 24px 24px;margin-bottom:16px}
+.liv-hero .status{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.2);padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:8px}
+.liv-hero .status .dot{width:8px;height:8px;border-radius:50%;background:#c8f0d8;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+.liv-hero h1{font-size:22px;font-weight:900;margin:0 0 4px}
+.liv-hero p{opacity:.85;font-size:13px;margin:0}
+.stats-liv{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 16px 16px}
+.stat-liv{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:10px 8px;text-align:center}
+.stat-liv .num{font-size:20px;font-weight:900;color:var(--text-emerald)}
+.stat-liv .lbl{font-size:11px;color:var(--text-muted);margin-top:2px}
+.actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 16px}
+.action-btn{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;color:var(--text-primary)}
+.action-btn i{width:28px;height:28px;color:#0f6b4e}
+.action-btn strong{font-size:13px;font-weight:700}
+.tournee-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;margin:0 16px 10px;overflow:hidden}
+.tournee-head{padding:12px 14px;background:linear-gradient(135deg,#d4a574,#a67c3a);color:#fff;display:flex;justify-content:space-between;align-items:center}
+.tournee-head strong{font-size:14px;font-weight:800}
+.tournee-head span{font-size:12px;background:rgba(0,0,0,0.15);padding:2px 8px;border-radius:6px}
+.tournee-body{padding:12px 14px}
+.tournee-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.tournee-row:last-child{border-bottom:none}
+.tournee-row .num-badge{width:24px;height:24px;border-radius:50%;background:#c8f0d8;color:#0a4d38;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.tournee-row .content{flex:1;min-width:0}
+.tournee-row .content strong{font-size:13px;color:var(--text-primary);display:block}
+.tournee-row .content small{font-size:12px;color:var(--text-muted)}
+.tournee-row .prix{color:var(--text-emerald);font-weight:800;font-size:13px}
+.btn-scan{width:calc(100% - 32px);margin:8px 16px;background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;padding:14px;border:none;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 24px rgba(15,107,78,0.3)}
+</style>
+</head>
+<body class="light-mode" data-theme="light">
+<header class="topbar">
+  <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="truck" class="icon-vert"></i> Espace Livreur</h1>
+  <button class="btn-theme" data-theme-toggle><i data-lucide="moon"></i></button>
 </header>
 
-<div class="online-toggle">
-  <div class="info">
-    <b>🟢 Statut : En ligne</b>
-    <span>Vous recevez les commandes automatiquement</span>
+<main style="padding-bottom:80px">
+  <!-- HERO -->
+  <section class="liv-hero">
+    <div class="status"><span class="dot"></span> En ligne · Dakar-Plateau</div>
+    <h1>Bonjour Karim 👋</h1>
+    <p>Vous avez 3 tournées prévues aujourd'hui</p>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-liv">
+    <div class="stat-liv"><div class="num">12</div><div class="lbl">Livrées</div></div>
+    <div class="stat-liv"><div class="num">3</div><div class="lbl">En cours</div></div>
+    <div class="stat-liv"><div class="num">18k</div><div class="lbl">FCFA jour</div></div>
+    <div class="stat-liv"><div class="num">4.9</div><div class="lbl">★ Note</div></div>
   </div>
-  <div class="switch on" onclick="toggleOnline(this)"></div>
-</div>
 
-<div class="stats-row">
-  <div class="stat-mini today"><b>7</b><span>Aujourd'hui</span></div>
-  <div class="stat-mini rating"><b>4.9⭐</b><span>Note</span></div>
-  <div class="stat-mini dist"><b>42km</b><span>Distance</span></div>
-  <div class="stat-mini gains"><b>8 500</b><span>Gains F</span></div>
-</div>
-
-<div class="notif-alert" onclick="acceptNew()">
-  <div class="notif-icon">🔔</div>
-  <div class="notif-body">
-    <b>Nouvelle commande !</b>
-    <p>Aïcha Fashion → Sacré-Cœur · 3.2km · 1 000 F</p>
-  </div>
-  <button class="notif-btn">Voir →</button>
-</div>
-
-<div class="section">
-  <div class="section-title">⚡ Actions rapides</div>
-  <div class="quick-grid">
-    <button class="q-btn" onclick="location.href='commandes.html?role=livreur'">
-      <span class="q-icon">📋</span>
-      <h5>Mes livraisons</h5>
+  <!-- ACTIONS RAPIDES -->
+  <div class="actions-grid">
+    <button class="action-btn">
+      <i data-lucide="scan-line"></i>
+      <strong>Scanner colis</strong>
     </button>
-    <button class="q-btn" onclick="location.href='logistique.html'">
-      <span class="q-icon">📊</span>
-      <h5>Logistique</h5>
+    <button class="action-btn">
+      <i data-lucide="map"></i>
+      <strong>GPS Tournée</strong>
     </button>
-    <button class="q-btn" onclick="location.href='portefeuille.html?role=livreur'">
-      <span class="q-icon">💳</span>
-      <h5>Gains</h5>
+    <button class="action-btn">
+      <i data-lucide="qr-code"></i>
+      <strong>Preuve livraison</strong>
     </button>
-    <button class="q-btn" onclick="location.href='messages.html?role=livreur'">
-      <span class="q-icon">💬</span>
-      <h5>Messages</h5>
+    <button class="action-btn">
+      <i data-lucide="wallet"></i>
+      <strong>Mes gains</strong>
     </button>
   </div>
-</div>
 
-<div class="section">
-  <div class="section-title">🗺️ Carte des livraisons</div>
-  <div class="mini-map">
-    <div class="map-pins">
-      <span class="map-pin">📍</span>
-      <span class="map-pin">🛵</span>
-      <span class="map-pin">🏠</span>
-    </div>
-    <div class="map-overlay">
-      <span>🛵 3 en cours</span>
-      <span>📍 Dakar</span>
-      <span style="color:var(--v);font-weight:700">→ Voir</span>
-    </div>
-  </div>
-</div>
+  <!-- BOUTON PRINCIPAL -->
+  <button class="btn-scan">
+    <i data-lucide="play"></i> Démarrer prochaine tournée
+  </button>
 
-<div class="section">
-  <div class="section-title">
-    <span>📦 Commandes à livrer (3)</span>
-    <a href="commandes.html?role=livreur">Tout voir →</a>
-  </div>
+  <!-- TOURNÉES DU JOUR -->
+  <h2 class="section-title"><i data-lucide="calendar" class="icon-or"></i> Tournées d'aujourd'hui</h2>
 
-  <div class="delivery-card new">
-    <div class="del-head">
-      <div>
-        <div class="del-num">#ST-2026-08-1247</div>
-        <div style="font-size:11px;color:var(--v);margin-top:2px">🏪 Aïcha Fashion</div>
-      </div>
-      <span class="del-tag tag-new">NOUVEAU</span>
+  <div class="tournee-card">
+    <div class="tournee-head">
+      <strong><i data-lucide="package" class="icon-sm"></i> Tournée #T-042</strong>
+      <span>3 colis · 12 km</span>
     </div>
-    <div class="del-route">
-      <div class="del-point" style="position:relative">
-        <div class="point-dot"></div>
-        <div class="point-info">
-          <div class="point-label">📦 Récupérer</div>
-          <div class="point-addr">Aïcha Fashion, Almadies</div>
-          <div class="point-name">📞 Aïcha · +221 77 XXX XX 45</div>
+    <div class="tournee-body">
+      <div class="tournee-row">
+        <div class="num-badge">1</div>
+        <div class="content">
+          <strong>#ST24071 · Robe wax premium</strong>
+          <small><i data-lucide="map-pin" class="icon-sm"></i> Sacré-Cœur · Awa Diop</small>
         </div>
+        <div class="prix">1 500</div>
       </div>
-    </div>
-    <div class="del-route">
-      <div class="del-point" style="position:relative">
-        <div class="point-dot end"></div>
-        <div class="point-info">
-          <div class="point-label">🏠 Livrer à</div>
-          <div class="point-addr">Sacré-Cœur 3, Villa 245</div>
-          <div class="point-name">📞 Awa D. · +221 77 XXX XX 12</div>
+      <div class="tournee-row">
+        <div class="num-badge">2</div>
+        <div class="content">
+          <strong>#ST24072 · iPhone 15 Pro</strong>
+          <small><i data-lucide="map-pin" class="icon-sm"></i> Plateau · Moussa Fall</small>
         </div>
+        <div class="prix">2 000</div>
       </div>
-    </div>
-    <div class="del-details">
-      <div class="del-detail"><b>3.2 km</b><span>Distance</span></div>
-      <div class="del-detail"><b>~15 min</b><span>Trajet</span></div>
-      <div class="del-detail"><b>1 000 F</b><span>Gain</span></div>
-    </div>
-    <div class="del-actions">
-      <button class="btn-decline" onclick="declineDel(1)">❌ Refuser</button>
-      <button class="btn-accept" onclick="acceptDel(1)">✅ Accepter</button>
+      <div class="tournee-row">
+        <div class="num-badge">3</div>
+        <div class="content">
+          <strong>#ST24073 · Sandales cuir</strong>
+          <small><i data-lucide="map-pin" class="icon-sm"></i> Mermoz · Fatou Ndiaye</small>
+        </div>
+        <div class="prix">1 200</div>
+      </div>
     </div>
   </div>
 
-  <div class="delivery-card">
-    <div class="del-head">
-      <div>
-        <div class="del-num">#ST-2026-08-1248</div>
-        <div style="font-size:11px;color:var(--v);margin-top:2px">🏪 Tech Modou</div>
-      </div>
-      <span class="del-tag tag-progress">EN COURS</span>
+  <div class="tournee-card">
+    <div class="tournee-head" style="background:linear-gradient(135deg,#0f6b4e,#0a4d38)">
+      <strong><i data-lucide="check-circle" class="icon-sm"></i> Tournée #T-041</strong>
+      <span>4 colis · Terminée ✓</span>
     </div>
-    <div class="del-route">
-      <div class="del-point"><div class="point-dot"></div>
-        <div class="point-info">
-          <div class="point-label">📦 Récupéré ✓</div>
-          <div class="point-addr">Tech Modou, Plateau</div>
+    <div class="tournee-body">
+      <div class="tournee-row">
+        <div class="num-badge" style="background:#c8f0d8;color:#0a4d38">✓</div>
+        <div class="content">
+          <strong>4 livraisons effectuées</strong>
+          <small>Ce matin · 08h00 – 10h30</small>
         </div>
+        <div class="prix">6 800</div>
       </div>
     </div>
-    <div class="del-route">
-      <div class="del-point"><div class="point-dot end"></div>
-        <div class="point-info">
-          <div class="point-label">🏠 Vers</div>
-          <div class="point-addr">Yoff, Route de l'Aéroport</div>
-          <div class="point-name">📞 Ibrahima S.</div>
-        </div>
-      </div>
-    </div>
-    <div class="del-details">
-      <div class="del-detail"><b>8.5 km</b><span>Distance</span></div>
-      <div class="del-detail"><b>~25 min</b><span>Reste</span></div>
-      <div class="del-detail"><b>1 500 F</b><span>Gain</span></div>
-    </div>
-    <button class="btn-track" onclick="trackDel(2)">🗺️ Suivre GPS en direct</button>
   </div>
 
-  <div class="delivery-card urgent">
-    <div class="del-head">
-      <div>
-        <div class="del-num">#ST-2026-08-1246</div>
-        <div style="font-size:11px;color:var(--v);margin-top:2px">🏪 Beauty Fatou</div>
-      </div>
-      <span class="del-tag tag-urgent">⚡ URGENT</span>
-    </div>
-    <div class="del-route">
-      <div class="del-point"><div class="point-dot"></div>
-        <div class="point-info">
-          <div class="point-label">📦 Récupérer</div>
-          <div class="point-addr">Beauty Fatou, Point E</div>
-        </div>
-      </div>
-    </div>
-    <div class="del-route">
-      <div class="del-point"><div class="point-dot end"></div>
-        <div class="point-info">
-          <div class="point-label">🏠 Livrer à</div>
-          <div class="point-addr">Mermoz, Route Ouakam</div>
-          <div class="point-name">📞 Fatou M. · Client Premium ⭐</div>
-        </div>
-      </div>
-    </div>
-    <div class="del-details">
-      <div class="del-detail"><b>4.8 km</b><span>Distance</span></div>
-      <div class="del-detail"><b>~18 min</b><span>Trajet</span></div>
-      <div class="del-detail" style="color:var(--r)"><b>1 200 F</b><span>+Bonus</span></div>
-    </div>
-    <div class="del-actions">
-      <button class="btn-decline" onclick="declineDel(3)">❌ Refuser</button>
-      <button class="btn-accept" onclick="acceptDel(3)">⚡ Accepter</button>
-    </div>
+  <!-- CONSIGNES -->
+  <h2 class="section-title"><i data-lucide="info" class="icon-or"></i> Consignes SEN TEW</h2>
+  <div style="padding:14px 16px;background:#fef3c7;border-radius:12px;margin:0 16px;font-size:13px;color:#92400e;line-height:1.5">
+    <strong>💡 Rappel important :</strong> Vérifiez toujours le contenu du colis avant remise. Prenez une photo à la livraison. Fonds débloqués sous 24h après confirmation client.
   </div>
-</div>
+</main>
 
 <nav class="bottom-nav">
-  <button class="nav-item active"><span class="nav-icon">🛵</span>Accueil</button>
-  <button class="nav-item" onclick="location.href='commandes.html?role=livreur'"><span class="nav-icon">📦</span>Livraisons</button>
-  <button class="nav-item" onclick="location.href='logistique.html'"><span class="nav-icon">🗺️</span>Carte</button>
-  <button class="nav-item" onclick="location.href='portefeuille.html?role=livreur'"><span class="nav-icon">💳</span>Gains</button>
-  <button class="nav-item" onclick="location.href='profil.html?role=livreur'"><span class="nav-icon">👤</span>Profil</button>
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="livreur.html" class="active"><i data-lucide="truck"></i><span>Tournées</span></a>
+  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
+  <a href="portefeuille.html"><i data-lucide="wallet"></i><span>Gains</span></a>
+  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
-<script src="js/dark-mode.js"></script>
-<script>
-function toggleOnline(sw){
-  sw.classList.toggle('on');
-  const on = sw.classList.contains('on');
-  document.querySelector('.badge-actif').textContent = on ? '🟢 EN LIGNE' : '🔴 HORS LIGNE';
-  document.querySelector('.badge-actif').style.background = on ? '#00a651' : '#999';
-  alert(on ? '✅ Vous êtes en ligne. Nouvelles commandes activées.' : '⏸️ Vous êtes hors ligne. Pas de nouvelles commandes.');
-}
-function acceptDel(id){
-  if(confirm('✅ Accepter cette livraison ?\n\nGPS activé + notification envoyée au client')){
-    alert('🚀 Livraison acceptée !\n\n📍 Direction récupération...\n📱 Client notifié en temps réel\n🗺️ GPS tracking activé');
-    location.href='logistique.html?order='+id;
-  }
-}
-function declineDel(id){
-  if(confirm('❌ Refuser cette livraison ?')){
-    alert('La commande est envoyée au livreur suivant');
-  }
-}
-function trackDel(id){
-  location.href='logistique.html?track='+id;
-}
-function acceptNew(){
-  alert('🔔 Nouvelle commande #1247\n\n📦 Aïcha Fashion → Sacré-Cœur\n🛵 3.2 km · 15 min · 1 000 FCFA');
-}
-
-// Notif push simulée
-setTimeout(()=>{
-  if('Notification' in window && Notification.permission==='default'){
-    Notification.requestPermission();
-  }
-},3000);
-</script>
-</body></html>
+<script>lucide.createIcons();</script>
+</body>
+</html>
