@@ -3,29 +3,8 @@
 // 26 août 2026 — Force invalidation cache refonte contrastes
 // Nettoie tous les anciens caches (v42, v43, v44, v45)
 // ================================================================
-
-const CORE_ASSETS = [
-  '/sentew-app/',
-  '/sentew-app/index.html',
-  '/sentew-app/css/app.css?v=47',
-  '/sentew-app/js/dark-mode.js?v=47',
-  '/sentew-app/js/role-guard.js?v=47',
-  '/sentew-app/js/cookies-modal.js?v=47',
-  '/sentew-app/js/promo-banner.js?v=47',
-  '/sentew-app/manifest.json'
-];
-
-
-// Fichiers critiques à mettre en cache
-const CORE_ASSETS = [
-  '/sentew-app/',
-  '/sentew-app/index.html',
-  '/sentew-app/css/app.css?v=46',
-  '/sentew-app/js/dark-mode.js?v=46',
-  '/sentew-app/js/role-guard.js?v=46',
-  '/sentew-app/manifest.json'
-];
-
+const CACHE_VERSION = 'sentew-v48-2026-08-26-cards-notif';
+const RUNTIME_CACHE = 'sentew-runtime-v48';
 // ================================================================
 // INSTALL — Pré-cache des assets critiques
 // ================================================================
