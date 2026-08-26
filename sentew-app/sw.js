@@ -4,8 +4,17 @@
 // Nettoie tous les anciens caches (v42, v43, v44, v45)
 // ================================================================
 
-const CACHE_VERSION = 'sentew-v46-2026-08-26-contrastes';
-const RUNTIME_CACHE = 'sentew-runtime-v46';
+const CORE_ASSETS = [
+  '/sentew-app/',
+  '/sentew-app/index.html',
+  '/sentew-app/css/app.css?v=47',
+  '/sentew-app/js/dark-mode.js?v=47',
+  '/sentew-app/js/role-guard.js?v=47',
+  '/sentew-app/js/cookies-modal.js?v=47',
+  '/sentew-app/js/promo-banner.js?v=47',
+  '/sentew-app/manifest.json'
+];
+
 
 // Fichiers critiques à mettre en cache
 const CORE_ASSETS = [
