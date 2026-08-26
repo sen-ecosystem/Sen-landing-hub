@@ -1075,4 +1075,122 @@ body.dark-mode h2 {
 }
 
 /* ========== 15. FIN v46 ========== */
+/* ============================================
+   🎨 v47 — Fix cartes produits mode clair
+   Couvre émeraude + or unifié toutes pages
+   26 août 2026
+   ============================================ */
+
+/* Force fond blanc pour toutes les cartes en mode clair */
+body.light-mode .pcard,
+body.light-mode article.pcard,
+body.light-mode .product-card,
+body.light-mode [class*="pcard"]:not(.pcard-img):not(.pcard-badge):not(.pcard-body):not(.pcard-seller):not(.pcard-name):not(.pcard-price):not(.pcard-price-row):not(.pcard-old-price):not(.pcard-fav):not(.pcard-badges) {
+  background: #ffffff !important;
+  color: #0a1f17 !important;
+  border: 1px solid #e5e5e0 !important;
+}
+
+body.light-mode .pcard-name,
+body.light-mode .pcard h3,
+body.light-mode .pcard h4 {
+  color: #0a1f17 !important;
+  font-weight: 700 !important;
+}
+
+body.light-mode .pcard-seller {
+  color: #a67c3a !important;
+  font-weight: 600 !important;
+}
+
+body.light-mode .pcard-price {
+  color: #0f6b4e !important;
+  font-weight: 900 !important;
+}
+
+body.light-mode .pcard-body {
+  background: #ffffff !important;
+}
+
+/* Trend grid & catégories : fond page clair */
+body.light-mode .trend-grid,
+body.light-mode .cats-grid,
+body.light-mode .live-scroll,
+body.light-mode .top-scroll {
+  background: transparent !important;
+}
+
+/* Bandeau émeraude + or PARTOUT (hero) */
+.hero-emerald-gold {
+  background: linear-gradient(135deg, #0f6b4e 0%, #0a4d38 55%, #d4a574 130%) !important;
+  color: #ffffff !important;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 12px 32px rgba(15, 107, 78, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+.hero-emerald-gold * { color: #ffffff !important; }
+.hero-emerald-gold::before {
+  content: '';
+  position: absolute;
+  right: -20px; top: -20px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+}
+.hero-emerald-gold::after {
+  content: '';
+  position: absolute;
+  left: -40px; bottom: -40px;
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  background: rgba(212, 165, 116, 0.15);
+}
+
+/* Cartes produits dark-mode renforcé */
+body.dark-mode .pcard {
+  background: #1a2e24 !important;
+  border-color: #2a4438 !important;
+}
+body.dark-mode .pcard-body {
+  background: #1a2e24 !important;
+}
+body.dark-mode .pcard-name {
+  color: #f5f5f0 !important;
+}
+body.dark-mode .pcard-seller {
+  color: #f0c99a !important;
+}
+body.dark-mode .pcard-price {
+  color: #c8f0d8 !important;
+}
+
+/* Section-head cohérent */
+body.light-mode .section-head h2 {
+  color: #0f6b4e !important;
+  font-weight: 800 !important;
+}
+body.dark-mode .section-head h2 {
+  color: #c8f0d8 !important;
+}
+body.light-mode .section-head .see-all {
+  color: #a67c3a !important;
+}
+body.dark-mode .section-head .see-all {
+  color: #f0c99a !important;
+}
+
+/* Espacement uniforme entre sections (fin du désordre) */
+main > section,
+main > div.section-head + * {
+  margin-bottom: 4px;
+}
+.section-head { margin-top: 8px; }
+
+/* Bannière promo bottom : positionnée correctement */
+#sentew-promo-banner {
+  bottom: 76px !important;
+  z-index: 90 !important;
+}
 
