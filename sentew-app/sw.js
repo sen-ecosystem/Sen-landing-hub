@@ -3,8 +3,8 @@
 // 26 août 2026 — Force invalidation cache refonte contrastes
 // Nettoie tous les anciens caches (v42, v43, v44, v45)
 // ================================================================
-const CACHE_VERSION = 'sentew-v48-2026-08-26-cards-notif';
-const RUNTIME_CACHE = 'sentew-runtime-v48';
+const CACHE_VERSION = 'sentew-v49-2026-08-26-no-green-bg';
+const RUNTIME_CACHE = 'sentew-runtime-v49';
 // ================================================================
 // INSTALL — Pré-cache des assets critiques
 // ================================================================
