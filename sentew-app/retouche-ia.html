@@ -1,578 +1,81 @@
 <!DOCTYPE html>
-<html lang="fr"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Retouche IA - SEN TEW</title>
+<link rel="stylesheet" href="css/app.css?v=52">
+<script src="https://unpkg.com/lucide@latest"></script>
 <style>
-:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a;--b:#1976d2;--p:#9c27b0}
-*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,'Segoe UI',sans-serif}
-body{background:#f5f5f5;color:#222;padding-bottom:100px;-webkit-overflow-scrolling:touch}
+  body{background:#f5f5f0;margin:0;font-family:-apple-system,sans-serif;padding-bottom:80px;}
+  .topbar{background:linear-gradient(135deg,#6b46c1,#4c1d95);color:#fff;padding:16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10;}
+  .topbar h1{margin:0;font-size:18px;color:#fff;flex:1;display:flex;align-items:center;gap:8px;}
+  .icon-btn{background:rgba(255,255,255,0.2);border:none;cursor:pointer;padding:8px;border-radius:8px;color:#fff;}
+  .hero{background:linear-gradient(135deg,#6b46c1,#4c1d95);color:#fff;padding:24px 16px;text-align:center;}
+  .hero i{width:56px;height:56px;color:#fff;margin-bottom:12px;}
+  .hero h2{color:#fff;margin:0;font-size:22px;text-shadow:0 2px 4px rgba(0,0,0,0.2);}
+  .hero p{color:rgba(255,255,255,0.95);margin:6px 0 0;font-size:13px;}
+  .upload{background:#fff;margin:16px;padding:32px 16px;border-radius:12px;border:2px dashed #6b46c1;text-align:center;cursor:pointer;}
+  .upload i{width:48px;height:48px;color:#6b46c1;margin-bottom:12px;}
+  .upload h3{color:#1a1a1a;margin:0;font-size:16px;}
+  .upload p{color:#666;font-size:13px;margin:6px 0 0;}
+  .features{background:#fff;margin:0 16px 16px;padding:20px;border-radius:12px;}
+  .features h3{color:#0f6b4e;margin:0 0 14px;font-size:15px;}
+  .feat{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0f0;}
+  .feat:last-child{border-bottom:none;}
+  .feat i{width:24px;height:24px;color:#6b46c1;flex-shrink:0;}
+  .feat .txt{flex:1;font-size:14px;color:#1a1a1a;font-weight:500;}
+  .feat .price{background:#dcfce7;color:#065f46;padding:2px 8px;border-radius:8px;font-size:11px;font-weight:700;}
+  .cta{background:linear-gradient(135deg,#6b46c1,#4c1d95);color:#fff;padding:16px;border-radius:12px;margin:0 16px 16px;text-align:center;text-decoration:none;display:block;font-weight:700;box-shadow:0 4px 12px rgba(107,70,193,0.3);}
+  .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0;border-top:1px solid #e5e7eb;}
+  .bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#666;font-size:11px;padding:4px 8px;}
+  .bottom-nav a i{width:22px;height:22px;}
+</style>
+</head>
+<body class="light-mode">
 
-/* HEADER */
-.header{background:linear-gradient(135deg,var(--p),#6a1b9a);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:100;box-shadow:0 4px 12px rgba(156,39,176,.25)}
-.header-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-.back{background:rgba(255,255,255,.25);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer}
-.header-top h1{color:#fff;font-size:17px;flex:1;font-weight:700;display:flex;align-items:center;gap:6px}
-.pro-badge{background:linear-gradient(135deg,var(--j),#f4b800);color:#222;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:800;letter-spacing:.5px}
-.credits{background:rgba(255,255,255,.2);padding:6px 12px;border-radius:20px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px}
-
-/* BANNIÈRE NANO BANANA */
-.nano-banner{background:linear-gradient(135deg,#fff9e6,#fff);margin:14px;padding:14px;border-radius:16px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 16px rgba(252,209,22,.15);border:2px solid var(--j)}
-.nano-logo{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--j),#f4b800);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
-.nano-info{flex:1}
-.nano-info h4{font-size:14px;font-weight:800;color:#222}
-.nano-info p{font-size:11px;color:#666;margin-top:2px}
-.nano-info .tech{color:var(--p);font-weight:700;font-size:11px}
-
-/* UPLOAD ZONE */
-.upload-zone{background:#fff;margin:0 14px 14px;border-radius:20px;padding:24px;text-align:center;border:3px dashed var(--p);cursor:pointer;transition:.2s}
-.upload-zone:hover{background:#f9f5ff;border-color:#6a1b9a}
-.upload-icon{font-size:64px;margin-bottom:12px;color:var(--p)}
-.upload-zone h3{color:#222;font-size:18px;font-weight:800;margin-bottom:6px}
-.upload-zone p{color:#666;font-size:12px;margin-bottom:16px}
-.upload-buttons{display:flex;gap:8px;justify-content:center}
-.upload-btn{background:linear-gradient(135deg,var(--p),#6a1b9a);color:#fff;border:none;padding:10px 20px;border-radius:12px;font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px}
-.upload-btn.cam{background:linear-gradient(135deg,var(--b),#0d47a1)}
-
-/* AVANT / APRÈS */
-.preview-zone{background:#000;margin:0 14px 14px;border-radius:16px;overflow:hidden;display:none;position:relative}
-.preview-zone.show{display:block}
-.preview-labels{display:flex;background:rgba(0,0,0,.7);color:#fff;padding:8px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
-.preview-labels .before{flex:1;text-align:center;color:#999}
-.preview-labels .after{flex:1;text-align:center;color:var(--j)}
-.preview-images{display:grid;grid-template-columns:1fr 1fr;position:relative}
-.preview-images img{width:100%;aspect-ratio:1;object-fit:cover;background:#333}
-.preview-images .divider{position:absolute;top:0;bottom:0;left:50%;width:3px;background:var(--j);transform:translateX(-50%);pointer-events:none;box-shadow:0 0 12px rgba(252,209,22,.6)}
-.preview-images .divider::after{content:'↔';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--j);color:#222;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;box-shadow:0 4px 12px rgba(252,209,22,.5)}
-
-/* MODES DE RETOUCHE */
-.section{padding:0 14px;margin-bottom:16px}
-.section-title{font-size:12px;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
-.modes-scroll{display:flex;gap:10px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px}
-.modes-scroll::-webkit-scrollbar{display:none}
-.mode-item{flex:0 0 110px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);cursor:pointer;transition:.2s;border:2px solid transparent}
-.mode-item.active{border-color:var(--p);box-shadow:0 4px 16px rgba(156,39,176,.2)}
-.mode-preview{width:100%;height:90px;display:flex;align-items:center;justify-content:center;font-size:44px}
-.mode-portrait{background:linear-gradient(135deg,#ffcdd2,#ef9a9a)}
-.mode-product{background:linear-gradient(135deg,#c8e6c9,#81c784)}
-.mode-african{background:linear-gradient(135deg,#ffe0b2,#ffb74d)}
-.mode-bg{background:linear-gradient(135deg,#bbdefb,#64b5f6)}
-.mode-hd{background:linear-gradient(135deg,#e1bee7,#ba68c8)}
-.mode-color{background:linear-gradient(135deg,#fff59d,#fdd835)}
-.mode-restore{background:linear-gradient(135deg,#b2dfdb,#4db6ac)}
-.mode-body{padding:8px}
-.mode-body h5{font-size:12px;font-weight:800;color:#222;margin-bottom:2px}
-.mode-body p{font-size:10px;color:#666;line-height:1.3}
-
-/* AJUSTEMENTS */
-.adjustments{background:#fff;padding:14px;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.adj-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.adj-row:last-child{margin-bottom:0}
-.adj-icon{font-size:20px;width:32px;flex-shrink:0}
-.adj-label{flex:1;font-size:13px;font-weight:600;color:#222}
-.adj-value{font-size:12px;color:var(--p);font-weight:800;min-width:36px;text-align:right}
-.adj-slider{width:100%;-webkit-appearance:none;appearance:none;height:6px;background:linear-gradient(90deg,var(--p),#e1bee7);border-radius:3px;outline:none}
-.adj-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;background:#fff;border:3px solid var(--p);border-radius:50%;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.15)}
-.adj-slider::-moz-range-thumb{width:22px;height:22px;background:#fff;border:3px solid var(--p);border-radius:50%;cursor:pointer}
-
-/* FILTRES AFRICAINS */
-.filters-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.filter-card{background:#fff;padding:8px;border-radius:12px;text-align:center;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.05);transition:.2s;border:2px solid transparent}
-.filter-card.active{border-color:var(--v)}
-.filter-preview{width:100%;aspect-ratio:1;border-radius:10px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff}
-.f-original{background:linear-gradient(135deg,#9e9e9e,#616161)}
-.f-wax{background:linear-gradient(135deg,#ff6f00,#e91e63)}
-.f-saharan{background:linear-gradient(135deg,#ffd54f,#ff8f00)}
-.f-teranga{background:linear-gradient(135deg,#00a651,#008a44)}
-.f-baobab{background:linear-gradient(135deg,#8d6e63,#4e342e)}
-.f-dakar{background:linear-gradient(135deg,#42a5f5,#0d47a1)}
-.f-sahel{background:linear-gradient(135deg,#ff6b35,#d84315)}
-.f-noir{background:linear-gradient(135deg,#212121,#000)}
-.filter-card h6{font-size:10px;font-weight:700;color:#222}
-
-/* PROCESSING OVERLAY */
-.processing{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:998;display:none;flex-direction:column;align-items:center;justify-content:center;color:#fff;padding:20px;backdrop-filter:blur(10px)}
-.processing.show{display:flex}
-.proc-banana{font-size:80px;animation:bananaSpin 2s linear infinite}
-@keyframes bananaSpin{from{transform:rotate(0deg) scale(1)}50%{transform:rotate(180deg) scale(1.2)}to{transform:rotate(360deg) scale(1)}}
-.proc-title{font-size:22px;font-weight:800;margin:16px 0 6px;background:linear-gradient(135deg,var(--j),#f4b800);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.proc-step{font-size:13px;opacity:.8;margin-bottom:20px}
-.proc-progress{width:280px;height:6px;background:rgba(255,255,255,.15);border-radius:3px;overflow:hidden}
-.proc-fill{height:100%;background:linear-gradient(90deg,var(--j),#f4b800);width:0;animation:fillUp 3s ease-out forwards}
-@keyframes fillUp{to{width:100%}}
-.proc-hint{margin-top:16px;font-size:11px;opacity:.6;text-align:center;max-width:280px}
-
-/* ACTIONS FINALES */
-.final-actions{background:#fff;margin:0 14px 14px;padding:14px;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,.05);display:none}
-.final-actions.show{display:block}
-.final-title{font-size:13px;font-weight:800;color:#222;margin-bottom:10px;text-align:center}
-.action-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.fa-btn{padding:12px 4px;border-radius:12px;font-weight:700;font-size:11px;cursor:pointer;border:none;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px}
-.fa-btn .icon{font-size:20px}
-.fa-download{background:linear-gradient(135deg,var(--v),#008a44);color:#fff}
-.fa-share{background:linear-gradient(135deg,var(--b),#0d47a1);color:#fff}
-.fa-post{background:linear-gradient(135deg,var(--o),#d4a04c);color:#fff}
-.fa-redo{background:linear-gradient(135deg,#666,#333);color:#fff}
-.gold-btn{background:linear-gradient(135deg,var(--v),#008a44);color:#fff;border:none;padding:16px;border-radius:14px;font-weight:800;font-size:15px;cursor:pointer;width:100%;box-shadow:0 4px 16px rgba(0,166,81,.3);display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px}
-
-/* PLAN GATE (Gold/Platinum only) */
-.plan-gate{background:linear-gradient(135deg,#fff9e6,#ffefc2);margin:14px;padding:20px;border-radius:16px;text-align:center;border:2px solid var(--j);display:none}
-.plan-gate.show{display:block}
-.gate-icon{font-size:64px;margin-bottom:12px}
-.gate-title{font-size:20px;font-weight:900;color:var(--o);margin-bottom:6px}
-.gate-desc{font-size:13px;color:#333;margin-bottom:16px;line-height:1.5}
-.gate-features{background:#fff;padding:14px;border-radius:12px;margin-bottom:14px;text-align:left}
-.gate-features li{padding:6px 0;font-size:13px;color:#222;display:flex;align-items:center;gap:8px}
-.gate-features li::before{content:'✓';color:var(--v);font-weight:900;background:#e8f5ee;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.upgrade-btn{background:linear-gradient(135deg,var(--j),#f4b800);color:#222;border:none;padding:14px 28px;border-radius:12px;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 6px 20px rgba(252,209,22,.4)}
-
-/* HISTORY */
-.history-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.hist-item{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);cursor:pointer;position:relative}
-.hist-item .img{width:100%;aspect-ratio:1;background:linear-gradient(135deg,#eee,#ddd);display:flex;align-items:center;justify-content:center;font-size:32px}
-.hist-item .date{padding:4px;font-size:10px;color:#666;text-align:center;background:#fff}
-.hist-badge{position:absolute;top:4px;right:4px;background:var(--p);color:#fff;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:700}
-
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;padding:8px 0;padding-bottom:calc(8px + env(safe-area-inset-bottom,0));z-index:90;height:60px}
-.nav-item{flex:1;text-align:center;color:#666;font-size:10px;background:none;border:none;cursor:pointer;font-family:inherit}
-.nav-item.active{color:var(--p);font-weight:700}
-.nav-icon{font-size:22px;display:block;margin-bottom:2px}
-
-/* DARK MODE */
-html[data-theme="dark"] body{background:#0f1419;color:#e8eaed}
-html[data-theme="dark"] .upload-zone,html[data-theme="dark"] .mode-item,html[data-theme="dark"] .adjustments,
-html[data-theme="dark"] .filter-card,html[data-theme="dark"] .final-actions,html[data-theme="dark"] .hist-item .date,
-html[data-theme="dark"] .bottom-nav{background:#1a2028;color:#e8eaed}
-html[data-theme="dark"] .mode-body h5,html[data-theme="dark"] .adj-label,html[data-theme="dark"] .filter-card h6{color:#e8eaed}
-html[data-theme="dark"] .nano-banner{background:linear-gradient(135deg,#2d2410,#1a2028)}
-</style></head><body>
-
-<header class="header">
-  <div class="header-top">
-    <button class="back" onclick="history.back()">←</button>
-    <h1>✨ Retouche IA <span class="pro-badge">👑 GOLD</span></h1>
-    <div class="credits" id="creditsBox">🎨 <span id="credits">15</span></div>
-  </div>
+<header class="topbar">
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="sparkles"></i> Retouche IA</h1>
 </header>
 
-<!-- BANNIÈRE NANO BANANA -->
-<div class="nano-banner">
-  <div class="nano-logo">🍌</div>
-  <div class="nano-info">
-    <h4>Powered by <span class="tech">Nano Banana AI</span></h4>
-    <p>IA la plus performante pour la photo africaine · Google Gemini</p>
-  </div>
+<div class="hero">
+  <i data-lucide="wand-2"></i>
+  <h2>Retouche IA Produits</h2>
+  <p>Améliorez vos photos automatiquement ✨</p>
 </div>
 
-<!-- PLAN GATE (affiché si pas Gold) -->
-<div class="plan-gate" id="planGate">
-  <div class="gate-icon">👑</div>
-  <div class="gate-title">Fonctionnalité Premium</div>
-  <div class="gate-desc">La retouche IA Nano Banana est réservée aux vendeurs <b>SEN Verified Gold/Platinum</b>.</div>
-  <div class="gate-features">
-    <ul style="list-style:none;padding:0">
-      <li>Retouche portrait automatique</li>
-      <li>Amélioration produits e-commerce</li>
-      <li>15 crédits IA/mois (Gold)</li>
-      <li>50 crédits IA/mois (Platinum)</li>
-      <li>Filtres africains exclusifs</li>
-      <li>Export HD 4K sans watermark</li>
-    </ul>
-  </div>
-  <button class="upgrade-btn" onclick="location.href='verified.html'">👑 Passer à Gold (15 000 F/mois)</button>
+<div class="upload" onclick="pickImage()">
+  <i data-lucide="upload-cloud"></i>
+  <h3>Uploader une photo produit</h3>
+  <p>JPG, PNG · Max 10 MB</p>
 </div>
 
-<!-- ZONE DE TRAVAIL -->
-<div id="workZone">
-  <!-- UPLOAD -->
-  <div class="upload-zone" id="uploadZone" onclick="pickPhoto()">
-    <div class="upload-icon">📸</div>
-    <h3>Améliorer une photo</h3>
-    <p>SEN TEW IA analyse & retouche automatiquement</p>
-    <div class="upload-buttons">
-      <button class="upload-btn cam" onclick="event.stopPropagation();takeCam()">📷 Caméra</button>
-      <button class="upload-btn" onclick="event.stopPropagation();pickPhoto()">🖼️ Galerie</button>
-    </div>
-  </div>
-
-  <!-- APERÇU AVANT/APRÈS -->
-  <div class="preview-zone" id="previewZone">
-    <div class="preview-labels">
-      <div class="before">◀ AVANT</div>
-      <div class="after">APRÈS ✨</div>
-    </div>
-    <div class="preview-images">
-      <img id="beforeImg" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400" alt="Avant">
-      <img id="afterImg" src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400" alt="Après">
-      <div class="divider"></div>
-    </div>
-  </div>
-
-  <!-- MODES DE RETOUCHE -->
-  <div class="section">
-    <div class="section-title">🎨 Modes de retouche</div>
-    <div class="modes-scroll">
-      <div class="mode-item active" onclick="pickMode(this,'portrait')">
-        <div class="mode-preview mode-portrait">👤</div>
-        <div class="mode-body">
-          <h5>Portrait</h5>
-          <p>Peau, éclairage, netteté</p>
-        </div>
-      </div>
-      <div class="mode-item" onclick="pickMode(this,'product')">
-        <div class="mode-preview mode-product">🛍️</div>
-        <div class="mode-body">
-          <h5>Produit</h5>
-          <p>Fond blanc, ombre pro</p>
-        </div>
-      </div>
-      <div class="mode-item" onclick="pickMode(this,'african')">
-        <div class="mode-preview mode-african">🌍</div>
-        <div class="mode-body">
-          <h5>Style Africain</h5>
-          <p>Couleurs wax vives</p>
-        </div>
-      </div>
-      <div class="mode-item" onclick="pickMode(this,'bg')">
-        <div class="mode-preview mode-bg">🖼️</div>
-        <div class="mode-body">
-          <h5>Fond</h5>
-          <p>Suppression / remplacement</p>
-        </div>
-      </div>
-      <div class="mode-item" onclick="pickMode(this,'hd')">
-        <div class="mode-preview mode-hd">📐</div>
-        <div class="mode-body">
-          <h5>HD 4K</h5>
-          <p>Upscale ×4 sans perte</p>
-        </div>
-      </div>
-      <div class="mode-item" onclick="pickMode(this,'color')">
-        <div class="mode-preview mode-color">🎨</div>
-        <div class="mode-body">
-          <h5>Colorimétrie</h5>
-          <p>Balance couleurs pro</p>
-        </div>
-      </div>
-      <div class="mode-item" onclick="pickMode(this,'restore')">
-        <div class="mode-preview mode-restore">🔧</div>
-        <div class="mode-body">
-          <h5>Restauration</h5>
-          <p>Anciennes photos</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- AJUSTEMENTS MANUELS -->
-  <div class="section">
-    <div class="section-title">🎚️ Ajustements manuels</div>
-    <div class="adjustments">
-      <div class="adj-row">
-        <span class="adj-icon">☀️</span>
-        <span class="adj-label">Luminosité</span>
-        <span class="adj-value" id="v-bright">50%</span>
-      </div>
-      <input class="adj-slider" type="range" min="0" max="100" value="50" oninput="document.getElementById('v-bright').textContent=this.value+'%'">
-      
-      <div class="adj-row" style="margin-top:14px">
-        <span class="adj-icon">🌈</span>
-        <span class="adj-label">Saturation</span>
-        <span class="adj-value" id="v-sat">70%</span>
-      </div>
-      <input class="adj-slider" type="range" min="0" max="100" value="70" oninput="document.getElementById('v-sat').textContent=this.value+'%'">
-      
-      <div class="adj-row" style="margin-top:14px">
-        <span class="adj-icon">🔥</span>
-        <span class="adj-label">Contraste</span>
-        <span class="adj-value" id="v-con">60%</span>
-      </div>
-      <input class="adj-slider" type="range" min="0" max="100" value="60" oninput="document.getElementById('v-con').textContent=this.value+'%'">
-      
-      <div class="adj-row" style="margin-top:14px">
-        <span class="adj-icon">✨</span>
-        <span class="adj-label">Netteté</span>
-        <span class="adj-value" id="v-sharp">40%</span>
-      </div>
-      <input class="adj-slider" type="range" min="0" max="100" value="40" oninput="document.getElementById('v-sharp').textContent=this.value+'%'">
-    </div>
-  </div>
-
-  <!-- FILTRES AFRICAINS -->
-  <div class="section">
-    <div class="section-title">🌍 Filtres africains exclusifs</div>
-    <div class="filters-grid">
-      <div class="filter-card active" onclick="pickFilter(this,'original')">
-        <div class="filter-preview f-original">📷</div>
-        <h6>Original</h6>
-      </div>
-      <div class="filter-card" onclick="pickFilter(this,'wax')">
-        <div class="filter-preview f-wax">🎨</div>
-        <h6>Wax</h6>
-      </div>
-      <div class="filter-card" onclick="pickFilter(this,'saharan')">
-        <div class="filter-preview f-saharan">🌅</div>
-        <h6>Sahara</h6>
-      </div>
-      <div class="filter-card" onclick="pickFilter(this,'teranga')">
-        <div class="filter-preview f-teranga">🌿</div>
-        <h6>Teranga</h6>
-      </div>
-      <div class="filter-card" onclick="pickFilter(this,'baobab')">
-        <div class="filter-preview f-baobab">🌳</div>
-        <h6>Baobab</h6>
-      </div>
-      <div class="filter-card" onclick="pickFilter(this,'dakar')">
-        <div class="filter-preview f-dakar">🌊</div>
-        <h6>Dakar</h6>
-      </div>
-      <div class="filter-card" onclick="pickFilter(this,'sahel')">
-        <div class="filter-preview f-sahel">☀️</div>
-        <h6>Sahel</h6>
-      </div>
-      <div class="filter-card" onclick="pickFilter(this,'noir')">
-        <div class="filter-preview f-noir">⚫</div>
-        <h6>Noir & Or</h6>
-      </div>
-    </div>
-  </div>
-
-  <!-- BOUTON APPLIQUER IA -->
-  <div class="section">
-    <button class="gold-btn" onclick="applyAI()">
-      ✨ Appliquer Nano Banana IA (-1 crédit)
-    </button>
-  </div>
-
-  <!-- ACTIONS FINALES -->
-  <div class="final-actions" id="finalActions">
-    <div class="final-title">🎉 Retouche terminée avec succès !</div>
-    <div class="action-grid">
-      <button class="fa-btn fa-download" onclick="downloadResult()">
-        <span class="icon">⬇️</span>Télécharger
-      </button>
-      <button class="fa-btn fa-share" onclick="shareResult()">
-        <span class="icon">↗️</span>Partager
-      </button>
-      <button class="fa-btn fa-post" onclick="postToShop()">
-        <span class="icon">🛍️</span>Publier
-      </button>
-      <button class="fa-btn fa-redo" onclick="redoAI()">
-        <span class="icon">🔄</span>Refaire
-      </button>
-    </div>
-  </div>
-
-  <!-- HISTORIQUE -->
-  <div class="section">
-    <div class="section-title">📚 Mes retouches récentes</div>
-    <div class="history-grid">
-      <div class="hist-item">
-        <div class="img">👗</div>
-        <div class="date">04/08 · Portrait</div>
-        <div class="hist-badge">HD</div>
-      </div>
-      <div class="hist-item">
-        <div class="img">📱</div>
-        <div class="date">03/08 · Produit</div>
-        <div class="hist-badge">4K</div>
-      </div>
-      <div class="hist-item">
-        <div class="img">💄</div>
-        <div class="date">02/08 · Africain</div>
-        <div class="hist-badge">Wax</div>
-      </div>
-      <div class="hist-item">
-        <div class="img">👜</div>
-        <div class="date">30/07 · Produit</div>
-        <div class="hist-badge">HD</div>
-      </div>
-      <div class="hist-item">
-        <div class="img">🍲</div>
-        <div class="date">28/07 · Fond</div>
-        <div class="hist-badge">BG</div>
-      </div>
-      <div class="hist-item">
-        <div class="img">👠</div>
-        <div class="date">25/07 · Portrait</div>
-        <div class="hist-badge">HD</div>
-      </div>
-    </div>
-  </div>
+<div class="features">
+  <h3>✨ Retouches disponibles</h3>
+  <div class="feat"><i data-lucide="square"></i><span class="txt">Fond blanc professionnel</span><span class="price">Gratuit</span></div>
+  <div class="feat"><i data-lucide="sun"></i><span class="txt">Correction lumière & couleurs</span><span class="price">Gratuit</span></div>
+  <div class="feat"><i data-lucide="eraser"></i><span class="txt">Suppression défauts & taches</span><span class="price">50 pts</span></div>
+  <div class="feat"><i data-lucide="maximize"></i><span class="txt">Upscale HD 4K</span><span class="price">100 pts</span></div>
+  <div class="feat"><i data-lucide="type"></i><span class="txt">Ajout logo boutique</span><span class="price">Gratuit</span></div>
+  <div class="feat"><i data-lucide="palette"></i><span class="txt">Style catalogue premium</span><span class="price">150 pts</span></div>
 </div>
 
-<!-- OVERLAY PROCESSING -->
-<div class="processing" id="processing">
-  <div class="proc-banana">🍌</div>
-  <div class="proc-title">Nano Banana AI</div>
-  <div class="proc-step" id="procStep">Analyse de l'image...</div>
-  <div class="proc-progress"><div class="proc-fill"></div></div>
-  <div class="proc-hint">💡 IA optimisée pour photos africaines · Traitement en cours...</div>
-</div>
+<a href="#" class="cta" onclick="pickImage()">
+  <i data-lucide="sparkles" style="width:18px;height:18px;display:inline;vertical-align:middle;"></i> Commencer la retouche
+</a>
 
 <nav class="bottom-nav">
-  <button class="nav-item" onclick="location.href='index.html'"><span class="nav-icon">🏠</span>Accueil</button>
-  <button class="nav-item" onclick="location.href='categories.html'"><span class="nav-icon">🗂️</span>Catégories</button>
-  <button class="nav-item" onclick="location.href='recherche-ia.html'"><span class="nav-icon">🔍</span>Recherche</button>
-  <button class="nav-item active"><span class="nav-icon">✨</span>Retouche IA</button>
-  <button class="nav-item" onclick="location.href='profil.html'"><span class="nav-icon">👤</span>Compte</button>
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
+  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
-<script src="js/dark-mode.js"></script>
-<script src="js/role-guard.js"></script>
 <script>
-// VÉRIFICATION PLAN (Gold/Platinum requis)
-const userPlan = localStorage.getItem('sentew_plan') || 'gold'; // demo: 'free', 'bronze', 'silver', 'gold', 'platinum'
-const allowedPlans = ['gold','platinum'];
-
-if(!allowedPlans.includes(userPlan)){
-  document.getElementById('planGate').classList.add('show');
-  document.getElementById('workZone').style.display = 'none';
-  document.getElementById('creditsBox').style.display = 'none';
-}
-
-// CREDITS
-let credits = parseInt(localStorage.getItem('sentew_ai_credits') || '15');
-document.getElementById('credits').textContent = credits;
-
-let currentMode = 'portrait';
-let currentFilter = 'original';
-
-function pickPhoto(){
-  const input = document.createElement('input');
-  input.type = 'file';
-  input.accept = 'image/*';
-  input.onchange = e => handlePhoto(e.target.files[0]);
-  input.click();
-}
-
-function takeCam(){
-  const input = document.createElement('input');
-  input.type = 'file';
-  input.accept = 'image/*';
-  input.capture = 'environment';
-  input.onchange = e => handlePhoto(e.target.files[0]);
-  input.click();
-}
-
-function handlePhoto(file){
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    document.getElementById('beforeImg').src = e.target.result;
-    document.getElementById('afterImg').src = e.target.result;
-    document.getElementById('previewZone').classList.add('show');
-    document.getElementById('uploadZone').style.display = 'none';
-    window.scrollTo({top:document.getElementById('previewZone').offsetTop-100,behavior:'smooth'});
-  };
-  reader.readAsDataURL(file);
-}
-
-function pickMode(el, mode){
-  document.querySelectorAll('.mode-item').forEach(m => m.classList.remove('active'));
-  el.classList.add('active');
-  currentMode = mode;
-}
-
-function pickFilter(el, filter){
-  document.querySelectorAll('.filter-card').forEach(f => f.classList.remove('active'));
-  el.classList.add('active');
-  currentFilter = filter;
-  
-  // Appliquer filtre visuel simulé
-  const after = document.getElementById('afterImg');
-  const filters = {
-    original: 'none',
-    wax: 'saturate(1.6) contrast(1.15) hue-rotate(-10deg)',
-    saharan: 'sepia(0.4) saturate(1.3) brightness(1.1)',
-    teranga: 'saturate(1.4) hue-rotate(20deg) brightness(1.05)',
-    baobab: 'sepia(0.6) contrast(1.2) saturate(0.8)',
-    dakar: 'saturate(1.3) hue-rotate(-15deg) brightness(1.05)',
-    sahel: 'sepia(0.3) saturate(1.5) brightness(1.1) contrast(1.1)',
-    noir: 'grayscale(0.8) contrast(1.3) sepia(0.2)'
-  };
-  after.style.filter = filters[filter] || 'none';
-}
-
-function applyAI(){
-  if(!document.getElementById('previewZone').classList.contains('show')){
-    alert('❌ Veuillez d\'abord uploader une photo');
-    return;
-  }
-  if(credits <= 0){
-    if(confirm('❌ Crédits IA épuisés\n\nAcheter 20 crédits supplémentaires pour 5 000 FCFA ?')){
-      location.href = 'portefeuille.html?buy=ai_credits';
-    }
-    return;
-  }
-  
-  // Décrémente crédit
-  credits--;
-  localStorage.setItem('sentew_ai_credits', credits);
-  document.getElementById('credits').textContent = credits;
-  
-  // Affiche processing
-  const proc = document.getElementById('processing');
-  proc.classList.add('show');
-  
-  const steps = [
-    '🔍 Analyse de l\'image...',
-    '🎨 Détection des couleurs...',
-    '👤 Reconnaissance faciale...',
-    '✨ Application Nano Banana IA...',
-    '📐 Optimisation HD...',
-    '🎉 Finalisation...'
-  ];
-  let i = 0;
-  const stepEl = document.getElementById('procStep');
-  const interval = setInterval(()=>{
-    if(i < steps.length){
-      stepEl.textContent = steps[i];
-      i++;
-    }
-  }, 500);
-  
-  setTimeout(()=>{
-    clearInterval(interval);
-    proc.classList.remove('show');
-    document.getElementById('finalActions').classList.add('show');
-    // Reset animation pour prochaine fois
-    document.querySelector('.proc-fill').style.animation = 'none';
-    setTimeout(()=>{document.querySelector('.proc-fill').style.animation = ''}, 100);
-    
-    alert('✅ Retouche IA terminée !\n\nMode : '+currentMode+'\nFiltre : '+currentFilter+'\nCrédits restants : '+credits);
-  }, 3000);
-}
-
-function downloadResult(){
-  const a = document.createElement('a');
-  a.href = document.getElementById('afterImg').src;
-  a.download = 'sentew-retouche-'+Date.now()+'.jpg';
-  a.click();
-  alert('✅ Photo téléchargée !\n\nSauvegardée dans Documents/SEN TEW');
-}
-
-function shareResult(){
-  if(navigator.share){
-    navigator.share({
-      title: 'Ma retouche SEN TEW IA',
-      text: 'Retouche par SEN TEW Nano Banana AI ✨',
-      url: location.href
-    });
-  } else {
-    alert('🔗 Lien copié dans le presse-papier');
-  }
-}
-
-function postToShop(){
-  if(confirm('🛍️ Publier cette photo comme visuel produit ?\n\nCela remplacera l\'ancienne photo dans votre boutique.')){
-    alert('✅ Photo publiée sur votre boutique !\n\n📸 Visible en 2-3 min sur SEN TEW.');
-    location.href = 'vendeur.html';
-  }
-}
-
-function redoAI(){
-  document.getElementById('finalActions').classList.remove('show');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-<script src="js/buttons-audit.js?v=51"></script>
-</body></html>
+  lucide.createIcons();
+  function pickImage(){alert('📷 Sélectionner une photo à retoucher');}
+</script>
+</body>
+</html>
