@@ -2,157 +2,81 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Paramètres - SEN TEW</title>
-<meta name="theme-color" content="#0f6b4e">
-<link rel="stylesheet" href="css/app.css">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Paramètres — SEN TEW</title>
+<link rel="stylesheet" href="css/app.css?v=50">
 <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body>
+<body class="light-mode">
 
 <header class="topbar">
-  <button class="btn-back" onclick="history.back()">
-    <i data-lucide="arrow-left" class="icon icon-md icon-vert"></i>
-  </button>
-  <h1>Paramètres</h1>
+  <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left" class="icon icon-md icon-vert"></i></button>
+  <h1><i data-lucide="settings" class="icon icon-md icon-vert"></i> Paramètres</h1>
 </header>
 
-<main style="padding:16px;padding-bottom:100px;">
+<main style="padding:16px;padding-bottom:100px">
 
-  <!-- Langue & Région -->
-  <div class="section-title" style="margin:8px 0 12px;">
-    <i data-lucide="globe" class="icon icon-md icon-vert"></i>
-    Langue &amp; Région
-  </div>
-  <div style="background:var(--bg-card);border-radius:12px;padding:14px;margin-bottom:16px;">
-    <label style="display:block;font-size:12px;color:var(--text-muted);margin-bottom:4px;">Langue</label>
-    <select style="width:100%;margin-bottom:12px;">
-      <option>Français</option>
-      <option>English</option>
-      <option>العربية</option>
-    </select>
-    <label style="display:block;font-size:12px;color:var(--text-muted);margin-bottom:4px;">Pays</label>
-    <select style="width:100%;margin-bottom:12px;">
-      <option>🇸🇳 Sénégal</option>
-      <option>🇨🇮 Côte d'Ivoire</option>
-      <option>🇲🇱 Mali</option>
-    </select>
-    <label style="display:block;font-size:12px;color:var(--text-muted);margin-bottom:4px;">Devise</label>
-    <select style="width:100%;">
-      <option>FCFA</option>
-      <option>EUR</option>
-      <option>USD</option>
-    </select>
-  </div>
-
-  <!-- Apparence -->
-  <div class="section-title" style="margin:16px 0 12px;">
-    <i data-lucide="palette" class="icon icon-md icon-vert"></i>
-    Apparence
-  </div>
-  <div style="background:var(--bg-card);border-radius:12px;overflow:hidden;margin-bottom:16px;">
-    <div onclick="toggleTheme()" style="padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;">
-      <i data-lucide="moon" class="icon icon-md icon-vert"></i>
-      <span style="flex:1;font-size:14px;font-weight:600;">Mode sombre</span>
-      <div style="width:44px;height:24px;background:var(--v-emeraude);border-radius:12px;position:relative;">
-        <div style="width:18px;height:18px;background:white;border-radius:50%;position:absolute;top:3px;right:3px;"></div>
-      </div>
-    </div>
+  <!-- Compte -->
+  <h2 class="section-title"><i data-lucide="user" class="icon icon-sm icon-vert"></i> COMPTE</h2>
+  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <a href="profil-edit.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="user-cog" class="icon icon-md icon-vert"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Modifier mon profil</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
+    <a href="password.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="key" class="icon icon-md icon-or"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Mot de passe</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
+    <a href="email-change.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none"><i data-lucide="mail" class="icon icon-md icon-bleu"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Email de contact</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
   </div>
 
   <!-- Notifications -->
-  <div class="section-title" style="margin:16px 0 12px;">
-    <i data-lucide="bell" class="icon icon-md icon-or"></i>
-    Notifications
-  </div>
-  <div style="background:var(--bg-card);border-radius:12px;overflow:hidden;margin-bottom:16px;">
-    <div style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);">
-      <i data-lucide="smartphone" class="icon icon-md icon-vert"></i>
-      <div style="flex:1;">
-        <div style="font-size:14px;font-weight:600;">Push</div>
-        <div style="font-size:11px;color:var(--text-muted);">Commandes, promos</div>
-      </div>
-      <input type="checkbox" checked style="width:20px;height:20px;">
-    </div>
-    <div style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);">
-      <i data-lucide="mail" class="icon icon-md icon-vert"></i>
-      <div style="flex:1;">
-        <div style="font-size:14px;font-weight:600;">Email</div>
-        <div style="font-size:11px;color:var(--text-muted);">Newsletter</div>
-      </div>
-      <input type="checkbox" style="width:20px;height:20px;">
-    </div>
-    <div style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);">
-      <i data-lucide="message-square" class="icon icon-md icon-vert"></i>
-      <div style="flex:1;">
-        <div style="font-size:14px;font-weight:600;">SMS</div>
-        <div style="font-size:11px;color:var(--text-muted);">Confirmations livraison</div>
-      </div>
-      <input type="checkbox" checked style="width:20px;height:20px;">
-    </div>
-    <div style="padding:14px 16px;display:flex;align-items:center;gap:12px;">
-      <i data-lucide="volume-2" class="icon icon-md icon-vert"></i>
-      <div style="flex:1;font-size:14px;font-weight:600;">Sons</div>
-      <input type="checkbox" checked style="width:20px;height:20px;">
-    </div>
+  <h2 class="section-title" id="notifs"><i data-lucide="bell" class="icon icon-sm icon-or"></i> NOTIFICATIONS</h2>
+  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <label style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f5f5f0;cursor:pointer"><i data-lucide="package" class="icon icon-md icon-or"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Commandes & livraisons</span><input type="checkbox" checked style="width:auto;padding:0"></label>
+    <label style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f5f5f0;cursor:pointer"><i data-lucide="flame" class="icon icon-md icon-rouge"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Promos & ventes flash</span><input type="checkbox" checked style="width:auto;padding:0"></label>
+    <label style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f5f5f0;cursor:pointer"><i data-lucide="message-circle" class="icon icon-md icon-bleu"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Messages vendeurs</span><input type="checkbox" checked style="width:auto;padding:0"></label>
+    <label style="padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer"><i data-lucide="mail" class="icon icon-md icon-vert"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Newsletter hebdo</span><input type="checkbox" style="width:auto;padding:0"></label>
   </div>
 
-  <!-- Sécurité -->
-  <div class="section-title" style="margin:16px 0 12px;">
-    <i data-lucide="lock" class="icon icon-md icon-vert"></i>
-    Sécurité
-  </div>
-  <div style="background:var(--bg-card);border-radius:12px;overflow:hidden;margin-bottom:16px;">
-    <div onclick="location.href='mot-de-passe-oublie.html'" style="padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid var(--border);">
-      <i data-lucide="key" class="icon icon-md icon-vert"></i>
-      <span style="flex:1;font-size:14px;font-weight:600;">Changer mot de passe</span>
-      <i data-lucide="chevron-right" class="icon icon-sm"></i>
-    </div>
-    <div style="padding:14px 16px;display:flex;align-items:center;gap:12px;">
-      <i data-lucide="fingerprint" class="icon icon-md icon-vert"></i>
-      <span style="flex:1;font-size:14px;font-weight:600;">Authentification biométrique</span>
-      <input type="checkbox" style="width:20px;height:20px;">
-    </div>
+  <!-- Confidentialité (ancre pour lien direct) -->
+  <h2 class="section-title" id="confidentialite"><i data-lucide="shield" class="icon icon-sm icon-vert"></i> CONFIDENTIALITÉ & SÉCURITÉ</h2>
+  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <a href="confidentialite.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="lock" class="icon icon-md icon-vert"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Confidentialité complète</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
+    <a href="2fa.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="shield-check" class="icon icon-md icon-vert"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Double authentification (2FA)</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
+    <a href="sessions.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="smartphone" class="icon icon-md icon-bleu"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Appareils connectés</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
+    <a href="mentions-legales.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="file-text" class="icon icon-md" style="color:#4a5a52"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Mentions légales</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
+    <a href="cgu.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="scroll" class="icon icon-md" style="color:#4a5a52"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">CGU</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
+    <a href="cgv.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="file-check" class="icon icon-md" style="color:#4a5a52"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">CGV</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
+    <a href="cookies.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none"><i data-lucide="cookie" class="icon icon-md" style="color:#4a5a52"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Cookies</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
   </div>
 
-  <!-- Confidentialité & Légal (regroupé) -->
-  <div class="section-title" style="margin:16px 0 12px;">
-    <i data-lucide="shield-check" class="icon icon-md icon-vert"></i>
-    Confidentialité &amp; Légal
-  </div>
-  <div style="background:var(--bg-card);border-radius:12px;overflow:hidden;margin-bottom:16px;">
-    <div onclick="location.href='confidentialite-app.html'" style="padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid var(--border);">
-      <i data-lucide="shield-check" class="icon icon-md icon-vert"></i>
-      <div style="flex:1;">
-        <div style="font-size:14px;font-weight:600;">Confidentialité &amp; Mentions légales</div>
-        <div style="font-size:11px;color:var(--text-muted);">CGV · CGU · Cookies · RGPD · Mentions légales</div>
-      </div>
-      <i data-lucide="chevron-right" class="icon icon-sm"></i>
-    </div>
-    <div onclick="location.href='signaler.html'" style="padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;">
-      <i data-lucide="flag" class="icon icon-md icon-rouge"></i>
-      <span style="flex:1;font-size:14px;font-weight:600;">Signaler un contenu</span>
-      <i data-lucide="chevron-right" class="icon icon-sm"></i>
-    </div>
+  <!-- Langue & région -->
+  <h2 class="section-title"><i data-lucide="globe" class="icon icon-sm icon-bleu"></i> LANGUE & RÉGION</h2>
+  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <label style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f5f5f0"><i data-lucide="languages" class="icon icon-md icon-vert"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Langue</span><select style="width:auto;padding:6px 10px;font-size:13px"><option>Français</option><option>English</option><option>Wolof</option></select></label>
+    <label style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f5f5f0"><i data-lucide="banknote" class="icon icon-md icon-or"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Devise</span><select style="width:auto;padding:6px 10px;font-size:13px"><option>FCFA</option><option>EUR</option><option>USD</option></select></label>
+    <label style="padding:14px 16px;display:flex;align-items:center;gap:12px"><i data-lucide="moon" class="icon icon-md" style="color:#4a5a52"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Mode sombre</span><input type="checkbox" data-theme-toggle style="width:auto;padding:0"></label>
   </div>
 
-  <!-- À propos -->
-  <div class="section-title" style="margin:16px 0 12px;">
-    <i data-lucide="info" class="icon icon-md icon-vert"></i>
-    À propos
+  <!-- Aide (ancre) -->
+  <h2 class="section-title" id="aide"><i data-lucide="help-circle" class="icon icon-sm icon-bleu"></i> AIDE & SUPPORT</h2>
+  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <a href="support.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="headphones" class="icon icon-md icon-vert"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Support & FAQ</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
+    <a href="a-propos.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="info" class="icon icon-md icon-bleu"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">À propos de SEN TEW</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
+    <a href="version.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none"><i data-lucide="git-commit-vertical" class="icon icon-md" style="color:#4a5a52"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Version de l'app</span><small style="color:#4a5a52">v1.0.50</small></a>
   </div>
-  <div style="background:var(--bg-card);border-radius:12px;padding:14px;margin-bottom:16px;">
-    <div style="text-align:center;">
-      <div style="font-size:16px;font-weight:800;color:var(--v-emeraude);margin-bottom:4px;">SEN TEW</div>
-      <div style="font-size:12px;color:var(--text-muted);margin-bottom:2px;">Version 43.0 · Août 2026</div>
-      <div style="font-size:11px;color:var(--text-muted);">© SEN ECOSYSTEM · Dakar, Sénégal</div>
-    </div>
+
+  <!-- Danger zone -->
+  <div style="background:#fff;border:1.5px solid #ef4444;border-radius:14px;overflow:hidden;margin-bottom:14px">
+    <a href="supprimer-compte.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none"><i data-lucide="trash-2" class="icon icon-md icon-rouge"></i><span style="flex:1;font-size:14px;font-weight:700;color:#ef4444">Supprimer mon compte</span><i data-lucide="chevron-right" class="icon icon-sm icon-rouge"></i></a>
   </div>
 
 </main>
 
-<script src="js/role-guard.js"></script>
-<script src="js/dark-mode.js"></script>
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="layout-grid" class="icon icon-md"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
+  <a href="messages.html"><i data-lucide="message-circle" class="icon icon-md"></i><span>Messages</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
+</nav>
+
+<script src="js/dark-mode.js?v=50"></script>
 <script>lucide.createIcons();</script>
 </body>
 </html>
