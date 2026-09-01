@@ -1,218 +1,75 @@
 <!DOCTYPE html>
-<html lang="fr"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Demande de remboursement - SEN TEW</title>
-<style>
-:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a}
-*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif}
-body{background:#f5f5f5;color:#222;padding-bottom:100px}
-.header{background:#fff;padding:14px 16px;position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:12px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.back{background:#f5f5f5;border:none;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;color:#222}
-.header h1{flex:1;font-size:16px;font-weight:700;color:#222;text-align:center;margin-right:36px}
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Remboursement - SEN TEW</title>
+<link rel="stylesheet" href="css/app.css?v=51">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="light-mode">
 
-.container{padding:14px}
-
-.order-card{background:linear-gradient(135deg,#fff,#f9f9f9);border:2px solid var(--v);border-radius:14px;padding:14px;display:flex;gap:12px;margin-bottom:16px;box-shadow:0 4px 12px rgba(0,166,81,.08)}
-.order-img{width:70px;height:70px;border-radius:10px;object-fit:cover;background:#eee;flex-shrink:0}
-.order-info{flex:1}
-.order-num{color:var(--v);font-size:11px;font-weight:700;margin-bottom:4px}
-.order-name{color:#222;font-weight:800;font-size:15px;line-height:1.3}
-.order-price{color:var(--o);font-weight:900;font-size:20px;margin-top:4px}
-.order-date{color:#666;font-size:11px;margin-top:2px}
-
-.step{background:#fff;padding:16px;border-radius:14px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.05);border-left:4px solid var(--o)}
-.step-num{background:linear-gradient(135deg,var(--o),#d4a04c);color:#fff;width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;margin-right:8px}
-.step-title{color:var(--o);font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.5px;display:flex;align-items:center;margin-bottom:12px}
-.required{color:var(--r);font-size:11px;margin-left:6px;font-weight:700}
-
-/* Radio options */
-.reason-list{display:flex;flex-direction:column;gap:8px}
-.reason{background:#f9f9f9;padding:12px 14px;border-radius:10px;border:2px solid #e8e8e8;display:flex;align-items:center;gap:10px;cursor:pointer;color:#222;font-weight:600;font-size:14px;transition:.2s}
-.reason:hover{background:#f0f0f0}
-.reason input{width:20px;height:20px;accent-color:var(--v)}
-.reason.active{background:#e8f5ee;border-color:var(--v);color:#00753d}
-
-/* Photo upload */
-.photo-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.photo-slot{aspect-ratio:1;background:#fffbe6;border:2px dashed var(--j);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--o);cursor:pointer;font-size:22px}
-.photo-slot small{font-size:11px;font-weight:700;margin-top:4px}
-.photo-slot:hover{background:#fff9d6}
-
-/* Textarea */
-.desc-input{width:100%;border:2px solid #e8e8e8;padding:12px 14px;border-radius:10px;font-size:14px;color:#222;background:#fff;min-height:100px;resize:vertical;outline:none;font-family:inherit}
-.desc-input:focus{border-color:var(--v)}
-.desc-input::placeholder{color:#999}
-.char-count{text-align:right;font-size:11px;color:#888;margin-top:4px}
-
-/* Refund methods */
-.method-list{display:flex;flex-direction:column;gap:8px}
-.method{background:#f9f9f9;padding:14px;border-radius:10px;border:2px solid #e8e8e8;display:flex;align-items:center;gap:12px;cursor:pointer}
-.method.active{background:#e8f5ee;border-color:var(--v)}
-.method input{width:20px;height:20px;accent-color:var(--v)}
-.method-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;flex-shrink:0}
-.m-wallet{background:linear-gradient(135deg,#fcd116,#f4b800);color:#222}
-.m-bank{background:linear-gradient(135deg,#1976d2,#0d47a1)}
-.m-wave{background:linear-gradient(135deg,#4a90e2,#2c5f9e)}
-.m-om{background:linear-gradient(135deg,#ff6f00,#e65100)}
-.method-info{flex:1}
-.method-info b{display:block;font-weight:800;color:#222;font-size:14px}
-.method-info small{color:#666;font-size:11px;margin-top:2px;display:block}
-
-/* Info box */
-.info-box{background:linear-gradient(90deg,#e8f5ee,#fff);border-left:4px solid var(--v);padding:12px;border-radius:8px;margin-bottom:14px;font-size:12px;color:#333}
-.info-box b{color:var(--v);display:block;margin-bottom:2px;font-size:13px}
-
-/* Submit bar */
-.submit-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:12px 14px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0));box-shadow:0 -2px 12px rgba(0,0,0,.1);display:flex;gap:10px;z-index:90}
-.cancel-btn{flex:0 0 40%;background:#fff;border:2px solid #e8e8e8;color:#222;padding:14px;border-radius:12px;font-weight:700;font-size:14px;cursor:pointer}
-.submit-btn{flex:1;background:linear-gradient(135deg,var(--v),#008a44);color:#fff;border:none;padding:14px;border-radius:12px;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 4px 14px rgba(0,166,81,.3)}
-
-/* DARK MODE */
-html[data-theme="dark"] body{background:#0f1419;color:#e8eaed}
-html[data-theme="dark"] .header,html[data-theme="dark"] .step,html[data-theme="dark"] .order-card,
-html[data-theme="dark"] .submit-bar{background:#1a2028;color:#e8eaed}
-html[data-theme="dark"] .reason,html[data-theme="dark"] .method{background:#232a33;color:#e8eaed;border-color:#2d3540}
-html[data-theme="dark"] .reason.active,html[data-theme="dark"] .method.active{background:rgba(0,166,81,.15)}
-html[data-theme="dark"] .desc-input{background:#232a33;color:#e8eaed;border-color:#2d3540}
-html[data-theme="dark"] .order-name,html[data-theme="dark"] .method-info b{color:#e8eaed}
-html[data-theme="dark"] .cancel-btn{background:#232a33;color:#e8eaed;border-color:#2d3540}
-</style></head><body>
-
-<header class="header">
-  <button class="back" onclick="history.back()">←</button>
-  <h1>↩️ Demande de remboursement</h1>
+<header class="topbar">
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1>Remboursement</h1>
+  <button class="icon-btn" onclick="location.href='support.html'"><i data-lucide="help-circle"></i></button>
 </header>
 
-<div class="container">
+<main class="container">
+  <div class="section-card" style="background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;">
+    <h2 style="color:#fff;">Demande de remboursement</h2>
+    <p style="color:#d4a574;">Traitement sous 48h ouvrées</p>
+  </div>
 
-  <div class="order-card">
-    <img class="order-img" src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=200" alt="Sac">
-    <div class="order-info">
-      <div class="order-num">Commande #ST-2026-07-1254</div>
-      <div class="order-name">Sac cuir artisanal</div>
-      <div class="order-price">18 500 FCFA</div>
-      <div class="order-date">📅 Commandé le 25 juillet 2026</div>
+  <div class="section-card">
+    <h3><i data-lucide="package" style="color:#0f6b4e;"></i> Sélectionnez la commande</h3>
+    <div class="setting-row" onclick="selectOrder('ST24071')">
+      <div><strong>Commande #ST24071</strong><br><small>iPhone 15 Pro - 850 000 FCFA</small></div>
+      <i data-lucide="chevron-right"></i>
+    </div>
+    <div class="setting-row" onclick="selectOrder('ST24072')">
+      <div><strong>Commande #ST24072</strong><br><small>AirPods Pro - 145 000 FCFA</small></div>
+      <i data-lucide="chevron-right"></i>
     </div>
   </div>
 
-  <div class="info-box">
-    <b>💡 Bon à savoir</b>
-    Vous avez 14 jours après réception pour demander un remboursement. Traitement sous 2-5 jours ouvrés.
+  <div class="section-card">
+    <h3><i data-lucide="alert-circle" style="color:#0f6b4e;"></i> Motif</h3>
+    <select id="motif" class="form-input">
+      <option>Produit défectueux</option>
+      <option>Non conforme à la description</option>
+      <option>Colis endommagé</option>
+      <option>Non reçu</option>
+      <option>Autre</option>
+    </select>
   </div>
 
-  <!-- ÉTAPE 1 - RAISON -->
-  <div class="step">
-    <div class="step-title"><span class="step-num">1</span> Raison du remboursement <span class="required">*obligatoire</span></div>
-    <div class="reason-list">
-      <label class="reason" onclick="pickReason(this)">
-        <input type="radio" name="reason" value="non-conforme">
-        <span>❌ Produit non conforme à la description</span>
-      </label>
-      <label class="reason" onclick="pickReason(this)">
-        <input type="radio" name="reason" value="endommage">
-        <span>💥 Produit endommagé à la réception</span>
-      </label>
-      <label class="reason" onclick="pickReason(this)">
-        <input type="radio" name="reason" value="non-recu">
-        <span>📦 Produit non reçu</span>
-      </label>
-      <label class="reason" onclick="pickReason(this)">
-        <input type="radio" name="reason" value="taille">
-        <span>📏 Mauvaise taille / couleur</span>
-      </label>
-      <label class="reason" onclick="pickReason(this)">
-        <input type="radio" name="reason" value="qualite">
-        <span>⚠️ Qualité insuffisante</span>
-      </label>
-      <label class="reason" onclick="pickReason(this)">
-        <input type="radio" name="reason" value="autre">
-        <span>💬 Autre raison</span>
-      </label>
-    </div>
+  <div class="section-card">
+    <h3><i data-lucide="edit-3" style="color:#0f6b4e;"></i> Description</h3>
+    <textarea rows="4" class="form-input" placeholder="Décrivez le problème..."></textarea>
+    <button class="btn-outline" onclick="document.getElementById('photos').click()" style="width:100%;margin-top:8px;">
+      <i data-lucide="camera"></i> Ajouter photos
+    </button>
+    <input type="file" id="photos" multiple accept="image/*" style="display:none;">
   </div>
 
-  <!-- ÉTAPE 2 - PHOTOS -->
-  <div class="step">
-    <div class="step-title"><span class="step-num">2</span> Photos preuves <span class="required">*obligatoire</span></div>
-    <div class="photo-row">
-      <div class="photo-slot" onclick="pickPhoto(1)">📷<small>Photo 1</small></div>
-      <div class="photo-slot" onclick="pickPhoto(2)">📷<small>Photo 2</small></div>
-      <div class="photo-slot" onclick="pickPhoto(3)">📷<small>Photo 3</small></div>
-    </div>
-    <div style="font-size:11px;color:#888;margin-top:6px">💡 Ajoutez au minimum 1 photo montrant le problème</div>
-  </div>
+  <button class="btn-primary" onclick="submitRefund()" style="width:100%;padding:16px;font-size:16px;">
+    Envoyer la demande
+  </button>
+</main>
 
-  <!-- ÉTAPE 3 - DESCRIPTION -->
-  <div class="step">
-    <div class="step-title"><span class="step-num">3</span> Décrivez le problème <span class="required">*obligatoire</span></div>
-    <textarea class="desc-input" id="desc" placeholder="Expliquez précisément ce qui ne va pas avec votre commande..." maxlength="500" oninput="updateCount()"></textarea>
-    <div class="char-count"><span id="cnt">0</span>/500 caractères</div>
-  </div>
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="recherche-ia.html"><i data-lucide="search"></i><span>Recherche</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="favoris.html"><i data-lucide="heart"></i><span>Favoris</span></a>
+  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
+</nav>
 
-  <!-- ÉTAPE 4 - MÉTHODE -->
-  <div class="step">
-    <div class="step-title"><span class="step-num">4</span> Méthode de remboursement</div>
-    <div class="method-list">
-      <label class="method active" onclick="pickMethod(this)">
-        <input type="radio" name="method" value="wallet" checked>
-        <div class="method-icon m-wallet">💰</div>
-        <div class="method-info"><b>Wallet SEN TEW</b><small>Instantané · Recommandé</small></div>
-      </label>
-      <label class="method" onclick="pickMethod(this)">
-        <input type="radio" name="method" value="wave">
-        <div class="method-icon m-wave">W</div>
-        <div class="method-info"><b>Wave</b><small>24h ouvrées</small></div>
-      </label>
-      <label class="method" onclick="pickMethod(this)">
-        <input type="radio" name="method" value="om">
-        <div class="method-icon m-om">OM</div>
-        <div class="method-info"><b>Orange Money</b><small>24h ouvrées</small></div>
-      </label>
-      <label class="method" onclick="pickMethod(this)">
-        <input type="radio" name="method" value="senbank">
-        <div class="method-icon m-bank">🏛️</div>
-        <div class="method-info"><b>SENBANC</b><small>1-2 jours ouvrés</small></div>
-      </label>
-    </div>
-  </div>
-
-  <div class="info-box" style="border-left-color:var(--o);background:linear-gradient(90deg,#fff5e6,#fff)">
-    <b style="color:var(--o)">⚖️ Vos droits légaux</b>
-    Conformément au droit sénégalais et à la directive européenne 2011/83, vous disposez de 14 jours pour vous rétracter sans justification.
-  </div>
-
-</div>
-
-<div class="submit-bar">
-  <button class="cancel-btn" onclick="history.back()">❌ Annuler</button>
-  <button class="submit-btn" onclick="submitRefund()">✅ Envoyer la demande</button>
-</div>
-
-<script src="js/dark-mode.js"></script>
 <script>
-function pickReason(el){
-  document.querySelectorAll('.reason').forEach(r=>r.classList.remove('active'));
-  el.classList.add('active');
-  el.querySelector('input').checked = true;
-}
-function pickMethod(el){
-  document.querySelectorAll('.method').forEach(m=>m.classList.remove('active'));
-  el.classList.add('active');
-  el.querySelector('input').checked = true;
-}
-function pickPhoto(n){
-  alert('📷 Photo '+n+' sélectionnée (démo)');
-}
-function updateCount(){
-  document.getElementById('cnt').textContent = document.getElementById('desc').value.length;
-}
-function submitRefund(){
-  const reason = document.querySelector('input[name="reason"]:checked');
-  const desc = document.getElementById('desc').value.trim();
-  if(!reason) return alert('❌ Choisissez une raison');
-  if(!desc || desc.length<10) return alert('❌ Décrivez le problème (min 10 caractères)');
-  alert('✅ Demande envoyée !\n\n📩 Vous recevrez une réponse sous 48h.\n🔔 Suivez le traitement dans "Mes commandes".');
-  location.href='commandes.html';
-}
+  lucide.createIcons();
+  function selectOrder(id){alert('Commande ' + id + ' sélectionnée');}
+  function submitRefund(){alert('✅ Demande envoyée ! Vous recevrez un email de confirmation.');location.href='commandes.html';}
 </script>
-</body></html>
+</body>
+</html>
