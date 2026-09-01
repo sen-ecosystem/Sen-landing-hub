@@ -3,149 +3,134 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mes commandes - SEN TEW</title>
-<link rel="stylesheet" href="css/styles-pays.css">
-<style>
-:root{--v:#0f6b4e;--vd:#0a4d38;--or:#d4a574;--noir:#0a1f17;--card:#1a2e24;--text:#f5f5f0;--muted:#9ca3af;--border:#2a3e34;--rouge:#ef4444;--menthe:#00c060;--bleu:#1976d2}
-*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif}
-body{background:var(--noir);color:var(--text);padding-bottom:100px;max-width:600px;margin:0 auto}
-.top{background:var(--card);padding:12px 14px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10}
-.back{background:rgba(255,255,255,.1);border:none;width:38px;height:38px;border-radius:50%;color:var(--text);font-size:18px;cursor:pointer}
-.top h1{flex:1;font-size:15px;font-weight:700;color:var(--or)}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 14px}
-.stat{background:var(--card);padding:12px;border-radius:12px;text-align:center;border:1px solid var(--border)}
-.stat-n{font-size:20px;font-weight:900;color:var(--or)}
-.stat-l{font-size:10px;color:var(--muted);margin-top:2px}
-.tabs{display:flex;gap:8px;padding:0 14px 12px;overflow-x:auto}
-.tab{padding:8px 14px;background:var(--card);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:700;color:var(--text);cursor:pointer;white-space:nowrap}
-.tab.on{background:var(--v);border-color:var(--or);color:#fff}
-.order{background:var(--card);margin:8px 14px;padding:14px;border-radius:14px;border:1px solid var(--border)}
-.order-h{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.order-id{font-size:13px;font-weight:800;color:var(--or)}
-.order-date{font-size:11px;color:var(--muted);margin-left:auto}
-.status{padding:3px 8px;border-radius:6px;font-size:10px;font-weight:800}
-.status.attente{background:rgba(212,165,116,.2);color:var(--or)}
-.status.prep{background:rgba(25,118,210,.2);color:var(--bleu)}
-.status.livr{background:rgba(0,192,96,.2);color:var(--menthe)}
-.status.livre{background:rgba(0,192,96,.3);color:#fff}
-.status.annule{background:rgba(239,68,68,.2);color:var(--rouge)}
-.order-body{display:flex;gap:10px;margin-bottom:10px}
-.order-img{width:60px;height:60px;border-radius:8px;object-fit:cover;background:var(--noir)}
-.order-info{flex:1}
-.order-name{font-size:13px;font-weight:700;color:var(--text)}
-.order-meta{font-size:11px;color:var(--muted);margin-top:2px}
-.order-amt{font-size:15px;font-weight:900;color:var(--or);margin-top:4px}
-.courier-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:8px}
-.btn-c{padding:8px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;border:none;color:#fff}
-.btn-call{background:linear-gradient(135deg,var(--menthe),#008a44)}
-.btn-chat{background:var(--noir);border:1px solid var(--or);color:var(--or)}
-.btn-track{background:linear-gradient(135deg,var(--bleu),#1565c0)}
-.info-security{text-align:center;font-size:10px;color:var(--muted);padding:8px 14px;line-height:1.5}
-</style>
+<title>Mes commandes — SEN TEW</title>
+<link rel="stylesheet" href="css/app.css?v=50">
+<script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body>
+<body class="light-mode">
 
-<div class="top">
-  <button class="back" onclick="history.back()">←</button>
-  <h1>📦 Mes commandes</h1>
-</div>
+<header class="topbar">
+  <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left" class="icon icon-md icon-vert"></i></button>
+  <h1><i data-lucide="package" class="icon icon-md icon-or"></i> Mes commandes</h1>
+</header>
 
-<div class="stats">
-  <div class="stat"><div class="stat-n">7</div><div class="stat-l">Total commandes</div></div>
-  <div class="stat"><div class="stat-n">287k</div><div class="stat-l">FCFA dépensés</div></div>
-  <div class="stat"><div class="stat-n">2</div><div class="stat-l">En livraison</div></div>
-</div>
+<main style="padding:12px;padding-bottom:100px">
 
-<div class="tabs">
-  <div class="tab on" onclick="filter('all')">Toutes (7)</div>
-  <div class="tab" onclick="filter('en_livraison')">En livraison (2)</div>
-  <div class="tab" onclick="filter('preparation')">Préparation (1)</div>
-  <div class="tab" onclick="filter('livre')">Livrées (4)</div>
-</div>
+  <!-- Stats -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">
+    <div class="profile-stat" style="text-align:center">
+      <strong style="display:block;font-size:20px;color:#0a1f17">7</strong>
+      <small style="color:#4a5a52;font-size:11px">Total commandes</small>
+    </div>
+    <div class="profile-stat" style="text-align:center">
+      <strong style="display:block;font-size:20px;color:#0f6b4e">287k</strong>
+      <small style="color:#4a5a52;font-size:11px">FCFA dépensés</small>
+    </div>
+    <div class="profile-stat" style="text-align:center">
+      <strong style="display:block;font-size:20px;color:#f59e0b">2</strong>
+      <small style="color:#4a5a52;font-size:11px">En livraison</small>
+    </div>
+  </div>
 
-<div id="ordersList"></div>
+  <!-- Filtres -->
+  <div style="display:flex;gap:8px;margin-bottom:14px;overflow-x:auto">
+    <button class="btn-primary" style="padding:8px 14px;font-size:12px;white-space:nowrap">Toutes (7)</button>
+    <button style="padding:8px 14px;background:#fff;border:1px solid #e5e5e0;border-radius:20px;font-size:12px;color:#0a1f17;font-weight:700;white-space:nowrap">En livraison (2)</button>
+    <button style="padding:8px 14px;background:#fff;border:1px solid #e5e5e0;border-radius:20px;font-size:12px;color:#0a1f17;font-weight:700;white-space:nowrap">Préparation (1)</button>
+    <button style="padding:8px 14px;background:#fff;border:1px solid #e5e5e0;border-radius:20px;font-size:12px;color:#0a1f17;font-weight:700;white-space:nowrap">Livrées (4)</button>
+  </div>
 
-<div class="info-security">
-  🛡️ Les appels livreurs utilisent un numéro masqué SEN TEW pour votre sécurité<br>
-  📞 Disponible uniquement pendant une livraison active
-</div>
-
-<script src="js/dark-mode.js"></script>
-<script src="js/role-guard.js"></script>
-<script>
-const orders = [
-  {id:'SEN-2026-8472',date:'26 mai 2026',name:'Sac à main bogolan',img:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=200',amount:45000,status:'en_livraison',courierId:'C124',courierName:'Mamadou Diop',eta:'25 min'},
-  {id:'SEN-2026-8465',date:'25 mai 2026',name:'iPhone 15 Pro',img:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=200',amount:750000,status:'en_livraison',courierId:'C089',courierName:'Fatou Ndiaye',eta:'1h 15min'},
-  {id:'SEN-2026-8412',date:'24 mai 2026',name:'Robe Wax Premium',img:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=200',amount:25000,status:'preparation'},
-  {id:'SEN-2026-8398',date:'20 mai 2026',name:'Sandales cuir Peul',img:'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=200',amount:8500,status:'livre'},
-  {id:'SEN-2026-8367',date:'18 mai 2026',name:'Beurre de karité 500g',img:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=200',amount:4500,status:'livre'},
-  {id:'SEN-2026-8352',date:'15 mai 2026',name:'Écouteurs sans fil Pro',img:'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=200',amount:12000,status:'livre'},
-  {id:'SEN-2026-8341',date:'12 mai 2026',name:'Maillot Sénégal 2026',img:'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=200',amount:12000,status:'livre'}
-];
-
-const statusLabels = {en_livraison:{lbl:'🛵 En livraison',cls:'livr'},preparation:{lbl:'📦 Préparation',cls:'prep'},livre:{lbl:'✅ Livrée',cls:'livre'},annule:{lbl:'❌ Annulée',cls:'annule'}};
-
-function render(filterVal='all'){
-  const list = document.getElementById('ordersList');
-  const filtered = filterVal==='all'?orders:orders.filter(o=>o.status===filterVal);
-  list.innerHTML = filtered.map(o=>{
-    const s = statusLabels[o.status];
-    let actions = '';
-    if(o.status === 'en_livraison'){
-      actions = `<div class="courier-actions">
-        <button class="btn-c btn-call" onclick="callCourier('${o.id}','${o.courierId}','${o.courierName}')">📞 Appeler</button>
-        <button class="btn-c btn-chat" onclick="location.href='chat.html?courier=${o.courierId}&order=${o.id}'">💬 Chat</button>
-        <button class="btn-c btn-track" onclick="location.href='suivi.html?order=${o.id}'">📍 Suivre</button>
-      </div>`;
-    }
-    return `<div class="order">
-      <div class="order-h">
-        <div class="order-id">#${o.id}</div>
-        <span class="status ${s.cls}">${s.lbl}</span>
-        <div class="order-date">${o.date}</div>
+  <!-- Commande #SEN-2026-8472 -->
+  <article style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
+      <strong style="color:#0f6b4e;font-size:14px">#SEN-2026-8472</strong>
+      <span style="background:rgba(15,107,78,0.12);color:#0f6b4e;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:800;display:flex;align-items:center;gap:4px"><i data-lucide="truck" style="width:12px;height:12px"></i> En livraison</span>
+      <span style="color:#4a5a52;font-size:11px">26 mai 2026</span>
+    </div>
+    <div style="display:flex;gap:12px;margin-bottom:12px">
+      <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=100&h=100&fit=crop" style="width:70px;height:70px;object-fit:cover;border-radius:10px;flex-shrink:0" alt="Sac">
+      <div style="flex:1;min-width:0">
+        <h3 style="color:#0a1f17;font-size:15px;font-weight:700;margin-bottom:4px">Sac à main bogolan</h3>
+        <p style="color:#4a5a52;font-size:12px;display:flex;align-items:center;gap:6px;margin-bottom:2px"><i data-lucide="truck" class="icon icon-xs icon-or"></i> Mamadou Diop · <span style="color:#0f6b4e;font-weight:700">Arrive dans 25 min</span></p>
+        <strong style="color:#0f6b4e;font-size:15px">45 000 FCFA</strong>
       </div>
-      <div class="order-body" onclick="location.href='suivi.html?order=${o.id}'" style="cursor:pointer">
-        <img class="order-img" src="${o.img}">
-        <div class="order-info">
-          <div class="order-name">${o.name}</div>
-          ${o.courierName?`<div class="order-meta">🛵 ${o.courierName} · Arrive dans ${o.eta}</div>`:''}
-          <div class="order-amt">${o.amount.toLocaleString('fr-FR')} FCFA</div>
-        </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+      <button style="padding:9px;background:#0f6b4e;color:#fff;border-radius:8px;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;gap:5px" onclick="location.href='tel:+221771234567'"><i data-lucide="phone" class="icon icon-xs icon-blanc"></i> Appeler</button>
+      <button style="padding:9px;background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e;border-radius:8px;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;gap:5px" onclick="location.href='messages.html'"><i data-lucide="message-circle" class="icon icon-xs icon-vert"></i> Chat</button>
+      <button style="padding:9px;background:#3b82f6;color:#fff;border-radius:8px;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;gap:5px" onclick="location.href='suivi.html?id=8472'"><i data-lucide="map-pin" class="icon icon-xs icon-blanc"></i> Suivre</button>
+    </div>
+  </article>
+
+  <!-- Commande #SEN-2026-8465 -->
+  <article style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
+      <strong style="color:#0f6b4e;font-size:14px">#SEN-2026-8465</strong>
+      <span style="background:rgba(15,107,78,0.12);color:#0f6b4e;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:800;display:flex;align-items:center;gap:4px"><i data-lucide="truck" style="width:12px;height:12px"></i> En livraison</span>
+      <span style="color:#4a5a52;font-size:11px">25 mai 2026</span>
+    </div>
+    <div style="display:flex;gap:12px;margin-bottom:12px">
+      <img src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=100&h=100&fit=crop" style="width:70px;height:70px;object-fit:cover;border-radius:10px;flex-shrink:0" alt="iPhone">
+      <div style="flex:1;min-width:0">
+        <h3 style="color:#0a1f17;font-size:15px;font-weight:700;margin-bottom:4px">iPhone 15 Pro</h3>
+        <p style="color:#4a5a52;font-size:12px;display:flex;align-items:center;gap:6px;margin-bottom:2px"><i data-lucide="truck" class="icon icon-xs icon-or"></i> Fatou Ndiaye · <span style="color:#0f6b4e;font-weight:700">1h 15min</span></p>
+        <strong style="color:#0f6b4e;font-size:15px">750 000 FCFA</strong>
       </div>
-      ${actions}
-    </div>`;
-  }).join('');
-}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+      <button style="padding:9px;background:#0f6b4e;color:#fff;border-radius:8px;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;gap:5px"><i data-lucide="phone" class="icon icon-xs icon-blanc"></i> Appeler</button>
+      <button style="padding:9px;background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e;border-radius:8px;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;gap:5px"><i data-lucide="message-circle" class="icon icon-xs icon-vert"></i> Chat</button>
+      <button style="padding:9px;background:#3b82f6;color:#fff;border-radius:8px;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;gap:5px"><i data-lucide="map-pin" class="icon icon-xs icon-blanc"></i> Suivre</button>
+    </div>
+  </article>
 
-function filter(f){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
-  event.target.classList.add('on');
-  render(f);
-}
+  <!-- Commande #SEN-2026-8412 -->
+  <article style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
+      <strong style="color:#0f6b4e;font-size:14px">#SEN-2026-8412</strong>
+      <span style="background:rgba(59,130,246,0.12);color:#3b82f6;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:800;display:flex;align-items:center;gap:4px"><i data-lucide="package" style="width:12px;height:12px"></i> Préparation</span>
+      <span style="color:#4a5a52;font-size:11px">24 mai 2026</span>
+    </div>
+    <div style="display:flex;gap:12px">
+      <img src="https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=100&h=100&fit=crop" style="width:70px;height:70px;object-fit:cover;border-radius:10px;flex-shrink:0" alt="Robe">
+      <div style="flex:1">
+        <h3 style="color:#0a1f17;font-size:15px;font-weight:700;margin-bottom:4px">Robe Wax Premium</h3>
+        <strong style="color:#0f6b4e;font-size:15px">25 000 FCFA</strong>
+      </div>
+    </div>
+  </article>
 
-function callCourier(orderId, courierId, courierName){
-  const now = new Date();
-  const hour = now.getHours();
-  if(hour < 8 || hour >= 22){
-    if(!confirm('🌙 Il est '+hour+'h.\nAppel urgent uniquement ?')) return;
-  }
-  if(confirm('📞 Appeler '+courierName+' ?\n\n✅ Numéro masqué (protection anti-arnaque)\n✅ Appel enregistré (litiges)\n✅ Disponible pendant la livraison uniquement\n\nRappel : soyez courtois et bref.')){
-    const virtualNumber = '+22133800' + courierId.replace('C','').padStart(4,'0');
-    const callLog = JSON.parse(localStorage.getItem('call_logs')||'[]');
-    callLog.push({orderId, courierId, courierName, timestamp: new Date().toISOString(), type:'client_to_courier'});
-    localStorage.setItem('call_logs', JSON.stringify(callLog));
-    if(navigator.vibrate) navigator.vibrate([50,30,50]);
-    location.href = 'tel:'+virtualNumber;
-    setTimeout(()=>{
-      if(!confirm('📋 Comment s\'est passé l\'appel avec '+courierName+' ?\n\n✅ OK → merci\n🚨 Signaler un problème ?')){
-        location.href = 'signaler.html?type=courier&id='+courierId+'&order='+orderId;
-      }
-    }, 60000);
-  }
-}
+  <!-- Commande #SEN-2026-8398 (livrée) -->
+  <article style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(15,107,78,0.05);opacity:0.9">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
+      <strong style="color:#0f6b4e;font-size:14px">#SEN-2026-8398</strong>
+      <span style="background:rgba(15,107,78,0.12);color:#0f6b4e;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:800;display:flex;align-items:center;gap:4px"><i data-lucide="check-circle" style="width:12px;height:12px"></i> Livrée</span>
+      <span style="color:#4a5a52;font-size:11px">20 mai 2026</span>
+    </div>
+    <div style="display:flex;gap:12px;margin-bottom:12px">
+      <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=100&h=100&fit=crop" style="width:70px;height:70px;object-fit:cover;border-radius:10px;flex-shrink:0" alt="Sandales">
+      <div style="flex:1">
+        <h3 style="color:#0a1f17;font-size:15px;font-weight:700;margin-bottom:4px">Sandales cuir Peul</h3>
+        <strong style="color:#0f6b4e;font-size:15px">8 500 FCFA</strong>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <button style="padding:9px;background:#fff;border:1.5px solid #f59e0b;color:#f59e0b;border-radius:8px;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;gap:5px"><i data-lucide="star" class="icon icon-xs" style="color:#f59e0b"></i> Noter</button>
+      <button style="padding:9px;background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e;border-radius:8px;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;gap:5px" onclick="location.href='panier.html'"><i data-lucide="repeat" class="icon icon-xs icon-vert"></i> Racheter</button>
+    </div>
+  </article>
 
-document.documentElement.setAttribute('data-country', localStorage.getItem('sen_country')||'SN');
-render();
-</script>
+</main>
+
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="layout-grid" class="icon icon-md"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
+  <a href="messages.html"><i data-lucide="message-circle" class="icon icon-md"></i><span>Messages</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
+</nav>
+
+<script src="js/dark-mode.js?v=50"></script>
+<script>lucide.createIcons();</script>
 </body>
 </html>
