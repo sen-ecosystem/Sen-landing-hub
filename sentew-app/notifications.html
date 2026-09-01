@@ -1,377 +1,92 @@
 <!DOCTYPE html>
-<html lang="fr"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Notifications - SEN TEW</title>
-<style>
-:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a;--b:#1976d2}
-*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,'Segoe UI',sans-serif}
-body{background:#f5f5f5;color:#222;padding-bottom:100px;-webkit-overflow-scrolling:touch}
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Notifications — SEN TEW</title>
+<link rel="stylesheet" href="css/app.css?v=50">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="light-mode">
 
-/* HEADER */
-.header{background:linear-gradient(135deg,var(--v),#008a44);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:100;box-shadow:0 4px 12px rgba(0,166,81,.2)}
-.header-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.back{background:rgba(255,255,255,.25);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer}
-.header-top h1{color:#fff;font-size:17px;flex:1;font-weight:700;display:flex;align-items:center;gap:6px}
-.unread-badge{background:var(--r);color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:800;animation:pulseBadge 2s infinite}
-@keyframes pulseBadge{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
-.mark-all{background:rgba(255,255,255,.2);border:none;color:#fff;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;backdrop-filter:blur(10px)}
-
-/* FILTRES */
-.filters{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
-.filters::-webkit-scrollbar{display:none}
-.filter-chip{background:rgba(255,255,255,.2);border:none;color:#fff;padding:6px 12px;border-radius:16px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;backdrop-filter:blur(10px);flex-shrink:0}
-.filter-chip.active{background:#fff;color:var(--v);font-weight:700}
-.filter-count{background:rgba(255,255,255,.25);padding:1px 6px;border-radius:8px;font-size:10px;margin-left:4px}
-.filter-chip.active .filter-count{background:rgba(0,166,81,.15);color:var(--v)}
-
-/* JOUR GROUP */
-.day-group{margin-top:14px}
-.day-label{padding:8px 16px;font-size:12px;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.8px;display:flex;justify-content:space-between;align-items:center}
-.day-label .count{background:#e0e0e0;color:#666;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600}
-.day-label.today{color:var(--v)}
-.day-label.today .count{background:#e8f5ee;color:var(--v)}
-
-/* NOTIFICATION ITEM */
-.notif{background:#fff;padding:14px;margin:0 12px 8px;border-radius:14px;display:flex;gap:12px;box-shadow:0 1px 3px rgba(0,0,0,.05);position:relative;cursor:pointer;transition:.2s;overflow:hidden}
-.notif:active{transform:scale(.99)}
-.notif.unread{background:linear-gradient(90deg,#fff,#f0f9f4);border-left:4px solid var(--v)}
-.notif.unread::before{content:'';position:absolute;top:14px;right:14px;width:8px;height:8px;background:var(--v);border-radius:50%;animation:pulseDot 1.5s infinite}
-@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
-
-.notif-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,0,.08)}
-.ni-order{background:linear-gradient(135deg,var(--v),#008a44);color:#fff}
-.ni-promo{background:linear-gradient(135deg,var(--r),#c81420);color:#fff}
-.ni-msg{background:linear-gradient(135deg,#1976d2,#0d47a1);color:#fff}
-.ni-live{background:linear-gradient(135deg,#e91e63,#9c27b0);color:#fff}
-.ni-pay{background:linear-gradient(135deg,var(--o),#d4a04c);color:#fff}
-.ni-review{background:linear-gradient(135deg,var(--j),#f4b800);color:#222}
-.ni-delivery{background:linear-gradient(135deg,#ff6b35,#d84315);color:#fff}
-.ni-follow{background:linear-gradient(135deg,#00bcd4,#0097a7);color:#fff}
-.ni-gift{background:linear-gradient(135deg,#9c27b0,#6a1b9a);color:#fff}
-.ni-system{background:linear-gradient(135deg,#607d8b,#455a64);color:#fff}
-
-.notif-body{flex:1;min-width:0}
-.notif-title{font-size:14px;font-weight:700;color:#222;line-height:1.3;margin-bottom:2px;padding-right:20px}
-.notif-desc{font-size:12px;color:#555;line-height:1.4}
-.notif-time{font-size:11px;color:#999;margin-top:4px;display:flex;align-items:center;gap:4px}
-.notif-actions{display:flex;gap:6px;margin-top:8px}
-.notif-btn{background:var(--v);color:#fff;border:none;padding:5px 10px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer}
-.notif-btn.outline{background:#fff;color:var(--v);border:1px solid var(--v)}
-.notif-btn.red{background:var(--r)}
-.notif-btn.blue{background:var(--b)}
-
-/* SWIPE ACTIONS (indication) */
-.notif-swipe-hint{position:absolute;right:8px;bottom:8px;font-size:10px;color:#ccc}
-
-/* EMPTY STATE */
-.empty{text-align:center;padding:60px 20px}
-.empty-icon{font-size:72px;margin-bottom:16px;opacity:.5}
-.empty h3{color:#666;font-size:18px;font-weight:700;margin-bottom:6px}
-.empty p{color:#999;font-size:13px}
-
-/* ACTIONS FOOTER */
-.actions-footer{background:#fff;padding:12px 14px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0));border-top:1px solid #eee;display:flex;gap:8px;position:fixed;bottom:60px;left:0;right:0;z-index:88}
-.action-footer-btn{flex:1;background:#f5f5f5;border:none;color:#222;padding:10px;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px}
-.action-footer-btn.settings{background:var(--v);color:#fff}
-
-/* BOTTOM NAV */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;padding:8px 0;padding-bottom:calc(8px + env(safe-area-inset-bottom,0));z-index:90;height:60px}
-.nav-item{flex:1;text-align:center;color:#666;font-size:10px;background:none;border:none;cursor:pointer;font-family:inherit}
-.nav-item.active{color:var(--v);font-weight:700}
-.nav-icon{font-size:22px;display:block;margin-bottom:2px}
-
-/* Confetti nouvelle notif */
-@keyframes newNotifIn{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}
-.notif.new-anim{animation:newNotifIn .5s}
-
-/* DARK MODE */
-html[data-theme="dark"] body{background:#0f1419;color:#e8eaed}
-html[data-theme="dark"] .notif,html[data-theme="dark"] .actions-footer,
-html[data-theme="dark"] .bottom-nav{background:#1a2028;color:#e8eaed}
-html[data-theme="dark"] .notif.unread{background:linear-gradient(90deg,#1a2028,#152520)}
-html[data-theme="dark"] .notif-title{color:#e8eaed}
-html[data-theme="dark"] .notif-desc{color:#c8ccd0}
-html[data-theme="dark"] .day-label{color:#9aa0a6}
-html[data-theme="dark"] .day-label .count{background:#2d3540;color:#e8eaed}
-html[data-theme="dark"] .action-footer-btn{background:#232a33;color:#e8eaed}
-  <script src="https://unpkg.com/lucide@latest"></script>
-</style></head><body>
-
-<header class="header">
-  <div class="header-top">
-    <button class="back" onclick="history.back()">←</button>
-    <h1>🔔 Notifications <span class="unread-badge" id="unreadBadge">8</span></h1>
-    <button class="mark-all" onclick="markAllRead()">✓ Tout lu</button>
-  </div>
-  <div class="filters">
-    <button class="filter-chip active" onclick="filterNotifs('all',this)">
-      📥 Toutes <span class="filter-count" id="c-all">10</span>
-    </button>
-    <button class="filter-chip" onclick="filterNotifs('order',this)">
-      📦 Commandes <span class="filter-count" id="c-order">3</span>
-    </button>
-    <button class="filter-chip" onclick="filterNotifs('promo',this)">
-      🔥 Promos <span class="filter-count" id="c-promo">2</span>
-    </button>
-    <button class="filter-chip" onclick="filterNotifs('msg',this)">
-      💬 Messages <span class="filter-count" id="c-msg">2</span>
-    </button>
-    <button class="filter-chip" onclick="filterNotifs('live',this)">
-      🎥 LIVE <span class="filter-count" id="c-live">1</span>
-    </button>
-    <button class="filter-chip" onclick="filterNotifs('pay',this)">
-      💳 Paiements <span class="filter-count" id="c-pay">2</span>
-    </button>
-  </div>
+<header class="hero-emerald-gold" style="border-radius:0;padding:16px;display:flex;align-items:center;gap:12px">
+  <button onclick="history.back()" style="background:rgba(255,255,255,0.2);border:none;color:#fff;width:36px;height:36px;border-radius:50%"><i data-lucide="arrow-left" class="icon icon-md icon-blanc"></i></button>
+  <h1 style="color:#fff !important;font-size:18px;font-weight:800;flex:1;display:flex;align-items:center;gap:8px"><i data-lucide="bell" class="icon icon-md icon-blanc"></i> Notifications <span style="background:#ef4444;color:#fff;font-size:11px;padding:2px 8px;border-radius:10px">8</span></h1>
+  <button style="background:#fff;color:#0f6b4e;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;display:flex;align-items:center;gap:4px"><i data-lucide="check-check" class="icon icon-xs icon-vert"></i> Tout lu</button>
 </header>
 
-<!-- AUJOURD'HUI -->
-<div class="day-group">
-  <div class="day-label today">
-    ⚡ Aujourd'hui · 4 août 2026
-    <span class="count">5 nouvelles</span>
-  </div>
-
-  <div class="notif unread" data-type="order" onclick="openNotif(this,'commandes.html?id=1247')">
-    <div class="notif-icon ni-order">📦</div>
-    <div class="notif-body">
-      <div class="notif-title">Commande expédiée !</div>
-      <div class="notif-desc">Votre commande <b>#ST-2026-1247</b> est en route. Livraison prévue aujourd'hui vers 18h.</div>
-      <div class="notif-time">🕐 Il y a 12 min · 📍 Livreur Ousmane</div>
-      <div class="notif-actions">
-        <button class="notif-btn" onclick="event.stopPropagation();trackOrder(1247)">🗺️ Suivre GPS</button>
-        <button class="notif-btn outline" onclick="event.stopPropagation();contactDriver()">📞 Livreur</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="notif unread" data-type="promo" onclick="openNotif(this,'produits.html?promo=RAMADAN30')">
-    <div class="notif-icon ni-promo">🔥</div>
-    <div class="notif-body">
-      <div class="notif-title">FLASH -30% pendant 3h !</div>
-      <div class="notif-desc">Vente flash sur la <b>Mode africaine</b> avec le code <b>RAMADAN30</b>. Ne rate pas ça !</div>
-      <div class="notif-time">🕐 Il y a 45 min · ⏰ Expire à 23h</div>
-      <div class="notif-actions">
-        <button class="notif-btn red" onclick="event.stopPropagation();copyCode('RAMADAN30')">📋 Copier code</button>
-        <button class="notif-btn outline" onclick="event.stopPropagation();location.href='produits.html'">🛍️ Voir</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="notif unread" data-type="msg" onclick="openNotif(this,'messages.html?chat=aicha')">
-    <div class="notif-icon ni-msg">💬</div>
-    <div class="notif-body">
-      <div class="notif-title">Aïcha Fashion vous a répondu</div>
-      <div class="notif-desc">« Bonjour ! Le boubou est disponible en XL en 3 couleurs. Livraison possible demain 🚚 »</div>
-      <div class="notif-time">🕐 Il y a 1h · 🏪 Vendeur vérifié ✓</div>
-      <div class="notif-actions">
-        <button class="notif-btn blue" onclick="event.stopPropagation();location.href='messages.html?chat=aicha'">💬 Répondre</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="notif unread" data-type="live" onclick="openNotif(this,'live.html?host=fatou')">
-    <div class="notif-icon ni-live">🎥</div>
-    <div class="notif-body">
-      <div class="notif-title">🔴 Beauty Fatou est en LIVE !</div>
-      <div class="notif-desc">Démo produits beauté + flash <b>-40%</b> pendant le LIVE. 2 034 spectateurs déjà connectés.</div>
-      <div class="notif-time">🕐 Il y a 2h · 👀 En direct maintenant</div>
-      <div class="notif-actions">
-        <button class="notif-btn" style="background:linear-gradient(135deg,#e91e63,#9c27b0)" onclick="event.stopPropagation();location.href='live.html'">🎬 Rejoindre LIVE</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="notif unread" data-type="pay" onclick="openNotif(this,'commandes.html?id=1245')">
-    <div class="notif-icon ni-pay">💳</div>
-    <div class="notif-body">
-      <div class="notif-title">Paiement Wave réussi ✅</div>
-      <div class="notif-desc">Paiement de <b>142 150 FCFA</b> confirmé pour la commande <b>#ST-2026-1245</b>.</div>
-      <div class="notif-time">🕐 Il y a 3h · Wave -221 77XXXXX</div>
-      <div class="notif-actions">
-        <button class="notif-btn outline" onclick="event.stopPropagation();downloadReceipt(1245)">📄 Reçu PDF</button>
-      </div>
-    </div>
-  </div>
+<!-- Filtres -->
+<div style="display:flex;gap:8px;padding:12px 16px;overflow-x:auto">
+  <button class="btn-primary" style="padding:8px 14px;font-size:12px;display:flex;align-items:center;gap:6px"><i data-lucide="inbox" class="icon icon-sm icon-blanc"></i> Toutes <span style="background:#fff;color:#0f6b4e;padding:1px 7px;border-radius:10px">10</span></button>
+  <button style="padding:8px 14px;background:#fff;border:1px solid #e5e5e0;border-radius:20px;font-size:12px;color:#0a1f17;font-weight:700;display:flex;align-items:center;gap:6px"><i data-lucide="package" class="icon icon-sm icon-or"></i> Commandes <span style="background:#e5e5e0;color:#0a1f17;padding:1px 7px;border-radius:10px">3</span></button>
+  <button style="padding:8px 14px;background:#fff;border:1px solid #e5e5e0;border-radius:20px;font-size:12px;color:#0a1f17;font-weight:700;display:flex;align-items:center;gap:6px"><i data-lucide="flame" class="icon icon-sm icon-rouge"></i> Promos</button>
 </div>
 
-<!-- HIER -->
-<div class="day-group">
-  <div class="day-label">
-    📅 Hier · 3 août 2026
-    <span class="count">3 notifications</span>
-  </div>
-
-  <div class="notif" data-type="review" onclick="openNotif(this,'avis.html')">
-    <div class="notif-icon ni-review">⭐</div>
-    <div class="notif-body">
-      <div class="notif-title">Nouvel avis 5⭐ sur votre achat</div>
-      <div class="notif-desc">Awa a laissé un avis <b>5⭐</b> sur le <b>Sac cuir artisanal</b>. Pensez à lui répondre !</div>
-      <div class="notif-time">🕐 Hier · 19h32</div>
-    </div>
-  </div>
-
-  <div class="notif" data-type="delivery" onclick="openNotif(this,'commandes.html?id=1243')">
-    <div class="notif-icon ni-delivery">🚚</div>
-    <div class="notif-body">
-      <div class="notif-title">Colis livré avec succès</div>
-      <div class="notif-desc">La commande <b>#ST-2026-1243</b> a été livrée à Sacré-Cœur 3. Merci pour votre confiance !</div>
-      <div class="notif-time">🕐 Hier · 15h14 · ✅ Livré</div>
-      <div class="notif-actions">
-        <button class="notif-btn" onclick="event.stopPropagation();rateOrder(1243)">⭐ Noter livraison</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="notif" data-type="promo" onclick="openNotif(this,'bons-promo.html')">
-    <div class="notif-icon ni-promo">🎁</div>
-    <div class="notif-body">
-      <div class="notif-title">500 FCFA offerts !</div>
-      <div class="notif-desc">Cadeau de bienvenue ajouté à votre <b>wallet SEN TEW</b>. Utilisable dès votre 1ère commande.</div>
-      <div class="notif-time">🕐 Hier · 21h05</div>
-    </div>
-  </div>
+<!-- Aujourd'hui -->
+<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 16px;background:#fff;border-radius:12px;margin:0 16px 12px">
+  <strong style="display:flex;align-items:center;gap:6px;color:#0f6b4e;font-size:13px"><i data-lucide="zap" class="icon icon-sm icon-or"></i> AUJOURD'HUI · 1 SEPTEMBRE 2026</strong>
+  <span style="background:rgba(15,107,78,0.12);color:#0f6b4e;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700">5 NOUVELLES</span>
 </div>
 
-<!-- CETTE SEMAINE -->
-<div class="day-group">
-  <div class="day-label">
-    📆 Cette semaine
-    <span class="count">2 notifications</span>
-  </div>
-
-  <div class="notif" data-type="msg" onclick="openNotif(this,'messages.html')">
-    <div class="notif-icon ni-follow">👥</div>
-    <div class="notif-body">
-      <div class="notif-title">Nouveau follower !</div>
-      <div class="notif-desc">Aminata Diop suit maintenant votre activité sur SEN TEW.</div>
-      <div class="notif-time">🕐 Il y a 2 jours</div>
+<!-- Notif 1 : Commande expédiée -->
+<div class="notif-card" style="border-radius:12px;margin:0 16px 12px;padding:14px;display:flex;gap:12px;position:relative">
+  <div style="width:44px;height:44px;background:linear-gradient(135deg,#0f6b4e,#0a4d38);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="package" class="icon icon-md icon-blanc"></i></div>
+  <div style="flex:1">
+    <strong style="color:#0a1f17;font-size:14px">Commande expédiée !</strong>
+    <p style="color:#4a5a52;font-size:12px;margin:4px 0">Votre commande <b>#ST-2026-1247</b> est en route. Livraison prévue aujourd'hui vers 18h.</p>
+    <small style="color:#4a5a52;font-size:11px;display:flex;align-items:center;gap:6px;margin-top:4px"><i data-lucide="clock" class="icon icon-xs" style="color:#4a5a52"></i> Il y a 12 min · <i data-lucide="map-pin" class="icon icon-xs" style="color:#ef4444"></i> Livreur Ousmane</small>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button class="btn-primary" style="padding:8px 14px;font-size:12px;display:flex;align-items:center;gap:6px"><i data-lucide="map" class="icon icon-xs icon-blanc"></i> Suivre GPS</button>
+      <button style="padding:8px 14px;background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e;border-radius:8px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px"><i data-lucide="phone" class="icon icon-xs icon-vert"></i> Livreur</button>
     </div>
   </div>
+  <span style="position:absolute;top:10px;right:10px;width:8px;height:8px;background:#0f6b4e;border-radius:50%"></span>
+</div>
 
-  <div class="notif" data-type="pay" onclick="openNotif(this,'portefeuille.html')">
-    <div class="notif-icon ni-gift">🎉</div>
-    <div class="notif-body">
-      <div class="notif-title">Parrainage validé — +2 000 FCFA !</div>
-      <div class="notif-desc">Votre ami <b>Modou K.</b> s'est inscrit avec votre code. Bonus ajouté à votre wallet.</div>
-      <div class="notif-time">🕐 Il y a 3 jours · 🎁 Programme parrainage</div>
+<!-- Notif 2 : FLASH -->
+<div class="notif-card flash" style="border-radius:12px;margin:0 16px 12px;padding:14px;display:flex;gap:12px;position:relative">
+  <div style="width:44px;height:44px;background:linear-gradient(135deg,#ef4444,#b91c1c);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="flame" class="icon icon-md icon-blanc"></i></div>
+  <div style="flex:1">
+    <strong style="color:#0a1f17;font-size:14px">FLASH -30% pendant 3h !</strong>
+    <p style="color:#4a5a52;font-size:12px;margin:4px 0">Vente flash sur la <b>Mode africaine</b> avec le code <b>RAMADAN30</b>. Ne rate pas ça !</p>
+    <small style="color:#4a5a52;font-size:11px;display:flex;align-items:center;gap:6px;margin-top:4px"><i data-lucide="clock" class="icon icon-xs" style="color:#4a5a52"></i> Il y a 45 min · <i data-lucide="alarm-clock" class="icon icon-xs icon-rouge"></i> Expire à 23h</small>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button style="padding:8px 14px;background:#ef4444;color:#fff;border-radius:8px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px"><i data-lucide="copy" class="icon icon-xs icon-blanc"></i> Copier code</button>
+      <button style="padding:8px 14px;background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e;border-radius:8px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px"><i data-lucide="shopping-bag" class="icon icon-xs icon-vert"></i> Voir</button>
     </div>
   </div>
+  <span style="position:absolute;top:10px;right:10px;width:8px;height:8px;background:#0f6b4e;border-radius:50%"></span>
 </div>
 
-<!-- EMPTY STATE (caché par défaut) -->
-<div class="empty" id="emptyState" style="display:none">
-  <div class="empty-icon">🔕</div>
-  <h3>Aucune notification</h3>
-  <p>Vous êtes à jour ! Nouvelles alertes visibles ici.</p>
+<!-- Notif 3 : Message vendeur -->
+<div class="notif-card" style="border-left-color:#3b82f6 !important;border-radius:12px;margin:0 16px 12px;padding:14px;display:flex;gap:12px;position:relative">
+  <div style="width:44px;height:44px;background:linear-gradient(135deg,#3b82f6,#2563eb);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="message-circle" class="icon icon-md icon-blanc"></i></div>
+  <div style="flex:1">
+    <strong style="color:#0a1f17;font-size:14px">Aïcha Fashion vous a répondu</strong>
+    <p style="color:#4a5a52;font-size:12px;margin:4px 0">« Bonjour ! Le boubou est disponible en XL en 3 couleurs. Livraison possible demain 🚚 »</p>
+    <small style="color:#4a5a52;font-size:11px;display:flex;align-items:center;gap:6px;margin-top:4px"><i data-lucide="clock" class="icon icon-xs" style="color:#4a5a52"></i> Il y a 1h · <i data-lucide="store" class="icon icon-xs icon-vert"></i> Vendeur vérifié <i data-lucide="check" class="icon icon-xs icon-vert"></i></small>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button style="padding:8px 14px;background:#3b82f6;color:#fff;border-radius:8px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px"><i data-lucide="message-circle" class="icon icon-xs icon-blanc"></i> Répondre</button>
+    </div>
+  </div>
+  <span style="position:absolute;top:10px;right:10px;width:8px;height:8px;background:#0f6b4e;border-radius:50%"></span>
 </div>
 
-<!-- FOOTER ACTIONS -->
-<div class="actions-footer">
-  <button class="action-footer-btn" onclick="clearAll()">🗑️ Effacer tout</button>
-  <button class="action-footer-btn settings" onclick="location.href='parametres.html?tab=notif'">⚙️ Gérer préférences</button>
+<!-- Actions footer -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px;padding-bottom:100px">
+  <button style="background:#fff;border:1px solid #e5e5e0;color:#4a5a52;padding:12px;border-radius:10px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="trash-2" class="icon icon-sm" style="color:#4a5a52"></i> Effacer tout</button>
+  <button class="btn-primary" style="padding:12px;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="settings" class="icon icon-sm icon-blanc"></i> Gérer préférences</button>
 </div>
 
 <nav class="bottom-nav">
-  <button class="nav-item" onclick="location.href='index.html'"><span class="nav-icon">🏠</span>Accueil</button>
-  <button class="nav-item" onclick="location.href='categories.html'"><span class="nav-icon">🗂️</span>Catégories</button>
-  <button class="nav-item" onclick="location.href='panier.html'"><span class="nav-icon">🛒</span>Panier</button>
-  <button class="nav-item active"><span class="nav-icon">🔔</span>Notifs</button>
-  <button class="nav-item" onclick="location.href='profil.html'"><span class="nav-icon">👤</span>Compte</button>
+  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="layout-grid" class="icon icon-md"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
+  <a href="notifications.html" class="active"><i data-lucide="bell" class="icon icon-md"></i><span>Notifs</span></a>
+  <a href="profil.html"><i data-lucide="user" class="icon icon-md"></i><span>Compte</span></a>
 </nav>
 
-<script src="js/dark-mode.js"></script>
-<script src="js/role-guard.js"></script>
-<script>
-let currentFilter = 'all';
-
-function filterNotifs(type, btn){
-  currentFilter = type;
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-  btn.classList.add('active');
-  
-  let visible = 0;
-  document.querySelectorAll('.notif').forEach(n => {
-    if(type === 'all' || n.dataset.type === type){
-      n.style.display = 'flex';
-      visible++;
-    } else {
-      n.style.display = 'none';
-    }
-  });
-  
-  // Cacher les day-groups sans notifs visibles
-  document.querySelectorAll('.day-group').forEach(g => {
-    const visibleNotifs = [...g.querySelectorAll('.notif')].filter(n => n.style.display !== 'none');
-    g.style.display = visibleNotifs.length > 0 ? 'block' : 'none';
-  });
-  
-  document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
-}
-
-function openNotif(el, url){
-  // Marquer comme lue
-  if(el.classList.contains('unread')){
-    el.classList.remove('unread');
-    updateUnreadCount();
-  }
-  setTimeout(()=>location.href = url, 200);
-}
-
-function markAllRead(){
-  if(!confirm('✓ Marquer toutes les notifications comme lues ?')) return;
-  document.querySelectorAll('.notif.unread').forEach(n => n.classList.remove('unread'));
-  updateUnreadCount();
-  alert('✅ Toutes les notifications sont marquées comme lues');
-}
-
-function updateUnreadCount(){
-  const count = document.querySelectorAll('.notif.unread').length;
-  const badge = document.getElementById('unreadBadge');
-  if(count > 0){
-    badge.textContent = count;
-    badge.style.display = 'inline-block';
-  } else {
-    badge.style.display = 'none';
-  }
-}
-
-function clearAll(){
-  if(!confirm('🗑️ Effacer TOUTES les notifications ?\n\nCette action est irréversible.')) return;
-  document.querySelectorAll('.notif').forEach(n => n.remove());
-  document.querySelectorAll('.day-group').forEach(g => g.remove());
-  document.getElementById('emptyState').style.display = 'block';
-  updateUnreadCount();
-}
-
-function trackOrder(id){
-  location.href = 'logistique.html?track=' + id;
-}
-
-function contactDriver(){
-  location.href = 'messages.html?driver=1';
-}
-
-function copyCode(code){
-  navigator.clipboard.writeText(code);
-  alert('✅ Code "' + code + '" copié !\n\nAppliquez-le au panier pour bénéficier de la réduction.');
-}
-
-function downloadReceipt(id){
-  alert('📄 Téléchargement du reçu #' + id + '.pdf\n\n(Sauvegarde dans Documents)');
-}
-
-function rateOrder(id){
-  location.href = 'avis.html?order=' + id;
-}
-
-// Demander permission notifications push
-if('Notification' in window && Notification.permission === 'default'){
-  setTimeout(()=>{
-    if(confirm('🔔 Activer les notifications push ?\n\nVous recevrez les alertes importantes même quand l\'app est fermée.')){
-      Notification.requestPermission();
-    }
-  }, 5000);
-}
-<script>if(window.lucide) lucide.createIcons();</script>
-</body></html>
+<script src="js/dark-mode.js?v=50"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>
