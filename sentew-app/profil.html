@@ -2,59 +2,67 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Profil — SEN TEW</title>
-<link rel="stylesheet" href="css/app.css?v=50">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon compte - SEN TEW</title>
+<link rel="stylesheet" href="css/app.css?v=51">
 <script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  body{background:#f5f5f0;margin:0;font-family:-apple-system,sans-serif;padding-bottom:80px;}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:10;}
+  .topbar h1{color:#0f6b4e;font-size:18px;margin:0;display:flex;align-items:center;gap:8px;}
+  .icon-btn{background:transparent;border:none;cursor:pointer;padding:8px;color:#0f6b4e;}
+  .hero-profil{background:linear-gradient(135deg,#0f6b4e 0%,#0a4d38 100%);padding:24px 16px;color:#fff;text-align:center;}
+  .avatar{width:80px;height:80px;border-radius:50%;background:#d4a574;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:700;color:#fff;margin:0 auto 12px;border:3px solid #d4a574;}
+  .hero-profil h2{margin:0;color:#fff;font-size:20px;}
+  .hero-profil p{margin:4px 0 0;color:#d4a574;font-size:14px;}
+  .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:16px;}
+  .stat{background:#fff;padding:14px 8px;border-radius:12px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.05);}
+  .stat .val{font-size:18px;font-weight:800;color:#0f6b4e;}
+  .stat .lbl{font-size:11px;color:#666;margin-top:4px;}
+  .stat.gold{background:linear-gradient(135deg,#fef3c7,#fde68a);}
+  .stat.gold .val{color:#b8860b;}
+  .espace-vendeur{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#d4a574,#b8860b);color:#fff;padding:16px;border-radius:12px;margin:0 16px 16px;text-decoration:none;box-shadow:0 4px 12px rgba(212,165,116,0.3);}
+  .espace-vendeur i{width:32px;height:32px;color:#fff;}
+  .card-menu{background:#fff;border-radius:12px;margin:0 16px 16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
+  .row{display:flex;align-items:center;gap:12px;padding:14px 16px;text-decoration:none;color:#1a1a1a;border-bottom:1px solid #f0f0f0;}
+  .row:last-child{border-bottom:none;}
+  .row i:first-child{width:22px;height:22px;flex-shrink:0;}
+  .row span{flex:1;font-weight:500;}
+  .row .badge{background:#dc2626;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;}
+  .row i:last-child{color:#999;width:18px;height:18px;}
+  .section-title{color:#d4a574;font-size:12px;font-weight:700;letter-spacing:0.5px;padding:0 20px;margin:16px 0 8px;}
+  .btn-logout{display:flex;align-items:center;justify-content:center;gap:8px;background:#fff;color:#dc2626;border:2px solid #dc2626;padding:12px;border-radius:12px;margin:16px;width:calc(100% - 32px);font-weight:600;cursor:pointer;}
+  .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0;border-top:1px solid #e5e7eb;z-index:100;}
+  .bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#666;font-size:11px;padding:4px 8px;}
+  .bottom-nav a.active{color:#0f6b4e;}
+  .bottom-nav a i{width:22px;height:22px;}
+</style>
 </head>
 <body class="light-mode">
 
 <header class="topbar">
-  <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left" class="icon icon-md icon-vert"></i></button>
-  <h1><i data-lucide="user" class="icon icon-md icon-vert"></i> Mon compte</h1>
-  <button class="icon-btn" data-theme-toggle title="Mode sombre/clair"><i data-lucide="moon" class="icon icon-md icon-vert"></i></button>
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="user"></i> Mon compte</h1>
+  <button class="icon-btn" onclick="toggleDarkMode()"><i data-lucide="moon"></i></button>
 </header>
 
-<main style="padding:16px;padding-bottom:100px">
+<!-- HERO -->
+<div class="hero-profil">
+  <div class="avatar">KN</div>
+  <h2>Karim Niang</h2>
+  <p>karim.niang@email.com</p>
+</div>
 
-  <!-- HERO PROFIL — Dégradé émeraude sombre UNIFORME (fix contraste) -->
-  <section style="background:linear-gradient(135deg,#0f6b4e 0%,#0a4d38 100%) !important;border-radius:20px;padding:20px;margin-bottom:16px;display:flex;align-items:center;gap:14px;box-shadow:0 12px 32px rgba(15,107,78,0.25);position:relative;overflow:hidden">
-    <div style="position:absolute;right:-30px;top:-30px;width:130px;height:130px;border-radius:50%;background:rgba(212,165,116,0.15)"></div>
-    <div style="position:absolute;left:-40px;bottom:-40px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.08)"></div>
-    <div style="width:74px;height:74px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,0.2);z-index:2">
-      <span style="font-size:28px;font-weight:900;color:#0f6b4e">U</span>
-    </div>
-    <div style="flex:1;z-index:2">
-      <strong style="display:block;font-size:17px;font-weight:800;color:#ffffff !important">Utilisateur SEN TEW</strong>
-      <p style="font-size:12px;color:rgba(255,255,255,0.9) !important;margin:2px 0">invite@sen-tew.com</p>
-      <span style="background:rgba(255,255,255,0.25);color:#ffffff !important;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:800;backdrop-filter:blur(10px);display:inline-block;margin-top:4px">Vendeur</span>
-    </div>
-    <button onclick="location.href='login.html'" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:#fff;width:38px;height:38px;border-radius:10px;backdrop-filter:blur(10px);z-index:2;cursor:pointer" title="Se connecter"><i data-lucide="log-in" class="icon icon-sm icon-blanc"></i></button>
-  </section>
+<!-- STATS -->
+<div class="stats-grid">
+  <div class="stat"><div class="val">12</div><div class="lbl">Commandes</div></div>
+  <div class="stat"><div class="val">45k</div><div class="lbl">FCFA gagnés</div></div>
+  <div class="stat gold"><div class="val">1250</div><div class="lbl">Fidélité</div></div>
+</div>
 
-  <!-- Stats -->
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px">
-    <div class="profile-stat" onclick="location.href='portefeuille.html'" style="cursor:pointer">
-      <div style="width:36px;height:36px;background:rgba(15,107,78,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px"><i data-lucide="wallet" class="icon icon-sm icon-vert"></i></div>
-      <strong>500</strong>
-      <small>FCFA gagnés</small>
-    </div>
-    <div class="profile-stat" onclick="location.href='commandes.html'" style="cursor:pointer">
-      <div style="width:36px;height:36px;background:rgba(59,130,246,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px"><i data-lucide="shopping-bag" class="icon icon-sm icon-bleu"></i></div>
-      <strong>0</strong>
-      <small>Commandes</small>
-    </div>
-    <div class="profile-stat bronze" onclick="location.href='fidelite.html'" style="cursor:pointer">
-      <div style="width:36px;height:36px;background:rgba(212,165,116,0.22);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px"><i data-lucide="award" class="icon icon-sm icon-or"></i></div>
-      <strong>Bronze</strong>
-      <small>Fidélité</small>
-    </div>
-  </div>
-
-  <!-- Menu principal — tous boutons cliquables -->
-  <!-- Espace Vendeur -->
-<a href="vendeur.html" style="display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#d4a574,#b8860b);color:#fff;padding:16px;border-radius:12px;margin:16px;text-decoration:none;box-shadow:0 4px 12px rgba(212,165,116,0.3);">
-  <i data-lucide="store" style="width:32px;height:32px;color:#fff;"></i>
+<!-- ESPACE VENDEUR (unique) -->
+<a href="vendeur.html" class="espace-vendeur">
+  <i data-lucide="store"></i>
   <div style="flex:1;">
     <div style="font-weight:700;font-size:16px;">Espace Vendeur</div>
     <div style="font-size:13px;opacity:0.9;">Gérez votre boutique</div>
@@ -62,44 +70,53 @@
   <i data-lucide="chevron-right" style="color:#fff;"></i>
 </a>
 
-<!-- Devenir Vendeur (si pas encore vendeur) -->
-<a href="devenir-vendeur.html" style="display:flex;align-items:center;gap:12px;background:#fff;border:2px dashed #0f6b4e;color:#0f6b4e;padding:14px;border-radius:12px;margin:0 16px 16px;text-decoration:none;">
-  <i data-lucide="plus-circle" style="width:24px;height:24px;"></i>
-  <span style="flex:1;font-weight:600;">Devenir vendeur</span>
-  <i data-lucide="chevron-right"></i>
-</a>
-  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <a href="adresses.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="map-pin" class="icon icon-md icon-rouge"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Mes adresses</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
-    <a href="commandes.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="package" class="icon icon-md icon-or"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Mes commandes</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
-    <a href="messages.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="message-circle" class="icon icon-md icon-bleu"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Messages</span><span style="background:#ef4444;color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:800">5</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
-    <a href="notifications.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="bell" class="icon icon-md icon-or"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Notifications</span><span style="background:#ef4444;color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:800">8</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
-    <a href="devenir-vendeur.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="store" class="icon icon-md icon-vert"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Devenir vendeur</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
-    <a href="livreur.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="truck" class="icon icon-md icon-vert"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Espace Livreur</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
-    <a href="portefeuille.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="wallet" class="icon icon-md icon-or"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Portefeuille</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
-    <a href="fidelite.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="award" class="icon icon-md icon-or"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Fidélité GOLD</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
-    <a href="parrainage.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none"><i data-lucide="gift" class="icon icon-md icon-or"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Parrainage</span><span style="color:#0f6b4e;font-weight:800;font-size:12px">500 F</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
-  </div>
+<!-- MENU PRINCIPAL -->
+<div class="section-title">MON COMPTE</div>
+<div class="card-menu">
+  <a href="adresses.html" class="row"><i data-lucide="map-pin" style="color:#dc2626;"></i><span>Mes adresses</span><i data-lucide="chevron-right"></i></a>
+  <a href="commandes.html" class="row"><i data-lucide="package" style="color:#d4a574;"></i><span>Mes commandes</span><i data-lucide="chevron-right"></i></a>
+  <a href="favoris.html" class="row"><i data-lucide="heart" style="color:#dc2626;"></i><span>Mes favoris</span><i data-lucide="chevron-right"></i></a>
+  <a href="fidelite.html" class="row"><i data-lucide="award" style="color:#d4a574;"></i><span>Programme fidélité</span><i data-lucide="chevron-right"></i></a>
+</div>
 
-  <!-- Support & Paramètres -->
-  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <a href="support.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="headphones" class="icon icon-md icon-vert"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Support & Remboursements</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
-    <a href="parametres.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="settings" class="icon icon-md" style="color:#4a5a52"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Paramètres</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
-  </div
+<!-- COMMUNICATION -->
+<div class="section-title">COMMUNICATION</div>
+<div class="card-menu">
+  <a href="messages.html" class="row"><i data-lucide="message-circle" style="color:#3b82f6;"></i><span>Messages</span><span class="badge">5</span><i data-lucide="chevron-right"></i></a>
+  <a href="notifications.html" class="row"><i data-lucide="bell" style="color:#d4a574;"></i><span>Notifications</span><span class="badge">8</span><i data-lucide="chevron-right"></i></a>
+  <a href="parrainage.html" class="row"><i data-lucide="users" style="color:#0f6b4e;"></i><span>Parrainage</span><i data-lucide="chevron-right"></i></a>
+</div>
 
-  <button onclick="if(confirm('Se déconnecter ?')) location.href='login.html'" style="width:100%;padding:14px;background:#fff;border:1.5px solid #ef4444;color:#ef4444;border-radius:12px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer"><i data-lucide="log-out" class="icon icon-sm icon-rouge"></i> Se déconnecter</button>
+<!-- FINANCES -->
+<div class="section-title">FINANCES</div>
+<div class="card-menu">
+  <a href="portefeuille.html" class="row"><i data-lucide="wallet" style="color:#d4a574;"></i><span>Portefeuille</span><i data-lucide="chevron-right"></i></a>
+  <a href="livreur.html" class="row"><i data-lucide="truck" style="color:#0f6b4e;"></i><span>Espace Livreur</span><i data-lucide="chevron-right"></i></a>
+</div>
 
-  <p style="text-align:center;color:#4a5a52;font-size:11px;margin-top:16px">SEN TEW SUARL — v1.0.50 · Dakar, Sénégal</p>
-</main>
+<!-- SUPPORT -->
+<div class="section-title">SUPPORT</div>
+<div class="card-menu">
+  <a href="support.html" class="row"><i data-lucide="help-circle" style="color:#0f6b4e;"></i><span>Aide & Support</span><i data-lucide="chevron-right"></i></a>
+  <a href="parametres.html" class="row"><i data-lucide="settings" style="color:#666;"></i><span>Paramètres</span><i data-lucide="chevron-right"></i></a>
+</div>
+
+<button class="btn-logout" onclick="logout()">
+  <i data-lucide="log-out"></i> Se déconnecter
+</button>
 
 <nav class="bottom-nav">
-  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="layout-grid" class="icon icon-md"></i><span>Catégories</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
-  <a href="messages.html"><i data-lucide="message-circle" class="icon icon-md"></i><span>Messages</span></a>
-  <a href="profil.html" class="active"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
-<script src="js/dark-mode.js?v=50"></script>
-<script>lucide.createIcons();</script>
+<script>
+  lucide.createIcons();
+  function toggleDarkMode(){document.body.classList.toggle('dark-mode');document.body.classList.toggle('light-mode');}
+  function logout(){if(confirm('Se déconnecter ?')){location.href='login.html';}}
+</script>
 </body>
 </html>
