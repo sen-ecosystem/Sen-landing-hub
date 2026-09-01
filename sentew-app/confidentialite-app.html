@@ -2,87 +2,114 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Confidentialité & Sécurité — SEN TEW</title>
-<link rel="stylesheet" href="css/app.css?v=50">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confidentialité & Sécurité - SEN TEW</title>
+<link rel="stylesheet" href="css/app.css?v=51">
 <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="light-mode">
 
 <header class="topbar">
-  <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left" class="icon icon-md icon-vert"></i></button>
-  <h1><i data-lucide="shield" class="icon icon-md icon-vert"></i> Confidentialité & Sécurité</h1>
+  <button class="icon-btn" onclick="history.back()" aria-label="Retour">
+    <i data-lucide="arrow-left"></i>
+  </button>
+  <h1>Confidentialité & Sécurité</h1>
+  <button class="icon-btn" onclick="location.href='support.html'" aria-label="Aide">
+    <i data-lucide="help-circle"></i>
+  </button>
 </header>
 
-<main style="padding:16px;padding-bottom:100px">
-
-  <!-- Hero sécurité -->
-  <section style="background:linear-gradient(135deg,#0f6b4e 0%,#0a4d38 100%);border-radius:20px;padding:20px;color:#fff;text-align:center;margin-bottom:16px;box-shadow:0 12px 32px rgba(15,107,78,0.25)">
-    <div style="width:60px;height:60px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px"><i data-lucide="shield-check" style="width:32px;height:32px;color:#fff"></i></div>
-    <h2 style="color:#fff !important;font-size:20px;font-weight:900;margin-bottom:4px">Votre sécurité, notre priorité</h2>
-    <p style="color:rgba(255,255,255,0.9) !important;font-size:13px">Données chiffrées · Conformité CDP Sénégal · RGPD</p>
-  </section>
-
+<main class="container">
   <!-- Score sécurité -->
-  <section style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:16px;margin-bottom:16px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+  <div class="section-card" style="background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;">
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div style="font-size:48px;font-weight:800;">85<span style="font-size:20px;">/100</span></div>
       <div>
-        <p style="color:#4a5a52;font-size:11px;font-weight:700">SCORE SÉCURITÉ DE VOTRE COMPTE</p>
-        <strong style="color:#0f6b4e;font-size:24px;font-weight:900">75/100</strong>
+        <h2 style="color:#fff;margin:0;">Score de sécurité</h2>
+        <p style="color:#d4a574;margin:4px 0 0;">Compte bien sécurisé ✓</p>
       </div>
-      <div style="width:56px;height:56px;background:rgba(15,107,78,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center"><i data-lucide="shield-check" style="width:28px;height:28px;color:#0f6b4e"></i></div>
     </div>
-    <div style="background:#e5e5e0;border-radius:8px;height:8px;overflow:hidden;margin-bottom:10px">
-      <div style="background:linear-gradient(90deg,#f59e0b,#0f6b4e);height:100%;width:75%"></div>
-    </div>
-    <p style="color:#4a5a52;font-size:12px">💡 Activez la 2FA pour atteindre 100/100</p>
-  </section>
+  </div>
 
   <!-- Authentification -->
-  <h2 class="section-title"><i data-lucide="key" class="icon icon-sm icon-or"></i> AUTHENTIFICATION</h2>
-  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <a href="password.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="key" class="icon icon-md icon-or"></i><div style="flex:1"><strong style="color:#0a1f17;font-size:14px;display:block">Mot de passe</strong><small style="color:#4a5a52;font-size:12px">Modifié il y a 30 jours</small></div><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
-    <a href="2fa.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="shield-check" class="icon icon-md icon-vert"></i><div style="flex:1"><strong style="color:#0a1f17;font-size:14px;display:block">Double authentification</strong><small style="color:#ef4444;font-size:12px">⚠️ Désactivée — À activer</small></div><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
-    <a href="biometrie.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none"><i data-lucide="fingerprint" class="icon icon-md icon-bleu"></i><div style="flex:1"><strong style="color:#0a1f17;font-size:14px;display:block">Biométrie</strong><small style="color:#4a5a52;font-size:12px">Face ID / Touch ID</small></div><label class="switch"><input type="checkbox" checked style="width:auto;padding:0"></label></a>
+  <div class="section-card">
+    <h3><i data-lucide="shield-check" style="color:#0f6b4e;"></i> Authentification</h3>
+    <div class="setting-row" onclick="location.href='change-password.html'">
+      <span>Changer mot de passe</span>
+      <i data-lucide="chevron-right"></i>
+    </div>
+    <div class="setting-row" onclick="toggle2FA()">
+      <span>Authentification à 2 facteurs</span>
+      <label class="switch"><input type="checkbox" id="tfa"><span class="slider"></span></label>
+    </div>
+    <div class="setting-row" onclick="location.href='sessions.html'">
+      <span>Appareils connectés (3)</span>
+      <i data-lucide="chevron-right"></i>
+    </div>
   </div>
 
   <!-- Données personnelles -->
-  <h2 class="section-title"><i data-lucide="database" class="icon icon-sm icon-vert"></i> MES DONNÉES</h2>
-  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <a href="export-data.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="download" class="icon icon-md icon-vert"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Télécharger mes données</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
-    <a href="historique-connexion.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="history" class="icon icon-md icon-or"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Historique de connexion</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
-    <a href="sessions.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none"><i data-lucide="smartphone" class="icon icon-md icon-bleu"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Appareils connectés</span><span style="color:#0f6b4e;font-weight:800;font-size:12px">2</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
+  <div class="section-card">
+    <h3><i data-lucide="user-cog" style="color:#0f6b4e;"></i> Vos données</h3>
+    <button class="btn-outline" onclick="downloadData()" style="width:100%;margin-bottom:8px;">
+      <i data-lucide="download"></i> Télécharger mes données
+    </button>
+    <button class="btn-outline" onclick="location.href='delete-account.html'" style="width:100%;color:#dc2626;border-color:#dc2626;">
+      <i data-lucide="trash-2"></i> Supprimer mon compte
+    </button>
   </div>
 
   <!-- Confidentialité -->
-  <h2 class="section-title"><i data-lucide="eye-off" class="icon icon-sm icon-or"></i> CONFIDENTIALITÉ</h2>
-  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <label style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f5f5f0;cursor:pointer"><i data-lucide="eye" class="icon icon-md icon-vert"></i><div style="flex:1"><strong style="color:#0a1f17;font-size:14px;display:block">Profil public visible</strong><small style="color:#4a5a52;font-size:12px">Autres utilisateurs voient votre nom</small></div><input type="checkbox" checked style="width:auto;padding:0"></label>
-    <label style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f5f5f0;cursor:pointer"><i data-lucide="map-pin" class="icon icon-md icon-rouge"></i><div style="flex:1"><strong style="color:#0a1f17;font-size:14px;display:block">Partager ma localisation</strong><small style="color:#4a5a52;font-size:12px">Pour livraison rapide</small></div><input type="checkbox" checked style="width:auto;padding:0"></label>
-    <label style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f5f5f0;cursor:pointer"><i data-lucide="target" class="icon icon-md icon-bleu"></i><div style="flex:1"><strong style="color:#0a1f17;font-size:14px;display:block">Publicité personnalisée</strong><small style="color:#4a5a52;font-size:12px">Suggestions basées sur activité</small></div><input type="checkbox" style="width:auto;padding:0"></label>
-    <label style="padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer"><i data-lucide="bar-chart-3" class="icon icon-md" style="color:#a855f7"></i><div style="flex:1"><strong style="color:#0a1f17;font-size:14px;display:block">Analyses anonymes</strong><small style="color:#4a5a52;font-size:12px">Aide à améliorer l'app</small></div><input type="checkbox" checked style="width:auto;padding:0"></label>
+  <div class="section-card">
+    <h3><i data-lucide="eye-off" style="color:#0f6b4e;"></i> Confidentialité</h3>
+    <div class="setting-row">
+      <span>Profil public</span>
+      <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+    </div>
+    <div class="setting-row">
+      <span>Historique achats visible</span>
+      <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+    </div>
+    <div class="setting-row">
+      <span>Recommandations personnalisées</span>
+      <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+    </div>
   </div>
 
   <!-- Documents légaux -->
-  <h2 class="section-title"><i data-lucide="scroll" class="icon icon-sm" style="color:#4a5a52"></i> DOCUMENTS LÉGAUX</h2>
-  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <a href="mentions-legales.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="file-text" class="icon icon-md" style="color:#4a5a52"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Mentions légales</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
-    <a href="cgu.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="scroll" class="icon icon-md" style="color:#4a5a52"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">CGU</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
-    <a href="cgv.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="file-check" class="icon icon-md" style="color:#4a5a52"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">CGV</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
-    <a href="cookies.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none"><i data-lucide="cookie" class="icon icon-md" style="color:#4a5a52"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Politique des cookies</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
+  <div class="section-card">
+    <h3><i data-lucide="file-text" style="color:#0f6b4e;"></i> Documents légaux</h3>
+    <div class="setting-row" onclick="location.href='cgu.html'">
+      <span>Conditions Générales d'Utilisation</span>
+      <i data-lucide="chevron-right"></i>
+    </div>
+    <div class="setting-row" onclick="location.href='cgv.html'">
+      <span>Conditions Générales de Vente</span>
+      <i data-lucide="chevron-right"></i>
+    </div>
+    <div class="setting-row" onclick="location.href='mentions-legales.html'">
+      <span>Mentions Légales</span>
+      <i data-lucide="chevron-right"></i>
+    </div>
+    <div class="setting-row" onclick="location.href='cookies.html'">
+      <span>Politique de cookies</span>
+      <i data-lucide="chevron-right"></i>
+    </div>
   </div>
-
 </main>
 
 <nav class="bottom-nav">
-  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="layout-grid" class="icon icon-md"></i><span>Catégories</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
-  <a href="messages.html"><i data-lucide="message-circle" class="icon icon-md"></i><span>Messages</span></a>
-  <a href="profil.html" class="active"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="recherche-ia.html"><i data-lucide="search"></i><span>Recherche</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="favoris.html"><i data-lucide="heart"></i><span>Favoris</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
-<script src="js/dark-mode.js?v=50"></script>
-<script>lucide.createIcons();</script>
+<script>
+  lucide.createIcons();
+  function toggle2FA(){alert('Activation 2FA - Redirection vers la vérification par SMS');}
+  function downloadData(){alert('Préparation de votre archive RGPD (48h par email)');}
+</script>
 </body>
 </html>
