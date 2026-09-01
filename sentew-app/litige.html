@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ouvrir un litige - SEN TEW</title>
+<link rel="stylesheet" href="css/app.css?v=51">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="light-mode">
+
+<header class="topbar">
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1>Ouvrir un litige</h1>
+  <button class="icon-btn" onclick="location.href='support.html'"><i data-lucide="help-circle"></i></button>
+</header>
+
+<main class="container">
+  <div class="section-card" style="background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;">
+    <h2 style="color:#fff;"><i data-lucide="alert-triangle"></i> Litige vendeur</h2>
+    <p style="color:#fecaca;">Médiation SEN TEW sous 72h</p>
+  </div>
+
+  <div class="section-card">
+    <h3>Étapes du litige</h3>
+    <ol style="padding-left:20px;">
+      <li>Contact vendeur (48h obligatoires)</li>
+      <li>Ouverture litige avec preuves</li>
+      <li>Médiation SEN TEW</li>
+      <li>Décision + remboursement si nécessaire</li>
+    </ol>
+  </div>
+
+  <div class="section-card">
+    <h3>Commande concernée</h3>
+    <select class="form-input">
+      <option>Commande #ST24071 - Moussa Tech</option>
+      <option>Commande #ST24072 - Fatou Fashion</option>
+    </select>
+  </div>
+
+  <div class="section-card">
+    <h3>Type de litige</h3>
+    <select class="form-input">
+      <option>Vendeur ne répond pas</option>
+      <option>Produit contrefait</option>
+      <option>Fraude avérée</option>
+      <option>Remboursement refusé</option>
+    </select>
+  </div>
+
+  <div class="section-card">
+    <h3>Détails</h3>
+    <textarea rows="5" class="form-input" placeholder="Détaillez le litige et joignez preuves..."></textarea>
+    <button class="btn-outline" style="width:100%;margin-top:8px;">
+      <i data-lucide="paperclip"></i> Joindre preuves (max 5)
+    </button>
+  </div>
+
+  <button class="btn-primary" onclick="submitDispute()" style="width:100%;padding:16px;background:linear-gradient(135deg,#dc2626,#991b1b);">
+    <i data-lucide="send"></i> Ouvrir le litige
+  </button>
+</main>
+
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="recherche-ia.html"><i data-lucide="search"></i><span>Recherche</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="favoris.html"><i data-lucide="heart"></i><span>Favoris</span></a>
+  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
+</nav>
+
+<script>
+  lucide.createIcons();
+  function submitDispute(){alert('⚖️ Litige ouvert. Numéro : LT'+Date.now()+'. Réponse sous 72h.');location.href='support.html';}
+</script>
+</body>
+</html>
