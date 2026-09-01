@@ -2,193 +2,127 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Espace Vendeur - SEN TEW</title>
-<meta name="theme-color" content="#0f6b4e">
-<link rel="stylesheet" href="css/app.css">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Espace Vendeur — SEN TEW</title>
+<link rel="stylesheet" href="css/app.css?v=50">
 <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body>
+<body class="light-mode">
 
 <header class="topbar">
-  <button class="btn-back" onclick="history.back()">
-    <i data-lucide="arrow-left" class="icon icon-md icon-vert"></i>
-  </button>
-  <h1>Espace Vendeur</h1>
-  <button class="icon-btn" onclick="location.href='parametres.html'">
-    <i data-lucide="settings" class="icon icon-md icon-vert"></i>
-  </button>
+  <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left" class="icon icon-md icon-vert"></i></button>
+  <h1><i data-lucide="truck" class="icon icon-md icon-or"></i> Logistique & Livraison</h1>
+  <button class="icon-btn icon-badge" data-count="2" onclick="location.href='notifications.html'"><i data-lucide="bell" class="icon icon-md icon-vert"></i></button>
 </header>
 
-<main style="padding:16px;padding-bottom:100px;">
+<main style="padding:12px;padding-bottom:100px">
 
-  <!-- Profil vendeur -->
-  <div style="background:linear-gradient(135deg,var(--v-emeraude),var(--v-forest));color:white;padding:20px;border-radius:16px;margin-bottom:16px;">
-    <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
-      <img src="https://i.pravatar.cc/100?img=13" style="width:60px;height:60px;border-radius:50%;border:3px solid var(--or-royal);">
-      <div style="flex:1;">
-        <div style="display:flex;align-items:center;gap:6px;">
-          <h2 style="font-size:18px;font-weight:800;">Moussa Tech</h2>
-          <i data-lucide="badge-check" class="icon icon-sm icon-or"></i>
-        </div>
-        <div style="font-size:12px;opacity:0.9;">Boutique Premium · Depuis 2024</div>
-      </div>
+  <!-- 4 KPI logistique -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px">
+    <div class="shop-hero-stat" style="text-align:center;padding:14px 6px">
+      <div style="width:32px;height:32px;background:rgba(245,158,11,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px"><i data-lucide="clock" class="icon icon-sm" style="color:#f59e0b"></i></div>
+      <strong style="display:block;font-size:22px;color:#0a1f17;font-weight:900">3</strong>
+      <small style="color:#4a5a52;font-size:11px">À expédier</small>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
-      <div style="text-align:center;background:rgba(255,255,255,0.15);padding:10px;border-radius:10px;">
-        <div style="font-size:18px;font-weight:800;">1.8M</div>
-        <div style="font-size:10px;opacity:0.9;">Ventes FCFA</div>
-      </div>
-      <div style="text-align:center;background:rgba(255,255,255,0.15);padding:10px;border-radius:10px;">
-        <div style="font-size:18px;font-weight:800;">32</div>
-        <div style="font-size:10px;opacity:0.9;">Produits</div>
-      </div>
-      <div style="text-align:center;background:rgba(255,255,255,0.15);padding:10px;border-radius:10px;">
-        <div style="font-size:18px;font-weight:800;">4.7★</div>
-        <div style="font-size:10px;opacity:0.9;">389 avis</div>
-      </div>
+    <div class="shop-hero-stat" style="text-align:center;padding:14px 6px">
+      <div style="width:32px;height:32px;background:rgba(59,130,246,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px"><i data-lucide="truck" class="icon icon-sm icon-bleu"></i></div>
+      <strong style="display:block;font-size:22px;color:#0a1f17;font-weight:900">5</strong>
+      <small style="color:#4a5a52;font-size:11px">En cours</small>
+    </div>
+    <div class="shop-hero-stat" style="text-align:center;padding:14px 6px">
+      <div style="width:32px;height:32px;background:rgba(15,107,78,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px"><i data-lucide="check-circle" class="icon icon-sm icon-vert"></i></div>
+      <strong style="display:block;font-size:22px;color:#0a1f17;font-weight:900">12</strong>
+      <small style="color:#4a5a52;font-size:11px">Livrés</small>
+    </div>
+    <div class="shop-hero-stat" style="text-align:center;padding:14px 6px">
+      <div style="width:32px;height:32px;background:rgba(212,165,116,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px"><i data-lucide="award" class="icon icon-sm icon-or"></i></div>
+      <strong style="display:block;font-size:22px;color:#0a1f17;font-weight:900">98%</strong>
+      <small style="color:#4a5a52;font-size:11px">Satisf.</small>
     </div>
   </div>
 
-  <!-- Actions rapides -->
-  <div class="section-title" style="margin:16px 0 12px;">
-    <i data-lucide="zap" class="icon icon-md icon-or"></i>
-    Actions rapides
-  </div>
-  <div class="icon-grid">
-    <div class="icon-grid-item" onclick="location.href='ajouter-produit.html'">
-      <div class="icon-bg bg-vert-soft"><i data-lucide="plus-circle" class="icon icon-md icon-vert"></i></div>
-      <span class="label">Ajouter produit</span>
-    </div>
-    <div class="icon-grid-item" onclick="location.href='commandes.html'">
-      <div class="icon-bg bg-or-soft"><i data-lucide="package" class="icon icon-md icon-or"></i></div>
-      <span class="label">Commandes</span>
-    </div>
-    <div class="icon-grid-item" onclick="location.href='vendeur-stats.html'">
-      <div class="icon-bg bg-bleu-soft"><i data-lucide="bar-chart-3" class="icon icon-md icon-bleu"></i></div>
-      <span class="label">Statistiques</span>
-    </div>
-    <div class="icon-grid-item" onclick="location.href='messages.html'">
-      <div class="icon-bg bg-violet-soft"><i data-lucide="message-circle" class="icon icon-md icon-violet"></i></div>
-      <span class="label">Messages</span>
-    </div>
+  <!-- Tabs -->
+  <div style="display:flex;gap:8px;margin-bottom:14px;overflow-x:auto">
+    <button class="btn-primary" style="padding:10px 16px;font-size:13px;display:flex;align-items:center;gap:6px;white-space:nowrap"><i data-lucide="package" class="icon icon-sm icon-blanc"></i> Commandes</button>
+    <button style="padding:10px 16px;background:#fff;border:1px solid #e5e5e0;color:#0a1f17;border-radius:10px;font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px;white-space:nowrap"><i data-lucide="truck" class="icon icon-sm icon-or"></i> Livraisons</button>
+    <button style="padding:10px 16px;background:#fff;border:1px solid #e5e5e0;color:#0a1f17;border-radius:10px;font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px;white-space:nowrap"><i data-lucide="settings" class="icon icon-sm" style="color:#4a5a52"></i> Options</button>
   </div>
 
-  <!-- Section IA RETOUCHE - Bloc premium violet -->
-  <div style="background:linear-gradient(135deg,var(--violet),var(--bleu));color:white;padding:20px;border-radius:16px;margin:20px 0;position:relative;overflow:hidden;">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-      <div style="width:48px;height:48px;background:rgba(255,255,255,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;">
-        <i data-lucide="wand-2" class="icon icon-lg icon-blanc"></i>
-      </div>
-      <div style="flex:1;">
-        <div style="display:flex;align-items:center;gap:6px;">
-          <h3 style="font-size:18px;font-weight:800;">Retouche IA Pro</h3>
-          <span style="background:var(--or-royal);color:var(--noir-profond);font-size:9px;font-weight:800;padding:2px 6px;border-radius:6px;">PREMIUM</span>
-        </div>
-        <div style="font-size:12px;opacity:0.9;">Sublimez vos photos produits en 1 clic</div>
-      </div>
-    </div>
-    <p style="font-size:13px;line-height:1.5;opacity:0.95;margin-bottom:14px;">
-      ✨ Amélioration automatique · Suppression arrière-plan · Correction lumière · Effets professionnels
-    </p>
-    <button style="background:white;color:var(--violet);padding:12px 24px;border-radius:10px;font-weight:800;font-size:14px;display:flex;align-items:center;gap:6px;" onclick="location.href='retouche-ia.html'">
-      <i data-lucide="sparkles" class="icon icon-sm icon-violet"></i>
-      Lancer Retouche IA
-    </button>
-    <div style="position:absolute;top:-20px;right:-20px;opacity:0.15;">
-      <i data-lucide="sparkles" class="icon" style="width:120px;height:120px;stroke-width:1;"></i>
-    </div>
+  <!-- Info workflow -->
+  <div style="background:#fef3c7;border-left:4px solid #f59e0b;border-radius:10px;padding:12px;margin-bottom:16px;display:flex;gap:10px">
+    <i data-lucide="lightbulb" class="icon icon-md" style="color:#f59e0b;flex-shrink:0"></i>
+    <p style="font-size:13px;color:#78350f;line-height:1.4"><strong>Nouveau workflow :</strong> Dès qu'un client passe commande, elle apparaît ici. Choisissez le mode de livraison → un livreur est automatiquement notifié.</p>
   </div>
 
-  <!-- Mes produits -->
-  <div class="section-title" style="margin:16px 0 12px;">
-    <i data-lucide="package" class="icon icon-md icon-vert"></i>
-    Mes produits (32)
-  </div>
-  <div id="myProducts"></div>
+  <!-- Commande #ST24071 -->
+  <article style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <strong style="color:#0f6b4e;font-size:14px;font-weight:800">#ST24071</strong>
+      <span style="display:flex;align-items:center;gap:4px;color:#4a5a52;font-size:12px"><i data-lucide="clock" class="icon icon-xs" style="color:#4a5a52"></i> 60min</span>
+    </div>
+    <h3 style="color:#0a1f17;font-size:16px;font-weight:700;margin-bottom:6px">Robe wax premium</h3>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;font-size:13px;color:#4a5a52">
+      <span style="display:flex;align-items:center;gap:4px"><i data-lucide="user" class="icon icon-xs" style="color:#4a5a52"></i> Awa Diop</span>
+      <span style="opacity:0.4">·</span>
+      <span style="display:flex;align-items:center;gap:4px"><i data-lucide="map-pin" class="icon icon-xs icon-rouge"></i> Sacré-Cœur, Dakar</span>
+    </div>
+    <p style="color:#0f6b4e;font-size:15px;font-weight:800;margin-bottom:12px">15 000 FCFA</p>
+    <div style="display:grid;grid-template-columns:1fr auto;gap:8px">
+      <button class="btn-or" style="padding:12px;display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(90deg,#0f6b4e,#d4a574);color:#fff;font-weight:700"><i data-lucide="truck" class="icon icon-sm icon-blanc"></i> Choisir livreur</button>
+      <button style="padding:12px 14px;background:#e8f5ee;border:1px solid #0f6b4e;border-radius:10px" onclick="location.href='messages.html'"><i data-lucide="message-circle" class="icon icon-sm icon-vert"></i></button>
+    </div>
+  </article>
 
-  <!-- Paramètres boutique -->
-  <div class="section-title" style="margin:20px 0 12px;">
-    <i data-lucide="settings-2" class="icon icon-md icon-vert"></i>
-    Paramètres boutique
-  </div>
-  <div style="background:var(--bg-card);border-radius:12px;overflow:hidden;">
-    <div onclick="alert('Modifier la boutique')" style="padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid var(--border);">
-      <i data-lucide="store" class="icon icon-md icon-vert"></i>
-      <span style="flex:1;font-size:14px;font-weight:600;">Modifier ma boutique</span>
-      <i data-lucide="chevron-right" class="icon icon-sm"></i>
+  <!-- Commande #ST24072 -->
+  <article style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <strong style="color:#0f6b4e;font-size:14px;font-weight:800">#ST24072</strong>
+      <span style="display:flex;align-items:center;gap:4px;color:#4a5a52;font-size:12px"><i data-lucide="clock" class="icon icon-xs" style="color:#4a5a52"></i> 120min</span>
     </div>
-    <div onclick="location.href='verified.html'" style="padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid var(--border);">
-      <i data-lucide="badge-check" class="icon icon-md icon-or"></i>
-      <span style="flex:1;font-size:14px;font-weight:600;">Vérification Premium</span>
-      <i data-lucide="chevron-right" class="icon icon-sm"></i>
+    <h3 style="color:#0a1f17;font-size:16px;font-weight:700;margin-bottom:6px">iPhone 15 Pro</h3>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;font-size:13px;color:#4a5a52">
+      <span style="display:flex;align-items:center;gap:4px"><i data-lucide="user" class="icon icon-xs" style="color:#4a5a52"></i> Moussa Fall</span>
+      <span style="opacity:0.4">·</span>
+      <span style="display:flex;align-items:center;gap:4px"><i data-lucide="map-pin" class="icon icon-xs icon-rouge"></i> Plateau, Dakar</span>
     </div>
-    <div onclick="location.href='logistique.html'" style="padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid var(--border);">
-      <i data-lucide="truck" class="icon icon-md icon-or"></i>
-      <span style="flex:1;font-size:14px;font-weight:600;">Logistique & Livraison</span>
-      <i data-lucide="chevron-right" class="icon icon-sm"></i>
+    <p style="color:#0f6b4e;font-size:15px;font-weight:800;margin-bottom:12px">750 000 FCFA</p>
+    <div style="display:grid;grid-template-columns:1fr auto;gap:8px">
+      <button class="btn-or" style="padding:12px;display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(90deg,#0f6b4e,#d4a574);color:#fff;font-weight:700"><i data-lucide="truck" class="icon icon-sm icon-blanc"></i> Choisir livreur</button>
+      <button style="padding:12px 14px;background:#e8f5ee;border:1px solid #0f6b4e;border-radius:10px" onclick="location.href='messages.html'"><i data-lucide="message-circle" class="icon icon-sm icon-vert"></i></button>
     </div>
-    <div onclick="location.href='portefeuille.html'" style="padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;">
-      <i data-lucide="wallet" class="icon icon-md icon-vert"></i>
-      <span style="flex:1;font-size:14px;font-weight:600;">Portefeuille & Retraits</span>
-      <i data-lucide="chevron-right" class="icon icon-sm"></i>
+  </article>
+
+  <!-- Commande #ST24073 -->
+  <article style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <strong style="color:#0f6b4e;font-size:14px;font-weight:800">#ST24073</strong>
+      <span style="display:flex;align-items:center;gap:4px;color:#4a5a52;font-size:12px"><i data-lucide="clock" class="icon icon-xs" style="color:#4a5a52"></i> 30min</span>
     </div>
-  </div>
+    <h3 style="color:#0a1f17;font-size:16px;font-weight:700;margin-bottom:6px">Palette maquillage</h3>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;font-size:13px;color:#4a5a52">
+      <span style="display:flex;align-items:center;gap:4px"><i data-lucide="user" class="icon icon-xs" style="color:#4a5a52"></i> Fatou Ndiaye</span>
+      <span style="opacity:0.4">·</span>
+      <span style="display:flex;align-items:center;gap:4px"><i data-lucide="map-pin" class="icon icon-xs icon-rouge"></i> Almadies</span>
+    </div>
+    <p style="color:#0f6b4e;font-size:15px;font-weight:800;margin-bottom:12px">8 500 FCFA</p>
+    <div style="display:grid;grid-template-columns:1fr auto;gap:8px">
+      <button class="btn-or" style="padding:12px;display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(90deg,#0f6b4e,#d4a574);color:#fff;font-weight:700"><i data-lucide="truck" class="icon icon-sm icon-blanc"></i> Choisir livreur</button>
+      <button style="padding:12px 14px;background:#e8f5ee;border:1px solid #0f6b4e;border-radius:10px" onclick="location.href='messages.html'"><i data-lucide="message-circle" class="icon icon-sm icon-vert"></i></button>
+    </div>
+  </article>
 
 </main>
 
-<button class="fab-add" onclick="location.href='ajouter-produit.html'">+</button>
-
+<!-- Bottom nav vendeur -->
 <nav class="bottom-nav">
   <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
-  <a href="recherche-ia.html"><i data-lucide="search" class="icon icon-md"></i><span>Rechercher</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md icon-or"></i><span>Panier</span></a>
-  <a href="vendeur.html" class="active"><i data-lucide="store" class="icon icon-md icon-vert"></i><span>Boutique</span></a>
+  <a href="boutique.html"><i data-lucide="store" class="icon icon-md"></i><span>Vendeur</span></a>
+  <a href="vendeur.html" class="active"><i data-lucide="truck" class="icon icon-md"></i><span>Logistique</span></a>
+  <a href="messages.html"><i data-lucide="message-circle" class="icon icon-md"></i><span>Messages</span></a>
   <a href="profil.html"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
 </nav>
 
-<script src="js/role-guard.js"></script>
-<script src="js/dark-mode.js"></script>
-<script>
-const myProducts = [
-  {id:2,name:'iPhone 15 Pro 256GB',price:750000,image:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=400',stock:5,sales:12},
-  {id:4,name:'Écouteurs sans fil Pro',price:12000,image:'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400',stock:25,sales:47},
-  {id:8,name:'Montre connectée Sport',price:35000,image:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400',stock:8,sales:23}
-];
-
-document.getElementById('myProducts').innerHTML = myProducts.map(p => `
-  <div style="display:flex;gap:12px;padding:12px;background:var(--bg-card);border-radius:12px;margin-bottom:10px;">
-    <img src="${p.image}" style="width:70px;height:70px;border-radius:10px;object-fit:cover;">
-    <div style="flex:1;">
-      <div style="font-size:14px;font-weight:600;margin-bottom:4px;">${p.name}</div>
-      <div style="font-size:14px;font-weight:800;color:var(--v-emeraude);margin-bottom:4px;">${p.price.toLocaleString('fr-FR')} FCFA</div>
-      <div style="display:flex;gap:12px;font-size:11px;color:var(--text-muted);">
-        <span><i data-lucide="package" class="icon icon-sm" style="width:12px;height:12px;"></i> Stock: ${p.stock}</span>
-        <span><i data-lucide="trending-up" class="icon icon-sm" style="width:12px;height:12px;"></i> ${p.sales} ventes</span>
-      </div>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:4px;">
-      <button onclick="location.href='produit.html?id=${p.id}'" class="icon-btn" style="padding:6px;">
-        <i data-lucide="eye" class="icon icon-sm icon-vert"></i>
-      </button>
-      <button onclick="location.href='ajouter-produit.html?edit=${p.id}'" class="icon-btn" style="padding:6px;">
-        <i data-lucide="edit-3" class="icon icon-sm icon-or"></i>
-      </button>
-      <button onclick="deleteProd(${p.id})" class="icon-btn" style="padding:6px;">
-        <i data-lucide="trash-2" class="icon icon-sm icon-rouge"></i>
-      </button>
-    </div>
-  </div>
-`).join('');
-
-function deleteProd(id) {
-  if(confirm('Supprimer ce produit ?')) {
-    alert('Produit supprimé (démo)');
-  }
-}
-
-lucide.createIcons();
-</script>
+<script src="js/dark-mode.js?v=50"></script>
 <script>lucide.createIcons();</script>
 </body>
 </html>
