@@ -1131,3 +1131,86 @@ body.light-mode .section-card span {
 .icon-btn:active {
   transform: scale(0.95);
 }
+
+/* ========== FIX DÉFINITIF v52 – Cartes illisibles ========== */
+
+/* CARTE GOLD FIDÉLITÉ – texte blanc sur fond crème = illisible */
+body.light-mode .gold-card,
+body.light-mode .fidelite-hero,
+body.light-mode [class*="gold-card"],
+body.light-mode [class*="fidelite"] {
+  background: linear-gradient(135deg, #d4a574 0%, #b8860b 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 24px rgba(212, 165, 116, 0.5) !important;
+}
+
+body.light-mode .gold-card *,
+body.light-mode .fidelite-hero *,
+body.light-mode [class*="gold-card"] *,
+body.light-mode [class*="fidelite"] * {
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
+}
+
+body.light-mode .gold-card .points-val,
+body.light-mode .fidelite-hero .points-val {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+}
+
+body.light-mode .gold-card .name,
+body.light-mode .fidelite-hero .name {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+}
+
+/* CARTE ASSISTANT IA – violet sur violet clair = illisible */
+body.light-mode .ia-card,
+body.light-mode .assistant-card,
+body.light-mode [class*="assistant-ia"],
+body.light-mode [class*="ia-hero"] {
+  background: linear-gradient(135deg, #6b46c1 0%, #4c1d95 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 24px rgba(107, 70, 193, 0.4) !important;
+}
+
+body.light-mode .ia-card *,
+body.light-mode .assistant-card *,
+body.light-mode [class*="assistant-ia"] *,
+body.light-mode [class*="ia-hero"] * {
+  color: #ffffff !important;
+}
+
+body.light-mode .ia-card h1,
+body.light-mode .ia-card h2,
+body.light-mode .ia-card h3,
+body.light-mode .assistant-card h1,
+body.light-mode .assistant-card h2,
+body.light-mode .assistant-card h3 {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+}
+
+body.light-mode .ia-card p,
+body.light-mode .assistant-card p {
+  color: rgba(255,255,255,0.95) !important;
+}
+
+/* BOUTON "Démarrer une conversation" – lisible sur fond violet */
+body.light-mode .btn-start-chat {
+  background: #ffffff !important;
+  color: #6b46c1 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+}
+
+/* Force text-shadow sur TOUS les héros dégradés */
+body.light-mode [class*="hero"] h1,
+body.light-mode [class*="hero"] h2,
+body.light-mode [class*="hero"] h3 {
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+}
+
