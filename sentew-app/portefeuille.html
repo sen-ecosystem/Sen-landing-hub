@@ -2,103 +2,98 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Portefeuille - SEN TEW</title>
-<meta name="theme-color" content="#0f6b4e">
-<link rel="stylesheet" href="css/app.css">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portefeuille — SEN TEW</title>
+<link rel="stylesheet" href="css/app.css?v=50">
 <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body>
+<body class="light-mode">
 
 <header class="topbar">
-  <button class="btn-back" onclick="history.back()">
-    <i data-lucide="arrow-left" class="icon icon-md icon-vert"></i>
-  </button>
-  <h1 style="display:flex;align-items:center;gap:8px;">
-    <i data-lucide="wallet" class="icon icon-md icon-or"></i>
-    Portefeuille
-  </h1>
-  <button class="icon-btn" onclick="location.href='parametres.html'">
-    <i data-lucide="settings" class="icon icon-md icon-vert"></i>
-  </button>
+  <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left" class="icon icon-md icon-vert"></i></button>
+  <h1><i data-lucide="wallet" class="icon icon-md icon-or"></i> Portefeuille</h1>
+  <button class="icon-btn"><i data-lucide="settings" class="icon icon-md icon-vert"></i></button>
 </header>
 
-<main style="padding:16px;padding-bottom:100px;">
+<main style="padding:16px;padding-bottom:100px">
 
-  <!-- Solde principal -->
-  <div style="background:linear-gradient(135deg,var(--v-emeraude),var(--v-forest));color:white;padding:24px 20px;border-radius:16px;margin-bottom:14px;box-shadow:0 4px 12px rgba(15,107,78,0.25);">
-    <div style="font-size:12px;opacity:0.9;margin-bottom:6px;color:white;">Solde disponible</div>
-    <div style="font-size:36px;font-weight:900;margin-bottom:8px;color:white;">15 000 FCFA</div>
-    <div style="font-size:12px;opacity:0.9;color:white;">≈ 22,95 € · ≈ 25,05 $</div>
-    <div style="display:flex;gap:8px;margin-top:16px;">
-      <button style="flex:1;background:rgba(255,255,255,0.2);color:white;padding:10px;border-radius:10px;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:4px;">
-        <i data-lucide="plus" class="icon icon-sm icon-blanc"></i>
-        Recharger
-      </button>
-      <button style="flex:1;background:rgba(255,255,255,0.2);color:white;padding:10px;border-radius:10px;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:4px;">
-        <i data-lucide="arrow-up-right" class="icon icon-sm icon-blanc"></i>
-        Retirer
-      </button>
+  <!-- Solde hero visible -->
+  <section class="solde-hero wallet-hero hero-emerald-gold" style="padding:24px;margin-bottom:20px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <span style="display:flex;align-items:center;gap:6px;color:rgba(255,255,255,0.9) !important;font-size:13px"><i data-lucide="wallet" style="width:16px;height:16px;color:#fff"></i> Solde disponible</span>
+      <button style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);width:32px;height:32px;border-radius:50%;color:#fff;backdrop-filter:blur(10px)"><i data-lucide="eye" style="width:16px;height:16px;color:#fff"></i></button>
+    </div>
+    <h2 class="solde-value wallet-amount" style="font-size:36px;font-weight:900;color:#fff !important;margin:8px 0">15 000 FCFA</h2>
+    <p class="solde-eur" style="color:rgba(255,255,255,0.85) !important;font-size:13px;margin-bottom:16px">≈ 22,95 € · ≈ 25,05 $</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <button style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:#fff !important;padding:12px;border-radius:10px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;backdrop-filter:blur(10px)"><i data-lucide="plus" style="width:16px;height:16px;color:#fff"></i> Recharger</button>
+      <button style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:#fff !important;padding:12px;border-radius:10px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;backdrop-filter:blur(10px)"><i data-lucide="arrow-up-right" style="width:16px;height:16px;color:#fff"></i> Retirer</button>
+    </div>
+  </section>
+
+  <!-- Ajouter des fonds -->
+  <h2 class="section-title"><i data-lucide="credit-card" class="icon icon-sm icon-vert"></i> AJOUTER DES FONDS</h2>
+
+  <div class="fund-option active">
+    <div class="fund-logo" style="background:linear-gradient(135deg,#00d4ff,#0099cc);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="waves" style="width:22px;height:22px;color:#fff"></i></div>
+    <div class="fund-info">
+      <strong>Wave</strong>
+      <small>Instantané · Frais 1%</small>
+    </div>
+    <i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i>
+  </div>
+
+  <div class="fund-option">
+    <div class="fund-logo" style="background:linear-gradient(135deg,#f97316,#ea580c);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="circle" style="width:22px;height:22px;color:#fff"></i></div>
+    <div class="fund-info">
+      <strong>Orange Money</strong>
+      <small>Instantané · Frais 1.5%</small>
+    </div>
+    <i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i>
+  </div>
+
+  <div class="fund-option">
+    <div class="fund-logo" style="background:linear-gradient(135deg,#635bff,#4d47cc);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="credit-card" style="width:22px;height:22px;color:#fff"></i></div>
+    <div class="fund-info">
+      <strong>Carte bancaire (Stripe)</strong>
+      <small>Visa · Mastercard · Frais 2%</small>
+    </div>
+    <i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i>
+  </div>
+
+  <!-- Ce mois-ci -->
+  <h2 class="section-title" style="margin-top:20px"><i data-lucide="bar-chart-2" class="icon icon-sm icon-or"></i> CE MOIS-CI</h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+    <div class="gains-box entrees" style="background:#d1fae5;border-radius:12px;padding:16px;text-align:center;border:1px solid rgba(15,107,78,0.2)">
+      <div style="color:#065f46;font-size:12px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:4px"><i data-lucide="arrow-down" style="width:12px;height:12px"></i> Entrées</div>
+      <strong style="font-size:20px;color:#065f46;font-weight:900">+20 500 FCFA</strong>
+    </div>
+    <div class="gains-box sorties" style="background:#fee2e2;border-radius:12px;padding:16px;text-align:center;border:1px solid rgba(239,68,68,0.2)">
+      <div style="color:#7f1d1d;font-size:12px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:4px"><i data-lucide="arrow-up" style="width:12px;height:12px"></i> Sorties</div>
+      <strong style="font-size:20px;color:#7f1d1d;font-weight:900">−23 500 FCFA</strong>
     </div>
   </div>
 
-  <!-- Moyens de recharge -->
-  <div style="background:var(--bg-card);padding:14px;border-radius:14px;margin-bottom:14px;">
-    <h3 style="font-size:14px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:6px;color:var(--v-emeraude);">
-      <i data-lucide="credit-card" class="icon icon-sm icon-vert"></i>
-      Ajouter des fonds
-    </h3>
-    <div style="display:flex;flex-direction:column;gap:8px;">
-      <button style="padding:12px;background:var(--bg);border:1.5px solid var(--v-emeraude);border-radius:10px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:var(--text);">
-        <span style="font-size:20px;" class="emoji-fix">🌊</span> Wave
-        <i data-lucide="chevron-right" class="icon icon-sm" style="margin-left:auto;"></i>
-      </button>
-      <button style="padding:12px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:var(--text);">
-        <span style="font-size:20px;" class="emoji-fix">🍊</span> Orange Money
-        <i data-lucide="chevron-right" class="icon icon-sm" style="margin-left:auto;"></i>
-      </button>
-      <button style="padding:12px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:var(--text);">
-        <i data-lucide="credit-card" class="icon icon-md icon-vert"></i> Carte bancaire (Stripe)
-        <i data-lucide="chevron-right" class="icon icon-sm" style="margin-left:auto;"></i>
-      </button>
-    </div>
-  </div>
+  <!-- Historique -->
+  <h2 class="section-title"><i data-lucide="clock" class="icon icon-sm icon-vert"></i> DERNIÈRES OPÉRATIONS</h2>
 
-  <!-- Stats mois -->
-  <div style="background:var(--bg-card);padding:14px;border-radius:14px;margin-bottom:14px;">
-    <h3 style="font-size:14px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:6px;color:var(--or-royal);">
-      <i data-lucide="bar-chart-3" class="icon icon-sm icon-or"></i>
-      Ce mois-ci
-    </h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-      <div style="background:var(--v-clair);padding:14px;border-radius:12px;">
-        <div style="font-size:11px;color:var(--v-forest);margin-bottom:4px;display:flex;align-items:center;gap:4px;">
-          <i data-lucide="arrow-down" class="icon icon-sm" style="width:12px;height:12px;color:var(--v-emeraude);stroke:var(--v-emeraude);"></i>
-          Entrées
-        </div>
-        <div style="font-size:18px;font-weight:800;color:var(--v-emeraude);">+20 500 FCFA</div>
-      </div>
-      <div style="background:rgba(239,68,68,0.12);padding:14px;border-radius:12px;">
-        <div style="font-size:11px;color:var(--rouge);margin-bottom:4px;display:flex;align-items:center;gap:4px;">
-          <i data-lucide="arrow-up" class="icon icon-sm" style="width:12px;height:12px;color:var(--rouge);stroke:var(--rouge);"></i>
-          Sorties
-        </div>
-        <div style="font-size:18px;font-weight:800;color:var(--rouge);">-23 500 FCFA</div>
-      </div>
+  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <div style="display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid #f5f5f0">
+      <div style="width:36px;height:36px;background:rgba(15,107,78,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="arrow-down" class="icon icon-sm icon-vert"></i></div>
+      <div style="flex:1"><strong style="color:#0a1f17;font-size:14px">Rechargement Wave</strong><br><small style="color:#4a5a52">Aujourd'hui 10:32</small></div>
+      <strong style="color:#0f6b4e;font-size:14px">+10 000</strong>
     </div>
-  </div>
-
-  <!-- Transactions -->
-  <div style="background:var(--bg-card);padding:14px;border-radius:14px;margin-bottom:14px;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-      <h3 style="font-size:14px;font-weight:800;display:flex;align-items:center;gap:6px;color:var(--or-royal);">
-        <i data-lucide="list" class="icon icon-sm icon-or"></i>
-        Transactions récentes
-      </h3>
-      <a href="#" style="font-size:12px;color:var(--v-emeraude);font-weight:700;">Tout voir ›</a>
+    <div style="display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid #f5f5f0">
+      <div style="width:36px;height:36px;background:rgba(239,68,68,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="shopping-bag" class="icon icon-sm icon-rouge"></i></div>
+      <div style="flex:1"><strong style="color:#0a1f17;font-size:14px">Commande #ST-2026-1247</strong><br><small style="color:#4a5a52">Hier 15:20</small></div>
+      <strong style="color:#ef4444;font-size:14px">−8 500</strong>
     </div>
-
-    <div id="txList"></div>
+    <div style="display:flex;align-items:center;gap:12px;padding:14px">
+      <div style="width:36px;height:36px;background:rgba(212,165,116,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="gift" class="icon icon-sm icon-or"></i></div>
+      <div style="flex:1"><strong style="color:#0a1f17;font-size:14px">Bonus parrainage</strong><br><small style="color:#4a5a52">28/08/2026</small></div>
+      <strong style="color:#0f6b4e;font-size:14px">+500</strong>
+    </div>
   </div>
 
 </main>
@@ -106,40 +101,12 @@
 <nav class="bottom-nav">
   <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
   <a href="recherche-ia.html"><i data-lucide="search" class="icon icon-md"></i><span>Rechercher</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md icon-or"></i><span>Panier</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
   <a href="favoris.html"><i data-lucide="heart" class="icon icon-md"></i><span>Favoris</span></a>
-  <a href="profil.html"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
 </nav>
 
-<script src="js/role-guard.js"></script>
-<script src="js/dark-mode.js"></script>
-<script>
-const TRANSACTIONS = [
-  {type:'in',label:'Bonus bienvenue',date:'24/07/2026',amount:1000,icon:'gift'},
-  {type:'in',label:'Recharge Wave',date:'08/08/2026',amount:20000,icon:'arrow-down-circle'},
-  {type:'out',label:'Commande #ST260071',date:'16/08/2026',amount:15000,icon:'shopping-cart'},
-  {type:'in',label:'Parrainage +Awa',date:'20/08/2026',amount:500,icon:'gift'},
-  {type:'out',label:'Commande #ST260073',date:'21/08/2026',amount:8500,icon:'shopping-cart'},
-  {type:'out',label:'Commande #ST260075',date:'22/08/2026',amount:4500,icon:'shopping-cart'}
-];
-
-document.getElementById('txList').innerHTML = TRANSACTIONS.map(tx => `
-  <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
-    <div style="width:36px;height:36px;border-radius:50%;background:${tx.type==='in'?'rgba(15,107,78,0.15)':'rgba(239,68,68,0.15)'};display:flex;align-items:center;justify-content:center;">
-      <i data-lucide="${tx.icon}" class="icon icon-sm ${tx.type==='in'?'icon-vert':'icon-rouge'}"></i>
-    </div>
-    <div style="flex:1;">
-      <div style="font-size:13px;font-weight:600;color:var(--text);">${tx.label}</div>
-      <div style="font-size:11px;color:var(--text-muted);">${tx.date}</div>
-    </div>
-    <div style="font-size:14px;font-weight:800;color:${tx.type==='in'?'var(--v-emeraude)':'var(--rouge)'};">
-      ${tx.type==='in'?'+':'-'}${tx.amount.toLocaleString('fr-FR')} FCFA
-    </div>
-  </div>
-`).join('');
-
-lucide.createIcons();
-</script>
+<script src="js/dark-mode.js?v=50"></script>
 <script>lucide.createIcons();</script>
 </body>
 </html>
