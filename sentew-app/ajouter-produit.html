@@ -1,281 +1,260 @@
 <!DOCTYPE html>
-<html lang="fr"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Ajouter un produit - SEN TEW</title>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nouveau produit - SEN TEW</title>
+<link rel="stylesheet" href="css/app.css?v=52">
+<script src="https://unpkg.com/lucide@latest"></script>
 <style>
-:root{--v:#00a651;--j:#fcd116;--r:#e31b23;--o:#b8863a}
-*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,'Segoe UI',sans-serif}
-body{background:#f5f5f5;color:#222;padding-bottom:100px;-webkit-overflow-scrolling:touch}
-.header{background:linear-gradient(135deg,var(--v),#008a44);color:#fff;padding:16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.1)}
-.back{background:rgba(255,255,255,.25);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer}
-.header h1{font-size:17px;color:#fff}
-.container{max-width:600px;margin:0 auto;padding:14px}
-.step-indicator{display:flex;gap:6px;padding:0 14px 14px}
-.step{flex:1;height:4px;background:#e0e0e0;border-radius:2px}
-.step.active{background:var(--v)}
-.field{background:#fff;padding:14px;border-radius:12px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
-.field label{display:block;font-size:11px;color:#666;font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
-.field label .req{color:var(--r)}
-.field input,.field textarea,.field select{width:100%;border:1px solid #ddd;padding:11px;border-radius:8px;font-size:15px;color:#222;background:#fff;outline:none}
-.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--v)}
-.field textarea{min-height:80px;resize:vertical}
-.hint{font-size:11px;color:#888;margin-top:4px}
-.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.photo-slot{aspect-ratio:1;background:#f9f9f9;border:2px dashed var(--v);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:22px;color:var(--v);cursor:pointer;position:relative}
-.photo-slot small{font-size:10px;margin-top:2px}
-.photo-slot.main::before{content:'PRINCIPALE';position:absolute;top:4px;background:var(--v);color:#fff;font-size:8px;padding:2px 6px;border-radius:4px;font-weight:700}
-.color-list{display:flex;gap:8px;flex-wrap:wrap}
-.color-item{width:36px;height:36px;border-radius:50%;cursor:pointer;position:relative;border:3px solid #fff;box-shadow:0 0 0 2px #ddd}
-.color-item.active{box-shadow:0 0 0 3px var(--v)}
-.color-item.active::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-weight:700;text-shadow:0 1px 2px rgba(0,0,0,.5)}
-.c-red{background:#e31b23}.c-blue{background:#1976d2}.c-green{background:#00a651}
-.c-yellow{background:#fcd116}.c-black{background:#222}.c-white{background:#fff;box-shadow:0 0 0 2px #ccc}
-.c-pink{background:#e91e63}.c-orange{background:#ff6b35}.c-purple{background:#9c27b0}
-.c-brown{background:#795548}.c-gray{background:#9e9e9e}.c-gold{background:#b8863a}
-.c-add{background:#f0f0f0;color:#666;display:flex;align-items:center;justify-content:center;font-size:20px}
-.size-list{display:flex;gap:6px;flex-wrap:wrap}
-.size-chip{padding:8px 14px;background:#f5f5f5;border:2px solid #e0e0e0;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;color:#222}
-.size-chip.active{background:var(--v);color:#fff;border-color:var(--v)}
-.material-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-.material-chip{padding:10px 6px;background:#f5f5f5;border:2px solid #e0e0e0;border-radius:10px;font-size:12px;text-align:center;cursor:pointer;color:#222;font-weight:500}
-.material-chip.active{background:#fff9e6;border-color:var(--j);color:var(--o);font-weight:700}
-.tags-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.tag-check{padding:10px;background:#f9f9f9;border:2px solid #eee;border-radius:10px;font-size:13px;cursor:pointer;color:#222;display:flex;align-items:center;gap:8px}
-.tag-check input{width:16px;height:16px;accent-color:var(--v)}
-.tag-check.active{background:#e8f5ee;border-color:var(--v)}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.livraison-box{background:#e8f5ee;border-left:4px solid var(--v);padding:12px;border-radius:8px;margin-top:6px}
-.livraison-box b{color:var(--v);font-size:12px}
-.livraison-box p{font-size:12px;color:#333;margin-top:2px}
-.submit-row{display:grid;grid-template-columns:1fr 2fr;gap:8px;margin-top:14px}
-.draft-btn{background:#fff;border:2px solid var(--o);color:var(--o);padding:14px;border-radius:12px;font-weight:700;font-size:14px;cursor:pointer}
-.submit{background:linear-gradient(135deg,var(--v),#008a44);color:#fff;border:none;padding:16px;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(0,166,81,.3)}
-</style></head><body>
+  body{background:#f5f5f0;margin:0;font-family:-apple-system,sans-serif;padding-bottom:100px;}
+  .topbar{background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;padding:16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+  .topbar h1{margin:0;font-size:18px;color:#fff;flex:1;display:flex;align-items:center;gap:8px;}
+  .icon-btn{background:rgba(255,255,255,0.2);border:none;cursor:pointer;padding:8px;border-radius:8px;color:#fff;width:36px;height:36px;display:flex;align-items:center;justify-content:center;}
 
-<header class="header">
-  <button class="back" onclick="history.back()">←</button>
-  <h1>➕ Nouveau produit</h1>
+  .card{background:#fff;margin:12px 16px;padding:18px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
+  .card-title{display:flex;align-items:center;gap:8px;color:#1a1a1a;font-size:13px;font-weight:700;margin-bottom:14px;letter-spacing:0.5px;text-transform:uppercase;}
+  .card-title i{color:#d4a574;width:18px;height:18px;}
+  .required{color:#dc2626;}
+
+  /* PHOTOS */
+  .photos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  .photo-slot{aspect-ratio:1;border:2px dashed #0f6b4e;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;background:#f9fdfb;position:relative;color:#0f6b4e;}
+  .photo-slot i{width:28px;height:28px;color:#0f6b4e;}
+  .photo-slot .lbl{font-size:11px;font-weight:600;color:#0f6b4e;}
+  .photo-slot .principal{position:absolute;top:6px;left:6px;background:#0f6b4e;color:#fff;padding:2px 8px;border-radius:10px;font-size:9px;font-weight:700;}
+  .photo-slot.video{border-color:#6b46c1;background:#faf7ff;}
+  .photo-slot.video i, .photo-slot.video .lbl{color:#6b46c1;}
+  .tip{font-size:11px;color:#666;margin-top:8px;display:flex;align-items:center;gap:6px;}
+
+  /* INPUTS */
+  .form-input, .form-select, .form-textarea{width:100%;padding:12px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:14px;background:#fff;color:#1a1a1a;box-sizing:border-box;font-family:inherit;}
+  .form-input:focus, .form-select:focus, .form-textarea:focus{outline:none;border-color:#0f6b4e;}
+  .form-textarea{resize:vertical;min-height:80px;}
+  .char-count{font-size:11px;color:#999;margin-top:4px;}
+  .row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+  /* IA */
+  .ia-block{background:linear-gradient(135deg,#6b46c1,#4c1d95);border-radius:12px;padding:14px;margin:12px 0;color:#fff;}
+  .ia-btn{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.95);color:#6b46c1;border:none;padding:10px 14px;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px;margin-top:8px;}
+
+  /* PRIX */
+  .price-row{display:grid;grid-template-columns:2fr 1fr;gap:10px;align-items:center;}
+  .prefix{position:relative;}
+  .prefix .suffix{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#0f6b4e;font-weight:700;font-size:13px;}
+
+  /* VARIANTES */
+  .variant-chip{display:inline-flex;align-items:center;gap:6px;background:#f5f5f0;color:#1a1a1a;padding:6px 12px;border-radius:20px;font-size:13px;margin:4px;cursor:pointer;border:1.5px solid transparent;}
+  .variant-chip.active{background:#0f6b4e;color:#fff;border-color:#0f6b4e;}
+  .add-chip{background:transparent;border:1.5px dashed #0f6b4e;color:#0f6b4e;}
+
+  /* STOCK */
+  .stock-warn{display:flex;align-items:center;gap:8px;background:#fef3c7;color:#92400e;padding:8px 12px;border-radius:8px;font-size:12px;margin-top:8px;}
+
+  /* CTA */
+  .bottom-actions{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:12px 16px;display:flex;gap:8px;box-shadow:0 -4px 12px rgba(0,0,0,0.08);z-index:99;}
+  .btn-draft{flex:1;background:#fff;color:#0f6b4e;border:2px solid #0f6b4e;padding:14px;border-radius:12px;font-weight:700;cursor:pointer;}
+  .btn-publish{flex:2;background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;border:none;padding:14px;border-radius:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 12px rgba(15,107,78,0.3);}
+</style>
+</head>
+<body class="light-mode">
+
+<header class="topbar">
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="plus-circle"></i> Nouveau produit</h1>
+  <button class="icon-btn" onclick="location.href='aide-vendeur.html'"><i data-lucide="help-circle"></i></button>
 </header>
 
-<div class="step-indicator">
-  <div class="step active"></div><div class="step active"></div><div class="step active"></div><div class="step"></div>
+<!-- 1. PHOTOS -->
+<div class="card">
+  <div class="card-title"><i data-lucide="camera"></i> Photos produit <span class="required">*</span> (max 5)</div>
+  <div class="photos-grid">
+    <div class="photo-slot" onclick="pickPhoto(1)">
+      <span class="principal">PRINCIPALE</span>
+      <i data-lucide="camera"></i>
+      <span class="lbl">Photo 1</span>
+    </div>
+    <div class="photo-slot" onclick="pickPhoto(2)"><i data-lucide="camera"></i><span class="lbl">Photo 2</span></div>
+    <div class="photo-slot" onclick="pickPhoto(3)"><i data-lucide="camera"></i><span class="lbl">Photo 3</span></div>
+    <div class="photo-slot" onclick="pickPhoto(4)"><i data-lucide="camera"></i><span class="lbl">Photo 4</span></div>
+    <div class="photo-slot video" onclick="pickVideo()"><i data-lucide="video"></i><span class="lbl">Vidéo (30s)</span></div>
+    <div class="photo-slot" onclick="pickPhoto(5)"><i data-lucide="camera"></i><span class="lbl">Photo 5</span></div>
+  </div>
+  <div class="tip"><i data-lucide="lightbulb" style="width:14px;height:14px;color:#d4a574;"></i> 1ère photo = principale (affichée dans les listes)</div>
+
+  <!-- Retouche IA -->
+  <div class="ia-block">
+    <div style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;">
+      <i data-lucide="sparkles" style="width:18px;height:18px;color:#fff;"></i> Retouche IA automatique
+    </div>
+    <div style="font-size:11px;opacity:0.9;margin-top:4px;">Fond blanc pro · Correction lumière · Suppression défauts</div>
+    <button class="ia-btn" onclick="retoucheIA()"><i data-lucide="wand-2" style="width:14px;height:14px;"></i> Améliorer avec IA</button>
+  </div>
 </div>
 
-<form class="container" onsubmit="save(event)">
-  <div class="field">
-    <label>📸 Photos produit <span class="req">*</span> (max 5)</label>
-    <div class="photo-grid">
-      <div class="photo-slot main" onclick="pick(0)">📷<small>Photo 1</small></div>
-      <div class="photo-slot" onclick="pick(1)">📷<small>Photo 2</small></div>
-      <div class="photo-slot" onclick="pick(2)">📷<small>Photo 3</small></div>
-      <div class="photo-slot" onclick="pick(3)">📷<small>Photo 4</small></div>
-      <div class="photo-slot" onclick="pick(4)">🎥<small>Vidéo</small></div>
-    </div>
-    <div class="hint">💡 1ère photo = principale (affichée dans les listes)</div>
-  </div>
+<!-- 2. NOM -->
+<div class="card">
+  <div class="card-title"><i data-lucide="tag"></i> Nom du produit <span class="required">*</span></div>
+  <input type="text" class="form-input" id="nom" maxlength="80" placeholder="Ex: Boubou traditionnel brodé main" oninput="countChars(this)">
+  <div class="char-count"><span id="count">0</span>/80 caractères</div>
 
-  <div class="field">
-    <label>Nom du produit <span class="req">*</span></label>
-    <input required placeholder="Ex: Boubou traditionnel brodé main" maxlength="80">
-    <div class="hint">80 caractères max</div>
-  </div>
+  <!-- Suggestion IA -->
+  <button class="ia-btn" style="background:linear-gradient(135deg,#6b46c1,#4c1d95);color:#fff;margin-top:10px;" onclick="suggestTitle()">
+    <i data-lucide="sparkles" style="width:14px;height:14px;"></i> Suggestion titre IA
+  </button>
+</div>
 
-  <div class="field">
-    <label>Description <span class="req">*</span></label>
-    <textarea required placeholder="Décrivez le produit : caractéristiques, origine, usage..."></textarea>
-  </div>
+<!-- 3. DESCRIPTION -->
+<div class="card">
+  <div class="card-title"><i data-lucide="align-left"></i> Description <span class="required">*</span></div>
+  <textarea class="form-textarea" rows="5" placeholder="Décrivez le produit : caractéristiques, origine, matière, dimensions, usage..."></textarea>
+  <button class="ia-btn" style="background:linear-gradient(135deg,#6b46c1,#4c1d95);color:#fff;margin-top:10px;" onclick="generateDesc()">
+    <i data-lucide="sparkles" style="width:14px;height:14px;"></i> Générer description IA
+  </button>
+</div>
 
-  <div class="field">
-    <label>Catégorie <span class="req">*</span></label>
-    <div class="row">
-      <select required>
-        <option>👗 Mode</option><option>📱 Électronique</option><option>💄 Beauté</option>
-        <option>🍲 Alimentation</option><option>🏠 Maison</option><option>👶 Enfants</option>
-        <option>⚽ Sport</option><option>💍 Bijoux</option>
-      </select>
-      <select required>
-        <option>Sous-catégorie</option><option>Boubou traditionnel</option>
-        <option>Robe wax</option><option>Sac</option><option>Chaussures</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="field">
-    <label>💰 Prix <span class="req">*</span></label>
-    <div class="row">
-      <div>
-        <input type="number" required placeholder="25000">
-        <div class="hint">Prix (FCFA)</div>
-      </div>
-      <div>
-        <input type="number" placeholder="35000">
-        <div class="hint">Prix barré (promo)</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="field">
-    <label>📦 Stock disponible <span class="req">*</span></label>
-    <input type="number" required placeholder="10" min="1">
-  </div>
-
-  <div class="field">
-    <label>🎨 Couleurs disponibles</label>
-    <div class="color-list" id="colors">
-      <div class="color-item c-red" data-c="Rouge" onclick="toggleColor(this)"></div>
-      <div class="color-item c-blue" data-c="Bleu" onclick="toggleColor(this)"></div>
-      <div class="color-item c-green" data-c="Vert" onclick="toggleColor(this)"></div>
-      <div class="color-item c-yellow" data-c="Jaune" onclick="toggleColor(this)"></div>
-      <div class="color-item c-black" data-c="Noir" onclick="toggleColor(this)"></div>
-      <div class="color-item c-white" data-c="Blanc" onclick="toggleColor(this)"></div>
-      <div class="color-item c-pink" data-c="Rose" onclick="toggleColor(this)"></div>
-      <div class="color-item c-orange" data-c="Orange" onclick="toggleColor(this)"></div>
-      <div class="color-item c-purple" data-c="Violet" onclick="toggleColor(this)"></div>
-      <div class="color-item c-brown" data-c="Marron" onclick="toggleColor(this)"></div>
-      <div class="color-item c-gray" data-c="Gris" onclick="toggleColor(this)"></div>
-      <div class="color-item c-gold" data-c="Doré" onclick="toggleColor(this)"></div>
-      <div class="color-item c-add" onclick="addCustomColor()">+</div>
-    </div>
-    <div class="hint" id="colorPicked">Aucune couleur sélectionnée</div>
-  </div>
-
-  <div class="field">
-    <label>📏 Tailles disponibles</label>
-    <div class="size-list" id="sizes">
-      <div class="size-chip" onclick="toggleSize(this)">XS</div>
-      <div class="size-chip" onclick="toggleSize(this)">S</div>
-      <div class="size-chip" onclick="toggleSize(this)">M</div>
-      <div class="size-chip" onclick="toggleSize(this)">L</div>
-      <div class="size-chip" onclick="toggleSize(this)">XL</div>
-      <div class="size-chip" onclick="toggleSize(this)">XXL</div>
-      <div class="size-chip" onclick="toggleSize(this)">3XL</div>
-      <div class="size-chip" onclick="toggleSize(this)">Unique</div>
-      <div class="size-chip" onclick="toggleSize(this)">36</div>
-      <div class="size-chip" onclick="toggleSize(this)">38</div>
-      <div class="size-chip" onclick="toggleSize(this)">40</div>
-      <div class="size-chip" onclick="toggleSize(this)">42</div>
-    </div>
-  </div>
-
-  <div class="field">
-    <label>🧵 Matière / Composition</label>
-    <div class="material-grid">
-      <div class="material-chip" onclick="toggleMat(this)">Coton</div>
-      <div class="material-chip" onclick="toggleMat(this)">Wax</div>
-      <div class="material-chip" onclick="toggleMat(this)">Bazin</div>
-      <div class="material-chip" onclick="toggleMat(this)">Cuir</div>
-      <div class="material-chip" onclick="toggleMat(this)">Soie</div>
-      <div class="material-chip" onclick="toggleMat(this)">Laine</div>
-      <div class="material-chip" onclick="toggleMat(this)">Polyester</div>
-      <div class="material-chip" onclick="toggleMat(this)">Lin</div>
-      <div class="material-chip" onclick="toggleMat(this)">Autre</div>
-    </div>
-  </div>
-
-  <div class="field">
-    <label>🏷️ Options produit</label>
-    <div class="tags-grid">
-      <label class="tag-check" onclick="this.classList.toggle('active')">
-        <input type="checkbox"> 🔥 Promo
-      </label>
-      <label class="tag-check" onclick="this.classList.toggle('active')">
-        <input type="checkbox"> 📍 Fait au Sénégal
-      </label>
-      <label class="tag-check" onclick="this.classList.toggle('active')">
-        <input type="checkbox"> ⚡ Livraison rapide
-      </label>
-      <label class="tag-check" onclick="this.classList.toggle('active')">
-        <input type="checkbox"> 🎥 LIVE éligible
-      </label>
-      <label class="tag-check" onclick="this.classList.toggle('active')">
-        <input type="checkbox"> 🌿 Fait main
-      </label>
-      <label class="tag-check" onclick="this.classList.toggle('active')">
-        <input type="checkbox"> ♻️ Éco-responsable
-      </label>
-    </div>
-  </div>
-
-  <div class="field">
-    <label>🚚 Options de livraison <span class="req">*</span></label>
-    <div class="tags-grid">
-      <label class="tag-check active">
-        <input type="checkbox" checked> 🏙️ Dakar (24h)
-      </label>
-      <label class="tag-check active">
-        <input type="checkbox" checked> 🇸🇳 Régions (3-5j)
-      </label>
-      <label class="tag-check" onclick="this.classList.toggle('active')">
-        <input type="checkbox"> 🌍 International (7-15j)
-      </label>
-      <label class="tag-check" onclick="this.classList.toggle('active')">
-        <input type="checkbox"> 🎁 Emballage cadeau
-      </label>
-    </div>
-    <div class="row" style="margin-top:10px">
-      <div>
-        <input type="number" placeholder="1500">
-        <div class="hint">Frais Dakar (FCFA)</div>
-      </div>
-      <div>
-        <input type="number" placeholder="3000">
-        <div class="hint">Frais régions (FCFA)</div>
-      </div>
-    </div>
-    <div class="livraison-box">
-      <b>💡 Livraison gratuite automatique</b>
-      <p>Dès 15 000 FCFA d'achat (règle SEN TEW)</p>
-    </div>
-  </div>
-
-  <div class="field">
-    <label>↩️ Politique retour</label>
-    <select>
-      <option>14 jours (recommandé SEN TEW)</option>
-      <option>7 jours</option>
-      <option>30 jours</option>
-      <option>Aucun retour (produits sur mesure)</option>
+<!-- 4. CATÉGORIE -->
+<div class="card">
+  <div class="card-title"><i data-lucide="grid"></i> Catégorie <span class="required">*</span></div>
+  <div class="row-2">
+    <select class="form-select">
+      <option>Choisir catégorie</option>
+      <option>👗 Mode</option>
+      <option>📱 Électronique</option>
+      <option>🍎 Alimentation</option>
+      <option>💄 Beauté</option>
+      <option>🏠 Maison</option>
+      <option>⚽ Sport</option>
+      <option>📚 Livres</option>
+    </select>
+    <select class="form-select">
+      <option>Sous-catégorie</option>
+      <option>Traditionnel</option>
+      <option>Moderne</option>
+      <option>Enfant</option>
     </select>
   </div>
+</div>
 
-  <div class="field">
-    <label>🔍 Mots-clés recherche</label>
-    <input placeholder="boubou, mariage, cérémonie, wax, tradition">
-    <div class="hint">Séparez par virgules – aide les clients à trouver ton produit</div>
+<!-- 5. PRIX -->
+<div class="card">
+  <div class="card-title"><i data-lucide="banknote"></i> Prix <span class="required">*</span></div>
+  <div class="price-row">
+    <div class="prefix">
+      <input type="number" class="form-input" placeholder="25 000" style="padding-right:60px;">
+      <span class="suffix">FCFA</span>
+    </div>
+    <select class="form-select">
+      <option>Fixe</option>
+      <option>Négociable</option>
+    </select>
+  </div>
+  <div style="display:flex;gap:8px;margin-top:10px;align-items:center;">
+    <input type="checkbox" id="promo">
+    <label for="promo" style="font-size:13px;color:#1a1a1a;">Prix promo</label>
+    <input type="number" class="form-input" placeholder="Prix barré" style="flex:1;">
+  </div>
+</div>
+
+<!-- 6. VARIANTES -->
+<div class="card">
+  <div class="card-title"><i data-lucide="layers"></i> Variantes (optionnel)</div>
+
+  <div style="font-size:12px;color:#666;margin-bottom:6px;font-weight:600;">Tailles</div>
+  <div>
+    <span class="variant-chip active">S</span>
+    <span class="variant-chip active">M</span>
+    <span class="variant-chip active">L</span>
+    <span class="variant-chip">XL</span>
+    <span class="variant-chip">XXL</span>
+    <span class="variant-chip add-chip">+ Ajouter</span>
   </div>
 
-  <div class="submit-row">
-    <button type="button" class="draft-btn" onclick="saveDraft()">💾 Brouillon</button>
-    <button class="submit" type="submit">✅ Publier</button>
+  <div style="font-size:12px;color:#666;margin:12px 0 6px;font-weight:600;">Couleurs</div>
+  <div>
+    <span class="variant-chip active">🟢 Vert</span>
+    <span class="variant-chip active">🔴 Rouge</span>
+    <span class="variant-chip">⚫ Noir</span>
+    <span class="variant-chip">⚪ Blanc</span>
+    <span class="variant-chip add-chip">+ Ajouter</span>
   </div>
-</form>
+</div>
+
+<!-- 7. STOCK & LIVRAISON -->
+<div class="card">
+  <div class="card-title"><i data-lucide="package"></i> Stock & Livraison</div>
+  <div class="row-2">
+    <div>
+      <label style="font-size:12px;color:#666;">Quantité</label>
+      <input type="number" class="form-input" placeholder="10" min="0">
+    </div>
+    <div>
+      <label style="font-size:12px;color:#666;">Poids (kg)</label>
+      <input type="number" class="form-input" placeholder="0.5" step="0.1">
+    </div>
+  </div>
+  <div style="margin-top:10px;">
+    <label style="font-size:12px;color:#666;">Délai de préparation</label>
+    <select class="form-select">
+      <option>24h</option>
+      <option>48h</option>
+      <option>3-5 jours</option>
+      <option>Sur commande (7 jours)</option>
+    </select>
+  </div>
+  <div class="stock-warn"><i data-lucide="alert-circle" style="width:14px;height:14px;"></i> Alerte stock bas dès 3 unités</div>
+</div>
+
+<!-- 8. SEO / TAGS -->
+<div class="card">
+  <div class="card-title"><i data-lucide="hash"></i> Tags recherche (SEO)</div>
+  <input type="text" class="form-input" placeholder="Ex: boubou, wax, mode africaine, sénégal">
+  <div class="tip"><i data-lucide="lightbulb" style="width:14px;height:14px;color:#d4a574;"></i> Séparez par virgules · 5 tags max</div>
+  <button class="ia-btn" style="background:linear-gradient(135deg,#6b46c1,#4c1d95);color:#fff;margin-top:10px;" onclick="suggestTags()">
+    <i data-lucide="sparkles" style="width:14px;height:14px;"></i> Suggérer tags IA
+  </button>
+</div>
+
+<!-- 9. OPTIONS -->
+<div class="card">
+  <div class="card-title"><i data-lucide="settings-2"></i> Options avancées</div>
+  <label style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;color:#1a1a1a;font-size:14px;">
+    <span>Livraison gratuite</span>
+    <input type="checkbox">
+  </label>
+  <label style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;color:#1a1a1a;font-size:14px;border-top:1px solid #f0f0f0;">
+    <span>Retour accepté (14 jours)</span>
+    <input type="checkbox" checked>
+  </label>
+  <label style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;color:#1a1a1a;font-size:14px;border-top:1px solid #f0f0f0;">
+    <span>Produit sur commande</span>
+    <input type="checkbox">
+  </label>
+  <label style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;color:#1a1a1a;font-size:14px;border-top:1px solid #f0f0f0;">
+    <span>Mise en vedette (payant)</span>
+    <input type="checkbox">
+  </label>
+</div>
+
+<!-- ACTIONS BAS -->
+<div class="bottom-actions">
+  <button class="btn-draft" onclick="saveDraft()">Brouillon</button>
+  <button class="btn-publish" onclick="publish()">
+    <i data-lucide="rocket" style="width:18px;height:18px;"></i> Publier
+  </button>
+</div>
 
 <script>
-function pick(i){alert('📷 Photo '+(i+1)+' – Sélection depuis la galerie (démo)')}
-function toggleColor(el){
-  el.classList.toggle('active');
-  updateColorHint();
-}
-function updateColorHint(){
-  const picked = [...document.querySelectorAll('.color-item.active')].map(e=>e.dataset.c);
-  document.getElementById('colorPicked').textContent = picked.length ? '✓ '+picked.join(', ') : 'Aucune couleur sélectionnée';
-}
-function addCustomColor(){
-  const c = prompt('Nom de la couleur personnalisée :');
-  if(c) alert('✅ Couleur "'+c+'" ajoutée');
-}
-function toggleSize(el){el.classList.toggle('active')}
-function toggleMat(el){
-  document.querySelectorAll('.material-chip').forEach(m=>m.classList.remove('active'));
-  el.classList.add('active');
-}
-function saveDraft(){
-  alert('💾 Brouillon enregistré. Vous pouvez continuer plus tard.');
-}
-function save(e){
-  e.preventDefault();
-  alert('✅ Produit publié avec succès !\n\n📩 En attente de validation SEN TEW (24-48h)\n📧 Notification envoyée dès validation');
-  location.href='vendeur.html';
-}
-  <script src="js/buttons-audit.js?v=51"></script>
-</body></html>
+  lucide.createIcons();
+  function countChars(el){document.getElementById('count').textContent=el.value.length;}
+  function pickPhoto(n){alert('📷 Sélection photo '+n+' (galerie ou appareil)');}
+  function pickVideo(){alert('🎥 Sélection vidéo (max 30 sec)');}
+  function retoucheIA(){alert('✨ Retouche IA en cours... Fond blanc + optimisation couleurs');}
+  function suggestTitle(){document.getElementById('nom').value='Boubou traditionnel wax brodé main Sénégal';countChars(document.getElementById('nom'));}
+  function generateDesc(){alert('✨ Description générée par IA en cours...');}
+  function suggestTags(){alert('✨ Tags suggérés : boubou, wax, mode, sénégal, tradition');}
+  function saveDraft(){alert('💾 Brouillon enregistré');location.href='vendeur.html';}
+  function publish(){if(confirm('Publier ce produit ?')){alert('🚀 Produit publié ! Visible en ligne dans 2 min.');location.href='vendeur.html';}}
+</script>
+</body>
+</html>
