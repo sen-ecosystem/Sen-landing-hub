@@ -2,655 +2,187 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>🌍 SEN TEW — Marketplace du Sénégal</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="theme-color" content="#0f6b4e">
-<link rel="stylesheet" href="css/app.css?v=48">
+<title>SEN TEW — Marketplace panafricaine</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="css/app.css?v=50">
 <script src="https://unpkg.com/lucide@latest"></script>
-<script src="js/dark-mode.js?v=48" defer></script>
-<script src="js/role-guard.js?v=48" defer></script>
-<style>
-/* ============================================
-   PAGE ACCUEIL v48 — Style Notifications
-   Cartes claires + bordure accent verte
-   ============================================ */
-
-body{background:#f5f5f0;margin:0;font-family:-apple-system,'Segoe UI',sans-serif}
-body.dark-mode{background:#0a1f17}
-
-/* TOPBAR */
-.home-topbar{
-  background:#ffffff;
-  padding:14px 16px;
-  display:flex;align-items:center;justify-content:space-between;
-  border-bottom:1px solid #e5e5e0;
-  position:sticky;top:0;z-index:50;
-}
-body.dark-mode .home-topbar{background:#0a1f17;border-bottom-color:#2a4438}
-.home-topbar .brand{display:flex;align-items:center;gap:8px;font-size:22px;font-weight:900;color:#0f6b4e;letter-spacing:1px}
-body.dark-mode .home-topbar .brand{color:#c8f0d8}
-.home-topbar .brand .globe{font-size:22px}
-.home-topbar .actions{display:flex;gap:8px}
-.home-topbar .icon-btn{
-  width:38px;height:38px;border-radius:12px;
-  background:#f5f5f0;border:1px solid #e5e5e0;
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;font-size:16px;
-}
-body.dark-mode .home-topbar .icon-btn{background:#1a2e24;border-color:#2a4438}
-
-/* HERO LOGO SEN TEW MARKETPLACE — dégradé émeraude + or */
-.brand-hero{
-  margin:12px 16px 16px;
-  padding:20px 20px 22px;
-  background:linear-gradient(135deg,#0f6b4e 0%,#0a4d38 50%,#d4a574 130%);
-  border-radius:20px;
-  color:#fff;
-  position:relative;overflow:hidden;
-  box-shadow:0 12px 32px rgba(15,107,78,0.25);
-  display:flex;align-items:center;gap:14px;
-}
-.brand-hero::before{content:'';position:absolute;right:-30px;top:-30px;width:130px;height:130px;border-radius:50%;background:rgba(212,165,116,0.25)}
-.brand-hero::after{content:'';position:absolute;left:-20px;bottom:-40px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.08)}
-.brand-hero .badge-logo{
-  width:64px;height:64px;border-radius:18px;
-  background:linear-gradient(135deg,#ffffff 0%,#f0c99a 100%);
-  color:#0f6b4e;font-weight:900;font-size:13px;
-  display:flex;align-items:center;justify-content:center;
-  flex-direction:column;line-height:1;
-  box-shadow:0 6px 16px rgba(0,0,0,0.15);
-  flex-shrink:0;position:relative;z-index:1;
-}
-.brand-hero .badge-logo span{display:block;margin:1px 0}
-.brand-hero .brand-info{position:relative;z-index:1;flex:1}
-.brand-hero h1{font-size:24px;font-weight:900;margin:0 0 2px;letter-spacing:1.5px}
-.brand-hero p{font-size:11px;font-weight:700;letter-spacing:3px;margin:0;opacity:.9;color:#f0c99a}
-.brand-hero .cta{
-  position:relative;z-index:1;
-  background:rgba(255,255,255,0.2);
-  backdrop-filter:blur(4px);
-  border:1.5px solid rgba(255,255,255,0.3);
-  padding:8px 12px;border-radius:10px;
-  font-size:12px;font-weight:800;color:#fff;cursor:pointer;
-  display:flex;align-items:center;gap:4px;flex-shrink:0;
-}
-
-/* SEARCH */
-.search-hero{padding:8px 16px 12px}
-.search-box{
-  display:flex;align-items:center;gap:10px;
-  background:#ffffff;border:1.5px solid #e5e5e0;
-  border-radius:14px;padding:12px 14px;
-  box-shadow:0 2px 8px rgba(15,107,78,0.05);
-}
-body.dark-mode .search-box{background:#1a2e24;border-color:#2a4438}
-.search-box i{color:#0f6b4e;flex-shrink:0}
-.search-box input{flex:1;border:none;background:transparent;font-size:14px;color:#0a1f17;outline:none}
-body.dark-mode .search-box input{color:#f5f5f0}
-.search-box input::placeholder{color:#a3b8ac}
-.search-box .ia-btn{
-  background:linear-gradient(135deg,#a855f7,#7c3aed);
-  color:#fff;border:none;width:32px;height:32px;
-  border-radius:10px;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;flex-shrink:0;
-}
-
-/* TABS filtres style notifications */
-.tabs-filters{
-  display:flex;gap:8px;padding:0 16px 12px;overflow-x:auto;scrollbar-width:none;
-}
-.tabs-filters::-webkit-scrollbar{display:none}
-.tab-filter{
-  display:flex;align-items:center;gap:6px;
-  padding:8px 14px;border-radius:20px;
-  background:#ffffff;border:1px solid #e5e5e0;
-  font-size:13px;font-weight:700;color:#4a5a52;
-  cursor:pointer;white-space:nowrap;
-}
-.tab-filter.active{background:#0f6b4e;color:#fff;border-color:#0f6b4e}
-.tab-filter .count{
-  background:#ef4444;color:#fff;
-  padding:1px 6px;border-radius:10px;font-size:10px;font-weight:800;
-}
-.tab-filter.active .count{background:rgba(255,255,255,0.25)}
-body.dark-mode .tab-filter{background:#1a2e24;border-color:#2a4438;color:#c8f0d8}
-body.dark-mode .tab-filter.active{background:#c8f0d8;color:#0a4d38}
-
-/* Section title */
-.section-head{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px 16px 10px;
-}
-.section-head h2{
-  font-size:14px;font-weight:800;
-  color:#0f6b4e;
-  margin:0;display:flex;align-items:center;gap:8px;
-  letter-spacing:.3px;text-transform:uppercase;
-}
-body.dark-mode .section-head h2{color:#c8f0d8}
-.section-head .see-all{
-  font-size:12px;color:#a67c3a;font-weight:700;text-decoration:none;
-}
-.section-head .date-badge{
-  background:#c8f0d8;color:#0a4d38;
-  padding:3px 10px;border-radius:10px;
-  font-size:11px;font-weight:800;
-}
-body.dark-mode .section-head .date-badge{background:#0f6b4e;color:#c8f0d8}
-
-/* ═══════════════════════════════════════════
-   ⭐ CARTES PRODUITS STYLE NOTIFICATIONS
-   Fond blanc + bordure gauche accent verte
-   ═══════════════════════════════════════════ */
-.notif-list{padding:0 16px}
-.notif-card{
-  display:grid;
-  grid-template-columns:80px 1fr auto;
-  gap:12px;
-  background:#ffffff;
-  border:1px solid #e5e5e0;
-  border-left:4px solid #0f6b4e;
-  border-radius:14px;
-  padding:12px;
-  margin-bottom:10px;
-  box-shadow:0 2px 8px rgba(15,107,78,0.06);
-  cursor:pointer;
-  transition:transform .15s;
-  align-items:center;
-}
-.notif-card:active{transform:scale(0.98)}
-.notif-card.flash{border-left-color:#ef4444}
-.notif-card.live{border-left-color:#f59e0b}
-.notif-card.local{border-left-color:#0f6b4e}
-body.dark-mode .notif-card{background:#1a2e24;border-color:#2a4438;border-left-color:#0f6b4e}
-
-.notif-img{
-  width:80px;height:80px;border-radius:12px;overflow:hidden;
-  background:#e5e5e0;position:relative;
-}
-.notif-img img{width:100%;height:100%;object-fit:cover}
-.notif-badge-tag{
-  position:absolute;top:4px;left:4px;
-  background:#0a1f17;color:#fff;
-  font-size:9px;font-weight:800;
-  padding:2px 6px;border-radius:5px;letter-spacing:.3px;
-}
-.notif-badge-tag.live{background:#ef4444}
-.notif-badge-tag.discount{background:#d4a574;color:#0a1f17}
-
-.notif-body{min-width:0;display:flex;flex-direction:column;gap:3px}
-.notif-title{
-  font-size:14px;font-weight:800;color:#0a1f17;
-  line-height:1.3;margin:0;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
-}
-body.dark-mode .notif-title{color:#f5f5f0}
-
-.notif-seller{
-  font-size:12px;color:#4a5a52;font-weight:600;
-  display:flex;align-items:center;gap:4px;
-}
-body.dark-mode .notif-seller{color:#a3b8ac}
-.notif-seller .avatar-mini{
-  width:14px;height:14px;border-radius:50%;
-  background:linear-gradient(135deg,#d4a574,#a67c3a);
-  flex-shrink:0;
-}
-
-.notif-meta{
-  font-size:11px;color:#a3b8ac;
-  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
-}
-.notif-meta .dot-sep{color:#e5e5e0}
-
-.notif-price{
-  font-size:16px;font-weight:900;color:#0f6b4e;
-  margin-top:2px;display:flex;align-items:baseline;gap:6px;
-}
-body.dark-mode .notif-price{color:#c8f0d8}
-.notif-price .old{font-size:11px;color:#a3b8ac;text-decoration:line-through;font-weight:600}
-
-.notif-actions{
-  display:flex;flex-direction:column;gap:6px;
-  align-items:flex-end;
-}
-.notif-actions .dot-new{
-  width:10px;height:10px;border-radius:50%;background:#22c55e;
-  box-shadow:0 0 0 2px rgba(34,197,94,0.2);
-}
-.notif-actions .fav-btn{
-  width:32px;height:32px;border-radius:8px;
-  background:#f5f5f0;border:none;color:#ef4444;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-}
-body.dark-mode .notif-actions .fav-btn{background:#223a2e}
-
-/* Notif quick action buttons (comme Copier code / Voir dans notifications) */
-.notif-actions-row{
-  display:flex;gap:8px;margin-top:8px;
-  grid-column:1 / -1;padding-top:8px;border-top:1px dashed #e5e5e0;
-}
-body.dark-mode .notif-actions-row{border-top-color:#2a4438}
-.notif-actions-row button{
-  padding:6px 12px;border-radius:8px;border:none;
-  font-size:12px;font-weight:700;cursor:pointer;
-  display:flex;align-items:center;gap:5px;
-}
-.notif-btn-primary{background:#0f6b4e;color:#fff}
-.notif-btn-secondary{background:#f0c99a;color:#0a1f17}
-.notif-btn-ghost{background:transparent;color:#0f6b4e;border:1px solid #0f6b4e !important}
-
-/* HORIZONTAL Boutiques Live / Top */
-.h-scroll{display:flex;gap:12px;overflow-x:auto;padding:0 16px 4px;scrollbar-width:none}
-.h-scroll::-webkit-scrollbar{display:none}
-.live-item{flex-shrink:0;text-align:center;width:80px;cursor:pointer}
-.live-avatar{
-  width:74px;height:74px;border-radius:50%;
-  border:3px solid #ef4444;padding:2px;background:#fff;
-  position:relative;box-shadow:0 4px 12px rgba(239,68,68,0.2);
-}
-.live-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover}
-.live-badge{
-  position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);
-  background:#ef4444;color:#fff;font-size:9px;font-weight:800;
-  padding:2px 8px;border-radius:6px;letter-spacing:.5px;
-}
-.live-item strong{
-  display:block;
-  margin-top:10px;
-  font-size:12px;
-  font-weight:700;
-  color:#0a1f17;
-  background:transparent !important;
-  background-color:transparent !important;
-  padding:0 !important;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-body.dark-mode .live-item strong{
-  color:#f5f5f0;
-  background:transparent !important;
-}
-
-.top-item strong{
-  display:block;
-  margin-top:8px;
-  font-size:13px;
-  font-weight:800;
-  color:#0a1f17;
-  background:transparent !important;
-  padding:0 !important;
-}
-body.dark-mode .top-item strong{
-  color:#f5f5f0;
-  background:transparent !important;
-}
-.top-item .rating{
-  font-size:12px;
-  color:#a67c3a;
-  font-weight:700;
-  margin-top:2px;
-  background:transparent !important;
-  padding:0 !important;
-}
-.top-item small{
-  display:block;
-  font-size:11px;
-  color:#4a5a52;
-  margin-top:1px;
-  background:transparent !important;
-  padding:0 !important;
-}
-body.dark-mode .top-item small{
-  color:#a3b8ac;
-  background:transparent !important;
-}
-
-/* Catégories grille */
-.cats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 16px 4px}
-.cat-card{background:#ffffff;border:1px solid #e5e5e0;border-radius:14px;padding:14px 8px;text-align:center;cursor:pointer;transition:transform .15s;box-shadow:0 2px 8px rgba(15,107,78,0.06)}
-body.dark-mode .cat-card{background:#1a2e24;border-color:#2a4438}
-.cat-card:active{transform:scale(0.95)}
-.cat-card .cat-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 6px}
-.cat-card .cat-icon.mode{background:linear-gradient(135deg,#c8f0d8,#0f6b4e33)}
-.cat-card .cat-icon.tech{background:linear-gradient(135deg,#dbeafe,#3b82f633)}
-.cat-card .cat-icon.beaute{background:linear-gradient(135deg,#fce7f3,#ec489933)}
-.cat-card .cat-icon.alim{background:linear-gradient(135deg,#fef3c7,#d4a57433)}
-.cat-card strong{font-size:12px;font-weight:700;color:#0a1f17}
-body.dark-mode .cat-card strong{color:#f5f5f0}
-
-main{padding-bottom:140px}
-</style>
 </head>
-<body class="light-mode" data-theme="light">
+<body class="light-mode">
 
-<!-- TOPBAR -->
-<header class="home-topbar">
-  <div class="brand"><span class="globe">🌍</span> SEN TEW</div>
-  <div class="actions">
-    <button class="icon-btn" title="Langue">🇫🇷</button>
-    <button class="icon-btn" title="Portefeuille">💰</button>
-    <button class="icon-btn btn-theme" data-theme-toggle><i data-lucide="moon" style="color:#0f6b4e;width:18px;height:18px"></i></button>
-  </div>
+<header class="topbar">
+  <h1><i data-lucide="globe" class="icon icon-md icon-vert"></i> SEN TEW</h1>
+  <button class="icon-btn" onclick="location.href='recherche-ia.html'"><i data-lucide="search" class="icon icon-md icon-vert"></i></button>
+  <button class="icon-btn" onclick="location.href='portefeuille.html'"><i data-lucide="wallet" class="icon icon-md icon-or"></i></button>
+  <button class="icon-btn" data-theme-toggle><i data-lucide="moon" class="icon icon-md icon-vert"></i></button>
 </header>
 
 <main>
-  <!-- HERO LOGO SEN TEW MARKETPLACE -->
-  <section class="brand-hero">
-    <div class="badge-logo">
-      <span>SEN</span>
-      <span>TEW</span>
+  <!-- Hero émeraude + or -->
+  <section class="hero-emerald-gold" style="margin:12px 16px">
+    <h2 style="font-size:20px;font-weight:900;margin-bottom:4px">Bienvenue sur SEN TEW</h2>
+    <p style="font-size:13px;opacity:0.95">Africa's marketplace, delivering value</p>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button class="btn-or" onclick="location.href='produits.html'">Explorer</button>
+      <button style="background:rgba(255,255,255,0.2);color:#fff;padding:12px 20px;border-radius:10px;font-weight:700;backdrop-filter:blur(10px)" onclick="location.href='inscription.html'">S'inscrire</button>
     </div>
-    <div class="brand-info">
-      <h1>SEN TEW</h1>
-      <p>MARKETPLACE</p>
-    </div>
-    <button class="cta">
-      <i data-lucide="zap" style="width:14px;height:14px"></i> -30%
-    </button>
   </section>
 
-  <!-- SEARCH -->
-  <div class="search-hero">
-    <div class="search-box" onclick="location.href='recherche-ia.html'">
-      <i data-lucide="search"></i>
-      <input placeholder="Rechercher un produit, boutique..." readonly>
-      <button class="ia-btn" title="Recherche IA"><i data-lucide="sparkles" style="width:16px;height:16px"></i></button>
-    </div>
+  <!-- Boutiques LIVE -->
+  <div class="section-head" style="display:flex;justify-content:space-between;align-items:center;padding:0 16px">
+    <h2 style="display:flex;align-items:center;gap:6px"><i data-lucide="radio" class="icon icon-sm icon-rouge"></i> BOUTIQUES EN LIVE</h2>
+    <a href="boutiques.html" class="see-all" style="font-weight:700">Voir tout ›</a>
   </div>
-
-  <!-- TABS FILTRES (style notifications) -->
-  <div class="tabs-filters">
-    <button class="tab-filter active">
-      <i data-lucide="flame" style="width:14px;height:14px"></i> Tendances <span class="count">18</span>
-    </button>
-    <button class="tab-filter">
-      <i data-lucide="zap" style="width:14px;height:14px"></i> Flash <span class="count">6</span>
-    </button>
-    <button class="tab-filter">
-      <i data-lucide="radio" style="width:14px;height:14px"></i> Live <span class="count">4</span>
-    </button>
-    <button class="tab-filter">
-      <i data-lucide="map-pin" style="width:14px;height:14px"></i> Local
-    </button>
-    <button class="tab-filter">
-      <i data-lucide="star" style="width:14px;height:14px"></i> Top
-    </button>
-  </div>
-
-  <!-- BOUTIQUES EN LIVE -->
-  <div class="section-head">
-    <h2><i data-lucide="radio" style="color:#ef4444;width:16px;height:16px"></i> Boutiques en Live</h2>
-    <a href="live.html" class="see-all">Voir tout ›</a>
-  </div>
-  <div class="h-scroll">
-    <div class="live-item" onclick="location.href='boutique.html?id=1'">
-      <div class="live-avatar">
-        <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=200">
-        <span class="live-badge">LIVE</span>
+  <div class="live-scroll" style="display:flex;gap:12px;overflow-x:auto;padding:8px 16px 16px;scrollbar-width:none">
+    <div class="live-item" style="flex-shrink:0;width:100px;text-align:center;cursor:pointer" onclick="location.href='boutique.html?id=1'">
+      <div style="position:relative;width:76px;height:76px;margin:0 auto;border-radius:50%;border:3px solid #ef4444;padding:2px">
+        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop" style="width:100%;height:100%;border-radius:50%;object-fit:cover" alt="Aïcha">
+        <span style="position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);background:#ef4444;color:#fff;font-size:9px;font-weight:800;padding:2px 8px;border-radius:8px">LIVE</span>
       </div>
-      <strong>Aïcha Couture</strong>
+      <strong style="display:block;margin-top:10px;font-size:12px;font-weight:700">Aïcha Cout...</strong>
     </div>
-    <div class="live-item" onclick="location.href='boutique.html?id=2'">
-      <div class="live-avatar">
-        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200">
-        <span class="live-badge">LIVE</span>
+    <div class="live-item" style="flex-shrink:0;width:100px;text-align:center;cursor:pointer" onclick="location.href='boutique.html?id=2'">
+      <div style="position:relative;width:76px;height:76px;margin:0 auto;border-radius:50%;border:3px solid #ef4444;padding:2px">
+        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" style="width:100%;height:100%;border-radius:50%;object-fit:cover" alt="Moussa">
+        <span style="position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);background:#ef4444;color:#fff;font-size:9px;font-weight:800;padding:2px 8px;border-radius:8px">LIVE</span>
       </div>
-      <strong>Moussa Tech</strong>
+      <strong style="display:block;margin-top:10px;font-size:12px;font-weight:700">Moussa Tech</strong>
     </div>
-    <div class="live-item" onclick="location.href='boutique.html?id=3'">
-      <div class="live-avatar">
-        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200">
-        <span class="live-badge">LIVE</span>
+    <div class="live-item" style="flex-shrink:0;width:100px;text-align:center;cursor:pointer" onclick="location.href='boutique.html?id=3'">
+      <div style="position:relative;width:76px;height:76px;margin:0 auto;border-radius:50%;border:3px solid #ef4444;padding:2px">
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&h=100&fit=crop" style="width:100%;height:100%;border-radius:50%;object-fit:cover" alt="Mariama">
+        <span style="position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);background:#ef4444;color:#fff;font-size:9px;font-weight:800;padding:2px 8px;border-radius:8px">LIVE</span>
       </div>
-      <strong>Mariama Beauté</strong>
+      <strong style="display:block;margin-top:10px;font-size:12px;font-weight:700">Mariama B...</strong>
     </div>
-    <div class="live-item" onclick="location.href='boutique.html?id=4'">
-      <div class="live-avatar">
-        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200">
-        <span class="live-badge">LIVE</span>
+    <div class="live-item" style="flex-shrink:0;width:100px;text-align:center;cursor:pointer" onclick="location.href='boutique.html?id=4'">
+      <div style="position:relative;width:76px;height:76px;margin:0 auto;border-radius:50%;border:3px solid #ef4444;padding:2px">
+        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&h=100&fit=crop" style="width:100%;height:100%;border-radius:50%;object-fit:cover" alt="Fatou">
+        <span style="position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);background:#ef4444;color:#fff;font-size:9px;font-weight:800;padding:2px 8px;border-radius:8px">LIVE</span>
       </div>
-      <strong>Fatou Fashion</strong>
+      <strong style="display:block;margin-top:10px;font-size:12px;font-weight:700">Fatou Fash...</strong>
     </div>
   </div>
 
-  <!-- TOP BOUTIQUES -->
-  <div class="section-head">
-    <h2><i data-lucide="award" style="color:#d4a574;width:16px;height:16px"></i> Top Boutiques</h2>
-    <a href="boutique.html" class="see-all">Voir tout ›</a>
+  <!-- Catégories -->
+  <div class="section-head" style="padding:0 16px">
+    <h2 style="display:flex;align-items:center;gap:6px"><i data-lucide="layout-grid" class="icon icon-sm icon-or"></i> CATÉGORIES</h2>
   </div>
-  <div class="h-scroll">
-    <div class="top-item" onclick="location.href='boutique.html?id=1'">
-      <div class="top-avatar"><img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=200"></div>
-      <strong>Aïcha Couture</strong>
-      <div class="rating">⭐ 4.9</div>
-      <small>Dakar</small>
+  <div class="cats-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:8px 16px 16px">
+    <div style="text-align:center;padding:14px 6px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;cursor:pointer" onclick="location.href='categorie.html?c=mode'">
+      <div style="width:44px;height:44px;margin:0 auto 6px;background:rgba(168,85,247,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center"><i data-lucide="shirt" class="icon icon-md" style="color:#a855f7"></i></div>
+      <span style="font-size:11px;font-weight:700;color:#0a1f17">Mode</span>
     </div>
-    <div class="top-item" onclick="location.href='boutique.html?id=3'">
-      <div class="top-avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200"></div>
-      <strong>Mariama Beauté</strong>
-      <div class="rating">⭐ 4.9</div>
-      <small>Dakar</small>
+    <div style="text-align:center;padding:14px 6px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;cursor:pointer" onclick="location.href='categorie.html?c=tech'">
+      <div style="width:44px;height:44px;margin:0 auto 6px;background:rgba(59,130,246,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center"><i data-lucide="smartphone" class="icon icon-md" style="color:#3b82f6"></i></div>
+      <span style="font-size:11px;font-weight:700;color:#0a1f17">Tech</span>
     </div>
-    <div class="top-item" onclick="location.href='boutique.html?id=5'">
-      <div class="top-avatar"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200"></div>
-      <strong>Ibrahim B.</strong>
-      <div class="rating">⭐ 4.8</div>
-      <small>Saint-Louis</small>
+    <div style="text-align:center;padding:14px 6px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;cursor:pointer" onclick="location.href='categorie.html?c=beaute'">
+      <div style="width:44px;height:44px;margin:0 auto 6px;background:rgba(239,68,68,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center"><i data-lucide="sparkles" class="icon icon-md" style="color:#ef4444"></i></div>
+      <span style="font-size:11px;font-weight:700;color:#0a1f17">Beauté</span>
     </div>
-    <div class="top-item" onclick="location.href='boutique.html?id=2'">
-      <div class="top-avatar"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200"></div>
-      <strong>Moussa Tech</strong>
-      <div class="rating">⭐ 4.7</div>
-      <small>Thiès</small>
+    <div style="text-align:center;padding:14px 6px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;cursor:pointer" onclick="location.href='categorie.html?c=maison'">
+      <div style="width:44px;height:44px;margin:0 auto 6px;background:rgba(212,165,116,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center"><i data-lucide="home" class="icon icon-md icon-or"></i></div>
+      <span style="font-size:11px;font-weight:700;color:#0a1f17">Maison</span>
     </div>
   </div>
 
-  <!-- CATÉGORIES -->
-  <div class="section-head">
-    <h2><i data-lucide="grid-3x3" style="color:#0f6b4e;width:16px;height:16px"></i> Explorer</h2>
-    <a href="categories.html" class="see-all">Voir tout ›</a>
+  <!-- Tendances (style Amazon/Temu/SHEIN) -->
+  <div class="section-head" style="display:flex;justify-content:space-between;align-items:center;padding:0 16px">
+    <h2 style="display:flex;align-items:center;gap:6px"><i data-lucide="flame" class="icon icon-sm icon-rouge"></i> TENDANCES</h2>
+    <a href="produits.html" class="see-all" style="font-weight:700">Voir tout ›</a>
   </div>
-  <div class="cats-grid">
-    <div class="cat-card" onclick="location.href='categories.html?c=mode'">
-      <div class="cat-icon mode">👗</div>
-      <strong>Mode</strong>
-    </div>
-    <div class="cat-card" onclick="location.href='categories.html?c=tech'">
-      <div class="cat-icon tech">📱</div>
-      <strong>Tech</strong>
-    </div>
-    <div class="cat-card" onclick="location.href='categories.html?c=beaute'">
-      <div class="cat-icon beaute">💄</div>
-      <strong>Beauté</strong>
-    </div>
-    <div class="cat-card" onclick="location.href='categories.html?c=alim'">
-      <div class="cat-icon alim">🍎</div>
-      <strong>Alim.</strong>
-    </div>
-  </div>
+  <div class="pcard-grid trend-grid" style="padding:8px 16px 20px">
 
-  <!-- TENDANCES — Cartes style NOTIFICATIONS -->
-  <div class="section-head">
-    <h2><i data-lucide="flame" style="color:#ef4444;width:16px;height:16px"></i> Aujourd'hui · 26 août 2026</h2>
-    <span class="date-badge">18 nouveautés</span>
-  </div>
-
-  <div class="notif-list">
-
-    <!-- Carte produit style notification #1 -->
-    <article class="notif-card local" onclick="location.href='produit.html?id=1'">
-      <div class="notif-img">
-        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300" alt="">
-        <span class="notif-badge-tag discount">-28%</span>
+    <article class="pcard" onclick="location.href='produit.html?id=1'">
+      <div class="pcard-badges">
+        <span class="pcard-badge pcard-badge-disc">-30%</span>
+        <span class="pcard-badge pcard-badge-live"><i data-lucide="radio" style="width:9px;height:9px;display:inline"></i> LIVE</span>
       </div>
-      <div class="notif-body">
-        <h3 class="notif-title">Boubou wax collection premium</h3>
-        <div class="notif-seller"><span class="avatar-mini"></span> Fatou Fashion</div>
-        <div class="notif-meta">
-          <i data-lucide="clock" style="width:11px;height:11px"></i> Il y a 12 min
-          <span class="dot-sep">·</span>
-          <i data-lucide="map-pin" style="width:11px;height:11px"></i> Dakar
+      <button style="position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:3"><i data-lucide="heart" style="width:15px;height:15px;color:#ef4444"></i></button>
+      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=400&h=400&fit=crop" alt="Robe wax"></div>
+      <div class="pcard-body" style="padding:10px 12px 12px">
+        <div class="pcard-seller" style="display:flex;align-items:center;gap:4px;margin-bottom:6px;font-size:12px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%"></span> Aïcha Couture <i data-lucide="badge-check" style="width:12px;height:12px;color:#0f6b4e"></i></div>
+        <h3 class="pcard-name" style="font-size:14px;line-height:1.35;margin:0 0 6px;min-height:36px">Robe wax mariage traditionnelle</h3>
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><span style="color:#f59e0b;font-size:12px;letter-spacing:1px">★★★★★</span><span style="color:#4a5a52;font-size:11px">4.8 · 234 avis</span></div>
+        <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+          <span class="pcard-price" style="color:#ef4444 !important;font-size:18px;font-weight:900">35 000 FCFA</span>
+          <span class="pcard-old-price" style="font-size:12px">50 000</span>
         </div>
-        <div class="notif-price">18 000 FCFA <span class="old">25 000</span></div>
-      </div>
-      <div class="notif-actions">
-        <span class="dot-new"></span>
-        <button class="fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+        <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#4a5a52;margin-bottom:10px"><i data-lucide="package" style="width:12px;height:12px"></i> 1.2k vendus <span style="opacity:0.4">•</span> <i data-lucide="truck" style="width:12px;height:12px"></i> Gratuit</div>
+        <button class="btn-primary" style="width:100%;padding:9px;font-size:12px"><i data-lucide="shopping-cart" style="width:14px;height:14px;display:inline"></i> Ajouter</button>
       </div>
     </article>
 
-    <!-- Carte produit style notification #2 - LIVE -->
-    <article class="notif-card live" onclick="location.href='produit.html?id=2'">
-      <div class="notif-img">
-        <img src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=300" alt="">
-        <span class="notif-badge-tag live">LIVE</span>
+    <article class="pcard" onclick="location.href='produit.html?id=2'">
+      <div class="pcard-badges">
+        <span class="pcard-badge pcard-badge-disc">-25%</span>
       </div>
-      <div class="notif-body">
-        <h3 class="notif-title">iPhone 15 Pro 256GB - Titanium</h3>
-        <div class="notif-seller"><span class="avatar-mini"></span> Moussa Tech ✓</div>
-        <div class="notif-meta">
-          <i data-lucide="radio" style="width:11px;height:11px;color:#ef4444"></i> EN LIVE
-          <span class="dot-sep">·</span>
-          <i data-lucide="eye" style="width:11px;height:11px"></i> 245 spectateurs
+      <button style="position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:3"><i data-lucide="heart" style="width:15px;height:15px;color:#ef4444"></i></button>
+      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400&h=400&fit=crop" alt="Sandales"></div>
+      <div class="pcard-body" style="padding:10px 12px 12px">
+        <div class="pcard-seller" style="display:flex;align-items:center;gap:4px;margin-bottom:6px;font-size:12px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%"></span> Aïcha Couture <i data-lucide="badge-check" style="width:12px;height:12px;color:#0f6b4e"></i></div>
+        <h3 class="pcard-name" style="font-size:14px;line-height:1.35;margin:0 0 6px;min-height:36px">Sandales cuir Peul premium</h3>
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><span style="color:#f59e0b;font-size:12px;letter-spacing:1px">★★★★☆</span><span style="color:#4a5a52;font-size:11px">4.6 · 89</span></div>
+        <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+          <span class="pcard-price" style="color:#ef4444 !important;font-size:18px;font-weight:900">8 500 FCFA</span>
+          <span class="pcard-old-price" style="font-size:12px">11 500</span>
         </div>
-        <div class="notif-price">750 000 FCFA</div>
-      </div>
-      <div class="notif-actions">
-        <span class="dot-new"></span>
-        <button class="fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+        <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#4a5a52;margin-bottom:10px"><i data-lucide="package" style="width:12px;height:12px"></i> 456 vendus <span style="opacity:0.4">•</span> <i data-lucide="truck" style="width:12px;height:12px"></i> Gratuit</div>
+        <button class="btn-primary" style="width:100%;padding:9px;font-size:12px"><i data-lucide="shopping-cart" style="width:14px;height:14px;display:inline"></i> Ajouter</button>
       </div>
     </article>
 
-    <!-- Carte produit style notification #3 - FLASH -->
-    <article class="notif-card flash" onclick="location.href='produit.html?id=3'">
-      <div class="notif-img">
-        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300" alt="">
-        <span class="notif-badge-tag discount">-32%</span>
+    <article class="pcard" onclick="location.href='produit.html?id=3'">
+      <div class="pcard-badges">
+        <span class="pcard-badge pcard-badge-local">Local</span>
       </div>
-      <div class="notif-body">
-        <h3 class="notif-title">🔥 Sac cuir africain premium</h3>
-        <div class="notif-seller"><span class="avatar-mini"></span> Aïcha Couture ✓</div>
-        <div class="notif-meta">
-          <i data-lucide="zap" style="width:11px;height:11px;color:#ef4444"></i> Vente FLASH
-          <span class="dot-sep">·</span>
-          <i data-lucide="clock" style="width:11px;height:11px"></i> Expire dans 2h
+      <button style="position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:3"><i data-lucide="heart" style="width:15px;height:15px;color:#ef4444"></i></button>
+      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400&h=400&fit=crop" alt="T-shirt"></div>
+      <div class="pcard-body" style="padding:10px 12px 12px">
+        <div class="pcard-seller" style="display:flex;align-items:center;gap:4px;margin-bottom:6px;font-size:12px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%"></span> Aïcha Couture <i data-lucide="badge-check" style="width:12px;height:12px;color:#0f6b4e"></i></div>
+        <h3 class="pcard-name" style="font-size:14px;line-height:1.35;margin:0 0 6px;min-height:36px">Chemise en coton bio unisexe</h3>
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><span style="color:#f59e0b;font-size:12px;letter-spacing:1px">★★★★★</span><span style="color:#4a5a52;font-size:11px">4.9 · 512</span></div>
+        <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+          <span class="pcard-price" style="color:#0f6b4e !important;font-size:18px;font-weight:900">12 000 FCFA</span>
         </div>
-        <div class="notif-price">15 000 FCFA <span class="old">22 000</span></div>
-      </div>
-      <div class="notif-actions">
-        <span class="dot-new"></span>
-        <button class="fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
-      </div>
-      <div class="notif-actions-row">
-        <button class="notif-btn-primary">
-          <i data-lucide="shopping-cart" style="width:12px;height:12px"></i> Ajouter au panier
-        </button>
-        <button class="notif-btn-secondary">
-          <i data-lucide="eye" style="width:12px;height:12px"></i> Voir détails
-        </button>
+        <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#4a5a52;margin-bottom:10px"><i data-lucide="package" style="width:12px;height:12px"></i> 2.1k vendus <span style="opacity:0.4">•</span> <i data-lucide="truck" style="width:12px;height:12px"></i> Gratuit</div>
+        <button class="btn-primary" style="width:100%;padding:9px;font-size:12px"><i data-lucide="shopping-cart" style="width:14px;height:14px;display:inline"></i> Ajouter</button>
       </div>
     </article>
 
-    <!-- Carte produit style notification #4 -->
-    <article class="notif-card live" onclick="location.href='produit.html?id=4'">
-      <div class="notif-img">
-        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300" alt="">
-        <span class="notif-badge-tag live">LIVE</span>
+    <article class="pcard" onclick="location.href='produit.html?id=4'">
+      <div class="pcard-badges">
+        <span class="pcard-badge pcard-badge-disc">-40%</span>
       </div>
-      <div class="notif-body">
-        <h3 class="notif-title">Écouteurs sans fil Pro Bluetooth</h3>
-        <div class="notif-seller"><span class="avatar-mini"></span> Moussa Tech ✓</div>
-        <div class="notif-meta">
-          <i data-lucide="clock" style="width:11px;height:11px"></i> Il y a 45 min
-          <span class="dot-sep">·</span>
-          <i data-lucide="star" style="width:11px;height:11px;color:#d4a574"></i> 4.8
+      <button style="position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:3"><i data-lucide="heart" style="width:15px;height:15px;color:#ef4444"></i></button>
+      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=400&fit=crop" alt="Baskets"></div>
+      <div class="pcard-body" style="padding:10px 12px 12px">
+        <div class="pcard-seller" style="display:flex;align-items:center;gap:4px;margin-bottom:6px;font-size:12px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%"></span> Aïcha Couture <i data-lucide="badge-check" style="width:12px;height:12px;color:#0f6b4e"></i></div>
+        <h3 class="pcard-name" style="font-size:14px;line-height:1.35;margin:0 0 6px;min-height:36px">Baskets pastel tendance femme</h3>
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><span style="color:#f59e0b;font-size:12px;letter-spacing:1px">★★★★★</span><span style="color:#4a5a52;font-size:11px">4.7 · 328</span></div>
+        <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+          <span class="pcard-price" style="color:#ef4444 !important;font-size:18px;font-weight:900">25 000 FCFA</span>
+          <span class="pcard-old-price" style="font-size:12px">42 000</span>
         </div>
-        <div class="notif-price">12 000 FCFA</div>
-      </div>
-      <div class="notif-actions">
-        <button class="fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
-      </div>
-    </article>
-
-    <!-- Carte produit style notification #5 - LOCAL -->
-    <article class="notif-card local" onclick="location.href='produit.html?id=5'">
-      <div class="notif-img">
-        <img src="https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=300" alt="">
-        <span class="notif-badge-tag">LOCAL</span>
-      </div>
-      <div class="notif-body">
-        <h3 class="notif-title">Perruque brésilienne 100% naturelle</h3>
-        <div class="notif-seller"><span class="avatar-mini"></span> Beauty Fatou ✓</div>
-        <div class="notif-meta">
-          <i data-lucide="clock" style="width:11px;height:11px"></i> Il y a 1h
-          <span class="dot-sep">·</span>
-          <i data-lucide="truck" style="width:11px;height:11px"></i> Livraison 24h
-        </div>
-        <div class="notif-price">55 000 FCFA</div>
-      </div>
-      <div class="notif-actions">
-        <button class="fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
-      </div>
-    </article>
-
-    <!-- Carte produit style notification #6 -->
-    <article class="notif-card local" onclick="location.href='produit.html?id=6'">
-      <div class="notif-img">
-        <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=300" alt="">
-        <span class="notif-badge-tag">LIVE</span>
-      </div>
-      <div class="notif-body">
-        <h3 class="notif-title">Boubou grand teint traditionnel</h3>
-        <div class="notif-seller"><span class="avatar-mini"></span> Aïcha Couture ✓</div>
-        <div class="notif-meta">
-          <i data-lucide="clock" style="width:11px;height:11px"></i> Il y a 2h
-          <span class="dot-sep">·</span>
-          <i data-lucide="map-pin" style="width:11px;height:11px"></i> Dakar
-        </div>
-        <div class="notif-price">45 000 FCFA</div>
-      </div>
-      <div class="notif-actions">
-        <button class="fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+        <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#4a5a52;margin-bottom:10px"><i data-lucide="package" style="width:12px;height:12px"></i> 847 vendus <span style="opacity:0.4">•</span> <i data-lucide="truck" style="width:12px;height:12px"></i> Gratuit</div>
+        <button class="btn-primary" style="width:100%;padding:9px;font-size:12px"><i data-lucide="shopping-cart" style="width:14px;height:14px;display:inline"></i> Ajouter</button>
       </div>
     </article>
 
   </div>
-
-  <!-- ACTIONS BAS style notifications -->
-  <div style="display:flex;gap:10px;padding:16px">
-    <button style="flex:1;background:#f5f5f0;border:1px solid #e5e5e0;padding:12px;border-radius:12px;font-weight:700;color:#4a5a52;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px">
-      <i data-lucide="refresh-cw" style="width:14px;height:14px"></i> Actualiser
-    </button>
-    <button style="flex:1;background:#0f6b4e;color:#fff;border:none;padding:12px;border-radius:12px;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px" onclick="location.href='produits.html'">
-      <i data-lucide="grid-3x3" style="width:14px;height:14px"></i> Voir tout
-    </button>
-  </div>
-
 </main>
 
 <nav class="bottom-nav">
-  <a href="index.html" class="active"><i data-lucide="home"></i><span>Accueil</span></a>
-  <a href="recherche-ia.html"><i data-lucide="search"></i><span>Rechercher</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
-  <a href="favoris.html"><i data-lucide="heart"></i><span>Favoris</span></a>
-  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
+  <a href="index.html" class="active"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="layout-grid" class="icon icon-md"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
+  <a href="favoris.html"><i data-lucide="heart" class="icon icon-md"></i><span>Favoris</span></a>
+  <a href="profil.html"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
 </nav>
 
-<script src="js/cookies-modal.js?v=48" defer></script>
-<script src="js/promo-banner.js?v=48" defer></script>
-
-<script>
-lucide.createIcons();
-
-// Tabs filter click
-document.querySelectorAll('.tab-filter').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-filter').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-  });
-});
-</script>
+<script src="js/dark-mode.js?v=50"></script>
+<script>lucide.createIcons();</script>
 </body>
 </html>
