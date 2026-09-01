@@ -2,189 +2,118 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Boutique - SEN TEW</title>
-<meta name="theme-color" content="#0f6b4e">
-<link rel="stylesheet" href="css/app.css">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Boutique Moussa Tech — SEN TEW</title>
+<link rel="stylesheet" href="css/app.css?v=50">
 <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body>
+<body class="light-mode">
 
 <header class="topbar">
-  <button class="btn-back" onclick="history.back()">
-    <i data-lucide="arrow-left" class="icon icon-md icon-vert"></i>
-  </button>
-  <h1 id="shopTitle">Boutique</h1>
-  <button class="icon-btn">
-    <i data-lucide="share-2" class="icon icon-md icon-vert"></i>
-  </button>
+  <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left" class="icon icon-md icon-vert"></i></button>
+  <h1><i data-lucide="store" class="icon icon-md icon-vert"></i> Boutique</h1>
+  <button class="icon-btn"><i data-lucide="share-2" class="icon icon-md icon-vert"></i></button>
 </header>
 
-<main id="shopMain" style="padding-bottom:100px;">
-  <!-- Généré JS -->
+<main style="padding-bottom:100px">
+
+  <!-- Hero Boutique -->
+  <section style="padding:20px 16px;background:linear-gradient(135deg,#f5f5f0,#ffffff);border-bottom:1px solid #e5e5e0">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+      <div style="width:76px;height:76px;border-radius:50%;border:3px solid #d4a574;padding:2px;flex-shrink:0">
+        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop" style="width:100%;height:100%;border-radius:50%;object-fit:cover">
+      </div>
+      <div style="flex:1">
+        <h2 style="font-size:20px;font-weight:800;color:#a67c3a;display:flex;align-items:center;gap:6px">Moussa Tech <i data-lucide="badge-check" class="icon icon-sm icon-or"></i></h2>
+        <p style="color:#4a5a52;font-size:13px;margin-top:2px">Boutique Premium · Depuis 2024</p>
+        <div style="display:flex;gap:6px;margin-top:6px">
+          <span style="background:rgba(212,165,116,0.2);color:#a67c3a;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700">Vendeur Gold</span>
+          <span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:800;display:flex;align-items:center;gap:3px"><i data-lucide="radio" style="width:9px;height:9px"></i> LIVE</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats fix -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px">
+      <div class="shop-hero-stat" style="text-align:center">
+        <div style="width:36px;height:36px;background:rgba(15,107,78,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px"><i data-lucide="trending-up" class="icon icon-sm icon-vert"></i></div>
+        <strong style="display:block;font-size:20px;color:#0a1f17;font-weight:900">1.8M</strong>
+        <small style="color:#4a5a52;font-size:11px">Ventes FCFA</small>
+      </div>
+      <div class="shop-hero-stat" style="text-align:center">
+        <div style="width:36px;height:36px;background:rgba(59,130,246,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px"><i data-lucide="package" class="icon icon-sm icon-bleu"></i></div>
+        <strong style="display:block;font-size:20px;color:#0a1f17;font-weight:900">32</strong>
+        <small style="color:#4a5a52;font-size:11px">Produits</small>
+      </div>
+      <div class="shop-hero-stat" style="text-align:center">
+        <div style="width:36px;height:36px;background:rgba(245,158,11,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px"><i data-lucide="star" class="icon icon-sm" style="color:#f59e0b"></i></div>
+        <strong style="display:block;font-size:20px;color:#0a1f17;font-weight:900">4.7 <i data-lucide="star" style="width:14px;height:14px;color:#f59e0b;display:inline;fill:#f59e0b"></i></strong>
+        <small style="color:#4a5a52;font-size:11px">389 avis</small>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px">
+      <button class="btn-primary" style="padding:11px;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="plus" class="icon icon-sm icon-blanc"></i> Suivre</button>
+      <button style="padding:11px;background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e;border-radius:10px;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px" onclick="location.href='messages.html'"><i data-lucide="message-circle" class="icon icon-sm icon-vert"></i></button>
+      <button style="padding:11px;background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e;border-radius:10px;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="share-2" class="icon icon-sm icon-vert"></i></button>
+    </div>
+  </section>
+
+  <h2 class="section-title"><i data-lucide="grid-3x3" class="icon icon-sm icon-vert"></i> PRODUITS DE LA BOUTIQUE</h2>
+  <div class="pcard-grid">
+
+    <article class="pcard" onclick="location.href='produit.html?id=100'">
+      <div class="pcard-badges"><span class="pcard-badge pcard-badge-live"><i data-lucide="radio" style="width:9px;height:9px;display:inline"></i> LIVE</span></div>
+      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=400&h=400&fit=crop" alt="iPhone 15"></div>
+      <div class="pcard-body" style="padding:10px 12px 12px">
+        <div class="pcard-seller" style="font-size:12px;margin-bottom:4px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%;display:inline-block;margin-right:4px"></span>Moussa Tech</div>
+        <h3 class="pcard-name" style="font-size:14px;margin-bottom:4px">iPhone 15 Pro Max 256GB</h3>
+        <p class="pcard-price" style="font-size:16px">750 000 FCFA</p>
+      </div>
+    </article>
+
+    <article class="pcard" onclick="location.href='produit.html?id=101'">
+      <div class="pcard-badges"><span class="pcard-badge pcard-badge-disc">-15%</span></div>
+      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=400&h=400&fit=crop" alt="AirPods"></div>
+      <div class="pcard-body" style="padding:10px 12px 12px">
+        <div class="pcard-seller" style="font-size:12px;margin-bottom:4px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%;display:inline-block;margin-right:4px"></span>Moussa Tech</div>
+        <h3 class="pcard-name" style="font-size:14px;margin-bottom:4px">AirPods Pro 2</h3>
+        <p class="pcard-price" style="font-size:16px">125 000 FCFA</p>
+      </div>
+    </article>
+
+    <article class="pcard" onclick="location.href='produit.html?id=102'">
+      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=400&fit=crop" alt="Apple Watch"></div>
+      <div class="pcard-body" style="padding:10px 12px 12px">
+        <div class="pcard-seller" style="font-size:12px;margin-bottom:4px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%;display:inline-block;margin-right:4px"></span>Moussa Tech</div>
+        <h3 class="pcard-name" style="font-size:14px;margin-bottom:4px">Apple Watch Series 9</h3>
+        <p class="pcard-price" style="font-size:16px">280 000 FCFA</p>
+      </div>
+    </article>
+
+    <article class="pcard" onclick="location.href='produit.html?id=103'">
+      <div class="pcard-badges"><span class="pcard-badge">Nouveau</span></div>
+      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=400&fit=crop" alt="MacBook"></div>
+      <div class="pcard-body" style="padding:10px 12px 12px">
+        <div class="pcard-seller" style="font-size:12px;margin-bottom:4px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%;display:inline-block;margin-right:4px"></span>Moussa Tech</div>
+        <h3 class="pcard-name" style="font-size:14px;margin-bottom:4px">MacBook Pro M3 14"</h3>
+        <p class="pcard-price" style="font-size:16px">1 250 000 FCFA</p>
+      </div>
+    </article>
+
+  </div>
+
 </main>
 
 <nav class="bottom-nav">
   <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
-  <a href="recherche-ia.html"><i data-lucide="search" class="icon icon-md"></i><span>Rechercher</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md icon-or"></i><span>Panier</span></a>
+  <a href="categories.html"><i data-lucide="layout-grid" class="icon icon-md"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
   <a href="favoris.html"><i data-lucide="heart" class="icon icon-md"></i><span>Favoris</span></a>
   <a href="profil.html"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
 </nav>
 
-<script src="js/role-guard.js"></script>
-<script src="js/dark-mode.js"></script>
-<script>
-const SELLERS = [
-  {id:1,name:'Aïcha Couture',avatar:'https://i.pravatar.cc/200?img=1',cover:'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800',verified:'platinum',live:true,sales:2400000,city:'Dakar',rating:4.9,reviews:527,followers:2340,products:47,bio:'Créatrice de mode africaine premium. Vêtements traditionnels revisités.',since:'2023'},
-  {id:2,name:'Moussa Tech',avatar:'https://i.pravatar.cc/200?img=13',cover:'https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=800',verified:'gold',live:true,sales:1800000,city:'Dakar',rating:4.7,reviews:389,followers:1820,products:32,bio:'High-tech neuf et reconditionné. Garantie 1 an.',since:'2024'},
-  {id:3,name:'Fatou Fashion',avatar:'https://i.pravatar.cc/200?img=5',cover:'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800',verified:'gold',live:false,sales:1200000,city:'Thiès',rating:4.6,reviews:245,followers:987,products:28,bio:'Collection wax authentique. Artisanat local.',since:'2024'},
-  {id:4,name:'Ibrahim Bio',avatar:'https://i.pravatar.cc/200?img=8',cover:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800',verified:'silver',live:false,sales:800000,city:'Saint-Louis',rating:4.8,reviews:456,followers:672,products:15,bio:'Produits bio 100% Sénégal. Karité, hibiscus, moringa.',since:'2025'},
-  {id:5,name:'Mariama Beauté',avatar:'https://i.pravatar.cc/200?img=9',cover:'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800',verified:'gold',live:true,sales:1500000,city:'Dakar',rating:4.9,reviews:334,followers:1567,products:41,bio:'Cosmétiques naturels africains.',since:'2024'}
-];
-
-const PRODUCTS = [
-  {id:1,name:'Boubou wax collection',price:18000,oldPrice:25000,image:'https://images.unsplash.com/photo-1544441893-675973e31985?w=400',sellerId:3,cat:'mode'},
-  {id:2,name:'iPhone 15 Pro 256GB',price:750000,image:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=400',sellerId:2,cat:'tech'},
-  {id:3,name:'Sac cuir africain premium',price:15000,oldPrice:22000,image:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400',sellerId:1,cat:'mode'},
-  {id:4,name:'Écouteurs sans fil Pro',price:12000,image:'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400',sellerId:2,cat:'tech'},
-  {id:5,name:'Beurre karité 500g',price:4500,image:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400',sellerId:4,cat:'beauty'},
-  {id:6,name:'Robe bogolan',price:22000,oldPrice:30000,image:'https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=400',sellerId:1,cat:'mode'},
-  {id:7,name:'Masque visage bio',price:6500,image:'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400',sellerId:5,cat:'beauty'},
-  {id:8,name:'Montre connectée',price:35000,oldPrice:45000,image:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400',sellerId:2,cat:'tech'}
-];
-
-function getSellerId() {
-  const params = new URLSearchParams(location.search);
-  return parseInt(params.get('id')) || 1;
-}
-
-function renderShop() {
-  const id = getSellerId();
-  const s = SELLERS.find(x => x.id === id) || SELLERS[0];
-  const shopProducts = PRODUCTS.filter(p => p.sellerId === s.id);
-
-  document.getElementById('shopTitle').textContent = s.name;
-
-  document.getElementById('shopMain').innerHTML = `
-    <!-- Cover -->
-    <div style="position:relative;height:160px;background:url('${s.cover}') center/cover;">
-      <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(10,31,23,0.7));"></div>
-      ${s.live ? '<div style="position:absolute;top:12px;right:12px;background:var(--rouge);color:white;padding:6px 12px;border-radius:8px;font-weight:800;font-size:11px;display:flex;align-items:center;gap:4px;"><span class="pulse">●</span> EN LIVE</div>' : ''}
-    </div>
-
-    <!-- Profil vendeur -->
-    <div style="padding:16px;background:var(--bg-card);margin-top:-40px;position:relative;border-radius:20px 20px 0 0;">
-      <div style="display:flex;align-items:flex-end;gap:16px;margin-bottom:12px;">
-        <img src="${s.avatar}" style="width:80px;height:80px;border-radius:50%;border:4px solid var(--bg-card);object-fit:cover;">
-        <div style="flex:1;padding-bottom:8px;">
-          <div style="display:flex;align-items:center;gap:6px;">
-            <h2 style="font-size:20px;font-weight:800;">${s.name}</h2>
-            ${s.verified === 'platinum' ? '<i data-lucide="badge-check" class="icon icon-md icon-violet"></i>' : ''}
-            ${s.verified === 'gold' ? '<i data-lucide="badge-check" class="icon icon-md icon-or"></i>' : ''}
-            ${s.verified === 'silver' ? '<i data-lucide="badge-check" class="icon icon-md" style="color:#9ca3af;stroke:#9ca3af;"></i>' : ''}
-          </div>
-          <div style="font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:4px;">
-            <i data-lucide="map-pin" class="icon icon-sm"></i>
-            <span>${s.city} · Depuis ${s.since}</span>
-          </div>
-        </div>
-      </div>
-
-      <p style="font-size:13px;color:var(--text-muted);line-height:1.5;margin-bottom:16px;">${s.bio}</p>
-
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;">
-        <div style="text-align:center;padding:10px;background:var(--bg);border-radius:10px;">
-          <div style="font-size:16px;font-weight:800;color:var(--v-emeraude);">${s.products}</div>
-          <div style="font-size:10px;color:var(--text-muted);">Produits</div>
-        </div>
-        <div style="text-align:center;padding:10px;background:var(--bg);border-radius:10px;">
-          <div style="font-size:16px;font-weight:800;color:var(--v-emeraude);">${s.followers}</div>
-          <div style="font-size:10px;color:var(--text-muted);">Abonnés</div>
-        </div>
-        <div style="text-align:center;padding:10px;background:var(--bg);border-radius:10px;">
-          <div style="font-size:16px;font-weight:800;color:var(--or-royal);">${s.rating}★</div>
-          <div style="font-size:10px;color:var(--text-muted);">${s.reviews} avis</div>
-        </div>
-        <div style="text-align:center;padding:10px;background:var(--bg);border-radius:10px;">
-          <div style="font-size:12px;font-weight:800;color:var(--v-emeraude);">${(s.sales/1000).toFixed(0)}K</div>
-          <div style="font-size:10px;color:var(--text-muted);">Ventes</div>
-        </div>
-      </div>
-
-      <div style="display:flex;gap:8px;">
-        <button class="btn-primary" style="flex:1;" onclick="followSeller(${s.id})">
-          <i data-lucide="user-plus" class="icon icon-sm icon-blanc" style="margin-right:4px;"></i>
-          Suivre
-        </button>
-        <button class="btn-secondary" style="flex:1;" onclick="location.href='chat.html?vendor=${s.id}'">
-          <i data-lucide="message-circle" class="icon icon-sm icon-vert" style="margin-right:4px;"></i>
-          Message
-        </button>
-      </div>
-    </div>
-
-    <!-- Filtres catégories -->
-    <div style="display:flex;gap:8px;padding:16px;overflow-x:auto;">
-      <button style="padding:8px 16px;background:var(--v-emeraude);color:white;border-radius:20px;font-size:12px;font-weight:700;white-space:nowrap;">Tous (${shopProducts.length})</button>
-      <button style="padding:8px 16px;background:var(--bg-card);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap;">Populaires</button>
-      <button style="padding:8px 16px;background:var(--bg-card);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap;">Nouveautés</button>
-      <button style="padding:8px 16px;background:var(--bg-card);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap;">Promotions</button>
-    </div>
-
-    <!-- Produits -->
-    <div class="section-title">
-      <i data-lucide="package" class="icon icon-md icon-vert"></i>
-      Produits (${shopProducts.length})
-    </div>
-    <div class="pcard-grid">
-      ${shopProducts.length === 0 ? `
-        <div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--text-muted);">
-          <i data-lucide="package-x" class="icon icon-xl" style="opacity:0.3;"></i>
-          <p style="margin-top:16px;">Aucun produit pour le moment</p>
-        </div>
-      ` : shopProducts.map(p => {
-        const disc = p.oldPrice ? Math.round((1 - p.price/p.oldPrice)*100) : 0;
-        return `
-          <a href="produit.html?id=${p.id}" class="pcard" style="text-decoration:none;color:inherit;">
-            <div class="pcard-img">
-              ${disc > 0 ? `<div class="pcard-badges"><span class="pcard-badge pcard-badge-disc">-${disc}%</span></div>` : ''}
-              <img src="${p.image}" alt="${p.name}">
-            </div>
-            <div class="pcard-info">
-              <div class="pcard-name">${p.name}</div>
-              <div style="display:flex;align-items:baseline;gap:6px;">
-                <span class="pcard-price">${p.price.toLocaleString('fr-FR')} FCFA</span>
-                ${p.oldPrice ? `<span class="pcard-old">${p.oldPrice.toLocaleString('fr-FR')}</span>` : ''}
-              </div>
-            </div>
-          </a>
-        `;
-      }).join('')}
-    </div>
-  `;
-
-  lucide.createIcons();
-}
-
-function followSeller(id) {
-  let follows = JSON.parse(localStorage.getItem('follows')||'[]');
-  if(follows.includes(id)) {
-    follows = follows.filter(x => x !== id);
-    alert('❌ Vous ne suivez plus ce vendeur');
-  } else {
-    follows.push(id);
-    alert('✅ Vous suivez maintenant ce vendeur');
-  }
-  localStorage.setItem('follows', JSON.stringify(follows));
-  if(navigator.vibrate) navigator.vibrate(30);
-}
-
-renderShop();
-</script>
+<script src="js/dark-mode.js?v=50"></script>
 <script>lucide.createIcons();</script>
-  <!-- Cookies & Promo (v46) -->
-<script src="js/cookies-modal.js?v=46" defer></script>
-<script src="js/promo-banner.js?v=46" defer></script>
 </body>
 </html>
