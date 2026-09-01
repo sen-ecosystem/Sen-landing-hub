@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Espace Vendeur - SEN TEW</title>
-<link rel="stylesheet" href="css/app.css?v=51">
+<link rel="stylesheet" href="css/app.css?v=52">
 <script src="https://unpkg.com/lucide@latest"></script>
 <style>
   body{background:#f5f5f0;margin:0;font-family:-apple-system,sans-serif;padding-bottom:80px;}
@@ -16,20 +16,35 @@
   .boutique-info{display:flex;align-items:center;gap:12px;position:relative;z-index:1;}
   .boutique-logo{width:56px;height:56px;border-radius:12px;background:rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,0.4);}
   .boutique-logo i{width:28px;height:28px;color:#fff;}
-  .boutique-name{font-size:20px;font-weight:800;color:#fff;margin:0;}
-  .boutique-status{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,0.25);padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;margin-top:4px;color:#fff;}
+  .boutique-name{font-size:20px;font-weight:800;color:#fff;margin:0;text-shadow:0 2px 4px rgba(0,0,0,0.2);}
+  .boutique-status{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,0.95);padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;margin-top:4px;color:#0f6b4e;}
+
   .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:16px;margin-top:-20px;position:relative;z-index:2;}
   .stat{background:#fff;padding:14px 8px;border-radius:12px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.08);}
   .stat .val{font-size:20px;font-weight:800;color:#0f6b4e;}
   .stat .lbl{font-size:11px;color:#666;margin-top:4px;}
+
+  /* ACTIONS RAPIDES - clairement cliquables */
   .quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 16px 16px;}
-  .qa{background:#fff;padding:14px 8px;border-radius:12px;text-align:center;text-decoration:none;color:#1a1a1a;box-shadow:0 2px 6px rgba(0,0,0,0.05);}
-  .qa i{width:24px;height:24px;color:#0f6b4e;margin-bottom:6px;}
-  .qa .label{font-size:11px;font-weight:600;}
+  .qa{background:#fff;padding:14px 6px;border-radius:12px;text-align:center;text-decoration:none;color:#1a1a1a;box-shadow:0 2px 6px rgba(0,0,0,0.08);border:1.5px solid #e5e7eb;transition:all 0.2s;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;}
+  .qa:active{transform:scale(0.95);background:#f5f5f0;border-color:#0f6b4e;}
+  .qa i{width:26px;height:26px;color:#0f6b4e;}
+  .qa .label{font-size:12px;font-weight:600;color:#1a1a1a;}
+
+  /* CTA Ajouter produit */
+  .cta-add{background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;padding:16px;border-radius:12px;margin:0 16px 12px;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;box-shadow:0 4px 12px rgba(15,107,78,0.3);font-size:15px;}
+
+  /* CTA Retouche IA - NOUVEAU */
+  .cta-ia{background:linear-gradient(135deg,#6b46c1,#4c1d95);color:#fff;padding:14px 16px;border-radius:12px;margin:0 16px 16px;text-decoration:none;display:flex;align-items:center;gap:12px;box-shadow:0 4px 12px rgba(107,70,193,0.3);}
+  .cta-ia i{width:28px;height:28px;color:#fff;flex-shrink:0;}
+  .cta-ia .title{font-weight:700;font-size:14px;color:#fff;}
+  .cta-ia .sub{font-size:11px;opacity:0.9;color:#fff;}
+
   .section{background:#fff;margin:0 16px 16px;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
   .section h3{color:#0f6b4e;margin:0 0 12px;font-size:15px;display:flex;align-items:center;gap:8px;}
   .section h3 .more{margin-left:auto;font-size:12px;color:#d4a574;font-weight:600;text-decoration:none;}
-  .cmd-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #f0f0f0;}
+
+  .cmd-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #f0f0f0;text-decoration:none;color:inherit;}
   .cmd-item:last-child{border-bottom:none;}
   .cmd-icon{width:40px;height:40px;border-radius:10px;background:#f5f5f0;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .cmd-icon i{color:#0f6b4e;width:22px;height:22px;}
@@ -41,15 +56,16 @@
   .b-new{background:#dbeafe;color:#1e40af;}
   .b-ship{background:#fef3c7;color:#b8860b;}
   .b-done{background:#d1fae5;color:#065f46;}
-  .product-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0f0;}
-  .product-row:last-child{border-bottom:none;}
-  .product-thumb{width:48px;height:48px;border-radius:8px;background:#f5f5f0;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .product-thumb i{color:#d4a574;}
-  .product-info{flex:1;}
-  .product-info .name{font-weight:600;color:#1a1a1a;font-size:13px;}
-  .product-info .sold{font-size:11px;color:#666;}
-  .product-price{color:#0f6b4e;font-weight:700;font-size:13px;}
-  .cta-add{background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;padding:14px;border-radius:12px;margin:0 16px 16px;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:600;box-shadow:0 4px 12px rgba(15,107,78,0.3);}
+
+  /* OUTILS - cliquables visibles */
+  .tool-row{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid #f0f0f0;text-decoration:none;color:#1a1a1a;cursor:pointer;}
+  .tool-row:last-child{border-bottom:none;}
+  .tool-row:active{background:#f5f5f0;}
+  .tool-row i:first-child{width:24px;height:24px;flex-shrink:0;}
+  .tool-row span{flex:1;font-weight:600;font-size:14px;}
+  .tool-row .arrow{color:#0f6b4e;width:20px;height:20px;}
+  .tool-badge{background:#dc2626;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;margin-right:6px;}
+
   .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0;border-top:1px solid #e5e7eb;z-index:100;}
   .bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#666;font-size:11px;padding:4px 8px;}
   .bottom-nav a.active{color:#0f6b4e;}
@@ -82,7 +98,7 @@
   <div class="stat"><div class="val">4.7★</div><div class="lbl">Note</div></div>
 </div>
 
-<!-- ACTIONS RAPIDES -->
+<!-- ACTIONS RAPIDES CLIQUABLES -->
 <div class="quick-actions">
   <a href="produits-vendeur.html" class="qa"><i data-lucide="package"></i><div class="label">Produits</div></a>
   <a href="commandes-vendeur.html" class="qa"><i data-lucide="clipboard-list"></i><div class="label">Commandes</div></a>
@@ -95,10 +111,20 @@
   <i data-lucide="plus-circle"></i> Ajouter un produit
 </a>
 
+<!-- RETOUCHE IA (NOUVEAU) -->
+<a href="retouche-ia.html" class="cta-ia">
+  <i data-lucide="sparkles"></i>
+  <div style="flex:1;">
+    <div class="title">Retouche IA Produits</div>
+    <div class="sub">Améliorez vos photos automatiquement ✨</div>
+  </div>
+  <i data-lucide="chevron-right" style="width:20px;height:20px;color:#fff;"></i>
+</a>
+
 <!-- COMMANDES RÉCENTES -->
 <div class="section">
   <h3><i data-lucide="clipboard-list"></i> Commandes récentes <a href="commandes-vendeur.html" class="more">Voir tout ›</a></h3>
-  <div class="cmd-item">
+  <a href="commande-detail.html?id=ST24073" class="cmd-item">
     <div class="cmd-icon"><i data-lucide="package"></i></div>
     <div class="cmd-info">
       <div class="num">#ST24073</div>
@@ -106,8 +132,8 @@
       <span class="cmd-badge b-new">Nouvelle</span>
     </div>
     <div class="cmd-price">850k</div>
-  </div>
-  <div class="cmd-item">
+  </a>
+  <a href="commande-detail.html?id=ST24072" class="cmd-item">
     <div class="cmd-icon"><i data-lucide="truck"></i></div>
     <div class="cmd-info">
       <div class="num">#ST24072</div>
@@ -115,8 +141,8 @@
       <span class="cmd-badge b-ship">Expédiée</span>
     </div>
     <div class="cmd-price">145k</div>
-  </div>
-  <div class="cmd-item">
+  </a>
+  <a href="commande-detail.html?id=ST24071" class="cmd-item">
     <div class="cmd-icon"><i data-lucide="check"></i></div>
     <div class="cmd-info">
       <div class="num">#ST24071</div>
@@ -124,49 +150,39 @@
       <span class="cmd-badge b-done">Livrée</span>
     </div>
     <div class="cmd-price">1.2M</div>
-  </div>
+  </a>
 </div>
 
-<!-- TOP PRODUITS -->
+<!-- OUTILS - BIEN VISIBLES -->
 <div class="section">
-  <h3><i data-lucide="trending-up"></i> Top produits <a href="produits-vendeur.html" class="more">Voir tout ›</a></h3>
-  <div class="product-row">
-    <div class="product-thumb"><i data-lucide="smartphone"></i></div>
-    <div class="product-info">
-      <div class="name">iPhone 15 Pro</div>
-      <div class="sold">12 vendus ce mois</div>
-    </div>
-    <div class="product-price">850k</div>
-  </div>
-  <div class="product-row">
-    <div class="product-thumb"><i data-lucide="headphones"></i></div>
-    <div class="product-info">
-      <div class="name">AirPods Pro</div>
-      <div class="sold">8 vendus ce mois</div>
-    </div>
-    <div class="product-price">145k</div>
-  </div>
-  <div class="product-row">
-    <div class="product-thumb"><i data-lucide="laptop"></i></div>
-    <div class="product-info">
-      <div class="name">MacBook Air M2</div>
-      <div class="sold">3 vendus ce mois</div>
-    </div>
-    <div class="product-price">1.2M</div>
-  </div>
-</div>
-
-<!-- OUTILS -->
-<div class="section">
-  <h3><i data-lucide="settings"></i> Outils</h3>
-  <a href="promotions-vendeur.html" style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #f0f0f0;text-decoration:none;color:#1a1a1a;">
-    <i data-lucide="percent" style="color:#dc2626;"></i><span style="flex:1;font-weight:500;">Promotions & coupons</span><i data-lucide="chevron-right" style="color:#999;"></i>
+  <h3><i data-lucide="settings"></i> Outils Vendeur</h3>
+  <a href="promotions-vendeur.html" class="tool-row">
+    <i data-lucide="percent" style="color:#dc2626;"></i>
+    <span>Promotions & coupons</span>
+    <span class="tool-badge">3 actives</span>
+    <i data-lucide="chevron-right" class="arrow"></i>
   </a>
-  <a href="avis-vendeur.html" style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #f0f0f0;text-decoration:none;color:#1a1a1a;">
-    <i data-lucide="star" style="color:#d4a574;"></i><span style="flex:1;font-weight:500;">Avis clients</span><i data-lucide="chevron-right" style="color:#999;"></i>
+  <a href="avis-vendeur.html" class="tool-row">
+    <i data-lucide="star" style="color:#d4a574;"></i>
+    <span>Avis clients</span>
+    <span class="tool-badge">2 nouveaux</span>
+    <i data-lucide="chevron-right" class="arrow"></i>
   </a>
-  <a href="messages.html" style="display:flex;align-items:center;gap:12px;padding:12px 0;text-decoration:none;color:#1a1a1a;">
-    <i data-lucide="message-circle" style="color:#3b82f6;"></i><span style="flex:1;font-weight:500;">Messages clients</span><i data-lucide="chevron-right" style="color:#999;"></i>
+  <a href="messages.html" class="tool-row">
+    <i data-lucide="message-circle" style="color:#3b82f6;"></i>
+    <span>Messages clients</span>
+    <span class="tool-badge">5</span>
+    <i data-lucide="chevron-right" class="arrow"></i>
+  </a>
+  <a href="livraisons-vendeur.html" class="tool-row">
+    <i data-lucide="truck" style="color:#0f6b4e;"></i>
+    <span>Gestion livraisons</span>
+    <i data-lucide="chevron-right" class="arrow"></i>
+  </a>
+  <a href="parametres-boutique.html" class="tool-row">
+    <i data-lucide="settings" style="color:#666;"></i>
+    <span>Paramètres boutique</span>
+    <i data-lucide="chevron-right" class="arrow"></i>
   </a>
 </div>
 
