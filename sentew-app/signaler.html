@@ -3,93 +3,111 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Signaler - SEN TEW</title>
-<style>
-:root{--v:#0f6b4e;--or:#d4a574;--noir:#0a1f17;--card:#1a2e24;--text:#f5f5f0;--rouge:#ef4444;--border:#2a3e34}
-*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif}
-body{background:var(--noir);color:var(--text);padding-bottom:100px;max-width:600px;margin:0 auto}
-.top{background:var(--card);padding:12px 14px;display:flex;align-items:center;gap:10px}
-.back{background:rgba(255,255,255,.1);border:none;width:38px;height:38px;border-radius:50%;color:var(--text);font-size:18px;cursor:pointer}
-.top h1{flex:1;font-size:15px;font-weight:700;color:var(--rouge)}
-.card{background:var(--card);margin:12px;padding:16px;border-radius:14px;border:1px solid var(--border)}
-h3{color:var(--or);margin-bottom:12px}
-.reason{display:flex;align-items:center;gap:10px;padding:12px;background:var(--noir);border-radius:10px;margin-bottom:8px;cursor:pointer;border:1.5px solid transparent}
-.reason.sel{border-color:var(--rouge);background:rgba(239,68,68,.1)}
-.reason input{accent-color:var(--rouge)}
-.reason span{font-size:13px;color:var(--text)}
-textarea{width:100%;background:var(--noir);border:1px solid var(--border);color:var(--text);padding:12px;border-radius:10px;font-size:13px;min-height:100px;font-family:inherit}
-.btn-send{width:100%;background:linear-gradient(135deg,var(--rouge),#c41217);color:#fff;border:none;padding:14px;border-radius:12px;font-weight:800;cursor:pointer;margin-top:16px;font-size:14px}
-</style>
+<title>Signaler un livreur — SEN TEW</title>
+<link rel="stylesheet" href="css/app.css?v=50">
+<script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body>
-<div class="top">
-  <button class="back" onclick="history.back()">←</button>
-  <h1>🚨 Signaler un livreur</h1>
-</div>
+<body class="light-mode">
 
-<div class="card">
-  <h3>Motif du signalement</h3>
-  <label class="reason"><input type="radio" name="motif" value="retard"><span>⏱️ Retard important non prévenu</span></label>
-  <label class="reason"><input type="radio" name="motif" value="impoli"><span>😠 Comportement impoli / agressif</span></label>
-  <label class="reason"><input type="radio" name="motif" value="harcele"><span>🔴 Harcèlement / drague</span></label>
-  <label class="reason"><input type="radio" name="motif" value="extorsion"><span>💰 Demande de pourboire abusif / extorsion</span></label>
-  <label class="reason"><input type="radio" name="motif" value="hors-app"><span>⚠️ Propose livraison hors application</span></label>
-  <label class="reason"><input type="radio" name="motif" value="vol"><span>🚨 Vol / manipulation colis</span></label>
-  <label class="reason"><input type="radio" name="motif" value="rgpd"><span>🔒 Utilise mon numéro sans consentement</span></label>
-  <label class="reason"><input type="radio" name="motif" value="autre"><span>📝 Autre problème</span></label>
-</div>
+<header class="topbar" style="background:#fff">
+  <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left" class="icon icon-md icon-vert"></i></button>
+  <h1 style="color:#ef4444 !important;display:flex;align-items:center;gap:6px"><i data-lucide="alert-triangle" class="icon icon-md icon-rouge"></i> Signaler un livreur</h1>
+</header>
 
-<div class="card">
-  <h3>Décrivez la situation</h3>
-  <textarea id="desc" placeholder="Décrivez précisément ce qui s'est passé (date, heure, comportement, propos exacts si possible)..." maxlength="500"></textarea>
-  <div style="text-align:right;font-size:10px;color:#666;margin-top:4px">0 / 500</div>
-</div>
+<main style="padding:16px;padding-bottom:100px">
 
-<div class="card">
-  <h3>📎 Preuves (optionnel)</h3>
-  <input type="file" accept="image/*,audio/*" multiple style="width:100%;padding:8px;background:var(--noir);color:var(--text);border:1px dashed var(--border);border-radius:8px">
-  <div style="font-size:11px;color:#888;margin-top:4px">Captures, enregistrements audio, photos</div>
-</div>
+  <!-- Info -->
+  <div style="background:#fef2f2;border-left:4px solid #ef4444;border-radius:10px;padding:12px;margin-bottom:16px;display:flex;gap:10px">
+    <i data-lucide="alert-circle" class="icon icon-md icon-rouge" style="flex-shrink:0"></i>
+    <p style="font-size:13px;color:#7f1d1d;line-height:1.4">Votre signalement est traité en <strong>moins de 24h</strong>. En cas d'urgence, appelez le <a href="tel:17" style="color:#ef4444;font-weight:800">17</a> (Police).</p>
+  </div>
 
-<button class="btn-send" onclick="sendReport()">🚨 Envoyer le signalement</button>
+  <form onsubmit="event.preventDefault(); alert('Signalement envoyé ! Numéro de dossier : SIG-'+Math.floor(Math.random()*9999)); location.href='profil.html'">
 
-<script src="js/dark-mode.js"></script>
-<script src="js/role-guard.js"></script>
-<script>
-document.querySelectorAll('.reason').forEach(r=>{
-  r.onclick = ()=>{
-    document.querySelectorAll('.reason').forEach(x=>x.classList.remove('sel'));
-    r.classList.add('sel');
-    r.querySelector('input').checked = true;
-  };
-});
-document.getElementById('desc').addEventListener('input',e=>{
-  e.target.nextElementSibling.textContent = e.target.value.length+' / 500';
-});
+    <!-- Motif -->
+    <h2 class="section-title"><i data-lucide="flag" class="icon icon-sm icon-rouge"></i> MOTIF DU SIGNALEMENT</h2>
+    <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:8px;margin-bottom:16px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
 
-function sendReport(){
-  const motif = document.querySelector('input[name="motif"]:checked');
-  const desc = document.getElementById('desc').value.trim();
-  if(!motif){alert('⚠️ Sélectionnez un motif');return;}
-  if(desc.length < 20){alert('⚠️ Décrivez la situation (minimum 20 caractères)');return;}
+      <label style="padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid #f5f5f0">
+        <input type="radio" name="motif" value="retard" style="width:auto;padding:0">
+        <div style="width:36px;height:36px;background:rgba(245,158,11,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="clock-alert" class="icon icon-sm" style="color:#f59e0b"></i></div>
+        <span style="flex:1;color:#0a1f17;font-size:14px;font-weight:600">Retard important non prévenu</span>
+      </label>
 
-  const params = new URLSearchParams(location.search);
-  const courierId = params.get('id') || 'inconnu';
+      <label style="padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid #f5f5f0">
+        <input type="radio" name="motif" value="impoli" style="width:auto;padding:0">
+        <div style="width:36px;height:36px;background:rgba(239,68,68,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="frown" class="icon icon-sm icon-rouge"></i></div>
+        <span style="flex:1;color:#0a1f17;font-size:14px;font-weight:600">Comportement impoli / agressif</span>
+      </label>
 
-  const reports = JSON.parse(localStorage.getItem('reports')||'[]');
-  reports.push({
-    type: 'courier',
-    courierId,
-    motif: motif.value,
-    desc,
-    date: new Date().toISOString()
-  });
-  localStorage.setItem('reports', JSON.stringify(reports));
+      <label style="padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid #f5f5f0">
+        <input type="radio" name="motif" value="harcelement" style="width:auto;padding:0">
+        <div style="width:36px;height:36px;background:rgba(239,68,68,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="hand" class="icon icon-sm icon-rouge"></i></div>
+        <span style="flex:1;color:#0a1f17;font-size:14px;font-weight:700;color:#ef4444">Harcèlement / drague</span>
+      </label>
 
-  if(navigator.vibrate) navigator.vibrate([100,50,100]);
-  alert('✅ Signalement envoyé\n\nMerci pour votre vigilance. L\'équipe SEN TEW examinera ce livreur sous 24h.\n\n📌 Rappel : 3 signalements = suspension automatique du livreur.');
-  location.href = 'commandes.html';
-}
-</script>
+      <label style="padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid #f5f5f0">
+        <input type="radio" name="motif" value="extorsion" style="width:auto;padding:0">
+        <div style="width:36px;height:36px;background:rgba(212,165,116,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="banknote" class="icon icon-sm icon-or"></i></div>
+        <span style="flex:1;color:#0a1f17;font-size:14px;font-weight:600">Demande de pourboire abusif / extorsion</span>
+      </label>
+
+      <label style="padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid #f5f5f0">
+        <input type="radio" name="motif" value="hors-app" style="width:auto;padding:0">
+        <div style="width:36px;height:36px;background:rgba(245,158,11,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="alert-triangle" class="icon icon-sm" style="color:#f59e0b"></i></div>
+        <span style="flex:1;color:#0a1f17;font-size:14px;font-weight:600">Propose livraison hors application</span>
+      </label>
+
+      <label style="padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid #f5f5f0">
+        <input type="radio" name="motif" value="vol" style="width:auto;padding:0">
+        <div style="width:36px;height:36px;background:rgba(239,68,68,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="package-x" class="icon icon-sm icon-rouge"></i></div>
+        <span style="flex:1;color:#0a1f17;font-size:14px;font-weight:700;color:#ef4444">Vol / manipulation colis</span>
+      </label>
+
+      <label style="padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid #f5f5f0">
+        <input type="radio" name="motif" value="numero" style="width:auto;padding:0">
+        <div style="width:36px;height:36px;background:rgba(59,130,246,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="lock" class="icon icon-sm icon-bleu"></i></div>
+        <span style="flex:1;color:#0a1f17;font-size:14px;font-weight:600">Utilise mon numéro sans consentement</span>
+      </label>
+
+      <label style="padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer">
+        <input type="radio" name="motif" value="autre" style="width:auto;padding:0">
+        <div style="width:36px;height:36px;background:rgba(74,90,82,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="edit-3" class="icon icon-sm" style="color:#4a5a52"></i></div>
+        <span style="flex:1;color:#0a1f17;font-size:14px;font-weight:600">Autre problème</span>
+      </label>
+    </div>
+
+    <!-- Description -->
+    <h2 class="section-title"><i data-lucide="file-text" class="icon icon-sm icon-vert"></i> DÉCRIVEZ LA SITUATION</h2>
+    <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:14px;margin-bottom:16px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+      <textarea rows="5" placeholder="Décrivez précisément ce qui s'est passé (date, heure, comportement, propos exacts si possible)..." required></textarea>
+    </div>
+
+    <!-- Preuves -->
+    <h2 class="section-title"><i data-lucide="image" class="icon icon-sm icon-bleu"></i> PREUVES (optionnel)</h2>
+    <div style="background:#fff;border:2px dashed #e5e5e0;border-radius:14px;padding:20px;text-align:center;margin-bottom:16px;cursor:pointer">
+      <i data-lucide="upload-cloud" style="width:36px;height:36px;color:#0f6b4e;margin-bottom:8px"></i>
+      <p style="color:#0a1f17;font-size:14px;font-weight:700;margin-bottom:2px">Ajouter photos / captures</p>
+      <p style="color:#4a5a52;font-size:11px">Max 5 fichiers · 10 MB chacun</p>
+      <input type="file" multiple accept="image/*" style="display:none">
+    </div>
+
+    <button type="submit" style="width:100%;padding:14px;background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;border-radius:12px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px"><i data-lucide="send" class="icon icon-sm icon-blanc"></i> Envoyer le signalement</button>
+
+    <p style="text-align:center;color:#4a5a52;font-size:11px;margin-top:12px;line-height:1.5">🔒 Vos données sont chiffrées.<br>Traitement conforme CDP Sénégal.</p>
+  </form>
+
+</main>
+
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="layout-grid" class="icon icon-md"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
+  <a href="messages.html"><i data-lucide="message-circle" class="icon icon-md"></i><span>Messages</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
+</nav>
+
+<script src="js/dark-mode.js?v=50"></script>
+<script>lucide.createIcons();</script>
 </body>
 </html>
