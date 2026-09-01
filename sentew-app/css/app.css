@@ -1008,3 +1008,126 @@ body.light-mode textarea::placeholder { color: #6a7a72 !important; }
 /* ================================================================
    FIN v50 — 01 septembre 2026
    ================================================================ */
+/* ========== v51 FIX FINAL – Contrastes pages blanches ========== */
+
+/* Fix hero cards illisibles en mode clair */
+body.light-mode .hero-card,
+body.light-mode .hero-emerald,
+body.light-mode .hero-emerald-gold,
+body.light-mode .hero-gold,
+body.light-mode .hero-purple,
+body.light-mode .hero-ia {
+  background: linear-gradient(135deg, #0f6b4e 0%, #0a4d38 100%) !important;
+  color: #ffffff !important;
+}
+
+body.light-mode .hero-card *,
+body.light-mode .hero-emerald *,
+body.light-mode .hero-emerald-gold *,
+body.light-mode .hero-gold *,
+body.light-mode .hero-purple *,
+body.light-mode .hero-ia * {
+  color: #ffffff !important;
+}
+
+/* Cartes IA / Assistant */
+body.light-mode .ia-card,
+body.light-mode .assistant-card {
+  background: linear-gradient(135deg, #6b46c1 0%, #4c1d95 100%) !important;
+  color: #ffffff !important;
+}
+
+body.light-mode .ia-card *,
+body.light-mode .assistant-card * {
+  color: #ffffff !important;
+}
+
+/* Cartes GOLD fidélité */
+body.light-mode .gold-card,
+body.light-mode .fidelite-hero {
+  background: linear-gradient(135deg, #d4a574 0%, #b8860b 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 24px rgba(212, 165, 116, 0.4);
+}
+
+body.light-mode .gold-card *,
+body.light-mode .fidelite-hero * {
+  color: #ffffff !important;
+}
+
+/* Sections remboursement / litige / confidentialité */
+body.light-mode .section-card {
+  background: #ffffff !important;
+  color: #1a1a1a !important;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+body.light-mode .section-card h2,
+body.light-mode .section-card h3,
+body.light-mode .section-card p,
+body.light-mode .section-card li,
+body.light-mode .section-card span {
+  color: #1a1a1a !important;
+}
+
+/* Boutons universels */
+.btn-primary {
+  background: linear-gradient(135deg, #0f6b4e 0%, #0a4d38 100%);
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(15, 107, 78, 0.3);
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, #d4a574 0%, #b8860b 100%);
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-outline {
+  background: transparent;
+  color: #0f6b4e;
+  border: 2px solid #0f6b4e;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Icônes cliquables partout */
+.icon-btn {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn:hover {
+  background: rgba(15, 107, 78, 0.1);
+}
+
+.icon-btn:active {
+  transform: scale(0.95);
+}
