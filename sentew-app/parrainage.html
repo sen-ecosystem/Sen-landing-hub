@@ -2,111 +2,72 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Parrainage - SEN TEW</title>
-<meta name="theme-color" content="#0f6b4e">
-<link rel="stylesheet" href="css/app.css">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Parrainage — SEN TEW</title>
+<link rel="stylesheet" href="css/app.css?v=50">
 <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body>
+<body class="light-mode">
 
 <header class="topbar">
-  <button class="btn-back" onclick="history.back()">
-    <i data-lucide="arrow-left" class="icon icon-md icon-vert"></i>
-  </button>
-  <h1 style="display:flex;align-items:center;gap:8px;">
-    <i data-lucide="gift" class="icon icon-md icon-or"></i>
-    Parrainage
-  </h1>
-  <button class="icon-btn" onclick="location.href='profil.html'">
-    <i data-lucide="user" class="icon icon-md icon-vert"></i>
-  </button>
+  <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left" class="icon icon-md icon-vert"></i></button>
+  <h1><i data-lucide="gift" class="icon icon-md icon-or"></i> Parrainage</h1>
+  <button class="icon-btn"><i data-lucide="user" class="icon icon-md icon-vert"></i></button>
 </header>
 
-<main style="padding:16px;padding-bottom:100px;">
+<main style="padding:16px;padding-bottom:100px">
 
-  <!-- Hero card -->
-  <div style="background:linear-gradient(135deg,var(--v-emeraude),var(--or-royal));color:white;padding:24px 20px;border-radius:16px;margin-bottom:16px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.15);">
-    <div style="width:80px;height:80px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
-      <i data-lucide="gift" class="icon" style="width:44px;height:44px;color:white;stroke:white;"></i>
+  <!-- Hero visible -->
+  <section class="parrainage-hero hero-emerald-gold" style="text-align:center;padding:28px 20px;margin-bottom:16px">
+    <div style="width:76px;height:76px;background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px"><i data-lucide="gift" style="width:38px;height:38px;color:#fff;stroke-width:2"></i></div>
+    <h2 style="font-size:28px;font-weight:900;color:#fff !important;margin-bottom:4px">Gagnez 500 FCFA</h2>
+    <p style="color:rgba(255,255,255,0.95) !important;font-size:14px;margin-bottom:14px">Par ami qui fait sa 1ère commande</p>
+    <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap">
+      <span style="display:flex;align-items:center;gap:5px;color:#fff !important;font-size:12px;font-weight:600"><i data-lucide="check-circle" style="width:14px;height:14px;color:#fff"></i> Cumul illimité</span>
+      <span style="display:flex;align-items:center;gap:5px;color:#fff !important;font-size:12px;font-weight:600"><i data-lucide="check-circle" style="width:14px;height:14px;color:#fff"></i> Retrait Wave</span>
     </div>
-    <h2 style="font-size:26px;font-weight:900;margin-bottom:6px;color:white;">Gagnez 500 FCFA</h2>
-    <p style="font-size:13px;opacity:0.95;color:white;">Par ami qui fait sa 1ère commande</p>
-  </div>
+  </section>
 
   <!-- Code parrainage -->
-  <div style="background:var(--bg-card);border-radius:14px;padding:18px;margin-bottom:12px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.08);">
-    <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Votre code de parrainage</div>
-    <div style="font-size:24px;font-weight:900;color:var(--v-emeraude);letter-spacing:3px;margin-bottom:14px;padding:14px;background:var(--v-clair);border-radius:10px;border:2px dashed var(--v-emeraude);">
-      SENTEW-L543
+  <section style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:18px;text-align:center;margin-bottom:16px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <p style="color:#4a5a52;font-size:13px;margin-bottom:10px">Votre code de parrainage</p>
+    <div style="background:rgba(15,107,78,0.08);border:2px dashed #0f6b4e;border-radius:12px;padding:16px;margin-bottom:14px">
+      <strong style="color:#0f6b4e;font-size:22px;font-weight:900;letter-spacing:3px">SENTEW-L543</strong>
     </div>
-    <div style="display:flex;gap:8px;">
-      <button class="btn-primary" style="flex:1;" onclick="copyCode()">
-        <i data-lucide="copy" class="icon icon-sm icon-blanc" style="margin-right:4px;"></i>
-        Copier
-      </button>
-      <button class="btn-or" style="flex:1;" onclick="shareCode()">
-        <i data-lucide="share-2" class="icon icon-sm" style="margin-right:4px;color:var(--noir-profond);stroke:var(--noir-profond);"></i>
-        Partager
-      </button>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <button class="btn-primary" style="padding:12px;display:flex;align-items:center;justify-content:center;gap:8px"><i data-lucide="copy" class="icon icon-sm icon-blanc"></i> Copier</button>
+      <button class="btn-or" style="padding:12px;display:flex;align-items:center;justify-content:center;gap:8px"><i data-lucide="share-2" class="icon icon-sm icon-noir"></i> Partager</button>
     </div>
-  </div>
+  </section>
 
   <!-- Mes gains -->
-  <div style="background:var(--bg-card);border-radius:14px;padding:16px;margin-bottom:12px;">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
-      <i data-lucide="wallet" class="icon icon-md icon-or"></i>
-      <h3 style="font-size:16px;font-weight:800;color:var(--or-royal);">Mes gains</h3>
+  <h2 class="section-title"><i data-lucide="wallet" class="icon icon-sm icon-or"></i> MES GAINS</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+    <div class="gains-box entrees" style="background:#d1fae5;border-radius:14px;padding:18px;text-align:center;border:1px solid rgba(15,107,78,0.2)">
+      <strong style="display:block;font-size:32px;color:#065f46;font-weight:900">0</strong>
+      <small style="color:#065f46;font-size:12px;font-weight:700">FCFA gagnés</small>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-      <div style="background:var(--v-clair);padding:16px;border-radius:12px;text-align:center;">
-        <div style="font-size:28px;font-weight:900;color:var(--v-emeraude);">0</div>
-        <div style="font-size:11px;color:var(--v-forest);font-weight:600;">FCFA gagnés</div>
-      </div>
-      <div style="background:rgba(212,165,116,0.15);padding:16px;border-radius:12px;text-align:center;">
-        <div style="font-size:28px;font-weight:900;color:var(--or-royal);">0</div>
-        <div style="font-size:11px;color:var(--or-sombre);font-weight:600;">Amis inscrits</div>
-      </div>
+    <div class="gains-box sorties" style="background:#fef3c7;border-radius:14px;padding:18px;text-align:center;border:1px solid rgba(212,165,116,0.4)">
+      <strong style="display:block;font-size:32px;color:#a67c3a;font-weight:900">0</strong>
+      <small style="color:#a67c3a;font-size:12px;font-weight:700">Amis inscrits</small>
     </div>
   </div>
 
   <!-- Comment ça marche -->
-  <div style="background:var(--bg-card);border-radius:14px;padding:16px;margin-bottom:12px;">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
-      <i data-lucide="clipboard-list" class="icon icon-md icon-vert"></i>
-      <h3 style="font-size:16px;font-weight:800;color:var(--v-emeraude);">Comment ça marche</h3>
+  <h2 class="section-title"><i data-lucide="help-circle" class="icon icon-sm icon-vert"></i> COMMENT ÇA MARCHE</h2>
+  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:8px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <div style="display:flex;gap:12px;padding:12px;border-bottom:1px solid #f5f5f0">
+      <div style="width:36px;height:36px;background:rgba(15,107,78,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;color:#0f6b4e">1</div>
+      <div><strong style="color:#0a1f17">Partagez votre code</strong><br><small style="color:#4a5a52">Envoyez SENTEW-L543 à vos amis</small></div>
     </div>
-    <div style="display:flex;flex-direction:column;gap:14px;">
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div style="min-width:32px;height:32px;background:var(--v-emeraude);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;">1</div>
-        <div style="flex:1;font-size:13px;color:var(--text);"><strong>Partagez</strong> votre code à vos amis</div>
-      </div>
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div style="min-width:32px;height:32px;background:var(--v-emeraude);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;">2</div>
-        <div style="flex:1;font-size:13px;color:var(--text);">Votre ami <strong>s'inscrit</strong> avec le code</div>
-      </div>
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div style="min-width:32px;height:32px;background:var(--v-emeraude);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;">3</div>
-        <div style="flex:1;font-size:13px;color:var(--text);">Il fait sa <strong>1ère commande</strong></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div style="min-width:32px;height:32px;background:var(--or-royal);color:var(--noir-profond);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;">
-          <i data-lucide="wallet" class="icon icon-sm" style="width:16px;height:16px;color:var(--noir-profond);stroke:var(--noir-profond);"></i>
-        </div>
-        <div style="flex:1;font-size:13px;color:var(--text);"><strong>500 FCFA</strong> crédités sur votre portefeuille</div>
-      </div>
+    <div style="display:flex;gap:12px;padding:12px;border-bottom:1px solid #f5f5f0">
+      <div style="width:36px;height:36px;background:rgba(15,107,78,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;color:#0f6b4e">2</div>
+      <div><strong style="color:#0a1f17">Ils s'inscrivent</strong><br><small style="color:#4a5a52">Ils entrent votre code à l'inscription</small></div>
     </div>
-  </div>
-
-  <!-- Bonus VIP -->
-  <div style="background:linear-gradient(135deg,var(--violet),var(--bleu));color:white;padding:16px;border-radius:14px;margin-bottom:16px;">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-      <i data-lucide="crown" class="icon icon-md icon-blanc"></i>
-      <h3 style="font-size:15px;font-weight:800;color:white;">Bonus Ambassadeur</h3>
+    <div style="display:flex;gap:12px;padding:12px">
+      <div style="width:36px;height:36px;background:rgba(15,107,78,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;color:#0f6b4e">3</div>
+      <div><strong style="color:#0a1f17">Vous gagnez 500 FCFA</strong><br><small style="color:#4a5a52">Dès leur 1ère commande validée</small></div>
     </div>
-    <p style="font-size:12px;opacity:0.95;line-height:1.5;color:white;">
-      Parrainez <strong>10 amis</strong> → devenez Ambassadeur VIP et gagnez <strong>1 000 FCFA</strong> par filleul en plus.
-    </p>
   </div>
 
 </main>
@@ -114,32 +75,12 @@
 <nav class="bottom-nav">
   <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
   <a href="recherche-ia.html"><i data-lucide="search" class="icon icon-md"></i><span>Rechercher</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md icon-or"></i><span>Panier</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
   <a href="favoris.html"><i data-lucide="heart" class="icon icon-md"></i><span>Favoris</span></a>
-  <a href="profil.html"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
 </nav>
 
-<script src="js/role-guard.js"></script>
-<script src="js/dark-mode.js"></script>
-<script>
-function copyCode() {
-  navigator.clipboard.writeText('SENTEW-L543');
-  if(navigator.vibrate) navigator.vibrate(30);
-  alert('✅ Code copié !');
-}
-function shareCode() {
-  if(navigator.share) {
-    navigator.share({
-      title: 'Rejoins SEN TEW !',
-      text: 'Utilise mon code SENTEW-L543 et gagne 500 FCFA sur ta 1ère commande !',
-      url: 'https://sen-ecosystem.com/sentew-app/'
-    });
-  } else {
-    copyCode();
-  }
-}
-lucide.createIcons();
-</script>
+<script src="js/dark-mode.js?v=50"></script>
 <script>lucide.createIcons();</script>
 </body>
 </html>
