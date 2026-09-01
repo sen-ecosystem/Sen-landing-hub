@@ -2,220 +2,87 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Confidentialité &amp; Légal - SEN TEW</title>
-<meta name="theme-color" content="#0f6b4e">
-<link rel="stylesheet" href="css/app.css">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Confidentialité & Sécurité — SEN TEW</title>
+<link rel="stylesheet" href="css/app.css?v=50">
 <script src="https://unpkg.com/lucide@latest"></script>
-<style>
-.tabs { display:flex; gap:6px; padding:12px 16px; overflow-x:auto; background:var(--bg); position:sticky; top:56px; z-index:99; border-bottom:1px solid var(--border); }
-.tab { padding:8px 14px; background:var(--bg-card); border-radius:20px; font-size:12px; font-weight:700; white-space:nowrap; cursor:pointer; display:flex; align-items:center; gap:6px; color:var(--text); }
-.tab.active { background:var(--v-emeraude); color:white; }
-.tab-content { display:none; padding:16px; }
-.tab-content.active { display:block; }
-.article { background:var(--bg-card); padding:14px; border-radius:12px; margin-bottom:12px; }
-.article h3 { color:var(--or-royal); font-size:14px; font-weight:800; margin-bottom:8px; }
-.article p, .article li { font-size:13px; line-height:1.6; color:var(--text); }
-.article ul { margin-left:20px; margin-top:6px; }
-</style>
 </head>
-<body>
+<body class="light-mode">
 
 <header class="topbar">
-  <button class="btn-back" onclick="history.back()">
-    <i data-lucide="arrow-left" class="icon icon-md icon-vert"></i>
-  </button>
-  <h1>Confidentialité &amp; Légal</h1>
+  <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left" class="icon icon-md icon-vert"></i></button>
+  <h1><i data-lucide="shield" class="icon icon-md icon-vert"></i> Confidentialité & Sécurité</h1>
 </header>
 
-<div class="tabs">
-  <div class="tab active" data-tab="mentions" onclick="showTab('mentions')">
-    <i data-lucide="scroll-text" class="icon icon-sm"></i> Mentions
-  </div>
-  <div class="tab" data-tab="cgv" onclick="showTab('cgv')">
-    <i data-lucide="file-text" class="icon icon-sm"></i> CGV
-  </div>
-  <div class="tab" data-tab="cgu" onclick="showTab('cgu')">
-    <i data-lucide="clipboard-list" class="icon icon-sm"></i> CGU
-  </div>
-  <div class="tab" data-tab="privacy" onclick="showTab('privacy')">
-    <i data-lucide="shield-check" class="icon icon-sm"></i> Confidentialité
-  </div>
-  <div class="tab" data-tab="cookies" onclick="showTab('cookies')">
-    <i data-lucide="cookie" class="icon icon-sm"></i> Cookies
-  </div>
-</div>
+<main style="padding:16px;padding-bottom:100px">
 
-<main style="padding-bottom:80px;">
+  <!-- Hero sécurité -->
+  <section style="background:linear-gradient(135deg,#0f6b4e 0%,#0a4d38 100%);border-radius:20px;padding:20px;color:#fff;text-align:center;margin-bottom:16px;box-shadow:0 12px 32px rgba(15,107,78,0.25)">
+    <div style="width:60px;height:60px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px"><i data-lucide="shield-check" style="width:32px;height:32px;color:#fff"></i></div>
+    <h2 style="color:#fff !important;font-size:20px;font-weight:900;margin-bottom:4px">Votre sécurité, notre priorité</h2>
+    <p style="color:rgba(255,255,255,0.9) !important;font-size:13px">Données chiffrées · Conformité CDP Sénégal · RGPD</p>
+  </section>
 
-  <!-- MENTIONS LÉGALES -->
-  <div class="tab-content active" id="tab-mentions">
-    <div class="article">
-      <h3>1. Éditeur du site</h3>
-      <p><b>Dénomination :</b> SEN TEW SUARL<br>
-      <b>Groupe :</b> SEN ECOSYSTEM (Marketplace + Fintech + Web3)<br>
-      <b>Marques :</b> SEN TEW · SENBANC · SENCRYPT<br>
-      <b>Capital :</b> 500 000 FCFA<br>
-      <b>Siège :</b> Dakar, Sénégal<br>
-      <b>RCCM :</b> En cours d'immatriculation<br>
-      <b>NINEA :</b> En cours d'attribution<br>
-      <b>Email :</b> contact@sen-ecosystem.com<br>
-      <b>Site :</b> sen-ecosystem.com</p>
+  <!-- Score sécurité -->
+  <section style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:16px;margin-bottom:16px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div>
+        <p style="color:#4a5a52;font-size:11px;font-weight:700">SCORE SÉCURITÉ DE VOTRE COMPTE</p>
+        <strong style="color:#0f6b4e;font-size:24px;font-weight:900">75/100</strong>
+      </div>
+      <div style="width:56px;height:56px;background:rgba(15,107,78,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center"><i data-lucide="shield-check" style="width:28px;height:28px;color:#0f6b4e"></i></div>
     </div>
-    <div class="article">
-      <h3>2. Directeur de publication</h3>
-      <p>Le gérant de la SUARL SEN TEW.</p>
+    <div style="background:#e5e5e0;border-radius:8px;height:8px;overflow:hidden;margin-bottom:10px">
+      <div style="background:linear-gradient(90deg,#f59e0b,#0f6b4e);height:100%;width:75%"></div>
     </div>
-    <div class="article">
-      <h3>3. Hébergement</h3>
-      <p>GitHub Pages · GitHub Inc.<br>88 Colin P Kelly Jr St, San Francisco, CA 94107, USA</p>
-    </div>
-    <div class="article">
-      <h3>4. Propriété intellectuelle</h3>
-      <p>Contenu protégé par :</p>
-      <ul>
-        <li>Accord OAPI (marques déposées)</li>
-        <li>Loi 2008-09 du 25/01/2008 (droit d'auteur Sénégal)</li>
-        <li>Convention de Berne</li>
-      </ul>
-    </div>
-    <div class="article">
-      <h3>5. Litiges</h3>
-      <p>Droit sénégalais + Actes Uniformes OHADA.<br>Juridiction : Tribunal de Commerce de Dakar.</p>
-    </div>
+    <p style="color:#4a5a52;font-size:12px">💡 Activez la 2FA pour atteindre 100/100</p>
+  </section>
+
+  <!-- Authentification -->
+  <h2 class="section-title"><i data-lucide="key" class="icon icon-sm icon-or"></i> AUTHENTIFICATION</h2>
+  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <a href="password.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="key" class="icon icon-md icon-or"></i><div style="flex:1"><strong style="color:#0a1f17;font-size:14px;display:block">Mot de passe</strong><small style="color:#4a5a52;font-size:12px">Modifié il y a 30 jours</small></div><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
+    <a href="2fa.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="shield-check" class="icon icon-md icon-vert"></i><div style="flex:1"><strong style="color:#0a1f17;font-size:14px;display:block">Double authentification</strong><small style="color:#ef4444;font-size:12px">⚠️ Désactivée — À activer</small></div><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
+    <a href="biometrie.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none"><i data-lucide="fingerprint" class="icon icon-md icon-bleu"></i><div style="flex:1"><strong style="color:#0a1f17;font-size:14px;display:block">Biométrie</strong><small style="color:#4a5a52;font-size:12px">Face ID / Touch ID</small></div><label class="switch"><input type="checkbox" checked style="width:auto;padding:0"></label></a>
   </div>
 
-  <!-- CGV -->
-  <div class="tab-content" id="tab-cgv">
-    <div class="article">
-      <h3>Article 1 — Objet</h3>
-      <p>Les présentes CGV régissent les ventes entre vendeurs professionnels inscrits sur SEN TEW et acheteurs via l'application mobile et web SEN TEW.</p>
-    </div>
-    <div class="article">
-      <h3>Article 2 — Prix</h3>
-      <p>Prix affichés en FCFA TTC. Conversion EUR/USD indicative. TVA sénégalaise 18 %.</p>
-    </div>
-    <div class="article">
-      <h3>Article 3 — Commande</h3>
-      <p>Toute commande passée forme un contrat entre client et vendeur. SEN TEW agit en intermédiaire technique et fiduciaire.</p>
-    </div>
-    <div class="article">
-      <h3>Article 4 — Paiement</h3>
-      <p>Modes acceptés : Wave, Orange Money, Free Money, Wizall Money, Carte bancaire, Paiement à la livraison. Paiement 1x / 2x / 3x sans frais par carte.</p>
-    </div>
-    <div class="article">
-      <h3>Article 5 — Livraison</h3>
-      <p>Dakar : 24-48h · 1 500 FCFA<br>Autres régions : 3-7 jours · 3 500 FCFA</p>
-    </div>
-    <div class="article">
-      <h3>Article 6 — Rétractation</h3>
-      <p>7 jours à réception (loi 2008-08).</p>
-    </div>
-    <div class="article">
-      <h3>Article 7 — Commission</h3>
-      <p>SEN TEW prélève 8 % sur chaque vente (5 % vendeurs Premium).</p>
-    </div>
+  <!-- Données personnelles -->
+  <h2 class="section-title"><i data-lucide="database" class="icon icon-sm icon-vert"></i> MES DONNÉES</h2>
+  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <a href="export-data.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="download" class="icon icon-md icon-vert"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Télécharger mes données</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
+    <a href="historique-connexion.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="history" class="icon icon-md icon-or"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Historique de connexion</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
+    <a href="sessions.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none"><i data-lucide="smartphone" class="icon icon-md icon-bleu"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Appareils connectés</span><span style="color:#0f6b4e;font-weight:800;font-size:12px">2</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
   </div>
 
-  <!-- CGU -->
-  <div class="tab-content" id="tab-cgu">
-    <div class="article">
-      <h3>Article 1 — Acceptation</h3>
-      <p>L'inscription vaut acceptation des CGU. L'utilisateur déclare être majeur (18 ans) ou avec autorisation parentale.</p>
-    </div>
-    <div class="article">
-      <h3>Article 2 — Comptes</h3>
-      <p>3 types : Client · Vendeur · Livreur. Compte personnel, incessible. Mot de passe fort obligatoire.</p>
-    </div>
-    <div class="article">
-      <h3>Article 3 — Contenu interdit</h3>
-      <p>Armes, drogues, contrefaçons, produits périmés, contenus haineux, cryptomonnaies non régulées BCEAO.</p>
-    </div>
-    <div class="article">
-      <h3>Article 4 — Suspension</h3>
-      <p>3 signalements = suspension automatique. SEN TEW peut suspendre sans préavis en cas de manquement.</p>
-    </div>
-    <div class="article">
-      <h3>Article 5 — Responsabilité</h3>
-      <p>SEN TEW est intermédiaire technique. La responsabilité transactions incombe aux vendeurs.</p>
-    </div>
+  <!-- Confidentialité -->
+  <h2 class="section-title"><i data-lucide="eye-off" class="icon icon-sm icon-or"></i> CONFIDENTIALITÉ</h2>
+  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <label style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f5f5f0;cursor:pointer"><i data-lucide="eye" class="icon icon-md icon-vert"></i><div style="flex:1"><strong style="color:#0a1f17;font-size:14px;display:block">Profil public visible</strong><small style="color:#4a5a52;font-size:12px">Autres utilisateurs voient votre nom</small></div><input type="checkbox" checked style="width:auto;padding:0"></label>
+    <label style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f5f5f0;cursor:pointer"><i data-lucide="map-pin" class="icon icon-md icon-rouge"></i><div style="flex:1"><strong style="color:#0a1f17;font-size:14px;display:block">Partager ma localisation</strong><small style="color:#4a5a52;font-size:12px">Pour livraison rapide</small></div><input type="checkbox" checked style="width:auto;padding:0"></label>
+    <label style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f5f5f0;cursor:pointer"><i data-lucide="target" class="icon icon-md icon-bleu"></i><div style="flex:1"><strong style="color:#0a1f17;font-size:14px;display:block">Publicité personnalisée</strong><small style="color:#4a5a52;font-size:12px">Suggestions basées sur activité</small></div><input type="checkbox" style="width:auto;padding:0"></label>
+    <label style="padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer"><i data-lucide="bar-chart-3" class="icon icon-md" style="color:#a855f7"></i><div style="flex:1"><strong style="color:#0a1f17;font-size:14px;display:block">Analyses anonymes</strong><small style="color:#4a5a52;font-size:12px">Aide à améliorer l'app</small></div><input type="checkbox" checked style="width:auto;padding:0"></label>
   </div>
 
-  <!-- CONFIDENTIALITÉ -->
-  <div class="tab-content" id="tab-privacy">
-    <div class="article">
-      <h3>1. Données collectées</h3>
-      <p>Nom, email, téléphone, adresse de livraison, historique commandes, préférences.</p>
-    </div>
-    <div class="article">
-      <h3>2. Finalités</h3>
-      <ul>
-        <li>Traitement de vos commandes</li>
-        <li>Support client</li>
-        <li>Amélioration du service</li>
-        <li>Prévention de la fraude</li>
-      </ul>
-    </div>
-    <div class="article">
-      <h3>3. Base légale</h3>
-      <p>Loi 2008-12 du 25/01/2008 sur la protection des données au Sénégal. Autorité : CDP Sénégal (cdp.sn).</p>
-    </div>
-    <div class="article">
-      <h3>4. Vos droits</h3>
-      <ul>
-        <li>Accès à vos données</li>
-        <li>Rectification / suppression</li>
-        <li>Opposition / portabilité</li>
-        <li>Réclamation CDP</li>
-      </ul>
-      <p style="margin-top:8px;"><b>Contact DPO :</b> dpo@sen-ecosystem.com</p>
-    </div>
-    <div class="article">
-      <h3>5. Conservation</h3>
-      <p>Données conservées pendant la durée nécessaire à la finalité (max 3 ans après dernière activité).</p>
-    </div>
-  </div>
-
-  <!-- COOKIES -->
-  <div class="tab-content" id="tab-cookies">
-    <div class="article">
-      <h3>1. Qu'est-ce qu'un cookie ?</h3>
-      <p>Fichier texte déposé sur votre appareil pour mémoriser vos préférences.</p>
-    </div>
-    <div class="article">
-      <h3>2. Cookies utilisés</h3>
-      <ul>
-        <li><b>Essentiels :</b> session, panier, connexion (obligatoires)</li>
-        <li><b>Préférences :</b> mode sombre, langue, devise (1 an)</li>
-        <li><b>Analytiques :</b> statistiques anonymes (13 mois)</li>
-        <li><b>Marketing :</b> publicités ciblées (6 mois, optionnel)</li>
-      </ul>
-    </div>
-    <div class="article">
-      <h3>3. Consentement</h3>
-      <p>Conformément à la loi 2008-12 et au RGPD, votre consentement est requis. Retirable à tout moment.</p>
-    </div>
-    <div style="display:flex;gap:8px;margin-top:12px;">
-      <button class="btn-primary" style="flex:1;" onclick="localStorage.setItem('cookies','all');alert('✅ Cookies acceptés')">Tout accepter</button>
-      <button class="btn-secondary" style="flex:1;" onclick="localStorage.setItem('cookies','essential');alert('✅ Essentiels uniquement')">Refuser optionnels</button>
-    </div>
-  </div>
-
-  <div style="text-align:center;padding:20px;font-size:11px;color:var(--text-muted);">
-    Dernière mise à jour : 23 août 2026 · © SEN ECOSYSTEM
+  <!-- Documents légaux -->
+  <h2 class="section-title"><i data-lucide="scroll" class="icon icon-sm" style="color:#4a5a52"></i> DOCUMENTS LÉGAUX</h2>
+  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <a href="mentions-legales.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="file-text" class="icon icon-md" style="color:#4a5a52"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Mentions légales</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
+    <a href="cgu.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="scroll" class="icon icon-md" style="color:#4a5a52"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">CGU</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
+    <a href="cgv.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="file-check" class="icon icon-md" style="color:#4a5a52"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">CGV</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
+    <a href="cookies.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none"><i data-lucide="cookie" class="icon icon-md" style="color:#4a5a52"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Politique des cookies</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
   </div>
 
 </main>
 
-<script src="js/role-guard.js"></script>
-<script src="js/dark-mode.js"></script>
-<script>
-function showTab(name) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.toggle('active', c.id === 'tab-'+name));
-}
-lucide.createIcons();
-</script>
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="layout-grid" class="icon icon-md"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
+  <a href="messages.html"><i data-lucide="message-circle" class="icon icon-md"></i><span>Messages</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
+</nav>
+
+<script src="js/dark-mode.js?v=50"></script>
 <script>lucide.createIcons();</script>
 </body>
 </html>
