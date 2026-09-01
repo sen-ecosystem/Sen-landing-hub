@@ -15,83 +15,201 @@
   <button class="icon-btn" data-theme-toggle><i data-lucide="moon" class="icon icon-md icon-vert"></i></button>
 </header>
 
-<main style="padding:12px;padding-bottom:280px">
+<main style="padding:12px;padding-bottom:360px">
 
-  <div class="pcard-grid" style="padding:0">
-
-    <article class="pcard">
-      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&h=400&fit=crop" alt="Sac cuir"></div>
-      <div class="pcard-body" style="padding:10px 12px 12px">
-        <h3 class="pcard-name" style="font-size:14px;margin-bottom:4px;min-height:auto">Sac cuir africain</h3>
-        <p class="pcard-seller" style="font-size:12px;margin-bottom:6px">Aïcha Couture</p>
-        <p class="pcard-price" style="font-size:16px;margin-bottom:8px">22 000 FCFA</p>
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div style="display:flex;align-items:center;gap:6px;background:#f5f5f0;border-radius:20px;padding:2px">
-            <button style="width:26px;height:26px;background:#fff;border-radius:50%;font-weight:700">−</button>
-            <span style="font-weight:800;padding:0 4px">1</span>
-            <button style="width:26px;height:26px;background:#0f6b4e;color:#fff;border-radius:50%;font-weight:700">+</button>
-          </div>
-          <button style="background:transparent;padding:6px"><i data-lucide="trash-2" class="icon icon-sm icon-rouge"></i></button>
-        </div>
+  <!-- Bandeau livraison gratuite -->
+  <div style="background:linear-gradient(90deg,#0f6b4e,#0a4d38);color:#fff;padding:12px 14px;border-radius:12px;margin-bottom:12px;display:flex;align-items:center;gap:10px">
+    <i data-lucide="truck" style="width:22px;height:22px;color:#fff;flex-shrink:0"></i>
+    <div style="flex:1">
+      <strong style="display:block;font-size:13px">🎉 Livraison GRATUITE dès 50 000 FCFA</strong>
+      <div style="background:rgba(255,255,255,0.25);border-radius:6px;height:5px;margin-top:6px;overflow:hidden">
+        <div style="background:#d4a574;height:100%;width:100%"></div>
       </div>
-    </article>
-
-    <article class="pcard">
-      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400&h=400&fit=crop" alt="Perruque"></div>
-      <div class="pcard-body" style="padding:10px 12px 12px">
-        <h3 class="pcard-name" style="font-size:14px;margin-bottom:4px;min-height:auto">Perruque brésilienne</h3>
-        <p class="pcard-seller" style="font-size:12px;margin-bottom:6px">Beauty Fatou</p>
-        <p class="pcard-price" style="font-size:16px;margin-bottom:8px">55 000 FCFA</p>
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div style="display:flex;align-items:center;gap:6px;background:#f5f5f0;border-radius:20px;padding:2px">
-            <button style="width:26px;height:26px;background:#fff;border-radius:50%;font-weight:700">−</button>
-            <span style="font-weight:800;padding:0 4px">1</span>
-            <button style="width:26px;height:26px;background:#0f6b4e;color:#fff;border-radius:50%;font-weight:700">+</button>
-          </div>
-          <button style="background:transparent;padding:6px"><i data-lucide="trash-2" class="icon icon-sm icon-rouge"></i></button>
-        </div>
-      </div>
-    </article>
-
+      <small style="color:rgba(255,255,255,0.9);font-size:11px;display:block;margin-top:3px">✅ Vous en bénéficiez !</small>
+    </div>
   </div>
 
-  <!-- Suggestions -->
-  <h2 class="section-title" style="margin-top:20px"><i data-lucide="sparkles" class="icon icon-sm icon-or"></i> VOUS AIMEREZ AUSSI</h2>
-  <div style="display:flex;gap:10px;overflow-x:auto;padding:0 4px 8px">
-    <div style="flex-shrink:0;width:130px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:8px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+  <!-- Articles panier -->
+  <h2 class="section-title" style="margin:12px 4px 8px"><i data-lucide="package" class="icon icon-sm icon-vert"></i> VOS ARTICLES (3)</h2>
+
+  <!-- Article 1 : ligne horizontale -->
+  <article style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:12px;margin-bottom:10px;display:flex;gap:12px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=200&h=200&fit=crop" style="width:88px;height:88px;object-fit:cover;border-radius:10px;flex-shrink:0" alt="Sac cuir">
+    <div style="flex:1;min-width:0">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px">
+        <h3 style="font-size:14px;font-weight:700;color:#0a1f17;line-height:1.3">Sac cuir africain</h3>
+        <button style="background:transparent;padding:2px" onclick="removeItem(1)"><i data-lucide="trash-2" class="icon icon-sm icon-rouge"></i></button>
+      </div>
+      <p style="color:#a67c3a;font-size:11px;font-weight:600;display:flex;align-items:center;gap:4px;margin-bottom:6px"><i data-lucide="store" class="icon icon-xs icon-vert"></i> Aïcha Couture <i data-lucide="badge-check" class="icon icon-xs icon-bleu"></i></p>
+      <p style="color:#4a5a52;font-size:11px;margin-bottom:6px">Taille : Unique · Couleur : Marron</p>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="display:flex;align-items:baseline;gap:6px">
+          <span style="color:#ef4444;font-size:16px;font-weight:900">22 000 FCFA</span>
+          <span style="color:#999;text-decoration:line-through;font-size:11px">28 000</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;background:#f5f5f0;border-radius:20px;padding:2px">
+          <button style="width:26px;height:26px;background:#fff;border-radius:50%;font-weight:700;color:#0a1f17">−</button>
+          <span style="font-weight:800;padding:0 4px;color:#0a1f17">1</span>
+          <button style="width:26px;height:26px;background:#0f6b4e;color:#fff;border-radius:50%;font-weight:700">+</button>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Article 2 -->
+  <article style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:12px;margin-bottom:10px;display:flex;gap:12px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=200&h=200&fit=crop" style="width:88px;height:88px;object-fit:cover;border-radius:10px;flex-shrink:0" alt="Perruque">
+    <div style="flex:1;min-width:0">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px">
+        <h3 style="font-size:14px;font-weight:700;color:#0a1f17;line-height:1.3">Perruque brésilienne</h3>
+        <button style="background:transparent;padding:2px" onclick="removeItem(2)"><i data-lucide="trash-2" class="icon icon-sm icon-rouge"></i></button>
+      </div>
+      <p style="color:#a67c3a;font-size:11px;font-weight:600;display:flex;align-items:center;gap:4px;margin-bottom:6px"><i data-lucide="store" class="icon icon-xs icon-vert"></i> Beauty Fatou <i data-lucide="badge-check" class="icon icon-xs icon-bleu"></i></p>
+      <p style="color:#4a5a52;font-size:11px;margin-bottom:6px">Longueur : 18" · Couleur : Naturel</p>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="color:#0f6b4e;font-size:16px;font-weight:900">55 000 FCFA</span>
+        <div style="display:flex;align-items:center;gap:6px;background:#f5f5f0;border-radius:20px;padding:2px">
+          <button style="width:26px;height:26px;background:#fff;border-radius:50%;font-weight:700;color:#0a1f17">−</button>
+          <span style="font-weight:800;padding:0 4px;color:#0a1f17">1</span>
+          <button style="width:26px;height:26px;background:#0f6b4e;color:#fff;border-radius:50%;font-weight:700">+</button>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Article 3 -->
+  <article style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:12px;margin-bottom:14px;display:flex;gap:12px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <img src="https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=200&h=200&fit=crop" style="width:88px;height:88px;object-fit:cover;border-radius:10px;flex-shrink:0" alt="Robe">
+    <div style="flex:1;min-width:0">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px">
+        <h3 style="font-size:14px;font-weight:700;color:#0a1f17;line-height:1.3">Robe wax mariage</h3>
+        <button style="background:transparent;padding:2px" onclick="removeItem(3)"><i data-lucide="trash-2" class="icon icon-sm icon-rouge"></i></button>
+      </div>
+      <p style="color:#a67c3a;font-size:11px;font-weight:600;display:flex;align-items:center;gap:4px;margin-bottom:6px"><i data-lucide="store" class="icon icon-xs icon-vert"></i> Aïcha Couture <i data-lucide="badge-check" class="icon icon-xs icon-bleu"></i></p>
+      <p style="color:#4a5a52;font-size:11px;margin-bottom:6px">Taille : L · Couleur : Wax bleu</p>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="color:#0f6b4e;font-size:16px;font-weight:900">35 000 FCFA</span>
+        <div style="display:flex;align-items:center;gap:6px;background:#f5f5f0;border-radius:20px;padding:2px">
+          <button style="width:26px;height:26px;background:#fff;border-radius:50%;font-weight:700;color:#0a1f17">−</button>
+          <span style="font-weight:800;padding:0 4px;color:#0a1f17">1</span>
+          <button style="width:26px;height:26px;background:#0f6b4e;color:#fff;border-radius:50%;font-weight:700">+</button>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Coupon -->
+  <div style="background:#fff;border:1.5px dashed #d4a574;border-radius:12px;padding:14px;margin-bottom:14px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+      <i data-lucide="ticket" style="width:22px;height:22px;color:#d4a574"></i>
+      <strong style="color:#0a1f17;font-size:14px;flex:1">Code promo / Coupon</strong>
+      <span style="background:#fff4e6;color:#a67c3a;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700">3 disponibles</span>
+    </div>
+    <div style="display:flex;gap:8px">
+      <input type="text" placeholder="Entrez votre code..." style="flex:1;padding:10px 12px;border:1px solid #e5e5e0;border-radius:10px;font-size:13px">
+      <button class="btn-primary" style="padding:10px 18px;font-size:13px">Appliquer</button>
+    </div>
+    <!-- Suggestions coupons -->
+    <div style="display:flex;gap:8px;margin-top:10px;overflow-x:auto">
+      <button style="flex-shrink:0;padding:6px 12px;background:linear-gradient(90deg,#ef4444,#dc2626);color:#fff;border-radius:16px;font-size:11px;font-weight:800;display:flex;align-items:center;gap:4px"><i data-lucide="flame" style="width:12px;height:12px"></i> WELCOME -20%</button>
+      <button style="flex-shrink:0;padding:6px 12px;background:linear-gradient(90deg,#d4a574,#a67c3a);color:#fff;border-radius:16px;font-size:11px;font-weight:800;display:flex;align-items:center;gap:4px"><i data-lucide="gift" style="width:12px;height:12px"></i> RAMADAN30</button>
+      <button style="flex-shrink:0;padding:6px 12px;background:linear-gradient(90deg,#0f6b4e,#0a4d38);color:#fff;border-radius:16px;font-size:11px;font-weight:800;display:flex;align-items:center;gap:4px"><i data-lucide="truck" style="width:12px;height:12px"></i> FREESHIP</button>
+    </div>
+  </div>
+
+  <!-- Options livraison -->
+  <h2 class="section-title" style="margin:12px 4px 8px"><i data-lucide="truck" class="icon icon-sm icon-or"></i> MODE DE LIVRAISON</h2>
+
+  <label style="display:flex;align-items:center;gap:12px;background:#fff;border:2px solid #0f6b4e;border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer">
+    <div style="width:38px;height:38px;background:rgba(15,107,78,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="zap" class="icon icon-sm icon-vert"></i></div>
+    <div style="flex:1">
+      <strong style="display:block;color:#0a1f17;font-size:14px">Express Dakar (24h)</strong>
+      <small style="color:#4a5a52;font-size:11px">Livraison rapide dans Dakar</small>
+    </div>
+    <strong style="color:#0f6b4e;font-size:14px">1 500 F</strong>
+  </label>
+
+  <label style="display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer">
+    <div style="width:38px;height:38px;background:rgba(59,130,246,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="package" class="icon icon-sm icon-bleu"></i></div>
+    <div style="flex:1">
+      <strong style="display:block;color:#0a1f17;font-size:14px">Standard (2-3 jours)</strong>
+      <small style="color:#4a5a52;font-size:11px">Tout le Sénégal</small>
+    </div>
+    <strong style="color:#0f6b4e;font-size:14px">Gratuit</strong>
+  </label>
+
+  <label style="display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:12px 14px;margin-bottom:14px;cursor:pointer">
+    <div style="width:38px;height:38px;background:rgba(212,165,116,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="map-pin" class="icon icon-sm icon-or"></i></div>
+    <div style="flex:1">
+      <strong style="display:block;color:#0a1f17;font-size:14px">Point relais</strong>
+      <small style="color:#4a5a52;font-size:11px">Récupérer en 24h</small>
+    </div>
+    <strong style="color:#0f6b4e;font-size:14px">800 F</strong>
+  </label>
+
+  <!-- Adresse livraison -->
+  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:14px;margin-bottom:14px;display:flex;align-items:center;gap:12px">
+    <i data-lucide="map-pin" class="icon icon-md icon-rouge"></i>
+    <div style="flex:1">
+      <strong style="display:block;color:#0a1f17;font-size:13px">Karim Niang · 52 Rue Mohamed V</strong>
+      <small style="color:#4a5a52;font-size:11px">Dakar-Plateau, 11000 · +221 77 456 78 90</small>
+    </div>
+    <button style="color:#0f6b4e;font-weight:700;font-size:12px;background:transparent">Changer</button>
+  </div>
+
+  <!-- Suggestions VOUS AIMEREZ AUSSI -->
+  <h2 class="section-title" style="margin-top:16px"><i data-lucide="sparkles" class="icon icon-sm icon-or"></i> VOUS AIMEREZ AUSSI</h2>
+  <div style="display:flex;gap:10px;overflow-x:auto;padding:0 4px 8px;scrollbar-width:none">
+    <div style="flex-shrink:0;width:140px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:8px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
       <img src="https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=200&h=200&fit=crop" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px">
-      <p style="font-size:12px;font-weight:700;color:#0a1f17;margin:6px 0 2px;line-height:1.3">Robe wax</p>
-      <strong class="pcard-price" style="font-size:13px">35 000 FCFA</strong>
+      <p style="font-size:12px;font-weight:700;color:#0a1f17;margin:6px 0 2px;line-height:1.3;height:32px;overflow:hidden">Robe wax bleue</p>
+      <strong style="color:#0f6b4e;font-size:13px">35 000 F</strong>
+      <button class="btn-primary" style="width:100%;padding:6px;font-size:11px;margin-top:6px">+ Ajouter</button>
     </div>
-    <div style="flex-shrink:0;width:130px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:8px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <div style="flex-shrink:0;width:140px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:8px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
       <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=200&h=200&fit=crop" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px">
-      <p style="font-size:12px;font-weight:700;color:#0a1f17;margin:6px 0 2px;line-height:1.3">Sandales</p>
-      <strong class="pcard-price" style="font-size:13px">8 500 FCFA</strong>
+      <p style="font-size:12px;font-weight:700;color:#0a1f17;margin:6px 0 2px;line-height:1.3;height:32px;overflow:hidden">Sandales cuir</p>
+      <strong style="color:#0f6b4e;font-size:13px">8 500 F</strong>
+      <button class="btn-primary" style="width:100%;padding:6px;font-size:11px;margin-top:6px">+ Ajouter</button>
     </div>
-    <div style="flex-shrink:0;width:130px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:8px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <div style="flex-shrink:0;width:140px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:8px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
       <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=200&h=200&fit=crop" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px">
-      <p style="font-size:12px;font-weight:700;color:#0a1f17;margin:6px 0 2px;line-height:1.3">Baskets</p>
-      <strong class="pcard-price" style="font-size:13px">25 000 FCFA</strong>
+      <p style="font-size:12px;font-weight:700;color:#0a1f17;margin:6px 0 2px;line-height:1.3;height:32px;overflow:hidden">Baskets pastel</p>
+      <strong style="color:#0f6b4e;font-size:13px">25 000 F</strong>
+      <button class="btn-primary" style="width:100%;padding:6px;font-size:11px;margin-top:6px">+ Ajouter</button>
     </div>
   </div>
+
 </main>
 
-<!-- Footer paiement fixe -->
-<div style="position:fixed;bottom:60px;left:0;right:0;background:#fff;border-top:1px solid #e5e5e0;padding:14px 16px;box-shadow:0 -4px 20px rgba(0,0,0,0.06);z-index:99;max-height:220px;overflow-y:auto">
-  <div style="display:flex;justify-content:space-between;color:#4a5a52;font-size:13px;margin-bottom:4px"><span><i data-lucide="package" style="width:14px;height:14px;display:inline"></i> Sous-total</span><span>77 000 FCFA</span></div>
-  <div style="display:flex;justify-content:space-between;color:#4a5a52;font-size:13px;margin-bottom:6px"><span><i data-lucide="truck" style="width:14px;height:14px;display:inline"></i> Livraison</span><span>1 500 FCFA</span></div>
-  <div style="height:1px;background:#e5e5e0;margin:6px 0"></div>
-  <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:800;margin-bottom:10px"><span style="color:#0a1f17">TOTAL</span><span class="pcard-price" style="font-size:20px">78 500 FCFA</span></div>
+<!-- Footer paiement DÉTAILLÉ -->
+<div style="position:fixed;bottom:60px;left:0;right:0;background:#fff;border-top:1px solid #e5e5e0;padding:14px 16px;box-shadow:0 -4px 20px rgba(0,0,0,0.08);z-index:99;max-height:290px;overflow-y:auto">
 
-  <p style="font-size:11px;color:#4a5a52;font-weight:700;margin-bottom:6px">MODE DE PAIEMENT</p>
+  <!-- Détail prix -->
+  <div style="display:flex;justify-content:space-between;color:#4a5a52;font-size:13px;margin-bottom:4px"><span style="display:flex;align-items:center;gap:6px"><i data-lucide="package" class="icon icon-xs"></i> Sous-total (3 articles)</span><span>112 000 FCFA</span></div>
+  <div style="display:flex;justify-content:space-between;color:#ef4444;font-size:13px;margin-bottom:4px"><span style="display:flex;align-items:center;gap:6px"><i data-lucide="tag" class="icon icon-xs" style="color:#ef4444"></i> Remise (-30% WELCOME)</span><span>−33 600 FCFA</span></div>
+  <div style="display:flex;justify-content:space-between;color:#4a5a52;font-size:13px;margin-bottom:6px"><span style="display:flex;align-items:center;gap:6px"><i data-lucide="truck" class="icon icon-xs"></i> Livraison Express</span><span>1 500 FCFA</span></div>
+  <div style="height:1px;background:#e5e5e0;margin:6px 0"></div>
+  <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:800;margin-bottom:4px"><span style="color:#0a1f17">TOTAL</span><span style="color:#0f6b4e;font-size:22px">79 900 FCFA</span></div>
+  <p style="color:#a67c3a;font-size:11px;margin-bottom:10px;display:flex;align-items:center;gap:4px"><i data-lucide="award" class="icon icon-xs icon-or"></i> Vous gagnerez <strong>+80 points GOLD</strong></p>
+
+  <!-- Facilités paiement -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px">
+    <button style="padding:8px;background:#fff;border:2px solid #0f6b4e;color:#0f6b4e;border-radius:10px;font-weight:700;font-size:11px">1× 79 900 F</button>
+    <button style="padding:8px;background:#fff;border:1.5px solid #e5e5e0;color:#0a1f17;border-radius:10px;font-weight:700;font-size:11px">2× 39 950 F</button>
+    <button style="padding:8px;background:#fff;border:1.5px solid #e5e5e0;color:#0a1f17;border-radius:10px;font-weight:700;font-size:11px">3× 26 633 F</button>
+  </div>
+
+  <!-- Modes paiement -->
+  <p style="font-size:10px;color:#4a5a52;font-weight:700;margin-bottom:6px">MODE DE PAIEMENT</p>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px">
     <label class="pay-option active" style="padding:6px;flex-direction:column;font-size:10px;text-align:center"><i data-lucide="waves" class="icon icon-md" style="color:#00d4ff"></i><span>Wave</span></label>
-    <label class="pay-option" style="padding:6px;flex-direction:column;font-size:10px;text-align:center"><i data-lucide="circle" class="icon icon-md" style="color:#f97316"></i><span>Orange Money</span></label>
+    <label class="pay-option" style="padding:6px;flex-direction:column;font-size:10px;text-align:center"><i data-lucide="circle" class="icon icon-md" style="color:#f97316"></i><span>Orange M.</span></label>
     <label class="pay-option" style="padding:6px;flex-direction:column;font-size:10px;text-align:center"><i data-lucide="credit-card" class="icon icon-md" style="color:#635bff"></i><span>Carte</span></label>
     <label class="pay-option" style="padding:6px;flex-direction:column;font-size:10px;text-align:center"><i data-lucide="banknote" class="icon icon-md icon-vert"></i><span>Cash</span></label>
   </div>
 
-  <button class="btn-primary" style="width:100%;padding:14px;font-size:15px;display:flex;align-items:center;justify-content:center;gap:8px"><i data-lucide="lock" class="icon icon-sm icon-blanc"></i> Passer la commande</button>
+  <button class="btn-primary" style="width:100%;padding:14px;font-size:15px;display:flex;align-items:center;justify-content:center;gap:8px"><i data-lucide="lock" class="icon icon-sm icon-blanc"></i> Payer 79 900 FCFA</button>
 </div>
 
 <nav class="bottom-nav">
@@ -103,6 +221,9 @@
 </nav>
 
 <script src="js/dark-mode.js?v=50"></script>
-<script>lucide.createIcons();</script>
+<script>
+lucide.createIcons();
+function removeItem(id) { console.log('Remove item', id); }
+</script>
 </body>
 </html>
