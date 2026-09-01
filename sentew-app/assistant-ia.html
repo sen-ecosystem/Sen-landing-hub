@@ -2,144 +2,68 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Assistant IA - SEN TEW</title>
-<style>
-:root{--v:#00a651;--j:#fcd116}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,sans-serif;background:#f5f5f5;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-.header{background:linear-gradient(135deg,var(--v),#008a44);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0}
-.back{background:rgba(255,255,255,.25);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px}
-.avatar{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:18px}
-.info{flex:1}
-.info h2{font-size:16px;font-weight:600}
-.info p{font-size:12px;opacity:.9}
-.lang{background:rgba(255,255,255,.2);border:none;color:#fff;padding:6px 10px;border-radius:8px;font-size:12px}
-.chat{flex:1;overflow-y:auto;padding:16px;-webkit-overflow-scrolling:touch;background:linear-gradient(180deg,#f0f9f4 0%,#f5f5f5 100%)}
-.msg{max-width:80%;padding:12px 14px;border-radius:16px;margin-bottom:10px;font-size:14px;line-height:1.4}
-.msg.bot{background:#fff;color:#222;border-bottom-left-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.06)}
-.msg.user{background:var(--v);color:#fff;margin-left:auto;border-bottom-right-radius:4px}
-.suggestions{padding:12px 16px;background:#fff;border-top:1px solid #eee;flex-shrink:0}
-.sug-title{font-size:11px;color:#999;font-weight:600;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase}
-.sug-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-.sug{background:#f5f5f5;border:1px solid #ddd;padding:8px 6px;border-radius:10px;font-size:11px;color:#222;font-weight:500;cursor:pointer;text-align:center}
-.sug:active{background:var(--j)}
-.input-bar{background:#fff;padding:10px 12px;display:flex;gap:8px;align-items:center;border-top:1px solid #eee;flex-shrink:0;padding-bottom:calc(10px + env(safe-area-inset-bottom,0))}
-.mic{width:40px;height:40px;border-radius:50%;background:#f5f5f5;border:none;font-size:18px;flex-shrink:0}
-.input-bar input{flex:1;border:1px solid #ddd;background:#f9f9f9;padding:10px 14px;border-radius:20px;font-size:14px;outline:none;color:#222}
-.send{width:40px;height:40px;border-radius:50%;background:var(--v);border:none;color:#fff;font-size:18px;flex-shrink:0}
-.typing{display:inline-flex;gap:3px;padding:12px 14px}
-.typing span{width:6px;height:6px;background:#999;border-radius:50%;animation:bounce 1.2s infinite}
-.typing span:nth-child(2){animation-delay:.2s}
-.typing span:nth-child(3){animation-delay:.4s}
-@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
-</style>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Assistant IA — SEN TEW</title>
+<link rel="stylesheet" href="css/app.css?v=50">
+<script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body>
+<body class="light-mode">
 
-<div class="header">
-  <button class="back" onclick="history.back()">←</button>
-  <div class="avatar">✨</div>
-  <div class="info">
-    <h2>Assistant SEN TEW</h2>
-    <p>🟢 En ligne · Disponible 24/7</p>
+<header class="topbar" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff">
+  <button class="btn-back" onclick="history.back()" style="color:#fff"><i data-lucide="arrow-left" class="icon icon-md icon-blanc"></i></button>
+  <h1 style="color:#fff !important;display:flex;align-items:center;gap:8px"><i data-lucide="bot" class="icon icon-md icon-blanc"></i> Assistant IA</h1>
+  <button class="icon-btn"><i data-lucide="more-vertical" class="icon icon-md icon-blanc"></i></button>
+</header>
+
+<main style="padding:16px;padding-bottom:120px">
+
+  <!-- Card bienvenue -->
+  <section style="background:linear-gradient(135deg,#a855f7 0%,#7c3aed 100%);border-radius:20px;padding:20px;color:#fff;text-align:center;margin-bottom:16px;box-shadow:0 12px 32px rgba(168,85,247,0.3)">
+    <div style="width:70px;height:70px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px"><i data-lucide="bot" style="width:36px;height:36px;color:#fff"></i></div>
+    <h2 style="color:#fff !important;font-size:20px;font-weight:900;margin-bottom:4px">Assistant IA SEN TEW</h2>
+    <p style="color:rgba(255,255,255,0.9) !important;font-size:12px;margin-bottom:12px">Disponible 24/7 · Français + Wolof · Réponse instantanée</p>
+    <button style="background:#fff;color:#7c3aed;padding:12px 20px;border-radius:10px;font-weight:800;display:inline-flex;align-items:center;gap:8px"><i data-lucide="message-circle" class="icon icon-sm" style="color:#7c3aed"></i> Démarrer une conversation</button>
+  </section>
+
+  <!-- Suggestions -->
+  <h2 class="section-title"><i data-lucide="sparkles" class="icon icon-sm" style="color:#a855f7"></i> QUESTIONS RAPIDES</h2>
+  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:8px;margin-bottom:16px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <button style="width:100%;padding:14px;display:flex;align-items:center;gap:12px;background:transparent;border:none;border-bottom:1px solid #f5f5f0;text-align:left"><i data-lucide="truck" class="icon icon-sm icon-vert"></i><span style="flex:1;color:#0a1f17;font-size:14px;font-weight:600">Où est ma commande ?</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></button>
+    <button style="width:100%;padding:14px;display:flex;align-items:center;gap:12px;background:transparent;border:none;border-bottom:1px solid #f5f5f0;text-align:left"><i data-lucide="undo-2" class="icon icon-sm icon-rouge"></i><span style="flex:1;color:#0a1f17;font-size:14px;font-weight:600">Comment obtenir un remboursement ?</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></button>
+    <button style="width:100%;padding:14px;display:flex;align-items:center;gap:12px;background:transparent;border:none;border-bottom:1px solid #f5f5f0;text-align:left"><i data-lucide="tag" class="icon icon-sm icon-or"></i><span style="flex:1;color:#0a1f17;font-size:14px;font-weight:600">Codes promo actifs ?</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></button>
+    <button style="width:100%;padding:14px;display:flex;align-items:center;gap:12px;background:transparent;border:none;border-bottom:1px solid #f5f5f0;text-align:left"><i data-lucide="wallet" class="icon icon-sm icon-or"></i><span style="flex:1;color:#0a1f17;font-size:14px;font-weight:600">Comment retirer mon solde Wave ?</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></button>
+    <button style="width:100%;padding:14px;display:flex;align-items:center;gap:12px;background:transparent;border:none;text-align:left"><i data-lucide="store" class="icon icon-sm icon-vert"></i><span style="flex:1;color:#0a1f17;font-size:14px;font-weight:600">Devenir vendeur</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></button>
   </div>
-  <button class="lang">🇫🇷 FR</button>
-</div>
 
-<div class="chat" id="chat">
-  <div class="msg bot">Bonjour ! 👋 Je suis l'assistant SEN TEW. Comment puis-je vous aider aujourd'hui ?</div>
-</div>
-
-<div class="suggestions">
-  <div class="sug-title">💡 Suggestions rapides</div>
-  <div class="sug-grid">
-    <button class="sug" onclick="send('Suivre ma commande')">📦 Suivre<br>commande</button>
-    <button class="sug" onclick="send('Mes points fidélité')">💰 Mes<br>points</button>
-    <button class="sug" onclick="send('Promos du jour')">🎁 Promos<br>du jour</button>
-    <button class="sug" onclick="send('Sécurité compte')">🔒 Sécurité</button>
-    <button class="sug" onclick="send('Moyens de paiement')">💳 Paiement</button>
-    <button class="sug" onclick="send('Devenir vendeur')">🏪 Devenir<br>vendeur</button>
+  <!-- Chat démo -->
+  <h2 class="section-title"><i data-lucide="message-square" class="icon icon-sm icon-bleu"></i> CONVERSATION</h2>
+  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <div style="display:flex;gap:10px;margin-bottom:14px">
+      <div style="width:36px;height:36px;background:linear-gradient(135deg,#a855f7,#7c3aed);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="bot" class="icon icon-sm icon-blanc"></i></div>
+      <div style="background:#f3e8ff;padding:10px 14px;border-radius:14px 14px 14px 4px;max-width:80%">
+        <p style="color:#0a1f17;font-size:13px;line-height:1.5">Bonjour Karim ! 👋 Je suis l'assistant IA de SEN TEW. Comment puis-je vous aider aujourd'hui ?</p>
+        <small style="color:#7c3aed;font-size:10px;font-weight:700">Assistant · maintenant</small>
+      </div>
+    </div>
   </div>
+</main>
+
+<!-- Input chat fixe -->
+<div style="position:fixed;bottom:60px;left:0;right:0;background:#fff;border-top:1px solid #e5e5e0;padding:12px 16px;display:flex;gap:8px;align-items:center;z-index:99">
+  <button style="background:#f5f5f0;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center"><i data-lucide="plus" class="icon icon-sm icon-vert"></i></button>
+  <input type="text" placeholder="Posez votre question..." style="flex:1;padding:10px 14px;border-radius:20px;background:#f5f5f0;border:none">
+  <button style="background:linear-gradient(135deg,#a855f7,#7c3aed);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center"><i data-lucide="send" class="icon icon-sm icon-blanc"></i></button>
 </div>
 
-<div class="input-bar">
-  <button class="mic" onclick="voice()">🎤</button>
-  <input id="txt" placeholder="Tapez votre message..." onkeypress="if(event.key==='Enter')send()">
-  <button class="send" onclick="send()">➤</button>
-</div>
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="layout-grid" class="icon icon-md"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
+  <a href="messages.html" class="active"><i data-lucide="message-circle" class="icon icon-md"></i><span>Messages</span></a>
+  <a href="profil.html"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
+</nav>
 
-<script>
-const REPLIES = {
-  commande:"📦 Pour suivre votre commande, allez dans 'Mes commandes' > sélectionnez la commande > cliquez 'Suivre'. Un GPS en temps réel vous montre la position du livreur !",
-  points:"💰 Vous avez 2 450 points de fidélité = 4 900 FCFA à utiliser. 100 points = 200 FCFA. Utilisables à partir de 500 points !",
-  promo:"🎁 Promos du jour : RAMADAN30 (-30%), NOUVEAU10 (-10% premier achat), LIVRAISON0 (gratuite dès 15 000 FCFA)",
-  securite:"🔒 SEN TEW utilise 2FA, chiffrement SSL, paiement PCI-DSS. Vérifiez toujours l'URL sen-ecosystem.com et n'envoyez jamais votre mot de passe.",
-  paiement:"💳 Modes acceptés : Wave, Orange Money, Free Money, Wizall, Cartes Visa/Mastercard (2x/3x sans frais), Wallet SEN TEW, paiement à la livraison.",
-  vendeur:"🏪 Pour devenir vendeur : Compte > 'Devenir vendeur' > envoyez CNI + photo boutique. Validation 24-48h. Commission 5-8% selon niveau.",
-  livraison:"🚚 Délais : Dakar 24h, régions 3-5j, international 7-15j. Frais dès 1 000 FCFA, gratuite dès 15 000 FCFA d'achat.",
-  retour:"↩️ Vous avez 14 jours pour retourner un produit sans justification. Remboursement sous 14 jours après réception.",
-  contact:"📞 Contact humain : +221 XX XXX XX XX ou contact@sen-ecosystem.com. Réponse sous 24h.",
-  default:"Je peux vous aider avec : suivi commande, points fidélité, promos, sécurité, paiement, devenir vendeur, livraison, retour, contact humain. Que voulez-vous savoir ?"
-};
-
-function reply(text){
-  const t = text.toLowerCase();
-  if(t.includes('command')||t.includes('suivre')||t.includes('livrai')) return REPLIES.commande;
-  if(t.includes('point')||t.includes('fidél')) return REPLIES.points;
-  if(t.includes('promo')||t.includes('code')||t.includes('réduc')) return REPLIES.promo;
-  if(t.includes('sécur')||t.includes('mot de passe')||t.includes('2fa')) return REPLIES.securite;
-  if(t.includes('paie')||t.includes('wave')||t.includes('carte')||t.includes('om ')) return REPLIES.paiement;
-  if(t.includes('vendeur')||t.includes('boutique')||t.includes('vendre')) return REPLIES.vendeur;
-  if(t.includes('retour')||t.includes('rembours')) return REPLIES.retour;
-  if(t.includes('contact')||t.includes('humain')||t.includes('téléphone')) return REPLIES.contact;
-  return REPLIES.default;
-}
-
-function addMsg(text, who){
-  const div = document.createElement('div');
-  div.className = 'msg ' + who;
-  div.textContent = text;
-  document.getElementById('chat').appendChild(div);
-  document.getElementById('chat').scrollTop = 99999;
-}
-
-function addTyping(){
-  const div = document.createElement('div');
-  div.className = 'msg bot';
-  div.id = 'typing';
-  div.innerHTML = '<div class="typing"><span></span><span></span><span></span></div>';
-  document.getElementById('chat').appendChild(div);
-  document.getElementById('chat').scrollTop = 99999;
-}
-
-function send(preset){
-  const inp = document.getElementById('txt');
-  const text = preset || inp.value.trim();
-  if(!text) return;
-  addMsg(text, 'user');
-  inp.value = '';
-  addTyping();
-  setTimeout(()=>{
-    document.getElementById('typing').remove();
-    addMsg(reply(text), 'bot');
-  }, 800);
-}
-
-function voice(){
-  if(!('webkitSpeechRecognition' in window)){
-    alert('Reconnaissance vocale non supportée');
-    return;
-  }
-  const rec = new webkitSpeechRecognition();
-  rec.lang = 'fr-FR';
-  rec.onresult = e => {
-    document.getElementById('txt').value = e.results[0][0].transcript;
-    send();
-  };
-  rec.start();
-}
-</script>
-  <script src="js/dark-mode.js"></script>
+<script src="js/dark-mode.js?v=50"></script>
+<script>lucide.createIcons();</script>
 </body>
 </html>
