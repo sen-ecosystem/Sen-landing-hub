@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistiques - Moussa Tech - SEN TEW</title>
+    <link rel="stylesheet" href="css/app.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', -apple-system, sans-serif;
+            background: #F9F9F9;
+            color: #1a1a1a;
+            padding-bottom: 90px;
+        }
+        .header {
+            background: #ffffff;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .header a {
+            color: #1B5E3F;
+            text-decoration: none;
+            font-size: 22px;
+        }
+        .header h1 {
+            color: #1B5E3F;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .hero {
+            background: linear-gradient(135deg, #D4A574 0%, #B8894F 100%);
+            color: #ffffff;
+            padding: 24px 20px;
+            text-align: center;
+        }
+        .hero h2 {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+        .hero p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        .section {
+            padding: 20px;
+        }
+        .section-title {
+            color: #1B5E3F;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .stat-card {
+            background: #ffffff;
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .stat-card .value {
+            color: #1B5E3F;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .stat-card .label {
+            color: #666;
+            font-size: 12px;
+        }
+        .stat-card .trend {
+            font-size: 11px;
+            margin-top: 6px;
+            font-weight: 600;
+        }
+        .trend.up { color: #16A34A; }
+        .trend.down { color: #DC2626; }
+        .chart-card {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            height: 160px;
+            margin-top: 16px;
+        }
+        .bar {
+            flex: 1;
+            background: linear-gradient(180deg, #1B5E3F 0%, #2E7D5A 100%);
+            border-radius: 6px 6px 0 0;
+            position: relative;
+            min-height: 20px;
+        }
+        .bar span {
+            position: absolute;
+            bottom: -22px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 11px;
+            color: #666;
+        }
+        .top-products {
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .product-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .product-row:last-child {
+            border-bottom: none;
+        }
+        .product-icon {
+            width: 40px;
+            height: 40px;
+            background: #F3F0EA;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .product-info {
+            flex: 1;
+        }
+        .product-info .name {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+        .product-info .sales {
+            font-size: 12px;
+            color: #666;
+        }
+        .product-value {
+            color: #1B5E3F;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .period-tabs {
+            display: flex;
+            gap: 8px;
+            background: #ffffff;
+            padding: 8px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            margin-bottom: 16px;
+        }
+        .period-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+        }
+        .period-tab.active {
+            background: #1B5E3F;
+            color: #ffffff;
+        }
+        .export-btn {
+            background: #ffffff;
+            color: #1B5E3F;
+            border: 2px solid #1B5E3F;
+            padding: 14px;
+            border-radius: 10px;
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+            margin-top: 16px;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid #eee;
+        }
+        .bottom-nav a {
+            text-decoration: none;
+            color: #666;
+            font-size: 11px;
+            text-align: center;
+        }
+        .bottom-nav a.active {
+            color: #1B5E3F;
+        }
+        .bottom-nav .icon {
+            font-size: 22px;
+            display: block;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="vendeur.html">←</a>
+        <h1>📊 Statistiques Boutique</h1>
+    </header>
+
+    <section class="hero">
+        <h2>Moussa Tech</h2>
+        <p>Aperçu de vos performances</p>
+    </section>
+
+    <section class="section">
+
+        <div class="period-tabs">
+            <button class="period-tab">Jour</button>
+            <button class="period-tab">Semaine</button>
+            <button class="period-tab active">Mois</button>
+            <button class="period-tab">Année</button>
+        </div>
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div class="value">1.8M</div>
+                <div class="label">CA (FCFA)</div>
+                <div class="trend up">▲ +12% ce mois</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="value">32</div>
+                <div class="label">Ventes</div>
+                <div class="trend up">▲ +8%</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="value">4.7 ★</div>
+                <div class="label">Note moyenne</div>
+                <div class="trend up">▲ +0.2</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="value">1 247</div>
+                <div class="label">Visiteurs</div>
+                <div class="trend up">▲ +24%</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="value">2.6%</div>
+                <div class="label">Taux de conversion</div>
+                <div class="trend down">▼ -0.4%</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="value">56k</div>
+                <div class="label">Panier moyen</div>
+                <div class="trend up">▲ +5%</div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="section">
+        <h3 class="section-title">📈 Évolution des ventes</h3>
+        <div class="chart-card">
+            <div class="bar-chart">
+                <div class="bar" style="height: 40%;"><span>Lun</span></div>
+                <div class="bar" style="height: 65%;"><span>Mar</span></div>
+                <div class="bar" style="height: 55%;"><span>Mer</span></div>
+                <div class="bar" style="height: 80%;"><span>Jeu</span></div>
+                <div class="bar" style="height: 90%;"><span>Ven</span></div>
+                <div class="bar" style="height: 100%;"><span>Sam</span></div>
+                <div class="bar" style="height: 70%;"><span>Dim</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h3 class="section-title">🏆 Top 5 produits</h3>
+        <div class="top-products">
+
+            <div class="product-row">
+                <div class="product-icon">📱</div>
+                <div class="product-info">
+                    <div class="name">iPhone 15 Pro</div>
+                    <div class="sales">12 ventes</div>
+                </div>
+                <div class="product-value">850k</div>
+            </div>
+
+            <div class="product-row">
+                <div class="product-icon">💻</div>
+                <div class="product-info">
+                    <div class="name">MacBook Air M2</div>
+                    <div class="sales">6 ventes</div>
+                </div>
+                <div class="product-value">620k</div>
+            </div>
+
+            <div class="product-row">
+                <div class="product-icon">🎧</div>
+                <div class="product-info">
+                    <div class="name">AirPods Pro</div>
+                    <div class="sales">18 ventes</div>
+                </div>
+                <div class="product-value">180k</div>
+            </div>
+
+            <div class="product-row">
+                <div class="product-icon">⌚</div>
+                <div class="product-info">
+                    <div class="name">Apple Watch</div>
+                    <div class="sales">4 ventes</div>
+                </div>
+                <div class="product-value">95k</div>
+            </div>
+
+            <div class="product-row">
+                <div class="product-icon">🖥️</div>
+                <div class="product-info">
+                    <div class="name">Écran Samsung 27"</div>
+                    <div class="sales">3 ventes</div>
+                </div>
+                <div class="product-value">55k</div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="section">
+        <h3 class="section-title">🌍 Origine des clients</h3>
+        <div class="top-products">
+
+            <div class="product-row">
+                <div class="product-icon">🇸🇳</div>
+                <div class="product-info">
+                    <div class="name">Sénégal</div>
+                    <div class="sales">Dakar, Thiès, Saint-Louis</div>
+                </div>
+                <div class="product-value">68%</div>
+            </div>
+
+            <div class="product-row">
+                <div class="product-icon">🇫🇷</div>
+                <div class="product-info">
+                    <div class="name">France</div>
+                    <div class="sales">Diaspora</div>
+                </div>
+                <div class="product-value">18%</div>
+            </div>
+
+            <div class="product-row">
+                <div class="product-icon">🇮🇹</div>
+                <div class="product-info">
+                    <div class="name">Italie</div>
+                    <div class="sales">Diaspora</div>
+                </div>
+                <div class="product-value">9%</div>
+            </div>
+
+            <div class="product-row">
+                <div class="product-icon">🌐</div>
+                <div class="product-info">
+                    <div class="name">Autres pays</div>
+                    <div class="sales">USA, Canada, Espagne</div>
+                </div>
+                <div class="product-value">5%</div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="section">
+        <a href="#" class="export-btn">📥 Exporter les statistiques (PDF)</a>
+    </section>
+
+    <nav class="bottom-nav">
+        <a href="index.html">
+            <span class="icon">🏠</span>
+            Accueil
+        </a>
+        <a href="categories.html">
+            <span class="icon">🗂️</span>
+            Catégories
+        </a>
+        <a href="panier.html">
+            <span class="icon">🛒</span>
+            Panier
+        </a>
+        <a href="messages.html">
+            <span class="icon">💬</span>
+            Messages
+        </a>
+        <a href="profil.html" class="active">
+            <span class="icon">👤</span>
+            Profil
+        </a>
+    </nav>
+
+</body>
+</html>
