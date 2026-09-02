@@ -1,142 +1,206 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Messages — SEN TEW</title>
-<link rel="stylesheet" href="css/app.css?v=50">
-<script src="https://unpkg.com/lucide@latest"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages - SEN TEW</title>
+  <link rel="stylesheet" href="css/app.css?v=52">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
+    .topbar { background: linear-gradient(135deg, #0f6b4e, #0a4d38); color: #fff; padding: 16px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
+    .topbar h1 { color: #fff; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
+    .badge-count { background: #dc2626; color: #fff; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; margin-left: 6px; }
+    .icon-btn { background: rgba(255,255,255,0.2); border: none; cursor: pointer; padding: 8px; color: #fff; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
+    .icon-btn-write { background: #d4a574; }
+    .search-bar { padding: 12px 16px; }
+    .search-input { width: 100%; padding: 12px 16px; border: 1.5px solid #e5e7eb; border-radius: 24px; font-size: 14px; box-sizing: border-box; background: #fff; }
+    .filter-bar { display: flex; gap: 8px; padding: 0 16px 12px; overflow-x: auto; }
+    .chip { background: #fff; padding: 10px 16px; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); text-decoration: none; color: #1a1a1a; }
+    .chip.active { background: #0f6b4e; color: #fff; }
+    .chip .count { background: #f5f5f0; color: #666; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; }
+    .chip.active .count { background: rgba(255,255,255,0.25); color: #fff; }
+
+    /* ACTIONS RAPIDES - CLIQUABLES */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      padding: 0 16px 16px;
+    }
+    .quick-btn {
+      background: #fff;
+      padding: 14px 6px;
+      border-radius: 12px;
+      text-align: center;
+      text-decoration: none;
+      color: #1a1a1a;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      border: none;
+    }
+    .quick-btn:active { transform: scale(0.95); }
+    .qa-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .qa-icon.ia { background: #ede9fe; }
+    .qa-icon.ia i { color: #6b46c1; }
+    .qa-icon.support { background: #d1fae5; }
+    .qa-icon.support i { color: #065f46; }
+    .qa-icon.cmd { background: #fef3c7; }
+    .qa-icon.cmd i { color: #d97706; }
+    .qa-icon.litige { background: #fee2e2; }
+    .qa-icon.litige i { color: #dc2626; }
+    .qa-name { font-size: 12px; font-weight: 700; color: #1a1a1a; }
+
+    .section-title {
+      color: #d4a574;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 0 20px;
+      margin: 8px 0 8px;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .conv { background: #fff; margin: 0 16px 10px; padding: 12px; border-radius: 12px; display: flex; gap: 12px; text-decoration: none; color: inherit; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+    .avatar { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; }
+    .avatar.ia { background: #6b46c1; }
+    .avatar.ia i { color: #fff; }
+    .avatar.vendor { background: #ec4899; }
+    .avatar.vendor i { color: #fff; }
+    .avatar .online { position: absolute; bottom: 0; right: 0; width: 12px; height: 12px; background: #4ade80; border-radius: 50%; border: 2px solid #fff; }
+    .conv-info { flex: 1; min-width: 0; }
+    .conv-head { display: flex; justify-content: space-between; align-items: center; }
+    .conv-name { font-weight: 700; font-size: 14px; color: #1a1a1a; display: flex; align-items: center; gap: 4px; }
+    .conv-time { font-size: 11px; color: #0f6b4e; font-weight: 600; }
+    .conv-msg { font-size: 13px; color: #666; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .conv-tags { display: flex; gap: 6px; margin-top: 6px; }
+    .tag { padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; }
+    .tag-support { background: #ede9fe; color: #6b46c1; }
+    .tag-cmd { background: #d1fae5; color: #065f46; }
+    .tag-silver { background: #f5f5f0; color: #666; }
+    .conv-badge { background: #0f6b4e; color: #fff; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
+    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
+    .bottom-nav a.active { color: #0f6b4e; }
+    .bottom-nav a i { width: 22px; height: 22px; }
+  </style>
 </head>
 <body class="light-mode">
 
-<header class="hero-emerald-gold" style="border-radius:0;padding:16px;display:flex;align-items:center;gap:12px">
-  <button onclick="history.back()" style="background:rgba(255,255,255,0.2);border:none;color:#fff;width:36px;height:36px;border-radius:50%"><i data-lucide="arrow-left" class="icon icon-md icon-blanc"></i></button>
-  <h1 style="color:#fff !important;font-size:18px;font-weight:800;flex:1;display:flex;align-items:center;gap:8px"><i data-lucide="message-circle" class="icon icon-md icon-blanc"></i> Messages <span style="background:#ef4444;color:#fff;font-size:11px;padding:2px 8px;border-radius:10px">5</span></h1>
-  <button style="width:36px;height:36px;background:#f59e0b;border-radius:50%;display:flex;align-items:center;justify-content:center"><i data-lucide="pencil" class="icon icon-sm icon-noir"></i></button>
+<header class="topbar">
+  <div style="display:flex;align-items:center;gap:12px">
+    <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+    <h1><i data-lucide="message-circle"></i> Messages <span class="badge-count">5</span></h1>
+  </div>
+  <button class="icon-btn icon-btn-write" onclick="alert('✏️ Nouvelle conversation')"><i data-lucide="edit-3"></i></button>
 </header>
 
-<div style="padding:12px 16px">
-  <input type="text" placeholder="Rechercher une conversation..." style="background:rgba(15,107,78,0.05);border:1px solid #e5e5e0;border-radius:20px;padding:10px 16px;font-size:13px">
+<div class="search-bar">
+  <input type="text" class="search-input" placeholder="🔍 Rechercher une conversation...">
 </div>
 
-<!-- Filtres -->
-<div style="display:flex;gap:8px;padding:0 16px 12px;overflow-x:auto">
-  <button class="btn-primary" style="padding:8px 14px;font-size:12px;display:flex;align-items:center;gap:6px"><i data-lucide="inbox" class="icon icon-sm icon-blanc"></i> Toutes <span style="background:#fff;color:#0f6b4e;padding:1px 7px;border-radius:10px">8</span></button>
-  <button style="padding:8px 14px;background:#fff;border:1px solid #e5e5e0;border-radius:20px;font-size:12px;color:#0a1f17;font-weight:700;display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;background:#ef4444;border-radius:50%"></span> Non lues <span style="background:#ef4444;color:#fff;padding:1px 7px;border-radius:10px">5</span></button>
-  <button style="padding:8px 14px;background:#fff;border:1px solid #e5e5e0;border-radius:20px;font-size:12px;color:#0a1f17;font-weight:700;display:flex;align-items:center;gap:6px"><i data-lucide="store" class="icon icon-sm icon-vert"></i> Vendeurs <span style="background:#e5e5e0;color:#0a1f17;padding:1px 7px;border-radius:10px">4</span></button>
+<div class="filter-bar">
+  <span class="chip active"><i data-lucide="inbox" style="width:14px;height:14px"></i> Toutes <span class="count">8</span></span>
+  <span class="chip">● Non lues <span class="count">5</span></span>
+  <span class="chip"><i data-lucide="store" style="width:14px;height:14px;color:#d4a574"></i> Vendeurs <span class="count">4</span></span>
 </div>
 
-<!-- Actions rapides (fix liens) -->
-<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 16px 16px">
-  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:10px;padding:12px 6px;text-align:center;cursor:pointer" onclick="location.href='assistant-ia.html'">
-    <div style="width:38px;height:38px;margin:0 auto 6px;background:rgba(168,85,247,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="bot" class="icon icon-md" style="color:#a855f7"></i></div>
-    <small style="font-size:11px;font-weight:700;color:#0a1f17">Assistant IA</small>
-  </div>
-  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:10px;padding:12px 6px;text-align:center;cursor:pointer" onclick="location.href='support.html'">
-    <div style="width:38px;height:38px;margin:0 auto 6px;background:rgba(15,107,78,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="life-buoy" class="icon icon-md icon-vert"></i></div>
-    <small style="font-size:11px;font-weight:700;color:#0a1f17">Support</small>
-  </div>
-  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:10px;padding:12px 6px;text-align:center;cursor:pointer" onclick="location.href='commandes.html'">
-    <div style="width:38px;height:38px;margin:0 auto 6px;background:rgba(212,165,116,0.18);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="package" class="icon icon-md icon-or"></i></div>
-    <small style="font-size:11px;font-weight:700;color:#0a1f17">Commandes</small>
-  </div>
-  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:10px;padding:12px 6px;text-align:center;cursor:pointer" onclick="location.href='litige.html'">
-    <div style="width:38px;height:38px;margin:0 auto 6px;background:rgba(239,68,68,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="alert-circle" class="icon icon-md icon-rouge"></i></div>
-    <small style="font-size:11px;font-weight:700;color:#0a1f17">Litige</small>
-  </div>
+<!-- ACTIONS RAPIDES CLIQUABLES -->
+<div class="quick-actions">
+  <a href="assistant-ia.html" class="quick-btn">
+    <div class="qa-icon ia"><i data-lucide="bot"></i></div>
+    <div class="qa-name">Assistant IA</div>
+  </a>
+  <a href="support.html" class="quick-btn">
+    <div class="qa-icon support"><i data-lucide="life-buoy"></i></div>
+    <div class="qa-name">Support</div>
+  </a>
+  <a href="commandes.html" class="quick-btn">
+    <div class="qa-icon cmd"><i data-lucide="package"></i></div>
+    <div class="qa-name">Commandes</div>
+  </a>
+  <a href="litige.html" class="quick-btn">
+    <div class="qa-icon litige"><i data-lucide="alert-circle"></i></div>
+    <div class="qa-name">Litige</div>
+  </a>
 </div>
 
-<!-- Épinglées -->
-<h2 class="section-title"><i data-lucide="pin" class="icon icon-sm icon-or"></i> ÉPINGLÉES</h2>
+<!-- ÉPINGLÉES -->
+<div class="section-title"><i data-lucide="pin" style="width:14px;height:14px"></i> ÉPINGLÉES</div>
+<a href="chat.html?id=support-sentew" class="conv">
+  <div class="avatar ia" style="background:#6b46c1">
+    <i data-lucide="bot"></i>
+    <div class="online"></div>
+  </div>
+  <div class="conv-info">
+    <div class="conv-head">
+      <div class="conv-name">Support SEN TEW <i data-lucide="badge-check" style="width:14px;height:14px;color:#3b82f6"></i></div>
+      <div class="conv-time">14:32</div>
+    </div>
+    <div class="conv-msg">Bonjour ! Votre demande de rembourse...</div>
+    <div class="conv-tags">
+      <span class="tag tag-support">Support officiel</span>
+      <span class="tag tag-cmd">#ST-2026-1198</span>
+    </div>
+  </div>
+  <div class="conv-badge">2</div>
+</a>
 
-<div style="background:#fff;border:1px solid #e5e5e0;border-radius:12px;margin:0 16px 10px;padding:14px;display:flex;gap:12px;align-items:flex-start;cursor:pointer">
-  <div style="position:relative;width:50px;height:50px;flex-shrink:0">
-    <div style="width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#7c3aed);display:flex;align-items:center;justify-content:center"><i data-lucide="bot" class="icon icon-md icon-blanc"></i></div>
-    <span style="position:absolute;bottom:0;right:0;width:14px;height:14px;background:#0f6b4e;border-radius:50%;border:2px solid #fff"></span>
+<!-- VENDEURS -->
+<div class="section-title"><i data-lucide="store" style="width:14px;height:14px"></i> VENDEURS</div>
+<a href="chat.html?id=aicha-fashion" class="conv">
+  <div class="avatar vendor" style="background:#ec4899">
+    <i data-lucide="shirt"></i>
+    <div class="online"></div>
   </div>
-  <div style="flex:1;min-width:0">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px">
-      <strong style="color:#0a1f17;font-size:14px;display:flex;align-items:center;gap:4px">Support SEN TEW <i data-lucide="badge-check" class="icon icon-xs" style="color:#3b82f6"></i></strong>
-      <small style="color:#0f6b4e;font-weight:700;font-size:11px">14:32</small>
+  <div class="conv-info">
+    <div class="conv-head">
+      <div class="conv-name">Aïcha Fashion <i data-lucide="badge-check" style="width:14px;height:14px;color:#3b82f6"></i></div>
+      <div class="conv-time">13:45</div>
     </div>
-    <p style="color:#4a5a52;font-size:13px;margin:2px 0">Bonjour ! Votre demande de rembourse...</p>
-    <div style="display:flex;gap:6px;margin-top:6px;align-items:center">
-      <span style="background:rgba(168,85,247,0.12);color:#7c3aed;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700">Support officiel</span>
-      <span style="background:rgba(15,107,78,0.1);color:#0f6b4e;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700">#ST-2026-1198</span>
-      <span style="margin-left:auto;background:#0f6b4e;color:#fff;font-size:10px;font-weight:800;min-width:20px;height:20px;border-radius:10px;display:flex;align-items:center;justify-content:center">2</span>
+    <div class="conv-msg">Bonjour ! Le boubou est disponible en XL...</div>
+    <div class="conv-tags">
+      <span class="tag tag-silver">Vendeur Silver</span>
     </div>
   </div>
-</div>
+  <div class="conv-badge">3</div>
+</a>
 
-<!-- Vendeurs -->
-<h2 class="section-title"><i data-lucide="store" class="icon icon-sm icon-vert"></i> VENDEURS</h2>
-
-<div style="background:#fff;border:1px solid #e5e5e0;border-radius:12px;margin:0 16px 10px;padding:14px;display:flex;gap:12px;align-items:flex-start;cursor:pointer">
-  <div style="position:relative;width:50px;height:50px;flex-shrink:0">
-    <div style="width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#ec4899,#be185d);display:flex;align-items:center;justify-content:center"><i data-lucide="shirt" class="icon icon-md icon-blanc"></i></div>
-    <span style="position:absolute;bottom:-2px;right:-2px;background:#fff;border-radius:50%;padding:2px"><i data-lucide="store" style="width:14px;height:14px;color:#0f6b4e"></i></span>
-    <span style="position:absolute;bottom:0;left:0;width:12px;height:12px;background:#0f6b4e;border-radius:50%;border:2px solid #fff"></span>
+<a href="chat.html?id=moussa-tech" class="conv">
+  <div class="avatar vendor" style="background:#3b82f6">
+    <i data-lucide="smartphone"></i>
   </div>
-  <div style="flex:1;min-width:0">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <strong style="color:#0a1f17;font-size:14px;display:flex;align-items:center;gap:4px">Aïcha Fashion <i data-lucide="badge-check" class="icon icon-xs" style="color:#3b82f6"></i></strong>
-      <small style="color:#0f6b4e;font-weight:700;font-size:11px">13:45</small>
+  <div class="conv-info">
+    <div class="conv-head">
+      <div class="conv-name">Moussa Tech <i data-lucide="badge-check" style="width:14px;height:14px;color:#3b82f6"></i></div>
+      <div class="conv-time">Hier</div>
     </div>
-    <p style="color:#4a5a52;font-size:13px;margin:2px 0">Bonjour ! Le boubou est disponible en XL...</p>
-    <div style="display:flex;gap:6px;margin-top:6px;align-items:center">
-      <span style="background:rgba(212,165,116,0.2);color:#a67c3a;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700">Vendeur Silver</span>
-      <span style="margin-left:auto;background:#0f6b4e;color:#fff;font-size:10px;font-weight:800;min-width:20px;height:20px;border-radius:10px;display:flex;align-items:center;justify-content:center">3</span>
+    <div class="conv-msg">Merci pour votre commande ! Livraison...</div>
+    <div class="conv-tags">
+      <span class="tag tag-silver">Vendeur Gold</span>
     </div>
   </div>
-</div>
-
-<div style="background:#fff;border:1px solid #e5e5e0;border-radius:12px;margin:0 16px 10px;padding:14px;display:flex;gap:12px;align-items:flex-start;cursor:pointer">
-  <div style="position:relative;width:50px;height:50px;flex-shrink:0">
-    <div style="width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#2563eb);display:flex;align-items:center;justify-content:center"><i data-lucide="smartphone" class="icon icon-md icon-blanc"></i></div>
-    <span style="position:absolute;bottom:-2px;right:-2px;background:#fff;border-radius:50%;padding:2px"><i data-lucide="store" style="width:14px;height:14px;color:#0f6b4e"></i></span>
-    <span style="position:absolute;bottom:0;left:0;width:12px;height:12px;background:#0f6b4e;border-radius:50%;border:2px solid #fff"></span>
-  </div>
-  <div style="flex:1;min-width:0">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <strong style="color:#0a1f17;font-size:14px;display:flex;align-items:center;gap:4px">Tech Modou <i data-lucide="badge-check" class="icon icon-xs" style="color:#3b82f6"></i></strong>
-      <small style="color:#0f6b4e;font-weight:700;font-size:11px">11:20</small>
-    </div>
-    <p style="color:#4a5a52;font-size:13px;margin:2px 0">iPhone 15 Pro disponible en stock, livrais...</p>
-    <div style="display:flex;gap:6px;margin-top:6px;align-items:center">
-      <span style="background:rgba(212,165,116,0.2);color:#a67c3a;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700">Vendeur Gold</span>
-      <span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:800;display:flex;align-items:center;gap:3px"><i data-lucide="radio" style="width:9px;height:9px"></i> LIVE</span>
-      <span style="margin-left:auto;background:#0f6b4e;color:#fff;font-size:10px;font-weight:800;min-width:20px;height:20px;border-radius:10px;display:flex;align-items:center;justify-content:center">1</span>
-    </div>
-  </div>
-</div>
-
-<div style="background:#fff;border:1px solid #e5e5e0;border-radius:12px;margin:0 16px 10px;padding:14px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;opacity:0.85">
-  <div style="position:relative;width:50px;height:50px;flex-shrink:0">
-    <div style="width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#ec4899,#be185d);display:flex;align-items:center;justify-content:center"><i data-lucide="sparkles" class="icon icon-md icon-blanc"></i></div>
-    <span style="position:absolute;bottom:-2px;right:-2px;background:#fff;border-radius:50%;padding:2px"><i data-lucide="store" style="width:14px;height:14px;color:#0f6b4e"></i></span>
-  </div>
-  <div style="flex:1;min-width:0">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <strong style="color:#0a1f17;font-size:14px;display:flex;align-items:center;gap:4px">Beauty Fatou <i data-lucide="badge-check" class="icon icon-xs" style="color:#3b82f6"></i></strong>
-      <small style="color:#4a5a52;font-weight:700;font-size:11px">Hier</small>
-    </div>
-    <p style="color:#4a5a52;font-size:13px;margin:2px 0">✓✓ Merci beaucoup ! À bientôt</p>
-    <div style="display:flex;gap:6px;margin-top:6px;align-items:center">
-      <span style="background:rgba(212,165,116,0.2);color:#a67c3a;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700">Vendeur Gold</span>
-      <i data-lucide="bell-off" class="icon icon-xs" style="color:#4a5a52;margin-left:auto"></i>
-    </div>
-  </div>
-</div>
+</a>
 
 <nav class="bottom-nav">
-  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="layout-grid" class="icon icon-md"></i><span>Catégories</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
-  <a href="messages.html" class="active"><i data-lucide="message-circle" class="icon icon-md"></i><span>Messages</span></a>
-  <a href="profil.html"><i data-lucide="user" class="icon icon-md"></i><span>Compte</span></a>
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="messages.html" class="active"><i data-lucide="message-circle"></i><span>Messages</span></a>
+  <a href="profil.html"><i data-lucide="user"></i><span>Compte</span></a>
 </nav>
-<script src="js/dark-mode.js?v=50"></script>
+
 <script>lucide.createIcons();</script>
-  <script src="js/buttons-audit.js?v=51"></script>
 </body>
 </html>
