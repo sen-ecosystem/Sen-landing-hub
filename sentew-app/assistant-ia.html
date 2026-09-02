@@ -1,70 +1,227 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Assistant IA — SEN TEW</title>
-<link rel="stylesheet" href="css/app.css?v=50">
-<script src="https://unpkg.com/lucide@latest"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aide & Support - SEN TEW</title>
+  <link rel="stylesheet" href="css/app.css?v=52">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 10; }
+    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
+    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
+
+    /* CARTE IA - Fond violet foncé + texte blanc lisible */
+    .ia-card {
+      background: linear-gradient(135deg, #6b46c1 0%, #4c1d95 100%);
+      color: #fff;
+      padding: 24px 20px;
+      border-radius: 16px;
+      margin: 16px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(107,70,193,0.4);
+    }
+    .ia-icon-wrap {
+      width: 64px; height: 64px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 12px;
+      border: 2px solid rgba(255,255,255,0.4);
+    }
+    .ia-icon-wrap i { color: #fff; width: 32px; height: 32px; }
+    .ia-title {
+      color: #fff !important;
+      font-size: 20px;
+      font-weight: 800;
+      margin: 0 0 6px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    .ia-subtitle {
+      color: rgba(255,255,255,0.95) !important;
+      font-size: 13px;
+      margin: 0 0 16px;
+    }
+    .btn-start-chat {
+      background: #fff;
+      color: #6b46c1;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .section-title {
+      color: #d4a574;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 0 20px;
+      margin: 16px 0 8px;
+      letter-spacing: 1px;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 0 16px 16px;
+    }
+    .quick-card {
+      background: #fff;
+      padding: 20px 12px;
+      border-radius: 12px;
+      text-align: center;
+      text-decoration: none;
+      color: #1a1a1a;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      border: 1.5px solid #e5e7eb;
+      cursor: pointer;
+    }
+    .quick-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      margin: 0 auto 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .qi-refund { background: #fee2e2; }
+    .qi-refund i { color: #dc2626; }
+    .qi-track { background: #dbeafe; }
+    .qi-track i { color: #1e40af; }
+    .qi-alert { background: #fef3c7; }
+    .qi-alert i { color: #d97706; }
+    .qi-human { background: #d1fae5; }
+    .qi-human i { color: #065f46; }
+    .quick-name { font-weight: 700; font-size: 14px; color: #1a1a1a; }
+    .quick-desc { font-size: 11px; color: #666; margin-top: 4px; }
+
+    .faq-section { background: #fff; margin: 12px 16px; padding: 16px; border-radius: 12px; }
+    .faq-section h3 { color: #0f6b4e; margin: 0 0 12px; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+    .faq { border-bottom: 1px solid #f0f0f0; padding: 12px 0; cursor: pointer; }
+    .faq:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; color: #1a1a1a; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
+    .faq-a { font-size: 12px; color: #666; margin-top: 6px; display: none; line-height: 1.5; }
+    .faq.open .faq-a { display: block; }
+
+    .contact-section { background: #fff; margin: 12px 16px; padding: 16px; border-radius: 12px; }
+    .contact-section h3 { color: #0f6b4e; margin: 0 0 12px; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+    .contact-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f0f0f0; text-decoration: none; color: #1a1a1a; }
+    .contact-row:last-child { border-bottom: none; }
+    .contact-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .ci-mail { background: #d1fae5; }
+    .ci-mail i { color: #065f46; }
+    .ci-wa { background: #d1fae5; }
+    .ci-wa i { color: #25d366; }
+    .contact-info { flex: 1; }
+    .contact-name { font-weight: 700; font-size: 14px; }
+    .contact-detail { font-size: 12px; color: #666; }
+
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
+    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
+    .bottom-nav a.active { color: #0f6b4e; }
+    .bottom-nav a i { width: 22px; height: 22px; }
+  </style>
 </head>
 <body class="light-mode">
 
-<header class="topbar" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff">
-  <button class="btn-back" onclick="history.back()" style="color:#fff"><i data-lucide="arrow-left" class="icon icon-md icon-blanc"></i></button>
-  <h1 style="color:#fff !important;display:flex;align-items:center;gap:8px"><i data-lucide="bot" class="icon icon-md icon-blanc"></i> Assistant IA</h1>
-  <button class="icon-btn"><i data-lucide="more-vertical" class="icon icon-md icon-blanc"></i></button>
+<header class="topbar">
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="help-circle"></i> Aide & Support</h1>
+  <button class="icon-btn"><i data-lucide="moon"></i></button>
 </header>
 
-<main style="padding:16px;padding-bottom:120px">
+<!-- CARTE IA - LISIBLE MAINTENANT -->
+<div class="ia-card">
+  <div class="ia-icon-wrap"><i data-lucide="bot"></i></div>
+  <div class="ia-title">Assistant IA SEN TEW</div>
+  <div class="ia-subtitle">Disponible 24/7 · Français + Wolof · Réponse instantanée</div>
+  <button class="btn-start-chat" onclick="location.href='assistant-ia.html'">
+    <i data-lucide="message-circle" style="width:18px;height:18px"></i> Démarrer une conversation
+  </button>
+</div>
 
-  <!-- Card bienvenue -->
-  <section style="background:linear-gradient(135deg,#a855f7 0%,#7c3aed 100%);border-radius:20px;padding:20px;color:#fff;text-align:center;margin-bottom:16px;box-shadow:0 12px 32px rgba(168,85,247,0.3)">
-    <div style="width:70px;height:70px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px"><i data-lucide="bot" style="width:36px;height:36px;color:#fff"></i></div>
-    <h2 style="color:#fff !important;font-size:20px;font-weight:900;margin-bottom:4px">Assistant IA SEN TEW</h2>
-    <p style="color:rgba(255,255,255,0.9) !important;font-size:12px;margin-bottom:12px">Disponible 24/7 · Français + Wolof · Réponse instantanée</p>
-    <button style="background:#fff;color:#7c3aed;padding:12px 20px;border-radius:10px;font-weight:800;display:inline-flex;align-items:center;gap:8px"><i data-lucide="message-circle" class="icon icon-sm" style="color:#7c3aed"></i> Démarrer une conversation</button>
-  </section>
+<!-- DEMANDES RAPIDES -->
+<div class="section-title"><i data-lucide="zap" style="width:14px;height:14px"></i> DEMANDES RAPIDES</div>
+<div class="quick-grid">
+  <a href="remboursement.html" class="quick-card">
+    <div class="quick-icon qi-refund"><i data-lucide="banknote"></i></div>
+    <div class="quick-name">Remboursement</div>
+    <div class="quick-desc">Sous 48h · Wave/OM</div>
+  </a>
+  <a href="suivi-commande.html" class="quick-card">
+    <div class="quick-icon qi-track"><i data-lucide="package"></i></div>
+    <div class="quick-name">Suivre ma commande</div>
+    <div class="quick-desc">GPS temps réel</div>
+  </a>
+  <a href="litige.html" class="quick-card">
+    <div class="quick-icon qi-alert"><i data-lucide="alert-triangle"></i></div>
+    <div class="quick-name">Signaler un problème</div>
+    <div class="quick-desc">Médiation 72h</div>
+  </a>
+  <a href="messages.html" class="quick-card">
+    <div class="quick-icon qi-human"><i data-lucide="user"></i></div>
+    <div class="quick-name">Contacter un humain</div>
+    <div class="quick-desc">Réponse 24h</div>
+  </a>
+</div>
 
-  <!-- Suggestions -->
-  <h2 class="section-title"><i data-lucide="sparkles" class="icon icon-sm" style="color:#a855f7"></i> QUESTIONS RAPIDES</h2>
-  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:8px;margin-bottom:16px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <button style="width:100%;padding:14px;display:flex;align-items:center;gap:12px;background:transparent;border:none;border-bottom:1px solid #f5f5f0;text-align:left"><i data-lucide="truck" class="icon icon-sm icon-vert"></i><span style="flex:1;color:#0a1f17;font-size:14px;font-weight:600">Où est ma commande ?</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></button>
-    <button style="width:100%;padding:14px;display:flex;align-items:center;gap:12px;background:transparent;border:none;border-bottom:1px solid #f5f5f0;text-align:left"><i data-lucide="undo-2" class="icon icon-sm icon-rouge"></i><span style="flex:1;color:#0a1f17;font-size:14px;font-weight:600">Comment obtenir un remboursement ?</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></button>
-    <button style="width:100%;padding:14px;display:flex;align-items:center;gap:12px;background:transparent;border:none;border-bottom:1px solid #f5f5f0;text-align:left"><i data-lucide="tag" class="icon icon-sm icon-or"></i><span style="flex:1;color:#0a1f17;font-size:14px;font-weight:600">Codes promo actifs ?</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></button>
-    <button style="width:100%;padding:14px;display:flex;align-items:center;gap:12px;background:transparent;border:none;border-bottom:1px solid #f5f5f0;text-align:left"><i data-lucide="wallet" class="icon icon-sm icon-or"></i><span style="flex:1;color:#0a1f17;font-size:14px;font-weight:600">Comment retirer mon solde Wave ?</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></button>
-    <button style="width:100%;padding:14px;display:flex;align-items:center;gap:12px;background:transparent;border:none;text-align:left"><i data-lucide="store" class="icon icon-sm icon-vert"></i><span style="flex:1;color:#0a1f17;font-size:14px;font-weight:600">Devenir vendeur</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></button>
+<!-- FAQ -->
+<div class="faq-section">
+  <h3><i data-lucide="book-open"></i> Questions fréquentes</h3>
+  <div class="faq" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Comment obtenir un remboursement ? <i data-lucide="chevron-down" style="width:16px;height:16px"></i></div>
+    <div class="faq-a">Ouvrez la commande → "Signaler" → sélectionnez motif. Remboursement Wave/OM sous 48h.</div>
   </div>
+  <div class="faq" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Que faire si ma commande est en retard ? <i data-lucide="chevron-down" style="width:16px;height:16px"></i></div>
+    <div class="faq-a">Vérifiez le suivi GPS. Contactez le livreur directement. Si non résolu, ouvrez un litige.</div>
+  </div>
+  <div class="faq" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Comment retirer mon solde Wave ? <i data-lucide="chevron-down" style="width:16px;height:16px"></i></div>
+    <div class="faq-a">Portefeuille → "Retirer" → Wave/OM → Confirmer. Traitement instantané.</div>
+  </div>
+  <div class="faq" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Que faire si je ne reçois pas mon colis ? <i data-lucide="chevron-down" style="width:16px;height:16px"></i></div>
+    <div class="faq-a">Attendre 24h après ETA. Puis ouvrir un litige avec preuves. Remboursement garanti.</div>
+  </div>
+</div>
 
-  <!-- Chat démo -->
-  <h2 class="section-title"><i data-lucide="message-square" class="icon icon-sm icon-bleu"></i> CONVERSATION</h2>
-  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <div style="display:flex;gap:10px;margin-bottom:14px">
-      <div style="width:36px;height:36px;background:linear-gradient(135deg,#a855f7,#7c3aed);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="bot" class="icon icon-sm icon-blanc"></i></div>
-      <div style="background:#f3e8ff;padding:10px 14px;border-radius:14px 14px 14px 4px;max-width:80%">
-        <p style="color:#0a1f17;font-size:13px;line-height:1.5">Bonjour Karim ! 👋 Je suis l'assistant IA de SEN TEW. Comment puis-je vous aider aujourd'hui ?</p>
-        <small style="color:#7c3aed;font-size:10px;font-weight:700">Assistant · maintenant</small>
-      </div>
+<!-- CONTACTS -->
+<div class="contact-section">
+  <h3><i data-lucide="phone"></i> Autres moyens de contact</h3>
+  <a href="mailto:hello@sen-tew.com" class="contact-row">
+    <div class="contact-icon ci-mail"><i data-lucide="mail"></i></div>
+    <div class="contact-info">
+      <div class="contact-name">Email</div>
+      <div class="contact-detail">hello@sen-tew.com</div>
     </div>
-  </div>
-</main>
-
-<!-- Input chat fixe -->
-<div style="position:fixed;bottom:60px;left:0;right:0;background:#fff;border-top:1px solid #e5e5e0;padding:12px 16px;display:flex;gap:8px;align-items:center;z-index:99">
-  <button style="background:#f5f5f0;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center"><i data-lucide="plus" class="icon icon-sm icon-vert"></i></button>
-  <input type="text" placeholder="Posez votre question..." style="flex:1;padding:10px 14px;border-radius:20px;background:#f5f5f0;border:none">
-  <button style="background:linear-gradient(135deg,#a855f7,#7c3aed);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center"><i data-lucide="send" class="icon icon-sm icon-blanc"></i></button>
+    <i data-lucide="chevron-right" style="color:#999"></i>
+  </a>
+  <a href="https://wa.me/221XXXXXXXX" class="contact-row">
+    <div class="contact-icon ci-wa"><i data-lucide="message-circle"></i></div>
+    <div class="contact-info">
+      <div class="contact-name">WhatsApp</div>
+      <div class="contact-detail">+221 XX XXX XX XX</div>
+    </div>
+    <i data-lucide="chevron-right" style="color:#999"></i>
+  </a>
 </div>
 
 <nav class="bottom-nav">
-  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="layout-grid" class="icon icon-md"></i><span>Catégories</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
-  <a href="messages.html" class="active"><i data-lucide="message-circle" class="icon icon-md"></i><span>Messages</span></a>
-  <a href="profil.html"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
-<script src="js/dark-mode.js?v=50"></script>
 <script>lucide.createIcons();</script>
-  <script src="js/buttons-audit.js?v=51"></script>
 </body>
 </html>
