@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paramètres Boutique - SEN TEW</title>
+  <link rel="stylesheet" href="css/app.css?v=52">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; }
+    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
+    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
+    .hero { background: linear-gradient(135deg, #d4a574, #b8860b); color: #fff; padding: 24px 16px; text-align: center; }
+    .logo { width: 80px; height: 80px; border-radius: 16px; background: rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; border: 3px solid rgba(255,255,255,0.4); }
+    .logo i { width: 40px; height: 40px; color: #fff; }
+    .boutique-name { color: #fff; font-weight: 800; font-size: 20px; }
+    .verified { display: inline-flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.95); color: #0f6b4e; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 700; margin-top: 6px; }
+    .section-title { color: #d4a574; font-size: 12px; font-weight: 700; padding: 0 20px; margin: 16px 0 6px; letter-spacing: 1px; }
+    .card { background: #fff; margin: 0 16px 12px; border-radius: 12px; overflow: hidden; }
+    .row { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid #f0f0f0; text-decoration: none; color: #1a1a1a; }
+    .row:last-child { border-bottom: none; }
+    .row i:first-child { width: 22px; height: 22px; color: #0f6b4e; }
+    .row span { flex: 1; font-weight: 500; font-size: 14px; }
+    .row .val { color: #666; font-size: 13px; }
+    .row i:last-child { color: #999; width: 18px; height: 18px; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
+    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
+    .bottom-nav a.active { color: #0f6b4e; }
+    .bottom-nav a i { width: 22px; height: 22px; }
+  </style>
+</head>
+<body class="light-mode">
+
+<header class="topbar">
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="settings"></i> Paramètres Boutique</h1>
+  <span></span>
+</header>
+
+<div class="hero">
+  <div class="logo"><i data-lucide="store"></i></div>
+  <div class="boutique-name">Moussa Tech</div>
+  <span class="verified"><i data-lucide="check-circle" style="width:12px;height:12px"></i> Boutique vérifiée</span>
+</div>
+
+<div class="section-title">INFORMATIONS</div>
+<div class="card">
+  <a href="#" class="row"><i data-lucide="edit-3"></i><span>Profil boutique</span><i data-lucide="chevron-right"></i></a>
+  <a href="#" class="row"><i data-lucide="image"></i><span>Logo & bannière</span><i data-lucide="chevron-right"></i></a>
+  <a href="#" class="row"><i data-lucide="clock"></i><span>Horaires</span><span class="val">24/7</span><i data-lucide="chevron-right"></i></a>
+  <a href="adresses.html" class="row"><i data-lucide="map-pin"></i><span>Adresse</span><i data-lucide="chevron-right"></i></a>
+</div>
+
+<div class="section-title">VENTES</div>
+<div class="card">
+  <a href="livraisons-vendeur.html" class="row"><i data-lucide="truck"></i><span>Zones livraison</span><i data-lucide="chevron-right"></i></a>
+  <a href="#" class="row"><i data-lucide="credit-card"></i><span>Modes paiement</span><i data-lucide="chevron-right"></i></a>
+  <a href="promotions-vendeur.html" class="row"><i data-lucide="percent"></i><span>Promotions</span><span class="val">3</span><i data-lucide="chevron-right"></i></a>
+</div>
+
+<div class="section-title">FINANCES</div>
+<div class="card">
+  <a href="portefeuille.html" class="row"><i data-lucide="wallet"></i><span>Compte paiement</span><i data-lucide="chevron-right"></i></a>
+</div>
+
+<div class="section-title">COMPTE</div>
+<div class="card">
+  <a href="confidentialite.html" class="row"><i data-lucide="shield"></i><span>Confidentialité</span><i data-lucide="chevron-right"></i></a>
+  <a href="aide-vendeur.html" class="row"><i data-lucide="help-circle"></i><span>Aide vendeur</span><i data-lucide="chevron-right"></i></a>
+</div>
+
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
+</nav>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
