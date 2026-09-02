@@ -1,157 +1,470 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Boutiques LIVE - SEN TEW</title>
-  <link rel="stylesheet" href="css/app.css?v=52">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
-    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 10; }
-    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
-    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
-    .hero { background: linear-gradient(135deg, #dc2626, #991b1b); color: #fff; padding: 20px 16px; text-align: center; }
-    .hero .live-dot { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.25); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 800; letter-spacing: 1px; }
-    .hero .live-dot::before { content: ''; width: 8px; height: 8px; background: #fff; border-radius: 50%; animation: blink 1.5s infinite; }
-    @keyframes blink { 50% { opacity: 0.3; } }
-    .hero h2 { color: #fff; margin: 8px 0 4px; font-size: 20px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-    .hero p { color: rgba(255,255,255,0.95); font-size: 12px; margin: 0; }
-
-    .filter-bar { display: flex; gap: 8px; padding: 12px 16px; overflow-x: auto; background: #fff; border-bottom: 1px solid #e5e7eb; }
-    .chip { background: #f5f5f0; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
-    .chip.active { background: #dc2626; color: #fff; }
-
-    .live-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px; }
-    .live-card { background: #fff; border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; box-shadow: 0 2px 6px rgba(0,0,0,0.05); position: relative; cursor: pointer; }
-    .live-thumb { height: 200px; background: linear-gradient(135deg, #f5f5f0, #e5e7eb); display: flex; align-items: center; justify-content: center; position: relative; }
-    .live-thumb i { color: #666; width: 40px; height: 40px; }
-    .live-badge { position: absolute; top: 8px; left: 8px; background: #dc2626; color: #fff; padding: 3px 8px; border-radius: 6px; font-size: 10px; font-weight: 800; display: flex; align-items: center; gap: 4px; }
-    .live-badge::before { content: ''; width: 6px; height: 6px; background: #fff; border-radius: 50%; animation: blink 1.5s infinite; }
-    .viewers { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); color: #fff; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
-    .viewers i { width: 12px; height: 12px; }
-    .live-info { padding: 10px; }
-    .live-name { font-weight: 700; font-size: 13px; color: #1a1a1a; }
-    .live-vendor { font-size: 11px; color: #666; margin-top: 2px; display: flex; align-items: center; gap: 4px; }
-    .live-tag { display: inline-block; background: #fee2e2; color: #dc2626; padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; margin-top: 4px; }
-
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
-    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
-    .bottom-nav a.active { color: #0f6b4e; }
-    .bottom-nav a i { width: 22px; height: 22px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutiques Live - SEN TEW</title>
+    <link rel="stylesheet" href="css/app.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', -apple-system, sans-serif;
+            background: #000000;
+            color: #ffffff;
+            overflow: hidden;
+            height: 100vh;
+        }
+        .live-container {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+        }
+        .live-screen {
+            height: 100vh;
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .live-1 { background: linear-gradient(135deg, #D4A574 0%, #8B4513 100%); }
+        .live-2 { background: linear-gradient(135deg, #1B5E3F 0%, #0A2E1E 100%); }
+        .live-3 { background: linear-gradient(135deg, #7C3AED 0%, #3B1B7C 100%); }
+        .live-4 { background: linear-gradient(135deg, #DC2626 0%, #6B1414 100%); }
+        .video-emoji {
+            font-size: 120px;
+            opacity: 0.9;
+        }
+        .top-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 10;
+        }
+        .back-btn {
+            background: rgba(0,0,0,0.5);
+            color: #ffffff;
+            text-decoration: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .live-badge {
+            background: #DC2626;
+            color: #ffffff;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .viewers-badge {
+            background: rgba(0,0,0,0.5);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .info-bottom {
+            position: absolute;
+            bottom: 80px;
+            left: 20px;
+            right: 80px;
+            z-index: 10;
+        }
+        .seller-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .avatar {
+            width: 50px;
+            height: 50px;
+            background: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1B5E3F;
+            font-weight: 700;
+            font-size: 20px;
+            border: 3px solid #DC2626;
+        }
+        .seller-name {
+            font-size: 17px;
+            font-weight: 700;
+        }
+        .seller-desc {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-top: 2px;
+        }
+        .follow-btn {
+            background: #DC2626;
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .live-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .live-hashtags {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        .products-bar {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            z-index: 10;
+            padding-bottom: 4px;
+        }
+        .mini-product {
+            background: rgba(255,255,255,0.95);
+            color: #1a1a1a;
+            border-radius: 10px;
+            padding: 8px;
+            min-width: 110px;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .mini-product .emoji {
+            font-size: 24px;
+            display: block;
+            text-align: center;
+        }
+        .mini-product .name {
+            font-size: 11px;
+            font-weight: 600;
+            margin: 4px 0 2px;
+        }
+        .mini-product .price {
+            color: #1B5E3F;
+            font-weight: 700;
+            font-size: 13px;
+        }
+        .side-actions {
+            position: absolute;
+            right: 12px;
+            bottom: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 10;
+        }
+        .side-btn {
+            background: rgba(0,0,0,0.3);
+            border: none;
+            color: #ffffff;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .side-btn .count {
+            position: absolute;
+            font-size: 10px;
+            font-weight: 700;
+            background: transparent;
+            margin-top: 62px;
+            text-align: center;
+            width: 48px;
+            margin-left: -13px;
+        }
+        .swipe-hint {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            color: rgba(255,255,255,0.6);
+            font-size: 40px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.9; }
+        }
+        .chat-preview {
+            position: absolute;
+            left: 20px;
+            bottom: 220px;
+            max-width: 60%;
+            z-index: 10;
+        }
+        .chat-msg {
+            background: rgba(0,0,0,0.4);
+            padding: 6px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+        .chat-msg b { color: #D4A574; }
+    </style>
 </head>
-<body class="light-mode">
+<body>
 
-<header class="topbar">
-  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
-  <h1><i data-lucide="radio"></i> Boutiques LIVE</h1>
-  <button class="icon-btn" onclick="location.href='recherche-ia.html'"><i data-lucide="search"></i></button>
-</header>
+    <div class="live-container">
 
-<div class="hero">
-  <span class="live-dot">EN DIRECT MAINTENANT</span>
-  <h2>12 Boutiques en LIVE</h2>
-  <p>Offres exclusives · Ventes flash · Chat en direct</p>
-</div>
+        <!-- LIVE 1 : Aïcha Couture -->
+        <section class="live-screen live-1" id="aicha-couture">
+            <div class="top-bar">
+                <a href="index.html" class="back-btn">←</a>
+                <span class="live-badge">🔴 LIVE</span>
+                <span class="viewers-badge">👥 1 234</span>
+            </div>
 
-<div class="filter-bar">
-  <span class="chip active">Tous (12)</span>
-  <span class="chip">Mode (4)</span>
-  <span class="chip">Tech (3)</span>
-  <span class="chip">Beauté (2)</span>
-  <span class="chip">Alimentation (2)</span>
-  <span class="chip">Maison (1)</span>
-</div>
+            <div class="video-emoji">👗</div>
 
-<div class="live-grid">
-  <a href="live-boutique.html?id=aicha-couture" class="live-card">
-    <div class="live-thumb">
-      <i data-lucide="user"></i>
-      <span class="live-badge">LIVE</span>
-      <span class="viewers"><i data-lucide="eye"></i> 234</span>
-    </div>
-    <div class="live-info">
-      <div class="live-name">Aïcha Couture</div>
-      <div class="live-vendor"><i data-lucide="check-circle" style="width:10px;height:10px;color:#3b82f6"></i> Nouvelle collection Wax</div>
-      <span class="live-tag">-30% ce soir</span>
-    </div>
-  </a>
+            <div class="side-actions">
+                <a href="favoris.html?add=aicha" class="side-btn">❤️<span class="count">2.4k</span></a>
+                <a href="messages.html?to=aicha" class="side-btn">💬<span class="count">156</span></a>
+                <a href="#" class="side-btn">🔄<span class="count">89</span></a>
+                <a href="boutique-detail.html?id=aicha-couture" class="side-btn">🏪</a>
+            </div>
 
-  <a href="live-boutique.html?id=moussa-tech" class="live-card">
-    <div class="live-thumb">
-      <i data-lucide="smartphone"></i>
-      <span class="live-badge">LIVE</span>
-      <span class="viewers"><i data-lucide="eye"></i> 512</span>
-    </div>
-    <div class="live-info">
-      <div class="live-name">Moussa Tech</div>
-      <div class="live-vendor"><i data-lucide="check-circle" style="width:10px;height:10px;color:#3b82f6"></i> Test iPhone 15 Pro</div>
-      <span class="live-tag">Flash sale</span>
-    </div>
-  </a>
+            <div class="chat-preview">
+                <div class="chat-msg"><b>Fatou :</b> Magnifique 😍</div>
+                <div class="chat-msg"><b>Karim :</b> Livraison Thiès ?</div>
+                <div class="chat-msg"><b>Awa :</b> Je prends le kaftan !</div>
+            </div>
 
-  <a href="live-boutique.html?id=mariama-b" class="live-card">
-    <div class="live-thumb">
-      <i data-lucide="sparkles"></i>
-      <span class="live-badge">LIVE</span>
-      <span class="viewers"><i data-lucide="eye"></i> 189</span>
-    </div>
-    <div class="live-info">
-      <div class="live-name">Mariama Beauty</div>
-      <div class="live-vendor"><i data-lucide="check-circle" style="width:10px;height:10px;color:#3b82f6"></i> Tuto maquillage</div>
-      <span class="live-tag">Coffrets promo</span>
-    </div>
-  </a>
+            <div class="info-bottom">
+                <div class="seller-row">
+                    <div class="avatar">A</div>
+                    <div style="flex:1;">
+                        <div class="seller-name">Aïcha Couture ✓</div>
+                        <div class="seller-desc">Mode africaine · Dakar</div>
+                    </div>
+                    <button class="follow-btn">+ Suivre</button>
+                </div>
+                <div class="live-title">✨ Nouvelle collection Boubou brodés à la main</div>
+                <div class="live-hashtags">#mode #couture #senegal #wax</div>
+            </div>
 
-  <a href="live-boutique.html?id=fatou-fashion" class="live-card">
-    <div class="live-thumb">
-      <i data-lucide="shirt"></i>
-      <span class="live-badge">LIVE</span>
-      <span class="viewers"><i data-lucide="eye"></i> 156</span>
-    </div>
-    <div class="live-info">
-      <div class="live-name">Fatou Fashion</div>
-      <div class="live-vendor"><i data-lucide="check-circle" style="width:10px;height:10px;color:#3b82f6"></i> Boubous soirée</div>
-      <span class="live-tag">-20%</span>
-    </div>
-  </a>
+            <div class="products-bar">
+                <a href="produit-detail.html?id=boubou-1" class="mini-product">
+                    <span class="emoji">👗</span>
+                    <div class="name">Boubou brodé</div>
+                    <div class="price">45 000 F</div>
+                </a>
+                <a href="produit-detail.html?id=kaftan" class="mini-product">
+                    <span class="emoji">🥻</span>
+                    <div class="name">Kaftan luxe</div>
+                    <div class="price">65 000 F</div>
+                </a>
+                <a href="produit-detail.html?id=ndoket" class="mini-product">
+                    <span class="emoji">👚</span>
+                    <div class="name">Ndoket wax</div>
+                    <div class="price">28 000 F</div>
+                </a>
+            </div>
+        </section>
 
-  <a href="live-boutique.html?id=digital-store" class="live-card">
-    <div class="live-thumb">
-      <i data-lucide="laptop"></i>
-      <span class="live-badge">LIVE</span>
-      <span class="viewers"><i data-lucide="eye"></i> 320</span>
-    </div>
-    <div class="live-info">
-      <div class="live-name">Digital Store</div>
-      <div class="live-vendor"><i data-lucide="check-circle" style="width:10px;height:10px;color:#3b82f6"></i> MacBook Air démo</div>
-      <span class="live-tag">Payez en 3x</span>
-    </div>
-  </a>
+        <!-- LIVE 2 : Moussa Tech -->
+        <section class="live-screen live-2" id="moussa-tech">
+            <div class="top-bar">
+                <a href="index.html" class="back-btn">←</a>
+                <span class="live-badge">🔴 LIVE</span>
+                <span class="viewers-badge">👥 892</span>
+            </div>
 
-  <a href="live-boutique.html?id=organic-food" class="live-card">
-    <div class="live-thumb">
-      <i data-lucide="apple"></i>
-      <span class="live-badge">LIVE</span>
-      <span class="viewers"><i data-lucide="eye"></i> 92</span>
-    </div>
-    <div class="live-info">
-      <div class="live-name">Organic Food</div>
-      <div class="live-vendor"><i data-lucide="check-circle" style="width:10px;height:10px;color:#3b82f6"></i> Bio marché du jour</div>
-      <span class="live-tag">Livraison 2h</span>
-    </div>
-  </a>
-</div>
+            <div class="video-emoji">📱</div>
 
-<nav class="bottom-nav">
-  <a href="index.html" class="active"><i data-lucide="home"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
-  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
-  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
-</nav>
+            <div class="side-actions">
+                <a href="favoris.html?add=moussa" class="side-btn">❤️<span class="count">1.8k</span></a>
+                <a href="messages.html?to=moussa" class="side-btn">💬<span class="count">98</span></a>
+                <a href="#" class="side-btn">🔄<span class="count">45</span></a>
+                <a href="boutique-detail.html?id=moussa-tech" class="side-btn">🏪</a>
+            </div>
 
-<script>lucide.createIcons();</script>
+            <div class="chat-preview">
+                <div class="chat-msg"><b>Ibrahima :</b> Prix iPhone ?</div>
+                <div class="chat-msg"><b>Aminata :</b> Garantie ?</div>
+                <div class="chat-msg"><b>Modou :</b> Je réserve !</div>
+            </div>
+
+            <div class="info-bottom">
+                <div class="seller-row">
+                    <div class="avatar">M</div>
+                    <div style="flex:1;">
+                        <div class="seller-name">Moussa Tech ✓</div>
+                        <div class="seller-desc">Électronique · Dakar</div>
+                    </div>
+                    <button class="follow-btn">+ Suivre</button>
+                </div>
+                <div class="live-title">📱 Déstockage iPhone & MacBook - Prix incroyables</div>
+                <div class="live-hashtags">#tech #iphone #apple #promo</div>
+            </div>
+
+            <div class="products-bar">
+                <a href="produit-detail.html?id=iphone-15" class="mini-product">
+                    <span class="emoji">📱</span>
+                    <div class="name">iPhone 15 Pro</div>
+                    <div class="price">850 000 F</div>
+                </a>
+                <a href="produit-detail.html?id=macbook" class="mini-product">
+                    <span class="emoji">💻</span>
+                    <div class="name">MacBook Air</div>
+                    <div class="price">620 000 F</div>
+                </a>
+                <a href="produit-detail.html?id=airpods" class="mini-product">
+                    <span class="emoji">🎧</span>
+                    <div class="name">AirPods Pro</div>
+                    <div class="price">180 000 F</div>
+                </a>
+            </div>
+        </section>
+
+        <!-- LIVE 3 : Mariama B. -->
+        <section class="live-screen live-3" id="mariama-b">
+            <div class="top-bar">
+                <a href="index.html" class="back-btn">←</a>
+                <span class="live-badge">🔴 LIVE</span>
+                <span class="viewers-badge">👥 567</span>
+            </div>
+
+            <div class="video-emoji">💄</div>
+
+            <div class="side-actions">
+                <a href="favoris.html?add=mariama" class="side-btn">❤️<span class="count">1.2k</span></a>
+                <a href="messages.html?to=mariama" class="side-btn">💬<span class="count">72</span></a>
+                <a href="#" class="side-btn">🔄<span class="count">34</span></a>
+                <a href="boutique-detail.html?id=mariama-b" class="side-btn">🏪</a>
+            </div>
+
+            <div class="chat-preview">
+                <div class="chat-msg"><b>Bineta :</b> Coloris disponibles ?</div>
+                <div class="chat-msg"><b>Ndeye :</b> Livraison France ?</div>
+            </div>
+
+            <div class="info-bottom">
+                <div class="seller-row">
+                    <div class="avatar">M</div>
+                    <div style="flex:1;">
+                        <div class="seller-name">Mariama B. ✓</div>
+                        <div class="seller-desc">Beauté · Dakar</div>
+                    </div>
+                    <button class="follow-btn">+ Suivre</button>
+                </div>
+                <div class="live-title">💄 Cosmétiques naturels africains - Karité, argan</div>
+                <div class="live-hashtags">#beaute #naturel #karite #cosmetique</div>
+            </div>
+
+            <div class="products-bar">
+                <a href="produit-detail.html?id=karite" class="mini-product">
+                    <span class="emoji">🧴</span>
+                    <div class="name">Beurre karité</div>
+                    <div class="price">8 500 F</div>
+                </a>
+                <a href="produit-detail.html?id=savon-noir" class="mini-product">
+                    <span class="emoji">🧼</span>
+                    <div class="name">Savon noir</div>
+                    <div class="price">5 000 F</div>
+                </a>
+                <a href="produit-detail.html?id=huile-argan" class="mini-product">
+                    <span class="emoji">💧</span>
+                    <div class="name">Huile argan</div>
+                    <div class="price">12 000 F</div>
+                </a>
+            </div>
+        </section>
+
+        <!-- LIVE 4 : Fatou Fashion -->
+        <section class="live-screen live-4" id="fatou-fashion">
+            <div class="top-bar">
+                <a href="index.html" class="back-btn">←</a>
+                <span class="live-badge">🔴 LIVE</span>
+                <span class="viewers-badge">👥 2 108</span>
+            </div>
+
+            <div class="video-emoji">👕</div>
+
+            <div class="side-actions">
+                <a href="favoris.html?add=fatou" class="side-btn">❤️<span class="count">3.6k</span></a>
+                <a href="messages.html?to=fatou" class="side-btn">💬<span class="count">245</span></a>
+                <a href="#" class="side-btn">🔄<span class="count">120</span></a>
+                <a href="boutique-detail.html?id=fatou-fashion" class="side-btn">🏪</a>
+            </div>
+
+            <div class="chat-preview">
+                <div class="chat-msg"><b>Coumba :</b> Taille XL ?</div>
+                <div class="chat-msg"><b>Marième :</b> Trop beau 🔥</div>
+                <div class="chat-msg"><b>Astou :</b> Je commande !</div>
+            </div>
+
+            <div class="info-bottom">
+                <div class="seller-row">
+                    <div class="avatar">F</div>
+                    <div style="flex:1;">
+                        <div class="seller-name">Fatou Fashion ✓</div>
+                        <div class="seller-desc">Prêt-à-porter · Dakar</div>
+                    </div>
+                    <button class="follow-btn">+ Suivre</button>
+                </div>
+                <div class="live-title">👕 Nouvelle collection prêt-à-porter chic</div>
+                <div class="live-hashtags">#fashion #streetwear #africa #style</div>
+            </div>
+
+            <div class="products-bar">
+                <a href="produit-detail.html?id=tshirt-wax" class="mini-product">
+                    <span class="emoji">👕</span>
+                    <div class="name">T-shirt wax</div>
+                    <div class="price">15 000 F</div>
+                </a>
+                <a href="produit-detail.html?id=jean-slim" class="mini-product">
+                    <span class="emoji">👖</span>
+                    <div class="name">Jean slim</div>
+                    <div class="price">22 000 F</div>
+                </a>
+                <a href="produit-detail.html?id=veste-wax" class="mini-product">
+                    <span class="emoji">🧥</span>
+                    <div class="name">Veste wax</div>
+                    <div class="price">38 000 F</div>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // Ouvre directement le bon live selon ?id= dans l'URL
+        window.addEventListener('load', function() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            if (id) {
+                const target = document.getElementById(id);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'instant' });
+                }
+            }
+        });
+    </script>
+
 </body>
 </html>
