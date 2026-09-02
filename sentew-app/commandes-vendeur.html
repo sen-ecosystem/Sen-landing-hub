@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Commandes - SEN TEW</title>
+  <link rel="stylesheet" href="css/app.css?v=52">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 10; }
+    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
+    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
+    .filter-bar { display: flex; gap: 8px; padding: 12px 16px; overflow-x: auto; background: #fff; border-bottom: 1px solid #e5e7eb; }
+    .chip { background: #f5f5f0; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .chip.active { background: #0f6b4e; color: #fff; }
+    .cmd { background: #fff; margin: 10px 16px; padding: 14px; border-radius: 12px; text-decoration: none; color: inherit; display: block; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+    .cmd-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .cmd-num { font-weight: 800; color: #0f6b4e; font-size: 15px; }
+    .badge { padding: 3px 10px; border-radius: 10px; font-size: 10px; font-weight: 700; }
+    .b-new { background: #dbeafe; color: #1e40af; }
+    .b-prep { background: #fef3c7; color: #92400e; }
+    .b-ship { background: #e0e7ff; color: #4338ca; }
+    .b-done { background: #d1fae5; color: #065f46; }
+    .cmd-body { display: flex; gap: 12px; align-items: center; padding: 8px 0; border-top: 1px solid #f0f0f0; }
+    .cmd-icon { width: 44px; height: 44px; background: #f5f5f0; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .cmd-icon i { color: #d4a574; }
+    .cmd-info { flex: 1; }
+    .prod { font-weight: 600; font-size: 13px; }
+    .client { color: #666; font-size: 12px; margin-top: 2px; }
+    .cmd-price { color: #0f6b4e; font-weight: 800; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
+    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
+    .bottom-nav a.active { color: #0f6b4e; }
+    .bottom-nav a i { width: 22px; height: 22px; }
+  </style>
+</head>
+<body class="light-mode">
+
+<header class="topbar">
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="clipboard-list"></i> Commandes</h1>
+  <button class="icon-btn"><i data-lucide="filter"></i></button>
+</header>
+
+<div class="filter-bar">
+  <span class="chip active">Toutes (12)</span>
+  <span class="chip">Nouvelles (3)</span>
+  <span class="chip">Préparation (2)</span>
+  <span class="chip">Expédiées (4)</span>
+  <span class="chip">Livrées (3)</span>
+</div>
+
+<a href="commande-detail.html?id=ST24073" class="cmd">
+  <div class="cmd-head">
+    <span class="cmd-num">#ST24073</span>
+    <span class="badge b-new">Nouvelle</span>
+  </div>
+  <div class="cmd-body">
+    <div class="cmd-icon"><i data-lucide="package"></i></div>
+    <div class="cmd-info">
+      <div class="prod">iPhone 15 Pro 256GB</div>
+      <div class="client">Karim Niang · Dakar · il y a 2h</div>
+    </div>
+    <div class="cmd-price">850k</div>
+  </div>
+</a>
+
+<a href="commande-detail.html?id=ST24072" class="cmd">
+  <div class="cmd-head">
+    <span class="cmd-num">#ST24072</span>
+    <span class="badge b-ship">Expédiée</span>
+  </div>
+  <div class="cmd-body">
+    <div class="cmd-icon"><i data-lucide="truck"></i></div>
+    <div class="cmd-info">
+      <div class="prod">AirPods Pro 2</div>
+      <div class="client">Fatou Diop · Rufisque · hier</div>
+    </div>
+    <div class="cmd-price">145k</div>
+  </div>
+</a>
+
+<a href="commande-detail.html?id=ST24071" class="cmd">
+  <div class="cmd-head">
+    <span class="cmd-num">#ST24071</span>
+    <span class="badge b-done">Livrée</span>
+  </div>
+  <div class="cmd-body">
+    <div class="cmd-icon"><i data-lucide="check"></i></div>
+    <div class="cmd-info">
+      <div class="prod">MacBook Air M2</div>
+      <div class="client">Amadou Sall · Thiès · 28/08</div>
+    </div>
+    <div class="cmd-price">1.2M</div>
+  </div>
+</a>
+
+<a href="commande-detail.html?id=ST24070" class="cmd">
+  <div class="cmd-head">
+    <span class="cmd-num">#ST24070</span>
+    <span class="badge b-prep">Préparation</span>
+  </div>
+  <div class="cmd-body">
+    <div class="cmd-icon"><i data-lucide="box"></i></div>
+    <div class="cmd-info">
+      <div class="prod">iPad Air 5</div>
+      <div class="client">Aïcha Ndoye · Dakar</div>
+    </div>
+    <div class="cmd-price">520k</div>
+  </div>
+</a>
+
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
+</nav>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
