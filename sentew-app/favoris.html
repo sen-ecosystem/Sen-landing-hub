@@ -1,197 +1,102 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>❤️ Mes favoris · SEN TEW</title>
-<meta name="theme-color" content="#ffffff">
-<link rel="stylesheet" href="css/app.css?v=48">
-<script src="https://unpkg.com/lucide@latest"></script>
-<script src="js/dark-mode.js?v=48" defer></script>
-<script src="js/role-guard.js?v=48" defer></script>
-<style>
-.fav-header{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;background:#ffffff;border-bottom:1px solid #e5e5e0}
-body.dark-mode .fav-header{background:#0a1f17;border-color:#2a4438}
-.fav-count{font-size:13px;color:#4a5a52}
-body.dark-mode .fav-count{color:#a3b8ac}
-.sort-select{background:#f5f5f0;border:1px solid #e5e5e0;padding:6px 10px;border-radius:8px;font-size:13px;font-weight:700;color:#0a1f17}
-body.dark-mode .sort-select{background:#1a2e24;border-color:#2a4438;color:#f5f5f0}
-
-.fav-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 16px}
-.fav-card{
-  background:#ffffff !important;
-  border:1px solid #e5e5e0;
-  border-radius:14px;
-  overflow:hidden;
-  box-shadow:0 4px 12px rgba(15,107,78,0.06);
-  cursor:pointer;
-}
-body.dark-mode .fav-card{background:#1a2e24 !important;border-color:#2a4438}
-
-.fav-img{width:100%;aspect-ratio:1/1;background:#e5e5e0;position:relative;overflow:hidden}
-.fav-img img{width:100%;height:100%;object-fit:cover}
-.fav-fav-btn{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:#ffffff;border:none;color:#ef4444;cursor:pointer;display:flex;align-items:center;justify-content:center}
-
-.fav-body{padding:10px 12px;background:#ffffff !important}
-body.dark-mode .fav-body{background:#1a2e24 !important}
-.fav-name{
-  font-size:13px !important;
-  font-weight:700 !important;
-  color:#0a1f17 !important;
-  background:transparent !important;
-  margin:0 0 3px !important;
-  padding:0 !important;
-  line-height:1.3;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
-}
-body.dark-mode .fav-name{color:#f5f5f0 !important}
-.fav-vendeur{
-  font-size:11px !important;
-  color:#a67c3a !important;
-  background:transparent !important;
-  margin:0 0 4px !important;
-  padding:0 !important;
-  font-weight:600;
-}
-body.dark-mode .fav-vendeur{color:#f0c99a !important}
-.fav-price-row{display:flex;align-items:center;justify-content:space-between;gap:6px}
-.fav-price{
-  font-size:14px !important;
-  font-weight:900 !important;
-  color:#0f6b4e !important;
-  background:transparent !important;
-  padding:0 !important;
-}
-body.dark-mode .fav-price{color:#c8f0d8 !important}
-.fav-rating{font-size:11px;color:#d4a574;font-weight:700;display:flex;align-items:center;gap:2px}
-
-main{padding-bottom:80px}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favoris - SEN TEW</title>
+  <link rel="stylesheet" href="css/app.css?v=52">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; }
+    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
+    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
+    .tabs { display: flex; background: #fff; border-bottom: 1px solid #e5e7eb; }
+    .tab { flex: 1; padding: 12px; text-align: center; font-size: 13px; font-weight: 600; color: #666; cursor: pointer; }
+    .tab.active { color: #0f6b4e; border-bottom: 2px solid #0f6b4e; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px; }
+    .pcard { background: #fff; border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; }
+    .pimg { height: 120px; background: #f5f5f0; display: flex; align-items: center; justify-content: center; position: relative; }
+    .pimg i { color: #d4a574; width: 40px; height: 40px; }
+    .heart { position: absolute; top: 8px; right: 8px; background: #fff; border: none; padding: 6px; border-radius: 50%; color: #dc2626; }
+    .pinfo { padding: 10px; }
+    .pname { font-size: 12px; font-weight: 600; height: 32px; overflow: hidden; }
+    .pprice { color: #0f6b4e; font-weight: 800; font-size: 14px; }
+    .pstars { color: #d4a574; font-size: 10px; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
+    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
+    .bottom-nav a.active { color: #0f6b4e; }
+    .bottom-nav a i { width: 22px; height: 22px; }
+  </style>
 </head>
-<body class="light-mode" data-theme="light">
+<body class="light-mode">
+
 <header class="topbar">
-  <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
-  <h1><i data-lucide="heart" style="color:#ef4444"></i> Mes favoris</h1>
-  <div style="display:flex;gap:8px">
-    <button class="btn-theme" data-theme-toggle><i data-lucide="moon"></i></button>
-    <button style="background:#fee2e2;border:none;width:38px;height:38px;border-radius:10px;color:#ef4444;cursor:pointer"><i data-lucide="trash-2"></i></button>
-  </div>
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="heart"></i> Mes Favoris</h1>
+  <button class="icon-btn"><i data-lucide="share-2"></i></button>
 </header>
 
-<div class="fav-header">
-  <span class="fav-count">20 produits sauvegardés</span>
-  <select class="sort-select">
-    <option>Récents</option>
-    <option>Prix ↑</option>
-    <option>Prix ↓</option>
-    <option>Note</option>
-  </select>
+<div class="tabs">
+  <div class="tab active">Produits (8)</div>
+  <div class="tab">Boutiques (3)</div>
 </div>
 
-<main>
-  <div class="fav-grid">
-
-    <article class="fav-card" onclick="location.href='produit.html?id=1'">
-      <div class="fav-img">
-        <img src="https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=400" alt="">
-        <button class="fav-fav-btn"><i data-lucide="heart" style="fill:#ef4444;width:16px;height:16px"></i></button>
-      </div>
-      <div class="fav-body">
-        <div class="fav-name">Robe wax mariage traditionnelle</div>
-        <div class="fav-vendeur">Aïcha Couture</div>
-        <div class="fav-price-row">
-          <span class="fav-price">35 000 FCFA</span>
-          <span class="fav-rating">⭐ 4.9</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="fav-card" onclick="location.href='produit.html?id=2'">
-      <div class="fav-img">
-        <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400" alt="">
-        <button class="fav-fav-btn"><i data-lucide="heart" style="fill:#ef4444;width:16px;height:16px"></i></button>
-      </div>
-      <div class="fav-body">
-        <div class="fav-name">Sandales cuir Peul premium</div>
-        <div class="fav-vendeur">Aïcha Couture</div>
-        <div class="fav-price-row">
-          <span class="fav-price">8 500 FCFA</span>
-          <span class="fav-rating">⭐ 4.7</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="fav-card" onclick="location.href='produit.html?id=3'">
-      <div class="fav-img">
-        <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400" alt="">
-        <button class="fav-fav-btn"><i data-lucide="heart" style="fill:#ef4444;width:16px;height:16px"></i></button>
-      </div>
-      <div class="fav-body">
-        <div class="fav-name">Boubou grand teint homme</div>
-        <div class="fav-vendeur">Aïcha Couture</div>
-        <div class="fav-price-row">
-          <span class="fav-price">45 000 FCFA</span>
-          <span class="fav-rating">⭐ 4.8</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="fav-card" onclick="location.href='produit.html?id=4'">
-      <div class="fav-img">
-        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400" alt="">
-        <button class="fav-fav-btn"><i data-lucide="heart" style="fill:#ef4444;width:16px;height:16px"></i></button>
-      </div>
-      <div class="fav-body">
-        <div class="fav-name">Sac cuir africain premium</div>
-        <div class="fav-vendeur">Aïcha Couture</div>
-        <div class="fav-price-row">
-          <span class="fav-price">15 000 FCFA</span>
-          <span class="fav-rating">⭐ 4.9</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="fav-card" onclick="location.href='produit.html?id=5'">
-      <div class="fav-img">
-        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400" alt="">
-        <button class="fav-fav-btn"><i data-lucide="heart" style="fill:#ef4444;width:16px;height:16px"></i></button>
-      </div>
-      <div class="fav-body">
-        <div class="fav-name">Chemise brodée homme lin</div>
-        <div class="fav-vendeur">Aïcha Couture</div>
-        <div class="fav-price-row">
-          <span class="fav-price">12 000 FCFA</span>
-          <span class="fav-rating">⭐ 4.6</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="fav-card" onclick="location.href='produit.html?id=6'">
-      <div class="fav-img">
-        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" alt="">
-        <button class="fav-fav-btn"><i data-lucide="heart" style="fill:#ef4444;width:16px;height:16px"></i></button>
-      </div>
-      <div class="fav-body">
-        <div class="fav-name">Sneakers premium blanc</div>
-        <div class="fav-vendeur">Moussa Tech</div>
-        <div class="fav-price-row">
-          <span class="fav-price">28 000 FCFA</span>
-          <span class="fav-rating">⭐ 4.8</span>
-        </div>
-      </div>
-    </article>
-
-  </div>
-</main>
+<div class="grid">
+  <a href="produit-detail.html?id=1" class="pcard">
+    <div class="pimg">
+      <i data-lucide="smartphone"></i>
+      <button class="heart"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
+    </div>
+    <div class="pinfo">
+      <div class="pname">iPhone 15 Pro 256GB</div>
+      <div class="pprice">850k FCFA</div>
+      <div class="pstars">★★★★★ (89)</div>
+    </div>
+  </a>
+  <a href="produit-detail.html?id=2" class="pcard">
+    <div class="pimg">
+      <i data-lucide="headphones"></i>
+      <button class="heart"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
+    </div>
+    <div class="pinfo">
+      <div class="pname">AirPods Pro 2</div>
+      <div class="pprice">145k FCFA</div>
+      <div class="pstars">★★★★★ (156)</div>
+    </div>
+  </a>
+  <a href="produit-detail.html?id=3" class="pcard">
+    <div class="pimg">
+      <i data-lucide="laptop"></i>
+      <button class="heart"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
+    </div>
+    <div class="pinfo">
+      <div class="pname">MacBook Air M2</div>
+      <div class="pprice">1.2M FCFA</div>
+      <div class="pstars">★★★★☆ (42)</div>
+    </div>
+  </a>
+  <a href="produit-detail.html?id=4" class="pcard">
+    <div class="pimg">
+      <i data-lucide="watch"></i>
+      <button class="heart"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
+    </div>
+    <div class="pinfo">
+      <div class="pname">Apple Watch S9</div>
+      <div class="pprice">380k FCFA</div>
+      <div class="pstars">★★★★★ (67)</div>
+    </div>
+  </a>
+</div>
 
 <nav class="bottom-nav">
   <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
-  <a href="recherche-ia.html"><i data-lucide="search"></i><span>Rechercher</span></a>
+  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
   <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
-  <a href="favoris.html" class="active"><i data-lucide="heart"></i><span>Favoris</span></a>
-  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
+  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
+
 <script>lucide.createIcons();</script>
-  <script src="js/buttons-audit.js?v=51"></script>
 </body>
 </html>
