@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promotions - SEN TEW</title>
+  <link rel="stylesheet" href="css/app.css?v=52">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 10; }
+    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
+    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 16px; }
+    .stat { background: #fff; padding: 12px 8px; border-radius: 10px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+    .stat .val { font-size: 18px; font-weight: 800; color: #0f6b4e; }
+    .stat .lbl { font-size: 11px; color: #666; }
+    .cta-add { background: linear-gradient(135deg, #dc2626, #991b1b); color: #fff; padding: 14px; border-radius: 12px; margin: 0 16px 12px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; border: none; width: calc(100% - 32px); cursor: pointer; }
+    .promo { background: #fff; margin: 0 16px 10px; padding: 14px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+    .promo-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .code { background: linear-gradient(135deg, #0f6b4e, #0a4d38); color: #fff; padding: 6px 14px; border-radius: 8px; font-weight: 800; font-size: 14px; letter-spacing: 1px; }
+    .badge { padding: 3px 10px; border-radius: 10px; font-size: 10px; font-weight: 700; background: #d1fae5; color: #065f46; }
+    .promo-info { font-size: 13px; color: #666; margin-top: 8px; }
+    .promo-actions { display: flex; gap: 8px; margin-top: 10px; }
+    .btn-mini { flex: 1; background: #f5f5f0; border: 1px solid #e5e7eb; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; }
+    .btn-mini.danger { color: #dc2626; border-color: #fecaca; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
+    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
+    .bottom-nav a.active { color: #0f6b4e; }
+    .bottom-nav a i { width: 22px; height: 22px; }
+  </style>
+</head>
+<body class="light-mode">
+
+<header class="topbar">
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="percent"></i> Promotions</h1>
+  <button class="icon-btn" onclick="alert('Créer promotion')"><i data-lucide="plus"></i></button>
+</header>
+
+<div class="stats-row">
+  <div class="stat"><div class="val">3</div><div class="lbl">Actives</div></div>
+  <div class="stat"><div class="val">147</div><div class="lbl">Utilisations</div></div>
+  <div class="stat"><div class="val">245k</div><div class="lbl">Remises FCFA</div></div>
+</div>
+
+<button class="cta-add" onclick="alert('Créer nouvelle promotion')">
+  <i data-lucide="plus-circle"></i> Créer une promotion
+</button>
+
+<div class="promo">
+  <div class="promo-head">
+    <span class="code">RENTREE20</span>
+    <span class="badge">Active</span>
+  </div>
+  <div class="promo-info"><strong>-20%</strong> sur tout · Jusqu'au 30/09/2026 · <strong>52</strong> utilisations</div>
+  <div class="promo-actions">
+    <button class="btn-mini"><i data-lucide="edit-2" style="width:14px;height:14px"></i> Modifier</button>
+    <button class="btn-mini danger"><i data-lucide="pause" style="width:14px;height:14px"></i> Suspendre</button>
+  </div>
+</div>
+
+<div class="promo">
+  <div class="promo-head">
+    <span class="code">FLASH50</span>
+    <span class="badge">Active</span>
+  </div>
+  <div class="promo-info"><strong>-50%</strong> sur électronique · 24h restantes · <strong>28</strong> utilisations</div>
+  <div class="promo-actions">
+    <button class="btn-mini"><i data-lucide="edit-2" style="width:14px;height:14px"></i> Modifier</button>
+    <button class="btn-mini danger"><i data-lucide="pause" style="width:14px;height:14px"></i> Suspendre</button>
+  </div>
+</div>
+
+<div class="promo">
+  <div class="promo-head">
+    <span class="code">FREESHIP</span>
+    <span class="badge">Active</span>
+  </div>
+  <div class="promo-info"><strong>Livraison gratuite</strong> dès 15k FCFA · Permanente · <strong>67</strong> utilisations</div>
+  <div class="promo-actions">
+    <button class="btn-mini"><i data-lucide="edit-2" style="width:14px;height:14px"></i> Modifier</button>
+    <button class="btn-mini danger"><i data-lucide="pause" style="width:14px;height:14px"></i> Suspendre</button>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
+</nav>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
