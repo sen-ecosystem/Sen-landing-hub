@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appareils - SEN TEW</title>
+  <link rel="stylesheet" href="css/app.css?v=52">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; }
+    .topbar { display: flex; align-items: center; gap: 12px; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; }
+    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
+    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
+    .card { background: #fff; margin: 16px; padding: 16px; border-radius: 12px; }
+    .session { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+    .session:last-child { border-bottom: none; }
+    .s-icon { width: 44px; height: 44px; background: #f5f5f0; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .s-icon i { color: #0f6b4e; }
+    .s-info { flex: 1; }
+    .s-device { font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px; }
+    .badge-current { background: #d1fae5; color: #065f46; padding: 2px 8px; border-radius: 8px; font-size: 10px; font-weight: 700; }
+    .s-loc { font-size: 12px; color: #666; }
+    .s-time { font-size: 11px; color: #999; }
+    .btn-logout { background: transparent; border: 1.5px solid #dc2626; color: #dc2626; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .btn-all { width: calc(100% - 32px); background: #dc2626; color: #fff; border: none; padding: 14px; border-radius: 10px; font-weight: 700; margin: 0 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  </style>
+</head>
+<body class="light-mode">
+
+<header class="topbar">
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="smartphone"></i> Appareils connectés</h1>
+</header>
+
+<div class="card">
+  <div class="session">
+    <div class="s-icon"><i data-lucide="smartphone"></i></div>
+    <div class="s-info">
+      <div class="s-device">iPhone 15 Pro <span class="badge-current">Actuel</span></div>
+      <div class="s-loc">📍 Gênes, Italie</div>
+      <div class="s-time">Actif maintenant</div>
+    </div>
+  </div>
+
+  <div class="session">
+    <div class="s-icon"><i data-lucide="laptop"></i></div>
+    <div class="s-info">
+      <div class="s-device">MacBook Air M2</div>
+      <div class="s-loc">📍 Gênes, Italie</div>
+      <div class="s-time">Il y a 2h</div>
+    </div>
+    <button class="btn-logout" onclick="logout('mac')">Déconnecter</button>
+  </div>
+
+  <div class="session">
+    <div class="s-icon"><i data-lucide="tablet"></i></div>
+    <div class="s-info">
+      <div class="s-device">iPad Pro</div>
+      <div class="s-loc">📍 Dakar, Sénégal</div>
+      <div class="s-time">Il y a 3 jours</div>
+    </div>
+    <button class="btn-logout" onclick="logout('ipad')">Déconnecter</button>
+  </div>
+</div>
+
+<button class="btn-all" onclick="logoutAll()">
+  <i data-lucide="log-out" style="width:18px;height:18px"></i> Déconnecter tous les autres
+</button>
+
+<script>
+  lucide.createIcons();
+  function logout(d) { if (confirm('Déconnecter ' + d + ' ?')) alert('✅ Déconnecté'); }
+  function logoutAll() { if (confirm('Déconnecter tous les autres ?')) alert('✅ Fait'); }
+</script>
+</body>
+</html>
