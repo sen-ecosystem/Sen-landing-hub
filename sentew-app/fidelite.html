@@ -1,215 +1,247 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Fidélité GOLD — SEN TEW</title>
-<link rel="stylesheet" href="css/app.css?v=50">
-<script src="https://unpkg.com/lucide@latest"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programme Fidélité - SEN TEW</title>
+  <link rel="stylesheet" href="css/app.css?v=52">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 10; }
+    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
+    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
+
+    /* Carte GOLD */
+    .gold-card { background: linear-gradient(135deg, #d4a574, #b8860b); color: #fff; padding: 24px 20px; border-radius: 16px; margin: 16px; box-shadow: 0 8px 24px rgba(212,165,116,0.4); position: relative; overflow: hidden; }
+    .crown { position: absolute; top: 20px; right: 20px; width: 56px; height: 56px; background: rgba(255,255,255,0.25); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid rgba(255,255,255,0.4); }
+    .crown i { color: #fff; width: 28px; height: 28px; }
+    .badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.25); padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 800; letter-spacing: 1px; color: #fff !important; }
+    .name { color: #fff !important; font-size: 24px; font-weight: 800; margin: 12px 0 4px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+    .since { color: rgba(255,255,255,0.95) !important; font-size: 12px; }
+    .points-box { background: rgba(0,0,0,0.15); border-radius: 12px; padding: 16px; margin-top: 16px; }
+    .points-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .p-lbl { color: #fff !important; font-size: 13px; font-weight: 600; }
+    .p-val { color: #fff !important; font-size: 30px; font-weight: 800; }
+    .bar-bg { background: rgba(255,255,255,0.3); height: 8px; border-radius: 4px; overflow: hidden; }
+    .bar-fill { background: #fff; height: 100%; width: 62%; }
+    .p-info { display: flex; justify-content: space-between; color: #fff !important; font-size: 11px; font-weight: 600; margin-top: 6px; }
+
+    /* Objectif cliquable */
+    .objectif { background: #ede9fe; border-left: 4px solid #6b46c1; border-radius: 12px; padding: 14px; margin: 0 16px 16px; display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; cursor: pointer; }
+    .obj-icon { width: 44px; height: 44px; background: #6b46c1; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+    .obj-icon i { color: #fff; width: 22px; height: 22px; }
+    .obj-title { color: #4c1d95; font-weight: 800; font-size: 14px; }
+    .obj-desc { color: #6b46c1; font-size: 12px; margin-top: 2px; }
+
+    .section-title { color: #d4a574; font-size: 12px; font-weight: 700; padding: 0 20px; margin: 20px 0 10px; letter-spacing: 1px; display: flex; align-items: center; gap: 6px; }
+
+    /* Avantages CLIQUABLES fond blanc lisible */
+    .avantages { padding: 0 16px; }
+    .av-card { background: #fff; padding: 14px; border-radius: 12px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); border-left: 4px solid; text-decoration: none; color: inherit; cursor: pointer; }
+    .av-card.a1 { border-left-color: #0f6b4e; }
+    .av-card.a2 { border-left-color: #d4a574; }
+    .av-card.a3 { border-left-color: #6b46c1; }
+    .av-card.a4 { border-left-color: #3b82f6; }
+    .av-card.a5 { border-left-color: #dc2626; }
+    .av-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+    .av-icon.i1 { background: #d1fae5; } .av-icon.i1 i { color: #065f46; }
+    .av-icon.i2 { background: #fef3c7; } .av-icon.i2 i { color: #b8860b; }
+    .av-icon.i3 { background: #ede9fe; } .av-icon.i3 i { color: #6b46c1; }
+    .av-icon.i4 { background: #dbeafe; } .av-icon.i4 i { color: #1e40af; }
+    .av-icon.i5 { background: #fee2e2; } .av-icon.i5 i { color: #dc2626; }
+    .av-info { flex: 1; }
+    .av-name { font-weight: 700; color: #1a1a1a; font-size: 14px; }
+    .av-desc { font-size: 12px; color: #666; margin-top: 2px; }
+    .av-badge { background: #d1fae5; color: #065f46; padding: 3px 8px; border-radius: 8px; font-size: 10px; font-weight: 700; }
+
+    /* Niveaux CLIQUABLES */
+    .niveaux-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 0 16px 16px; }
+    .niveau { background: #fff; padding: 14px 6px; border-radius: 12px; text-align: center; cursor: pointer; text-decoration: none; color: inherit; box-shadow: 0 2px 6px rgba(0,0,0,0.05); border: 2px solid transparent; position: relative; }
+    .niveau.actuel { border-color: #d4a574; background: linear-gradient(135deg, #fef3c7, #fde68a); }
+    .niveau.actuel::before { content: 'ACTUEL'; position: absolute; top: -8px; left: 50%; transform: translateX(-50%); background: #d4a574; color: #fff; padding: 2px 10px; border-radius: 8px; font-size: 9px; font-weight: 800; letter-spacing: 0.5px; }
+    .niveau-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; }
+    .niveau.bronze .niveau-icon { background: #cd7f32; }
+    .niveau.silver .niveau-icon { background: #94a3b8; }
+    .niveau.gold .niveau-icon { background: #b8860b; }
+    .niveau.platine .niveau-icon { background: #6366f1; }
+    .niveau-icon i { color: #fff; width: 18px; height: 18px; }
+    .niveau-name { font-weight: 800; color: #1a1a1a; font-size: 12px; }
+    .niveau-range { font-size: 10px; color: #666; margin-top: 2px; }
+
+    /* Historique CLIQUABLE */
+    .histo { background: #fff; margin: 0 16px; border-radius: 12px; padding: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+    .histo-row { display: flex; align-items: center; gap: 12px; padding: 14px; border-bottom: 1px solid #f0f0f0; text-decoration: none; color: inherit; cursor: pointer; }
+    .histo-row:last-child { border-bottom: none; }
+    .h-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .h-icon.buy { background: #d1fae5; } .h-icon.buy i { color: #065f46; }
+    .h-icon.parr { background: #fef3c7; } .h-icon.parr i { color: #b8860b; }
+    .h-icon.avis { background: #fee2e2; } .h-icon.avis i { color: #dc2626; }
+    .h-info { flex: 1; }
+    .h-title { font-weight: 700; font-size: 13px; color: #1a1a1a; }
+    .h-date { font-size: 11px; color: #666; margin-top: 2px; }
+    .h-pts { color: #0f6b4e; font-weight: 800; font-size: 14px; }
+
+    /* CTA Comment gagner */
+    .cta-gagner { background: linear-gradient(135deg, #6b46c1, #4c1d95); color: #fff; padding: 16px; border-radius: 12px; margin: 16px; display: flex; align-items: center; gap: 12px; text-decoration: none; box-shadow: 0 4px 12px rgba(107,70,193,0.3); }
+    .cta-gagner i { width: 28px; height: 28px; color: #fff; }
+    .cta-text { color: #fff !important; font-weight: 700; font-size: 14px; flex: 1; }
+
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
+    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
+    .bottom-nav a.active { color: #0f6b4e; }
+    .bottom-nav a i { width: 22px; height: 22px; }
+  </style>
 </head>
 <body class="light-mode">
 
 <header class="topbar">
-  <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left" class="icon icon-md icon-vert"></i></button>
-  <h1><i data-lucide="award" class="icon icon-md icon-or"></i> Programme fidélité</h1>
-  <button class="icon-btn" data-theme-toggle><i data-lucide="moon" class="icon icon-md icon-vert"></i></button>
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="award"></i> Programme fidélité</h1>
+  <button class="icon-btn"><i data-lucide="moon"></i></button>
 </header>
 
-<main style="padding:16px;padding-bottom:100px">
-
-  <!-- Carte GOLD premium hero -->
-<div class="gold-card" style="background:linear-gradient(135deg,#d4a574 0%,#b8860b 100%) !important;color:#fff !important;padding:24px;border-radius:16px;margin:16px;box-shadow:0 8px 24px rgba(212,165,116,0.5);position:relative;overflow:hidden;">
-    <!-- Cercles décoratifs -->
-    <div style="position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.1)"></div>
-    <div style="position:absolute;left:-30px;bottom:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.08)"></div>
-    
-    <!-- Badge + logo -->
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;position:relative;z-index:2">
-      <div>
-        <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.25);padding:4px 10px;border-radius:12px;backdrop-filter:blur(10px);width:fit-content;margin-bottom:10px">
-          <i data-lucide="award" style="width:14px;height:14px;color:#fff"></i>
-          <span style="color:#fff;font-size:11px;font-weight:800;letter-spacing:0.5px">MEMBRE GOLD</span>
-        </div>
-        <h2 style="color:#fff !important;font-size:26px;font-weight:900;margin-bottom:2px">Karim Niang</h2>
-        <p style="color:rgba(255,255,255,0.9) !important;font-size:12px">Membre depuis février 2026</p>
-      </div>
-      <div style="width:56px;height:56px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);border:2px solid rgba(255,255,255,0.4)">
-        <i data-lucide="crown" style="width:28px;height:28px;color:#fff"></i>
-      </div>
+<div class="gold-card">
+  <div class="crown"><i data-lucide="crown"></i></div>
+  <span class="badge"><i data-lucide="medal" style="width:12px;height:12px"></i> MEMBRE GOLD</span>
+  <div class="name">Karim Niang</div>
+  <div class="since">Membre depuis février 2026</div>
+  <div class="points-box">
+    <div class="points-row">
+      <span class="p-lbl">Vos points</span>
+      <span class="p-val">1 250</span>
     </div>
-
-    <!-- Points -->
-    <div style="background:rgba(255,255,255,0.15);border-radius:14px;padding:14px;backdrop-filter:blur(10px);position:relative;z-index:2">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
-        <span style="color:rgba(255,255,255,0.85) !important;font-size:12px;font-weight:600">Vos points</span>
-        <strong style="color:#fff !important;font-size:32px;font-weight:900">1 250</strong>
-      </div>
-      <!-- Progress bar -->
-      <div style="background:rgba(0,0,0,0.2);border-radius:8px;height:10px;overflow:hidden;margin-bottom:8px">
-        <div style="background:linear-gradient(90deg,#fff,#f0c99a);height:100%;width:62%;border-radius:8px;box-shadow:0 0 12px rgba(255,255,255,0.4)"></div>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <small style="color:rgba(255,255,255,0.9) !important;font-size:11px">Prochain niveau : <strong style="color:#fff">PLATINE</strong></small>
-        <small style="color:#fff !important;font-size:11px;font-weight:700">750 pts restants</small>
-      </div>
-    </div>
-  </section>
-
-  <!-- Objectif suivant -->
-  <div style="background:linear-gradient(135deg,#e0e7ff,#c7d2fe);border:1px solid #a5b4fc;border-radius:14px;padding:14px;margin-bottom:20px;display:flex;align-items:center;gap:12px">
-    <div style="width:44px;height:44px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-      <i data-lucide="target" style="width:22px;height:22px;color:#4f46e5"></i>
-    </div>
-    <div style="flex:1">
-      <strong style="display:block;color:#312e81;font-size:14px;margin-bottom:2px">Objectif : 2 000 points</strong>
-      <small style="color:#4338ca;font-size:12px">Débloquez le cashback <strong>15 % permanent</strong></small>
+    <div class="bar-bg"><div class="bar-fill"></div></div>
+    <div class="p-info">
+      <span>Prochain niveau : PLATINE</span>
+      <span>750 pts restants</span>
     </div>
   </div>
+</div>
 
-  <!-- Avantages GOLD -->
-  <h2 class="section-title"><i data-lucide="gift" class="icon icon-sm icon-or"></i> VOS AVANTAGES GOLD</h2>
-
-  <div style="display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:20px">
-
-    <div style="background:#fff;border:1px solid #e5e5e0;border-left:4px solid #0f6b4e;border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-      <div style="width:44px;height:44px;background:rgba(15,107,78,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <i data-lucide="percent" style="width:22px;height:22px;color:#0f6b4e"></i>
-      </div>
-      <div style="flex:1">
-        <strong style="display:block;color:#0a1f17;font-size:14px;margin-bottom:2px">Cashback 10 %</strong>
-        <small style="color:#4a5a52;font-size:12px">Sur tous vos achats</small>
-      </div>
-      <span style="background:#c8f0d8;color:#0a4d38;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:800">ACTIF</span>
-    </div>
-
-    <div style="background:#fff;border:1px solid #e5e5e0;border-left:4px solid #d4a574;border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-      <div style="width:44px;height:44px;background:rgba(212,165,116,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <i data-lucide="truck" style="width:22px;height:22px;color:#a67c3a"></i>
-      </div>
-      <div style="flex:1">
-        <strong style="display:block;color:#0a1f17;font-size:14px;margin-bottom:2px">Livraison gratuite</strong>
-        <small style="color:#4a5a52;font-size:12px">Dès 15 000 FCFA d'achat</small>
-      </div>
-      <span style="background:#fff4e6;color:#a67c3a;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:800">ACTIF</span>
-    </div>
-
-    <div style="background:#fff;border:1px solid #e5e5e0;border-left:4px solid #a855f7;border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-      <div style="width:44px;height:44px;background:rgba(168,85,247,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <i data-lucide="zap" style="width:22px;height:22px;color:#a855f7"></i>
-      </div>
-      <div style="flex:1">
-        <strong style="display:block;color:#0a1f17;font-size:14px;margin-bottom:2px">Accès prioritaire</strong>
-        <small style="color:#4a5a52;font-size:12px">Ventes flash 24h avant tous</small>
-      </div>
-      <span style="background:#f3e8ff;color:#7c3aed;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:800">ACTIF</span>
-    </div>
-
-    <div style="background:#fff;border:1px solid #e5e5e0;border-left:4px solid #3b82f6;border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-      <div style="width:44px;height:44px;background:rgba(59,130,246,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <i data-lucide="headphones" style="width:22px;height:22px;color:#3b82f6"></i>
-      </div>
-      <div style="flex:1">
-        <strong style="display:block;color:#0a1f17;font-size:14px;margin-bottom:2px">Support dédié 24/7</strong>
-        <small style="color:#4a5a52;font-size:12px">Ligne prioritaire</small>
-      </div>
-      <span style="background:#dbeafe;color:#1e40af;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:800">ACTIF</span>
-    </div>
-
-    <div style="background:#fff;border:1px solid #e5e5e0;border-left:4px solid #ef4444;border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-      <div style="width:44px;height:44px;background:rgba(239,68,68,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <i data-lucide="cake" style="width:22px;height:22px;color:#ef4444"></i>
-      </div>
-      <div style="flex:1">
-        <strong style="display:block;color:#0a1f17;font-size:14px;margin-bottom:2px">Cadeau anniversaire</strong>
-        <small style="color:#4a5a52;font-size:12px">Coupon exclusif chaque année</small>
-      </div>
-      <span style="background:#fee2e2;color:#991b1b;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:800">ACTIF</span>
-    </div>
-
+<a href="#" onclick="alert('🎯 Objectif : atteindre 2 000 pts pour PLATINE + 15% cashback')" class="objectif">
+  <div class="obj-icon"><i data-lucide="target"></i></div>
+  <div class="obj-info">
+    <div class="obj-title">Objectif : 2 000 points</div>
+    <div class="obj-desc">Débloquez le cashback 15% permanent</div>
   </div>
+  <i data-lucide="chevron-right" style="color:#6b46c1"></i>
+</a>
 
-  <!-- Historique récent -->
-  <h2 class="section-title"><i data-lucide="history" class="icon icon-sm icon-or"></i> HISTORIQUE RÉCENT</h2>
-
-  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(15,107,78,0.05);margin-bottom:20px">
-
-    <div style="display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid #f5f5f0">
-      <div style="width:40px;height:40px;background:rgba(15,107,78,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <i data-lucide="shopping-bag" style="width:20px;height:20px;color:#0f6b4e"></i>
-      </div>
-      <div style="flex:1">
-        <strong style="display:block;color:#0a1f17;font-size:14px">Achat Boubou wax</strong>
-        <small style="color:#4a5a52;font-size:11px">20/08/2026</small>
-      </div>
-      <strong style="color:#0f6b4e;font-size:15px">+50 pts</strong>
+<!-- AVANTAGES CLIQUABLES -->
+<div class="section-title"><i data-lucide="gift" style="width:14px;height:14px"></i> VOS AVANTAGES GOLD</div>
+<div class="avantages">
+  <a href="#" onclick="alert('💰 Cashback 10% crédité automatiquement sur portefeuille')" class="av-card a1">
+    <div class="av-icon i1"><i data-lucide="percent"></i></div>
+    <div class="av-info">
+      <div class="av-name">Cashback 10%</div>
+      <div class="av-desc">Sur tous vos achats</div>
     </div>
-
-    <div style="display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid #f5f5f0">
-      <div style="width:40px;height:40px;background:rgba(212,165,116,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <i data-lucide="gift" style="width:20px;height:20px;color:#a67c3a"></i>
-      </div>
-      <div style="flex:1">
-        <strong style="display:block;color:#0a1f17;font-size:14px">Parrainage Aminata</strong>
-        <small style="color:#4a5a52;font-size:11px">15/08/2026</small>
-      </div>
-      <strong style="color:#0f6b4e;font-size:15px">+120 pts</strong>
+    <span class="av-badge">ACTIF</span>
+  </a>
+  <a href="#" onclick="alert('🚚 Livraison gratuite auto dès 15k FCFA au panier')" class="av-card a2">
+    <div class="av-icon i2"><i data-lucide="truck"></i></div>
+    <div class="av-info">
+      <div class="av-name">Livraison gratuite</div>
+      <div class="av-desc">Dès 15 000 FCFA d'achat</div>
     </div>
-
-    <div style="display:flex;align-items:center;gap:12px;padding:14px">
-      <div style="width:40px;height:40px;background:rgba(245,158,11,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <i data-lucide="star" style="width:20px;height:20px;color:#f59e0b"></i>
-      </div>
-      <div style="flex:1">
-        <strong style="display:block;color:#0a1f17;font-size:14px">Avis produit</strong>
-        <small style="color:#4a5a52;font-size:11px">10/08/2026</small>
-      </div>
-      <strong style="color:#0f6b4e;font-size:15px">+30 pts</strong>
+    <span class="av-badge" style="background:#fef3c7;color:#92400e">ACTIF</span>
+  </a>
+  <a href="index.html" class="av-card a3">
+    <div class="av-icon i3"><i data-lucide="zap"></i></div>
+    <div class="av-info">
+      <div class="av-name">Accès prioritaire</div>
+      <div class="av-desc">Ventes flash 24h avant tous</div>
     </div>
-
-  </div>
-
-  <!-- Niveaux -->
-  <h2 class="section-title"><i data-lucide="layers" class="icon icon-sm icon-or"></i> NIVEAUX DU PROGRAMME</h2>
-
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px">
-    <div style="background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:12px 6px;text-align:center;opacity:0.6">
-      <div style="width:32px;height:32px;background:linear-gradient(135deg,#cd7f32,#a0522d);border-radius:50%;margin:0 auto 6px;display:flex;align-items:center;justify-content:center"><i data-lucide="award" style="width:16px;height:16px;color:#fff"></i></div>
-      <strong style="display:block;color:#0a1f17;font-size:12px;font-weight:800">BRONZE</strong>
-      <small style="color:#4a5a52;font-size:10px">0-499 pts</small>
+    <span class="av-badge" style="background:#ede9fe;color:#6b46c1">ACTIF</span>
+  </a>
+  <a href="support.html" class="av-card a4">
+    <div class="av-icon i4"><i data-lucide="headphones"></i></div>
+    <div class="av-info">
+      <div class="av-name">Support dédié 24/7</div>
+      <div class="av-desc">Ligne prioritaire</div>
     </div>
-    <div style="background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:12px 6px;text-align:center;opacity:0.6">
-      <div style="width:32px;height:32px;background:linear-gradient(135deg,#c0c0c0,#808080);border-radius:50%;margin:0 auto 6px;display:flex;align-items:center;justify-content:center"><i data-lucide="award" style="width:16px;height:16px;color:#fff"></i></div>
-      <strong style="display:block;color:#0a1f17;font-size:12px;font-weight:800">SILVER</strong>
-      <small style="color:#4a5a52;font-size:10px">500-999</small>
+    <span class="av-badge" style="background:#dbeafe;color:#1e40af">ACTIF</span>
+  </a>
+  <a href="#" onclick="alert('🎂 Cadeau surprise à chaque anniversaire')" class="av-card a5">
+    <div class="av-icon i5"><i data-lucide="cake"></i></div>
+    <div class="av-info">
+      <div class="av-name">Cadeau anniversaire</div>
+      <div class="av-desc">Coupon exclusif chaque année</div>
     </div>
-    <div style="background:linear-gradient(135deg,#fff4e6,#fce4b8);border:2px solid #d4a574;border-radius:12px;padding:12px 6px;text-align:center;box-shadow:0 4px 12px rgba(212,165,116,0.3);position:relative">
-      <span style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:#d4a574;color:#fff;font-size:9px;padding:2px 8px;border-radius:10px;font-weight:800">ACTUEL</span>
-      <div style="width:32px;height:32px;background:linear-gradient(135deg,#d4a574,#a67c3a);border-radius:50%;margin:0 auto 6px;display:flex;align-items:center;justify-content:center"><i data-lucide="crown" style="width:16px;height:16px;color:#fff"></i></div>
-      <strong style="display:block;color:#a67c3a;font-size:12px;font-weight:900">GOLD</strong>
-      <small style="color:#a67c3a;font-size:10px">1K-1.9K</small>
-    </div>
-    <div style="background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:12px 6px;text-align:center;opacity:0.6">
-      <div style="width:32px;height:32px;background:linear-gradient(135deg,#e5e4e2,#b8b6b3);border-radius:50%;margin:0 auto 6px;display:flex;align-items:center;justify-content:center"><i data-lucide="diamond" style="width:16px;height:16px;color:#fff"></i></div>
-      <strong style="display:block;color:#0a1f17;font-size:12px;font-weight:800">PLATINE</strong>
-      <small style="color:#4a5a52;font-size:10px">2K+</small>
-    </div>
-  </div>
+    <span class="av-badge" style="background:#fee2e2;color:#991b1b">ACTIF</span>
+  </a>
+</div>
 
-  <!-- CTA -->
-  <button class="btn-or" style="width:100%;padding:14px;font-size:14px;background:linear-gradient(90deg,#d4a574,#a67c3a);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px"><i data-lucide="rocket" style="width:18px;height:18px;color:#fff"></i> Comment gagner plus de points ?</button>
+<!-- HISTORIQUE CLIQUABLE -->
+<div class="section-title"><i data-lucide="history" style="width:14px;height:14px"></i> HISTORIQUE RÉCENT</div>
+<div class="histo">
+  <a href="commande-detail.html?id=ST24068" class="histo-row">
+    <div class="h-icon buy"><i data-lucide="shopping-bag"></i></div>
+    <div class="h-info">
+      <div class="h-title">Achat Boubou wax</div>
+      <div class="h-date">20/08/2026</div>
+    </div>
+    <div class="h-pts">+50 pts</div>
+  </a>
+  <a href="parrainage.html" class="histo-row">
+    <div class="h-icon parr"><i data-lucide="gift"></i></div>
+    <div class="h-info">
+      <div class="h-title">Parrainage Aminata</div>
+      <div class="h-date">15/08/2026</div>
+    </div>
+    <div class="h-pts">+120 pts</div>
+  </a>
+  <a href="commandes.html" class="histo-row">
+    <div class="h-icon avis"><i data-lucide="star"></i></div>
+    <div class="h-info">
+      <div class="h-title">Avis produit</div>
+      <div class="h-date">10/08/2026</div>
+    </div>
+    <div class="h-pts">+30 pts</div>
+  </a>
+</div>
 
-</main>
+<!-- NIVEAUX CLIQUABLES -->
+<div class="section-title"><i data-lucide="layers" style="width:14px;height:14px"></i> NIVEAUX DU PROGRAMME</div>
+<div class="niveaux-grid">
+  <a href="#" onclick="alert('Bronze : 0-499 pts · Standard')" class="niveau bronze">
+    <div class="niveau-icon"><i data-lucide="award"></i></div>
+    <div class="niveau-name">BRONZE</div>
+    <div class="niveau-range">0-499 pts</div>
+  </a>
+  <a href="#" onclick="alert('Silver : 500-999 pts · Cashback 5%')" class="niveau silver">
+    <div class="niveau-icon"><i data-lucide="award"></i></div>
+    <div class="niveau-name">SILVER</div>
+    <div class="niveau-range">500-999</div>
+  </a>
+  <a href="#" onclick="alert('GOLD : 1000-1999 pts · Cashback 10% + livraison gratuite')" class="niveau gold actuel">
+    <div class="niveau-icon"><i data-lucide="crown"></i></div>
+    <div class="niveau-name">GOLD</div>
+    <div class="niveau-range">1K-1.9K</div>
+  </a>
+  <a href="#" onclick="alert('PLATINE : 2000+ pts · Cashback 15% + support prioritaire')" class="niveau platine">
+    <div class="niveau-icon"><i data-lucide="gem"></i></div>
+    <div class="niveau-name">PLATINE</div>
+    <div class="niveau-range">2K+</div>
+  </a>
+</div>
+
+<!-- CTA Comment gagner -->
+<a href="#" onclick="alert('Gagnez des points : 1pt/100 FCFA achat, 200 pts/parrainage, 50 pts/avis 5★, 30 pts/avis simple')" class="cta-gagner">
+  <i data-lucide="rocket"></i>
+  <div class="cta-text">Comment gagner plus de points ?</div>
+  <i data-lucide="chevron-right"></i>
+</a>
 
 <nav class="bottom-nav">
-  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
-  <a href="recherche-ia.html"><i data-lucide="search" class="icon icon-md"></i><span>Rechercher</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
-  <a href="favoris.html"><i data-lucide="heart" class="icon icon-md"></i><span>Favoris</span></a>
-  <a href="profil.html" class="active"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
-<script src="js/dark-mode.js?v=50"></script>
 <script>lucide.createIcons();</script>
-  <script src="js/buttons-audit.js?v=51"></script>
 </body>
 </html>
