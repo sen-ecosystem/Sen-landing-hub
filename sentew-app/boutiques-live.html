@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boutiques LIVE - SEN TEW</title>
+  <link rel="stylesheet" href="css/app.css?v=52">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 10; }
+    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
+    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
+    .hero { background: linear-gradient(135deg, #dc2626, #991b1b); color: #fff; padding: 20px 16px; text-align: center; }
+    .hero .live-dot { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.25); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 800; letter-spacing: 1px; }
+    .hero .live-dot::before { content: ''; width: 8px; height: 8px; background: #fff; border-radius: 50%; animation: blink 1.5s infinite; }
+    @keyframes blink { 50% { opacity: 0.3; } }
+    .hero h2 { color: #fff; margin: 8px 0 4px; font-size: 20px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+    .hero p { color: rgba(255,255,255,0.95); font-size: 12px; margin: 0; }
+
+    .filter-bar { display: flex; gap: 8px; padding: 12px 16px; overflow-x: auto; background: #fff; border-bottom: 1px solid #e5e7eb; }
+    .chip { background: #f5f5f0; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .chip.active { background: #dc2626; color: #fff; }
+
+    .live-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px; }
+    .live-card { background: #fff; border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; box-shadow: 0 2px 6px rgba(0,0,0,0.05); position: relative; cursor: pointer; }
+    .live-thumb { height: 200px; background: linear-gradient(135deg, #f5f5f0, #e5e7eb); display: flex; align-items: center; justify-content: center; position: relative; }
+    .live-thumb i { color: #666; width: 40px; height: 40px; }
+    .live-badge { position: absolute; top: 8px; left: 8px; background: #dc2626; color: #fff; padding: 3px 8px; border-radius: 6px; font-size: 10px; font-weight: 800; display: flex; align-items: center; gap: 4px; }
+    .live-badge::before { content: ''; width: 6px; height: 6px; background: #fff; border-radius: 50%; animation: blink 1.5s infinite; }
+    .viewers { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); color: #fff; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+    .viewers i { width: 12px; height: 12px; }
+    .live-info { padding: 10px; }
+    .live-name { font-weight: 700; font-size: 13px; color: #1a1a1a; }
+    .live-vendor { font-size: 11px; color: #666; margin-top: 2px; display: flex; align-items: center; gap: 4px; }
+    .live-tag { display: inline-block; background: #fee2e2; color: #dc2626; padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; margin-top: 4px; }
+
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
+    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
+    .bottom-nav a.active { color: #0f6b4e; }
+    .bottom-nav a i { width: 22px; height: 22px; }
+  </style>
+</head>
+<body class="light-mode">
+
+<header class="topbar">
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="radio"></i> Boutiques LIVE</h1>
+  <button class="icon-btn" onclick="location.href='recherche-ia.html'"><i data-lucide="search"></i></button>
+</header>
+
+<div class="hero">
+  <span class="live-dot">EN DIRECT MAINTENANT</span>
+  <h2>12 Boutiques en LIVE</h2>
+  <p>Offres exclusives · Ventes flash · Chat en direct</p>
+</div>
+
+<div class="filter-bar">
+  <span class="chip active">Tous (12)</span>
+  <span class="chip">Mode (4)</span>
+  <span class="chip">Tech (3)</span>
+  <span class="chip">Beauté (2)</span>
+  <span class="chip">Alimentation (2)</span>
+  <span class="chip">Maison (1)</span>
+</div>
+
+<div class="live-grid">
+  <a href="live-boutique.html?id=aicha-couture" class="live-card">
+    <div class="live-thumb">
+      <i data-lucide="user"></i>
+      <span class="live-badge">LIVE</span>
+      <span class="viewers"><i data-lucide="eye"></i> 234</span>
+    </div>
+    <div class="live-info">
+      <div class="live-name">Aïcha Couture</div>
+      <div class="live-vendor"><i data-lucide="check-circle" style="width:10px;height:10px;color:#3b82f6"></i> Nouvelle collection Wax</div>
+      <span class="live-tag">-30% ce soir</span>
+    </div>
+  </a>
+
+  <a href="live-boutique.html?id=moussa-tech" class="live-card">
+    <div class="live-thumb">
+      <i data-lucide="smartphone"></i>
+      <span class="live-badge">LIVE</span>
+      <span class="viewers"><i data-lucide="eye"></i> 512</span>
+    </div>
+    <div class="live-info">
+      <div class="live-name">Moussa Tech</div>
+      <div class="live-vendor"><i data-lucide="check-circle" style="width:10px;height:10px;color:#3b82f6"></i> Test iPhone 15 Pro</div>
+      <span class="live-tag">Flash sale</span>
+    </div>
+  </a>
+
+  <a href="live-boutique.html?id=mariama-b" class="live-card">
+    <div class="live-thumb">
+      <i data-lucide="sparkles"></i>
+      <span class="live-badge">LIVE</span>
+      <span class="viewers"><i data-lucide="eye"></i> 189</span>
+    </div>
+    <div class="live-info">
+      <div class="live-name">Mariama Beauty</div>
+      <div class="live-vendor"><i data-lucide="check-circle" style="width:10px;height:10px;color:#3b82f6"></i> Tuto maquillage</div>
+      <span class="live-tag">Coffrets promo</span>
+    </div>
+  </a>
+
+  <a href="live-boutique.html?id=fatou-fashion" class="live-card">
+    <div class="live-thumb">
+      <i data-lucide="shirt"></i>
+      <span class="live-badge">LIVE</span>
+      <span class="viewers"><i data-lucide="eye"></i> 156</span>
+    </div>
+    <div class="live-info">
+      <div class="live-name">Fatou Fashion</div>
+      <div class="live-vendor"><i data-lucide="check-circle" style="width:10px;height:10px;color:#3b82f6"></i> Boubous soirée</div>
+      <span class="live-tag">-20%</span>
+    </div>
+  </a>
+
+  <a href="live-boutique.html?id=digital-store" class="live-card">
+    <div class="live-thumb">
+      <i data-lucide="laptop"></i>
+      <span class="live-badge">LIVE</span>
+      <span class="viewers"><i data-lucide="eye"></i> 320</span>
+    </div>
+    <div class="live-info">
+      <div class="live-name">Digital Store</div>
+      <div class="live-vendor"><i data-lucide="check-circle" style="width:10px;height:10px;color:#3b82f6"></i> MacBook Air démo</div>
+      <span class="live-tag">Payez en 3x</span>
+    </div>
+  </a>
+
+  <a href="live-boutique.html?id=organic-food" class="live-card">
+    <div class="live-thumb">
+      <i data-lucide="apple"></i>
+      <span class="live-badge">LIVE</span>
+      <span class="viewers"><i data-lucide="eye"></i> 92</span>
+    </div>
+    <div class="live-info">
+      <div class="live-name">Organic Food</div>
+      <div class="live-vendor"><i data-lucide="check-circle" style="width:10px;height:10px;color:#3b82f6"></i> Bio marché du jour</div>
+      <span class="live-tag">Livraison 2h</span>
+    </div>
+  </a>
+</div>
+
+<nav class="bottom-nav">
+  <a href="index.html" class="active"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
+  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
+</nav>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
