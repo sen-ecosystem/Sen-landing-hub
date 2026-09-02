@@ -1,161 +1,136 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>🚚 Espace Livreur · SEN TEW</title>
-<meta name="theme-color" content="#0f6b4e">
-<link rel="stylesheet" href="css/app.css?v=46">
-<script src="https://unpkg.com/lucide@latest"></script>
-<script src="js/dark-mode.js?v=46" defer></script>
-<script src="js/role-guard.js?v=46" defer></script>
-<style>
-.liv-hero{background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;padding:20px 16px;border-radius:0 0 24px 24px;margin-bottom:16px}
-.liv-hero .status{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.2);padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:8px}
-.liv-hero .status .dot{width:8px;height:8px;border-radius:50%;background:#c8f0d8;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
-.liv-hero h1{font-size:22px;font-weight:900;margin:0 0 4px}
-.liv-hero p{opacity:.85;font-size:13px;margin:0}
-.stats-liv{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 16px 16px}
-.stat-liv{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:10px 8px;text-align:center}
-.stat-liv .num{font-size:20px;font-weight:900;color:var(--text-emerald)}
-.stat-liv .lbl{font-size:11px;color:var(--text-muted);margin-top:2px}
-.actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 16px}
-.action-btn{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;color:var(--text-primary)}
-.action-btn i{width:28px;height:28px;color:#0f6b4e}
-.action-btn strong{font-size:13px;font-weight:700}
-.tournee-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;margin:0 16px 10px;overflow:hidden}
-.tournee-head{padding:12px 14px;background:linear-gradient(135deg,#d4a574,#a67c3a);color:#fff;display:flex;justify-content:space-between;align-items:center}
-.tournee-head strong{font-size:14px;font-weight:800}
-.tournee-head span{font-size:12px;background:rgba(0,0,0,0.15);padding:2px 8px;border-radius:6px}
-.tournee-body{padding:12px 14px}
-.tournee-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
-.tournee-row:last-child{border-bottom:none}
-.tournee-row .num-badge{width:24px;height:24px;border-radius:50%;background:#c8f0d8;color:#0a4d38;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
-.tournee-row .content{flex:1;min-width:0}
-.tournee-row .content strong{font-size:13px;color:var(--text-primary);display:block}
-.tournee-row .content small{font-size:12px;color:var(--text-muted)}
-.tournee-row .prix{color:var(--text-emerald);font-weight:800;font-size:13px}
-.btn-scan{width:calc(100% - 32px);margin:8px 16px;background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;padding:14px;border:none;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 24px rgba(15,107,78,0.3)}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Espace Livreur - SEN TEW</title>
+  <link rel="stylesheet" href="css/app.css?v=52">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; }
+    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
+    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
+    .hero { background: linear-gradient(135deg, #0f6b4e, #0a4d38); color: #fff; padding: 20px 16px; }
+    .livreur-name { color: #fff; font-weight: 800; font-size: 18px; }
+    .status-toggle { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.2); padding: 6px 14px; border-radius: 20px; margin-top: 8px; width: fit-content; cursor: pointer; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #4ade80; }
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 16px; margin-top: -10px; position: relative; z-index: 2; }
+    .stat { background: #fff; padding: 14px 8px; border-radius: 12px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .stat .val { font-size: 20px; font-weight: 800; color: #0f6b4e; }
+    .stat .lbl { font-size: 11px; color: #666; }
+    .section { background: #fff; margin: 0 16px 12px; padding: 16px; border-radius: 12px; }
+    .section h3 { color: #0f6b4e; margin: 0 0 12px; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+    .more { margin-left: auto; font-size: 12px; color: #d4a574; font-weight: 600; text-decoration: none; }
+    .dispo { background: #f5f5f0; border-left: 3px solid #0f6b4e; padding: 12px; border-radius: 8px; margin-bottom: 8px; }
+    .dispo-head { display: flex; justify-content: space-between; align-items: center; }
+    .dispo-price { color: #0f6b4e; font-weight: 800; }
+    .dispo-addr { font-size: 12px; color: #666; margin: 6px 0; }
+    .btn-accept { background: #0f6b4e; color: #fff; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; margin-top: 8px; width: 100%; }
+    .encours { display: flex; gap: 12px; align-items: center; padding: 10px 0; text-decoration: none; color: inherit; }
+    .encours-icon { width: 40px; height: 40px; background: #dbeafe; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .encours-icon i { color: #1e40af; }
+    .encours-info { flex: 1; }
+    .encours-num { font-weight: 700; font-size: 13px; }
+    .encours-addr { font-size: 11px; color: #666; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
+    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
+    .bottom-nav a.active { color: #0f6b4e; }
+    .bottom-nav a i { width: 22px; height: 22px; }
+  </style>
 </head>
-<body class="light-mode" data-theme="light">
+<body class="light-mode">
+
 <header class="topbar">
-  <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
-  <h1><i data-lucide="truck" class="icon-vert"></i> Espace Livreur</h1>
-  <button class="btn-theme" data-theme-toggle><i data-lucide="moon"></i></button>
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="truck"></i> Espace Livreur</h1>
+  <button class="icon-btn"><i data-lucide="bell"></i></button>
 </header>
 
-<main style="padding-bottom:80px">
-  <!-- HERO -->
-  <section class="liv-hero">
-    <div class="status"><span class="dot"></span> En ligne · Dakar-Plateau</div>
-    <h1>Bonjour Karim 👋</h1>
-    <p>Vous avez 3 tournées prévues aujourd'hui</p>
-  </section>
-
-  <!-- STATS -->
-  <div class="stats-liv">
-    <div class="stat-liv"><div class="num">12</div><div class="lbl">Livrées</div></div>
-    <div class="stat-liv"><div class="num">3</div><div class="lbl">En cours</div></div>
-    <div class="stat-liv"><div class="num">18k</div><div class="lbl">FCFA jour</div></div>
-    <div class="stat-liv"><div class="num">4.9</div><div class="lbl">★ Note</div></div>
+<div class="hero">
+  <div class="livreur-name">Amadou Diallo</div>
+  <div style="color:#d4a574;font-size:12px;margin-top:2px">Livreur vérifié · Note 4.8★</div>
+  <div class="status-toggle" onclick="toggleStatus()">
+    <div class="dot" id="dot"></div>
+    <span id="statusTxt" style="color:#fff;font-size:13px;font-weight:600">En ligne · Disponible</span>
   </div>
+</div>
 
-  <!-- ACTIONS RAPIDES -->
-  <div class="actions-grid">
-    <button class="action-btn">
-      <i data-lucide="scan-line"></i>
-      <strong>Scanner colis</strong>
-    </button>
-    <button class="action-btn">
-      <i data-lucide="map"></i>
-      <strong>GPS Tournée</strong>
-    </button>
-    <button class="action-btn">
-      <i data-lucide="qr-code"></i>
-      <strong>Preuve livraison</strong>
-    </button>
-    <button class="action-btn">
-      <i data-lucide="wallet"></i>
-      <strong>Mes gains</strong>
-    </button>
-  </div>
+<div class="stats-row">
+  <div class="stat"><div class="val">8</div><div class="lbl">Livraisons jour</div></div>
+  <div class="stat"><div class="val">24k</div><div class="lbl">Gains FCFA</div></div>
+  <div class="stat"><div class="val">4.8★</div><div class="lbl">Note</div></div>
+</div>
 
-  <!-- BOUTON PRINCIPAL -->
-  <button class="btn-scan">
-    <i data-lucide="play"></i> Démarrer prochaine tournée
-  </button>
-
-  <!-- TOURNÉES DU JOUR -->
-  <h2 class="section-title"><i data-lucide="calendar" class="icon-or"></i> Tournées d'aujourd'hui</h2>
-
-  <div class="tournee-card">
-    <div class="tournee-head">
-      <strong><i data-lucide="package" class="icon-sm"></i> Tournée #T-042</strong>
-      <span>3 colis · 12 km</span>
+<div class="section">
+  <h3><i data-lucide="zap"></i> Disponibles (3)</h3>
+  <div class="dispo">
+    <div class="dispo-head">
+      <span style="font-weight:700">#ST24073</span>
+      <span class="dispo-price">+1 500 FCFA</span>
     </div>
-    <div class="tournee-body">
-      <div class="tournee-row">
-        <div class="num-badge">1</div>
-        <div class="content">
-          <strong>#ST24071 · Robe wax premium</strong>
-          <small><i data-lucide="map-pin" class="icon-sm"></i> Sacré-Cœur · Awa Diop</small>
-        </div>
-        <div class="prix">1 500</div>
-      </div>
-      <div class="tournee-row">
-        <div class="num-badge">2</div>
-        <div class="content">
-          <strong>#ST24072 · iPhone 15 Pro</strong>
-          <small><i data-lucide="map-pin" class="icon-sm"></i> Plateau · Moussa Fall</small>
-        </div>
-        <div class="prix">2 000</div>
-      </div>
-      <div class="tournee-row">
-        <div class="num-badge">3</div>
-        <div class="content">
-          <strong>#ST24073 · Sandales cuir</strong>
-          <small><i data-lucide="map-pin" class="icon-sm"></i> Mermoz · Fatou Ndiaye</small>
-        </div>
-        <div class="prix">1 200</div>
-      </div>
-    </div>
+    <div class="dispo-addr">📦 Moussa Tech → Karim N. (Point E)</div>
+    <div style="font-size:11px;color:#666">📍 3.2 km · ⏱ Retrait 15 min</div>
+    <button class="btn-accept" onclick="accepter('ST24073')">Accepter</button>
   </div>
+  <div class="dispo">
+    <div class="dispo-head">
+      <span style="font-weight:700">#ST24076</span>
+      <span class="dispo-price">+2 500 FCFA</span>
+    </div>
+    <div class="dispo-addr">📦 Fatou Fashion → Aïcha D. (Rufisque)</div>
+    <div style="font-size:11px;color:#666">📍 8.5 km · ⏱ Retrait 30 min</div>
+    <button class="btn-accept" onclick="accepter('ST24076')">Accepter</button>
+  </div>
+</div>
 
-  <div class="tournee-card">
-    <div class="tournee-head" style="background:linear-gradient(135deg,#0f6b4e,#0a4d38)">
-      <strong><i data-lucide="check-circle" class="icon-sm"></i> Tournée #T-041</strong>
-      <span>4 colis · Terminée ✓</span>
+<div class="section">
+  <h3><i data-lucide="package"></i> En cours <a href="livraisons-en-cours.html" class="more">Voir tout ›</a></h3>
+  <a href="livraisons-en-cours.html" class="encours">
+    <div class="encours-icon"><i data-lucide="map-pin"></i></div>
+    <div class="encours-info">
+      <div class="encours-num">#ST24072 · AirPods Pro</div>
+      <div class="encours-addr">Retrait → Rufisque</div>
     </div>
-    <div class="tournee-body">
-      <div class="tournee-row">
-        <div class="num-badge" style="background:#c8f0d8;color:#0a4d38">✓</div>
-        <div class="content">
-          <strong>4 livraisons effectuées</strong>
-          <small>Ce matin · 08h00 – 10h30</small>
-        </div>
-        <div class="prix">6 800</div>
-      </div>
-    </div>
-  </div>
+    <span style="font-size:11px;font-weight:700;color:#1e40af">En route</span>
+  </a>
+</div>
 
-  <!-- CONSIGNES -->
-  <h2 class="section-title"><i data-lucide="info" class="icon-or"></i> Consignes SEN TEW</h2>
-  <div style="padding:14px 16px;background:#fef3c7;border-radius:12px;margin:0 16px;font-size:13px;color:#92400e;line-height:1.5">
-    <strong>💡 Rappel important :</strong> Vérifiez toujours le contenu du colis avant remise. Prenez une photo à la livraison. Fonds débloqués sous 24h après confirmation client.
-  </div>
-</main>
+<div class="section">
+  <h3><i data-lucide="history"></i> Historique <a href="historique-livraisons.html" class="more">Voir tout ›</a></h3>
+  <a href="historique-livraisons.html" class="encours">
+    <div class="encours-icon" style="background:#d1fae5"><i data-lucide="check" style="color:#065f46"></i></div>
+    <div class="encours-info">
+      <div class="encours-num">#ST24065</div>
+      <div class="encours-addr">Livré · +1 500 FCFA</div>
+    </div>
+  </a>
+</div>
 
 <nav class="bottom-nav">
   <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
-  <a href="livreur.html" class="active"><i data-lucide="truck"></i><span>Tournées</span></a>
+  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
   <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
-  <a href="portefeuille.html"><i data-lucide="wallet"></i><span>Gains</span></a>
-  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
-<script>lucide.createIcons();</script>
-  <script src="js/buttons-audit.js?v=51"></script>
+<script>
+  lucide.createIcons();
+  let online = true;
+  function toggleStatus() {
+    online = !online;
+    const d = document.getElementById('dot');
+    const t = document.getElementById('statusTxt');
+    if (online) { d.style.background = '#4ade80'; t.textContent = 'En ligne · Disponible'; }
+    else { d.style.background = '#dc2626'; t.textContent = 'Hors ligne'; }
+  }
+  function accepter(id) {
+    if (confirm('Accepter ' + id + ' ?')) {
+      alert('✅ Livraison acceptée !');
+      location.href = 'livraisons-en-cours.html';
+    }
+  }
+</script>
 </body>
 </html>
