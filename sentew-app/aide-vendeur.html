@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aide Vendeur - SEN TEW</title>
+  <link rel="stylesheet" href="css/app.css?v=52">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; }
+    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
+    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
+    .hero { background: linear-gradient(135deg, #0f6b4e, #0a4d38); color: #fff; padding: 20px 16px; text-align: center; }
+    .hero h2 { color: #fff; margin: 0; font-size: 18px; }
+    .hero p { color: #d4a574; margin: 6px 0 0; font-size: 12px; }
+    .section { background: #fff; margin: 12px 16px; padding: 16px; border-radius: 12px; }
+    .section h3 { color: #0f6b4e; margin: 0 0 12px; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+    .faq { border-bottom: 1px solid #f0f0f0; padding: 12px 0; cursor: pointer; }
+    .faq:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; color: #1a1a1a; font-size: 13px; display: flex; justify-content: space-between; }
+    .faq-a { font-size: 12px; color: #666; margin-top: 6px; display: none; line-height: 1.5; }
+    .faq.open .faq-a { display: block; }
+    .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .action-btn { background: #f5f5f0; border: 1.5px solid #e5e7eb; padding: 14px 8px; border-radius: 10px; text-align: center; text-decoration: none; color: #1a1a1a; font-size: 12px; font-weight: 600; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .action-btn i { width: 22px; height: 22px; color: #0f6b4e; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
+    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
+    .bottom-nav a.active { color: #0f6b4e; }
+    .bottom-nav a i { width: 22px; height: 22px; }
+  </style>
+</head>
+<body class="light-mode">
+
+<header class="topbar">
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="help-circle"></i> Aide Vendeur</h1>
+  <span></span>
+</header>
+
+<div class="hero">
+  <h2>Centre d'aide vendeur</h2>
+  <p>Guides, tutoriels et support dédié</p>
+</div>
+
+<div class="section">
+  <h3><i data-lucide="zap"></i> Actions rapides</h3>
+  <div class="actions">
+    <a href="assistant-ia.html" class="action-btn"><i data-lucide="bot"></i>Assistant IA</a>
+    <a href="support.html" class="action-btn"><i data-lucide="headphones"></i>Support humain</a>
+    <a href="messages.html" class="action-btn"><i data-lucide="message-circle"></i>Chat SEN TEW</a>
+    <a href="#" class="action-btn"><i data-lucide="play-circle"></i>Tutoriels vidéo</a>
+  </div>
+</div>
+
+<div class="section">
+  <h3><i data-lucide="book-open"></i> Questions fréquentes</h3>
+  <div class="faq" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Comment ajouter un produit ? <i data-lucide="chevron-down" style="width:16px;height:16px"></i></div>
+    <div class="faq-a">Espace Vendeur → Ajouter un produit → Remplir les sections → Publier</div>
+  </div>
+  <div class="faq" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Quand suis-je payé ? <i data-lucide="chevron-down" style="width:16px;height:16px"></i></div>
+    <div class="faq-a">Paiement débloqué J+3 après livraison confirmée. Retrait via Wave/OM.</div>
+  </div>
+  <div class="faq" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Quelle commission SEN TEW ? <i data-lucide="chevron-down" style="width:16px;height:16px"></i></div>
+    <div class="faq-a">Entre 5% et 15% selon catégorie : Électronique 5%, Mode 8%, Alimentation 12%.</div>
+  </div>
+  <div class="faq" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Comment gérer un litige ? <i data-lucide="chevron-down" style="width:16px;height:16px"></i></div>
+    <div class="faq-a">Contactez le client sous 48h. Si non résolu, médiation SEN TEW sous 72h.</div>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
+</nav>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
