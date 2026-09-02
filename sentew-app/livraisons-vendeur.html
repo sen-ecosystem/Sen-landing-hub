@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Livraisons - SEN TEW</title>
+  <link rel="stylesheet" href="css/app.css?v=52">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 10; }
+    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
+    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 16px; }
+    .stat { background: #fff; padding: 12px 8px; border-radius: 10px; text-align: center; }
+    .stat .val { font-size: 18px; font-weight: 800; color: #0f6b4e; }
+    .stat .lbl { font-size: 11px; color: #666; }
+    .section { background: #fff; margin: 0 16px 12px; padding: 16px; border-radius: 12px; }
+    .section h3 { color: #0f6b4e; margin: 0 0 12px; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+    .liv-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0f0f0; text-decoration: none; color: inherit; }
+    .liv-row:last-child { border-bottom: none; }
+    .liv-icon { width: 40px; height: 40px; background: #f5f5f0; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .liv-icon i { color: #d4a574; }
+    .liv-info { flex: 1; }
+    .liv-num { font-weight: 700; font-size: 13px; }
+    .liv-addr { font-size: 11px; color: #666; }
+    .liv-status { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 8px; }
+    .s-wait { background: #fef3c7; color: #92400e; }
+    .s-going { background: #e0e7ff; color: #4338ca; }
+    .tarifs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .tarif { background: #f5f5f0; padding: 10px; border-radius: 8px; text-align: center; }
+    .tarif .zone { font-size: 11px; color: #666; font-weight: 600; }
+    .tarif .price { font-size: 14px; color: #0f6b4e; font-weight: 800; margin-top: 2px; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
+    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
+    .bottom-nav a.active { color: #0f6b4e; }
+    .bottom-nav a i { width: 22px; height: 22px; }
+  </style>
+</head>
+<body class="light-mode">
+
+<header class="topbar">
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="truck"></i> Livraisons</h1>
+  <button class="icon-btn"><i data-lucide="settings"></i></button>
+</header>
+
+<div class="stats-row">
+  <div class="stat"><div class="val">2</div><div class="lbl">En attente</div></div>
+  <div class="stat"><div class="val">4</div><div class="lbl">En cours</div></div>
+  <div class="stat"><div class="val">28</div><div class="lbl">Livrées</div></div>
+</div>
+
+<div class="section">
+  <h3><i data-lucide="clock"></i> En attente de livreur</h3>
+  <a href="commande-detail.html?id=ST24073" class="liv-row">
+    <div class="liv-icon"><i data-lucide="package"></i></div>
+    <div class="liv-info">
+      <div class="liv-num">#ST24073 · iPhone 15 Pro</div>
+      <div class="liv-addr">Sacré-Cœur 3 · Karim N.</div>
+    </div>
+    <span class="liv-status s-wait">En attente</span>
+  </a>
+  <a href="commande-detail.html?id=ST24075" class="liv-row">
+    <div class="liv-icon"><i data-lucide="package"></i></div>
+    <div class="liv-info">
+      <div class="liv-num">#ST24075 · MacBook Pro</div>
+      <div class="liv-addr">Point E · Moussa D.</div>
+    </div>
+    <span class="liv-status s-wait">En attente</span>
+  </a>
+</div>
+
+<div class="section">
+  <h3><i data-lucide="truck"></i> En cours</h3>
+  <a href="commande-detail.html?id=ST24072" class="liv-row">
+    <div class="liv-icon"><i data-lucide="map-pin"></i></div>
+    <div class="liv-info">
+      <div class="liv-num">#ST24072 · AirPods Pro</div>
+      <div class="liv-addr">Livreur : Amadou · Rufisque</div>
+    </div>
+    <span class="liv-status s-going">En route</span>
+  </a>
+</div>
+
+<div class="section">
+  <h3><i data-lucide="banknote"></i> Tarifs livraison</h3>
+  <div class="tarifs-grid">
+    <div class="tarif"><div class="zone">Dakar centre</div><div class="price">1 500 FCFA</div></div>
+    <div class="tarif"><div class="zone">Banlieue</div><div class="price">2 500 FCFA</div></div>
+    <div class="tarif"><div class="zone">Thiès</div><div class="price">3 500 FCFA</div></div>
+    <div class="tarif"><div class="zone">Régions</div><div class="price">Sur devis</div></div>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
+</nav>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
