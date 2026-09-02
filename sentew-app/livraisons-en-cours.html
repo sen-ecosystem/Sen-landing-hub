@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Livraisons en cours - SEN TEW</title>
+  <link rel="stylesheet" href="css/app.css?v=52">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; }
+    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
+    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
+    .liv { background: #fff; margin: 12px 16px; padding: 16px; border-radius: 12px; }
+    .liv-head { display: flex; justify-content: space-between; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #f0f0f0; }
+    .liv-num { font-weight: 800; color: #0f6b4e; font-size: 16px; }
+    .liv-price { background: #d1fae5; color: #065f46; padding: 4px 10px; border-radius: 8px; font-weight: 700; font-size: 13px; }
+    .step { display: flex; gap: 12px; padding: 12px 0; position: relative; }
+    .step-icon { width: 36px; height: 36px; border-radius: 50%; background: #f5f5f0; display: flex; align-items: center; justify-content: center; z-index: 1; }
+    .step-icon.done { background: #0f6b4e; }
+    .step-icon.done i { color: #fff; }
+    .step-icon.active { background: #d4a574; }
+    .step-icon.active i { color: #fff; }
+    .step-icon i { color: #999; width: 18px; height: 18px; }
+    .step-line { position: absolute; left: 18px; top: 44px; bottom: -14px; width: 2px; background: #e5e7eb; }
+    .step:last-child .step-line { display: none; }
+    .step-content { flex: 1; }
+    .step-title { font-weight: 700; font-size: 13px; }
+    .step-desc { font-size: 11px; color: #666; }
+    .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+    .btn { padding: 12px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer; border: none; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .btn-call { background: #3b82f6; color: #fff; }
+    .btn-msg { background: #f5f5f0; border: 1.5px solid #e5e7eb; }
+    .btn-done { background: linear-gradient(135deg, #0f6b4e, #0a4d38); color: #fff; padding: 14px; border-radius: 10px; width: 100%; font-weight: 800; border: none; cursor: pointer; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
+    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
+    .bottom-nav a.active { color: #0f6b4e; }
+    .bottom-nav a i { width: 22px; height: 22px; }
+  </style>
+</head>
+<body class="light-mode">
+
+<header class="topbar">
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="truck"></i> En cours</h1>
+  <button class="icon-btn" onclick="location.href='signaler-livreur.html'"><i data-lucide="alert-triangle"></i></button>
+</header>
+
+<div class="liv">
+  <div class="liv-head">
+    <span class="liv-num">#ST24072</span>
+    <span class="liv-price">+1 500 FCFA</span>
+  </div>
+
+  <div class="step">
+    <div class="step-icon done"><i data-lucide="check"></i></div>
+    <div class="step-line"></div>
+    <div class="step-content">
+      <div class="step-title">Retrait chez vendeur</div>
+      <div class="step-desc">Moussa Tech · Sacré-Cœur 3 · Il y a 25 min</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon active"><i data-lucide="map-pin"></i></div>
+    <div class="step-line"></div>
+    <div class="step-content">
+      <div class="step-title">En route vers client</div>
+      <div class="step-desc">Fatou Diop · Rufisque · 8.5 km · ETA 20 min</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon"><i data-lucide="home"></i></div>
+    <div class="step-content">
+      <div class="step-title">Livraison finale</div>
+      <div class="step-desc">Confirmer réception</div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-call" onclick="location.href='tel:+221771234567'">
+      <i data-lucide="phone" style="width:16px;height:16px"></i> Appeler
+    </button>
+    <button class="btn btn-msg" onclick="location.href='messages.html'">
+      <i data-lucide="message-circle" style="width:16px;height:16px"></i> Message
+    </button>
+  </div>
+
+  <button class="btn-done" onclick="marquerLivre('ST24072')">
+    <i data-lucide="check-circle"></i> Marquer comme livré
+  </button>
+</div>
+
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
+</nav>
+
+<script>
+  lucide.createIcons();
+  function marquerLivre(id) {
+    if (confirm('Confirmer livraison ' + id + ' ?')) {
+      alert('✅ Livraison validée ! +1 500 FCFA crédités');
+      location.href = 'livreur.html';
+    }
+  }
+</script>
+</body>
+</html>
