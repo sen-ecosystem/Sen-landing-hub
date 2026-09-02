@@ -1,74 +1,376 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inscription - SEN TEW</title>
-  <link rel="stylesheet" href="css/app.css?v=52">
-  <style>
-    body { background: linear-gradient(135deg, #0f6b4e, #0a4d38); margin: 0; font-family: -apple-system, sans-serif; min-height: 100vh; padding: 20px; }
-    .logo { text-align: center; color: #fff; margin: 20px 0; }
-    .logo h1 { color: #fff; margin: 0; font-size: 28px; font-weight: 900; }
-    .card { background: #fff; border-radius: 16px; padding: 24px; }
-    .card h2 { color: #0f6b4e; margin: 0 0 16px; font-size: 20px; text-align: center; }
-    .field { margin-bottom: 12px; }
-    .label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
-    .input { width: 100%; padding: 12px; border: 1.5px solid #e5e7eb; border-radius: 10px; font-size: 14px; box-sizing: border-box; }
-    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .checkbox { display: flex; gap: 8px; font-size: 12px; color: #666; margin: 12px 0; }
-    .checkbox a { color: #0f6b4e; text-decoration: none; font-weight: 600; }
-    .btn { width: 100%; background: linear-gradient(135deg, #0f6b4e, #0a4d38); color: #fff; border: none; padding: 14px; border-radius: 10px; font-weight: 700; cursor: pointer; }
-    .login { text-align: center; margin-top: 14px; font-size: 13px; }
-    .login a { color: #0f6b4e; font-weight: 700; text-decoration: none; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer un compte - SEN TEW</title>
+    <link rel="stylesheet" href="css/app.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', -apple-system, sans-serif;
+            background: #F9F9F9;
+            color: #1a1a1a;
+            min-height: 100vh;
+        }
+        .header {
+            background: #ffffff;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        .header a {
+            color: #1B5E3F;
+            text-decoration: none;
+            font-size: 22px;
+        }
+        .header h1 {
+            color: #1B5E3F;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .welcome {
+            background: linear-gradient(135deg, #1B5E3F 0%, #2E7D5A 100%);
+            color: #ffffff;
+            padding: 30px 20px 24px;
+            text-align: center;
+        }
+        .welcome h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+        .welcome p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+        .container {
+            padding: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .benefits-card {
+            background: linear-gradient(135deg, #FFF8E7 0%, #FFEDCC 100%);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid #D4A574;
+        }
+        .benefits-card h3 {
+            color: #B8894F;
+            font-size: 15px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .benefits-card ul {
+            list-style: none;
+        }
+        .benefits-card li {
+            font-size: 13px;
+            color: #6B4423;
+            padding: 4px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .benefits-card li::before {
+            content: "✓";
+            color: #1B5E3F;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .form-card {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .field-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .field {
+            margin-bottom: 14px;
+            flex: 1;
+            min-width: 0;
+        }
+        .field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: #1B5E3F;
+            margin-bottom: 6px;
+        }
+        .input-wrapper {
+            position: relative;
+        }
+        .input-wrapper .icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 16px;
+            pointer-events: none;
+        }
+        .field input {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            border: 1.5px solid #E0E0E0;
+            border-radius: 10px;
+            font-size: 14px;
+            background: #FAFAFA;
+            font-family: inherit;
+        }
+        .field input:focus {
+            outline: none;
+            border-color: #1B5E3F;
+            background: #ffffff;
+        }
+        .password-strength {
+            display: flex;
+            gap: 3px;
+            margin-top: 6px;
+        }
+        .strength-bar {
+            flex: 1;
+            height: 4px;
+            border-radius: 2px;
+            background: #E0E0E0;
+        }
+        .strength-bar.s1 { background: #DC2626; }
+        .strength-bar.s2 { background: #F59E0B; }
+        .strength-bar.s3 { background: #FBBF24; }
+        .strength-bar.s4 { background: #16A34A; }
+        .terms {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin: 16px 0;
+            padding: 14px;
+            background: #F9F9F9;
+            border-radius: 10px;
+        }
+        .terms input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+            accent-color: #1B5E3F;
+            margin-top: 1px;
+            cursor: pointer;
+        }
+        .terms label {
+            font-size: 13px;
+            color: #444;
+            line-height: 1.6;
+            flex: 1;
+            cursor: pointer;
+        }
+        .terms label a {
+            color: #1B5E3F;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .btn-primary {
+            width: 100%;
+            background: #1B5E3F;
+            color: #ffffff;
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 8px;
+            font-family: inherit;
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0;
+            color: #999;
+            font-size: 12px;
+        }
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #E0E0E0;
+        }
+        .stores-row {
+            display: flex;
+            gap: 10px;
+        }
+        .store-btn {
+            flex: 1;
+            background: #000000;
+            color: #ffffff;
+            padding: 12px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: inherit;
+        }
+        .store-btn .store-icon {
+            font-size: 24px;
+        }
+        .store-btn .store-text small {
+            display: block;
+            font-size: 9px;
+            opacity: 0.85;
+            font-weight: 400;
+            line-height: 1.2;
+        }
+        .store-btn .store-text strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        .footer-link {
+            text-align: center;
+            margin-top: 20px;
+            padding: 16px;
+            font-size: 14px;
+            color: #666;
+        }
+        .footer-link a {
+            color: #1B5E3F;
+            font-weight: 700;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
 
-<div class="logo"><h1>SEN TEW</h1></div>
+    <header class="header">
+        <a href="index.html">←</a>
+        <h1>Créer un compte</h1>
+    </header>
 
-<div class="card">
-  <h2>Créer un compte</h2>
+    <section class="welcome">
+        <h2>Rejoignez SEN TEW</h2>
+        <p>La marketplace africaine · Delivering Value</p>
+    </section>
 
-  <div class="row-2">
-    <div class="field">
-      <label class="label">Prénom</label>
-      <input type="text" class="input">
+    <div class="container">
+
+        <div class="benefits-card">
+            <h3>✨ En vous inscrivant, vous bénéficiez de :</h3>
+            <ul>
+                <li>500 FCFA offerts sur votre 1ère commande</li>
+                <li>Livraison gratuite dès 15 000 FCFA</li>
+                <li>Programme fidélité GOLD gratuit</li>
+                <li>Accès aux boutiques Live exclusives</li>
+            </ul>
+        </div>
+
+        <form class="form-card" action="index.html" method="get">
+
+            <div class="field-row">
+                <div class="field">
+                    <label>Prénom</label>
+                    <div class="input-wrapper">
+                        <span class="icon">👤</span>
+                        <input type="text" placeholder="Karim" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Nom</label>
+                    <div class="input-wrapper">
+                        <span class="icon">👤</span>
+                        <input type="text" placeholder="Niang" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Email</label>
+                <div class="input-wrapper">
+                    <span class="icon">✉️</span>
+                    <input type="email" placeholder="karim@example.com" required>
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Téléphone (Sénégal)</label>
+                <div class="input-wrapper">
+                    <span class="icon">📞</span>
+                    <input type="tel" placeholder="+221 77 456 78 90" required>
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Mot de passe</label>
+                <div class="input-wrapper">
+                    <span class="icon">🔒</span>
+                    <input type="password" placeholder="Minimum 10 caractères" required>
+                </div>
+                <div class="password-strength">
+                    <div class="strength-bar s1"></div>
+                    <div class="strength-bar s2"></div>
+                    <div class="strength-bar s3"></div>
+                    <div class="strength-bar s4"></div>
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Code de parrainage (optionnel)</label>
+                <div class="input-wrapper">
+                    <span class="icon">🎁</span>
+                    <input type="text" placeholder="SENTEW-XXXX">
+                </div>
+            </div>
+
+            <div class="terms">
+                <input type="checkbox" id="cgu" required>
+                <label for="cgu">
+                    J'accepte les <a href="cgu.html">CGU</a>, les <a href="cgv.html">CGV</a> et la <a href="mentions-legales.html">politique de confidentialité</a>.
+                </label>
+            </div>
+
+            <button type="submit" class="btn-primary">
+                👤 Créer mon compte
+            </button>
+
+            <div class="divider">ou télécharger l'application</div>
+
+            <div class="stores-row">
+                <a href="https://apps.apple.com/app/sen-tew" target="_blank" class="store-btn">
+                    <span class="store-icon">🍎</span>
+                    <div class="store-text">
+                        <small>Télécharger sur</small>
+                        <strong>App Store</strong>
+                    </div>
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=com.sentew" target="_blank" class="store-btn">
+                    <span class="store-icon">▶️</span>
+                    <div class="store-text">
+                        <small>Disponible sur</small>
+                        <strong>Google Play</strong>
+                    </div>
+                </a>
+            </div>
+
+        </form>
+
+        <div class="footer-link">
+            Déjà inscrit ? <a href="login.html">Se connecter</a>
+        </div>
+
     </div>
-    <div class="field">
-      <label class="label">Nom</label>
-      <input type="text" class="input">
-    </div>
-  </div>
-
-  <div class="field">
-    <label class="label">Email</label>
-    <input type="email" class="input" placeholder="hello@sen-tew.com">
-  </div>
-
-  <div class="field">
-    <label class="label">Téléphone</label>
-    <input type="tel" class="input" placeholder="+221 77 XXX XX XX">
-  </div>
-
-  <div class="field">
-    <label class="label">Mot de passe</label>
-    <input type="password" class="input">
-  </div>
-
-  <div class="field">
-    <label class="label">Confirmer</label>
-    <input type="password" class="input">
-  </div>
-
-  <div class="checkbox">
-    <input type="checkbox" id="cgu">
-    <label for="cgu">J'accepte les <a href="cgu.html">CGU</a> et la <a href="confidentialite.html">politique</a></label>
-  </div>
-
-  <button class="btn" onclick="location.href='index.html'">Créer mon compte</button>
-
-  <div class="login">Déjà inscrit ? <a href="login.html">Se connecter</a></div>
-</div>
 
 </body>
 </html>
