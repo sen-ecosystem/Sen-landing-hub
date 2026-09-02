@@ -1,200 +1,347 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Espace Vendeur - SEN TEW</title>
-<link rel="stylesheet" href="css/app.css?v=52">
-<script src="https://unpkg.com/lucide@latest"></script>
-<style>
-  body{background:#f5f5f0;margin:0;font-family:-apple-system,sans-serif;padding-bottom:80px;}
-  .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:10;}
-  .topbar h1{color:#0f6b4e;font-size:18px;margin:0;display:flex;align-items:center;gap:8px;}
-  .icon-btn{background:transparent;border:none;cursor:pointer;padding:8px;color:#0f6b4e;}
-  .hero-vendeur{background:linear-gradient(135deg,#d4a574 0%,#b8860b 100%);color:#fff;padding:24px 16px;position:relative;overflow:hidden;}
-  .hero-vendeur::before{content:'';position:absolute;top:-30%;right:-10%;width:200px;height:200px;background:rgba(255,255,255,0.1);border-radius:50%;}
-  .boutique-info{display:flex;align-items:center;gap:12px;position:relative;z-index:1;}
-  .boutique-logo{width:56px;height:56px;border-radius:12px;background:rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,0.4);}
-  .boutique-logo i{width:28px;height:28px;color:#fff;}
-  .boutique-name{font-size:20px;font-weight:800;color:#fff;margin:0;text-shadow:0 2px 4px rgba(0,0,0,0.2);}
-  .boutique-status{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,0.95);padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;margin-top:4px;color:#0f6b4e;}
-
-  .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:16px;margin-top:-20px;position:relative;z-index:2;}
-  .stat{background:#fff;padding:14px 8px;border-radius:12px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.08);}
-  .stat .val{font-size:20px;font-weight:800;color:#0f6b4e;}
-  .stat .lbl{font-size:11px;color:#666;margin-top:4px;}
-
-  /* ACTIONS RAPIDES - clairement cliquables */
-  .quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 16px 16px;}
-  .qa{background:#fff;padding:14px 6px;border-radius:12px;text-align:center;text-decoration:none;color:#1a1a1a;box-shadow:0 2px 6px rgba(0,0,0,0.08);border:1.5px solid #e5e7eb;transition:all 0.2s;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;}
-  .qa:active{transform:scale(0.95);background:#f5f5f0;border-color:#0f6b4e;}
-  .qa i{width:26px;height:26px;color:#0f6b4e;}
-  .qa .label{font-size:12px;font-weight:600;color:#1a1a1a;}
-
-  /* CTA Ajouter produit */
-  .cta-add{background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;padding:16px;border-radius:12px;margin:0 16px 12px;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;box-shadow:0 4px 12px rgba(15,107,78,0.3);font-size:15px;}
-
-  /* CTA Retouche IA - NOUVEAU */
-  .cta-ia{background:linear-gradient(135deg,#6b46c1,#4c1d95);color:#fff;padding:14px 16px;border-radius:12px;margin:0 16px 16px;text-decoration:none;display:flex;align-items:center;gap:12px;box-shadow:0 4px 12px rgba(107,70,193,0.3);}
-  .cta-ia i{width:28px;height:28px;color:#fff;flex-shrink:0;}
-  .cta-ia .title{font-weight:700;font-size:14px;color:#fff;}
-  .cta-ia .sub{font-size:11px;opacity:0.9;color:#fff;}
-
-  .section{background:#fff;margin:0 16px 16px;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
-  .section h3{color:#0f6b4e;margin:0 0 12px;font-size:15px;display:flex;align-items:center;gap:8px;}
-  .section h3 .more{margin-left:auto;font-size:12px;color:#d4a574;font-weight:600;text-decoration:none;}
-
-  .cmd-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #f0f0f0;text-decoration:none;color:inherit;}
-  .cmd-item:last-child{border-bottom:none;}
-  .cmd-icon{width:40px;height:40px;border-radius:10px;background:#f5f5f0;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .cmd-icon i{color:#0f6b4e;width:22px;height:22px;}
-  .cmd-info{flex:1;}
-  .cmd-info .num{font-weight:700;color:#1a1a1a;font-size:14px;}
-  .cmd-info .desc{font-size:12px;color:#666;margin-top:2px;}
-  .cmd-price{color:#0f6b4e;font-weight:700;font-size:14px;}
-  .cmd-badge{display:inline-block;padding:2px 8px;border-radius:8px;font-size:10px;font-weight:700;margin-top:4px;}
-  .b-new{background:#dbeafe;color:#1e40af;}
-  .b-ship{background:#fef3c7;color:#b8860b;}
-  .b-done{background:#d1fae5;color:#065f46;}
-
-  /* OUTILS - cliquables visibles */
-  .tool-row{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid #f0f0f0;text-decoration:none;color:#1a1a1a;cursor:pointer;}
-  .tool-row:last-child{border-bottom:none;}
-  .tool-row:active{background:#f5f5f0;}
-  .tool-row i:first-child{width:24px;height:24px;flex-shrink:0;}
-  .tool-row span{flex:1;font-weight:600;font-size:14px;}
-  .tool-row .arrow{color:#0f6b4e;width:20px;height:20px;}
-  .tool-badge{background:#dc2626;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;margin-right:6px;}
-
-  .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0;border-top:1px solid #e5e7eb;z-index:100;}
-  .bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#666;font-size:11px;padding:4px 8px;}
-  .bottom-nav a.active{color:#0f6b4e;}
-  .bottom-nav a i{width:22px;height:22px;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Vendeur - SEN TEW</title>
+    <link rel="stylesheet" href="css/app.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', -apple-system, sans-serif;
+            background: #F9F9F9;
+            color: #1a1a1a;
+            padding-bottom: 90px;
+        }
+        .header {
+            background: #ffffff;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #eee;
+        }
+        .header .left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header a {
+            color: #1B5E3F;
+            text-decoration: none;
+            font-size: 22px;
+        }
+        .header h1 {
+            color: #1B5E3F;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .hero {
+            background: linear-gradient(135deg, #D4A574 0%, #B8894F 100%);
+            color: #ffffff;
+            padding: 24px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .shop-icon {
+            width: 64px;
+            height: 64px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+        .shop-info h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+        .verified {
+            background: #ffffff;
+            color: #1B5E3F;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-block;
+        }
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            padding: 16px;
+        }
+        .kpi-card {
+            background: #ffffff;
+            padding: 14px 8px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .kpi-value {
+            color: #1B5E3F;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .kpi-label {
+            color: #666;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            padding: 0 16px 16px;
+        }
+        .tool-card {
+            background: #ffffff;
+            padding: 16px 8px;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: #1a1a1a;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .tool-icon {
+            font-size: 24px;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .tool-label {
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .cta {
+            margin: 0 16px 12px;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 15px;
+        }
+        .cta-add {
+            background: #1B5E3F;
+            color: #ffffff;
+        }
+        .cta-ia {
+            background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+            color: #ffffff;
+            text-align: left;
+            justify-content: space-between;
+        }
+        .cta-ia-text {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .cta-ia-text small {
+            display: block;
+            font-weight: 400;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        .orders-card {
+            background: #ffffff;
+            margin: 0 16px 16px;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .orders-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .orders-header h3 {
+            color: #1B5E3F;
+            font-size: 15px;
+            font-weight: 700;
+        }
+        .orders-header a {
+            color: #D4A574;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .order-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .order-row:last-child { border-bottom: none; }
+        .order-icon {
+            width: 40px;
+            height: 40px;
+            background: #F3F0EA;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .order-info {
+            flex: 1;
+        }
+        .order-id {
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .order-desc {
+            font-size: 12px;
+            color: #666;
+        }
+        .order-status {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 6px;
+            background: #E8F5E9;
+            color: #1B5E3F;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            border-top: 1px solid #eee;
+        }
+        .bottom-nav a {
+            text-decoration: none;
+            color: #666;
+            font-size: 11px;
+            text-align: center;
+        }
+        .bottom-nav a.active { color: #1B5E3F; }
+        .bottom-nav .icon {
+            font-size: 20px;
+            display: block;
+        }
+    </style>
 </head>
-<body class="light-mode">
+<body>
 
-<header class="topbar">
-  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
-  <h1><i data-lucide="store" style="color:#d4a574;"></i> Espace Vendeur</h1>
-  <button class="icon-btn" onclick="location.href='notifications.html'"><i data-lucide="bell"></i></button>
-</header>
+    <header class="header">
+        <div class="left">
+            <a href="profil.html">←</a>
+            <span style="font-size: 22px;">🏪</span>
+            <h1>Espace Vendeur</h1>
+        </div>
+        <a href="notifications.html">🔔</a>
+    </header>
 
-<!-- HERO BOUTIQUE -->
-<div class="hero-vendeur">
-  <div class="boutique-info">
-    <div class="boutique-logo"><i data-lucide="store"></i></div>
-    <div>
-      <div class="boutique-name">Moussa Tech</div>
-      <span class="boutique-status"><i data-lucide="check-circle" style="width:12px;height:12px;"></i> Boutique vérifiée</span>
+    <section class="hero">
+        <div class="shop-icon">🏪</div>
+        <div class="shop-info">
+            <h2>Ma Boutique</h2>
+            <span class="verified">✓ Boutique vérifiée</span>
+        </div>
+    </section>
+
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="kpi-value">24</div>
+            <div class="kpi-label">Produits actifs</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-value">156</div>
+            <div class="kpi-label">Ventes totales</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-value">4.7 ★</div>
+            <div class="kpi-label">Note boutique</div>
+        </div>
     </div>
-  </div>
-</div>
 
-<!-- STATS -->
-<div class="stats-grid">
-  <div class="stat"><div class="val">1.8M</div><div class="lbl">CA (FCFA)</div></div>
-  <div class="stat"><div class="val">32</div><div class="lbl">Ventes</div></div>
-  <div class="stat"><div class="val">4.7★</div><div class="lbl">Note</div></div>
-</div>
-
-<!-- ACTIONS RAPIDES CLIQUABLES -->
-<div class="quick-actions">
-  <a href="produits-vendeur.html" class="qa"><i data-lucide="package"></i><div class="label">Produits</div></a>
-  <a href="commandes-vendeur.html" class="qa"><i data-lucide="clipboard-list"></i><div class="label">Commandes</div></a>
-  <a href="statistiques.html" class="qa"><i data-lucide="bar-chart-3"></i><div class="label">Stats</div></a>
-  
-  <a href="portefeuille.html" class="qa"><i data-lucide="wallet"></i><div class="label">Solde</div></a>
-</div>
-
-<!-- AJOUTER PRODUIT -->
-<a href="ajouter-produit.html" class="cta-add">
-  <i data-lucide="plus-circle"></i> Ajouter un produit
-</a>
-
-<!-- RETOUCHE IA (NOUVEAU) -->
-<a href="retouche-ia.html" class="cta-ia">
-  <i data-lucide="sparkles"></i>
-  <div style="flex:1;">
-    <div class="title">Retouche IA Produits</div>
-    <div class="sub">Améliorez vos photos automatiquement ✨</div>
-  </div>
-  <i data-lucide="chevron-right" style="width:20px;height:20px;color:#fff;"></i>
-</a>
-
-<!-- COMMANDES RÉCENTES -->
-<div class="section">
-  <h3><i data-lucide="clipboard-list"></i> Commandes récentes <a href="commandes-vendeur.html" class="more">Voir tout ›</a></h3>
-  <a href="commande-detail.html?id=ST24073" class="cmd-item">
-    <div class="cmd-icon"><i data-lucide="package"></i></div>
-    <div class="cmd-info">
-      <div class="num">#ST24073</div>
-      <div class="desc">iPhone 15 Pro - Karim N.</div>
-      <span class="cmd-badge b-new">Nouvelle</span>
+    <div class="tools-grid">
+        <a href="produits-vendeur.html" class="tool-card">
+            <span class="tool-icon">📦</span>
+            <div class="tool-label">Produits</div>
+        </a>
+        <a href="commandes-vendeur.html" class="tool-card">
+            <span class="tool-icon">📋</span>
+            <div class="tool-label">Commandes</div>
+        </a>
+        <a href="stats-vendeur.html" class="tool-card">
+            <span class="tool-icon">📊</span>
+            <div class="tool-label">Stats</div>
+        </a>
+        <a href="parametres-boutique.html" class="tool-card">
+            <span class="tool-icon">⚙️</span>
+            <div class="tool-label">Réglages</div>
+        </a>
     </div>
-    <div class="cmd-price">850k</div>
-  </a>
-  <a href="commande-detail.html?id=ST24072" class="cmd-item">
-    <div class="cmd-icon"><i data-lucide="truck"></i></div>
-    <div class="cmd-info">
-      <div class="num">#ST24072</div>
-      <div class="desc">AirPods Pro - Fatou D.</div>
-      <span class="cmd-badge b-ship">Expédiée</span>
+
+    <a href="ajouter-produit.html" class="cta cta-add">
+        ⊕ Ajouter un produit
+    </a>
+
+    <a href="retouche-ia.html" class="cta cta-ia">
+        <div class="cta-ia-text">
+            <span style="font-size: 24px;">✨</span>
+            <div>
+                <div>Retouche IA Produits</div>
+                <small>Améliorez vos photos automatiquement ✨</small>
+            </div>
+        </div>
+        <span>›</span>
+    </a>
+
+    <div class="orders-card">
+        <div class="orders-header">
+            <h3>📋 Commandes récentes</h3>
+            <a href="commandes-vendeur.html">Voir tout ›</a>
+        </div>
+
+        <div class="order-row">
+            <div class="order-icon">📱</div>
+            <div class="order-info">
+                <div class="order-id">#ST24073</div>
+                <div class="order-desc">iPhone 15 Pro</div>
+            </div>
+            <div class="order-status">Confirmée</div>
+        </div>
+
+        <div class="order-row">
+            <div class="order-icon">💻</div>
+            <div class="order-info">
+                <div class="order-id">#ST24072</div>
+                <div class="order-desc">MacBook Air</div>
+            </div>
+            <div class="order-status">En cours</div>
+        </div>
+
+        <div class="order-row">
+            <div class="order-icon">🎧</div>
+            <div class="order-info">
+                <div class="order-id">#ST24071</div>
+                <div class="order-desc">AirPods Pro</div>
+            </div>
+            <div class="order-status">Livrée</div>
+        </div>
     </div>
-    <div class="cmd-price">145k</div>
-  </a>
-  <a href="commande-detail.html?id=ST24071" class="cmd-item">
-    <div class="cmd-icon"><i data-lucide="check"></i></div>
-    <div class="cmd-info">
-      <div class="num">#ST24071</div>
-      <div class="desc">MacBook Air - Amadou S.</div>
-      <span class="cmd-badge b-done">Livrée</span>
-    </div>
-    <div class="cmd-price">1.2M</div>
-  </a>
-</div>
 
-<!-- OUTILS - BIEN VISIBLES -->
-<div class="section">
-  <h3><i data-lucide="settings"></i> Outils Vendeur</h3>
-  <a href="promotions-vendeur.html" class="tool-row">
-    <i data-lucide="percent" style="color:#dc2626;"></i>
-    <span>Promotions & coupons</span>
-    <span class="tool-badge">3 actives</span>
-    <i data-lucide="chevron-right" class="arrow"></i>
-  </a>
-  <a href="avis-vendeur.html" class="tool-row">
-    <i data-lucide="star" style="color:#d4a574;"></i>
-    <span>Avis clients</span>
-    <span class="tool-badge">2 nouveaux</span>
-    <i data-lucide="chevron-right" class="arrow"></i>
-  </a>
-  <a href="messages.html" class="tool-row">
-    <i data-lucide="message-circle" style="color:#3b82f6;"></i>
-    <span>Messages clients</span>
-    <span class="tool-badge">5</span>
-    <i data-lucide="chevron-right" class="arrow"></i>
-  </a>
-  <a href="livraisons-vendeur.html" class="tool-row">
-    <i data-lucide="truck" style="color:#0f6b4e;"></i>
-    <span>Gestion livraisons</span>
-    <i data-lucide="chevron-right" class="arrow"></i>
-  </a>
-  <a href="parametres-boutique.html" class="tool-row">
-    <i data-lucide="settings" style="color:#666;"></i>
-    <span>Paramètres boutique</span>
-    <i data-lucide="chevron-right" class="arrow"></i>
-  </a>
-</div>
+    <nav class="bottom-nav">
+        <a href="index.html"><span class="icon">🏠</span>Accueil</a>
+        <a href="categories.html"><span class="icon">🗂️</span>Catégories</a>
+        <a href="panier.html"><span class="icon">🛒</span>Panier</a>
+        <a href="messages.html"><span class="icon">💬</span>Messages</a>
+        <a href="profil.html" class="active"><span class="icon">👤</span>Profil</a>
+    </nav>
 
-<nav class="bottom-nav">
-  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
-  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
-  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
-</nav>
-
-<script>lucide.createIcons();</script>
 </body>
 </html>
