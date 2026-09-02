@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supprimer compte - SEN TEW</title>
+  <link rel="stylesheet" href="css/app.css?v=52">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; }
+    .topbar { display: flex; align-items: center; gap: 12px; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; }
+    .topbar h1 { color: #dc2626; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
+    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
+    .warning { background: linear-gradient(135deg, #dc2626, #991b1b); color: #fff; margin: 16px; padding: 20px; border-radius: 12px; text-align: center; }
+    .warning i { width: 48px; height: 48px; color: #fff; margin-bottom: 8px; }
+    .warning h2 { color: #fff; margin: 0; font-size: 18px; }
+    .warning p { color: #fecaca; font-size: 13px; margin: 6px 0 0; }
+    .card { background: #fff; margin: 0 16px 12px; padding: 16px; border-radius: 12px; }
+    .card h3 { color: #0f6b4e; margin: 0 0 12px; font-size: 14px; }
+    .item { display: flex; gap: 10px; padding: 8px 0; font-size: 13px; }
+    .item i { color: #dc2626; width: 18px; height: 18px; }
+    .field { margin-top: 14px; }
+    .field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+    .field select, .field input { width: 100%; padding: 12px; border: 1.5px solid #e5e7eb; border-radius: 10px; font-size: 14px; box-sizing: border-box; }
+    .confirm-box { background: #fef3c7; border: 2px solid #d4a574; border-radius: 10px; padding: 12px; margin-top: 14px; }
+    .confirm-box label { display: flex; gap: 8px; font-size: 13px; color: #92400e; cursor: pointer; }
+    .btn-danger { width: 100%; background: #dc2626; color: #fff; border: none; padding: 14px; border-radius: 10px; font-weight: 700; margin-top: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-cancel { width: 100%; background: transparent; color: #0f6b4e; border: 2px solid #0f6b4e; padding: 12px; border-radius: 10px; font-weight: 700; margin-top: 8px; cursor: pointer; }
+  </style>
+</head>
+<body class="light-mode">
+
+<header class="topbar">
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="trash-2"></i> Supprimer mon compte</h1>
+</header>
+
+<div class="warning">
+  <i data-lucide="alert-triangle"></i>
+  <h2>Action irréversible</h2>
+  <p>Toutes vos données seront supprimées définitivement</p>
+</div>
+
+<div class="card">
+  <h3>⚠️ Ce qui sera supprimé :</h3>
+  <div class="item"><i data-lucide="x-circle"></i><span>Profil et informations personnelles</span></div>
+  <div class="item"><i data-lucide="x-circle"></i><span>Historique commandes (12)</span></div>
+  <div class="item"><i data-lucide="x-circle"></i><span>Points fidélité (1 250)</span></div>
+  <div class="item"><i data-lucide="x-circle"></i><span>Adresses (3)</span></div>
+  <div class="item"><i data-lucide="x-circle"></i><span>Favoris</span></div>
+  <div class="item"><i data-lucide="x-circle"></i><span>Solde portefeuille</span></div>
+</div>
+
+<div class="card">
+  <h3>Avant de partir</h3>
+  <div class="field">
+    <label>Raison</label>
+    <select>
+      <option>Choisir...</option>
+      <option>Je n'utilise plus l'app</option>
+      <option>Problèmes techniques</option>
+      <option>Autre</option>
+    </select>
+  </div>
+  <div class="field">
+    <label>Confirmer mot de passe</label>
+    <input type="password" placeholder="••••••••">
+  </div>
+  <div class="confirm-box">
+    <label>
+      <input type="checkbox" id="confirm">
+      <span>Je comprends que cette action est irréversible</span>
+    </label>
+  </div>
+  <button class="btn-danger" onclick="deleteAccount()">
+    <i data-lucide="trash-2" style="width:18px;height:18px"></i> Supprimer définitivement
+  </button>
+  <button class="btn-cancel" onclick="history.back()">Annuler</button>
+</div>
+
+<script>
+  lucide.createIcons();
+  function deleteAccount() {
+    if (!document.getElementById('confirm').checked) {
+      alert('Cochez la case de confirmation');
+      return;
+    }
+    if (confirm('DERNIÈRE CONFIRMATION : Supprimer définitivement ?')) {
+      alert('Compte supprimé.');
+      location.href = 'login.html';
+    }
+  }
+</script>
+</body>
+</html>
