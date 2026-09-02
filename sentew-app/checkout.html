@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finaliser - SEN TEW</title>
+  <link rel="stylesheet" href="css/app.css?v=52">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 100px; }
+    .topbar { display: flex; align-items: center; gap: 12px; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; }
+    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; }
+    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
+    .steps { display: flex; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; }
+    .step { flex: 1; text-align: center; font-size: 11px; color: #666; }
+    .step-num { width: 28px; height: 28px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin: 0 auto 4px; }
+    .step.done .step-num { background: #0f6b4e; color: #fff; }
+    .step.active .step-num { background: #d4a574; color: #fff; }
+    .card { background: #fff; margin: 12px 16px; padding: 16px; border-radius: 12px; }
+    .card h3 { color: #0f6b4e; margin: 0 0 12px; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+    .change { margin-left: auto; font-size: 12px; color: #d4a574; text-decoration: none; }
+    .pay-option { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0f0f0; cursor: pointer; }
+    .pay-option:last-child { border-bottom: none; }
+    .pay-radio { width: 20px; height: 20px; border: 2px solid #e5e7eb; border-radius: 50%; }
+    .pay-option.active .pay-radio { border-color: #0f6b4e; position: relative; }
+    .pay-option.active .pay-radio::after { content: ''; position: absolute; top: 3px; left: 3px; width: 10px; height: 10px; background: #0f6b4e; border-radius: 50%; }
+    .pay-icon { width: 36px; height: 36px; background: #f5f5f0; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .pay-icon i { color: #0f6b4e; }
+    .pay-name { flex: 1; font-size: 13px; font-weight: 600; }
+    .summary-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 13px; }
+    .summary-row.total { font-weight: 800; color: #0f6b4e; font-size: 16px; border-top: 1px solid #e5e7eb; padding-top: 10px; margin-top: 6px; }
+    .bottom-cta { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; padding: 12px 16px; box-shadow: 0 -4px 12px rgba(0,0,0,0.1); }
+    .btn-pay { width: 100%; background: linear-gradient(135deg, #0f6b4e, #0a4d38); color: #fff; border: none; padding: 14px; border-radius: 10px; font-weight: 800; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  </style>
+</head>
+<body class="light-mode">
+
+<header class="topbar">
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1>Finaliser</h1>
+</header>
+
+<div class="steps">
+  <div class="step done">
+    <div class="step-num"><i data-lucide="check" style="width:14px;height:14px"></i></div>
+    <div>Panier</div>
+  </div>
+  <div class="step active">
+    <div class="step-num">2</div>
+    <div>Livraison</div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div>Paiement</div>
+  </div>
+</div>
+
+<div class="card">
+  <h3><i data-lucide="map-pin"></i> Adresse <a href="adresses.html" class="change">Changer</a></h3>
+  <div style="font-size:13px">
+    <strong>Karim Niang</strong><br>
+    Sacré-Cœur 3, Villa 9947<br>
+    Dakar · +221 77 123 45 67
+  </div>
+</div>
+
+<div class="card">
+  <h3><i data-lucide="truck"></i> Mode livraison</h3>
+  <div class="pay-option active" onclick="selectMode(this)">
+    <div class="pay-radio"></div>
+    <div class="pay-icon"><i data-lucide="zap"></i></div>
+    <div class="pay-name">Express (24h)</div>
+    <div style="font-weight:700;color:#0f6b4e">1 500 FCFA</div>
+  </div>
+  <div class="pay-option" onclick="selectMode(this)">
+    <div class="pay-radio"></div>
+    <div class="pay-icon"><i data-lucide="truck"></i></div>
+    <div class="pay-name">Standard (3-5j)</div>
+    <div style="font-weight:700;color:#0f6b4e">Gratuit</div>
+  </div>
+</div>
+
+<div class="card">
+  <h3><i data-lucide="credit-card"></i> Paiement</h3>
+  <div class="pay-option active" onclick="selectPay(this)">
+    <div class="pay-radio"></div>
+    <div class="pay-icon"><i data-lucide="smartphone"></i></div>
+    <div class="pay-name">Wave</div>
+  </div>
+  <div class="pay-option" onclick="selectPay(this)">
+    <div class="pay-radio"></div>
+    <div class="pay-icon"><i data-lucide="smartphone"></i></div>
+    <div class="pay-name">Orange Money</div>
+  </div>
+  <div class="pay-option" onclick="selectPay(this)">
+    <div class="pay-radio"></div>
+    <div class="pay-icon"><i data-lucide="credit-card"></i></div>
+    <div class="pay-name">Carte bancaire</div>
+  </div>
+  <div class="pay-option" onclick="selectPay(this)">
+    <div class="pay-radio"></div>
+    <div class="pay-icon"><i data-lucide="banknote"></i></div>
+    <div class="pay-name">Cash à la livraison</div>
+  </div>
+</div>
+
+<div class="card">
+  <h3><i data-lucide="receipt"></i> Récapitulatif</h3>
+  <div class="summary-row"><span>Sous-total</span><span>850 000 FCFA</span></div>
+  <div class="summary-row"><span>Livraison</span><span>1 500 FCFA</span></div>
+  <div class="summary-row" style="color:#dc2626"><span>WELCOME -20%</span><span>-170 000 FCFA</span></div>
+  <div class="summary-row total"><span>Total</span><span>681 500 FCFA</span></div>
+</div>
+
+<div class="bottom-cta">
+  <button class="btn-pay" onclick="pay()">
+    <i data-lucide="lock" style="width:16px;height:16px"></i> Payer 681 500 FCFA
+  </button>
+</div>
+
+<script>
+  lucide.createIcons();
+  function selectMode(e) {
+    document.querySelectorAll('.pay-option').forEach((el, i) => { if (i < 2) el.classList.remove('active'); });
+    e.classList.add('active');
+  }
+  function selectPay(e) {
+    document.querySelectorAll('.pay-option').forEach((el, i) => { if (i >= 2) el.classList.remove('active'); });
+    e.classList.add('active');
+  }
+  function pay() {
+    alert('🔒 Redirection Wave...');
+    setTimeout(() => {
+      alert('✅ Paiement confirmé !');
+      location.href = 'commandes.html';
+    }, 1000);
+  }
+</script>
+</body>
+</html>
