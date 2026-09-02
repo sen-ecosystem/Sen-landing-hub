@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Commandes - SEN TEW</title>
+  <title>Mes Commandes - SEN TEW</title>
   <link rel="stylesheet" href="css/app.css?v=52">
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
@@ -11,6 +11,10 @@
     .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 10; }
     .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
     .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 16px; }
+    .stat { background: #fff; padding: 12px 8px; border-radius: 10px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+    .stat .val { font-size: 18px; font-weight: 800; color: #0f6b4e; }
+    .stat .lbl { font-size: 11px; color: #666; }
     .filter-bar { display: flex; gap: 8px; padding: 12px 16px; overflow-x: auto; background: #fff; border-bottom: 1px solid #e5e7eb; }
     .chip { background: #f5f5f0; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
     .chip.active { background: #0f6b4e; color: #fff; }
@@ -22,13 +26,17 @@
     .b-prep { background: #fef3c7; color: #92400e; }
     .b-ship { background: #e0e7ff; color: #4338ca; }
     .b-done { background: #d1fae5; color: #065f46; }
+    .b-cancel { background: #fee2e2; color: #991b1b; }
     .cmd-body { display: flex; gap: 12px; align-items: center; padding: 8px 0; border-top: 1px solid #f0f0f0; }
     .cmd-icon { width: 44px; height: 44px; background: #f5f5f0; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
     .cmd-icon i { color: #d4a574; }
     .cmd-info { flex: 1; }
     .prod { font-weight: 600; font-size: 13px; }
-    .client { color: #666; font-size: 12px; margin-top: 2px; }
+    .vendor { color: #666; font-size: 12px; margin-top: 2px; }
     .cmd-price { color: #0f6b4e; font-weight: 800; }
+    .cmd-actions { display: flex; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #f0f0f0; }
+    .btn-mini { flex: 1; background: #f5f5f0; border: 1px solid #e5e7eb; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; color: #1a1a1a; text-decoration: none; }
+    .btn-mini.primary { background: #0f6b4e; color: #fff; border-color: #0f6b4e; }
     .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
     .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
     .bottom-nav a.active { color: #0f6b4e; }
@@ -39,60 +47,44 @@
 
 <header class="topbar">
   <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
-  <h1><i data-lucide="clipboard-list"></i> Commandes</h1>
-  <button class="icon-btn"><i data-lucide="filter"></i></button>
+  <h1><i data-lucide="package"></i> Mes Commandes</h1>
+  <button class="icon-btn" onclick="location.href='support.html'"><i data-lucide="help-circle"></i></button>
 </header>
+
+<div class="stats-row">
+  <div class="stat"><div class="val">12</div><div class="lbl">Total</div></div>
+  <div class="stat"><div class="val">2</div><div class="lbl">En cours</div></div>
+  <div class="stat"><div class="val">287k</div><div class="lbl">FCFA dépensés</div></div>
+</div>
 
 <div class="filter-bar">
   <span class="chip active">Toutes (12)</span>
-  <span class="chip">Nouvelles (3)</span>
-  <span class="chip">Préparation (2)</span>
-  <span class="chip">Expédiées (4)</span>
-  <span class="chip">Livrées (3)</span>
+  <span class="chip">En cours (2)</span>
+  <span class="chip">Expédiées (3)</span>
+  <span class="chip">Livrées (6)</span>
+  <span class="chip">Annulées (1)</span>
 </div>
 
 <a href="commande-detail.html?id=ST24073" class="cmd">
   <div class="cmd-head">
     <span class="cmd-num">#ST24073</span>
-    <span class="badge b-new">Nouvelle</span>
+    <span class="badge b-ship">En cours</span>
   </div>
   <div class="cmd-body">
-    <div class="cmd-icon"><i data-lucide="package"></i></div>
+    <div class="cmd-icon"><i data-lucide="smartphone"></i></div>
     <div class="cmd-info">
       <div class="prod">iPhone 15 Pro 256GB</div>
-      <div class="client">Karim Niang · Dakar · il y a 2h</div>
+      <div class="vendor">Moussa Tech · Livraison prévue aujourd'hui</div>
     </div>
-    <div class="cmd-price">850k</div>
+    <div class="cmd-price">681k</div>
   </div>
-</a>
-
-<a href="commande-detail.html?id=ST24072" class="cmd">
-  <div class="cmd-head">
-    <span class="cmd-num">#ST24072</span>
-    <span class="badge b-ship">Expédiée</span>
-  </div>
-  <div class="cmd-body">
-    <div class="cmd-icon"><i data-lucide="truck"></i></div>
-    <div class="cmd-info">
-      <div class="prod">AirPods Pro 2</div>
-      <div class="client">Fatou Diop · Rufisque · hier</div>
-    </div>
-    <div class="cmd-price">145k</div>
-  </div>
-</a>
-
-<a href="commande-detail.html?id=ST24071" class="cmd">
-  <div class="cmd-head">
-    <span class="cmd-num">#ST24071</span>
-    <span class="badge b-done">Livrée</span>
-  </div>
-  <div class="cmd-body">
-    <div class="cmd-icon"><i data-lucide="check"></i></div>
-    <div class="cmd-info">
-      <div class="prod">MacBook Air M2</div>
-      <div class="client">Amadou Sall · Thiès · 28/08</div>
-    </div>
-    <div class="cmd-price">1.2M</div>
+  <div class="cmd-actions">
+    <a href="suivi-commande.html?id=ST24073" class="btn-mini primary" onclick="event.stopPropagation()">
+      <i data-lucide="map-pin" style="width:14px;height:14px"></i> Suivre GPS
+    </a>
+    <a href="messages.html" class="btn-mini" onclick="event.stopPropagation()">
+      <i data-lucide="message-circle" style="width:14px;height:14px"></i> Contact
+    </a>
   </div>
 </a>
 
@@ -102,12 +94,86 @@
     <span class="badge b-prep">Préparation</span>
   </div>
   <div class="cmd-body">
-    <div class="cmd-icon"><i data-lucide="box"></i></div>
+    <div class="cmd-icon"><i data-lucide="tablet"></i></div>
     <div class="cmd-info">
-      <div class="prod">iPad Air 5</div>
-      <div class="client">Aïcha Ndoye · Dakar</div>
+      <div class="prod">iPad Air 5 64GB</div>
+      <div class="vendor">Digital Store · Expédition demain</div>
     </div>
     <div class="cmd-price">520k</div>
+  </div>
+  <div class="cmd-actions">
+    <a href="commande-detail.html?id=ST24070" class="btn-mini primary">
+      <i data-lucide="eye" style="width:14px;height:14px"></i> Détails
+    </a>
+    <a href="messages.html" class="btn-mini">
+      <i data-lucide="message-circle" style="width:14px;height:14px"></i> Contact
+    </a>
+  </div>
+</a>
+
+<a href="commande-detail.html?id=ST24068" class="cmd">
+  <div class="cmd-head">
+    <span class="cmd-num">#ST24068</span>
+    <span class="badge b-done">Livrée</span>
+  </div>
+  <div class="cmd-body">
+    <div class="cmd-icon"><i data-lucide="headphones"></i></div>
+    <div class="cmd-info">
+      <div class="prod">AirPods Pro 2</div>
+      <div class="vendor">Moussa Tech · Livré le 28/08/2026</div>
+    </div>
+    <div class="cmd-price">145k</div>
+  </div>
+  <div class="cmd-actions">
+    <a href="#" class="btn-mini primary" onclick="event.preventDefault(); alert('⭐ Noter le vendeur')">
+      <i data-lucide="star" style="width:14px;height:14px"></i> Noter
+    </a>
+    <a href="commande-detail.html?id=ST24068" class="btn-mini">
+      <i data-lucide="repeat" style="width:14px;height:14px"></i> Racheter
+    </a>
+  </div>
+</a>
+
+<a href="commande-detail.html?id=ST24065" class="cmd">
+  <div class="cmd-head">
+    <span class="cmd-num">#ST24065</span>
+    <span class="badge b-done">Livrée</span>
+  </div>
+  <div class="cmd-body">
+    <div class="cmd-icon"><i data-lucide="shirt"></i></div>
+    <div class="cmd-info">
+      <div class="prod">Boubou traditionnel wax</div>
+      <div class="vendor">Fatou Fashion · Livré le 20/08/2026</div>
+    </div>
+    <div class="cmd-price">35k</div>
+  </div>
+  <div class="cmd-actions">
+    <a href="remboursement.html" class="btn-mini" onclick="event.stopPropagation()">
+      <i data-lucide="rotate-ccw" style="width:14px;height:14px"></i> Retour
+    </a>
+    <a href="commande-detail.html?id=ST24065" class="btn-mini primary">
+      <i data-lucide="repeat" style="width:14px;height:14px"></i> Racheter
+    </a>
+  </div>
+</a>
+
+<a href="commande-detail.html?id=ST24062" class="cmd">
+  <div class="cmd-head">
+    <span class="cmd-num">#ST24062</span>
+    <span class="badge b-cancel">Annulée</span>
+  </div>
+  <div class="cmd-body">
+    <div class="cmd-icon"><i data-lucide="watch"></i></div>
+    <div class="cmd-info">
+      <div class="prod">Apple Watch Series 9</div>
+      <div class="vendor">Tech Plus · Annulée le 15/08/2026</div>
+    </div>
+    <div class="cmd-price">380k</div>
+  </div>
+  <div class="cmd-actions">
+    <a href="commande-detail.html?id=ST24062" class="btn-mini primary">
+      <i data-lucide="eye" style="width:14px;height:14px"></i> Détails
+    </a>
   </div>
 </a>
 
