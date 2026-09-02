@@ -1,140 +1,110 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Catégories - SEN TEW</title>
-<link rel="stylesheet" href="css/app.css">
-<meta name="theme-color" content="#FAFAF7">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catégories - SEN TEW</title>
+  <link rel="stylesheet" href="css/app.css?v=52">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; }
+    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
+    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
+    .search-bar { padding: 12px 16px; background: #fff; border-bottom: 1px solid #e5e7eb; }
+    .search-input { width: 100%; padding: 10px 12px; border: 1.5px solid #e5e7eb; border-radius: 10px; font-size: 14px; box-sizing: border-box; }
+    .categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 16px; }
+    .cat { background: #fff; border-radius: 12px; padding: 16px 8px; text-align: center; text-decoration: none; color: inherit; }
+    .cat-icon { width: 56px; height: 56px; border-radius: 16px; background: #f5f5f0; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; }
+    .cat-icon i { width: 28px; height: 28px; color: #0f6b4e; }
+    .cat-mode .cat-icon { background: #fecaca; }
+    .cat-mode .cat-icon i { color: #dc2626; }
+    .cat-elec .cat-icon { background: #dbeafe; }
+    .cat-elec .cat-icon i { color: #1e40af; }
+    .cat-food .cat-icon { background: #fef3c7; }
+    .cat-food .cat-icon i { color: #92400e; }
+    .cat-beaute .cat-icon { background: #fce7f3; }
+    .cat-beaute .cat-icon i { color: #be185d; }
+    .cat-maison .cat-icon { background: #d1fae5; }
+    .cat-maison .cat-icon i { color: #065f46; }
+    .cat-sport .cat-icon { background: #e0e7ff; }
+    .cat-sport .cat-icon i { color: #4338ca; }
+    .cat-name { font-size: 13px; font-weight: 700; }
+    .cat-count { font-size: 10px; color: #666; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
+    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
+    .bottom-nav a.active { color: #0f6b4e; }
+    .bottom-nav a i { width: 22px; height: 22px; }
+  </style>
 </head>
-<body oncontextmenu="return false">
-<div class="app">
-  <header class="app-header">
-    <button class="header-btn" onclick="history.back()">←</button>
-    <div style="flex:1;text-align:center;font-weight:900;color:#0A4D38;">Catégories</div>
-    <a href="recherche-ia.html" class="header-btn">🔍</a>
-  </header>
+<body class="light-mode">
 
-  <main class="app-content">
-    <div id="catList" style="padding:12px;"></div>
-  </main>
+<header class="topbar">
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="grid"></i> Catégories</h1>
+  <button class="icon-btn" onclick="location.href='recherche-ia.html'"><i data-lucide="search"></i></button>
+</header>
 
-  <nav class="app-nav">
-    <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
-    <a href="categories.html" class="active"><div class="nav-icon">▦</div><div class="nav-label">Catégories</div></a>
-    <a href="panier.html"><div class="nav-icon">🛒<span class="badge">3</span></div><div class="nav-label">Panier</div></a>
-    <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
-    <a href="profil.html"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
-  </nav>
+<div class="search-bar">
+  <input type="text" class="search-input" placeholder="🔍 Rechercher une catégorie...">
 </div>
 
-<script>
-const CATEGORIES = [
-  { id:'mode', name:'Mode & Vêtements', icon:'👕', color:'#EC4899', count:1240, sub:[
-    { name:'Homme', icon:'🧑', tags:['T-shirts','Chemises','Pantalons','Costumes','Boubous'] },
-    { name:'Femme', icon:'👩', tags:['Robes','Tops','Jupes','Boubous','Ensembles'] },
-    { name:'Enfant', icon:'🧒', tags:['0-2 ans','3-6 ans','7-12 ans','Ados'] },
-    { name:'Chaussures', icon:'👟', tags:['Sneakers','Escarpins','Sandales','Babouches'] },
-    { name:'Accessoires', icon:'👜', tags:['Sacs','Ceintures','Bijoux','Montres'] },
-    { name:'Traditionnel', icon:'🌍', tags:['Wax','Bogolan','Bazin','Kente'] }
-  ]},
-  { id:'tech', name:'Électronique', icon:'📱', color:'#3B82F6', count:856, sub:[
-    { name:'Téléphones', icon:'📱', tags:['iPhone','Samsung','Xiaomi','Huawei','Tecno'] },
-    { name:'Ordinateurs', icon:'💻', tags:['PC portables','Bureau','Tablettes','Accessoires'] },
-    { name:'Audio', icon:'🎧', tags:['Écouteurs','Enceintes','Casques','Micros'] },
-    { name:'TV & Vidéo', icon:'📺', tags:['Smart TV','Décodeurs','Projecteurs'] },
-    { name:'Gaming', icon:'🎮', tags:['Consoles','Jeux','Manettes','Accessoires'] },
-    { name:'Photo', icon:'📷', tags:['Appareils','Objectifs','Trépieds','Éclairage'] }
-  ]},
-  { id:'maison', name:'Maison & Déco', icon:'🛋', color:'#F59E0B', count:642, sub:[
-    { name:'Meubles', icon:'🛏', tags:['Salon','Chambre','Bureau','Cuisine'] },
-    { name:'Électroménager', icon:'🍳', tags:['Frigo','Machine à laver','Micro-ondes','Blender'] },
-    { name:'Décoration', icon:'🖼', tags:['Tableaux','Vases','Coussins','Tapis'] },
-    { name:'Linge maison', icon:'🛏', tags:['Draps','Serviettes','Rideaux'] },
-    { name:'Jardin', icon:'🌱', tags:['Plantes','Outils','Mobilier extérieur'] }
-  ]},
-  { id:'beauty', name:'Beauté & Cosmétique', icon:'💄', color:'#EC4899', count:498, sub:[
-    { name:'Soins visage', icon:'✨', tags:['Crèmes','Sérums','Masques','Nettoyants'] },
-    { name:'Maquillage', icon:'💋', tags:['Fond de teint','Rouge à lèvres','Palette','Mascara'] },
-    { name:'Cheveux', icon:'💇🏾‍♀️', tags:['Extensions','Perruques','Soins','Coloration'] },
-    { name:'Parfums', icon:'🌸', tags:['Femme','Homme','Oud','Bakhoor'] },
-    { name:'Corps', icon:'🧴', tags:['Beurres karité','Huiles','Gommages','Savons'] }
-  ]},
-  { id:'food', name:'Alimentation', icon:'🧺', color:'#10B981', count:387, sub:[
-    { name:'Épices & Assaisonnements', icon:'🌶', tags:['Ndiar','Yet','Sel','Poivre'] },
-    { name:'Céréales', icon:'🌾', tags:['Riz','Mil','Fonio','Sorgho'] },
-    { name:'Boissons', icon:'🥤', tags:['Bissap','Bouye','Gingembre','Jus'] },
-    { name:'Poisson séché', icon:'🐟', tags:['Yeet','Guedj','Kong','Kethiakh'] },
-    { name:'Fruits & Légumes', icon:'🥭', tags:['Mangue','Papaye','Manioc','Patate'] }
-  ]},
-  { id:'sport', name:'Sport & Fitness', icon:'⚽', color:'#EF4444', count:234, sub:[
-    { name:'Vêtements sport', icon:'🎽', tags:['Maillots','Shorts','Survêtements'] },
-    { name:'Équipement', icon:'🏋', tags:['Poids','Tapis','Vélo appart'] },
-    { name:'Ballons', icon:'⚽', tags:['Football','Basket','Volley'] },
-    { name:'Chaussures sport', icon:'👟', tags:['Running','Football','Salle'] }
-  ]},
-  { id:'bebe', name:'Bébé & Enfant', icon:'👶', color:'#F97316', count:189, sub:[
-    { name:'Couches', icon:'🧷', tags:['0-6 mois','6-12 mois','1-2 ans','2-3 ans'] },
-    { name:'Alimentation bébé', icon:'🍼', tags:['Lait','Biberons','Céréales'] },
-    { name:'Vêtements', icon:'👕', tags:['0-6 mois','6-12 mois','1-2 ans'] },
-    { name:'Jouets', icon:'🧸', tags:['Éveil','Peluches','Jeux éducatifs'] }
-  ]},
-  { id:'auto', name:'Auto & Moto', icon:'🚗', color:'#6366F1', count:156, sub:[
-    { name:'Pièces auto', icon:'⚙', tags:['Moteur','Freins','Filtres','Batterie'] },
-    { name:'Accessoires', icon:'🚗', tags:['Housses','Tapis','GPS','Autoradio'] },
-    { name:'Moto', icon:'🏍', tags:['Casques','Gants','Pièces'] }
-  ]},
-  { id:'artisanat', name:'Artisanat Sénégalais', icon:'🎨', color:'#8B5CF6', count:145, sub:[
-    { name:'Bijoux', icon:'💍', tags:['Or','Argent','Perles','Filigrane'] },
-    { name:'Sculpture', icon:'🗿', tags:['Bois','Bronze','Terre cuite'] },
-    { name:'Vannerie', icon:'🧺', tags:['Paniers','Chapeaux','Tapis'] },
-    { name:'Tissage', icon:'🧵', tags:['Pagnes','Nappes','Serviettes'] }
-  ]},
-  { id:'services', name:'Services', icon:'🛠', color:'#14B8A6', count:98, sub:[
-    { name:'Coiffure & Beauté', icon:'💇', tags:['Domicile','Salon','Événements'] },
-    { name:'Traiteur', icon:'🍽', tags:['Événements','Repas','Pâtisserie'] },
-    { name:'Réparation', icon:'🔧', tags:['Téléphone','Électroménager','Auto'] },
-    { name:'Cours particuliers', icon:'📚', tags:['Maths','Langues','Musique'] }
-  ]}
-];
+<div class="categories-grid">
+  <a href="recherche-resultats.html?cat=mode" class="cat cat-mode">
+    <div class="cat-icon"><i data-lucide="shirt"></i></div>
+    <div class="cat-name">Mode</div>
+    <div class="cat-count">1 240 produits</div>
+  </a>
+  <a href="recherche-resultats.html?cat=electronique" class="cat cat-elec">
+    <div class="cat-icon"><i data-lucide="smartphone"></i></div>
+    <div class="cat-name">Électronique</div>
+    <div class="cat-count">890 produits</div>
+  </a>
+  <a href="recherche-resultats.html?cat=alimentation" class="cat cat-food">
+    <div class="cat-icon"><i data-lucide="apple"></i></div>
+    <div class="cat-name">Alimentation</div>
+    <div class="cat-count">450 produits</div>
+  </a>
+  <a href="recherche-resultats.html?cat=beaute" class="cat cat-beaute">
+    <div class="cat-icon"><i data-lucide="sparkles"></i></div>
+    <div class="cat-name">Beauté</div>
+    <div class="cat-count">620 produits</div>
+  </a>
+  <a href="recherche-resultats.html?cat=maison" class="cat cat-maison">
+    <div class="cat-icon"><i data-lucide="home"></i></div>
+    <div class="cat-name">Maison</div>
+    <div class="cat-count">780 produits</div>
+  </a>
+  <a href="recherche-resultats.html?cat=sport" class="cat cat-sport">
+    <div class="cat-icon"><i data-lucide="dumbbell"></i></div>
+    <div class="cat-name">Sport</div>
+    <div class="cat-count">340 produits</div>
+  </a>
+  <a href="recherche-resultats.html?cat=livres" class="cat">
+    <div class="cat-icon"><i data-lucide="book"></i></div>
+    <div class="cat-name">Livres</div>
+    <div class="cat-count">180 produits</div>
+  </a>
+  <a href="recherche-resultats.html?cat=auto" class="cat">
+    <div class="cat-icon"><i data-lucide="car"></i></div>
+    <div class="cat-name">Auto</div>
+    <div class="cat-count">220 produits</div>
+  </a>
+  <a href="recherche-resultats.html?cat=jouets" class="cat">
+    <div class="cat-icon"><i data-lucide="gamepad-2"></i></div>
+    <div class="cat-name">Jouets</div>
+    <div class="cat-count">160 produits</div>
+  </a>
+</div>
 
-document.getElementById('catList').innerHTML = CATEGORIES.map(cat => `
-  <details class="cat-details" style="background:#fff;border-radius:14px;margin-bottom:10px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05);">
-    <summary style="padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;list-style:none;">
-      <div style="width:48px;height:48px;background:${cat.color}22;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;">${cat.icon}</div>
-      <div style="flex:1;">
-        <div style="font-weight:800;color:#0A4D38;">${cat.name}</div>
-        <div style="font-size:11px;color:#6B7280;">${cat.count} produits · ${cat.sub.length} sous-catégories</div>
-      </div>
-      <div style="color:${cat.color};font-size:20px;">▸</div>
-    </summary>
-    <div style="padding:0 14px 14px;">
-      ${cat.sub.map(s => `
-        <div style="padding:12px;background:#F9FAFB;border-radius:10px;margin-top:8px;">
-          <a href="produits.html?cat=${cat.id}&sub=${encodeURIComponent(s.name)}" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;margin-bottom:8px;">
-            <span style="font-size:18px;">${s.icon}</span>
-            <strong style="color:#0A4D38;">${s.name}</strong>
-            <span style="margin-left:auto;color:#6B7280;">›</span>
-          </a>
-          <div style="display:flex;flex-wrap:wrap;gap:6px;">
-            ${s.tags.map(t => `<a href="produits.html?cat=${cat.id}&tag=${encodeURIComponent(t)}" style="background:#fff;padding:4px 10px;border-radius:12px;font-size:11px;color:${cat.color};text-decoration:none;border:1px solid ${cat.color}33;">${t}</a>`).join('')}
-          </div>
-        </div>
-      `).join('')}
-    </div>
-  </details>
-`).join('');
-</script>
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="categories.html" class="active"><i data-lucide="grid"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
+  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
+</nav>
 
-<style>
-.cat-details[open] summary > div:last-child { transform: rotate(90deg); }
-.cat-details summary::-webkit-details-marker { display: none; }
-</style>
-<script src="js/dark-mode.js"></script>
-<script src="js/role-guard.js"></script>
-<!-- Cookies & Promo (v46) -->
-<script src="js/cookies-modal.js?v=46" defer></script>
-<script src="js/promo-banner.js?v=46" defer></script> 
-  <script src="js/buttons-audit.js?v=51"></script>
+<script>lucide.createIcons();</script>
 </body>
 </html>
