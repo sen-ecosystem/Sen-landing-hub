@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Résultats - SEN TEW</title>
+  <link rel="stylesheet" href="css/app.css?v=52">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
+    .topbar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #fff; border-bottom: 1px solid #e5e7eb; }
+    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
+    .search { flex: 1; padding: 10px 12px; border: 1.5px solid #e5e7eb; border-radius: 10px; font-size: 14px; box-sizing: border-box; }
+    .filters { display: flex; gap: 8px; padding: 12px 16px; overflow-x: auto; background: #fff; border-bottom: 1px solid #e5e7eb; }
+    .chip { background: #f5f5f0; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .chip.active { background: #0f6b4e; color: #fff; }
+    .result-count { padding: 12px 16px; font-size: 13px; color: #666; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 12px; }
+    .pcard { background: #fff; border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; }
+    .pimg { height: 130px; background: #f5f5f0; display: flex; align-items: center; justify-content: center; position: relative; }
+    .pimg i { color: #d4a574; width: 40px; height: 40px; }
+    .badge { position: absolute; top: 6px; left: 6px; background: #dc2626; color: #fff; padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; }
+    .pinfo { padding: 10px; }
+    .pname { font-size: 12px; font-weight: 600; height: 32px; overflow: hidden; }
+    .pprice { color: #0f6b4e; font-weight: 800; font-size: 14px; }
+    .pstars { color: #d4a574; font-size: 10px; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
+    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
+    .bottom-nav a.active { color: #0f6b4e; }
+    .bottom-nav a i { width: 22px; height: 22px; }
+  </style>
+</head>
+<body class="light-mode">
+
+<header class="topbar">
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <input type="text" class="search" value="iPhone">
+  <button class="icon-btn"><i data-lucide="mic"></i></button>
+</header>
+
+<div class="filters">
+  <span class="chip active">Filtres</span>
+  <span class="chip">Prix ↓</span>
+  <span class="chip">Note ★</span>
+  <span class="chip">Ventes</span>
+  <span class="chip">Livraison rapide</span>
+</div>
+
+<div class="result-count"><strong>124 résultats</strong> pour "iPhone"</div>
+
+<div class="grid">
+  <a href="produit-detail.html?id=1" class="pcard">
+    <div class="pimg"><i data-lucide="smartphone"></i><span class="badge">-20%</span></div>
+    <div class="pinfo">
+      <div class="pname">iPhone 15 Pro 256GB</div>
+      <div class="pprice">850k FCFA</div>
+      <div class="pstars">★★★★★ (89)</div>
+    </div>
+  </a>
+  <a href="produit-detail.html?id=2" class="pcard">
+    <div class="pimg"><i data-lucide="smartphone"></i></div>
+    <div class="pinfo">
+      <div class="pname">iPhone 14 128GB</div>
+      <div class="pprice">520k FCFA</div>
+      <div class="pstars">★★★★★ (156)</div>
+    </div>
+  </a>
+  <a href="produit-detail.html?id=3" class="pcard">
+    <div class="pimg"><i data-lucide="smartphone"></i></div>
+    <div class="pinfo">
+      <div class="pname">iPhone 13 Mini</div>
+      <div class="pprice">380k FCFA</div>
+      <div class="pstars">★★★★☆ (42)</div>
+    </div>
+  </a>
+  <a href="produit-detail.html?id=4" class="pcard">
+    <div class="pimg"><i data-lucide="smartphone"></i><span class="badge">-15%</span></div>
+    <div class="pinfo">
+      <div class="pname">iPhone 15 Plus 256GB</div>
+      <div class="pprice">720k FCFA</div>
+      <div class="pstars">★★★★★ (67)</div>
+    </div>
+  </a>
+</div>
+
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
+  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
+</nav>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
