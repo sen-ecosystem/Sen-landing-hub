@@ -1,123 +1,379 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Détail Produit - SEN TEW</title>
-  <link rel="stylesheet" href="css/app.css?v=52">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 100px; }
-    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; position: sticky; top: 0; z-index: 10; }
-    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
-    .gallery { background: #f5f5f0; height: 320px; display: flex; align-items: center; justify-content: center; }
-    .gallery i { color: #d4a574; width: 100px; height: 100px; }
-    .info { background: #fff; padding: 16px; margin-bottom: 8px; }
-    .pname { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
-    .pmeta { display: flex; gap: 12px; font-size: 12px; color: #666; margin-bottom: 8px; }
-    .stars { color: #d4a574; }
-    .pprice { font-size: 26px; font-weight: 800; color: #0f6b4e; }
-    .pold { font-size: 14px; color: #999; text-decoration: line-through; margin-left: 6px; }
-    .pdiscount { background: #fee2e2; color: #dc2626; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; margin-left: 6px; }
-    .section { background: #fff; padding: 16px; margin-bottom: 8px; }
-    .section h3 { color: #0f6b4e; margin: 0 0 10px; font-size: 14px; }
-    .variants { display: flex; flex-wrap: wrap; gap: 6px; }
-    .variant { padding: 6px 12px; border: 1.5px solid #e5e7eb; border-radius: 20px; font-size: 13px; cursor: pointer; }
-    .variant.active { background: #0f6b4e; color: #fff; border-color: #0f6b4e; }
-    .qty { display: flex; align-items: center; gap: 12px; }
-    .qty-btn { width: 36px; height: 36px; border: 1.5px solid #e5e7eb; background: #fff; border-radius: 8px; font-size: 18px; font-weight: 700; cursor: pointer; }
-    .qty-val { font-size: 16px; font-weight: 700; min-width: 30px; text-align: center; }
-    .boutique { display: flex; gap: 12px; align-items: center; padding: 12px; background: #f5f5f0; border-radius: 10px; text-decoration: none; color: inherit; }
-    .boutique-logo { width: 44px; height: 44px; background: #d4a574; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-    .boutique-logo i { color: #fff; }
-    .boutique-info { flex: 1; }
-    .boutique-name { font-weight: 700; font-size: 13px; }
-    .boutique-note { font-size: 11px; color: #666; }
-    .bottom-cta { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; padding: 12px 16px; display: flex; gap: 8px; box-shadow: 0 -4px 12px rgba(0,0,0,0.1); }
-    .btn-fav { background: #f5f5f0; border: 1.5px solid #e5e7eb; padding: 12px; border-radius: 10px; color: #dc2626; cursor: pointer; }
-    .btn-cart { flex: 1; background: #fff; color: #0f6b4e; border: 2px solid #0f6b4e; padding: 12px; border-radius: 10px; font-weight: 700; cursor: pointer; }
-    .btn-buy { flex: 2; background: linear-gradient(135deg, #0f6b4e, #0a4d38); color: #fff; border: none; padding: 12px; border-radius: 10px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détail produit - SEN TEW</title>
+    <link rel="stylesheet" href="css/app.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', -apple-system, sans-serif;
+            background: #F9F9F9;
+            color: #1a1a1a;
+            padding-bottom: 180px;
+        }
+        .header {
+            background: #ffffff;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid #eee;
+        }
+        .header a {
+            color: #1B5E3F;
+            text-decoration: none;
+            font-size: 22px;
+        }
+        .product-image {
+            background: #F3F0EA;
+            height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+        }
+        .badges {
+            display: flex;
+            gap: 8px;
+            padding: 12px 20px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background: #1B5E3F;
+            color: #ffffff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .badge.gold { background: #D4A574; }
+        .badge.red { background: #DC2626; }
+        .section {
+            background: #ffffff;
+            padding: 20px;
+            margin-bottom: 8px;
+        }
+        .title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .price {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1B5E3F;
+        }
+        .price-old {
+            font-size: 15px;
+            text-decoration: line-through;
+            color: #999;
+        }
+        .promo {
+            background: #DC2626;
+            color: #ffffff;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+        .description {
+            color: #444;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-top: 12px;
+        }
+        .section-title {
+            font-weight: 700;
+            color: #1B5E3F;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+        .variants {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .variant {
+            background: #F3F0EA;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+        .variant.active {
+            border-color: #1B5E3F;
+            background: #ffffff;
+            color: #1B5E3F;
+        }
+        .seller-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            background: #F9F9F9;
+            border-radius: 10px;
+        }
+        .seller-avatar {
+            width: 48px;
+            height: 48px;
+            background: #D4A574;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        .seller-info {
+            flex: 1;
+        }
+        .seller-name {
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .seller-meta {
+            font-size: 12px;
+            color: #666;
+        }
+        .seller-link {
+            background: #1B5E3F;
+            color: #ffffff;
+            padding: 8px 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { color: #666; }
+        .info-value { font-weight: 600; }
+        .review {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .review:last-child { border-bottom: none; }
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+        .review-author { font-weight: 700; }
+        .review-stars { color: #D4A574; }
+        .review-text { font-size: 13px; color: #444; line-height: 1.5; }
+        .actions {
+            position: fixed;
+            bottom: 60px;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            padding: 12px 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 8px;
+        }
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .btn-primary {
+            background: #1B5E3F;
+            color: #ffffff;
+        }
+        .btn-secondary {
+            background: #ffffff;
+            color: #1B5E3F;
+            border: 2px solid #1B5E3F;
+        }
+        .btn-icon {
+            flex: 0 0 50px;
+            background: #ffffff;
+            color: #1B5E3F;
+            border: 2px solid #1B5E3F;
+            font-size: 18px;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            border-top: 1px solid #eee;
+        }
+        .bottom-nav a {
+            text-decoration: none;
+            color: #666;
+            font-size: 11px;
+            text-align: center;
+        }
+        .bottom-nav .icon {
+            font-size: 20px;
+            display: block;
+        }
+    </style>
 </head>
-<body class="light-mode">
+<body>
 
-<header class="topbar">
-  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
-  <div style="display:flex;gap:4px">
-    <button class="icon-btn" onclick="location.href='recherche-ia.html'"><i data-lucide="search"></i></button>
-    <button class="icon-btn" onclick="location.href='panier.html'"><i data-lucide="shopping-cart"></i></button>
-    <button class="icon-btn"><i data-lucide="share-2"></i></button>
-  </div>
-</header>
+    <header class="header">
+        <a href="index.html">←</a>
+        <a href="favoris.html">❤️</a>
+    </header>
 
-<div class="gallery"><i data-lucide="smartphone"></i></div>
+    <div class="product-image">📱</div>
 
-<div class="info">
-  <div class="pname">iPhone 15 Pro 256GB Titanium</div>
-  <div class="pmeta">
-    <span class="stars">★★★★★ 4.9 (89)</span>
-    <span>· 12 vendus</span>
-  </div>
-  <div class="pprice">
-    850 000 FCFA
-    <span class="pold">1 062 500</span>
-    <span class="pdiscount">-20%</span>
-  </div>
-</div>
-
-<div class="section">
-  <h3>Couleur</h3>
-  <div class="variants">
-    <span class="variant active">Titanium Naturel</span>
-    <span class="variant">Titanium Bleu</span>
-    <span class="variant">Titanium Blanc</span>
-  </div>
-</div>
-
-<div class="section">
-  <h3>Quantité</h3>
-  <div class="qty">
-    <button class="qty-btn" onclick="chg(-1)">−</button>
-    <span class="qty-val" id="qty">1</span>
-    <button class="qty-btn" onclick="chg(1)">+</button>
-    <span style="margin-left:12px;font-size:12px;color:#666">Stock : 8</span>
-  </div>
-</div>
-
-<div class="section">
-  <h3>Vendeur</h3>
-  <a href="boutique-detail.html?id=moussa-tech" class="boutique">
-    <div class="boutique-logo"><i data-lucide="store"></i></div>
-    <div class="boutique-info">
-      <div class="boutique-name">Moussa Tech ✓</div>
-      <div class="boutique-note">4.7★ · 32 ventes</div>
+    <div class="badges">
+        <span class="badge red">-20%</span>
+        <span class="badge gold">Boutique vérifiée</span>
+        <span class="badge">Livraison rapide</span>
     </div>
-    <i data-lucide="chevron-right" style="color:#999"></i>
-  </a>
-</div>
 
-<div class="section">
-  <h3>Description</h3>
-  <p style="font-size:13px;line-height:1.6;margin:0">
-    iPhone 15 Pro avec puce A17 Pro, écran ProMotion 6.1", système caméra Pro triple 48MP. Titanium. Garantie 12 mois.
-  </p>
-</div>
+    <section class="section">
+        <h1 class="title">iPhone 15 Pro 256 Go</h1>
+        <div class="price-row">
+            <span class="price">850 000 FCFA</span>
+            <span class="price-old">1 062 000</span>
+            <span class="promo">-20%</span>
+        </div>
+        <div class="rating">
+            ⭐⭐⭐⭐⭐ 4.8 (127 avis) · 32 vendus
+        </div>
+        <p class="description">
+            iPhone 15 Pro flambant neuf, scellé dans son emballage d'origine. 
+            Puce A17 Pro, écran Super Retina XDR 6.1", triple caméra 48 MP, 
+            titane grade aérospatial. Garantie constructeur 12 mois. 
+            Livraison sécurisée dans tout le Sénégal.
+        </p>
+    </section>
 
-<div class="bottom-cta">
-  <button class="btn-fav"><i data-lucide="heart"></i></button>
-  <button class="btn-cart" onclick="alert('✅ Ajouté au panier'); location.href='panier.html'">Ajouter</button>
-  <button class="btn-buy" onclick="location.href='checkout.html'">
-    <i data-lucide="zap"></i> Acheter
-  </button>
-</div>
+    <section class="section">
+        <h3 class="section-title">🎨 Couleur</h3>
+        <div class="variants">
+            <div class="variant active">Titane Naturel</div>
+            <div class="variant">Titane Bleu</div>
+            <div class="variant">Titane Blanc</div>
+            <div class="variant">Titane Noir</div>
+        </div>
+    </section>
 
-<script>
-  lucide.createIcons();
-  let q = 1;
-  function chg(d) {
-    q = Math.max(1, q + d);
-    document.getElementById('qty').textContent = q;
-  }
-</script>
+    <section class="section">
+        <h3 class="section-title">💾 Stockage</h3>
+        <div class="variants">
+            <div class="variant">128 Go</div>
+            <div class="variant active">256 Go</div>
+            <div class="variant">512 Go</div>
+            <div class="variant">1 To</div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h3 class="section-title">🏪 Vendeur</h3>
+        <div class="seller-card">
+            <div class="seller-avatar">M</div>
+            <div class="seller-info">
+                <div class="seller-name">Moussa Tech ✓</div>
+                <div class="seller-meta">4.7 ★ · 32 ventes · Dakar</div>
+            </div>
+            <a href="boutique-detail.html?id=moussa-tech" class="seller-link">Voir</a>
+        </div>
+    </section>
+
+    <section class="section">
+        <h3 class="section-title">📋 Informations</h3>
+        <div class="info-row">
+            <span class="info-label">État</span>
+            <span class="info-value">Neuf scellé</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Garantie</span>
+            <span class="info-value">12 mois</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Livraison</span>
+            <span class="info-value">24-48h Dakar</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Paiement</span>
+            <span class="info-value">Sécurisé</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Retour</span>
+            <span class="info-value">7 jours</span>
+        </div>
+    </section>
+
+    <section class="section">
+        <h3 class="section-title">⭐ Avis récents</h3>
+        <div class="review">
+            <div class="review-header">
+                <span class="review-author">Karim N.</span>
+                <span class="review-stars">★★★★★</span>
+            </div>
+            <p class="review-text">Livraison rapide, produit conforme. Je recommande !</p>
+        </div>
+        <div class="review">
+            <div class="review-header">
+                <span class="review-author">Fatou D.</span>
+                <span class="review-stars">★★★★★</span>
+            </div>
+            <p class="review-text">Excellent vendeur, très professionnel.</p>
+        </div>
+        <div class="review">
+            <div class="review-header">
+                <span class="review-author">Ibrahima S.</span>
+                <span class="review-stars">★★★★☆</span>
+            </div>
+            <p class="review-text">Produit conforme, emballage soigné.</p>
+        </div>
+    </section>
+
+    <div class="actions">
+        <a href="panier.html" class="btn btn-icon">🛒</a>
+        <a href="checkout.html" class="btn btn-primary">Acheter maintenant</a>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="index.html"><span class="icon">🏠</span>Accueil</a>
+        <a href="categories.html"><span class="icon">🗂️</span>Catégories</a>
+        <a href="panier.html"><span class="icon">🛒</span>Panier</a>
+        <a href="messages.html"><span class="icon">💬</span>Messages</a>
+        <a href="profil.html"><span class="icon">👤</span>Profil</a>
+    </nav>
+
 </body>
 </html>
