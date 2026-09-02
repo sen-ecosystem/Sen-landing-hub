@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Détail Produit - SEN TEW</title>
+  <link rel="stylesheet" href="css/app.css?v=52">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 100px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; position: sticky; top: 0; z-index: 10; }
+    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
+    .gallery { background: #f5f5f0; height: 320px; display: flex; align-items: center; justify-content: center; }
+    .gallery i { color: #d4a574; width: 100px; height: 100px; }
+    .info { background: #fff; padding: 16px; margin-bottom: 8px; }
+    .pname { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+    .pmeta { display: flex; gap: 12px; font-size: 12px; color: #666; margin-bottom: 8px; }
+    .stars { color: #d4a574; }
+    .pprice { font-size: 26px; font-weight: 800; color: #0f6b4e; }
+    .pold { font-size: 14px; color: #999; text-decoration: line-through; margin-left: 6px; }
+    .pdiscount { background: #fee2e2; color: #dc2626; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; margin-left: 6px; }
+    .section { background: #fff; padding: 16px; margin-bottom: 8px; }
+    .section h3 { color: #0f6b4e; margin: 0 0 10px; font-size: 14px; }
+    .variants { display: flex; flex-wrap: wrap; gap: 6px; }
+    .variant { padding: 6px 12px; border: 1.5px solid #e5e7eb; border-radius: 20px; font-size: 13px; cursor: pointer; }
+    .variant.active { background: #0f6b4e; color: #fff; border-color: #0f6b4e; }
+    .qty { display: flex; align-items: center; gap: 12px; }
+    .qty-btn { width: 36px; height: 36px; border: 1.5px solid #e5e7eb; background: #fff; border-radius: 8px; font-size: 18px; font-weight: 700; cursor: pointer; }
+    .qty-val { font-size: 16px; font-weight: 700; min-width: 30px; text-align: center; }
+    .boutique { display: flex; gap: 12px; align-items: center; padding: 12px; background: #f5f5f0; border-radius: 10px; text-decoration: none; color: inherit; }
+    .boutique-logo { width: 44px; height: 44px; background: #d4a574; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .boutique-logo i { color: #fff; }
+    .boutique-info { flex: 1; }
+    .boutique-name { font-weight: 700; font-size: 13px; }
+    .boutique-note { font-size: 11px; color: #666; }
+    .bottom-cta { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; padding: 12px 16px; display: flex; gap: 8px; box-shadow: 0 -4px 12px rgba(0,0,0,0.1); }
+    .btn-fav { background: #f5f5f0; border: 1.5px solid #e5e7eb; padding: 12px; border-radius: 10px; color: #dc2626; cursor: pointer; }
+    .btn-cart { flex: 1; background: #fff; color: #0f6b4e; border: 2px solid #0f6b4e; padding: 12px; border-radius: 10px; font-weight: 700; cursor: pointer; }
+    .btn-buy { flex: 2; background: linear-gradient(135deg, #0f6b4e, #0a4d38); color: #fff; border: none; padding: 12px; border-radius: 10px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  </style>
+</head>
+<body class="light-mode">
+
+<header class="topbar">
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <div style="display:flex;gap:4px">
+    <button class="icon-btn" onclick="location.href='recherche-ia.html'"><i data-lucide="search"></i></button>
+    <button class="icon-btn" onclick="location.href='panier.html'"><i data-lucide="shopping-cart"></i></button>
+    <button class="icon-btn"><i data-lucide="share-2"></i></button>
+  </div>
+</header>
+
+<div class="gallery"><i data-lucide="smartphone"></i></div>
+
+<div class="info">
+  <div class="pname">iPhone 15 Pro 256GB Titanium</div>
+  <div class="pmeta">
+    <span class="stars">★★★★★ 4.9 (89)</span>
+    <span>· 12 vendus</span>
+  </div>
+  <div class="pprice">
+    850 000 FCFA
+    <span class="pold">1 062 500</span>
+    <span class="pdiscount">-20%</span>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Couleur</h3>
+  <div class="variants">
+    <span class="variant active">Titanium Naturel</span>
+    <span class="variant">Titanium Bleu</span>
+    <span class="variant">Titanium Blanc</span>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Quantité</h3>
+  <div class="qty">
+    <button class="qty-btn" onclick="chg(-1)">−</button>
+    <span class="qty-val" id="qty">1</span>
+    <button class="qty-btn" onclick="chg(1)">+</button>
+    <span style="margin-left:12px;font-size:12px;color:#666">Stock : 8</span>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Vendeur</h3>
+  <a href="boutique-detail.html?id=moussa-tech" class="boutique">
+    <div class="boutique-logo"><i data-lucide="store"></i></div>
+    <div class="boutique-info">
+      <div class="boutique-name">Moussa Tech ✓</div>
+      <div class="boutique-note">4.7★ · 32 ventes</div>
+    </div>
+    <i data-lucide="chevron-right" style="color:#999"></i>
+  </a>
+</div>
+
+<div class="section">
+  <h3>Description</h3>
+  <p style="font-size:13px;line-height:1.6;margin:0">
+    iPhone 15 Pro avec puce A17 Pro, écran ProMotion 6.1", système caméra Pro triple 48MP. Titanium. Garantie 12 mois.
+  </p>
+</div>
+
+<div class="bottom-cta">
+  <button class="btn-fav"><i data-lucide="heart"></i></button>
+  <button class="btn-cart" onclick="alert('✅ Ajouté au panier'); location.href='panier.html'">Ajouter</button>
+  <button class="btn-buy" onclick="location.href='checkout.html'">
+    <i data-lucide="zap"></i> Acheter
+  </button>
+</div>
+
+<script>
+  lucide.createIcons();
+  let q = 1;
+  function chg(d) {
+    q = Math.max(1, q + d);
+    document.getElementById('qty').textContent = q;
+  }
+</script>
+</body>
+</html>
