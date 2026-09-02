@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signaler - SEN TEW</title>
+  <link rel="stylesheet" href="css/app.css?v=52">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; }
+    .topbar { display: flex; align-items: center; gap: 12px; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; }
+    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
+    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
+    .hero { background: linear-gradient(135deg, #dc2626, #991b1b); color: #fff; padding: 20px 16px; text-align: center; }
+    .hero i { width: 48px; height: 48px; color: #fff; margin-bottom: 8px; }
+    .hero h2 { color: #fff; margin: 0; font-size: 18px; }
+    .hero p { color: #fecaca; font-size: 12px; margin: 4px 0 0; }
+    .card { background: #fff; margin: 12px 16px; padding: 16px; border-radius: 12px; }
+    .card h3 { color: #0f6b4e; margin: 0 0 12px; font-size: 14px; }
+    .field { margin-bottom: 12px; }
+    .field label { display: block; font-size: 12px; color: #666; margin-bottom: 6px; font-weight: 600; }
+    .field select, .field textarea { width: 100%; padding: 12px; border: 1.5px solid #e5e7eb; border-radius: 10px; font-size: 14px; box-sizing: border-box; font-family: inherit; }
+    .field textarea { resize: vertical; min-height: 100px; }
+    .btn { width: calc(100% - 32px); background: linear-gradient(135deg, #dc2626, #991b1b); color: #fff; border: none; padding: 14px; border-radius: 10px; font-weight: 700; margin: 12px 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  </style>
+</head>
+<body class="light-mode">
+
+<header class="topbar">
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="alert-triangle"></i> Signaler</h1>
+</header>
+
+<div class="hero">
+  <i data-lucide="alert-triangle"></i>
+  <h2>Signaler un problème</h2>
+  <p>Traitement sous 24h</p>
+</div>
+
+<div class="card">
+  <h3>Détails</h3>
+  <div class="field">
+    <label>Livreur concerné</label>
+    <select>
+      <option>Amadou Diallo (livraison actuelle)</option>
+      <option>Autre livreur</option>
+    </select>
+  </div>
+  <div class="field">
+    <label>Type de problème</label>
+    <select>
+      <option>Retard important</option>
+      <option>Comportement inapproprié</option>
+      <option>Colis endommagé</option>
+      <option>Non-respect adresse</option>
+      <option>Autre</option>
+    </select>
+  </div>
+  <div class="field">
+    <label>Description</label>
+    <textarea placeholder="Expliquez le problème..."></textarea>
+  </div>
+</div>
+
+<button class="btn" onclick="submit()">
+  <i data-lucide="send" style="width:16px;height:16px"></i> Envoyer le signalement
+</button>
+
+<script>
+  lucide.createIcons();
+  function submit() {
+    alert('✅ Signalement envoyé');
+    location.href = 'support.html';
+  }
+</script>
+</body>
+</html>
