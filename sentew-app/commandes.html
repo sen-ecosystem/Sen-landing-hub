@@ -1,137 +1,124 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mes commandes — SEN TEW</title>
-<link rel="stylesheet" href="css/app.css?v=50">
-<script src="https://unpkg.com/lucide@latest"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Commandes - SEN TEW</title>
+  <link rel="stylesheet" href="css/app.css?v=52">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 10; }
+    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
+    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
+    .filter-bar { display: flex; gap: 8px; padding: 12px 16px; overflow-x: auto; background: #fff; border-bottom: 1px solid #e5e7eb; }
+    .chip { background: #f5f5f0; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .chip.active { background: #0f6b4e; color: #fff; }
+    .cmd { background: #fff; margin: 10px 16px; padding: 14px; border-radius: 12px; text-decoration: none; color: inherit; display: block; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+    .cmd-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .cmd-num { font-weight: 800; color: #0f6b4e; font-size: 15px; }
+    .badge { padding: 3px 10px; border-radius: 10px; font-size: 10px; font-weight: 700; }
+    .b-new { background: #dbeafe; color: #1e40af; }
+    .b-prep { background: #fef3c7; color: #92400e; }
+    .b-ship { background: #e0e7ff; color: #4338ca; }
+    .b-done { background: #d1fae5; color: #065f46; }
+    .cmd-body { display: flex; gap: 12px; align-items: center; padding: 8px 0; border-top: 1px solid #f0f0f0; }
+    .cmd-icon { width: 44px; height: 44px; background: #f5f5f0; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .cmd-icon i { color: #d4a574; }
+    .cmd-info { flex: 1; }
+    .prod { font-weight: 600; font-size: 13px; }
+    .client { color: #666; font-size: 12px; margin-top: 2px; }
+    .cmd-price { color: #0f6b4e; font-weight: 800; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
+    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
+    .bottom-nav a.active { color: #0f6b4e; }
+    .bottom-nav a i { width: 22px; height: 22px; }
+  </style>
 </head>
 <body class="light-mode">
 
 <header class="topbar">
-  <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left" class="icon icon-md icon-vert"></i></button>
-  <h1><i data-lucide="package" class="icon icon-md icon-or"></i> Mes commandes</h1>
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="clipboard-list"></i> Commandes</h1>
+  <button class="icon-btn"><i data-lucide="filter"></i></button>
 </header>
 
-<main style="padding:12px;padding-bottom:100px">
+<div class="filter-bar">
+  <span class="chip active">Toutes (12)</span>
+  <span class="chip">Nouvelles (3)</span>
+  <span class="chip">Préparation (2)</span>
+  <span class="chip">Expédiées (4)</span>
+  <span class="chip">Livrées (3)</span>
+</div>
 
-  <!-- Stats -->
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">
-    <div class="profile-stat" style="text-align:center">
-      <strong style="display:block;font-size:20px;color:#0a1f17">7</strong>
-      <small style="color:#4a5a52;font-size:11px">Total commandes</small>
-    </div>
-    <div class="profile-stat" style="text-align:center">
-      <strong style="display:block;font-size:20px;color:#0f6b4e">287k</strong>
-      <small style="color:#4a5a52;font-size:11px">FCFA dépensés</small>
-    </div>
-    <div class="profile-stat" style="text-align:center">
-      <strong style="display:block;font-size:20px;color:#f59e0b">2</strong>
-      <small style="color:#4a5a52;font-size:11px">En livraison</small>
-    </div>
+<a href="commande-detail.html?id=ST24073" class="cmd">
+  <div class="cmd-head">
+    <span class="cmd-num">#ST24073</span>
+    <span class="badge b-new">Nouvelle</span>
   </div>
-
-  <!-- Filtres -->
-  <div style="display:flex;gap:8px;margin-bottom:14px;overflow-x:auto">
-    <button class="btn-primary" style="padding:8px 14px;font-size:12px;white-space:nowrap">Toutes (7)</button>
-    <button style="padding:8px 14px;background:#fff;border:1px solid #e5e5e0;border-radius:20px;font-size:12px;color:#0a1f17;font-weight:700;white-space:nowrap">En livraison (2)</button>
-    <button style="padding:8px 14px;background:#fff;border:1px solid #e5e5e0;border-radius:20px;font-size:12px;color:#0a1f17;font-weight:700;white-space:nowrap">Préparation (1)</button>
-    <button style="padding:8px 14px;background:#fff;border:1px solid #e5e5e0;border-radius:20px;font-size:12px;color:#0a1f17;font-weight:700;white-space:nowrap">Livrées (4)</button>
+  <div class="cmd-body">
+    <div class="cmd-icon"><i data-lucide="package"></i></div>
+    <div class="cmd-info">
+      <div class="prod">iPhone 15 Pro 256GB</div>
+      <div class="client">Karim Niang · Dakar · il y a 2h</div>
+    </div>
+    <div class="cmd-price">850k</div>
   </div>
+</a>
 
-  <!-- Commande #SEN-2026-8472 -->
-  <article style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
-      <strong style="color:#0f6b4e;font-size:14px">#SEN-2026-8472</strong>
-      <span style="background:rgba(15,107,78,0.12);color:#0f6b4e;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:800;display:flex;align-items:center;gap:4px"><i data-lucide="truck" style="width:12px;height:12px"></i> En livraison</span>
-      <span style="color:#4a5a52;font-size:11px">26 mai 2026</span>
+<a href="commande-detail.html?id=ST24072" class="cmd">
+  <div class="cmd-head">
+    <span class="cmd-num">#ST24072</span>
+    <span class="badge b-ship">Expédiée</span>
+  </div>
+  <div class="cmd-body">
+    <div class="cmd-icon"><i data-lucide="truck"></i></div>
+    <div class="cmd-info">
+      <div class="prod">AirPods Pro 2</div>
+      <div class="client">Fatou Diop · Rufisque · hier</div>
     </div>
-    <div style="display:flex;gap:12px;margin-bottom:12px">
-      <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=100&h=100&fit=crop" style="width:70px;height:70px;object-fit:cover;border-radius:10px;flex-shrink:0" alt="Sac">
-      <div style="flex:1;min-width:0">
-        <h3 style="color:#0a1f17;font-size:15px;font-weight:700;margin-bottom:4px">Sac à main bogolan</h3>
-        <p style="color:#4a5a52;font-size:12px;display:flex;align-items:center;gap:6px;margin-bottom:2px"><i data-lucide="truck" class="icon icon-xs icon-or"></i> Mamadou Diop · <span style="color:#0f6b4e;font-weight:700">Arrive dans 25 min</span></p>
-        <strong style="color:#0f6b4e;font-size:15px">45 000 FCFA</strong>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
-      <button style="padding:9px;background:#0f6b4e;color:#fff;border-radius:8px;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;gap:5px" onclick="location.href='tel:+221771234567'"><i data-lucide="phone" class="icon icon-xs icon-blanc"></i> Appeler</button>
-      <button style="padding:9px;background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e;border-radius:8px;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;gap:5px" onclick="location.href='messages.html'"><i data-lucide="message-circle" class="icon icon-xs icon-vert"></i> Chat</button>
-      <button style="padding:9px;background:#3b82f6;color:#fff;border-radius:8px;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;gap:5px" onclick="location.href='suivi.html?id=8472'"><i data-lucide="map-pin" class="icon icon-xs icon-blanc"></i> Suivre</button>
-    </div>
-  </article>
+    <div class="cmd-price">145k</div>
+  </div>
+</a>
 
-  <!-- Commande #SEN-2026-8465 -->
-  <article style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
-      <strong style="color:#0f6b4e;font-size:14px">#SEN-2026-8465</strong>
-      <span style="background:rgba(15,107,78,0.12);color:#0f6b4e;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:800;display:flex;align-items:center;gap:4px"><i data-lucide="truck" style="width:12px;height:12px"></i> En livraison</span>
-      <span style="color:#4a5a52;font-size:11px">25 mai 2026</span>
+<a href="commande-detail.html?id=ST24071" class="cmd">
+  <div class="cmd-head">
+    <span class="cmd-num">#ST24071</span>
+    <span class="badge b-done">Livrée</span>
+  </div>
+  <div class="cmd-body">
+    <div class="cmd-icon"><i data-lucide="check"></i></div>
+    <div class="cmd-info">
+      <div class="prod">MacBook Air M2</div>
+      <div class="client">Amadou Sall · Thiès · 28/08</div>
     </div>
-    <div style="display:flex;gap:12px;margin-bottom:12px">
-      <img src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=100&h=100&fit=crop" style="width:70px;height:70px;object-fit:cover;border-radius:10px;flex-shrink:0" alt="iPhone">
-      <div style="flex:1;min-width:0">
-        <h3 style="color:#0a1f17;font-size:15px;font-weight:700;margin-bottom:4px">iPhone 15 Pro</h3>
-        <p style="color:#4a5a52;font-size:12px;display:flex;align-items:center;gap:6px;margin-bottom:2px"><i data-lucide="truck" class="icon icon-xs icon-or"></i> Fatou Ndiaye · <span style="color:#0f6b4e;font-weight:700">1h 15min</span></p>
-        <strong style="color:#0f6b4e;font-size:15px">750 000 FCFA</strong>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
-      <button style="padding:9px;background:#0f6b4e;color:#fff;border-radius:8px;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;gap:5px"><i data-lucide="phone" class="icon icon-xs icon-blanc"></i> Appeler</button>
-      <button style="padding:9px;background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e;border-radius:8px;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;gap:5px"><i data-lucide="message-circle" class="icon icon-xs icon-vert"></i> Chat</button>
-      <button style="padding:9px;background:#3b82f6;color:#fff;border-radius:8px;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;gap:5px"><i data-lucide="map-pin" class="icon icon-xs icon-blanc"></i> Suivre</button>
-    </div>
-  </article>
+    <div class="cmd-price">1.2M</div>
+  </div>
+</a>
 
-  <!-- Commande #SEN-2026-8412 -->
-  <article style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
-      <strong style="color:#0f6b4e;font-size:14px">#SEN-2026-8412</strong>
-      <span style="background:rgba(59,130,246,0.12);color:#3b82f6;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:800;display:flex;align-items:center;gap:4px"><i data-lucide="package" style="width:12px;height:12px"></i> Préparation</span>
-      <span style="color:#4a5a52;font-size:11px">24 mai 2026</span>
+<a href="commande-detail.html?id=ST24070" class="cmd">
+  <div class="cmd-head">
+    <span class="cmd-num">#ST24070</span>
+    <span class="badge b-prep">Préparation</span>
+  </div>
+  <div class="cmd-body">
+    <div class="cmd-icon"><i data-lucide="box"></i></div>
+    <div class="cmd-info">
+      <div class="prod">iPad Air 5</div>
+      <div class="client">Aïcha Ndoye · Dakar</div>
     </div>
-    <div style="display:flex;gap:12px">
-      <img src="https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=100&h=100&fit=crop" style="width:70px;height:70px;object-fit:cover;border-radius:10px;flex-shrink:0" alt="Robe">
-      <div style="flex:1">
-        <h3 style="color:#0a1f17;font-size:15px;font-weight:700;margin-bottom:4px">Robe Wax Premium</h3>
-        <strong style="color:#0f6b4e;font-size:15px">25 000 FCFA</strong>
-      </div>
-    </div>
-  </article>
-
-  <!-- Commande #SEN-2026-8398 (livrée) -->
-  <article style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(15,107,78,0.05);opacity:0.9">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
-      <strong style="color:#0f6b4e;font-size:14px">#SEN-2026-8398</strong>
-      <span style="background:rgba(15,107,78,0.12);color:#0f6b4e;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:800;display:flex;align-items:center;gap:4px"><i data-lucide="check-circle" style="width:12px;height:12px"></i> Livrée</span>
-      <span style="color:#4a5a52;font-size:11px">20 mai 2026</span>
-    </div>
-    <div style="display:flex;gap:12px;margin-bottom:12px">
-      <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=100&h=100&fit=crop" style="width:70px;height:70px;object-fit:cover;border-radius:10px;flex-shrink:0" alt="Sandales">
-      <div style="flex:1">
-        <h3 style="color:#0a1f17;font-size:15px;font-weight:700;margin-bottom:4px">Sandales cuir Peul</h3>
-        <strong style="color:#0f6b4e;font-size:15px">8 500 FCFA</strong>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <button style="padding:9px;background:#fff;border:1.5px solid #f59e0b;color:#f59e0b;border-radius:8px;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;gap:5px"><i data-lucide="star" class="icon icon-xs" style="color:#f59e0b"></i> Noter</button>
-      <button style="padding:9px;background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e;border-radius:8px;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;gap:5px" onclick="location.href='panier.html'"><i data-lucide="repeat" class="icon icon-xs icon-vert"></i> Racheter</button>
-    </div>
-  </article>
-
-</main>
+    <div class="cmd-price">520k</div>
+  </div>
+</a>
 
 <nav class="bottom-nav">
-  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="layout-grid" class="icon icon-md"></i><span>Catégories</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
-  <a href="messages.html"><i data-lucide="message-circle" class="icon icon-md"></i><span>Messages</span></a>
-  <a href="profil.html" class="active"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
-<script src="js/dark-mode.js?v=50"></script>
 <script>lucide.createIcons();</script>
-  <script src="js/buttons-audit.js?v=51"></script>
 </body>
 </html>
