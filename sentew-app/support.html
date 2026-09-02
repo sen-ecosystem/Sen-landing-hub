@@ -1,150 +1,230 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Aide & Support — SEN TEW</title>
-<link rel="stylesheet" href="css/app.css?v=50">
-<script src="https://unpkg.com/lucide@latest"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aide & Support - SEN TEW</title>
+  <link rel="stylesheet" href="css/app.css?v=52">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 10; }
+    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
+    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
+
+    /* CARTE IA - violet foncé lisible */
+    .ia-card {
+      background: linear-gradient(135deg, #6b46c1 0%, #4c1d95 100%) !important;
+      color: #fff !important;
+      padding: 24px 20px;
+      border-radius: 16px;
+      margin: 16px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(107,70,193,0.4);
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+    }
+    .ia-icon-wrap {
+      width: 64px; height: 64px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 12px;
+      border: 2px solid rgba(255,255,255,0.4);
+    }
+    .ia-icon-wrap i { color: #fff; width: 32px; height: 32px; }
+    .ia-title {
+      color: #fff !important;
+      font-size: 20px;
+      font-weight: 800;
+      margin: 0 0 6px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    .ia-subtitle {
+      color: rgba(255,255,255,0.95) !important;
+      font-size: 13px;
+      margin: 0 0 16px;
+    }
+    .btn-start-chat {
+      background: #fff;
+      color: #6b46c1;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .section-title {
+      color: #d4a574;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 0 20px;
+      margin: 16px 0 8px;
+      letter-spacing: 1px;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 0 16px 16px;
+    }
+    .quick-card {
+      background: #fff;
+      padding: 20px 12px;
+      border-radius: 12px;
+      text-align: center;
+      text-decoration: none;
+      color: #1a1a1a;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      border: 1.5px solid #e5e7eb;
+      cursor: pointer;
+    }
+    .quick-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      margin: 0 auto 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .qi-refund { background: #fee2e2; }
+    .qi-refund i { color: #dc2626; }
+    .qi-track { background: #dbeafe; }
+    .qi-track i { color: #1e40af; }
+    .qi-alert { background: #fef3c7; }
+    .qi-alert i { color: #d97706; }
+    .qi-human { background: #d1fae5; }
+    .qi-human i { color: #065f46; }
+    .quick-name { font-weight: 700; font-size: 14px; color: #1a1a1a; }
+    .quick-desc { font-size: 11px; color: #666; margin-top: 4px; }
+
+    .faq-section { background: #fff; margin: 12px 16px; padding: 16px; border-radius: 12px; }
+    .faq-section h3 { color: #0f6b4e; margin: 0 0 12px; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+    .faq { border-bottom: 1px solid #f0f0f0; padding: 12px 0; cursor: pointer; }
+    .faq:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; color: #1a1a1a; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
+    .faq-a { font-size: 12px; color: #666; margin-top: 6px; display: none; line-height: 1.5; }
+    .faq.open .faq-a { display: block; }
+
+    .contact-section { background: #fff; margin: 12px 16px; padding: 16px; border-radius: 12px; }
+    .contact-section h3 { color: #0f6b4e; margin: 0 0 12px; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+    .contact-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f0f0f0; text-decoration: none; color: #1a1a1a; }
+    .contact-row:last-child { border-bottom: none; }
+    .contact-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .ci-mail { background: #d1fae5; }
+    .ci-mail i { color: #065f46; }
+    .ci-wa { background: #dcfce7; }
+    .ci-wa i { color: #25d366; }
+    .contact-info { flex: 1; }
+    .contact-name { font-weight: 700; font-size: 14px; }
+    .contact-detail { font-size: 12px; color: #666; }
+
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
+    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
+    .bottom-nav a.active { color: #0f6b4e; }
+    .bottom-nav a i { width: 22px; height: 22px; }
+  </style>
 </head>
 <body class="light-mode">
 
 <header class="topbar">
-  <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left" class="icon icon-md icon-vert"></i></button>
-  <h1><i data-lucide="help-circle" class="icon icon-md icon-bleu"></i> Aide & Support</h1>
-  <button class="icon-btn" data-theme-toggle><i data-lucide="moon" class="icon icon-md icon-vert"></i></button>
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="help-circle"></i> Aide & Support</h1>
+  <button class="icon-btn"><i data-lucide="moon"></i></button>
 </header>
 
-<main style="padding:16px;padding-bottom:100px">
+<!-- CARTE IA cliquable directement -->
+<a href="assistant-ia.html" class="ia-card">
+  <div class="ia-icon-wrap"><i data-lucide="bot"></i></div>
+  <div class="ia-title">Assistant IA SEN TEW</div>
+  <div class="ia-subtitle">Disponible 24/7 · Français + Wolof · Réponse instantanée</div>
+  <span class="btn-start-chat">
+    <i data-lucide="message-circle" style="width:18px;height:18px"></i> Démarrer une conversation
+  </span>
+</a>
 
-  <!-- Hero support IA -->
-  <section style="background:linear-gradient(135deg,#a855f7 0%,#7c3aed 100%);border-radius:20px;padding:22px;color:#fff;margin-bottom:20px;box-shadow:0 12px 32px rgba(168,85,247,0.3);position:relative;overflow:hidden">
-    <div style="position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.1)"></div>
-    <div style="position:relative;z-index:2">
-      <div style="width:56px;height:56px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:12px;backdrop-filter:blur(10px)">
-        <i data-lucide="bot" style="width:28px;height:28px;color:#fff"></i>
-      </div>
-      <h2 style="color:#fff !important;font-size:20px;font-weight:900;margin-bottom:4px">Assistant IA SEN TEW</h2>
-      <p style="color:rgba(255,255,255,0.9) !important;font-size:13px;margin-bottom:14px">Disponible 24/7 · Français + Wolof · Réponse instantanée</p>
-      <button style="background:#fff;color:#7c3aed;padding:12px 20px;border-radius:12px;font-weight:800;display:flex;align-items:center;gap:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15)" onclick="location.href='recherche-ia.html'"><i data-lucide="message-circle" style="width:18px;height:18px;color:#7c3aed"></i> Démarrer une conversation</button>
-    </div>
-  </section>
+<!-- DEMANDES RAPIDES cliquables -->
+<div class="section-title"><i data-lucide="zap" style="width:14px;height:14px"></i> DEMANDES RAPIDES</div>
+<div class="quick-grid">
+  <a href="remboursement.html" class="quick-card">
+    <div class="quick-icon qi-refund"><i data-lucide="banknote"></i></div>
+    <div class="quick-name">Remboursement</div>
+    <div class="quick-desc">Sous 48h · Wave/OM</div>
+  </a>
+  <a href="suivi-commande.html" class="quick-card">
+    <div class="quick-icon qi-track"><i data-lucide="package"></i></div>
+    <div class="quick-name">Suivre ma commande</div>
+    <div class="quick-desc">GPS temps réel</div>
+  </a>
+  <a href="litige.html" class="quick-card">
+    <div class="quick-icon qi-alert"><i data-lucide="alert-triangle"></i></div>
+    <div class="quick-name">Signaler un problème</div>
+    <div class="quick-desc">Médiation 72h</div>
+  </a>
+  <a href="messages.html" class="quick-card">
+    <div class="quick-icon qi-human"><i data-lucide="user-check"></i></div>
+    <div class="quick-name">Contacter un humain</div>
+    <div class="quick-desc">Réponse 24h</div>
+  </a>
+</div>
 
-  <!-- Actions rapides -->
-  <h2 class="section-title"><i data-lucide="zap" class="icon icon-sm icon-or"></i> DEMANDES RAPIDES</h2>
-
-  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px">
-
-    <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:16px 12px;text-align:center;cursor:pointer;box-shadow:0 2px 8px rgba(15,107,78,0.05)" onclick="location.href='remboursement.html'">
-      <div style="width:48px;height:48px;background:rgba(239,68,68,0.12);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px">
-        <i data-lucide="banknote" style="width:24px;height:24px;color:#ef4444"></i>
-      </div>
-      <strong style="display:block;color:#0a1f17;font-size:13px;margin-bottom:2px">Remboursement</strong>
-      <small style="color:#4a5a52;font-size:11px">Sous 48h · Wave/OM</small>
-    </div>
-
-    <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:16px 12px;text-align:center;cursor:pointer;box-shadow:0 2px 8px rgba(15,107,78,0.05)" onclick="location.href='commandes.html'">
-      <div style="width:48px;height:48px;background:rgba(59,130,246,0.12);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px">
-        <i data-lucide="package" style="width:24px;height:24px;color:#3b82f6"></i>
-      </div>
-      <strong style="display:block;color:#0a1f17;font-size:13px;margin-bottom:2px">Suivre ma commande</strong>
-      <small style="color:#4a5a52;font-size:11px">GPS temps réel</small>
-    </div>
-
-    <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:16px 12px;text-align:center;cursor:pointer;box-shadow:0 2px 8px rgba(15,107,78,0.05)" onclick="location.href='litige.html'">
-      <div style="width:48px;height:48px;background:rgba(245,158,11,0.15);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px">
-        <i data-lucide="alert-triangle" style="width:24px;height:24px;color:#f59e0b"></i>
-      </div>
-      <strong style="display:block;color:#0a1f17;font-size:13px;margin-bottom:2px">Signaler un problème</strong>
-      <small style="color:#4a5a52;font-size:11px">Litige vendeur</small>
-    </div>
-
-    <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:16px 12px;text-align:center;cursor:pointer;box-shadow:0 2px 8px rgba(15,107,78,0.05)" onclick="location.href='messages.html'">
-      <div style="width:48px;height:48px;background:rgba(15,107,78,0.12);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px">
-        <i data-lucide="message-circle" style="width:24px;height:24px;color:#0f6b4e"></i>
-      </div>
-      <strong style="display:block;color:#0a1f17;font-size:13px;margin-bottom:2px">Contacter un humain</strong>
-      <small style="color:#4a5a52;font-size:11px">Lun-Ven 9h-18h</small>
-    </div>
-
+<!-- FAQ -->
+<div class="faq-section">
+  <h3><i data-lucide="book-open"></i> Questions fréquentes</h3>
+  <div class="faq" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Comment obtenir un remboursement ? <i data-lucide="chevron-down" style="width:16px;height:16px"></i></div>
+    <div class="faq-a">Ouvrez la commande → "Signaler" → sélectionnez motif. Remboursement Wave/OM sous 48h.</div>
   </div>
-
-  <!-- Section Remboursement détaillée -->
-  <h2 class="section-title" id="remboursement"><i data-lucide="banknote" class="icon icon-sm icon-rouge"></i> DEMANDER UN REMBOURSEMENT</h2>
-
-  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <p style="color:#0a1f17;font-size:13px;line-height:1.6;margin-bottom:12px">Pour être remboursé, votre commande doit remplir <strong>1 des 4 conditions</strong> :</p>
-    <ul style="list-style:none;padding:0;margin:0">
-      <li style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f5f5f0"><i data-lucide="check-circle" style="width:18px;height:18px;color:#0f6b4e;flex-shrink:0;margin-top:2px"></i><span style="color:#0a1f17;font-size:13px">Produit non conforme à la description</span></li>
-      <li style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f5f5f0"><i data-lucide="check-circle" style="width:18px;height:18px;color:#0f6b4e;flex-shrink:0;margin-top:2px"></i><span style="color:#0a1f17;font-size:13px">Article défectueux ou cassé à réception</span></li>
-      <li style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f5f5f0"><i data-lucide="check-circle" style="width:18px;height:18px;color:#0f6b4e;flex-shrink:0;margin-top:2px"></i><span style="color:#0a1f17;font-size:13px">Colis jamais reçu (> 7 jours après expédition)</span></li>
-      <li style="display:flex;align-items:flex-start;gap:10px;padding:8px 0"><i data-lucide="check-circle" style="width:18px;height:18px;color:#0f6b4e;flex-shrink:0;margin-top:2px"></i><span style="color:#0a1f17;font-size:13px">Erreur du vendeur (mauvaise taille, couleur, etc.)</span></li>
-    </ul>
+  <div class="faq" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Que faire si ma commande est en retard ? <i data-lucide="chevron-down" style="width:16px;height:16px"></i></div>
+    <div class="faq-a">Vérifiez le suivi GPS. Contactez le livreur directement. Si non résolu, ouvrez un litige.</div>
   </div>
-
-  <div style="background:#e0f2fe;border-left:4px solid #0ea5e9;border-radius:10px;padding:12px;margin-bottom:14px;display:flex;gap:10px">
-    <i data-lucide="info" style="width:20px;height:20px;color:#0284c7;flex-shrink:0"></i>
-    <p style="font-size:12px;color:#075985;line-height:1.4"><strong>Délai :</strong> Vous avez <strong>14 jours</strong> après réception pour demander un remboursement. Retour gratuit via point relais.</p>
+  <div class="faq" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Comment retirer mon solde Wave ? <i data-lucide="chevron-down" style="width:16px;height:16px"></i></div>
+    <div class="faq-a">Portefeuille → "Retirer" → Wave/OM → Confirmer. Traitement instantané.</div>
   </div>
+  <div class="faq" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Que faire si je ne reçois pas mon colis ? <i data-lucide="chevron-down" style="width:16px;height:16px"></i></div>
+    <div class="faq-a">Attendre 24h après ETA. Puis ouvrir un litige avec preuves. Remboursement garanti.</div>
+  </div>
+</div>
 
-  <button class="btn-primary" style="width:100%;padding:14px;font-size:14px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:8px"><i data-lucide="edit-3" style="width:18px;height:18px;color:#fff"></i> Ouvrir un dossier remboursement</button>
-
-  <!-- FAQ -->
-  <h2 class="section-title"><i data-lucide="help-circle" class="icon icon-sm icon-vert"></i> QUESTIONS FRÉQUENTES</h2>
-
-  <details style="background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:14px;margin-bottom:8px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <summary style="cursor:pointer;color:#0a1f17;font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px"><i data-lucide="chevron-right" style="width:16px;height:16px;color:#0f6b4e"></i> Comment fonctionne le paiement Wave ?</summary>
-    <p style="color:#4a5a52;font-size:13px;line-height:1.5;margin-top:10px;padding-left:24px">Cliquez sur "Wave" au moment du paiement, entrez votre numéro Wave, validez la transaction dans l'app Wave. Le paiement est instantané et sécurisé par escrow SEN TEW.</p>
-  </details>
-
-  <details style="background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:14px;margin-bottom:8px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <summary style="cursor:pointer;color:#0a1f17;font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px"><i data-lucide="chevron-right" style="width:16px;height:16px;color:#0f6b4e"></i> Quels sont les délais de livraison ?</summary>
-    <p style="color:#4a5a52;font-size:13px;line-height:1.5;margin-top:10px;padding-left:24px">Express Dakar : 24h · Standard Sénégal : 2-3 jours · Point relais : 24h après notification. Livraison gratuite dès 50 000 FCFA.</p>
-  </details>
-
-  <details style="background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:14px;margin-bottom:8px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <summary style="cursor:pointer;color:#0a1f17;font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px"><i data-lucide="chevron-right" style="width:16px;height:16px;color:#0f6b4e"></i> Comment devenir vendeur ?</summary>
-    <p style="color:#4a5a52;font-size:13px;line-height:1.5;margin-top:10px;padding-left:24px">Allez dans Profil → Espace vendeur. Fournissez CNI + preuve de résidence + IBAN. Validation sous 48h. Commission SEN TEW : 5-8% selon volume.</p>
-  </details>
-
-  <details style="background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:14px;margin-bottom:8px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <summary style="cursor:pointer;color:#0a1f17;font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px"><i data-lucide="chevron-right" style="width:16px;height:16px;color:#0f6b4e"></i> Comment fonctionne le programme fidélité ?</summary>
-    <p style="color:#4a5a52;font-size:13px;line-height:1.5;margin-top:10px;padding-left:24px">4 niveaux : Bronze (0-499) · Silver (500-999) · Gold (1K-1.9K) · Platine (2K+). Chaque achat rapporte des points convertibles en cashback.</p>
-  </details>
-
-  <details style="background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:14px;margin-bottom:20px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <summary style="cursor:pointer;color:#0a1f17;font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px"><i data-lucide="chevron-right" style="width:16px;height:16px;color:#0f6b4e"></i> Que faire si je ne reçois pas mon colis ?</summary>
-    <p style="color:#4a5a52;font-size:13px;line-height:1.5;margin-top:10px;padding-left:24px">Vérifiez d'abord le suivi GPS. Si > 7 jours après expédition, ouvrez un litige. Vous serez remboursé automatiquement si le vendeur ne prouve pas la livraison.</p>
-  </details>
-
-  <!-- Contacts -->
-  <h2 class="section-title"><i data-lucide="phone" class="icon icon-sm icon-vert"></i> AUTRES MOYENS DE CONTACT</h2>
-
-  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <div style="display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid #f5f5f0" onclick="location.href='mailto:hello@sen-tew.com'">
-      <div style="width:40px;height:40px;background:rgba(15,107,78,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="mail" style="width:20px;height:20px;color:#0f6b4e"></i></div>
-      <div style="flex:1"><strong style="color:#0a1f17;font-size:14px;display:block">Email</strong><small style="color:#4a5a52">hello@sen-tew.com</small></div>
-      <i data-lucide="chevron-right" style="width:16px;height:16px;color:#4a5a52"></i>
+<!-- CONTACTS -->
+<div class="contact-section">
+  <h3><i data-lucide="phone"></i> Autres moyens de contact</h3>
+  <a href="mailto:hello@sen-tew.com" class="contact-row">
+    <div class="contact-icon ci-mail"><i data-lucide="mail"></i></div>
+    <div class="contact-info">
+      <div class="contact-name">Email</div>
+      <div class="contact-detail">hello@sen-tew.com</div>
     </div>
-    <div style="display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid #f5f5f0">
-      <div style="width:40px;height:40px;background:rgba(37,211,102,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="message-circle" style="width:20px;height:20px;color:#25d366"></i></div>
-      <div style="flex:1"><strong style="color:#0a1f17;font-size:14px;display:block">WhatsApp</strong><small style="color:#4a5a52">+221 XX XXX XX XX</small></div>
-      <i data-lucide="chevron-right" style="width:16px;height:16px;color:#4a5a52"></i>
+    <i data-lucide="chevron-right" style="color:#999"></i>
+  </a>
+  <a href="https://wa.me/221XXXXXXXX" class="contact-row">
+    <div class="contact-icon ci-wa"><i data-lucide="message-circle"></i></div>
+    <div class="contact-info">
+      <div class="contact-name">WhatsApp</div>
+      <div class="contact-detail">+221 XX XXX XX XX</div>
     </div>
-
-  <p style="text-align:center;color:#4a5a52;font-size:11px;margin-top:20px">SEN TEW SUARL — Support disponible depuis le 01/09/2026</p>
-</main>
+    <i data-lucide="chevron-right" style="color:#999"></i>
+  </a>
+</div>
 
 <nav class="bottom-nav">
-  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="layout-grid" class="icon icon-md"></i><span>Catégories</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
-  <a href="messages.html"><i data-lucide="message-circle" class="icon icon-md"></i><span>Messages</span></a>
-  <a href="profil.html" class="active"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
-<script src="js/dark-mode.js?v=50"></script>
 <script>lucide.createIcons();</script>
-  <script src="js/buttons-audit.js?v=51"></script>
 </body>
 </html>
