@@ -12,6 +12,7 @@
             background: #F9F9F9;
             color: #1a1a1a;
             min-height: 100vh;
+            overflow-x: hidden;
         }
         .header {
             background: #ffffff;
@@ -40,10 +41,12 @@
         .welcome h2 {
             font-size: 22px;
             margin-bottom: 8px;
+            color: #ffffff;
         }
         .welcome p {
             font-size: 14px;
             opacity: 0.95;
+            color: #ffffff;
         }
         .container {
             padding: 20px;
@@ -144,36 +147,43 @@
         .strength-bar.s2 { background: #F59E0B; }
         .strength-bar.s3 { background: #FBBF24; }
         .strength-bar.s4 { background: #16A34A; }
-        .terms {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin: 16px 0;
-            padding: 14px;
-            background: #F9F9F9;
-            border-radius: 10px;
+
+        /* CGU BLINDÉ - CADRAGE CORRIGÉ */
+        .terms-fixed {
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 10px !important;
+            margin: 16px 0 !important;
+            padding: 12px 14px !important;
+            background: #F9F9F9 !important;
+            border-radius: 10px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
         }
-        .terms input[type="checkbox"] {
-            width: 22px;
-            height: 22px;
-            flex-shrink: 0;
-            accent-color: #1B5E3F;
-            margin-top: 1px;
-            cursor: pointer;
+        .terms-fixed input[type="checkbox"] {
+            width: 20px !important;
+            height: 20px !important;
+            flex-shrink: 0 !important;
+            accent-color: #1B5E3F !important;
+            margin: 2px 0 0 0 !important;
+            cursor: pointer !important;
+            padding: 0 !important;
         }
-        .terms label {
-            font-size: 13px;
-            color: #444;
-            line-height: 1.6;
-            flex: 1;
-            cursor: pointer;
+        .terms-fixed label {
+            font-size: 13px !important;
+            color: #444 !important;
+            line-height: 1.5 !important;
+            flex: 1 !important;
+            cursor: pointer !important;
+            min-width: 0 !important;
+            word-wrap: break-word !important;
         }
-        .terms label a {
-            color: #1B5E3F;
-            font-weight: 700;
-            text-decoration: none;
-            white-space: nowrap;
+        .terms-fixed label a {
+            color: #1B5E3F !important;
+            font-weight: 700 !important;
+            text-decoration: none !important;
         }
+
         .btn-primary {
             width: 100%;
             background: #1B5E3F;
@@ -206,38 +216,55 @@
             height: 1px;
             background: #E0E0E0;
         }
+
+        /* STORES BLINDÉS - FOND NOIR FORCÉ */
         .stores-row {
-            display: flex;
-            gap: 10px;
+            display: flex !important;
+            gap: 10px !important;
+            width: 100% !important;
         }
-        .store-btn {
-            flex: 1;
-            background: #000000;
-            color: #ffffff;
-            padding: 12px 14px;
-            border-radius: 10px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-family: inherit;
+        .store-btn,
+        body .store-btn,
+        body.light-mode .store-btn {
+            flex: 1 !important;
+            background: #000000 !important;
+            background-color: #000000 !important;
+            color: #ffffff !important;
+            padding: 12px 14px !important;
+            border-radius: 10px !important;
+            text-decoration: none !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 10px !important;
+            font-family: inherit !important;
+            border: none !important;
+            min-height: 52px !important;
+        }
+        .store-btn * {
+            color: #ffffff !important;
         }
         .store-btn .store-icon {
-            font-size: 24px;
+            font-size: 24px !important;
+            color: #ffffff !important;
+        }
+        .store-btn .store-text {
+            text-align: left !important;
         }
         .store-btn .store-text small {
-            display: block;
-            font-size: 9px;
-            opacity: 0.85;
-            font-weight: 400;
-            line-height: 1.2;
+            display: block !important;
+            font-size: 9px !important;
+            opacity: 0.85 !important;
+            font-weight: 400 !important;
+            line-height: 1.2 !important;
+            color: #ffffff !important;
         }
         .store-btn .store-text strong {
-            display: block;
-            font-size: 13px;
-            font-weight: 700;
-            line-height: 1.2;
+            display: block !important;
+            font-size: 13px !important;
+            font-weight: 700 !important;
+            line-height: 1.2 !important;
+            color: #ffffff !important;
         }
         .footer-link {
             text-align: center;
@@ -253,7 +280,7 @@
         }
     </style>
 </head>
-<body>
+<body class="light-mode">
 
     <header class="header">
         <a href="index.html">←</a>
@@ -334,7 +361,8 @@
                 </div>
             </div>
 
-            <div class="terms">
+            <!-- CGU BLINDÉ -->
+            <div class="terms-fixed">
                 <input type="checkbox" id="cgu" required>
                 <label for="cgu">
                     J'accepte les <a href="cgu.html">CGU</a>, les <a href="cgv.html">CGV</a> et la <a href="mentions-legales.html">politique de confidentialité</a>.
@@ -347,6 +375,7 @@
 
             <div class="divider">ou télécharger l'application</div>
 
+            <!-- STORES BLINDÉS NOIR -->
             <div class="stores-row">
                 <a href="https://apps.apple.com/app/sen-tew" target="_blank" class="store-btn">
                     <span class="store-icon">🍎</span>
