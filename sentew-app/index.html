@@ -1,569 +1,189 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEN TEW - Africa's Marketplace</title>
-    <link rel="stylesheet" href="css/app.css">
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Segoe UI', -apple-system, sans-serif;
-            background: #F9F9F9;
-            color: #1a1a1a;
-            padding-bottom: 90px;
-        }
-        .header {
-            background: #ffffff;
-            padding: 14px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid #eee;
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #1B5E3F;
-            text-decoration: none;
-            font-weight: 800;
-            font-size: 18px;
-        }
-        .header-icons {
-            display: flex;
-            gap: 14px;
-            align-items: center;
-        }
-        .header-icons a {
-            color: #1B5E3F;
-            text-decoration: none;
-            font-size: 22px;
-        }
-        .wallet-icon { color: #D4A574 !important; }
-
-        .hero {
-            background: linear-gradient(135deg, #F5F1E8 0%, #EDE4D0 100%);
-            padding: 40px 20px 50px;
-            position: relative;
-            overflow: hidden;
-            border-radius: 0 0 24px 24px;
-        }
-        .hero::before {
-            content: "";
-            position: absolute;
-            right: -60px;
-            top: -40px;
-            width: 300px;
-            height: 300px;
-            background: rgba(212, 165, 116, 0.2);
-            border-radius: 50%;
-        }
-        .hero-content { position: relative; z-index: 1; }
-        .hero h1 {
-            color: #0A3D26;
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 10px;
-            line-height: 1.2;
-        }
-        .hero p {
-            color: #3D2817;
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 24px;
-        }
-        .hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
-        .btn-explorer {
-            background: #D4A574;
-            color: #ffffff;
-            padding: 14px 24px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 15px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.4);
-        }
-        .btn-register {
-            background: #1B5E3F;
-            color: #ffffff;
-            padding: 14px 24px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 15px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 12px rgba(27, 94, 63, 0.4);
-        }
-
-        .section { padding: 24px 20px 16px; }
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        .section-title {
-            color: #D4A574;
-            font-size: 15px;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .section-link {
-            color: #D4A574;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 700;
-        }
-        .live-dot {
-            width: 10px;
-            height: 10px;
-            background: #DC2626;
-            border-radius: 50%;
-            display: inline-block;
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .live-scroll {
-            display: flex;
-            gap: 16px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-            margin: 0 -20px;
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-        .live-item {
-            text-align: center;
-            text-decoration: none;
-            color: #1a1a1a;
-            flex-shrink: 0;
-            width: 90px;
-        }
-        .live-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 3px solid #DC2626;
-            overflow: hidden;
-            position: relative;
-            margin: 0 auto 8px;
-        }
-        .live-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .live-badge {
-            position: absolute;
-            bottom: -4px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #DC2626;
-            color: #ffffff;
-            font-size: 9px;
-            font-weight: 800;
-            padding: 2px 8px;
-            border-radius: 4px;
-        }
-        .live-name {
-            font-size: 13px;
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .cat-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-        }
-        .cat-item {
-            text-decoration: none;
-            color: #1a1a1a;
-            text-align: center;
-        }
-        .cat-icon {
-            border-radius: 16px;
-            padding: 20px 0;
-            font-size: 32px;
-            margin-bottom: 6px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-        }
-        .cat-mode { background: linear-gradient(135deg, #F3E5F5 0%, #E1BEE7 100%); }
-        .cat-tech { background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%); }
-        .cat-beaute { background: linear-gradient(135deg, #FCE4EC 0%, #F8BBD0 100%); }
-        .cat-maison { background: linear-gradient(135deg, #FFF9C4 0%, #FFF59D 100%); }
-        .cat-name { font-size: 13px; font-weight: 700; }
-
-        .promo-banner {
-            background: linear-gradient(135deg, #1B5E3F 0%, #2E7D5A 100%);
-            color: #ffffff;
-            padding: 20px;
-            border-radius: 16px;
-            margin: 0 20px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            text-decoration: none;
-            box-shadow: 0 4px 12px rgba(27, 94, 63, 0.3);
-        }
-        .promo-banner .info h3 { font-size: 17px; margin-bottom: 4px; }
-        .promo-banner .info p { font-size: 13px; opacity: 0.95; }
-        .promo-banner .emoji { font-size: 40px; }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-        .product-card {
-            background: #ffffff;
-            border-radius: 12px;
-            overflow: hidden;
-            text-decoration: none;
-            color: #1a1a1a;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-            position: relative;
-        }
-        .product-img {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            display: block;
-            background: #F5F5F5;
-        }
-        .product-live {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: #DC2626;
-            color: #ffffff;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 10px;
-            font-weight: 800;
-        }
-        .product-fav {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #ffffff;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #DC2626;
-            text-decoration: none;
-            font-size: 16px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .product-info { padding: 10px; }
-        .product-seller {
-            font-size: 11px;
-            color: #D4A574;
-            font-weight: 700;
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .product-seller::before {
-            content: "●";
-            color: #D4A574;
-        }
-        .product-name {
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            line-height: 1.3;
-            color: #1a1a1a;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        .product-price {
-            color: #1B5E3F;
-            font-weight: 800;
-            font-size: 14px;
-        }
-        .product-rating {
-            font-size: 11px;
-            color: #666;
-            margin-top: 4px;
-        }
-
-        .payments-strip {
-            background: #ffffff;
-            padding: 16px 20px;
-            margin: 20px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-        }
-        .payments-strip .label {
-            color: #666;
-            font-size: 12px;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-        .payments-strip .icons {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            font-size: 24px;
-        }
-
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: #ffffff;
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 0;
-            border-top: 1px solid #eee;
-            z-index: 40;
-        }
-        .bottom-nav a {
-            text-decoration: none;
-            color: #666;
-            font-size: 11px;
-            text-align: center;
-        }
-        .bottom-nav a.active { color: #1B5E3F; }
-        .bottom-nav .icon {
-            font-size: 22px;
-            display: block;
-            margin-bottom: 2px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="theme-color" content="#0f6b4e">
+<title>SEN TEW — Marketplace panafricaine</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="css/app.css?v=50">
+<script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body>
+<body class="light-mode">
 
-    <header class="header">
-        <a href="index.html" class="logo">
-            <span>🌍</span> SEN TEW
-        </a>
-        <div class="header-icons">
-            <a href="recherche-resultats.html" title="Rechercher">🔍</a>
-            <a href="portefeuille.html" class="wallet-icon" title="Portefeuille">💰</a>
-            <a href="parametres.html" title="Mode nuit">🌙</a>
-        </div>
-    </header>
+<header class="topbar">
+  <h1><i data-lucide="globe" class="icon icon-md icon-vert"></i> SEN TEW</h1>
+  <button class="icon-btn" onclick="location.href='recherche-ia.html'"><i data-lucide="search" class="icon icon-md icon-vert"></i></button>
+  <button class="icon-btn" onclick="location.href='portefeuille.html'"><i data-lucide="wallet" class="icon icon-md icon-or"></i></button>
+  <button class="icon-btn" data-theme-toggle><i data-lucide="moon" class="icon icon-md icon-vert"></i></button>
+</header>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Bienvenue sur SEN TEW</h1>
-            <p>Africa's marketplace, delivering value</p>
-            <div class="hero-buttons">
-                <a href="categories.html" class="btn-explorer">🧭 Explorer</a>
-                <a href="register.html" class="btn-register">👤 S'inscrire</a>
-            </div>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="section-header">
-            <div class="section-title">
-                <span class="live-dot"></span> BOUTIQUES EN LIVE
-            </div>
-            <a href="live-boutique.html" class="section-link">Voir tout ›</a>
-        </div>
-        <div class="live-scroll">
-
-            <a href="live-boutique.html?id=aicha-couture" class="live-item">
-                <div class="live-avatar">
-                    <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&q=80" alt="Aïcha">
-                    <span class="live-badge">LIVE</span>
-                </div>
-                <div class="live-name">Aïcha Cout...</div>
-            </a>
-
-            <a href="live-boutique.html?id=moussa-tech" class="live-item">
-                <div class="live-avatar">
-                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&q=80" alt="Moussa">
-                    <span class="live-badge">LIVE</span>
-                </div>
-                <div class="live-name">Moussa Tech</div>
-            </a>
-
-            <a href="live-boutique.html?id=mariama-b" class="live-item">
-                <div class="live-avatar">
-                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&q=80" alt="Mariama">
-                    <span class="live-badge">LIVE</span>
-                </div>
-                <div class="live-name">Mariama B...</div>
-            </a>
-
-            <a href="live-boutique.html?id=fatou-fashion" class="live-item">
-                <div class="live-avatar">
-                    <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=200&q=80" alt="Fatou">
-                    <span class="live-badge">LIVE</span>
-                </div>
-                <div class="live-name">Fatou Fash...</div>
-            </a>
-
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="section-header">
-            <div class="section-title">🗂️ CATÉGORIES</div>
-            <a href="categories.html" class="section-link">Voir tout ›</a>
-        </div>
-        <div class="cat-grid">
-
-            <a href="categories.html?cat=mode" class="cat-item">
-                <div class="cat-icon cat-mode">👕</div>
-                <div class="cat-name">Mode</div>
-            </a>
-
-            <a href="categories.html?cat=tech" class="cat-item">
-                <div class="cat-icon cat-tech">📱</div>
-                <div class="cat-name">Tech</div>
-            </a>
-
-            <a href="categories.html?cat=beaute" class="cat-item">
-                <div class="cat-icon cat-beaute">✨</div>
-                <div class="cat-name">Beauté</div>
-            </a>
-
-            <a href="categories.html?cat=maison" class="cat-item">
-                <div class="cat-icon cat-maison">🏠</div>
-                <div class="cat-name">Maison</div>
-            </a>
-
-        </div>
-    </section>
-
-    <a href="fidelite.html" class="promo-banner">
-        <div class="info">
-            <h3>🎁 Programme Fidélité GOLD</h3>
-            <p>500 FCFA offerts + livraison gratuite</p>
-        </div>
-        <span class="emoji">👑</span>
-    </a>
-
-    <section class="section">
-        <div class="section-header">
-            <div class="section-title">🔥 PRODUITS POPULAIRES</div>
-            <a href="categories.html" class="section-link">Voir tout ›</a>
-        </div>
-        <div class="products-grid">
-
-            <a href="produit-detail.html?id=robe-wax" class="product-card">
-                <span class="product-live">LIVE</span>
-                <a href="favoris.html?add=robe-wax" class="product-fav">❤</a>
-                <img src="https://images.unsplash.com/photo-1596902852634-509b7b3af7e9?w=400&q=80" alt="Robe wax" class="product-img">
-                <div class="product-info">
-                    <div class="product-seller">Aïcha Couture</div>
-                    <div class="product-name">Robe wax mariage traditionnelle</div>
-                    <div class="product-price">35 000 FCFA</div>
-                    <div class="product-rating">⭐ 4.9 (63)</div>
-                </div>
-            </a>
-
-            <a href="produit-detail.html?id=sandales-peul" class="product-card">
-                <span class="product-live">LIVE</span>
-                <a href="favoris.html?add=sandales-peul" class="product-fav">❤</a>
-                <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400&q=80" alt="Sandales" class="product-img">
-                <div class="product-info">
-                    <div class="product-seller">Aïcha Couture</div>
-                    <div class="product-name">Sandales cuir Peul premium</div>
-                    <div class="product-price">8 500 FCFA</div>
-                    <div class="product-rating">⭐ 4.7 (89)</div>
-                </div>
-            </a>
-
-            <a href="produit-detail.html?id=iphone-15" class="product-card">
-                <a href="favoris.html?add=iphone-15" class="product-fav">❤</a>
-                <img src="https://images.unsplash.com/photo-1592286927505-1def25115558?w=400&q=80" alt="iPhone 15 Pro" class="product-img">
-                <div class="product-info">
-                    <div class="product-seller">Moussa Tech</div>
-                    <div class="product-name">iPhone 15 Pro 256 Go</div>
-                    <div class="product-price">850 000 FCFA</div>
-                    <div class="product-rating">⭐ 4.8 (127)</div>
-                </div>
-            </a>
-
-            <a href="produit-detail.html?id=nike-af1" class="product-card">
-                <a href="favoris.html?add=nike-af1" class="product-fav">❤</a>
-                <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=400&q=80" alt="Nike Air Force" class="product-img">
-                <div class="product-info">
-                    <div class="product-seller">Fatou Fashion</div>
-                    <div class="product-name">Nike Air Force 1 pastel</div>
-                    <div class="product-price">65 000 FCFA</div>
-                    <div class="product-rating">⭐ 4.9 (156)</div>
-                </div>
-            </a>
-
-            <a href="produit-detail.html?id=macbook" class="product-card">
-                <a href="favoris.html?add=macbook" class="product-fav">❤</a>
-                <img src="https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=400&q=80" alt="MacBook Air" class="product-img">
-                <div class="product-info">
-                    <div class="product-seller">Moussa Tech</div>
-                    <div class="product-name">MacBook Air M2 256 Go</div>
-                    <div class="product-price">620 000 FCFA</div>
-                    <div class="product-rating">⭐ 4.9 (42)</div>
-                </div>
-            </a>
-
-            <a href="produit-detail.html?id=karite" class="product-card">
-                <a href="favoris.html?add=karite" class="product-fav">❤</a>
-                <img src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=400&q=80" alt="Karité" class="product-img">
-                <div class="product-info">
-                    <div class="product-seller">Mariama B.</div>
-                    <div class="product-name">Beurre de karité pur bio</div>
-                    <div class="product-price">8 500 FCFA</div>
-                    <div class="product-rating">⭐ 4.7 (89)</div>
-                </div>
-            </a>
-
-        </div>
-    </section>
-
-    <div class="payments-strip">
-        <div class="label">💳 PAIEMENTS SÉCURISÉS</div>
-        <div class="icons">
-            <span title="Wave">📱</span>
-            <span title="Orange Money">🟠</span>
-            <span title="Visa">💳</span>
-            <span title="Mastercard">💳</span>
-            <span title="Apple Pay">🍎</span>
-            <span title="Google Pay">🅶</span>
-        </div>
+<main>
+  <!-- Hero émeraude + or -->
+  <section class="hero-emerald-gold" style="margin:12px 16px">
+    <h2 style="font-size:20px;font-weight:900;margin-bottom:4px">Bienvenue sur SEN TEW</h2>
+    <p style="font-size:13px;opacity:0.95">Africa's marketplace, delivering value</p>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button class="btn-or" onclick="location.href='produits.html'">Explorer</button>
+      <button style="background:rgba(255,255,255,0.2);color:#fff;padding:12px 20px;border-radius:10px;font-weight:700;backdrop-filter:blur(10px)" onclick="location.href='inscription.html'">S'inscrire</button>
     </div>
+  </section>
 
-    <nav class="bottom-nav">
-        <a href="index.html" class="active"><span class="icon">🏠</span>Accueil</a>
-        <a href="categories.html"><span class="icon">🗂️</span>Catégories</a>
-        <a href="panier.html"><span class="icon">🛒</span>Panier</a>
-        <a href="favoris.html"><span class="icon">❤️</span>Favoris</a>
-        <a href="profil.html"><span class="icon">👤</span>Profil</a>
-    </nav>
+  <!-- Boutiques LIVE -->
+  <div class="section-head" style="display:flex;justify-content:space-between;align-items:center;padding:0 16px">
+    <h2 style="display:flex;align-items:center;gap:6px"><i data-lucide="radio" class="icon icon-sm icon-rouge"></i> BOUTIQUES EN LIVE</h2>
+    <a href="boutiques.html" class="see-all" style="font-weight:700">Voir tout ›</a>
+  </div>
+  <div class="live-scroll" style="display:flex;gap:12px;overflow-x:auto;padding:8px 16px 16px;scrollbar-width:none">
+    <div class="live-item" style="flex-shrink:0;width:100px;text-align:center;cursor:pointer" onclick="location.href='boutique.html?id=1'">
+      <div style="position:relative;width:76px;height:76px;margin:0 auto;border-radius:50%;border:3px solid #ef4444;padding:2px">
+        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop" style="width:100%;height:100%;border-radius:50%;object-fit:cover" alt="Aïcha">
+        <span style="position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);background:#ef4444;color:#fff;font-size:9px;font-weight:800;padding:2px 8px;border-radius:8px">LIVE</span>
+      </div>
+      <strong style="display:block;margin-top:10px;font-size:12px;font-weight:700">Aïcha Cout...</strong>
+    </div>
+    <div class="live-item" style="flex-shrink:0;width:100px;text-align:center;cursor:pointer" onclick="location.href='boutique.html?id=2'">
+      <div style="position:relative;width:76px;height:76px;margin:0 auto;border-radius:50%;border:3px solid #ef4444;padding:2px">
+        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" style="width:100%;height:100%;border-radius:50%;object-fit:cover" alt="Moussa">
+        <span style="position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);background:#ef4444;color:#fff;font-size:9px;font-weight:800;padding:2px 8px;border-radius:8px">LIVE</span>
+      </div>
+      <strong style="display:block;margin-top:10px;font-size:12px;font-weight:700">Moussa Tech</strong>
+    </div>
+    <div class="live-item" style="flex-shrink:0;width:100px;text-align:center;cursor:pointer" onclick="location.href='boutique.html?id=3'">
+      <div style="position:relative;width:76px;height:76px;margin:0 auto;border-radius:50%;border:3px solid #ef4444;padding:2px">
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&h=100&fit=crop" style="width:100%;height:100%;border-radius:50%;object-fit:cover" alt="Mariama">
+        <span style="position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);background:#ef4444;color:#fff;font-size:9px;font-weight:800;padding:2px 8px;border-radius:8px">LIVE</span>
+      </div>
+      <strong style="display:block;margin-top:10px;font-size:12px;font-weight:700">Mariama B...</strong>
+    </div>
+    <div class="live-item" style="flex-shrink:0;width:100px;text-align:center;cursor:pointer" onclick="location.href='boutique.html?id=4'">
+      <div style="position:relative;width:76px;height:76px;margin:0 auto;border-radius:50%;border:3px solid #ef4444;padding:2px">
+        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&h=100&fit=crop" style="width:100%;height:100%;border-radius:50%;object-fit:cover" alt="Fatou">
+        <span style="position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);background:#ef4444;color:#fff;font-size:9px;font-weight:800;padding:2px 8px;border-radius:8px">LIVE</span>
+      </div>
+      <strong style="display:block;margin-top:10px;font-size:12px;font-weight:700">Fatou Fash...</strong>
+    </div>
+  </div>
 
+  <!-- Catégories -->
+  <div class="section-head" style="padding:0 16px">
+    <h2 style="display:flex;align-items:center;gap:6px"><i data-lucide="layout-grid" class="icon icon-sm icon-or"></i> CATÉGORIES</h2>
+  </div>
+  <div class="cats-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:8px 16px 16px">
+    <div style="text-align:center;padding:14px 6px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;cursor:pointer" onclick="location.href='categorie.html?c=mode'">
+      <div style="width:44px;height:44px;margin:0 auto 6px;background:rgba(168,85,247,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center"><i data-lucide="shirt" class="icon icon-md" style="color:#a855f7"></i></div>
+      <span style="font-size:11px;font-weight:700;color:#0a1f17">Mode</span>
+    </div>
+    <div style="text-align:center;padding:14px 6px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;cursor:pointer" onclick="location.href='categorie.html?c=tech'">
+      <div style="width:44px;height:44px;margin:0 auto 6px;background:rgba(59,130,246,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center"><i data-lucide="smartphone" class="icon icon-md" style="color:#3b82f6"></i></div>
+      <span style="font-size:11px;font-weight:700;color:#0a1f17">Tech</span>
+    </div>
+    <div style="text-align:center;padding:14px 6px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;cursor:pointer" onclick="location.href='categorie.html?c=beaute'">
+      <div style="width:44px;height:44px;margin:0 auto 6px;background:rgba(239,68,68,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center"><i data-lucide="sparkles" class="icon icon-md" style="color:#ef4444"></i></div>
+      <span style="font-size:11px;font-weight:700;color:#0a1f17">Beauté</span>
+    </div>
+    <div style="text-align:center;padding:14px 6px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;cursor:pointer" onclick="location.href='categorie.html?c=maison'">
+      <div style="width:44px;height:44px;margin:0 auto 6px;background:rgba(212,165,116,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center"><i data-lucide="home" class="icon icon-md icon-or"></i></div>
+      <span style="font-size:11px;font-weight:700;color:#0a1f17">Maison</span>
+    </div>
+  </div>
+
+  <!-- Tendances (style Amazon/Temu/SHEIN) -->
+  <div class="section-head" style="display:flex;justify-content:space-between;align-items:center;padding:0 16px">
+    <h2 style="display:flex;align-items:center;gap:6px"><i data-lucide="flame" class="icon icon-sm icon-rouge"></i> TENDANCES</h2>
+    <a href="produits.html" class="see-all" style="font-weight:700">Voir tout ›</a>
+  </div>
+  <div class="pcard-grid trend-grid" style="padding:8px 16px 20px">
+
+    <article class="pcard" onclick="location.href='produit.html?id=1'">
+      <div class="pcard-badges">
+        <span class="pcard-badge pcard-badge-disc">-30%</span>
+        <span class="pcard-badge pcard-badge-live"><i data-lucide="radio" style="width:9px;height:9px;display:inline"></i> LIVE</span>
+      </div>
+      <button style="position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:3"><i data-lucide="heart" style="width:15px;height:15px;color:#ef4444"></i></button>
+      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=400&h=400&fit=crop" alt="Robe wax"></div>
+      <div class="pcard-body" style="padding:10px 12px 12px">
+        <div class="pcard-seller" style="display:flex;align-items:center;gap:4px;margin-bottom:6px;font-size:12px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%"></span> Aïcha Couture <i data-lucide="badge-check" style="width:12px;height:12px;color:#0f6b4e"></i></div>
+        <h3 class="pcard-name" style="font-size:14px;line-height:1.35;margin:0 0 6px;min-height:36px">Robe wax mariage traditionnelle</h3>
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><span style="color:#f59e0b;font-size:12px;letter-spacing:1px">★★★★★</span><span style="color:#4a5a52;font-size:11px">4.8 · 234 avis</span></div>
+        <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+          <span class="pcard-price" style="color:#ef4444 !important;font-size:18px;font-weight:900">35 000 FCFA</span>
+          <span class="pcard-old-price" style="font-size:12px">50 000</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#4a5a52;margin-bottom:10px"><i data-lucide="package" style="width:12px;height:12px"></i> 1.2k vendus <span style="opacity:0.4">•</span> <i data-lucide="truck" style="width:12px;height:12px"></i> Gratuit</div>
+        <button class="btn-primary" style="width:100%;padding:9px;font-size:12px"><i data-lucide="shopping-cart" style="width:14px;height:14px;display:inline"></i> Ajouter</button>
+      </div>
+    </article>
+
+    <article class="pcard" onclick="location.href='produit.html?id=2'">
+      <div class="pcard-badges">
+        <span class="pcard-badge pcard-badge-disc">-25%</span>
+      </div>
+      <button style="position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:3"><i data-lucide="heart" style="width:15px;height:15px;color:#ef4444"></i></button>
+      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400&h=400&fit=crop" alt="Sandales"></div>
+      <div class="pcard-body" style="padding:10px 12px 12px">
+        <div class="pcard-seller" style="display:flex;align-items:center;gap:4px;margin-bottom:6px;font-size:12px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%"></span> Aïcha Couture <i data-lucide="badge-check" style="width:12px;height:12px;color:#0f6b4e"></i></div>
+        <h3 class="pcard-name" style="font-size:14px;line-height:1.35;margin:0 0 6px;min-height:36px">Sandales cuir Peul premium</h3>
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><span style="color:#f59e0b;font-size:12px;letter-spacing:1px">★★★★☆</span><span style="color:#4a5a52;font-size:11px">4.6 · 89</span></div>
+        <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+          <span class="pcard-price" style="color:#ef4444 !important;font-size:18px;font-weight:900">8 500 FCFA</span>
+          <span class="pcard-old-price" style="font-size:12px">11 500</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#4a5a52;margin-bottom:10px"><i data-lucide="package" style="width:12px;height:12px"></i> 456 vendus <span style="opacity:0.4">•</span> <i data-lucide="truck" style="width:12px;height:12px"></i> Gratuit</div>
+        <button class="btn-primary" style="width:100%;padding:9px;font-size:12px"><i data-lucide="shopping-cart" style="width:14px;height:14px;display:inline"></i> Ajouter</button>
+      </div>
+    </article>
+
+    <article class="pcard" onclick="location.href='produit.html?id=3'">
+      <div class="pcard-badges">
+        <span class="pcard-badge pcard-badge-local">Local</span>
+      </div>
+      <button style="position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:3"><i data-lucide="heart" style="width:15px;height:15px;color:#ef4444"></i></button>
+      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400&h=400&fit=crop" alt="T-shirt"></div>
+      <div class="pcard-body" style="padding:10px 12px 12px">
+        <div class="pcard-seller" style="display:flex;align-items:center;gap:4px;margin-bottom:6px;font-size:12px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%"></span> Aïcha Couture <i data-lucide="badge-check" style="width:12px;height:12px;color:#0f6b4e"></i></div>
+        <h3 class="pcard-name" style="font-size:14px;line-height:1.35;margin:0 0 6px;min-height:36px">Chemise en coton bio unisexe</h3>
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><span style="color:#f59e0b;font-size:12px;letter-spacing:1px">★★★★★</span><span style="color:#4a5a52;font-size:11px">4.9 · 512</span></div>
+        <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+          <span class="pcard-price" style="color:#0f6b4e !important;font-size:18px;font-weight:900">12 000 FCFA</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#4a5a52;margin-bottom:10px"><i data-lucide="package" style="width:12px;height:12px"></i> 2.1k vendus <span style="opacity:0.4">•</span> <i data-lucide="truck" style="width:12px;height:12px"></i> Gratuit</div>
+        <button class="btn-primary" style="width:100%;padding:9px;font-size:12px"><i data-lucide="shopping-cart" style="width:14px;height:14px;display:inline"></i> Ajouter</button>
+      </div>
+    </article>
+
+    <article class="pcard" onclick="location.href='produit.html?id=4'">
+      <div class="pcard-badges">
+        <span class="pcard-badge pcard-badge-disc">-40%</span>
+      </div>
+      <button style="position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:3"><i data-lucide="heart" style="width:15px;height:15px;color:#ef4444"></i></button>
+      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=400&fit=crop" alt="Baskets"></div>
+      <div class="pcard-body" style="padding:10px 12px 12px">
+        <div class="pcard-seller" style="display:flex;align-items:center;gap:4px;margin-bottom:6px;font-size:12px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%"></span> Aïcha Couture <i data-lucide="badge-check" style="width:12px;height:12px;color:#0f6b4e"></i></div>
+        <h3 class="pcard-name" style="font-size:14px;line-height:1.35;margin:0 0 6px;min-height:36px">Baskets pastel tendance femme</h3>
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><span style="color:#f59e0b;font-size:12px;letter-spacing:1px">★★★★★</span><span style="color:#4a5a52;font-size:11px">4.7 · 328</span></div>
+        <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+          <span class="pcard-price" style="color:#ef4444 !important;font-size:18px;font-weight:900">25 000 FCFA</span>
+          <span class="pcard-old-price" style="font-size:12px">42 000</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#4a5a52;margin-bottom:10px"><i data-lucide="package" style="width:12px;height:12px"></i> 847 vendus <span style="opacity:0.4">•</span> <i data-lucide="truck" style="width:12px;height:12px"></i> Gratuit</div>
+        <button class="btn-primary" style="width:100%;padding:9px;font-size:12px"><i data-lucide="shopping-cart" style="width:14px;height:14px;display:inline"></i> Ajouter</button>
+      </div>
+    </article>
+
+  </div>
+</main>
+
+<nav class="bottom-nav">
+  <a href="index.html" class="active"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="layout-grid" class="icon icon-md"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
+  <a href="favoris.html"><i data-lucide="heart" class="icon icon-md"></i><span>Favoris</span></a>
+  <a href="profil.html"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
+</nav>
+
+<script src="js/dark-mode.js?v=50"></script>
+<script>lucide.createIcons();</script>
+<script src="js/buttons-audit.js?v=51"></script>
 </body>
 </html>
