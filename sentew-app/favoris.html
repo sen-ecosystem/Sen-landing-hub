@@ -14,19 +14,21 @@
     .tabs { display: flex; background: #fff; border-bottom: 1px solid #e5e7eb; }
     .tab { flex: 1; padding: 12px; text-align: center; font-size: 13px; font-weight: 600; color: #666; cursor: pointer; border-bottom: 2px solid transparent; }
     .tab.active { color: #0f6b4e; border-bottom-color: #0f6b4e; }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px; }
-    .pcard { background: #fff; border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; display: flex; flex-direction: column; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-    .pimg { height: 140px; background: #f5f5f0; position: relative; overflow: hidden; }
+
+    /* Grille 2 colonnes verticale */
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px; }
+    .pcard { background: #fff; border-radius: 14px; overflow: hidden; text-decoration: none; color: inherit; display: flex; flex-direction: column; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+    .pimg { height: 150px; background: #f5f5f0; position: relative; overflow: hidden; }
     .pimg img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .heart { position: absolute; top: 8px; right: 8px; background: #fff; border: none; padding: 6px; border-radius: 50%; color: #dc2626; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .heart { position: absolute; top: 8px; right: 8px; background: #fff; border: none; width: 32px; height: 32px; border-radius: 50%; color: #dc2626; box-shadow: 0 2px 4px rgba(0,0,0,0.12); cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .live-badge { position: absolute; top: 8px; left: 8px; background: #dc2626; color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 4px; display: flex; align-items: center; gap: 3px; }
     .disc-badge { position: absolute; top: 8px; left: 8px; background: #dc2626; color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 4px; }
-    .pinfo { padding: 10px; }
-    .pseller { display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; color: #d4a574; text-decoration: none; margin-bottom: 4px; }
+    .pinfo { padding: 10px 12px 12px; }
+    .pseller { display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; color: #d4a574; text-decoration: none; margin-bottom: 5px; }
     .pseller::before { content: ""; width: 6px; height: 6px; background: #d4a574; border-radius: 50%; }
-    .pname { font-size: 12px; font-weight: 700; height: 32px; overflow: hidden; color: #0a1f17; line-height: 1.35; margin-bottom: 4px; }
-    .pprice { color: #0f6b4e; font-weight: 800; font-size: 14px; }
-    .pstars { color: #d4a574; font-size: 10px; margin-top: 2px; }
+    .pname { font-size: 13px; font-weight: 700; color: #0a1f17; line-height: 1.3; margin-bottom: 6px; min-height: 34px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .pprice { color: #0f6b4e; font-weight: 800; font-size: 14px; margin-bottom: 3px; }
+    .pstars { color: #d4a574; font-size: 10px; }
 
     /* Onglet Boutiques */
     .shops-list { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
@@ -37,8 +39,7 @@
     .shop-name { font-weight: 800; color: #0a1f17; font-size: 14px; display: flex; align-items: center; gap: 4px; }
     .shop-desc { color: #4a5a52; font-size: 12px; margin-top: 2px; }
     .shop-stats { display: flex; gap: 10px; font-size: 11px; color: #4a5a52; margin-top: 4px; }
-    .shop-live-btn { background: #dc2626; color: #fff; padding: 6px 12px; border-radius: 16px; font-weight: 700; font-size: 11px; display: flex; align-items: center; gap: 4px; }
-    .shop-visit-btn { background: #0f6b4e; color: #fff; padding: 6px 12px; border-radius: 16px; font-weight: 700; font-size: 11px; }
+    .shop-live-btn { background: #dc2626; color: #fff; padding: 6px 12px; border-radius: 16px; font-weight: 700; font-size: 11px; display: flex; align-items: center; gap: 4px; text-decoration: none; }
 
     .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
     .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
@@ -73,7 +74,7 @@
       <div class="pinfo">
         <a href="boutique.html?id=2" class="pseller" onclick="event.stopPropagation()">Moussa Tech ✓</a>
         <div class="pname">iPhone 15 Pro 256GB</div>
-        <div class="pprice">850 000 FCFA</div>
+        <div class="pprice">850k FCFA</div>
         <div class="pstars">★★★★★ (89)</div>
       </div>
     </a>
@@ -86,8 +87,8 @@
       </div>
       <div class="pinfo">
         <a href="boutique.html?id=2" class="pseller" onclick="event.stopPropagation()">Moussa Tech ✓</a>
-        <div class="pname">AirPods Pro 2ème gen</div>
-        <div class="pprice">145 000 FCFA</div>
+        <div class="pname">AirPods Pro 2</div>
+        <div class="pprice">145k FCFA</div>
         <div class="pstars">★★★★★ (156)</div>
       </div>
     </a>
@@ -99,8 +100,8 @@
       </div>
       <div class="pinfo">
         <a href="boutique.html?id=2" class="pseller" onclick="event.stopPropagation()">Moussa Tech ✓</a>
-        <div class="pname">MacBook Air M2 256GB</div>
-        <div class="pprice">1 200 000 FCFA</div>
+        <div class="pname">MacBook Air M2</div>
+        <div class="pprice">1.2M FCFA</div>
         <div class="pstars">★★★★☆ (42)</div>
       </div>
     </a>
@@ -112,8 +113,8 @@
       </div>
       <div class="pinfo">
         <a href="boutique.html?id=2" class="pseller" onclick="event.stopPropagation()">Moussa Tech ✓</a>
-        <div class="pname">Apple Watch Series 9</div>
-        <div class="pprice">380 000 FCFA</div>
+        <div class="pname">Apple Watch S9</div>
+        <div class="pprice">380k FCFA</div>
         <div class="pstars">★★★★★ (67)</div>
       </div>
     </a>
@@ -126,50 +127,50 @@
       </div>
       <div class="pinfo">
         <a href="boutique.html?id=1" class="pseller" onclick="event.stopPropagation()">Aïcha Couture ✓</a>
-        <div class="pname">Boubou wax collection premium</div>
-        <div class="pprice">18 000 FCFA</div>
+        <div class="pname">Boubou wax premium</div>
+        <div class="pprice">18k FCFA</div>
         <div class="pstars">★★★★★ (243)</div>
       </div>
     </a>
 
     <a href="produit.html?id=6" class="pcard">
       <div class="pimg">
-        <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400&q=80" alt="Sandales cuir Peul">
+        <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400&q=80" alt="Sandales Peul">
         <span class="disc-badge">-25%</span>
         <button class="heart" onclick="event.preventDefault();this.remove()"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
       </div>
       <div class="pinfo">
         <a href="boutique.html?id=1" class="pseller" onclick="event.stopPropagation()">Aïcha Couture ✓</a>
-        <div class="pname">Sandales cuir Peul premium</div>
-        <div class="pprice">8 500 FCFA</div>
+        <div class="pname">Sandales cuir Peul</div>
+        <div class="pprice">8.5k FCFA</div>
         <div class="pstars">★★★★☆ (89)</div>
       </div>
     </a>
 
     <a href="produit.html?id=7" class="pcard">
       <div class="pimg">
-        <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&q=80" alt="Beurre karité">
+        <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&q=80" alt="Kit karité">
         <span class="disc-badge">-40%</span>
         <button class="heart" onclick="event.preventDefault();this.remove()"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
       </div>
       <div class="pinfo">
         <a href="boutique.html?id=3" class="pseller" onclick="event.stopPropagation()">Mariama B. ✓</a>
-        <div class="pname">Kit soin peau naturel karité</div>
-        <div class="pprice">13 200 FCFA</div>
+        <div class="pname">Kit soin karité naturel</div>
+        <div class="pprice">13.2k FCFA</div>
         <div class="pstars">★★★★★ (128)</div>
       </div>
     </a>
 
     <a href="produit.html?id=8" class="pcard">
       <div class="pimg">
-        <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&q=80" alt="Nike Air Force 1">
+        <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&q=80" alt="Nike AF1">
         <span class="live-badge"><i data-lucide="radio" style="width:9px;height:9px"></i> LIVE</span>
         <button class="heart" onclick="event.preventDefault();this.remove()"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
       </div>
       <div class="pinfo">
         <a href="boutique.html?id=4" class="pseller" onclick="event.stopPropagation()">Fatou Fashion ✓</a>
         <div class="pname">Nike Air Force 1 pastel</div>
-        <div class="pprice">39 000 FCFA</div>
+        <div class="pprice">39k FCFA</div>
         <div class="pstars">★★★★★ (328)</div>
       </div>
     </a>
