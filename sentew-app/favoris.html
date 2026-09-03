@@ -12,21 +12,40 @@
     .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
     .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
     .tabs { display: flex; background: #fff; border-bottom: 1px solid #e5e7eb; }
-    .tab { flex: 1; padding: 12px; text-align: center; font-size: 13px; font-weight: 600; color: #666; cursor: pointer; }
-    .tab.active { color: #0f6b4e; border-bottom: 2px solid #0f6b4e; }
+    .tab { flex: 1; padding: 12px; text-align: center; font-size: 13px; font-weight: 600; color: #666; cursor: pointer; border-bottom: 2px solid transparent; }
+    .tab.active { color: #0f6b4e; border-bottom-color: #0f6b4e; }
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px; }
-    .pcard { background: #fff; border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; }
-    .pimg { height: 120px; background: #f5f5f0; display: flex; align-items: center; justify-content: center; position: relative; }
-    .pimg i { color: #d4a574; width: 40px; height: 40px; }
-    .heart { position: absolute; top: 8px; right: 8px; background: #fff; border: none; padding: 6px; border-radius: 50%; color: #dc2626; }
+    .pcard { background: #fff; border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; display: flex; flex-direction: column; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+    .pimg { height: 140px; background: #f5f5f0; position: relative; overflow: hidden; }
+    .pimg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .heart { position: absolute; top: 8px; right: 8px; background: #fff; border: none; padding: 6px; border-radius: 50%; color: #dc2626; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .live-badge { position: absolute; top: 8px; left: 8px; background: #dc2626; color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 4px; display: flex; align-items: center; gap: 3px; }
+    .disc-badge { position: absolute; top: 8px; left: 8px; background: #dc2626; color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 4px; }
     .pinfo { padding: 10px; }
-    .pname { font-size: 12px; font-weight: 600; height: 32px; overflow: hidden; }
+    .pseller { display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; color: #d4a574; text-decoration: none; margin-bottom: 4px; }
+    .pseller::before { content: ""; width: 6px; height: 6px; background: #d4a574; border-radius: 50%; }
+    .pname { font-size: 12px; font-weight: 700; height: 32px; overflow: hidden; color: #0a1f17; line-height: 1.35; margin-bottom: 4px; }
     .pprice { color: #0f6b4e; font-weight: 800; font-size: 14px; }
-    .pstars { color: #d4a574; font-size: 10px; }
+    .pstars { color: #d4a574; font-size: 10px; margin-top: 2px; }
+
+    /* Onglet Boutiques */
+    .shops-list { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+    .shop-card { background: #fff; border-radius: 12px; padding: 12px; display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+    .shop-avatar { width: 54px; height: 54px; border-radius: 50%; overflow: hidden; border: 2px solid #d4a574; flex-shrink: 0; }
+    .shop-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .shop-info { flex: 1; min-width: 0; }
+    .shop-name { font-weight: 800; color: #0a1f17; font-size: 14px; display: flex; align-items: center; gap: 4px; }
+    .shop-desc { color: #4a5a52; font-size: 12px; margin-top: 2px; }
+    .shop-stats { display: flex; gap: 10px; font-size: 11px; color: #4a5a52; margin-top: 4px; }
+    .shop-live-btn { background: #dc2626; color: #fff; padding: 6px 12px; border-radius: 16px; font-weight: 700; font-size: 11px; display: flex; align-items: center; gap: 4px; }
+    .shop-visit-btn { background: #0f6b4e; color: #fff; padding: 6px 12px; border-radius: 16px; font-weight: 700; font-size: 11px; }
+
     .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
     .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
     .bottom-nav a.active { color: #0f6b4e; }
     .bottom-nav a i { width: 22px; height: 22px; }
+
+    .hidden { display: none; }
   </style>
 </head>
 <body class="light-mode">
@@ -38,55 +57,179 @@
 </header>
 
 <div class="tabs">
-  <div class="tab active">Produits (8)</div>
-  <div class="tab">Boutiques (3)</div>
+  <div class="tab active" onclick="showTab('produits', this)">Produits (8)</div>
+  <div class="tab" onclick="showTab('boutiques', this)">Boutiques (3)</div>
 </div>
 
-<div class="grid">
-  <a href="produit-detail.html?id=1" class="pcard">
-    <div class="pimg">
-      <i data-lucide="smartphone"></i>
-      <button class="heart"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
-    </div>
-    <div class="pinfo">
-      <div class="pname">iPhone 15 Pro 256GB</div>
-      <div class="pprice">850k FCFA</div>
-      <div class="pstars">★★★★★ (89)</div>
-    </div>
-  </a>
-  <a href="produit-detail.html?id=2" class="pcard">
-    <div class="pimg">
-      <i data-lucide="headphones"></i>
-      <button class="heart"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
-    </div>
-    <div class="pinfo">
-      <div class="pname">AirPods Pro 2</div>
-      <div class="pprice">145k FCFA</div>
-      <div class="pstars">★★★★★ (156)</div>
-    </div>
-  </a>
-  <a href="produit-detail.html?id=3" class="pcard">
-    <div class="pimg">
-      <i data-lucide="laptop"></i>
-      <button class="heart"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
-    </div>
-    <div class="pinfo">
-      <div class="pname">MacBook Air M2</div>
-      <div class="pprice">1.2M FCFA</div>
-      <div class="pstars">★★★★☆ (42)</div>
-    </div>
-  </a>
-  <a href="produit-detail.html?id=4" class="pcard">
-    <div class="pimg">
-      <i data-lucide="watch"></i>
-      <button class="heart"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
-    </div>
-    <div class="pinfo">
-      <div class="pname">Apple Watch S9</div>
-      <div class="pprice">380k FCFA</div>
-      <div class="pstars">★★★★★ (67)</div>
-    </div>
-  </a>
+<!-- ONGLET PRODUITS -->
+<div id="tab-produits">
+  <div class="grid">
+
+    <a href="produit.html?id=1" class="pcard">
+      <div class="pimg">
+        <img src="https://images.unsplash.com/photo-1592286927505-1def25115558?w=400&q=80" alt="iPhone 15 Pro">
+        <button class="heart" onclick="event.preventDefault();this.remove()"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
+      </div>
+      <div class="pinfo">
+        <a href="boutique.html?id=2" class="pseller" onclick="event.stopPropagation()">Moussa Tech ✓</a>
+        <div class="pname">iPhone 15 Pro 256GB</div>
+        <div class="pprice">850 000 FCFA</div>
+        <div class="pstars">★★★★★ (89)</div>
+      </div>
+    </a>
+
+    <a href="produit.html?id=2" class="pcard">
+      <div class="pimg">
+        <img src="https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=400&q=80" alt="AirPods Pro 2">
+        <span class="disc-badge">-20%</span>
+        <button class="heart" onclick="event.preventDefault();this.remove()"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
+      </div>
+      <div class="pinfo">
+        <a href="boutique.html?id=2" class="pseller" onclick="event.stopPropagation()">Moussa Tech ✓</a>
+        <div class="pname">AirPods Pro 2ème gen</div>
+        <div class="pprice">145 000 FCFA</div>
+        <div class="pstars">★★★★★ (156)</div>
+      </div>
+    </a>
+
+    <a href="produit.html?id=3" class="pcard">
+      <div class="pimg">
+        <img src="https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=400&q=80" alt="MacBook Air M2">
+        <button class="heart" onclick="event.preventDefault();this.remove()"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
+      </div>
+      <div class="pinfo">
+        <a href="boutique.html?id=2" class="pseller" onclick="event.stopPropagation()">Moussa Tech ✓</a>
+        <div class="pname">MacBook Air M2 256GB</div>
+        <div class="pprice">1 200 000 FCFA</div>
+        <div class="pstars">★★★★☆ (42)</div>
+      </div>
+    </a>
+
+    <a href="produit.html?id=4" class="pcard">
+      <div class="pimg">
+        <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&q=80" alt="Apple Watch S9">
+        <button class="heart" onclick="event.preventDefault();this.remove()"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
+      </div>
+      <div class="pinfo">
+        <a href="boutique.html?id=2" class="pseller" onclick="event.stopPropagation()">Moussa Tech ✓</a>
+        <div class="pname">Apple Watch Series 9</div>
+        <div class="pprice">380 000 FCFA</div>
+        <div class="pstars">★★★★★ (67)</div>
+      </div>
+    </a>
+
+    <a href="produit.html?id=5" class="pcard">
+      <div class="pimg">
+        <img src="https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=400&q=80" alt="Boubou wax">
+        <span class="live-badge"><i data-lucide="radio" style="width:9px;height:9px"></i> LIVE</span>
+        <button class="heart" onclick="event.preventDefault();this.remove()"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
+      </div>
+      <div class="pinfo">
+        <a href="boutique.html?id=1" class="pseller" onclick="event.stopPropagation()">Aïcha Couture ✓</a>
+        <div class="pname">Boubou wax collection premium</div>
+        <div class="pprice">18 000 FCFA</div>
+        <div class="pstars">★★★★★ (243)</div>
+      </div>
+    </a>
+
+    <a href="produit.html?id=6" class="pcard">
+      <div class="pimg">
+        <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400&q=80" alt="Sandales cuir Peul">
+        <span class="disc-badge">-25%</span>
+        <button class="heart" onclick="event.preventDefault();this.remove()"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
+      </div>
+      <div class="pinfo">
+        <a href="boutique.html?id=1" class="pseller" onclick="event.stopPropagation()">Aïcha Couture ✓</a>
+        <div class="pname">Sandales cuir Peul premium</div>
+        <div class="pprice">8 500 FCFA</div>
+        <div class="pstars">★★★★☆ (89)</div>
+      </div>
+    </a>
+
+    <a href="produit.html?id=7" class="pcard">
+      <div class="pimg">
+        <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&q=80" alt="Beurre karité">
+        <span class="disc-badge">-40%</span>
+        <button class="heart" onclick="event.preventDefault();this.remove()"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
+      </div>
+      <div class="pinfo">
+        <a href="boutique.html?id=3" class="pseller" onclick="event.stopPropagation()">Mariama B. ✓</a>
+        <div class="pname">Kit soin peau naturel karité</div>
+        <div class="pprice">13 200 FCFA</div>
+        <div class="pstars">★★★★★ (128)</div>
+      </div>
+    </a>
+
+    <a href="produit.html?id=8" class="pcard">
+      <div class="pimg">
+        <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&q=80" alt="Nike Air Force 1">
+        <span class="live-badge"><i data-lucide="radio" style="width:9px;height:9px"></i> LIVE</span>
+        <button class="heart" onclick="event.preventDefault();this.remove()"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
+      </div>
+      <div class="pinfo">
+        <a href="boutique.html?id=4" class="pseller" onclick="event.stopPropagation()">Fatou Fashion ✓</a>
+        <div class="pname">Nike Air Force 1 pastel</div>
+        <div class="pprice">39 000 FCFA</div>
+        <div class="pstars">★★★★★ (328)</div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<!-- ONGLET BOUTIQUES -->
+<div id="tab-boutiques" class="hidden">
+  <div class="shops-list">
+
+    <a href="boutique.html?id=1" class="shop-card">
+      <div class="shop-avatar"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop" alt=""></div>
+      <div class="shop-info">
+        <div class="shop-name">Aïcha Couture <i data-lucide="badge-check" style="width:14px;height:14px;color:#d4a574"></i></div>
+        <div class="shop-desc">Mode africaine · Dakar</div>
+        <div class="shop-stats">
+          <span>👥 856</span>
+          <span>📦 24</span>
+          <span>⭐ 4.9</span>
+        </div>
+      </div>
+      <a href="live.html?id=1" class="shop-live-btn" onclick="event.stopPropagation()">
+        <i data-lucide="radio" style="width:11px;height:11px"></i> LIVE
+      </a>
+    </a>
+
+    <a href="boutique.html?id=2" class="shop-card">
+      <div class="shop-avatar"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" alt=""></div>
+      <div class="shop-info">
+        <div class="shop-name">Moussa Tech <i data-lucide="badge-check" style="width:14px;height:14px;color:#d4a574"></i></div>
+        <div class="shop-desc">Électronique · Dakar</div>
+        <div class="shop-stats">
+          <span>👥 1.2k</span>
+          <span>📦 32</span>
+          <span>⭐ 4.7</span>
+        </div>
+      </div>
+      <a href="live.html?id=2" class="shop-live-btn" onclick="event.stopPropagation()">
+        <i data-lucide="radio" style="width:11px;height:11px"></i> LIVE
+      </a>
+    </a>
+
+    <a href="boutique.html?id=4" class="shop-card">
+      <div class="shop-avatar"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&h=100&fit=crop" alt=""></div>
+      <div class="shop-info">
+        <div class="shop-name">Fatou Fashion <i data-lucide="badge-check" style="width:14px;height:14px;color:#d4a574"></i></div>
+        <div class="shop-desc">Sneakers & streetwear · Dakar</div>
+        <div class="shop-stats">
+          <span>👥 3.5k</span>
+          <span>📦 48</span>
+          <span>⭐ 4.9</span>
+        </div>
+      </div>
+      <a href="live.html?id=4" class="shop-live-btn" onclick="event.stopPropagation()">
+        <i data-lucide="radio" style="width:11px;height:11px"></i> LIVE
+      </a>
+    </a>
+
+  </div>
 </div>
 
 <nav class="bottom-nav">
@@ -97,6 +240,16 @@
   <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
-<script>lucide.createIcons();</script>
+<script>
+  lucide.createIcons();
+
+  function showTab(name, el) {
+    document.getElementById('tab-produits').classList.toggle('hidden', name !== 'produits');
+    document.getElementById('tab-boutiques').classList.toggle('hidden', name !== 'boutiques');
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    lucide.createIcons();
+  }
+</script>
 </body>
 </html>
