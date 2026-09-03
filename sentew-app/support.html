@@ -6,6 +6,78 @@
 <title>Aide & Support — SEN TEW</title>
 <link rel="stylesheet" href="css/app.css?v=50">
 <script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  /* Force la lisibilité du hero IA (override app.css) */
+  .hero-ia-support {
+    background: linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%) !important;
+    border-radius: 20px;
+    padding: 24px;
+    color: #ffffff !important;
+    margin-bottom: 20px;
+    box-shadow: 0 12px 32px rgba(109, 40, 217, 0.4);
+    position: relative;
+    overflow: hidden;
+    display: block;
+    text-decoration: none;
+  }
+  .hero-ia-support::before {
+    content: "";
+    position: absolute;
+    right: -30px;
+    top: -30px;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+  }
+  .hero-ia-support h2,
+  .hero-ia-support p,
+  .hero-ia-support .bot-wrap,
+  .hero-ia-support .cta-chat {
+    position: relative;
+    z-index: 2;
+  }
+  .hero-ia-support .bot-wrap {
+    width: 56px;
+    height: 56px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    backdrop-filter: blur(10px);
+  }
+  .hero-ia-support h2 {
+    color: #ffffff !important;
+    font-size: 22px;
+    font-weight: 900;
+    margin: 0 0 6px 0;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  }
+  .hero-ia-support p {
+    color: #ffffff !important;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    opacity: 1 !important;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+    line-height: 1.5;
+  }
+  .hero-ia-support .cta-chat {
+    background: #ffffff;
+    color: #6d28d9 !important;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    font-size: 14px;
+  }
+</style>
 </head>
 <body class="light-mode">
 
@@ -17,18 +89,18 @@
 
 <main style="padding:16px;padding-bottom:100px">
 
-  <!-- Hero support IA (LISIBILITÉ CORRIGÉE) -->
-  <section style="background:linear-gradient(135deg,#a855f7 0%,#7c3aed 100%);border-radius:20px;padding:22px;color:#ffffff;margin-bottom:20px;box-shadow:0 12px 32px rgba(168,85,247,0.3);position:relative;overflow:hidden">
-    <div style="position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.15)"></div>
-    <div style="position:relative;z-index:2">
-      <div style="width:56px;height:56px;background:rgba(255,255,255,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:12px;backdrop-filter:blur(10px)">
-        <i data-lucide="bot" style="width:28px;height:28px;color:#ffffff"></i>
-      </div>
-      <h2 style="color:#ffffff !important;font-size:20px;font-weight:900;margin-bottom:6px;text-shadow:0 2px 4px rgba(0,0,0,0.2)">Assistant IA SEN TEW</h2>
-      <p style="color:#ffffff !important;font-size:13px;font-weight:600;margin-bottom:14px;opacity:1;text-shadow:0 1px 3px rgba(0,0,0,0.2)">Disponible 24/7 · Français + Wolof · Réponse instantanée</p>
-      <a href="recherche-ia.html" style="background:#ffffff;color:#7c3aed;padding:12px 20px;border-radius:12px;font-weight:800;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);text-decoration:none;font-size:14px"><i data-lucide="message-circle" style="width:18px;height:18px;color:#7c3aed"></i> Démarrer une conversation</a>
+  <!-- Hero support IA (LISIBILITÉ FORCÉE) -->
+  <a href="assistant-ia.html" class="hero-ia-support">
+    <div class="bot-wrap">
+      <i data-lucide="bot" style="width:28px;height:28px;color:#ffffff"></i>
     </div>
-  </section>
+    <h2>Assistant IA SEN TEW</h2>
+    <p>Disponible 24/7 · Français + Wolof · Réponse instantanée</p>
+    <span class="cta-chat">
+      <i data-lucide="message-circle" style="width:18px;height:18px;color:#6d28d9"></i>
+      Démarrer une conversation
+    </span>
+  </a>
 
   <!-- Actions rapides -->
   <h2 class="section-title"><i data-lucide="zap" class="icon icon-sm icon-or"></i> DEMANDES RAPIDES</h2>
@@ -75,10 +147,10 @@
   <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
     <p style="color:#0a1f17;font-size:13px;line-height:1.6;margin-bottom:12px">Pour être remboursé, votre commande doit remplir <strong>1 des 4 conditions</strong> :</p>
     <ul style="list-style:none;padding:0;margin:0">
-      <li style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f5f5f0"><span style="color:#0f6b4e;font-weight:900;flex-shrink:0">•</span><span style="color:#0a1f17;font-size:13px">Produit non conforme à la description</span></li>
-      <li style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f5f5f0"><span style="color:#0f6b4e;font-weight:900;flex-shrink:0">•</span><span style="color:#0a1f17;font-size:13px">Article défectueux ou cassé à réception</span></li>
-      <li style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f5f5f0"><span style="color:#0f6b4e;font-weight:900;flex-shrink:0">•</span><span style="color:#0a1f17;font-size:13px">Colis jamais reçu (> 7 jours après expédition)</span></li>
-      <li style="display:flex;align-items:flex-start;gap:10px;padding:8px 0"><span style="color:#0f6b4e;font-weight:900;flex-shrink:0">•</span><span style="color:#0a1f17;font-size:13px">Erreur du vendeur (mauvaise taille, couleur, etc.)</span></li>
+      <li style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f5f5f0"><span style="color:#0f6b4e;font-weight:900;flex-shrink:0;font-size:18px;line-height:1">•</span><span style="color:#0a1f17;font-size:13px">Produit non conforme à la description</span></li>
+      <li style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f5f5f0"><span style="color:#0f6b4e;font-weight:900;flex-shrink:0;font-size:18px;line-height:1">•</span><span style="color:#0a1f17;font-size:13px">Article défectueux ou cassé à réception</span></li>
+      <li style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f5f5f0"><span style="color:#0f6b4e;font-weight:900;flex-shrink:0;font-size:18px;line-height:1">•</span><span style="color:#0a1f17;font-size:13px">Colis jamais reçu (> 7 jours après expédition)</span></li>
+      <li style="display:flex;align-items:flex-start;gap:10px;padding:8px 0"><span style="color:#0f6b4e;font-weight:900;flex-shrink:0;font-size:18px;line-height:1">•</span><span style="color:#0a1f17;font-size:13px">Erreur du vendeur (mauvaise taille, couleur, etc.)</span></li>
     </ul>
   </div>
 
@@ -87,7 +159,7 @@
     <p style="font-size:12px;color:#075985;line-height:1.4"><strong>Délai :</strong> Vous avez <strong>14 jours</strong> après réception pour demander un remboursement. Retour gratuit via point relais.</p>
   </div>
 
-  <a href="remboursement.html" class="btn-primary" style="width:100%;padding:14px;font-size:14px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;box-sizing:border-box"><i data-lucide="edit-3" style="width:18px;height:18px;color:#fff"></i> Ouvrir un dossier remboursement</a>
+  <a href="remboursement.html" style="width:100%;padding:14px;font-size:14px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;background:#0f6b4e;color:#fff;border-radius:12px;font-weight:800;box-sizing:border-box"><i data-lucide="edit-3" style="width:18px;height:18px;color:#fff"></i> Ouvrir un dossier remboursement</a>
 
   <!-- FAQ -->
   <h2 class="section-title"><i data-lucide="help-circle" class="icon icon-sm icon-vert"></i> QUESTIONS FRÉQUENTES</h2>
