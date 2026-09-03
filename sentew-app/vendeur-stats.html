@@ -1,149 +1,434 @@
 <!DOCTYPE html>
-<html lang="fr"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Statistiques Vendeur - SEN TEW</title>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Statistiques - Moussa Tech - SEN TEW</title>
+<link rel="stylesheet" href="css/app.css?v=50">
+<script src="https://unpkg.com/lucide@latest"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif}
-body{background:#f5f5f5;color:#222;padding-bottom:100px}
-.header{background:linear-gradient(135deg,#00a651,#008a44);color:#fff;padding:16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
-.back{background:rgba(255,255,255,.25);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px}
-.header h1{color:#fff;font-size:17px;flex:1}
-.filter{background:rgba(255,255,255,.2);border:none;color:#fff;padding:6px 12px;border-radius:8px;font-size:12px}
-.container{padding:14px}
-.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
-.kpi{padding:16px;border-radius:14px;color:#fff;position:relative;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.08)}
-.kpi::after{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.15)}
-.kpi.revenus{background:linear-gradient(135deg,#00a651,#008a44)}
-.kpi.ventes{background:linear-gradient(135deg,#ff6b35,#d84315)}
-.kpi.visiteurs{background:linear-gradient(135deg,#1da1f2,#0d47a1)}
-.kpi.conversion{background:linear-gradient(135deg,#9c27b0,#6a1b9a)}
-.kpi-icon{font-size:22px;margin-bottom:6px;position:relative;z-index:1}
-.kpi-value{font-size:20px;font-weight:800;position:relative;z-index:1}
-.kpi-label{font-size:11px;opacity:.9;position:relative;z-index:1;margin-top:2px}
-.kpi-change{font-size:11px;margin-top:6px;padding:2px 8px;background:rgba(255,255,255,.25);border-radius:10px;display:inline-block}
-.section-title{font-size:13px;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 8px}
-.chart-card{background:#fff;padding:14px;border-radius:14px;margin-bottom:10px}
-.chart-title{font-size:14px;font-weight:700;color:#222;margin-bottom:10px}
-.bar-chart{display:flex;gap:6px;align-items:flex-end;height:140px;padding:0 4px}
-.bar{flex:1;background:linear-gradient(180deg,#00a651,#008a44);border-radius:6px 6px 0 0;position:relative;min-height:20px}
-.bar span{position:absolute;bottom:-18px;left:0;right:0;text-align:center;font-size:10px;color:#666}
-.bar b{position:absolute;top:-16px;left:0;right:0;text-align:center;font-size:10px;color:#222;font-weight:700}
-.top-list{background:#fff;border-radius:14px;overflow:hidden}
-.top-item{padding:12px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #f0f0f0}
-.top-item:last-child{border-bottom:none}
-.top-rank{width:26px;height:26px;border-radius:50%;background:#fcd116;color:#222;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0}
-.top-rank.gold{background:linear-gradient(135deg,#ffd700,#f4b800);color:#222}
-.top-rank.silver{background:linear-gradient(135deg,#c0c0c0,#a0a0a0);color:#fff}
-.top-rank.bronze{background:linear-gradient(135deg,#cd7f32,#a0522d);color:#fff}
-.top-img{width:36px;height:36px;border-radius:8px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:18px}
-.top-name{flex:1;font-size:13px;font-weight:600;color:#222}
-.top-name small{display:block;color:#888;font-weight:400;font-size:11px}
-.top-value{color:#00a651;font-weight:700;font-size:13px}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;padding:8px 0;padding-bottom:calc(8px + env(safe-area-inset-bottom,0));z-index:90}
-.nav-item{flex:1;text-align:center;color:#666;font-size:10px;background:none;border:none;cursor:pointer;font-family:inherit}
-.nav-item.active{color:#00a651;font-weight:700}
-.nav-icon{font-size:22px;display:block;margin-bottom:2px}
-</style></head><body>
+  body { background: #f5f5f0; padding-bottom: 100px; }
+  .hero-shop {
+    background: linear-gradient(135deg, #d4a574 0%, #b8894f 100%);
+    color: #fff;
+    padding: 24px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .hero-shop .shop-ic {
+    width: 60px;
+    height: 60px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .hero-shop h2 { color: #fff; font-size: 20px; font-weight: 900; margin: 0 0 6px 0; }
+  .hero-shop .subtitle { color: rgba(255,255,255,0.95); font-size: 13px; }
 
-<header class="header">
-  <button class="back" onclick="history.back()">←</button>
-  <h1>📊 Mes Statistiques</h1>
-  <select class="filter"><option>Mois</option><option>Semaine</option><option>Année</option></select>
+  .period-tabs {
+    display: flex;
+    gap: 6px;
+    background: #fff;
+    padding: 6px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(15,107,78,0.05);
+    margin: 0 16px 16px;
+  }
+  .period-tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #4a5a52;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+  }
+  .period-tab.active {
+    background: #0f6b4e;
+    color: #fff;
+  }
+
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 0 16px 16px;
+  }
+  .kpi-card {
+    background: #fff;
+    border: 1px solid #e5e5e0;
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 0 2px 8px rgba(15,107,78,0.05);
+  }
+  .kpi-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+  .kpi-value {
+    color: #0a1f17;
+    font-size: 22px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .kpi-label {
+    color: #4a5a52;
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+  .kpi-trend {
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+  .trend-up { color: #0f6b4e; }
+  .trend-down { color: #ef4444; }
+
+  .section-title {
+    color: #d4a574;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    padding: 0 16px;
+    margin: 8px 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .chart-card {
+    background: #fff;
+    border: 1px solid #e5e5e0;
+    border-radius: 14px;
+    padding: 16px;
+    margin: 0 16px 16px;
+    box-shadow: 0 2px 8px rgba(15,107,78,0.05);
+  }
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 160px;
+    margin-top: 10px;
+    padding-bottom: 22px;
+  }
+  .bar {
+    flex: 1;
+    background: linear-gradient(180deg, #0f6b4e 0%, #2e8a6e 100%);
+    border-radius: 6px 6px 0 0;
+    position: relative;
+    min-height: 20px;
+    transition: all 0.3s;
+  }
+  .bar span {
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 11px;
+    color: #4a5a52;
+    font-weight: 600;
+  }
+
+  .list-card {
+    background: #fff;
+    border: 1px solid #e5e5e0;
+    border-radius: 14px;
+    overflow: hidden;
+    margin: 0 16px 16px;
+    box-shadow: 0 2px 8px rgba(15,107,78,0.05);
+  }
+  .list-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f5f5f0;
+    text-decoration: none;
+    color: inherit;
+  }
+  .list-row:last-child { border-bottom: none; }
+  .list-icon {
+    width: 42px;
+    height: 42px;
+    background: #f5f5f0;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .list-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  .list-info { flex: 1; min-width: 0; }
+  .list-name {
+    color: #0a1f17;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+  .list-desc {
+    color: #4a5a52;
+    font-size: 12px;
+  }
+  .list-value {
+    color: #0f6b4e;
+    font-weight: 800;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .export-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #fff;
+    color: #0f6b4e;
+    border: 2px solid #0f6b4e;
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: 800;
+    text-decoration: none;
+    margin: 0 16px 20px;
+  }
+</style>
+</head>
+<body class="light-mode">
+
+<header class="topbar">
+  <button class="btn-back" onclick="location.href='vendeur.html'"><i data-lucide="arrow-left" class="icon icon-md icon-vert"></i></button>
+  <h1><i data-lucide="bar-chart-3" class="icon icon-md icon-vert"></i> Statistiques</h1>
+  <button class="icon-btn" data-theme-toggle><i data-lucide="moon" class="icon icon-md icon-vert"></i></button>
 </header>
 
-<div class="container">
-  <div class="kpi-grid">
-    <div class="kpi revenus">
-      <div class="kpi-icon">💰</div>
-      <div class="kpi-value">1 245 000</div>
-      <div class="kpi-label">Revenus (FCFA)</div>
-      <div class="kpi-change">📈 +18%</div>
+<main>
+
+  <section class="hero-shop">
+    <div class="shop-ic"><i data-lucide="store" style="width:30px;height:30px;color:#fff"></i></div>
+    <div>
+      <h2>Moussa Tech</h2>
+      <div class="subtitle">Boutique vérifiée · Aperçu des performances</div>
     </div>
-    <div class="kpi ventes">
-      <div class="kpi-icon">🛒</div>
-      <div class="kpi-value">42</div>
-      <div class="kpi-label">Ventes du mois</div>
-      <div class="kpi-change">📈 +25%</div>
-    </div>
-    <div class="kpi visiteurs">
-      <div class="kpi-icon">👀</div>
-      <div class="kpi-value">3 254</div>
-      <div class="kpi-label">Visiteurs boutique</div>
-      <div class="kpi-change">📈 +12%</div>
-    </div>
-    <div class="kpi conversion">
-      <div class="kpi-icon">⚡</div>
-      <div class="kpi-value">4.2%</div>
-      <div class="kpi-label">Taux conversion</div>
-      <div class="kpi-change">📈 +0.8%</div>
-    </div>
+  </section>
+
+  <!-- Onglets période -->
+  <div class="period-tabs">
+    <button class="period-tab" onclick="setPeriod(this)">Jour</button>
+    <button class="period-tab" onclick="setPeriod(this)">Semaine</button>
+    <button class="period-tab active" onclick="setPeriod(this)">Mois</button>
+    <button class="period-tab" onclick="setPeriod(this)">Année</button>
   </div>
 
-  <div class="section-title">📈 Ventes des 7 derniers jours</div>
+  <!-- KPI grid -->
+  <div class="kpi-grid">
+
+    <div class="kpi-card">
+      <div class="kpi-icon" style="background:rgba(15,107,78,0.12)">
+        <i data-lucide="trending-up" style="width:22px;height:22px;color:#0f6b4e"></i>
+      </div>
+      <div class="kpi-value">1.8M</div>
+      <div class="kpi-label">CA (FCFA)</div>
+      <div class="kpi-trend trend-up"><i data-lucide="arrow-up" style="width:11px;height:11px"></i> +12% ce mois</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon" style="background:rgba(59,130,246,0.12)">
+        <i data-lucide="shopping-bag" style="width:22px;height:22px;color:#3b82f6"></i>
+      </div>
+      <div class="kpi-value">32</div>
+      <div class="kpi-label">Ventes</div>
+      <div class="kpi-trend trend-up"><i data-lucide="arrow-up" style="width:11px;height:11px"></i> +8%</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon" style="background:rgba(245,158,11,0.15)">
+        <i data-lucide="star" style="width:22px;height:22px;color:#f59e0b"></i>
+      </div>
+      <div class="kpi-value">4.7 ★</div>
+      <div class="kpi-label">Note moyenne</div>
+      <div class="kpi-trend trend-up"><i data-lucide="arrow-up" style="width:11px;height:11px"></i> +0.2</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon" style="background:rgba(168,85,247,0.12)">
+        <i data-lucide="eye" style="width:22px;height:22px;color:#a855f7"></i>
+      </div>
+      <div class="kpi-value">1 247</div>
+      <div class="kpi-label">Visiteurs</div>
+      <div class="kpi-trend trend-up"><i data-lucide="arrow-up" style="width:11px;height:11px"></i> +24%</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon" style="background:rgba(239,68,68,0.12)">
+        <i data-lucide="percent" style="width:22px;height:22px;color:#ef4444"></i>
+      </div>
+      <div class="kpi-value">2.6%</div>
+      <div class="kpi-label">Taux conversion</div>
+      <div class="kpi-trend trend-down"><i data-lucide="arrow-down" style="width:11px;height:11px"></i> -0.4%</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon" style="background:rgba(212,165,116,0.15)">
+        <i data-lucide="shopping-cart" style="width:22px;height:22px;color:#d4a574"></i>
+      </div>
+      <div class="kpi-value">56k</div>
+      <div class="kpi-label">Panier moyen</div>
+      <div class="kpi-trend trend-up"><i data-lucide="arrow-up" style="width:11px;height:11px"></i> +5%</div>
+    </div>
+
+  </div>
+
+  <!-- Graphique ventes -->
+  <h2 class="section-title"><i data-lucide="trending-up" class="icon icon-sm icon-vert"></i> ÉVOLUTION DES VENTES</h2>
   <div class="chart-card">
     <div class="bar-chart">
-      <div class="bar" style="height:40%"><b>3</b><span>Lun</span></div>
-      <div class="bar" style="height:60%"><b>5</b><span>Mar</span></div>
-      <div class="bar" style="height:80%"><b>7</b><span>Mer</span></div>
-      <div class="bar" style="height:50%"><b>4</b><span>Jeu</span></div>
-      <div class="bar" style="height:90%"><b>8</b><span>Ven</span></div>
-      <div class="bar" style="height:100%"><b>9</b><span>Sam</span></div>
-      <div class="bar" style="height:65%"><b>6</b><span>Dim</span></div>
+      <div class="bar" style="height:40%"><span>Lun</span></div>
+      <div class="bar" style="height:65%"><span>Mar</span></div>
+      <div class="bar" style="height:55%"><span>Mer</span></div>
+      <div class="bar" style="height:80%"><span>Jeu</span></div>
+      <div class="bar" style="height:90%"><span>Ven</span></div>
+      <div class="bar" style="height:100%"><span>Sam</span></div>
+      <div class="bar" style="height:70%"><span>Dim</span></div>
     </div>
   </div>
 
-  <div class="section-title">🏆 Top 5 produits</div>
-  <div class="top-list">
-    <div class="top-item">
-      <div class="top-rank gold">1</div>
-      <div class="top-img">👗</div>
-      <div class="top-name">Boubou traditionnel<small>15 ventes ce mois</small></div>
-      <div class="top-value">375 000 F</div>
-    </div>
-    <div class="top-item">
-      <div class="top-rank silver">2</div>
-      <div class="top-img">👚</div>
-      <div class="top-name">Robe wax colorée<small>12 ventes ce mois</small></div>
-      <div class="top-value">222 000 F</div>
-    </div>
-    <div class="top-item">
-      <div class="top-rank bronze">3</div>
-      <div class="top-img">👜</div>
-      <div class="top-name">Sac cuir artisanal<small>8 ventes ce mois</small></div>
-      <div class="top-value">120 000 F</div>
-    </div>
-    <div class="top-item">
-      <div class="top-rank">4</div>
-      <div class="top-img">👠</div>
-      <div class="top-name">Sandales cousues<small>5 ventes ce mois</small></div>
-      <div class="top-value">42 500 F</div>
-    </div>
-    <div class="top-item">
-      <div class="top-rank">5</div>
-      <div class="top-img">💍</div>
-      <div class="top-name">Bijoux traditionnels<small>2 ventes ce mois</small></div>
-      <div class="top-value">18 000 F</div>
-    </div>
+  <!-- Top 5 produits -->
+  <h2 class="section-title"><i data-lucide="trophy" class="icon icon-sm icon-or"></i> TOP 5 PRODUITS</h2>
+  <div class="list-card">
+
+    <a href="produit.html?id=10" class="list-row">
+      <div class="list-icon"><img src="https://images.unsplash.com/photo-1592286927505-1def25115558?w=100&q=80" alt=""></div>
+      <div class="list-info">
+        <div class="list-name">iPhone 15 Pro</div>
+        <div class="list-desc">12 ventes</div>
+      </div>
+      <div class="list-value">850k F</div>
+    </a>
+
+    <a href="produit.html?id=11" class="list-row">
+      <div class="list-icon"><img src="https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=100&q=80" alt=""></div>
+      <div class="list-info">
+        <div class="list-name">MacBook Air M2</div>
+        <div class="list-desc">6 ventes</div>
+      </div>
+      <div class="list-value">620k F</div>
+    </a>
+
+    <a href="produit.html?id=12" class="list-row">
+      <div class="list-icon"><img src="https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=100&q=80" alt=""></div>
+      <div class="list-info">
+        <div class="list-name">AirPods Pro 2</div>
+        <div class="list-desc">18 ventes</div>
+      </div>
+      <div class="list-value">180k F</div>
+    </a>
+
+    <a href="produit.html?id=13" class="list-row">
+      <div class="list-icon"><img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=100&q=80" alt=""></div>
+      <div class="list-info">
+        <div class="list-name">Apple Watch S9</div>
+        <div class="list-desc">4 ventes</div>
+      </div>
+      <div class="list-value">95k F</div>
+    </a>
+
+    <a href="produit.html?id=14" class="list-row">
+      <div class="list-icon"><img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=100&q=80" alt=""></div>
+      <div class="list-info">
+        <div class="list-name">Écran Samsung 27"</div>
+        <div class="list-desc">3 ventes</div>
+      </div>
+      <div class="list-value">55k F</div>
+    </a>
+
   </div>
 
-  <div class="section-title">🌍 Villes clientes</div>
-  <div class="top-list">
-    <div class="top-item"><div class="top-img">📍</div><div class="top-name">Dakar<small>65% des ventes</small></div><div class="top-value">27</div></div>
-    <div class="top-item"><div class="top-img">📍</div><div class="top-name">Thiès<small>15% des ventes</small></div><div class="top-value">6</div></div>
-    <div class="top-item"><div class="top-img">📍</div><div class="top-name">Saint-Louis<small>10% des ventes</small></div><div class="top-value">4</div></div>
-    <div class="top-item"><div class="top-img">🇫🇷</div><div class="top-name">Paris (France)<small>7% - diaspora</small></div><div class="top-value">3</div></div>
-    <div class="top-item"><div class="top-img">🇺🇸</div><div class="top-name">New York<small>3% - export</small></div><div class="top-value">2</div></div>
+  <!-- Origine des clients -->
+  <h2 class="section-title"><i data-lucide="globe" class="icon icon-sm icon-vert"></i> ORIGINE DES CLIENTS</h2>
+  <div class="list-card">
+
+    <div class="list-row">
+      <div class="list-icon" style="background:#0f6b4e;color:#fff;font-size:20px">🇸🇳</div>
+      <div class="list-info">
+        <div class="list-name">Sénégal</div>
+        <div class="list-desc">Dakar, Thiès, Saint-Louis</div>
+      </div>
+      <div class="list-value">68%</div>
+    </div>
+
+    <div class="list-row">
+      <div class="list-icon" style="background:#3b82f6;color:#fff;font-size:20px">🇫🇷</div>
+      <div class="list-info">
+        <div class="list-name">France</div>
+        <div class="list-desc">Diaspora Paris, Lyon</div>
+      </div>
+      <div class="list-value">18%</div>
+    </div>
+
+    <div class="list-row">
+      <div class="list-icon" style="background:#ef4444;color:#fff;font-size:20px">🇮🇹</div>
+      <div class="list-info">
+        <div class="list-name">Italie</div>
+        <div class="list-desc">Diaspora Milan, Gênes</div>
+      </div>
+      <div class="list-value">9%</div>
+    </div>
+
+    <div class="list-row">
+      <div class="list-icon" style="background:#a855f7;color:#fff;font-size:20px">🌍</div>
+      <div class="list-info">
+        <div class="list-name">Autres pays</div>
+        <div class="list-desc">USA, Canada, Espagne</div>
+      </div>
+      <div class="list-value">5%</div>
+    </div>
+
   </div>
-</div>
+
+  <!-- Actions -->
+  <a href="#" onclick="alert('📥 Export PDF en préparation');return false;" class="export-btn">
+    <i data-lucide="download" style="width:18px;height:18px"></i> Exporter les statistiques (PDF)
+  </a>
+
+</main>
 
 <nav class="bottom-nav">
-  <button class="nav-item" onclick="location.href='vendeur.html'"><span class="nav-icon">🏪</span>Boutique</button>
-  <button class="nav-item" onclick="location.href='commandes.html?role=vendeur'"><span class="nav-icon" style="color:#ff6b35">📦</span>Commandes</button>
-  <button class="nav-item" onclick="location.href='ajouter-produit.html'"><span class="nav-icon" style="color:#00a651">➕</span>Ajouter</button>
-  <button class="nav-item active"><span class="nav-icon" style="color:#1da1f2">📊</span>Stats</button>
-  <button class="nav-item" onclick="location.href='profil.html?role=vendeur'"><span class="nav-icon" style="color:#9c27b0">👤</span>Profil</button>
+  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="layout-grid" class="icon icon-md"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
+  <a href="messages.html"><i data-lucide="message-circle" class="icon icon-md"></i><span>Messages</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
 </nav>
-  <script src="js/dark-mode.js"></script>
-<script src="js/role-guard.js"></script>
-<script src="js/buttons-audit.js?v=51"></script>
-</body></html>
+
+<script src="js/dark-mode.js?v=50"></script>
+<script>
+  lucide.createIcons();
+  function setPeriod(btn) {
+    document.querySelectorAll('.period-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+  }
+</script>
+</body>
+</html>
