@@ -16,17 +16,16 @@ body{background:#000;color:#fff;height:100vh;height:100dvh;overflow:hidden}
 .live-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .video-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,transparent 22%,transparent 55%,rgba(0,0,0,.8) 100%);z-index:1}
 
-/* TOP BAR */
 .top-overlay{position:absolute;top:0;left:0;right:0;padding:14px 14px 40px;padding-top:calc(14px + env(safe-area-inset-top,0));z-index:5}
 .top-row{display:flex;align-items:center;gap:10px}
-.back-btn{background:rgba(0,0,0,.5);border:none;color:#fff;width:38px;height:38px;border-radius:50%;font-size:18px;cursor:pointer;backdrop-filter:blur(10px);text-decoration:none;display:flex;align-items:center;justify-content:center}
-.host-info{flex:1;display:flex;align-items:center;gap:8px}
+.back-btn{background:rgba(0,0,0,.5);border:none;color:#fff;width:38px;height:38px;border-radius:50%;font-size:18px;cursor:pointer;backdrop-filter:blur(10px);text-decoration:none;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.host-info{flex:1;display:flex;align-items:center;gap:8px;text-decoration:none;color:#fff;cursor:pointer}
 .host-avatar{width:42px;height:42px;border-radius:50%;overflow:hidden;border:2px solid var(--or);flex-shrink:0}
 .host-avatar img{width:100%;height:100%;object-fit:cover}
 .host-name{color:#fff;font-weight:700;font-size:14px;text-shadow:0 1px 3px rgba(0,0,0,.7);display:flex;align-items:center;gap:4px}
 .host-name .tick{background:var(--or);color:#fff;width:14px;height:14px;border-radius:50%;font-size:9px;display:inline-flex;align-items:center;justify-content:center;font-weight:900}
 .host-followers{color:rgba(255,255,255,.9);font-size:11px;display:block;text-shadow:0 1px 3px rgba(0,0,0,.7)}
-.follow-live{background:var(--r);color:#fff;border:none;padding:7px 14px;border-radius:18px;font-weight:800;font-size:11px;cursor:pointer;box-shadow:0 3px 10px rgba(239,68,68,.4)}
+.follow-live{background:var(--r);color:#fff;border:none;padding:7px 14px;border-radius:18px;font-weight:800;font-size:11px;cursor:pointer;box-shadow:0 3px 10px rgba(239,68,68,.4);flex-shrink:0}
 .follow-live.following{background:rgba(255,255,255,.2);backdrop-filter:blur(10px)}
 
 .live-badge{position:absolute;top:16px;right:16px;background:var(--r);color:#fff;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:800;animation:pulse 1.5s infinite;z-index:5;box-shadow:0 3px 10px rgba(239,68,68,.5)}
@@ -35,21 +34,23 @@ body{background:#000;color:#fff;height:100vh;height:100dvh;overflow:hidden}
 .stats-live{position:absolute;top:72px;right:14px;display:flex;flex-direction:column;gap:6px;z-index:5}
 .stat-live{background:rgba(0,0,0,.55);color:#fff;padding:6px 11px;border-radius:14px;font-size:12px;font-weight:700;backdrop-filter:blur(10px);display:flex;align-items:center;gap:4px}
 
-/* PRODUIT FEATURED */
-.featured-product{position:absolute;left:14px;bottom:180px;background:rgba(255,255,255,.98);color:#0a1f17;padding:10px;border-radius:14px;display:flex;align-items:center;gap:10px;max-width:270px;box-shadow:0 4px 20px rgba(0,0,0,.5);z-index:6;backdrop-filter:blur(10px)}
+/* PRODUIT FEATURED avec 2 boutons */
+.featured-product{position:absolute;left:14px;right:76px;bottom:200px;background:rgba(255,255,255,.98);color:#0a1f17;padding:12px;border-radius:14px;box-shadow:0 4px 20px rgba(0,0,0,.5);z-index:6;backdrop-filter:blur(10px)}
+.fp-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .fp-img{width:56px;height:56px;border-radius:10px;object-fit:cover;flex-shrink:0}
 .fp-body{flex:1;min-width:0}
 .fp-name{font-size:12px;font-weight:700;line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.fp-price{color:var(--r);font-weight:900;font-size:16px}
+.fp-price{color:var(--r);font-weight:900;font-size:16px;margin-top:2px}
 .fp-price .old{color:#999;text-decoration:line-through;font-size:11px;margin-left:4px;font-weight:400}
-.fp-buy{background:linear-gradient(135deg,var(--r),#c81420);color:#fff;border:none;padding:9px 12px;border-radius:10px;font-weight:800;font-size:11px;cursor:pointer;white-space:nowrap;box-shadow:0 4px 12px rgba(239,68,68,.5);animation:shake 3s infinite}
+.fp-actions{display:flex;gap:6px}
+.fp-buy{flex:1;background:linear-gradient(135deg,var(--r),#c81420);color:#fff;border:none;padding:10px;border-radius:10px;font-weight:800;font-size:12px;cursor:pointer;box-shadow:0 4px 12px rgba(239,68,68,.5);animation:shake 3s infinite;text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;gap:4px}
 @keyframes shake{0%,90%,100%{transform:translateX(0)}92%{transform:translateX(-2px)}94%{transform:translateX(2px)}96%{transform:translateX(-2px)}}
+.fp-shop{flex:1;background:linear-gradient(135deg,var(--v),#0a4d38);color:#fff;border:none;padding:10px;border-radius:10px;font-weight:800;font-size:12px;cursor:pointer;box-shadow:0 4px 12px rgba(15,107,78,.5);text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;gap:4px}
+.fp-add{flex:0 0 42px;background:linear-gradient(135deg,var(--or),#b8894f);color:#fff;border:none;padding:10px;border-radius:10px;font-weight:800;font-size:14px;cursor:pointer;box-shadow:0 4px 12px rgba(212,165,116,.5);text-decoration:none;display:flex;align-items:center;justify-content:center}
 
-/* FLASH TIMER */
-.flash-timer{position:absolute;left:14px;bottom:250px;background:linear-gradient(135deg,var(--j),#f4b800);color:#0a1f17;padding:7px 14px;border-radius:18px;font-weight:800;font-size:12px;z-index:6;box-shadow:0 4px 12px rgba(252,209,22,.5);display:flex;align-items:center;gap:4px}
+.flash-timer{position:absolute;left:14px;bottom:305px;background:linear-gradient(135deg,var(--j),#f4b800);color:#0a1f17;padding:7px 14px;border-radius:18px;font-weight:800;font-size:12px;z-index:6;box-shadow:0 4px 12px rgba(252,209,22,.5);display:flex;align-items:center;gap:4px}
 
-/* CHAT */
-.chat-zone{position:absolute;left:0;right:76px;bottom:70px;max-height:38vh;padding:0 14px;overflow-y:auto;z-index:4;-webkit-overflow-scrolling:touch;scrollbar-width:none;-webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 15%)}
+.chat-zone{position:absolute;left:0;right:76px;bottom:70px;max-height:20vh;padding:0 14px;overflow-y:auto;z-index:4;-webkit-overflow-scrolling:touch;scrollbar-width:none;-webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 15%)}
 .chat-zone::-webkit-scrollbar{display:none}
 .chat-msg{background:rgba(0,0,0,.55);color:#fff;padding:7px 13px;border-radius:14px;font-size:13px;margin-bottom:6px;backdrop-filter:blur(10px);max-width:90%;line-height:1.4;box-shadow:0 2px 6px rgba(0,0,0,.3);animation:slideIn .3s}
 .chat-msg .user{color:var(--j);font-weight:700;margin-right:4px}
@@ -57,7 +58,6 @@ body{background:#000;color:#fff;height:100vh;height:100dvh;overflow:hidden}
 .chat-msg.system{background:rgba(15,107,78,.75);color:#fff;text-align:center;font-weight:600;font-size:12px}
 @keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-/* ACTIONS DROITE */
 .right-actions{position:absolute;right:12px;bottom:110px;display:flex;flex-direction:column;gap:20px;z-index:5}
 .action-icon-btn{background:rgba(0,0,0,.45);border:none;color:#fff;width:48px;height:48px;border-radius:50%;font-size:22px;cursor:pointer;backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;position:relative;text-decoration:none}
 .action-icon-btn .count-tag{position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);color:#fff;font-size:10px;font-weight:700;white-space:nowrap;text-shadow:0 1px 3px rgba(0,0,0,.8)}
@@ -65,7 +65,6 @@ body{background:#000;color:#fff;height:100vh;height:100dvh;overflow:hidden}
 .heart-anim{animation:heartPop .5s}
 @keyframes heartPop{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
 
-/* INPUT */
 .chat-input{position:absolute;left:0;right:76px;bottom:0;padding:10px 14px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0));background:linear-gradient(0deg,rgba(0,0,0,.85),transparent);z-index:7;display:flex;gap:8px}
 .chat-input input{flex:1;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;padding:10px 14px;border-radius:20px;font-size:13px;outline:none;backdrop-filter:blur(10px)}
 .chat-input input::placeholder{color:rgba(255,255,255,.65)}
@@ -90,14 +89,14 @@ body{background:#000;color:#fff;height:100vh;height:100dvh;overflow:hidden}
     <div class="top-overlay">
         <div class="top-row">
             <a href="index.html" class="back-btn">←</a>
-            <div class="host-info">
+            <a href="boutique.html?id=1" class="host-info">
                 <div class="host-avatar"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop" alt=""></div>
                 <div>
                     <div class="host-name">Aïcha Couture <span class="tick">✓</span></div>
                     <span class="host-followers">856 abonnés · 🔴 EN DIRECT</span>
                 </div>
-            </div>
-            <button class="follow-live" onclick="toggleFol(this)">+ Suivre</button>
+            </a>
+            <button class="follow-live" onclick="event.stopPropagation();toggleFol(this)">+ Suivre</button>
         </div>
     </div>
 
@@ -111,23 +110,25 @@ body{background:#000;color:#fff;height:100vh;height:100dvh;overflow:hidden}
     <div class="flash-timer">⚡ FLASH -30% · <span id="t1">02:34</span></div>
 
     <div class="featured-product">
-        <img class="fp-img" src="https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=200" alt="">
-        <div class="fp-body">
-            <div class="fp-name">Robe wax mariage traditionnelle</div>
-            <div class="fp-price">17 500 F <span class="old">25 000</span></div>
+        <div class="fp-top">
+            <img class="fp-img" src="https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=200" alt="">
+            <div class="fp-body">
+                <div class="fp-name">Robe wax mariage traditionnelle</div>
+                <div class="fp-price">17 500 F <span class="old">25 000</span></div>
+            </div>
         </div>
-        <button class="fp-buy" onclick="flashBuy('Robe wax')">🛒 FLASH BUY</button>
+        <div class="fp-actions">
+            <a href="produit.html?id=1" class="fp-buy">🛒 Acheter</a>
+            <a href="boutique.html?id=1" class="fp-shop">🏪 Boutique</a>
+            <a href="panier.html?add=1" class="fp-add">+</a>
+        </div>
     </div>
 
     <div class="chat-zone" id="chat1">
         <div class="chat-msg system">🎉 Bienvenue au LIVE Aïcha Couture !</div>
         <div class="chat-msg"><span class="user host">Aïcha 👑</span> Bonsoir tout le monde !</div>
         <div class="chat-msg"><span class="user">Awa D.</span> Le boubou est magnifique 😍</div>
-        <div class="chat-msg"><span class="user">Ibrahima</span> Prix pour taille XL ?</div>
-        <div class="chat-msg"><span class="user host">Aïcha 👑</span> 17 500 FCFA en flash pendant 3 min !</div>
         <div class="chat-msg"><span class="user">Fatou M.</span> Je prends ! 🛒</div>
-        <div class="chat-msg"><span class="user">Moussa</span> Livraison combien à Thiès ?</div>
-        <div class="chat-msg system">💜 45 personnes ont aimé ce LIVE</div>
     </div>
 
     <div class="right-actions">
@@ -155,14 +156,14 @@ body{background:#000;color:#fff;height:100vh;height:100dvh;overflow:hidden}
     <div class="top-overlay">
         <div class="top-row">
             <a href="index.html" class="back-btn">←</a>
-            <div class="host-info">
+            <a href="boutique.html?id=2" class="host-info">
                 <div class="host-avatar"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" alt=""></div>
                 <div>
                     <div class="host-name">Moussa Tech <span class="tick">✓</span></div>
                     <span class="host-followers">650 abonnés · 🔴 EN DIRECT</span>
                 </div>
-            </div>
-            <button class="follow-live" onclick="toggleFol(this)">+ Suivre</button>
+            </a>
+            <button class="follow-live" onclick="event.stopPropagation();toggleFol(this)">+ Suivre</button>
         </div>
     </div>
 
@@ -176,12 +177,18 @@ body{background:#000;color:#fff;height:100vh;height:100dvh;overflow:hidden}
     <div class="flash-timer">⚡ AirPods -25% · 04:12</div>
 
     <div class="featured-product">
-        <img class="fp-img" src="https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=200" alt="">
-        <div class="fp-body">
-            <div class="fp-name">AirPods Pro 2ème génération</div>
-            <div class="fp-price">135 000 F <span class="old">180 000</span></div>
+        <div class="fp-top">
+            <img class="fp-img" src="https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=200" alt="">
+            <div class="fp-body">
+                <div class="fp-name">AirPods Pro 2ème génération</div>
+                <div class="fp-price">135 000 F <span class="old">180 000</span></div>
+            </div>
         </div>
-        <button class="fp-buy" onclick="flashBuy('AirPods')">🛒 FLASH BUY</button>
+        <div class="fp-actions">
+            <a href="produit.html?id=10" class="fp-buy">🛒 Acheter</a>
+            <a href="boutique.html?id=2" class="fp-shop">🏪 Boutique</a>
+            <a href="panier.html?add=10" class="fp-add">+</a>
+        </div>
     </div>
 
     <div class="chat-zone" id="chat2">
@@ -189,8 +196,6 @@ body{background:#000;color:#fff;height:100vh;height:100dvh;overflow:hidden}
         <div class="chat-msg"><span class="user host">Moussa 📱</span> Démo AirPods Pro 2 en cours</div>
         <div class="chat-msg"><span class="user">Cheikh</span> Autonomie réelle ?</div>
         <div class="chat-msg"><span class="user host">Moussa 📱</span> 30h avec le boîtier !</div>
-        <div class="chat-msg"><span class="user">Aminata</span> Garantie ?</div>
-        <div class="chat-msg"><span class="user host">Moussa 📱</span> 1 an internationale ✅</div>
     </div>
 
     <div class="right-actions">
@@ -216,14 +221,14 @@ body{background:#000;color:#fff;height:100vh;height:100dvh;overflow:hidden}
     <div class="top-overlay">
         <div class="top-row">
             <a href="index.html" class="back-btn">←</a>
-            <div class="host-info">
+            <a href="boutique.html?id=3" class="host-info">
                 <div class="host-avatar"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&h=100&fit=crop" alt=""></div>
                 <div>
                     <div class="host-name">Mariama B. <span class="tick">✓</span></div>
                     <span class="host-followers">2 100 abonnés · 🔴 EN DIRECT</span>
                 </div>
-            </div>
-            <button class="follow-live" onclick="toggleFol(this)">+ Suivre</button>
+            </a>
+            <button class="follow-live" onclick="event.stopPropagation();toggleFol(this)">+ Suivre</button>
         </div>
     </div>
 
@@ -237,12 +242,18 @@ body{background:#000;color:#fff;height:100vh;height:100dvh;overflow:hidden}
     <div class="flash-timer">⚡ Kit soin -40% · 01:45</div>
 
     <div class="featured-product">
-        <img class="fp-img" src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200" alt="">
-        <div class="fp-body">
-            <div class="fp-name">Kit soin peau naturel karité</div>
-            <div class="fp-price">13 200 F <span class="old">22 000</span></div>
+        <div class="fp-top">
+            <img class="fp-img" src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200" alt="">
+            <div class="fp-body">
+                <div class="fp-name">Kit soin peau naturel karité</div>
+                <div class="fp-price">13 200 F <span class="old">22 000</span></div>
+            </div>
         </div>
-        <button class="fp-buy" onclick="flashBuy('Kit soin')">🛒 FLASH BUY</button>
+        <div class="fp-actions">
+            <a href="produit.html?id=20" class="fp-buy">🛒 Acheter</a>
+            <a href="boutique.html?id=3" class="fp-shop">🏪 Boutique</a>
+            <a href="panier.html?add=20" class="fp-add">+</a>
+        </div>
     </div>
 
     <div class="chat-zone" id="chat3">
@@ -250,7 +261,6 @@ body{background:#000;color:#fff;height:100vh;height:100dvh;overflow:hidden}
         <div class="chat-msg"><span class="user host">Mariama 💄</span> Démo routine peau grasse</div>
         <div class="chat-msg"><span class="user">Fatou D.</span> Convient peau mixte ?</div>
         <div class="chat-msg"><span class="user host">Mariama 💄</span> Oui ! Testé sur tous types</div>
-        <div class="chat-msg"><span class="user">Adama</span> 87 personnes ont commandé 🔥</div>
     </div>
 
     <div class="right-actions">
@@ -276,14 +286,14 @@ body{background:#000;color:#fff;height:100vh;height:100dvh;overflow:hidden}
     <div class="top-overlay">
         <div class="top-row">
             <a href="index.html" class="back-btn">←</a>
-            <div class="host-info">
+            <a href="boutique.html?id=4" class="host-info">
                 <div class="host-avatar"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&h=100&fit=crop" alt=""></div>
                 <div>
                     <div class="host-name">Fatou Fashion <span class="tick">✓</span></div>
                     <span class="host-followers">3 500 abonnés · 🔴 EN DIRECT</span>
                 </div>
-            </div>
-            <button class="follow-live" onclick="toggleFol(this)">+ Suivre</button>
+            </a>
+            <button class="follow-live" onclick="event.stopPropagation();toggleFol(this)">+ Suivre</button>
         </div>
     </div>
 
@@ -297,12 +307,18 @@ body{background:#000;color:#fff;height:100vh;height:100dvh;overflow:hidden}
     <div class="flash-timer">⚡ Nike AF1 -40% · 03:20</div>
 
     <div class="featured-product">
-        <img class="fp-img" src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=200" alt="">
-        <div class="fp-body">
-            <div class="fp-name">Nike Air Force 1 pastel</div>
-            <div class="fp-price">39 000 F <span class="old">65 000</span></div>
+        <div class="fp-top">
+            <img class="fp-img" src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=200" alt="">
+            <div class="fp-body">
+                <div class="fp-name">Nike Air Force 1 pastel</div>
+                <div class="fp-price">39 000 F <span class="old">65 000</span></div>
+            </div>
         </div>
-        <button class="fp-buy" onclick="flashBuy('Nike AF1')">🛒 FLASH BUY</button>
+        <div class="fp-actions">
+            <a href="produit.html?id=30" class="fp-buy">🛒 Acheter</a>
+            <a href="boutique.html?id=4" class="fp-shop">🏪 Boutique</a>
+            <a href="panier.html?add=30" class="fp-add">+</a>
+        </div>
     </div>
 
     <div class="chat-zone" id="chat4">
@@ -310,9 +326,6 @@ body{background:#000;color:#fff;height:100vh;height:100dvh;overflow:hidden}
         <div class="chat-msg"><span class="user host">Fatou 👑</span> Nouvelle collection AF1 pastel</div>
         <div class="chat-msg"><span class="user">Coumba</span> Taille 42 dispo ?</div>
         <div class="chat-msg"><span class="user host">Fatou 👑</span> Oui, du 36 au 45 ✅</div>
-        <div class="chat-msg"><span class="user">Marième</span> Trop belles 🔥</div>
-        <div class="chat-msg"><span class="user">Astou</span> Livraison France ?</div>
-        <div class="chat-msg"><span class="user host">Fatou 👑</span> Oui diaspora France + Italie 🌍</div>
     </div>
 
     <div class="right-actions">
@@ -358,15 +371,8 @@ function shareLive(){
 }
 
 function reportLive(){
-    if(confirm('⚠️ Signaler ce LIVE ?\n\n• Contenu inapproprié\n• Contrefaçon\n• Arnaque')){
-        alert('📩 Signalement envoyé. Modération SEN TEW notifiée.');
-    }
-}
-
-function flashBuy(name){
-    if(confirm('⚡ FLASH BUY : '+name+'\n\nAjouter au panier au prix LIVE ?')){
-        alert('✅ '+name+' ajouté au panier au prix flash !');
-        location.href='panier.html';
+    if(confirm('⚠️ Signaler ce LIVE ?')){
+        alert('📩 Signalement envoyé.');
     }
 }
 
@@ -384,7 +390,6 @@ function sendMsg(n, inp){
     inp.value='';
 }
 
-// Ouvre directement le live demandé
 window.addEventListener('load', function(){
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
@@ -394,7 +399,6 @@ window.addEventListener('load', function(){
     }
 });
 
-// Timer flash
 setInterval(()=>{
     const el = document.getElementById('t1');
     if(!el) return;
@@ -405,7 +409,6 @@ setInterval(()=>{
     el.textContent = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
 },1000);
 
-// Viewers dynamiques
 setInterval(()=>{
     const v = document.getElementById('v1');
     const l = document.getElementById('l1');
@@ -413,7 +416,6 @@ setInterval(()=>{
     if(l) l.textContent = (parseFloat(l.textContent)+.1).toFixed(1)+'k';
 },4000);
 
-// Pause vidéos hors écran
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         const video = entry.target.querySelector('video');
