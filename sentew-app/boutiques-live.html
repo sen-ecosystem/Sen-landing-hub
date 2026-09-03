@@ -25,17 +25,18 @@
             height: 100vh;
             scroll-snap-align: start;
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
-        .live-1 { background: linear-gradient(135deg, #D4A574 0%, #8B4513 100%); }
-        .live-2 { background: linear-gradient(135deg, #1B5E3F 0%, #0A2E1E 100%); }
-        .live-3 { background: linear-gradient(135deg, #7C3AED 0%, #3B1B7C 100%); }
-        .live-4 { background: linear-gradient(135deg, #DC2626 0%, #6B1414 100%); }
-        .video-emoji {
-            font-size: 120px;
-            opacity: 0.9;
+        .live-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .live-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, transparent 30%, transparent 60%, rgba(0,0,0,0.7) 100%);
         }
         .top-bar {
             position: absolute;
@@ -74,10 +75,11 @@
             border-radius: 8px;
             font-size: 12px;
             font-weight: 600;
+            color: #ffffff;
         }
         .info-bottom {
             position: absolute;
-            bottom: 80px;
+            bottom: 90px;
             left: 20px;
             right: 80px;
             z-index: 10;
@@ -91,15 +93,14 @@
         .avatar {
             width: 50px;
             height: 50px;
-            background: #ffffff;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #1B5E3F;
-            font-weight: 700;
-            font-size: 20px;
             border: 3px solid #DC2626;
+            overflow: hidden;
+        }
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .seller-name {
             font-size: 17px;
@@ -138,7 +139,6 @@
             gap: 8px;
             overflow-x: auto;
             z-index: 10;
-            padding-bottom: 4px;
         }
         .mini-product {
             background: rgba(255,255,255,0.95);
@@ -149,15 +149,18 @@
             text-decoration: none;
             flex-shrink: 0;
         }
-        .mini-product .emoji {
-            font-size: 24px;
+        .mini-product img {
+            width: 100%;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 6px;
             display: block;
-            text-align: center;
+            margin-bottom: 4px;
         }
         .mini-product .name {
             font-size: 11px;
             font-weight: 600;
-            margin: 4px 0 2px;
+            margin-bottom: 2px;
         }
         .mini-product .price {
             color: #1B5E3F;
@@ -167,15 +170,14 @@
         .side-actions {
             position: absolute;
             right: 12px;
-            bottom: 200px;
+            bottom: 220px;
             display: flex;
             flex-direction: column;
             gap: 20px;
             z-index: 10;
         }
         .side-btn {
-            background: rgba(0,0,0,0.3);
-            border: none;
+            background: rgba(0,0,0,0.4);
             color: #ffffff;
             width: 48px;
             height: 48px;
@@ -184,268 +186,186 @@
             align-items: center;
             justify-content: center;
             font-size: 22px;
-            cursor: pointer;
             text-decoration: none;
         }
-        .side-btn .count {
-            position: absolute;
-            font-size: 10px;
-            font-weight: 700;
-            background: transparent;
-            margin-top: 62px;
-            text-align: center;
-            width: 48px;
-            margin-left: -13px;
-        }
-        .swipe-hint {
-            position: absolute;
-            top: 50%;
-            right: 20px;
-            transform: translateY(-50%);
-            color: rgba(255,255,255,0.6);
-            font-size: 40px;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.9; }
-        }
-        .chat-preview {
-            position: absolute;
-            left: 20px;
-            bottom: 220px;
-            max-width: 60%;
-            z-index: 10;
-        }
-        .chat-msg {
-            background: rgba(0,0,0,0.4);
-            padding: 6px 10px;
-            border-radius: 12px;
-            font-size: 12px;
-            margin-bottom: 4px;
-        }
-        .chat-msg b { color: #D4A574; }
     </style>
 </head>
 <body>
 
     <div class="live-container">
 
-        <!-- LIVE 1 : Aïcha Couture -->
-        <section class="live-screen live-1" id="aicha-couture">
+        <section class="live-screen" id="aicha-couture">
+            <img class="live-bg" src="https://images.unsplash.com/photo-1596902852634-509b7b3af7e9?w=800&q=80" alt="Live Aïcha">
+            <div class="live-overlay"></div>
             <div class="top-bar">
                 <a href="index.html" class="back-btn">←</a>
                 <span class="live-badge">🔴 LIVE</span>
                 <span class="viewers-badge">👥 1 234</span>
             </div>
-
-            <div class="video-emoji">👗</div>
-
             <div class="side-actions">
-                <a href="favoris.html?add=aicha" class="side-btn">❤️<span class="count">2.4k</span></a>
-                <a href="messages.html?to=aicha" class="side-btn">💬<span class="count">156</span></a>
-                <a href="#" class="side-btn">🔄<span class="count">89</span></a>
+                <a href="favoris.html?add=aicha" class="side-btn">❤️</a>
+                <a href="messages.html?to=aicha" class="side-btn">💬</a>
                 <a href="boutique-detail.html?id=aicha-couture" class="side-btn">🏪</a>
             </div>
-
-            <div class="chat-preview">
-                <div class="chat-msg"><b>Fatou :</b> Magnifique 😍</div>
-                <div class="chat-msg"><b>Karim :</b> Livraison Thiès ?</div>
-                <div class="chat-msg"><b>Awa :</b> Je prends le kaftan !</div>
-            </div>
-
             <div class="info-bottom">
                 <div class="seller-row">
-                    <div class="avatar">A</div>
+                    <div class="avatar"><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100&q=80" alt=""></div>
                     <div style="flex:1;">
                         <div class="seller-name">Aïcha Couture ✓</div>
                         <div class="seller-desc">Mode africaine · Dakar</div>
                     </div>
                     <button class="follow-btn">+ Suivre</button>
                 </div>
-                <div class="live-title">✨ Nouvelle collection Boubou brodés à la main</div>
+                <div class="live-title">✨ Nouvelle collection Boubou brodés main</div>
                 <div class="live-hashtags">#mode #couture #senegal #wax</div>
             </div>
-
             <div class="products-bar">
-                <a href="produit-detail.html?id=boubou-1" class="mini-product">
-                    <span class="emoji">👗</span>
-                    <div class="name">Boubou brodé</div>
-                    <div class="price">45 000 F</div>
+                <a href="produit-detail.html?id=robe-wax" class="mini-product">
+                    <img src="https://images.unsplash.com/photo-1596902852634-509b7b3af7e9?w=200&q=80" alt="">
+                    <div class="name">Robe wax</div>
+                    <div class="price">35 000 F</div>
+                </a>
+                <a href="produit-detail.html?id=sandales-peul" class="mini-product">
+                    <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=200&q=80" alt="">
+                    <div class="name">Sandales Peul</div>
+                    <div class="price">8 500 F</div>
                 </a>
                 <a href="produit-detail.html?id=kaftan" class="mini-product">
-                    <span class="emoji">🥻</span>
+                    <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=200&q=80" alt="">
                     <div class="name">Kaftan luxe</div>
                     <div class="price">65 000 F</div>
-                </a>
-                <a href="produit-detail.html?id=ndoket" class="mini-product">
-                    <span class="emoji">👚</span>
-                    <div class="name">Ndoket wax</div>
-                    <div class="price">28 000 F</div>
                 </a>
             </div>
         </section>
 
-        <!-- LIVE 2 : Moussa Tech -->
-        <section class="live-screen live-2" id="moussa-tech">
+        <section class="live-screen" id="moussa-tech">
+            <img class="live-bg" src="https://images.unsplash.com/photo-1592286927505-1def25115558?w=800&q=80" alt="Live Moussa">
+            <div class="live-overlay"></div>
             <div class="top-bar">
                 <a href="index.html" class="back-btn">←</a>
                 <span class="live-badge">🔴 LIVE</span>
                 <span class="viewers-badge">👥 892</span>
             </div>
-
-            <div class="video-emoji">📱</div>
-
             <div class="side-actions">
-                <a href="favoris.html?add=moussa" class="side-btn">❤️<span class="count">1.8k</span></a>
-                <a href="messages.html?to=moussa" class="side-btn">💬<span class="count">98</span></a>
-                <a href="#" class="side-btn">🔄<span class="count">45</span></a>
+                <a href="favoris.html?add=moussa" class="side-btn">❤️</a>
+                <a href="messages.html?to=moussa" class="side-btn">💬</a>
                 <a href="boutique-detail.html?id=moussa-tech" class="side-btn">🏪</a>
             </div>
-
-            <div class="chat-preview">
-                <div class="chat-msg"><b>Ibrahima :</b> Prix iPhone ?</div>
-                <div class="chat-msg"><b>Aminata :</b> Garantie ?</div>
-                <div class="chat-msg"><b>Modou :</b> Je réserve !</div>
-            </div>
-
             <div class="info-bottom">
                 <div class="seller-row">
-                    <div class="avatar">M</div>
+                    <div class="avatar"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&q=80" alt=""></div>
                     <div style="flex:1;">
                         <div class="seller-name">Moussa Tech ✓</div>
                         <div class="seller-desc">Électronique · Dakar</div>
                     </div>
                     <button class="follow-btn">+ Suivre</button>
                 </div>
-                <div class="live-title">📱 Déstockage iPhone & MacBook - Prix incroyables</div>
+                <div class="live-title">📱 Déstockage iPhone & MacBook</div>
                 <div class="live-hashtags">#tech #iphone #apple #promo</div>
             </div>
-
             <div class="products-bar">
                 <a href="produit-detail.html?id=iphone-15" class="mini-product">
-                    <span class="emoji">📱</span>
+                    <img src="https://images.unsplash.com/photo-1592286927505-1def25115558?w=200&q=80" alt="">
                     <div class="name">iPhone 15 Pro</div>
                     <div class="price">850 000 F</div>
                 </a>
                 <a href="produit-detail.html?id=macbook" class="mini-product">
-                    <span class="emoji">💻</span>
+                    <img src="https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=200&q=80" alt="">
                     <div class="name">MacBook Air</div>
                     <div class="price">620 000 F</div>
                 </a>
                 <a href="produit-detail.html?id=airpods" class="mini-product">
-                    <span class="emoji">🎧</span>
+                    <img src="https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=200&q=80" alt="">
                     <div class="name">AirPods Pro</div>
                     <div class="price">180 000 F</div>
                 </a>
             </div>
         </section>
 
-        <!-- LIVE 3 : Mariama B. -->
-        <section class="live-screen live-3" id="mariama-b">
+        <section class="live-screen" id="mariama-b">
+            <img class="live-bg" src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=800&q=80" alt="Live Mariama">
+            <div class="live-overlay"></div>
             <div class="top-bar">
                 <a href="index.html" class="back-btn">←</a>
                 <span class="live-badge">🔴 LIVE</span>
                 <span class="viewers-badge">👥 567</span>
             </div>
-
-            <div class="video-emoji">💄</div>
-
             <div class="side-actions">
-                <a href="favoris.html?add=mariama" class="side-btn">❤️<span class="count">1.2k</span></a>
-                <a href="messages.html?to=mariama" class="side-btn">💬<span class="count">72</span></a>
-                <a href="#" class="side-btn">🔄<span class="count">34</span></a>
+                <a href="favoris.html?add=mariama" class="side-btn">❤️</a>
+                <a href="messages.html?to=mariama" class="side-btn">💬</a>
                 <a href="boutique-detail.html?id=mariama-b" class="side-btn">🏪</a>
             </div>
-
-            <div class="chat-preview">
-                <div class="chat-msg"><b>Bineta :</b> Coloris disponibles ?</div>
-                <div class="chat-msg"><b>Ndeye :</b> Livraison France ?</div>
-            </div>
-
             <div class="info-bottom">
                 <div class="seller-row">
-                    <div class="avatar">M</div>
+                    <div class="avatar"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&q=80" alt=""></div>
                     <div style="flex:1;">
                         <div class="seller-name">Mariama B. ✓</div>
                         <div class="seller-desc">Beauté · Dakar</div>
                     </div>
                     <button class="follow-btn">+ Suivre</button>
                 </div>
-                <div class="live-title">💄 Cosmétiques naturels africains - Karité, argan</div>
-                <div class="live-hashtags">#beaute #naturel #karite #cosmetique</div>
+                <div class="live-title">💄 Cosmétiques naturels africains</div>
+                <div class="live-hashtags">#beaute #naturel #karite</div>
             </div>
-
             <div class="products-bar">
                 <a href="produit-detail.html?id=karite" class="mini-product">
-                    <span class="emoji">🧴</span>
+                    <img src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=200&q=80" alt="">
                     <div class="name">Beurre karité</div>
                     <div class="price">8 500 F</div>
                 </a>
                 <a href="produit-detail.html?id=savon-noir" class="mini-product">
-                    <span class="emoji">🧼</span>
+                    <img src="https://images.unsplash.com/photo-1600857062241-98e5dba7f214?w=200&q=80" alt="">
                     <div class="name">Savon noir</div>
                     <div class="price">5 000 F</div>
                 </a>
                 <a href="produit-detail.html?id=huile-argan" class="mini-product">
-                    <span class="emoji">💧</span>
+                    <img src="https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=200&q=80" alt="">
                     <div class="name">Huile argan</div>
                     <div class="price">12 000 F</div>
                 </a>
             </div>
         </section>
 
-        <!-- LIVE 4 : Fatou Fashion -->
-        <section class="live-screen live-4" id="fatou-fashion">
+        <section class="live-screen" id="fatou-fashion">
+            <img class="live-bg" src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=800&q=80" alt="Live Fatou">
+            <div class="live-overlay"></div>
             <div class="top-bar">
                 <a href="index.html" class="back-btn">←</a>
                 <span class="live-badge">🔴 LIVE</span>
                 <span class="viewers-badge">👥 2 108</span>
             </div>
-
-            <div class="video-emoji">👕</div>
-
             <div class="side-actions">
-                <a href="favoris.html?add=fatou" class="side-btn">❤️<span class="count">3.6k</span></a>
-                <a href="messages.html?to=fatou" class="side-btn">💬<span class="count">245</span></a>
-                <a href="#" class="side-btn">🔄<span class="count">120</span></a>
+                <a href="favoris.html?add=fatou" class="side-btn">❤️</a>
+                <a href="messages.html?to=fatou" class="side-btn">💬</a>
                 <a href="boutique-detail.html?id=fatou-fashion" class="side-btn">🏪</a>
             </div>
-
-            <div class="chat-preview">
-                <div class="chat-msg"><b>Coumba :</b> Taille XL ?</div>
-                <div class="chat-msg"><b>Marième :</b> Trop beau 🔥</div>
-                <div class="chat-msg"><b>Astou :</b> Je commande !</div>
-            </div>
-
             <div class="info-bottom">
                 <div class="seller-row">
-                    <div class="avatar">F</div>
+                    <div class="avatar"><img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=100&q=80" alt=""></div>
                     <div style="flex:1;">
                         <div class="seller-name">Fatou Fashion ✓</div>
                         <div class="seller-desc">Prêt-à-porter · Dakar</div>
                     </div>
                     <button class="follow-btn">+ Suivre</button>
                 </div>
-                <div class="live-title">👕 Nouvelle collection prêt-à-porter chic</div>
-                <div class="live-hashtags">#fashion #streetwear #africa #style</div>
+                <div class="live-title">👕 Nouvelle collection sneakers & streetwear</div>
+                <div class="live-hashtags">#fashion #sneakers #africa</div>
             </div>
-
             <div class="products-bar">
+                <a href="produit-detail.html?id=nike-af1" class="mini-product">
+                    <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=200&q=80" alt="">
+                    <div class="name">Nike AF1</div>
+                    <div class="price">65 000 F</div>
+                </a>
                 <a href="produit-detail.html?id=tshirt-wax" class="mini-product">
-                    <span class="emoji">👕</span>
+                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200&q=80" alt="">
                     <div class="name">T-shirt wax</div>
                     <div class="price">15 000 F</div>
                 </a>
                 <a href="produit-detail.html?id=jean-slim" class="mini-product">
-                    <span class="emoji">👖</span>
+                    <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?w=200&q=80" alt="">
                     <div class="name">Jean slim</div>
                     <div class="price">22 000 F</div>
-                </a>
-                <a href="produit-detail.html?id=veste-wax" class="mini-product">
-                    <span class="emoji">🧥</span>
-                    <div class="name">Veste wax</div>
-                    <div class="price">38 000 F</div>
                 </a>
             </div>
         </section>
@@ -453,15 +373,12 @@
     </div>
 
     <script>
-        // Ouvre directement le bon live selon ?id= dans l'URL
         window.addEventListener('load', function() {
             const params = new URLSearchParams(window.location.search);
             const id = params.get('id');
             if (id) {
                 const target = document.getElementById(id);
-                if (target) {
-                    target.scrollIntoView({ behavior: 'instant' });
-                }
+                if (target) target.scrollIntoView();
             }
         });
     </script>
