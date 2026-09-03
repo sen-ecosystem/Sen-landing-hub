@@ -7,14 +7,15 @@
 <link rel="stylesheet" href="css/app.css?v=52">
 <script src="https://unpkg.com/lucide@latest"></script>
 <style>
-  body{background:#f5f5f0;margin:0;font-family:-apple-system,sans-serif;padding-bottom:100px;}
+  *{box-sizing:border-box;}
+  body{background:#f5f5f0;margin:0;font-family:-apple-system,sans-serif;padding-bottom:100px;overflow-x:hidden;}
   .topbar{background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;padding:16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,0.1);}
   .topbar h1{margin:0;font-size:18px;color:#fff;flex:1;display:flex;align-items:center;gap:8px;}
   .icon-btn{background:rgba(255,255,255,0.2);border:none;cursor:pointer;padding:8px;border-radius:8px;color:#fff;width:36px;height:36px;display:flex;align-items:center;justify-content:center;}
 
-  .card{background:#fff;margin:12px 16px;padding:18px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
+  .card{background:#fff;margin:12px 16px;padding:18px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.05);overflow:hidden;}
   .card-title{display:flex;align-items:center;gap:8px;color:#1a1a1a;font-size:13px;font-weight:700;margin-bottom:14px;letter-spacing:0.5px;text-transform:uppercase;}
-  .card-title i{color:#d4a574;width:18px;height:18px;}
+  .card-title i{color:#d4a574;width:18px;height:18px;flex-shrink:0;}
   .required{color:#dc2626;}
 
   /* PHOTOS */
@@ -28,7 +29,7 @@
   .tip{font-size:11px;color:#666;margin-top:8px;display:flex;align-items:center;gap:6px;}
 
   /* INPUTS */
-  .form-input, .form-select, .form-textarea{width:100%;padding:12px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:14px;background:#fff;color:#1a1a1a;box-sizing:border-box;font-family:inherit;}
+  .form-input, .form-select, .form-textarea{width:100%;padding:12px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:14px;background:#fff;color:#1a1a1a;box-sizing:border-box;font-family:inherit;max-width:100%;}
   .form-input:focus, .form-select:focus, .form-textarea:focus{outline:none;border-color:#0f6b4e;}
   .form-textarea{resize:vertical;min-height:80px;}
   .char-count{font-size:11px;color:#999;margin-top:4px;}
@@ -38,10 +39,15 @@
   .ia-block{background:linear-gradient(135deg,#6b46c1,#4c1d95);border-radius:12px;padding:14px;margin:12px 0;color:#fff;}
   .ia-btn{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.95);color:#6b46c1;border:none;padding:10px 14px;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px;margin-top:8px;}
 
-  /* PRIX */
-  .price-row{display:grid;grid-template-columns:2fr 1fr;gap:10px;align-items:center;}
-  .prefix{position:relative;}
-  .prefix .suffix{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#0f6b4e;font-weight:700;font-size:13px;}
+  /* PRIX - CORRIGÉ */
+  .price-row{display:grid;grid-template-columns:1fr 100px;gap:10px;align-items:center;margin-bottom:12px;}
+  .prefix{position:relative;width:100%;}
+  .prefix .form-input{padding-right:55px;}
+  .prefix .suffix{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#0f6b4e;font-weight:700;font-size:13px;pointer-events:none;}
+
+  .promo-row{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;}
+  .promo-check{display:flex;align-items:center;gap:6px;font-size:13px;color:#1a1a1a;white-space:nowrap;}
+  .promo-check input[type="checkbox"]{width:18px;height:18px;accent-color:#0f6b4e;flex-shrink:0;}
 
   /* VARIANTES */
   .variant-chip{display:inline-flex;align-items:center;gap:6px;background:#f5f5f0;color:#1a1a1a;padding:6px 12px;border-radius:20px;font-size:13px;margin:4px;cursor:pointer;border:1.5px solid transparent;}
@@ -136,23 +142,29 @@
   </div>
 </div>
 
-<!-- 5. PRIX -->
+<!-- 5. PRIX - CORRIGÉ -->
 <div class="card">
   <div class="card-title"><i data-lucide="banknote"></i> Prix <span class="required">*</span></div>
+
   <div class="price-row">
     <div class="prefix">
-      <input type="number" class="form-input" placeholder="25 000" style="padding-right:60px;">
+      <input type="number" class="form-input" placeholder="25 000">
       <span class="suffix">FCFA</span>
     </div>
     <select class="form-select">
       <option>Fixe</option>
-      <option>Négociable</option>
+      <option>Négo</option>
     </select>
   </div>
-  <div style="display:flex;gap:8px;margin-top:10px;align-items:center;">
-    <input type="checkbox" id="promo">
-    <label for="promo" style="font-size:13px;color:#1a1a1a;">Prix promo</label>
-    <input type="number" class="form-input" placeholder="Prix barré" style="flex:1;">
+
+  <div class="promo-row">
+    <label class="promo-check">
+      <input type="checkbox" id="promo"> Prix promo
+    </label>
+    <div class="prefix">
+      <input type="number" class="form-input" placeholder="Prix barré">
+      <span class="suffix">FCFA</span>
+    </div>
   </div>
 </div>
 
