@@ -8,44 +8,54 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 <style>
   body { background: #f5f5f0; padding-bottom: 100px; margin: 0; font-family: -apple-system, sans-serif; }
-  .hero-shop {
-    background: linear-gradient(135deg, #b8894f 0%, #8b6332 100%) !important;
+
+  /* HERO DORÉ - BLINDÉ CONTRE app.css */
+  .hero-shop-forced,
+  body.light-mode .hero-shop-forced,
+  body.dark-mode .hero-shop-forced {
+    background: linear-gradient(135deg, #8b6332 0%, #5c3f1a 100%) !important;
+    background-color: #8b6332 !important;
     color: #ffffff !important;
-    padding: 26px 20px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 20px;
-    border-radius: 0;
-}
-.hero-shop * { color: #ffffff !important; }
-.hero-shop .shop-ic {
-    background: rgba(255,255,255,0.3) !important;
-}
-.hero-shop h2 {
-    color: #ffffff !important;
-    font-size: 22px;
-    font-weight: 900;
-    margin: 0 0 8px 0;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.5);
-}
-.hero-shop .subtitle {
-    color: #ffffff !important;
-    font-size: 14px;
-    font-weight: 700;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
-    opacity: 1 !important;
-    line-height: 1.4;
-}
-  .hero-shop .shop-ic {
-    width: 60px; height: 60px;
-    background: rgba(255,255,255,0.25);
-    border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
+    padding: 28px 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+    margin: 0 0 20px 0 !important;
+    border-radius: 0 !important;
+    border: none !important;
   }
-  .hero-shop h2 { color: #ffffff; font-size: 22px; font-weight: 900; margin: 0 0 8px 0; text-shadow: 0 2px 6px rgba(0,0,0,0.4); }
-  .hero-shop .subtitle { color: #ffffff; font-size: 14px; font-weight: 700; text-shadow: 0 1px 4px rgba(0,0,0,0.4); opacity: 1; }
+  .hero-shop-forced * {
+    color: #ffffff !important;
+  }
+  .hero-shop-forced .shop-ic {
+    width: 64px !important;
+    height: 64px !important;
+    background: rgba(255,255,255,0.28) !important;
+    border-radius: 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    border: 2px solid rgba(255,255,255,0.4) !important;
+  }
+  .hero-shop-forced .shop-title {
+    color: #ffffff !important;
+    font-size: 24px !important;
+    font-weight: 900 !important;
+    margin: 0 0 8px 0 !important;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.6) !important;
+    line-height: 1.1 !important;
+  }
+  .hero-shop-forced .shop-subtitle {
+    color: #ffffff !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.6) !important;
+    opacity: 1 !important;
+    line-height: 1.4 !important;
+    display: block !important;
+  }
+
   .period-tabs {
     display: flex; gap: 6px; background: #fff; padding: 6px;
     border-radius: 12px; box-shadow: 0 2px 8px rgba(15,107,78,0.05);
@@ -81,7 +91,7 @@
   }
   .trend-up { color: #0f6b4e; }
   .trend-down { color: #ef4444; }
-  .section-title {
+  .section-title-s {
     color: #d4a574; font-size: 13px; font-weight: 800;
     letter-spacing: 0.5px; padding: 0 16px; margin: 8px 0 12px 0;
     display: flex; align-items: center; gap: 6px;
@@ -142,11 +152,12 @@
 
 <main>
 
-  <section class="hero-shop">
-    <div class="shop-ic"><i data-lucide="store" style="width:30px;height:30px;color:#fff"></i></div>
+  <!-- HERO BLINDÉ -->
+  <section class="hero-shop-forced">
+    <div class="shop-ic"><i data-lucide="store" style="width:32px;height:32px;color:#ffffff !important"></i></div>
     <div>
-      <h2>Moussa Tech</h2>
-      <div class="subtitle">Boutique vérifiée · Aperçu des performances</div>
+      <div class="shop-title">Moussa Tech</div>
+      <div class="shop-subtitle">Boutique vérifiée · Aperçu des performances</div>
     </div>
   </section>
 
@@ -215,7 +226,7 @@
 
   </div>
 
-  <h2 class="section-title"><i data-lucide="trending-up" class="icon icon-sm icon-vert"></i> ÉVOLUTION DES VENTES</h2>
+  <h2 class="section-title-s"><i data-lucide="trending-up" style="width:14px;height:14px;color:#0f6b4e"></i> ÉVOLUTION DES VENTES</h2>
   <div class="chart-card">
     <div class="bar-chart">
       <div class="bar" style="height:40%"><span>Lun</span></div>
@@ -228,7 +239,7 @@
     </div>
   </div>
 
-  <h2 class="section-title"><i data-lucide="trophy" class="icon icon-sm icon-or"></i> TOP 5 PRODUITS</h2>
+  <h2 class="section-title-s"><i data-lucide="trophy" style="width:14px;height:14px;color:#d4a574"></i> TOP 5 PRODUITS</h2>
   <div class="list-card">
 
     <a href="produit.html?id=10" class="list-row">
@@ -278,7 +289,7 @@
 
   </div>
 
-  <h2 class="section-title"><i data-lucide="globe" class="icon icon-sm icon-vert"></i> ORIGINE DES CLIENTS</h2>
+  <h2 class="section-title-s"><i data-lucide="globe" style="width:14px;height:14px;color:#0f6b4e"></i> ORIGINE DES CLIENTS</h2>
   <div class="list-card">
 
     <div class="list-row">
