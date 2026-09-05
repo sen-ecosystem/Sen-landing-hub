@@ -5,346 +5,153 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Créer un compte - SEN TEW</title>
     <link rel="stylesheet" href="css/app.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Segoe UI', -apple-system, sans-serif;
-            background: #F9F9F9;
-            color: #1a1a1a;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        .header {
-            background: #ffffff;
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid #eee;
-        }
-        .header a {
-            color: #1B5E3F;
-            text-decoration: none;
-            font-size: 22px;
-        }
-        .header h1 {
-            color: #1B5E3F;
-            font-size: 18px;
-            font-weight: 700;
-        }
-        .welcome {
-            background: linear-gradient(135deg, #1B5E3F 0%, #2E7D5A 100%);
-            color: #ffffff;
-            padding: 30px 20px 24px;
-            text-align: center;
-        }
-        .welcome h2 {
-            font-size: 22px;
-            margin-bottom: 8px;
-            color: #ffffff;
-        }
-        .welcome p {
-            font-size: 14px;
-            opacity: 0.95;
-            color: #ffffff;
-        }
-        .container {
-            padding: 20px;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-        .benefits-card {
-            background: linear-gradient(135deg, #FFF8E7 0%, #FFEDCC 100%);
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border-left: 4px solid #D4A574;
-        }
-        .benefits-card h3 {
-            color: #B8894F;
-            font-size: 15px;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-        .benefits-card ul {
-            list-style: none;
-        }
-        .benefits-card li {
-            font-size: 13px;
-            color: #6B4423;
-            padding: 4px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .benefits-card li::before {
-            content: "✓";
-            color: #1B5E3F;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-        .form-card {
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        .field-row {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 14px;
-        }
-        .field {
-            margin-bottom: 14px;
-            flex: 1;
-            min-width: 0;
-        }
-        .field label {
-            display: block;
-            font-size: 13px;
-            font-weight: 700;
-            color: #1B5E3F;
-            margin-bottom: 6px;
-        }
-        .input-wrapper {
-            position: relative;
-        }
-        .input-wrapper .icon {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #666;
-            font-size: 16px;
-            pointer-events: none;
-        }
-        .field input {
-            width: 100%;
-            padding: 12px 12px 12px 40px;
-            border: 1.5px solid #E0E0E0;
-            border-radius: 10px;
-            font-size: 14px;
-            background: #FAFAFA;
-            font-family: inherit;
-        }
-        .field input:focus {
-            outline: none;
-            border-color: #1B5E3F;
-            background: #ffffff;
-        }
-        .password-strength {
-            display: flex;
-            gap: 3px;
-            margin-top: 6px;
-        }
-        .strength-bar {
-            flex: 1;
-            height: 4px;
-            border-radius: 2px;
-            background: #E0E0E0;
-        }
-        .strength-bar.s1 { background: #DC2626; }
-        .strength-bar.s2 { background: #F59E0B; }
-        .strength-bar.s3 { background: #FBBF24; }
-        .strength-bar.s4 { background: #16A34A; }
-
-        /* CGU BLINDÉ - CADRAGE CORRIGÉ */
-        .terms-fixed {
-            display: flex !important;
-            align-items: flex-start !important;
-            gap: 10px !important;
-            margin: 16px 0 !important;
-            padding: 12px 14px !important;
-            background: #F9F9F9 !important;
-            border-radius: 10px !important;
-            width: 100% !important;
-            box-sizing: border-box !important;
-        }
-        .terms-fixed input[type="checkbox"] {
-            width: 20px !important;
-            height: 20px !important;
-            flex-shrink: 0 !important;
-            accent-color: #1B5E3F !important;
-            margin: 2px 0 0 0 !important;
-            cursor: pointer !important;
-            padding: 0 !important;
-        }
-        .terms-fixed label {
-            font-size: 13px !important;
-            color: #444 !important;
-            line-height: 1.5 !important;
-            flex: 1 !important;
-            cursor: pointer !important;
-            min-width: 0 !important;
-            word-wrap: break-word !important;
-        }
-        .terms-fixed label a {
-            color: #1B5E3F !important;
-            font-weight: 700 !important;
-            text-decoration: none !important;
-        }
-
-        .btn-primary {
-            width: 100%;
-            background: #1B5E3F;
-            color: #ffffff;
-            border: none;
-            padding: 16px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 15px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 8px;
-            font-family: inherit;
-        }
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 20px 0;
-            color: #999;
-            font-size: 12px;
-        }
-        .divider::before,
-        .divider::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: #E0E0E0;
-        }
-
-        /* STORES BLINDÉS - FOND NOIR FORCÉ */
-        .stores-row {
-            display: flex !important;
-            gap: 10px !important;
-            width: 100% !important;
-        }
-        .store-btn,
-        body .store-btn,
-        body.light-mode .store-btn {
-            flex: 1 !important;
-            background: #000000 !important;
-            background-color: #000000 !important;
-            color: #ffffff !important;
-            padding: 12px 14px !important;
-            border-radius: 10px !important;
-            text-decoration: none !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 10px !important;
-            font-family: inherit !important;
-            border: none !important;
-            min-height: 52px !important;
-        }
-        .store-btn * {
-            color: #ffffff !important;
-        }
-        .store-btn .store-icon {
-            font-size: 24px !important;
-            color: #ffffff !important;
-        }
-        .store-btn .store-text {
-            text-align: left !important;
-        }
-        .store-btn .store-text small {
-            display: block !important;
-            font-size: 9px !important;
-            opacity: 0.85 !important;
-            font-weight: 400 !important;
-            line-height: 1.2 !important;
-            color: #ffffff !important;
-        }
-        .store-btn .store-text strong {
-            display: block !important;
-            font-size: 13px !important;
-            font-weight: 700 !important;
-            line-height: 1.2 !important;
-            color: #ffffff !important;
-        }
-        .footer-link {
-            text-align: center;
-            margin-top: 20px;
-            padding: 16px;
-            font-size: 14px;
-            color: #666;
-        }
-        .footer-link a {
-            color: #1B5E3F;
-            font-weight: 700;
-            text-decoration: none;
-        }
+        body {font-family: 'Segoe UI', -apple-system, sans-serif; background: #F4F6F1; color: #1a1a1a; min-height: 100vh; overflow-x: hidden;}
+        .brand {text-align: center; padding: 40px 20px 24px;}
+        .brand-logo {width: 84px; height: 84px; margin: 0 auto 16px; border-radius: 22px; background: linear-gradient(135deg, #1B5E3F 0%, #D4A574 100%); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 18px; line-height: 1.15; letter-spacing: 0.5px; box-shadow: 0 10px 24px rgba(27,94,63,0.28);}
+        .brand h1 {color: #1B5E3F; font-size: 30px; font-weight: 800; letter-spacing: 1px;}
+        .brand p {color: #B8894F; font-size: 13px; font-weight: 700; letter-spacing: 4px; margin-top: 4px;}
+        .container {padding: 0 20px 40px; max-width: 520px; margin: 0 auto;}
+        .form-card {background: #ffffff; padding: 26px 22px; border-radius: 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.08);}
+        .form-card h2 {color: #1B5E3F; font-size: 22px; font-weight: 800; margin-bottom: 6px;}
+        .form-card .subtitle {color: #666; font-size: 14px; margin-bottom: 18px;}
+        .benefits-card {background: linear-gradient(135deg, #EAF5EE 0%, #FBEFD9 100%); padding: 16px; border-radius: 12px; margin-bottom: 20px;}
+        .benefits-card h3 {color: #1B5E3F; font-size: 14px; margin-bottom: 10px; font-weight: 700;}
+        .benefits-card ul {list-style: none;}
+        .benefits-card li {font-size: 13px; color: #4a5a52; padding: 4px 0 4px 18px; position: relative;}
+        .benefits-card li::before {content: "•"; color: #1B5E3F; font-weight: 900; position: absolute; left: 4px;}
+        .field-row {display: flex; gap: 12px;}
+        .field {margin-bottom: 14px; flex: 1; min-width: 0;}
+        .field label {display: block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 6px;}
+        .input-wrapper {position: relative;}
+        .input-wrapper i {position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #9aa5a0; width: 18px; height: 18px; pointer-events: none;}
+        .field input {width: 100%; padding: 13px 12px 13px 40px; border: 1.5px solid #E3E8E4; border-radius: 10px; font-size: 14px; background: #FBFCFB; font-family: inherit;}
+        .field input:focus, .field select:focus {outline: none; border-color: #1B5E3F; background: #ffffff;}
+        /* ===== TÉLÉPHONE INTERNATIONAL ===== */
+        .phone-row {display: flex; gap: 8px;}
+        .phone-country {width: 128px; flex-shrink: 0; padding: 13px 8px; border: 1.5px solid #E3E8E4; border-radius: 10px; font-size: 14px; background: #FBFCFB; font-family: inherit; color: #1a1a1a; cursor: pointer;}
+        .phone-number {flex: 1; min-width: 0; position: relative;}
+        .phone-number i {position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #9aa5a0; width: 18px; height: 18px; pointer-events: none;}
+        .phone-number input {width: 100%; padding: 13px 12px 13px 40px; border: 1.5px solid #E3E8E4; border-radius: 10px; font-size: 14px; background: #FBFCFB; font-family: inherit;}
+        .phone-number input:focus {outline: none; border-color: #1B5E3F; background: #ffffff;}
+        .password-strength {display: flex; gap: 3px; margin-top: 6px;}
+        .strength-bar {flex: 1; height: 4px; border-radius: 2px; background: #E8ECE9;}
+        .strength-bar.s1 {background: #DC2626;}
+        .strength-bar.s2 {background: #F59E0B;}
+        .strength-bar.s3 {background: #FBBF24;}
+        .strength-bar.s4 {background: #16A34A;}
+        /* ===== CGU CADRÉ (correction débordement) ===== */
+        .terms {display: flex; align-items: flex-start; gap: 12px; margin: 18px 0; width: 100%;}
+        .terms input[type="checkbox"] {width: 22px; height: 22px; flex-shrink: 0; accent-color: #1B5E3F; margin-top: 1px; cursor: pointer;}
+        .terms label {font-size: 14px; color: #444; line-height: 1.55; flex: 1; min-width: 0; cursor: pointer; word-wrap: break-word; overflow-wrap: break-word;}
+        .terms label a {color: #1B5E3F; font-weight: 700; text-decoration: none;}
+        .btn-primary {width: 100%; background: #14532D; color: #ffffff; border: none; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; box-shadow: 0 6px 16px rgba(20,83,45,0.3);}
+        .divider {display: flex; align-items: center; gap: 12px; margin: 22px 0; color: #999; font-size: 13px;}
+        .divider::before, .divider::after {content: ""; flex: 1; height: 1px; background: #E3E8E4;}
+        /* ===== STORES (remplace Wave / Orange Money) ===== */
+        .stores-row {display: flex; gap: 10px;}
+        .store-btn {flex: 1; min-width: 0; background: #000000; color: #ffffff; padding: 12px 14px; border-radius: 10px; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px;}
+        .store-btn .store-icon {font-size: 24px; line-height: 1;}
+        .store-btn .store-text {text-align: left; min-width: 0;}
+        .store-btn .store-text small {display: block; font-size: 9px; opacity: 0.85; line-height: 1.2;}
+        .store-btn .store-text strong {display: block; font-size: 13px; font-weight: 700; line-height: 1.2; white-space: nowrap;}
+        .footer-link {text-align: center; margin-top: 24px; font-size: 14px; color: #666;}
+        .footer-link a {color: #1B5E3F; font-weight: 700; text-decoration: none;}
     </style>
 </head>
 <body class="light-mode">
 
-    <header class="header">
-        <a href="index.html">←</a>
-        <h1>Créer un compte</h1>
-    </header>
-
-    <section class="welcome">
-        <h2>Rejoignez SEN TEW</h2>
-        <p>La marketplace africaine · Delivering Value</p>
-    </section>
+    <div class="brand">
+        <div class="brand-logo">SEN<br>TEW</div>
+        <h1>SEN TEW</h1>
+        <p>MARKETPLACE</p>
+    </div>
 
     <div class="container">
-
-        <div class="benefits-card">
-            <h3>✨ En vous inscrivant, vous bénéficiez de :</h3>
-            <ul>
-                <li>500 FCFA offerts sur votre 1ère commande</li>
-                <li>Livraison gratuite dès 15 000 FCFA</li>
-                <li>Programme fidélité GOLD gratuit</li>
-                <li>Accès aux boutiques Live exclusives</li>
-            </ul>
-        </div>
-
         <form class="form-card" action="index.html" method="get">
+            <h2>Créer un compte 🎉</h2>
+            <p class="subtitle">Rejoignez la marketplace #1 au Sénégal</p>
+
+            <div class="benefits-card">
+                <h3>✨ En vous inscrivant, vous bénéficiez de :</h3>
+                <ul>
+                    <li>500 FCFA offerts sur votre 1ère commande</li>
+                    <li>Livraison gratuite dès 15 000 FCFA</li>
+                    <li>Programme fidélité GOLD gratuit</li>
+                </ul>
+            </div>
 
             <div class="field-row">
                 <div class="field">
                     <label>Prénom</label>
-                    <div class="input-wrapper">
-                        <span class="icon">👤</span>
-                        <input type="text" placeholder="Karim" required>
-                    </div>
+                    <div class="input-wrapper"><i data-lucide="user"></i><input type="text" placeholder="Karim" required></div>
                 </div>
                 <div class="field">
                     <label>Nom</label>
-                    <div class="input-wrapper">
-                        <span class="icon">👤</span>
-                        <input type="text" placeholder="Niang" required>
-                    </div>
+                    <div class="input-wrapper"><i data-lucide="user"></i><input type="text" placeholder="Niang" required></div>
                 </div>
             </div>
 
             <div class="field">
                 <label>Email</label>
-                <div class="input-wrapper">
-                    <span class="icon">✉️</span>
-                    <input type="email" placeholder="karim@example.com" required>
-                </div>
+                <div class="input-wrapper"><i data-lucide="mail"></i><input type="email" placeholder="karim@example.com" required></div>
             </div>
 
+            <!-- TÉLÉPHONE INTERNATIONAL : indicatif pays + numéro -->
             <div class="field">
-                <label>Téléphone (Sénégal)</label>
-                <div class="input-wrapper">
-                    <span class="icon">📞</span>
-                    <input type="tel" placeholder="+221 77 456 78 90" required>
+                <label>Téléphone (tous pays acceptés 🌍)</label>
+                <div class="phone-row">
+                    <select class="phone-country" id="country-code">
+                        <option value="+221" selected>🇸🇳 +221</option>
+                        <option value="+33">🇫🇷 +33</option>
+                        <option value="+39">🇮🇹 +39</option>
+                        <option value="+1">🇺🇸 +1</option>
+                        <option value="+44">🇬🇧 +44</option>
+                        <option value="+225">🇨🇮 +225</option>
+                        <option value="+223">🇲🇱 +223</option>
+                        <option value="+224">🇬🇳 +224</option>
+                        <option value="+226">🇧🇫 +226</option>
+                        <option value="+227">🇳🇪 +227</option>
+                        <option value="+228">🇹🇬 +228</option>
+                        <option value="+229">🇧🇯 +229</option>
+                        <option value="+237">🇨🇲 +237</option>
+                        <option value="+241">🇬🇦 +241</option>
+                        <option value="+243">🇨🇩 +243</option>
+                        <option value="+212">🇲🇦 +212</option>
+                        <option value="+213">🇩🇿 +213</option>
+                        <option value="+216">🇹🇳 +216</option>
+                        <option value="+49">🇩🇪 +49</option>
+                        <option value="+34">🇪🇸 +34</option>
+                        <option value="+32">🇧🇪 +32</option>
+                        <option value="+41">🇨🇭 +41</option>
+                        <option value="+351">🇵🇹 +351</option>
+                        <option value="+31">🇳🇱 +31</option>
+                        <option value="+46">🇸🇪 +46</option>
+                        <option value="+90">🇹🇷 +90</option>
+                        <option value="+971">🇦🇪 +971</option>
+                        <option value="+966">🇸🇦 +966</option>
+                        <option value="+974">🇶🇦 +974</option>
+                        <option value="+91">🇮🇳 +91</option>
+                        <option value="+86">🇨🇳 +86</option>
+                        <option value="+81">🇯🇵 +81</option>
+                        <option value="+55">🇧🇷 +55</option>
+                        <option value="+234">🇳🇬 +234</option>
+                        <option value="+233">🇬🇭 +233</option>
+                        <option value="+254">🇰🇪 +254</option>
+                        <option value="+27">🇿🇦 +27</option>
+                    </select>
+                    <div class="phone-number">
+                        <i data-lucide="phone"></i>
+                        <input type="tel" id="phone" placeholder="77 456 78 90" required>
+                    </div>
                 </div>
             </div>
 
             <div class="field">
                 <label>Mot de passe</label>
-                <div class="input-wrapper">
-                    <span class="icon">🔒</span>
-                    <input type="password" placeholder="Minimum 10 caractères" required>
-                </div>
+                <div class="input-wrapper"><i data-lucide="lock"></i><input type="password" placeholder="Minimum 10 caractères" required></div>
                 <div class="password-strength">
                     <div class="strength-bar s1"></div>
                     <div class="strength-bar s2"></div>
@@ -355,51 +162,43 @@
 
             <div class="field">
                 <label>Code de parrainage (optionnel)</label>
-                <div class="input-wrapper">
-                    <span class="icon">🎁</span>
-                    <input type="text" placeholder="SENTEW-XXXX">
-                </div>
+                <div class="input-wrapper"><i data-lucide="gift"></i><input type="text" placeholder="SENTEW-XXXX"></div>
             </div>
 
-            <!-- CGU BLINDÉ -->
-            <div class="terms-fixed">
+            <!-- CGU CADRÉ : le texte ne déborde plus -->
+            <div class="terms">
                 <input type="checkbox" id="cgu" required>
-                <label for="cgu">
-                    J'accepte les <a href="cgu.html">CGU</a>, les <a href="cgv.html">CGV</a> et la <a href="mentions-legales.html">politique de confidentialité</a>.
-                </label>
+                <label for="cgu">J'accepte les <a href="cgu.html">CGU</a>, les <a href="cgv.html">CGV</a> et la <a href="mentions-legales.html">politique de confidentialité</a>.</label>
             </div>
 
-            <button type="submit" class="btn-primary">
-                👤 Créer mon compte
-            </button>
+            <button type="submit" class="btn-primary"><i data-lucide="user-plus" style="width:18px;height:18px"></i> Créer mon compte</button>
 
             <div class="divider">ou télécharger l'application</div>
 
-            <!-- STORES BLINDÉS NOIR -->
+            <!-- App Store + Google Play (remplace Wave / Orange Money) -->
             <div class="stores-row">
                 <a href="https://apps.apple.com/app/sen-tew" target="_blank" class="store-btn">
-                    <span class="store-icon">🍎</span>
-                    <div class="store-text">
-                        <small>Télécharger sur</small>
-                        <strong>App Store</strong>
-                    </div>
+                    <span class="store-icon"></span>
+                    <div class="store-text"><small>Télécharger sur</small><strong>App Store</strong></div>
                 </a>
                 <a href="https://play.google.com/store/apps/details?id=com.sentew" target="_blank" class="store-btn">
                     <span class="store-icon">▶️</span>
-                    <div class="store-text">
-                        <small>Disponible sur</small>
-                        <strong>Google Play</strong>
-                    </div>
+                    <div class="store-text"><small>Disponible sur</small><strong>Google Play</strong></div>
                 </a>
             </div>
-
         </form>
 
-        <div class="footer-link">
-            Déjà inscrit ? <a href="login.html">Se connecter</a>
-        </div>
-
+        <div class="footer-link">Déjà inscrit ? <a href="login.html">Se connecter</a></div>
     </div>
 
+    <script>
+        lucide.createIcons();
+        // Combine indicatif + numéro au moment de l'inscription
+        document.querySelector('.form-card').addEventListener('submit', function() {
+            var code = document.getElementById('country-code').value;
+            var phone = document.getElementById('phone');
+            phone.value = code + ' ' + phone.value.trim();
+        });
+    </script>
 </body>
 </html>
