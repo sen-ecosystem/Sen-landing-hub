@@ -2,229 +2,277 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Produit · SEN TEW</title>
-<meta name="theme-color" content="#ffffff">
-<link rel="stylesheet" href="css/app.css?v=46">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boubou Wax Premium · SEN TEW</title>
+<link rel="stylesheet" href="css/app.css?v=51">
 <script src="https://unpkg.com/lucide@latest"></script>
-<script src="js/dark-mode.js?v=46" defer></script>
-<script src="js/role-guard.js?v=46" defer></script>
 <style>
-.gallery{position:relative;width:100%;aspect-ratio:1/1;background:#e5e5e0;overflow:hidden}
-.gallery img{width:100%;height:100%;object-fit:cover}
-.gallery-dots{position:absolute;bottom:14px;left:0;right:0;display:flex;justify-content:center;gap:6px}
-.gallery-dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.5)}
-.gallery-dots span.active{background:#ffffff;width:22px;border-radius:4px}
-.hero-info{padding:16px}
-.hero-info .breadcrumb{font-size:12px;color:var(--text-gold);margin-bottom:8px}
-.hero-info h1{font-size:22px;font-weight:800;color:var(--text-primary);margin:0 0 8px}
-.rating-row{display:flex;align-items:center;gap:8px;margin-bottom:12px}
-.stars{color:#d4a574}
-.rating-num{font-weight:700;color:var(--text-primary)}
-.rating-count{color:var(--text-muted);font-size:13px}
-.price-hero{display:flex;align-items:baseline;gap:10px;margin:12px 0}
-.price-current{font-size:32px;font-weight:900;color:var(--text-emerald)}
-.price-old{font-size:16px;color:var(--text-muted);text-decoration:line-through}
-.price-discount{background:#ef4444;color:#fff;padding:2px 8px;border-radius:6px;font-size:12px;font-weight:800}
-.vendeur-card{display:flex;align-items:center;gap:12px;padding:12px;background:var(--bg-card);border:1px solid var(--border);border-radius:14px;margin:16px}
-.vendeur-card .avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4a574,#a67c3a);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800}
-.vendeur-card .info{flex:1}
-.vendeur-card .name{font-weight:700;color:var(--text-primary)}
-.vendeur-card .rank{font-size:12px;color:var(--text-gold)}
-.section{padding:16px}
-.section h2{font-size:15px;font-weight:800;color:var(--text-gold);letter-spacing:.5px;margin:0 0 12px}
-.description{color:var(--text-secondary);line-height:1.6;font-size:14px}
-.specs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.spec-item{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
-.spec-item .k{font-size:11px;color:var(--text-muted);margin-bottom:2px}
-.spec-item .v{font-weight:700;color:var(--text-primary);font-size:13px}
-.options-row{display:flex;flex-wrap:wrap;gap:8px}
-.option-chip{padding:8px 14px;border-radius:20px;border:1px solid var(--border);background:var(--bg-card);color:var(--text-primary);font-size:13px;font-weight:600;cursor:pointer}
-.option-chip.active{background:#c8f0d8;border-color:#0f6b4e;color:#0a4d38}
-.color-chip{width:36px;height:36px;border-radius:50%;border:2px solid var(--border);cursor:pointer}
-.color-chip.active{border-color:#0f6b4e;box-shadow:0 0 0 3px #c8f0d8}
-.avis-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px}
-.avis-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.avis-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:13px}
-.avis-name{font-weight:700;color:var(--text-primary);font-size:13px}
-.avis-date{font-size:11px;color:var(--text-muted)}
-.avis-text{color:var(--text-secondary);font-size:13px;line-height:1.5}
-.similaires-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.similaire-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer}
-.similaire-card img{width:100%;height:130px;object-fit:cover;background:#e5e5e0}
-.similaire-card .body{padding:8px 10px}
-.similaire-card h4{font-size:13px;font-weight:700;margin:0 0 3px;color:var(--text-primary)}
-.similaire-card .vd{font-size:11px;color:var(--text-gold);margin:0 0 3px}
-.similaire-card .pr{font-size:14px;font-weight:800;color:var(--text-emerald)}
-.action-bar{position:fixed;left:0;right:0;bottom:56px;background:var(--bg-card);border-top:1px solid var(--border);padding:12px 16px;display:flex;gap:10px;z-index:80}
-.action-bar button{flex:1;padding:14px;border-radius:12px;border:none;font-weight:800;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-fav{max-width:60px;background:var(--bg-card-alt);color:#ef4444;border:1px solid var(--border)}
-.btn-cart{background:#d4a574;color:#0a1f17}
-.btn-buy{background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#f5f5f0;margin:0;font-family:-apple-system,'Segoe UI',sans-serif;padding-bottom:150px;color:#0a1f17}
+  .topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e5e0}
+  .round-btn{width:38px;height:38px;border-radius:50%;background:#fff;border:1px solid #e5e5e0;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e;text-decoration:none}
+  .round-btn i{width:18px;height:18px}
+  .top-actions{display:flex;gap:8px}
+  /* ===== GALERIE ===== */
+  .gallery{background:#fff;padding-bottom:12px}
+  .main-img{width:100%;height:340px;object-fit:cover;display:block;background:#eee}
+  .thumbs{display:flex;gap:8px;padding:10px 16px 0;overflow-x:auto}
+  .thumb{width:64px;height:64px;border-radius:10px;object-fit:cover;border:2px solid transparent;cursor:pointer;flex-shrink:0}
+  .thumb.active{border-color:#0f6b4e}
+  /* ===== BLOC PRIX ===== */
+  .price-block{background:#fff;padding:14px 16px;margin-bottom:8px}
+  .badges{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+  .badge-promo{background:#dc2626;color:#fff;font-size:11px;font-weight:800;padding:3px 8px;border-radius:5px}
+  .badge-verif{background:#EAF5EE;color:#0f6b4e;font-size:11px;font-weight:700;padding:3px 8px;border-radius:5px;display:flex;align-items:center;gap:3px}
+  .badge-verif i{width:11px;height:11px}
+  .badge-live{background:#FEF3C7;color:#B8894F;font-size:11px;font-weight:700;padding:3px 8px;border-radius:5px}
+  .price-row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .price{font-size:26px;font-weight:900;color:#0f6b4e}
+  .price-old{font-size:15px;color:#999;text-decoration:line-through}
+  .sold{font-size:12px;color:#666;margin-left:auto;font-weight:600}
+  .pname{font-size:17px;font-weight:700;line-height:1.35;margin:10px 0 8px}
+  .rating-row{display:flex;align-items:center;gap:8px;font-size:13px;color:#666;flex-wrap:wrap}
+  .stars{color:#d4a574;letter-spacing:1px}
+  .rating-row a{color:#0f6b4e;font-weight:600;text-decoration:none}
+  /* ===== CARTES ===== */
+  .card{background:#fff;padding:14px 16px;margin-bottom:8px}
+  .card-title{font-size:14px;font-weight:800;color:#0f6b4e;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .card-title i{width:16px;height:16px}
+  /* ===== VARIANTES ===== */
+  .variants{display:flex;gap:8px;flex-wrap:wrap}
+  .variant{padding:9px 16px;border-radius:10px;border:2px solid #e5e5e0;font-size:13px;font-weight:600;cursor:pointer;background:#fff;transition:0.15s}
+  .variant.active{border-color:#0f6b4e;color:#0f6b4e;background:#EAF5EE}
+  /* ===== VENDEUR (cliquable) ===== */
+  .vendeur-card{display:flex;align-items:center;gap:12px;padding:12px;background:#f9f9f7;border:1px solid #eee;border-radius:14px;text-decoration:none;color:inherit;cursor:pointer}
+  .vendeur-card .avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#d4a574,#a67c3a);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:20px;flex-shrink:0}
+  .vendeur-card .info{flex:1;min-width:0}
+  .vendeur-card .name{font-weight:800;font-size:15px;display:flex;align-items:center;gap:4px}
+  .vendeur-card .name i{width:15px;height:15px;color:#0f6b4e}
+  .vendeur-card .rank{font-size:12px;color:#B8894F;margin-top:2px}
+  .btn-shop{background:#0f6b4e;color:#fff;padding:10px 16px;border-radius:20px;font-weight:700;font-size:12px;white-space:nowrap;flex-shrink:0}
+  /* ===== INFOS ===== */
+  .info-row{display:flex;align-items:center;gap:10px;padding:9px 0;font-size:13px;border-bottom:1px solid #f5f5f0}
+  .info-row:last-child{border-bottom:none}
+  .info-row i{width:17px;height:17px;color:#0f6b4e;flex-shrink:0}
+  .info-row .lbl{color:#666;flex:1}
+  .info-row .val{font-weight:700}
+  /* ===== DESCRIPTION ===== */
+  .desc{font-size:13px;line-height:1.65;color:#444}
+  /* ===== AVIS ===== */
+  .avis-item{padding:12px 0;border-bottom:1px solid #f5f5f0}
+  .avis-item:last-child{border-bottom:none}
+  .avis-head{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px}
+  .avis-head b{font-size:13px}
+  .avis-head span{color:#999;font-size:11px}
+  .avis-txt{font-size:12px;color:#444;line-height:1.5;margin-top:4px}
+  .see-all{display:block;text-align:center;color:#0f6b4e;font-size:13px;font-weight:700;text-decoration:none;padding:10px 0 2px}
+  /* ===== CARROUSEL PRODUITS ===== */
+  .h-scroll{display:flex;gap:10px;overflow-x:auto;padding:4px 16px 12px;margin:0 -16px;padding-left:16px;scrollbar-width:none}
+  .mini-card{flex-shrink:0;width:140px;background:#fff;border:1px solid #eee;border-radius:12px;overflow:hidden;cursor:pointer;text-decoration:none;color:inherit;display:block}
+  .mini-card img{width:100%;height:110px;object-fit:cover;display:block}
+  .mini-body{padding:8px}
+  .mini-name{font-size:11px;font-weight:700;line-height:1.3;height:28px;overflow:hidden}
+  .mini-price{font-size:13px;font-weight:900;color:#0f6b4e;margin-top:4px}
+  .mini-rate{font-size:10px;color:#888;margin-top:2px}
+  /* ===== BARRE D'ACTION FIXE ===== */
+  .action-bar{position:fixed;bottom:62px;left:0;right:0;background:#fff;border-top:1px solid #e5e5e0;padding:10px 14px;display:flex;gap:8px;z-index:60;box-shadow:0 -4px 14px rgba(0,0,0,0.07)}
+  .act-icon{width:46px;height:46px;border:1.5px solid #0f6b4e;border-radius:12px;background:#fff;color:#0f6b4e;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;text-decoration:none}
+  .act-icon i{width:20px;height:20px}
+  .btn-cart{flex:1;background:#fff;color:#0f6b4e;border:2px solid #0f6b4e;border-radius:12px;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit}
+  .btn-buy{flex:1.4;background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;border:none;border-radius:12px;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;box-shadow:0 4px 10px rgba(15,107,78,0.3)}
+  .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0;border-top:1px solid #e5e7eb;z-index:55}
+  .bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#666;font-size:11px}
+  .bottom-nav a.active{color:#0f6b4e}
+  .bottom-nav a i{width:22px;height:22px}
 </style>
 </head>
-<body class="light-mode" data-theme="light">
-<header class="topbar" style="position:absolute;background:transparent;border:none;z-index:10">
-  <button class="btn-back" onclick="history.back()" style="background:rgba(255,255,255,0.9);border-radius:50%;padding:8px"><i data-lucide="arrow-left"></i></button>
-  <div></div>
-  <div style="display:flex;gap:8px">
-    <button style="background:rgba(255,255,255,0.9);border-radius:50%;padding:8px;border:none"><i data-lucide="share-2"></i></button>
-    <button class="btn-theme" data-theme-toggle style="background:rgba(255,255,255,0.9);border-radius:50%;padding:8px"><i data-lucide="moon"></i></button>
+<body class="light-mode">
+
+<header class="topbar">
+  <button class="round-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <div class="top-actions">
+    <a href="recherche-ia.html" class="round-btn"><i data-lucide="search"></i></a>
+    <a href="panier.html" class="round-btn"><i data-lucide="shopping-cart"></i></a>
   </div>
 </header>
 
-<main style="padding-bottom:160px">
-  <!-- GALERIE -->
-  <div class="gallery">
-    <img id="mainImage" src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=800" alt="Produit">
-    <div class="gallery-dots">
-      <span class="active"></span><span></span><span></span><span></span>
-    </div>
+<!-- GALERIE PHOTOS -->
+<div class="gallery">
+  <img id="mainImg" class="main-img" src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80" alt="Boubou Wax Premium">
+  <div class="thumbs">
+    <img class="thumb active" src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=200&q=70" onclick="swap(this)">
+    <img class="thumb" src="https://images.unsplash.com/photo-1622470953794-aa9c70b0fb9d?w=200&q=70" onclick="swap(this)">
+    <img class="thumb" src="https://images.unsplash.com/photo-1589310243389-96a5483213a8?w=200&q=70" onclick="swap(this)">
+    <img class="thumb" src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=200&q=70" onclick="swap(this)">
   </div>
+</div>
 
-  <!-- HERO INFO -->
-  <div class="hero-info">
-    <p class="breadcrumb">Mode & Vêtements › Mode africaine</p>
-    <h1>Boubou wax collection premium</h1>
-    <div class="rating-row">
-      <span class="stars">★★★★★</span>
-      <span class="rating-num">4.9</span>
-      <span class="rating-count">(243 avis · 1 200+ vendus)</span>
-    </div>
-    <div class="price-hero">
-      <span class="price-current">18 000 FCFA</span>
-      <span class="price-old">25 000 FCFA</span>
-      <span class="price-discount">-28%</span>
-    </div>
-    <p style="color:#0f6b4e;font-weight:700;font-size:13px"><i data-lucide="truck" class="icon-sm"></i> Livraison en 24-48h à Dakar</p>
+<!-- PRIX + TITRE -->
+<div class="price-block">
+  <div class="badges">
+    <span class="badge-promo">-30%</span>
+    <span class="badge-verif"><i data-lucide="badge-check"></i> Boutique vérifiée</span>
+    <span class="badge-live">🔴 En Live</span>
   </div>
-
-  <!-- VENDEUR -->
-  <a href="boutique.html?id=4" class="vendeur-card" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px;padding:12px;background:#f9f9f9;border-radius:14px;cursor:pointer">
-    <div class="avatar" style="width:48px;height:48px;background:#d4a574;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0">FF</div>
-    <div class="info" style="flex:1;min-width:0">
-        <div class="name" style="font-weight:800;color:#0a1f17;font-size:15px">Fatou Fashion <i data-lucide="badge-check" style="width:14px;height:14px;color:#0f6b4e;display:inline"></i></div>
-        <div class="rank" style="color:#4a5a52;font-size:12px;margin-top:2px">Vendeur GOLD · 98% satisfaction</div>
-    </div>
-    <span style="background:#0f6b4e;color:#fff;padding:9px 16px;border-radius:20px;font-weight:700;font-size:12px;white-space:nowrap;flex-shrink:0">Voir boutique</span>
-</a>
-
-  <!-- OPTIONS COULEURS -->
-  <div class="section">
-    <h2><i data-lucide="palette" class="icon-or icon-sm"></i> Couleur</h2>
-    <div class="options-row">
-      <div class="color-chip active" style="background:#0f6b4e" title="Vert"></div>
-      <div class="color-chip" style="background:#d4a574" title="Or"></div>
-      <div class="color-chip" style="background:#3b82f6" title="Bleu"></div>
-      <div class="color-chip" style="background:#ef4444" title="Rouge"></div>
-      <div class="color-chip" style="background:#0a1f17" title="Noir"></div>
-    </div>
+  <div class="price-row">
+    <span class="price">17 500 FCFA</span>
+    <span class="price-old">25 000 FCFA</span>
+    <span class="sold">🔥 342 vendus</span>
   </div>
-
-  <!-- OPTIONS TAILLES -->
-  <div class="section">
-    <h2><i data-lucide="ruler" class="icon-or icon-sm"></i> Taille</h2>
-    <div class="options-row">
-      <button class="option-chip">S</button>
-      <button class="option-chip active">M</button>
-      <button class="option-chip">L</button>
-      <button class="option-chip">XL</button>
-      <button class="option-chip">XXL</button>
-    </div>
+  <h1 class="pname">Boubou Wax Premium brodé main — Édition limitée</h1>
+  <div class="rating-row">
+    <span class="stars">★★★★★</span>
+    <b>4.8</b>
+    <a href="avis.html">(127 avis)</a>
+    <span>·</span>
+    <span>📍 Dakar</span>
   </div>
+</div>
 
-  <!-- DESCRIPTION -->
-  <div class="section">
-    <h2><i data-lucide="align-left" class="icon-or icon-sm"></i> Description</h2>
-    <p class="description">
-      Boubou traditionnel en wax africain 100% coton. Motifs authentiques, coupe moderne
-      et confort premium. Confectionné à Dakar par nos artisans locaux. Idéal pour
-      cérémonies, mariages et occasions spéciales. Lavable en machine à 30°C.
-    </p>
+<!-- VARIANTES -->
+<div class="card">
+  <div class="card-title"><i data-lucide="palette"></i> Taille</div>
+  <div class="variants">
+    <span class="variant">S</span>
+    <span class="variant active">M</span>
+    <span class="variant">L</span>
+    <span class="variant">XL</span>
+    <span class="variant">XXL</span>
   </div>
-
-  <!-- SPÉCIFICATIONS -->
-  <div class="section">
-    <h2><i data-lucide="info" class="icon-or icon-sm"></i> Spécifications</h2>
-    <div class="specs">
-      <div class="spec-item"><div class="k">Matériau</div><div class="v">100% Coton wax</div></div>
-      <div class="spec-item"><div class="k">Origine</div><div class="v">🇸🇳 Dakar</div></div>
-      <div class="spec-item"><div class="k">Entretien</div><div class="v">Machine 30°C</div></div>
-      <div class="spec-item"><div class="k">Garantie</div><div class="v">30 jours</div></div>
-      <div class="spec-item"><div class="k">Livraison</div><div class="v">24-48h Dakar</div></div>
-      <div class="spec-item"><div class="k">Retour</div><div class="v">Gratuit 7 jours</div></div>
-    </div>
+  <div class="card-title" style="margin-top:14px"><i data-lucide="droplets"></i> Couleur</div>
+  <div class="variants">
+    <span class="variant active">🟡 Jaune royal</span>
+    <span class="variant">🔵 Bleu nuit</span>
+    <span class="variant">🟢 Vert forêt</span>
   </div>
+</div>
 
-  <!-- AVIS -->
-  <div class="section">
-    <h2><i data-lucide="message-square" class="icon-or icon-sm"></i> Avis clients (243)</h2>
-    <div class="avis-card">
-      <div class="avis-header">
-        <div class="avis-avatar">AD</div>
-        <div style="flex:1">
-          <div class="avis-name">Awa Diop</div>
-          <div class="avis-date">Il y a 3 jours · <span class="stars">★★★★★</span></div>
-        </div>
-      </div>
-      <p class="avis-text">Superbe qualité ! Les motifs sont magnifiques et la coupe parfaite. Livré en 24h à Dakar.</p>
+<!-- VENDEUR (cliquable → sa boutique) -->
+<div class="card">
+  <div class="card-title"><i data-lucide="store"></i> Vendeur</div>
+  <a href="boutique.html?id=4" class="vendeur-card">
+    <div class="avatar">F</div>
+    <div class="info">
+      <div class="name">Fatou Fashion <i data-lucide="badge-check"></i></div>
+      <div class="rank">⭐ 4.8 · 1,2k abonnés · 96% satisfaction</div>
     </div>
-    <div class="avis-card">
-      <div class="avis-header">
-        <div class="avis-avatar">MF</div>
-        <div style="flex:1">
-          <div class="avis-name">Moussa Fall</div>
-          <div class="avis-date">Il y a 1 semaine · <span class="stars">★★★★★</span></div>
-        </div>
-      </div>
-      <p class="avis-text">Excellent produit, conforme à la description. Je recommande vivement !</p>
-    </div>
-    <button style="width:100%;background:transparent;border:1px solid #0f6b4e;color:#0f6b4e;padding:12px;border-radius:12px;font-weight:700;margin-top:8px">Voir tous les avis</button>
+    <span class="btn-shop">Voir boutique</span>
+  </a>
+</div>
+
+<!-- LIVRAISON & GARANTIES -->
+<div class="card">
+  <div class="card-title"><i data-lucide="truck"></i> Livraison & garanties</div>
+  <div class="info-row"><i data-lucide="truck"></i><span class="lbl">Livraison Dakar</span><span class="val">24-48h · 1 500 F</span></div>
+  <div class="info-row"><i data-lucide="globe"></i><span class="lbl">Diaspora (Europe/USA)</span><span class="val">5-10 jours</span></div>
+  <div class="info-row"><i data-lucide="rotate-ccw"></i><span class="lbl">Retour</span><span class="val">14 jours gratuits</span></div>
+  <div class="info-row"><i data-lucide="shield-check"></i><span class="lbl">Paiement sécurisé</span><span class="val">Wave · OM · CB</span></div>
+</div>
+
+<!-- DESCRIPTION -->
+<div class="card">
+  <div class="card-title"><i data-lucide="file-text"></i> Description</div>
+  <p class="desc">Boubou en tissu wax 100% coton premium, broderie artisanale faite main à Dakar. Coupe ample et élégante, idéale pour les grandes occasions. Tissu résistant au lavage, couleurs garanties sans décoloration. Chaque pièce est unique. Lavable en machine à 30°. Livré dans son emballage cadeau SEN TEW.</p>
+</div>
+
+<!-- AVIS -->
+<div class="card">
+  <div class="card-title"><i data-lucide="star"></i> Avis clients (127)</div>
+  <div class="avis-item">
+    <div class="avis-head"><b>Awa D.</b><span>il y a 2 jours</span></div>
+    <div class="stars">★★★★★</div>
+    <p class="avis-txt">Magnifique ! Le tissu est de très bonne qualité et la broderie superbe. Livraison rapide à Dakar.</p>
   </div>
-
-  <!-- ARTICLES SIMILAIRES -->
-  <div class="section">
-    <h2><i data-lucide="grid-3x3" class="icon-or icon-sm"></i> Articles similaires</h2>
-    <div class="similaires-grid">
-      <div class="similaire-card" onclick="location.href='produit.html?id=2'">
-        <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=300" alt="">
-        <div class="body"><h4>Boubou grand teint</h4><p class="vd">Aïcha Couture</p><p class="pr">45 000 FCFA</p></div>
-      </div>
-      <div class="similaire-card" onclick="location.href='produit.html?id=3'">
-        <img src="https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=300" alt="">
-        <div class="body"><h4>Robe wax mariage</h4><p class="vd">Fatou Fashion</p><p class="pr">35 000 FCFA</p></div>
-      </div>
-      <div class="similaire-card" onclick="location.href='produit.html?id=4'">
-        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=300" alt="">
-        <div class="body"><h4>Sac cuir africain</h4><p class="vd">Aïcha Couture</p><p class="pr">22 000 FCFA</p></div>
-      </div>
-      <div class="similaire-card" onclick="location.href='produit.html?id=5'">
-        <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=300" alt="">
-        <div class="body"><h4>Sandales cuir Peul</h4><p class="vd">Aïcha Couture</p><p class="pr">8 500 FCFA</p></div>
-      </div>
-    </div>
+  <div class="avis-item">
+    <div class="avis-head"><b>Moussa S.</b><span>il y a 1 semaine</span></div>
+    <div class="stars">★★★★☆</div>
+    <p class="avis-txt">Très beau boubou, taille bien. Je recommande cette boutique.</p>
   </div>
-</main>
+  <div class="avis-item">
+    <div class="avis-head"><b>Marie L. (Paris)</b><span>il y a 2 semaines</span></div>
+    <div class="stars">★★★★★</div>
+    <p class="avis-txt">Commandé depuis la France, reçu en 8 jours. Qualité au rendez-vous, bravo !</p>
+  </div>
+  <a href="avis.html" class="see-all">Voir les 127 avis ›</a>
+</div>
 
-<!-- ACTION BAR -->
+<!-- ARTICLES SIMILAIRES -->
+<div class="card">
+  <div class="card-title"><i data-lucide="flame"></i> Articles similaires</div>
+  <div class="h-scroll">
+    <a href="produit.html?id=2" class="mini-card">
+      <img src="https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=300&q=70" alt="">
+      <div class="mini-body"><div class="mini-name">Robe wax moderne femme</div><div class="mini-price">14 000 F</div><div class="mini-rate">⭐ 4.7 · 89 vendus</div></div>
+    </a>
+    <a href="produit.html?id=3" class="mini-card">
+      <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=300&q=70" alt="">
+      <div class="mini-body"><div class="mini-name">Escarpins cuir vernis</div><div class="mini-price">12 500 F</div><div class="mini-rate">⭐ 4.6 · 156 vendus</div></div>
+    </a>
+    <a href="produit.html?id=5" class="mini-card">
+      <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&q=70" alt="">
+      <div class="mini-body"><div class="mini-name">T-shirt wax unisexe</div><div class="mini-price">6 500 F</div><div class="mini-rate">⭐ 4.5 · 210 vendus</div></div>
+    </a>
+    <a href="produit.html?id=6" class="mini-card">
+      <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=300&q=70" alt="">
+      <div class="mini-body"><div class="mini-name">Sac à main wax & cuir</div><div class="mini-price">19 000 F</div><div class="mini-rate">⭐ 4.8 · 67 vendus</div></div>
+    </a>
+  </div>
+</div>
+
+<!-- DU MÊME VENDEUR -->
+<div class="card">
+  <div class="card-title"><i data-lucide="store"></i> Autres articles de Fatou Fashion</div>
+  <div class="h-scroll">
+    <a href="produit.html?id=7" class="mini-card">
+      <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=300&q=70" alt="">
+      <div class="mini-body"><div class="mini-name">Ensemble bazin riche</div><div class="mini-price">32 000 F</div><div class="mini-rate">⭐ 4.9 · 45 vendus</div></div>
+    </a>
+    <a href="produit.html?id=8" class="mini-card">
+      <img src="https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=300&q=70" alt="">
+      <div class="mini-body"><div class="mini-name">Pagne wax classique</div><div class="mini-price">9 000 F</div><div class="mini-rate">⭐ 4.7 · 134 vendus</div></div>
+    </a>
+    <a href="produit.html?id=9" class="mini-card">
+      <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=300&q=70" alt="">
+      <div class="mini-body"><div class="mini-name">Foulard wax assorti</div><div class="mini-price">3 500 F</div><div class="mini-rate">⭐ 4.6 · 98 vendus</div></div>
+    </a>
+    <a href="boutique.html?id=4" class="mini-card" style="display:flex;align-items:center;justify-content:center;height:172px;background:#EAF5EE;border:1.5px dashed #0f6b4e">
+      <div style="text-align:center;color:#0f6b4e;font-weight:800;font-size:12px;padding:10px">🏪<br>Voir toute<br>la boutique ›</div>
+    </a>
+  </div>
+</div>
+
+<!-- BARRE D'ACTION -->
 <div class="action-bar">
-  <button class="btn-fav"><i data-lucide="heart"></i></button>
-  <button class="btn-cart"><i data-lucide="shopping-cart"></i> Panier</button>
-  <button class="btn-buy"><i data-lucide="zap"></i> Acheter</button>
+  <a href="favoris.html" class="act-icon"><i data-lucide="heart"></i></a>
+  <a href="chat.html" class="act-icon"><i data-lucide="message-circle"></i></a>
+  <button class="btn-cart" onclick="addCart()">🛒 Ajouter</button>
+  <button class="btn-buy" onclick="location.href='checkout.html'">Acheter maintenant</button>
 </div>
 
 <nav class="bottom-nav">
   <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
-  <a href="recherche-ia.html"><i data-lucide="search"></i><span>Rechercher</span></a>
+  <a href="recherche-ia.html"><i data-lucide="search"></i><span>Recherche</span></a>
   <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
   <a href="favoris.html"><i data-lucide="heart"></i><span>Favoris</span></a>
   <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
-<script>lucide.createIcons();</script>
-  <!-- Cookies & Promo (v46) -->
-<script src="js/cookies-modal.js?v=46" defer></script>
-<script src="js/promo-banner.js?v=46" defer></script>
-  <script src="js/buttons-audit.js?v=51"></script>
+<script src="js/dark-mode.js?v=50"></script>
+<script>
+lucide.createIcons();
+function swap(el){
+  document.getElementById('mainImg').src = el.src.replace('w=200','w=800');
+  document.querySelectorAll('.thumb').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+}
+document.querySelectorAll('.variant').forEach(function(v){
+  v.addEventListener('click',function(){
+    v.parentElement.querySelectorAll('.variant').forEach(function(x){x.classList.remove('active');});
+    v.classList.add('active');
+  });
+});
+function addCart(){ alert('✅ Ajouté au panier !'); location.href='panier.html'; }
+</script>
+<script src="js/buttons-audit.js?v=51"></script>
 </body>
 </html>
