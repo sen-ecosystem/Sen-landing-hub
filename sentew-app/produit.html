@@ -276,35 +276,41 @@ function addCart(){ alert('✅ Ajouté au panier !'); location.href='panier.html
 <script src="js/buttons-audit.js?v=51"></script>
 <script>
 window.addEventListener('load', function(){
-  var PRODUITS = {
+  var PRODUITS={
     "1":{nom:"Robe wax mariage traditionnelle",prix:"35 000 FCFA",vendeur:"Aïcha Couture",bid:"1",initiale:"A"},
     "2":{nom:"Sandales cuir Peul premium",prix:"8 500 FCFA",vendeur:"Aïcha Couture",bid:"1",initiale:"A"},
     "3":{nom:"Chemise brodée homme",prix:"12 000 FCFA",vendeur:"Aïcha Couture",bid:"1",initiale:"A"},
-    "4":{nom:"Boubou grand teint",prix:"45 000 FCFA",vendeur:"Aïcha Couture",bid:"1",initiale:"A"},
-    "5":{nom:"Parfum oud royal",prix:"28 000 FCFA",vendeur:"Beauty Fatou",bid:"3",initiale:"B"},
+    "4":{nom:"Kaftan luxe",prix:"65 000 FCFA",vendeur:"Aïcha Couture",bid:"1",initiale:"A"},
+    "5":{nom:"Parfum oud royal",prix:"28 000 FCFA",vendeur:"Mariama B.",bid:"3",initiale:"M"},
+    "6":{nom:"Crème karité bio",prix:"6 500 FCFA",vendeur:"Mariama B.",bid:"3",initiale:"M"},
+    "7":{nom:"Rouge à lèvres mat",prix:"4 500 FCFA",vendeur:"Mariama B.",bid:"3",initiale:"M"},
+    "8":{nom:"Huile de baobab",prix:"8 000 FCFA",vendeur:"Mariama B.",bid:"3",initiale:"M"},
     "10":{nom:"Boubou Wax Premium brodé main",prix:"17 500 FCFA",vendeur:"Fatou Fashion",bid:"4",initiale:"F"},
+    "11":{nom:"Ensemble bazin riche",prix:"32 000 FCFA",vendeur:"Fatou Fashion",bid:"4",initiale:"F"},
+    "12":{nom:"Pagne wax classique",prix:"9 000 FCFA",vendeur:"Fatou Fashion",bid:"4",initiale:"F"},
+    "13":{nom:"Foulard wax assorti",prix:"3 500 FCFA",vendeur:"Fatou Fashion",bid:"4",initiale:"F"},
     "100":{nom:"iPhone 15 Pro Max 256GB",prix:"850 000 FCFA",vendeur:"Moussa Tech",bid:"2",initiale:"M"},
-    "101":{nom:"AirPods Pro 2ème génération",prix:"135 000 FCFA",vendeur:"Moussa Tech",bid:"2",initiale:"M"},
+    "101":{nom:"AirPods Pro 2",prix:"180 000 FCFA",vendeur:"Moussa Tech",bid:"2",initiale:"M"},
     "102":{nom:"Apple Watch Series 9",prix:"280 000 FCFA",vendeur:"Moussa Tech",bid:"2",initiale:"M"},
-    "103":{nom:"MacBook Pro M3 14 pouces",prix:"1 250 000 FCFA",vendeur:"Moussa Tech",bid:"2",initiale:"M"}
+    "103":{nom:"MacBook Air M2 13 pouces",prix:"620 000 FCFA",vendeur:"Moussa Tech",bid:"2",initiale:"M"}
   };
-  var id = new URLSearchParams(location.search).get('id');
-  var p = PRODUITS[id]; if(!p) return;
+  var id=new URLSearchParams(location.search).get('id');
+  var p=PRODUITS[id]; if(!p) return;
 
-  var titre = document.querySelector('.pname');
-  if(titre) titre.textContent = p.nom;
-  document.title = p.nom + ' · SEN TEW';
+  var titre=document.querySelector('.pname');
+  if(titre) titre.textContent=p.nom;
+  document.title=p.nom+' · SEN TEW';
 
-  var prix = document.querySelector('.price-block .price, .price');
-  if(prix) prix.textContent = p.prix;
+  var prix=document.querySelector('.price-block .price, .price');
+  if(prix) prix.textContent=p.prix;
 
-  var vcard = document.querySelector('.vendeur-card');
+  var vcard=document.querySelector('.vendeur-card');
   if(vcard){
-    vcard.href = 'boutique.html?id=' + p.bid;
-    var vname = vcard.querySelector('.name');
-    if(vname) vname.innerHTML = p.vendeur + ' <i data-lucide="badge-check"></i>';
-    var vav = vcard.querySelector('.avatar');
-    if(vav) vav.textContent = p.initiale;
+    vcard.href='boutique.html?id='+p.bid;
+    var vname=vcard.querySelector('.name');
+    if(vname) vname.innerHTML=p.vendeur+' <i data-lucide="badge-check"></i>';
+    var vav=vcard.querySelector('.avatar');
+    if(vav) vav.textContent=p.initiale;
   }
   if(window.lucide) lucide.createIcons();
 });
