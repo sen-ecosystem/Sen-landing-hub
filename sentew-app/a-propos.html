@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À propos - SEN TEW</title>
+    <link rel="stylesheet" href="css/app.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {font-family: 'Segoe UI', -apple-system, sans-serif; background: #F4F6F1; color: #1a1a1a; min-height: 100vh; padding-bottom: 90px;}
+        .topbar {background: #ffffff; padding: 16px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #E8ECE9; position: sticky; top: 0; z-index: 10;}
+        .topbar a {color: #1B5E3F; text-decoration: none; display: flex; align-items: center;}
+        .topbar h1 {color: #1B5E3F; font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 8px;}
+        .hero {background: linear-gradient(135deg, #1B5E3F 0%, #2E7D5A 100%); color: #fff; text-align: center; padding: 36px 20px;}
+        .hero-logo {width: 76px; height: 76px; border-radius: 20px; background: linear-gradient(135deg, #D4A574 0%, #B8894F 100%); margin: 0 auto 14px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 16px; line-height: 1.15; box-shadow: 0 8px 20px rgba(0,0,0,0.25);}
+        .hero h2 {font-size: 24px; font-weight: 800; letter-spacing: 1px;}
+        .hero p {font-size: 13px; opacity: 0.9; margin-top: 4px; letter-spacing: 3px; font-weight: 700;}
+        .container {padding: 20px; max-width: 520px; margin: 0 auto;}
+        .card {background: #ffffff; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); padding: 20px; margin-bottom: 16px;}
+        .card h3 {color: #1B5E3F; font-size: 15px; margin-bottom: 10px; font-weight: 800;}
+        .card p {font-size: 13px; color: #4a5a52; line-height: 1.6;}
+        .values {display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 6px;}
+        .value {text-align: center; background: #F4F6F1; border-radius: 12px; padding: 14px 6px;}
+        .value .emoji {font-size: 26px;}
+        .value strong {display: block; font-size: 12px; color: #1B5E3F; margin-top: 6px;}
+        .link-row {display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #F0F2EF; text-decoration: none; color: #1a1a1a; font-size: 14px; font-weight: 600;}
+        .link-row:last-child {border-bottom: none;}
+        .link-row .chevron {color: #9aa5a0; width: 18px; height: 18px;}
+        .bottom-nav {position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #E8ECE9; z-index: 40;}
+        .bottom-nav a {display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px;}
+        .bottom-nav a.active {color: #1B5E3F;}
+        .bottom-nav a i {width: 22px; height: 22px;}
+    </style>
+</head>
+<body class="light-mode">
+    <header class="topbar">
+        <a href="parametres.html"><i data-lucide="arrow-left"></i></a>
+        <h1><i data-lucide="info" style="width:20px;height:20px"></i> À propos</h1>
+    </header>
+    <div class="hero">
+        <div class="hero-logo">SEN<br>TEW</div>
+        <h2>SEN TEW</h2>
+        <p>MARKETPLACE</p>
+    </div>
+    <div class="container">
+        <div class="card">
+            <h3>🌍 Notre mission</h3>
+            <p>SEN TEW est la marketplace panafricaine qui connecte les vendeurs du Sénégal et d'Afrique avec les clients locaux et la diaspora du monde entier. Notre objectif : rendre le commerce africain accessible, sécurisé et moderne — <em>Delivering Value</em>.</p>
+        </div>
+        <div class="card">
+            <h3>💚 Nos valeurs</h3>
+            <div class="values">
+                <div class="value"><div class="emoji">🤝</div><strong>Confiance</strong></div>
+                <div class="value"><div class="emoji">🚀</div><strong>Innovation</strong></div>
+                <div class="value"><div class="emoji">🌍</div><strong>Afrique</strong></div>
+            </div>
+        </div>
+        <div class="card">
+            <a href="mentions-legales.html" class="link-row">Mentions légales <i data-lucide="chevron-right" class="chevron"></i></a>
+            <a href="cgu.html" class="link-row">Conditions générales d'utilisation <i data-lucide="chevron-right" class="chevron"></i></a>
+            <a href="support.html" class="link-row">Nous contacter <i data-lucide="chevron-right" class="chevron"></i></a>
+            <a href="version.html" class="link-row">Version de l'application <i data-lucide="chevron-right" class="chevron"></i></a>
+        </div>
+    </div>
+    <nav class="bottom-nav">
+        <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+        <a href="categories.html"><i data-lucide="layout-grid"></i><span>Catégories</span></a>
+        <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+        <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
+        <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
+    </nav>
+    <script>lucide.createIcons();</script>
+</body>
+</html>
