@@ -274,5 +274,40 @@ document.querySelectorAll('.variant').forEach(function(v){
 function addCart(){ alert('✅ Ajouté au panier !'); location.href='panier.html'; }
 </script>
 <script src="js/buttons-audit.js?v=51"></script>
+<script>
+// ===== CHAQUE ARTICLE AFFICHE SON PROPRE CONTENU (?id=) =====
+var PRODUITS = {
+  "1": { nom: "Robe wax mariage traditionnelle", prix: "35 000 FCFA", vendeur: "Aïcha Couture", bid: "1", initiale: "A" },
+  "2": { nom: "Sandales cuir Peul premium", prix: "8 500 FCFA", vendeur: "Aïcha Couture", bid: "1", initiale: "A" },
+  "3": { nom: "Chemise brodée homme", prix: "12 000 FCFA", vendeur: "Aïcha Couture", bid: "1", initiale: "A" },
+  "4": { nom: "Boubou grand teint", prix: "45 000 FCFA", vendeur: "Aïcha Couture", bid: "1", initiale: "A" },
+  "5": { nom: "Parfum oud royal", prix: "28 000 FCFA", vendeur: "Beauty Fatou", bid: "3", initiale: "B" },
+  "10": { nom: "iPhone 15 Pro 256 Go", prix: "850 000 FCFA", vendeur: "Moussa Tech", bid: "2", initiale: "M" },
+  "12": { nom: "iPhone 15 Pro 256 Go", prix: "850 000 FCFA", vendeur: "Moussa Tech", bid: "2", initiale: "M" },
+  "13": { nom: "AirPods Pro 2ème génération", prix: "135 000 FCFA", vendeur: "Moussa Tech", bid: "2", initiale: "M" },
+  "14": { nom: "MacBook Air M2 13 pouces", prix: "620 000 FCFA", vendeur: "Moussa Tech", bid: "2", initiale: "M" },
+  "15": { nom: "Apple Watch Series 9", prix: "280 000 FCFA", vendeur: "Moussa Tech", bid: "2", initiale: "M" }
+};
+(function(){
+  var id = new URLSearchParams(window.location.search).get('id');
+  var p = PRODUITS[id];
+  if (!p) return;
+  // Titre du produit
+  var titre = document.querySelector('.pname, h1');
+  if (titre) titre.textContent = p.nom;
+  document.title = p.nom + ' · SEN TEW';
+  // Prix principal
+  var prix = document.querySelector('.price');
+  if (prix) prix.textContent = p.prix;
+  // Carte vendeur : nom + lettre + lien vers SA boutique
+  var vnom = document.querySelector('.vendeur-card .name, .seller-name');
+  if (vnom) vnom.childNodes[0].textContent = p.vendeur + ' ';
+  var vav = document.querySelector('.vendeur-card .avatar');
+  if (vav) vav.textContent = p.initiale;
+  document.querySelectorAll('a[href*="boutique.html"], a[href*="boutique-detail.html"]').forEach(function(a){
+    a.href = 'boutique.html?id=' + p.bid;
+  });
+})();
+</script>
 </body>
 </html>
