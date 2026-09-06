@@ -10,7 +10,7 @@ body{background:#f5f5f5;color:#222;padding-bottom:100px;-webkit-overflow-scrolli
 .back{background:#f5f5f5;border:none;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;color:#222}
 .header h1{flex:1;font-size:16px;font-weight:700;color:#222;text-align:center;margin-right:36px}
 
-.tabs{background:#fff;display:flex;border-bottom:1px solid #eee;position:sticky;top:62px;z-index:80}
+.tabs{background:#fff;display:flex;border-bottom:1px solid #eee;position:sticky;top:64px;z-index:80}
 .tab{flex:1;padding:14px 8px;text-align:center;font-size:13px;font-weight:700;color:#666;background:none;border:none;cursor:pointer;position:relative}
 .tab.active{color:var(--v)}
 .tab.active::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:3px;background:var(--v);border-radius:3px 3px 0 0}
@@ -18,7 +18,7 @@ body{background:#f5f5f5;color:#222;padding-bottom:100px;-webkit-overflow-scrolli
 .section{padding:14px}
 .section-title{font-size:13px;color:var(--o);font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
 
-/* ===== BONS CADEAUX (colorés lisibles) ===== */
+/* ===== BONS CADEAUX ===== */
 .gift-card{background:linear-gradient(135deg,#d4a04c,#b8863a);color:#fff;padding:20px;border-radius:16px;margin-bottom:12px;position:relative;overflow:hidden;box-shadow:0 6px 20px rgba(184,134,58,.25)}
 .gift-card.green{background:linear-gradient(135deg,#00a651,#005f2f)}
 .gift-card::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;background:rgba(255,255,255,.08);border-radius:50%}
@@ -32,55 +32,62 @@ body{background:#f5f5f5;color:#222;padding-bottom:100px;-webkit-overflow-scrolli
 .gift-footer{display:flex;justify-content:space-between;gap:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.25)}
 .gift-block small{font-size:10px;opacity:.9;color:#fff;display:flex;align-items:center;gap:4px}
 .gift-block strong{display:block;font-size:13px;font-weight:800;color:#fff;margin-top:2px}
-.copy-btn{background:rgba(255,255,255,.2);border:none;padding:4px 8px;border-radius:6px;color:#fff;font-size:11px;cursor:pointer;margin-left:6px}
+.copy-btn{background:rgba(255,255,255,.2);border:none;padding:4px 10px;border-radius:6px;color:#fff;font-size:11px;cursor:pointer;margin-left:6px;transition:0.2s}
+.copy-btn:active{background:rgba(255,255,255,.45);transform:scale(1.1)}
 
 .offer-block{background:#fff;border-radius:12px;padding:14px;margin-top:16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
 .offer-title{font-size:14px;color:var(--o);font-weight:800;margin-bottom:12px}
 .amount-picker{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-.amount-btn{padding:12px 4px;border:2px solid #e0e0e0;background:#fff;border-radius:10px;text-align:center;cursor:pointer;color:#222;font-weight:700}
+.amount-btn{padding:12px 4px;border:2px solid #e0e0e0;background:#fff;border-radius:10px;text-align:center;cursor:pointer;color:#222;font-weight:700;transition:0.15s}
+.amount-btn:active{transform:scale(0.96)}
 .amount-btn.active{background:linear-gradient(135deg,var(--o),#d4a04c);color:#fff;border-color:var(--o)}
 .amount-btn .val{font-size:13px;display:block}
 .amount-btn small{font-size:9px;opacity:.7;display:block;margin-top:2px}
-.buy-gift-btn{width:100%;background:linear-gradient(135deg,var(--o),#d4a04c);color:#fff;border:none;padding:14px;border-radius:12px;font-weight:700;font-size:15px;margin-top:14px;cursor:pointer;box-shadow:0 4px 12px rgba(184,134,58,.3)}
+.buy-gift-btn{width:100%;background:linear-gradient(135deg,var(--o),#d4a04c);color:#fff;border:none;padding:14px;border-radius:12px;font-weight:700;font-size:15px;margin-top:14px;cursor:pointer;box-shadow:0 4px 12px rgba(184,134,58,.3);transition:0.15s}
+.buy-gift-btn:active{transform:scale(0.98);opacity:.9}
 
 /* ===== CODES PROMO ===== */
 .promo-item{background:#fff;padding:14px;border-radius:12px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.05);border-left:4px solid var(--v);display:flex;justify-content:space-between;align-items:center;gap:12px}
-.promo-info{flex:1}
-.promo-code-title{color:var(--v);font-weight:800;font-size:16px;letter-spacing:.5px;display:flex;align-items:center;gap:6px}
+.promo-info{flex:1;min-width:0}
+.promo-code-title{color:var(--v);font-weight:800;font-size:16px;letter-spacing:.5px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.promo-code-title .copy-btn{background:#f5f5f5;color:#222}
 .promo-desc{color:#555;font-size:12px;margin:4px 0}
 .promo-valid{color:var(--o);font-size:11px;font-weight:600}
-.promo-right{text-align:right}
+.promo-right{text-align:right;flex-shrink:0}
 .promo-reduc{color:var(--r);font-weight:900;font-size:20px}
-.use-btn{background:var(--v);color:#fff;border:none;padding:6px 16px;border-radius:16px;font-size:12px;font-weight:700;cursor:pointer;margin-top:6px}
+.use-btn{background:var(--v);color:#fff;border:none;padding:8px 16px;border-radius:16px;font-size:12px;font-weight:700;cursor:pointer;margin-top:6px;transition:0.15s;font-family:inherit}
+.use-btn:active{transform:scale(0.95);opacity:.85}
 
 .add-code{background:#fff;padding:14px;border-radius:12px;margin-top:14px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
 .add-code label{display:block;color:var(--o);font-weight:800;font-size:13px;margin-bottom:8px}
 .add-code-row{display:flex;gap:8px}
-.add-code-row input{flex:1;border:1px solid #ddd;padding:10px 14px;border-radius:8px;font-size:14px;color:#222;background:#fff;outline:none}
+.add-code-row input{flex:1;min-width:0;border:1px solid #ddd;padding:10px 14px;border-radius:8px;font-size:14px;color:#222;background:#fff;outline:none}
 .add-code-row input::placeholder{color:#999}
-.add-btn{background:linear-gradient(135deg,var(--o),#d4a04c);color:#fff;border:none;padding:10px 20px;border-radius:8px;font-weight:700;cursor:pointer}
+.add-btn{background:linear-gradient(135deg,var(--o),#d4a04c);color:#fff;border:none;padding:10px 20px;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit}
 
-/* ===== COUPONS ===== */
-.coupon{background:#fff;padding:14px;border-radius:12px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.05);display:flex;align-items:center;gap:12px;border:1px solid #f0f0f0}
+/* ===== COUPONS (cliquables) ===== */
+.coupon{background:#fff;padding:14px;border-radius:12px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.05);display:flex;align-items:center;gap:12px;border:1px solid #f0f0f0;cursor:pointer;transition:0.15s;text-decoration:none;color:inherit;width:100%;text-align:left;font-family:inherit}
+.coupon:active{transform:scale(0.98);background:#fafaf7}
 .coupon-avatar{width:44px;height:44px;border-radius:50%;overflow:hidden;background:#eee;flex-shrink:0}
 .coupon-avatar img{width:100%;height:100%;object-fit:cover}
-.coupon-body{flex:1}
+.coupon-body{flex:1;min-width:0}
 .coupon-type{font-size:11px;color:#666;font-weight:600}
 .coupon-name{font-size:14px;font-weight:800;color:#222;margin:2px 0}
 .coupon-valid{font-size:11px;color:#888}
 .coupon-valid.expiring{color:var(--r);font-weight:700}
-.coupon-value{text-align:right}
+.coupon-value{text-align:right;flex-shrink:0}
 .coupon-value .big{color:var(--o);font-weight:900;font-size:20px}
 .coupon-value small{color:#666;font-size:10px;display:block;margin-top:2px}
+.coupon-hint{font-size:10px;color:var(--v);font-weight:700;margin-top:4px}
 
-.parrain-btn{background:#fff;border:2px solid var(--o);color:var(--o);padding:14px;border-radius:12px;font-weight:800;width:100%;font-size:14px;cursor:pointer;margin-top:14px}
+.parrain-btn{background:#fff;border:2px solid var(--o);color:var(--o);padding:14px;border-radius:12px;font-weight:800;width:100%;font-size:14px;cursor:pointer;margin-top:14px;font-family:inherit;transition:0.15s}
+.parrain-btn:active{background:#fdf6ea;transform:scale(0.98)}
 
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;padding:8px 0;padding-bottom:calc(8px + env(safe-area-inset-bottom,0));z-index:90}
 .nav-item{flex:1;text-align:center;color:#666;font-size:10px;background:none;border:none;cursor:pointer;font-family:inherit}
 .nav-item.active{color:var(--v);font-weight:700}
 .nav-icon{font-size:22px;display:block;margin-bottom:2px}
 
-/* DARK MODE support */
 html[data-theme="dark"] body{background:#0f1419;color:#e8eaed}
 html[data-theme="dark"] .header,html[data-theme="dark"] .tabs,html[data-theme="dark"] .promo-item,
 html[data-theme="dark"] .coupon,html[data-theme="dark"] .offer-block,html[data-theme="dark"] .add-code,
@@ -92,7 +99,7 @@ html[data-theme="dark"] .amount-btn{background:#232a33;color:#e8eaed;border-colo
 </style></head><body>
 
 <header class="header">
-  <button class="back" onclick="history.back()">←</button>
+  <button class="back" onclick="history.back()" aria-label="Retour">←</button>
   <h1>🎁 Mes Bons & Promotions</h1>
 </header>
 
@@ -118,7 +125,7 @@ html[data-theme="dark"] .amount-btn{background:#232a33;color:#e8eaed;border-colo
         </div>
         <div class="gift-block">
           <small>🔑 Code</small>
-          <strong>ST50K-8X7P-L2QZ <button class="copy-btn" onclick="copyCode('ST50K-8X7P-L2QZ')">📋</button></strong>
+          <strong>ST50K-8X7P-L2QZ <button class="copy-btn" onclick="copyCode('ST50K-8X7P-L2QZ')">📋 Copier</button></strong>
         </div>
       </div>
     </div>
@@ -137,7 +144,7 @@ html[data-theme="dark"] .amount-btn{background:#232a33;color:#e8eaed;border-colo
         </div>
         <div class="gift-block">
           <small>🔑 Code</small>
-          <strong>ST25K-M9PL-3ZQ2 <button class="copy-btn" onclick="copyCode('ST25K-M9PL-3ZQ2')">📋</button></strong>
+          <strong>ST25K-M9PL-3ZQ2 <button class="copy-btn" onclick="copyCode('ST25K-M9PL-3ZQ2')">📋 Copier</button></strong>
         </div>
       </div>
     </div>
@@ -162,37 +169,37 @@ html[data-theme="dark"] .amount-btn{background:#232a33;color:#e8eaed;border-colo
 
   <div class="promo-item">
     <div class="promo-info">
-      <div class="promo-code-title">RAMADAN30 <button class="copy-btn" style="background:#f5f5f5;color:#222" onclick="copyCode('RAMADAN30')">📋</button></div>
+      <div class="promo-code-title">RAMADAN30 <button class="copy-btn" onclick="copyCode('RAMADAN30')">📋</button></div>
       <div class="promo-desc">Catégorie Mode uniquement</div>
       <div class="promo-valid">📅 Valable jusqu'au 31/08/2026</div>
     </div>
     <div class="promo-right">
       <div class="promo-reduc">-30%</div>
-      <button class="use-btn">Utiliser</button>
+      <button class="use-btn" onclick="usePromo('RAMADAN30')">Utiliser</button>
     </div>
   </div>
 
   <div class="promo-item">
     <div class="promo-info">
-      <div class="promo-code-title">NOUVEAU10 <button class="copy-btn" style="background:#f5f5f5;color:#222" onclick="copyCode('NOUVEAU10')">📋</button></div>
+      <div class="promo-code-title">NOUVEAU10 <button class="copy-btn" onclick="copyCode('NOUVEAU10')">📋</button></div>
       <div class="promo-desc">Sur votre premier achat</div>
       <div class="promo-valid">♾️ Valable illimité</div>
     </div>
     <div class="promo-right">
       <div class="promo-reduc">-10%</div>
-      <button class="use-btn">Utiliser</button>
+      <button class="use-btn" onclick="usePromo('NOUVEAU10')">Utiliser</button>
     </div>
   </div>
 
   <div class="promo-item" style="border-left-color:var(--o)">
     <div class="promo-info">
-      <div class="promo-code-title" style="color:var(--o)">LIVRAISON0 <button class="copy-btn" style="background:#f5f5f5;color:#222" onclick="copyCode('LIVRAISON0')">📋</button></div>
+      <div class="promo-code-title" style="color:var(--o)">LIVRAISON0 <button class="copy-btn" onclick="copyCode('LIVRAISON0')">📋</button></div>
       <div class="promo-desc">Livraison gratuite dès 10 000 FCFA</div>
       <div class="promo-valid">📅 Valable jusqu'au 30/09/2026</div>
     </div>
     <div class="promo-right">
       <div class="promo-reduc" style="color:var(--o);font-size:16px">GRATUIT</div>
-      <button class="use-btn" style="background:var(--o)">Utiliser</button>
+      <button class="use-btn" style="background:var(--o)" onclick="usePromo('LIVRAISON0')">Utiliser</button>
     </div>
   </div>
 
@@ -205,61 +212,65 @@ html[data-theme="dark"] .amount-btn{background:#232a33;color:#e8eaed;border-colo
   </div>
 </div>
 
-<!-- COUPONS -->
+<!-- COUPONS (cliquables vers la boutique) -->
 <div class="section" id="coupons" style="display:none">
   <div class="section-title">🎫 Vos coupons (4)</div>
 
-  <div class="coupon">
+  <button class="coupon" onclick="useCoupon('Aïcha Couture',1)">
     <div class="coupon-avatar" style="background:linear-gradient(135deg,#e91e63,#c2185b);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800">A</div>
     <div class="coupon-body">
       <div class="coupon-type">Coupon vendeur</div>
       <div class="coupon-name">Aïcha Couture</div>
       <div class="coupon-valid">Valable jusqu'au 30/09/2026</div>
+      <div class="coupon-hint">👆 Toucher pour utiliser</div>
     </div>
     <div class="coupon-value">
       <div class="big">-15%</div>
       <small>Sur toute la boutique</small>
     </div>
-  </div>
+  </button>
 
-  <div class="coupon">
+  <button class="coupon" onclick="useCoupon('Fatou Ndiaye Fashion',4)">
     <div class="coupon-avatar" style="background:linear-gradient(135deg,#ffb300,#ff8f00);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800">F</div>
     <div class="coupon-body">
       <div class="coupon-type">Coupon vendeur</div>
       <div class="coupon-name">Fatou Ndiaye Fashion</div>
       <div class="coupon-valid">Valable jusqu'au 15/08/2026</div>
+      <div class="coupon-hint">👆 Toucher pour utiliser</div>
     </div>
     <div class="coupon-value">
       <div class="big">-20%</div>
       <small>Boubou wax</small>
     </div>
-  </div>
+  </button>
 
-  <div class="coupon">
+  <button class="coupon" onclick="useCoupon('TechSen Store',2)">
     <div class="coupon-avatar" style="background:linear-gradient(135deg,#1976d2,#0d47a1);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800">T</div>
     <div class="coupon-body">
       <div class="coupon-type">Coupon vendeur</div>
       <div class="coupon-name">TechSen Store</div>
       <div class="coupon-valid">Valable jusqu'au 31/12/2026</div>
+      <div class="coupon-hint">👆 Toucher pour utiliser</div>
     </div>
     <div class="coupon-value">
       <div class="big">-5000</div>
       <small>FCFA dès 50k</small>
     </div>
-  </div>
+  </button>
 
-  <div class="coupon" style="border-color:var(--r);border-width:2px">
+  <button class="coupon" style="border-color:var(--r);border-width:2px" onclick="location.href='parrainage.html'">
     <div class="coupon-avatar" style="background:linear-gradient(135deg,#ff6b35,#e31b23);display:flex;align-items:center;justify-content:center;font-size:22px">🎁</div>
     <div class="coupon-body">
       <div class="coupon-type">Coupon parrainage</div>
       <div class="coupon-name">Invitation ami</div>
       <div class="coupon-valid expiring">⚠️ Expire dans 3 jours</div>
+      <div class="coupon-hint">👆 Toucher pour utiliser</div>
     </div>
     <div class="coupon-value">
       <div class="big">-1000</div>
       <small>FCFA</small>
     </div>
-  </div>
+  </button>
 
   <button class="parrain-btn" onclick="location.href='parrainage.html'">🎁 Parrainer un ami (+2000 FCFA)</button>
 </div>
@@ -281,25 +292,38 @@ function showTab(id,btn){
   btn.classList.add('active');
 }
 function copyCode(c){
-  navigator.clipboard.writeText(c);
+  if(navigator.clipboard){navigator.clipboard.writeText(c);}
   alert('✅ Code "'+c+'" copié dans le presse-papier');
 }
+function usePromo(code){
+  copyCodeSilent(code);
+  alert('✅ Code "'+code+'" appliqué !\n\nIl sera utilisé automatiquement au moment du paiement.');
+  location.href='produits.html?promo='+code;
+}
+function useCoupon(nom,id){
+  alert('🎫 Coupon "'+nom+'" activé !\n\nRedirection vers la boutique...');
+  location.href='boutique.html?id='+id;
+}
+function copyCodeSilent(c){
+  if(navigator.clipboard){navigator.clipboard.writeText(c);}
+}
 function buyGift(){
-  const amt = document.querySelector('.amount-btn.active .val').textContent;
+  var amt = document.querySelector('.amount-btn.active .val').textContent;
   alert('🎁 Achat carte cadeau '+amt+' FCFA\n\nRedirection vers le paiement...');
-  location.href='panier.html?gift='+amt;
+  location.href='checkout.html?gift='+amt;
 }
 function addCode(){
-  const c = document.getElementById('newCode').value.trim();
-  if(!c) return alert('Entrez un code');
+  var c = document.getElementById('newCode').value.trim();
+  if(!c){ alert('⚠️ Entrez un code'); return; }
   alert('✅ Code "'+c+'" appliqué !');
   document.getElementById('newCode').value='';
 }
-document.querySelectorAll('.amount-btn').forEach(b=>{
-  b.addEventListener('click',()=>{
-    document.querySelectorAll('.amount-btn').forEach(x=>x.classList.remove('active'));
+document.querySelectorAll('.amount-btn').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.amount-btn').forEach(function(x){x.classList.remove('active');});
     b.classList.add('active');
   });
 });
+</script>
 <script src="js/buttons-audit.js?v=51"></script>
 </body></html>
