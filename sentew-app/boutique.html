@@ -125,5 +125,32 @@
 <script src="js/dark-mode.js?v=50"></script>
 <script>lucide.createIcons();</script>
   <script src="js/buttons-audit.js?v=51"></script>
+<script>
+// ===== CHAQUE BOUTIQUE AFFICHE SES PROPRES INFOS (?id=) =====
+var BOUTIQUES = {
+  "1": { nom: "Aïcha Couture", initiale: "A", ville: "Dakar", note: "4.9", abonnes: "2,3k", produits: "48", specialite: "Mode & Couture" },
+  "2": { nom: "Moussa Tech", initiale: "M", ville: "Dakar", note: "4.7", abonnes: "1,2k", produits: "32", specialite: "Électronique" },
+  "3": { nom: "Beauty Fatou", initiale: "B", ville: "Dakar", note: "4.8", abonnes: "2,1k", produits: "27", specialite: "Beauté" },
+  "4": { nom: "Fatou Fashion", initiale: "F", ville: "Dakar", note: "4.8", abonnes: "1,2k", produits: "56", specialite: "Mode" }
+};
+(function(){
+  var id = new URLSearchParams(window.location.search).get('id') || '1';
+  var b = BOUTIQUES[id];
+  if (!b) return;
+  // Remplace le nom de la boutique partout dans la page
+  document.querySelectorAll('h1, .shop-name, .boutique-nom, .hero h2').forEach(function(el){
+    if (el.textContent.trim().length < 40) el.textContent = b.nom;
+  });
+  document.querySelectorAll('title').forEach(function(t){ t.textContent = b.nom + ' - SEN TEW'; });
+  // Avatar : remplace la lettre
+  document.querySelectorAll('.avatar, .shop-avatar, [class*="avatar"]').forEach(function(a){
+    if (a.children.length === 0 && a.textContent.trim().length <= 2) a.textContent = b.initiale;
+  });
+  // Tous les liens internes produits/boutiques gardent le bon id
+  document.querySelectorAll('a[href*="boutique.html"]').forEach(function(a){
+    a.href = 'boutique.html?id=' + id;
+  });
+})();
+</script>
 </body>
 </html>
