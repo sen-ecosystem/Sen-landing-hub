@@ -126,31 +126,50 @@
 <script>lucide.createIcons();</script>
   <script src="js/buttons-audit.js?v=51"></script>
 <script>
-// ===== CHAQUE BOUTIQUE AFFICHE SES PROPRES INFOS (?id=) =====
-var BOUTIQUES = {
-  "1": { nom: "Aïcha Couture", initiale: "A", ville: "Dakar", note: "4.9", abonnes: "2,3k", produits: "48", specialite: "Mode & Couture" },
-  "2": { nom: "Moussa Tech", initiale: "M", ville: "Dakar", note: "4.7", abonnes: "1,2k", produits: "32", specialite: "Électronique" },
-  "3": { nom: "Beauty Fatou", initiale: "B", ville: "Dakar", note: "4.8", abonnes: "2,1k", produits: "27", specialite: "Beauté" },
-  "4": { nom: "Fatou Fashion", initiale: "F", ville: "Dakar", note: "4.8", abonnes: "1,2k", produits: "56", specialite: "Mode" }
-};
-(function(){
-  var id = new URLSearchParams(window.location.search).get('id') || '1';
-  var b = BOUTIQUES[id];
-  if (!b) return;
-  // Remplace le nom de la boutique partout dans la page
-  document.querySelectorAll('h1, .shop-name, .boutique-nom, .hero h2').forEach(function(el){
-    if (el.textContent.trim().length < 40) el.textContent = b.nom;
+window.addEventListener('load', function(){
+  var BOUTIQUES = {
+    "1":{nom:"Aïcha Couture",initiale:"A",produits:[["Robe wax mariage","35 000 FCFA",1],["Sandales cuir Peul","8 500 FCFA",2],["Chemise brodée homme","12 000 FCFA",3],["Boubou grand teint","45 000 FCFA",4]]},
+    "2":{nom:"Moussa Tech",initiale:"M",produits:[["iPhone 15 Pro Max 256GB","850 000 FCFA",100],["AirPods Pro 2","135 000 FCFA",101],["Apple Watch Series 9","280 000 FCFA",102],["MacBook Pro M3 14\"","1 250 000 FCFA",103]]},
+    "3":{nom:"Beauty Fatou",initiale:"B",produits:[["Parfum oud royal","28 000 FCFA",5],["Crème karité bio","6 500 FCFA",6],["Rouge à lèvres mat","4 500 FCFA",7],["Huile de baobab","8 000 FCFA",8]]},
+    "4":{nom:"Fatou Fashion",initiale:"F",produits:[["Boubou Wax Premium","17 500 FCFA",10],["Ensemble bazin riche","32 000 FCFA",11],["Pagne wax classique","9 000 FCFA",12],["Foulard wax assorti","3 500 FCFA",13]]}
+  };
+  var id = new URLSearchParams(location.search).get('id') || '2';
+  var b = BOUTIQUES[id]; if(!b) return;
+
+  /* Nom de la boutique (le vrai h2, PAS la topbar) */
+  document.querySelectorAll('h2').forEach(function(h){
+    if(h.querySelector('svg, i[data-lucide]') && !h.classList.contains('section-title')){
+      h.innerHTML = b.nom + ' <i data-lucide="badge-check" class="icon icon-sm icon-or"></i>';
+    }
   });
-  document.querySelectorAll('title').forEach(function(t){ t.textContent = b.nom + ' - SEN TEW'; });
-  // Avatar : remplace la lettre
-  document.querySelectorAll('.avatar, .shop-avatar, [class*="avatar"]').forEach(function(a){
-    if (a.children.length === 0 && a.textContent.trim().length <= 2) a.textContent = b.initiale;
+  document.title = b.nom + ' - SEN TEW';
+
+  /* Avatar (cercle avec une seule lettre) */
+  document.querySelectorAll('div').forEach(function(d){
+    if(d.children.length===0 && d.textContent.trim().length===1 && /[A-Z]/.test(d.textContent.trim())){
+      d.textContent = b.initiale;
+    }
   });
-  // Tous les liens internes produits/boutiques gardent le bon id
-  document.querySelectorAll('a[href*="boutique.html"]').forEach(function(a){
+
+  /* Produits de la grille : nom + prix + lien, propres à la boutique */
+  var cards = document.querySelectorAll('.pcard-name');
+  cards.forEach(function(el, i){
+    if(!b.produits[i]) return;
+    el.textContent = b.produits[i][0];
+    var card = el.closest('a');
+    if(card){
+      card.href = 'produit.html?id=' + b.produits[i][2];
+      var price = card.querySelector('.pcard-price, [class*="price"]');
+      if(price) price.textContent = b.produits[i][1];
+    }
+  });
+
+  /* Liens "boutique" internes cohérents */
+  document.querySelectorAll('a[href*="boutique.html"], a[href*="boutique-detail.html"]').forEach(function(a){
     a.href = 'boutique.html?id=' + id;
   });
-})();
+  if(window.lucide) lucide.createIcons();
+});
 </script>
 </body>
 </html>
