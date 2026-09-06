@@ -382,6 +382,61 @@
             }
         });
     </script>
+<!-- ===== ZONE COMMENTAIRES LIVE (visible au-dessus des produits) ===== -->
+<script>
+(function(){
+  var style = document.createElement('style');
+  style.textContent = `
+    .live-chat-zone{position:absolute;left:12px;right:84px;bottom:150px;max-height:180px;overflow-y:auto;z-index:9;display:flex;flex-direction:column;justify-content:flex-end;scrollbar-width:none;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 20%);mask-image:linear-gradient(to bottom,transparent,#000 20%)}
+    .live-chat-zone::-webkit-scrollbar{display:none}
+    .live-chat-msg{background:rgba(0,0,0,.55);color:#fff;padding:6px 12px;border-radius:14px;font-size:12px;margin-bottom:6px;max-width:92%;line-height:1.4;backdrop-filter:blur(8px);width:fit-content;animation:chatIn .3s}
+    @keyframes chatIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .live-chat-msg b{color:#fcd116;margin-right:4px}
+    .live-chat-msg.system{color:#fcd116;font-weight:700}
+  `;
+  document.head.appendChild(style);
 
+  var messages = [
+    ['system','🎉 Bienvenue dans le live !'],
+    ['Aïcha D.','Bonsoir tout le monde ! 😍'],
+    ['Moussa F.','C\u2019est dispo en bleu ?'],
+    ['Fatou N.','Je commande maintenant 🛒'],
+    ['Ibra S.','Livraison à Thiès possible ?'],
+    ['Awa K.','Trop beau 🔥🔥'],
+    ['Cheikh T.','Le prix c\u2019est combien déjà ?'],
+    ['Mariam B.','Je prends 2 ! 🙌']
+  ];
+
+  // Ajoute une zone de commentaires dans CHAQUE live (au-dessus de la barre produits)
+  document.querySelectorAll('.products-bar').forEach(function(bar, idx){
+    var parent = bar.parentElement;
+    if (parent.querySelector('.live-chat-zone')) return;
+    var zone = document.createElement('div');
+    zone.className = 'live-chat-zone';
+    parent.insertBefore(zone, bar);
+
+    // 3 messages visibles dès l'ouverture
+    messages.slice(0, 3).forEach(function(m){
+      var d = document.createElement('div');
+      d.className = 'live-chat-msg' + (m[0]==='system' ? ' system' : '');
+      d.innerHTML = (m[0]==='system') ? m[1] : '<b>' + m[0] + '</b>' + m[1];
+      zone.appendChild(d);
+    });
+
+    // Nouveaux commentaires automatiques (effet live)
+    var i = 3;
+    setInterval(function(){
+      if (document.hidden) return;
+      var m = messages[i % messages.length]; i++;
+      var d = document.createElement('div');
+      d.className = 'live-chat-msg';
+      d.innerHTML = '<b>' + m[0] + '</b>' + m[1];
+      zone.appendChild(d);
+      while (zone.children.length > 6) zone.removeChild(zone.firstChild);
+      zone.scrollTop = zone.scrollHeight;
+    }, 5000 + idx * 1300);
+  });
+})();
+</script>
 </body>
 </html>
