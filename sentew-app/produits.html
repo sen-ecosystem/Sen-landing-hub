@@ -13,9 +13,11 @@
 .filter-bar{padding:12px 16px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;background:#ffffff;border-bottom:1px solid #e5e5e0}
 .filter-bar::-webkit-scrollbar{display:none}
 body.dark-mode .filter-bar{background:#0a1f17;border-color:#2a4438}
-.filter-chip{padding:6px 14px;border-radius:20px;background:#f5f5f0;border:1px solid #e5e5e0;font-size:13px;font-weight:700;color:#4a5a52;white-space:nowrap;cursor:pointer}
+.filter-chip{padding:6px 14px;border-radius:20px;background:#f5f5f0;border:1px solid #e5e5e0;font-size:13px;font-weight:700;color:#4a5a52;white-space:nowrap;cursor:pointer;font-family:inherit}
 .filter-chip.active{background:#0f6b4e;color:#fff;border-color:#0f6b4e}
 body.dark-mode .filter-chip{background:#1a2e24;border-color:#2a4438;color:#c8f0d8}
+
+.result-count{padding:10px 16px 0;font-size:12px;color:#4a5a52;font-weight:600}
 
 .prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 16px}
 .prod-card{
@@ -71,7 +73,7 @@ main{padding-bottom:80px}
 <body class="light-mode" data-theme="light">
 <header class="topbar">
   <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
-  <h1>Tous les produits</h1>
+  <h1 id="page-title">Tous les produits</h1>
   <button style="background:#f0c99a;border:none;width:38px;height:38px;border-radius:10px;position:relative;cursor:pointer" onclick="location.href='panier.html'">
     <i data-lucide="shopping-cart" style="color:#0a1f17"></i>
     <span style="position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;font-size:10px;font-weight:800;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center">3</span>
@@ -79,19 +81,22 @@ main{padding-bottom:80px}
 </header>
 
 <div class="filter-bar">
-  <button class="filter-chip active">Tous</button>
-  <button class="filter-chip">Mode</button>
-  <button class="filter-chip">Tech</button>
-  <button class="filter-chip">Beauté</button>
-  <button class="filter-chip">Maison</button>
-  <button class="filter-chip">Alimentation</button>
-  <button class="filter-chip">Sport</button>
+  <button class="filter-chip active" data-cat="tous" onclick="filterCat('tous',this)">Tous</button>
+  <button class="filter-chip" data-cat="mode" onclick="filterCat('mode',this)">👗 Mode</button>
+  <button class="filter-chip" data-cat="tech" onclick="filterCat('tech',this)">📱 Tech</button>
+  <button class="filter-chip" data-cat="beaute" onclick="filterCat('beaute',this)">💄 Beauté</button>
+  <button class="filter-chip" data-cat="maison" onclick="filterCat('maison',this)">🏠 Maison</button>
+  <button class="filter-chip" data-cat="alimentation" onclick="filterCat('alimentation',this)">🍲 Alimentation</button>
+  <button class="filter-chip" data-cat="sport" onclick="filterCat('sport',this)">⚽ Sport</button>
 </div>
 
-<main>
-  <div class="prod-grid">
+<div class="result-count" id="result-count">16 articles disponibles</div>
 
-    <article class="prod-card" onclick="location.href='produit.html?id=1'">
+<main>
+  <div class="prod-grid" id="prod-grid">
+
+    <!-- MODE -->
+    <article class="prod-card" data-cat="mode" onclick="location.href='produit.html?id=1'">
       <div class="prod-img">
         <img src="https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=400" alt="">
         <div class="prod-badges"><span class="prod-badge live">LIVE</span></div>
@@ -104,7 +109,7 @@ main{padding-bottom:80px}
       </div>
     </article>
 
-    <article class="prod-card" onclick="location.href='produit.html?id=2'">
+    <article class="prod-card" data-cat="mode" onclick="location.href='produit.html?id=2'">
       <div class="prod-img">
         <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400" alt="">
         <div class="prod-badges"><span class="prod-badge live">LIVE</span></div>
@@ -117,7 +122,7 @@ main{padding-bottom:80px}
       </div>
     </article>
 
-    <article class="prod-card" onclick="location.href='produit.html?id=3'">
+    <article class="prod-card" data-cat="mode" onclick="location.href='produit.html?id=3'">
       <div class="prod-img">
         <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400" alt="">
         <button class="prod-fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
@@ -129,7 +134,7 @@ main{padding-bottom:80px}
       </div>
     </article>
 
-    <article class="prod-card" onclick="location.href='produit.html?id=4'">
+    <article class="prod-card" data-cat="mode" onclick="location.href='produit.html?id=4'">
       <div class="prod-img">
         <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400" alt="">
         <button class="prod-fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
@@ -141,7 +146,8 @@ main{padding-bottom:80px}
       </div>
     </article>
 
-    <article class="prod-card" onclick="location.href='produit.html?id=5'">
+    <!-- BEAUTÉ -->
+    <article class="prod-card" data-cat="beaute" onclick="location.href='produit.html?id=5'">
       <div class="prod-img">
         <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=400" alt="">
         <button class="prod-fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
@@ -153,16 +159,155 @@ main{padding-bottom:80px}
       </div>
     </article>
 
-    <article class="prod-card" onclick="location.href='produit.html?id=6'">
-      <div class="prod-img" style="background:#facc15">
-        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400" alt="">
-        <div class="prod-badges"><span class="prod-badge discount">-32%</span></div>
+    <article class="prod-card" data-cat="beaute" onclick="location.href='produit.html?id=10'">
+      <div class="prod-img">
+        <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400" alt="">
         <button class="prod-fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
       </div>
       <div class="prod-body">
-        <div class="prod-vendeur"><span class="av-mini"></span> Aïcha Couture</div>
-        <div class="prod-name">Sac cuir africain premium</div>
-        <div class="prod-price">15 000 FCFA</div>
+        <div class="prod-vendeur"><span class="av-mini"></span> Beauty Fatou</div>
+        <div class="prod-name">Kit soin peau naturel karité</div>
+        <div class="prod-price">13 200 FCFA</div>
+      </div>
+    </article>
+
+    <article class="prod-card" data-cat="beaute" onclick="location.href='produit.html?id=11'">
+      <div class="prod-img">
+        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400" alt="">
+        <div class="prod-badges"><span class="prod-badge discount">-20%</span></div>
+        <button class="prod-fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+      </div>
+      <div class="prod-body">
+        <div class="prod-vendeur"><span class="av-mini"></span> Mariama B.</div>
+        <div class="prod-name">Palette maquillage africaine</div>
+        <div class="prod-price">9 500 FCFA</div>
+      </div>
+    </article>
+
+    <!-- TECH -->
+    <article class="prod-card" data-cat="tech" onclick="location.href='produit.html?id=12'">
+      <div class="prod-img">
+        <img src="https://images.unsplash.com/photo-1592286927505-1def25115558?w=400" alt="">
+        <div class="prod-badges"><span class="prod-badge discount">-20%</span></div>
+        <button class="prod-fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+      </div>
+      <div class="prod-body">
+        <div class="prod-vendeur"><span class="av-mini"></span> Moussa Tech</div>
+        <div class="prod-name">iPhone 15 Pro 256 Go — Titane</div>
+        <div class="prod-price">850 000 FCFA</div>
+      </div>
+    </article>
+
+    <article class="prod-card" data-cat="tech" onclick="location.href='produit.html?id=13'">
+      <div class="prod-img">
+        <img src="https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=400" alt="">
+        <div class="prod-badges"><span class="prod-badge live">LIVE</span></div>
+        <button class="prod-fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+      </div>
+      <div class="prod-body">
+        <div class="prod-vendeur"><span class="av-mini"></span> Moussa Tech</div>
+        <div class="prod-name">AirPods Pro 2ème génération</div>
+        <div class="prod-price">135 000 FCFA</div>
+      </div>
+    </article>
+
+    <article class="prod-card" data-cat="tech" onclick="location.href='produit.html?id=14'">
+      <div class="prod-img">
+        <img src="https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=400" alt="">
+        <button class="prod-fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+      </div>
+      <div class="prod-body">
+        <div class="prod-vendeur"><span class="av-mini"></span> Moussa Tech</div>
+        <div class="prod-name">MacBook Air M2 13 pouces</div>
+        <div class="prod-price">620 000 FCFA</div>
+      </div>
+    </article>
+
+    <article class="prod-card" data-cat="tech" onclick="location.href='produit.html?id=15'">
+      <div class="prod-img">
+        <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400" alt="">
+        <button class="prod-fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+      </div>
+      <div class="prod-body">
+        <div class="prod-vendeur"><span class="av-mini"></span> Moussa Tech</div>
+        <div class="prod-name">Apple Watch Series 9</div>
+        <div class="prod-price">280 000 FCFA</div>
+      </div>
+    </article>
+
+    <!-- MAISON -->
+    <article class="prod-card" data-cat="maison" onclick="location.href='produit.html?id=16'">
+      <div class="prod-img">
+        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400" alt="">
+        <button class="prod-fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+      </div>
+      <div class="prod-body">
+        <div class="prod-vendeur"><span class="av-mini"></span> Déco Dakar</div>
+        <div class="prod-name">Fauteuil rotin artisanal</div>
+        <div class="prod-price">42 000 FCFA</div>
+      </div>
+    </article>
+
+    <article class="prod-card" data-cat="maison" onclick="location.href='produit.html?id=17'">
+      <div class="prod-img">
+        <img src="https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=400" alt="">
+        <button class="prod-fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+      </div>
+      <div class="prod-body">
+        <div class="prod-vendeur"><span class="av-mini"></span> Déco Dakar</div>
+        <div class="prod-name">Lampe calebasse sculptée</div>
+        <div class="prod-price">11 000 FCFA</div>
+      </div>
+    </article>
+
+    <!-- ALIMENTATION -->
+    <article class="prod-card" data-cat="alimentation" onclick="location.href='produit.html?id=18'">
+      <div class="prod-img">
+        <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400" alt="">
+        <button class="prod-fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+      </div>
+      <div class="prod-body">
+        <div class="prod-vendeur"><span class="av-mini"></span> Teranga Foods</div>
+        <div class="prod-name">Miel pur de Casamance 1L</div>
+        <div class="prod-price">7 500 FCFA</div>
+      </div>
+    </article>
+
+    <article class="prod-card" data-cat="alimentation" onclick="location.href='produit.html?id=19'">
+      <div class="prod-img">
+        <img src="https://images.unsplash.com/photo-1607672632458-9eb56696346b?w=400" alt="">
+        <button class="prod-fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+      </div>
+      <div class="prod-body">
+        <div class="prod-vendeur"><span class="av-mini"></span> Teranga Foods</div>
+        <div class="prod-name">Beurre de karité bio 500g</div>
+        <div class="prod-price">4 500 FCFA</div>
+      </div>
+    </article>
+
+    <!-- SPORT -->
+    <article class="prod-card" data-cat="sport" onclick="location.href='produit.html?id=20'">
+      <div class="prod-img">
+        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" alt="">
+        <div class="prod-badges"><span class="prod-badge discount">-15%</span></div>
+        <button class="prod-fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+      </div>
+      <div class="prod-body">
+        <div class="prod-vendeur"><span class="av-mini"></span> Fatou Fashion</div>
+        <div class="prod-name">Baskets sport running rouges</div>
+        <div class="prod-price">32 000 FCFA</div>
+      </div>
+    </article>
+
+    <article class="prod-card" data-cat="sport" onclick="location.href='produit.html?id=21'">
+      <div class="prod-img">
+        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400" alt="">
+        <button class="prod-fav-btn"><i data-lucide="heart" style="width:16px;height:16px"></i></button>
+      </div>
+      <div class="prod-body">
+        <div class="prod-vendeur"><span class="av-mini"></span> Fatou Fashion</div>
+        <div class="prod-name">Kit fitness complet maison</div>
+        <div class="prod-price">24 000 FCFA</div>
       </div>
     </article>
 
@@ -176,7 +321,49 @@ main{padding-bottom:80px}
   <a href="favoris.html"><i data-lucide="heart"></i><span>Favoris</span></a>
   <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
-<script>lucide.createIcons();</script>
-  <script src="js/buttons-audit.js?v=51"></script>
+
+<script>
+lucide.createIcons();
+
+var CAT_LABELS = {
+  tous: '🛍️ Tous les produits',
+  mode: '👗 Mode',
+  tech: '📱 Tech',
+  beaute: '💄 Beauté',
+  maison: '🏠 Maison',
+  alimentation: '🍲 Alimentation',
+  sport: '⚽ Sport'
+};
+
+function filterCat(cat, btn) {
+  // Active le chip
+  document.querySelectorAll('.filter-chip').forEach(function(c){ c.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  else {
+    var target = document.querySelector('.filter-chip[data-cat="' + cat + '"]');
+    if (target) target.classList.add('active');
+  }
+  // Filtre les cartes
+  var visible = 0;
+  document.querySelectorAll('.prod-card').forEach(function(card){
+    var show = (cat === 'tous' || card.getAttribute('data-cat') === cat);
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  // Titre + compteur
+  document.getElementById('page-title').textContent = CAT_LABELS[cat] || CAT_LABELS.tous;
+  document.getElementById('result-count').textContent = visible + (visible > 1 ? ' articles disponibles' : ' article disponible');
+  // Remonte en haut
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// Lit ?c=mode dans l'URL (venant des tuiles de l'accueil)
+(function(){
+  var params = new URLSearchParams(window.location.search);
+  var cat = params.get('c');
+  if (cat && CAT_LABELS[cat]) filterCat(cat, null);
+})();
+</script>
+<script src="js/buttons-audit.js?v=51"></script>
 </body>
 </html>
