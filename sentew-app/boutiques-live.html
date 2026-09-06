@@ -534,46 +534,61 @@
   });
 })();
 </script> 
- <!-- ===== VENDEUR EN HAUT À GAUCHE : VISIBLE + CLIQUABLE ===== -->
+<!-- ===== VENDEUR SOUS LE TITRE + IMAGES RÉPARÉES ===== -->
 <script>
 window.addEventListener('load', function(){
   var st=document.createElement('style');
   st.textContent=`
-    .seller-row{position:absolute !important;top:56px !important;left:12px !important;right:auto !important;bottom:auto !important;z-index:50 !important;background:rgba(0,0,0,.6);backdrop-filter:blur(10px);border-radius:30px;padding:6px 12px 6px 6px;display:flex !important;align-items:center;gap:8px;cursor:pointer;margin:0 !important;max-width:72%;box-shadow:0 4px 14px rgba(0,0,0,.4)}
+    .seller-row{position:absolute !important;top:112px !important;left:12px !important;right:auto !important;bottom:auto !important;z-index:50 !important;background:rgba(0,0,0,.65);backdrop-filter:blur(10px);border-radius:30px;padding:6px 12px 6px 6px;display:flex !important;align-items:center;gap:8px;cursor:pointer;margin:0 !important;max-width:70%;box-shadow:0 4px 14px rgba(0,0,0,.5)}
     .seller-row .avatar{width:38px !important;height:38px !important;flex-shrink:0;border:2px solid #fcd116;border-radius:50% !important;overflow:hidden}
     .seller-row .avatar img{width:100% !important;height:100% !important;object-fit:cover;border-radius:50%}
     .seller-row .seller-name{color:#fff !important;font-weight:800;font-size:13px;line-height:1.2}
     .seller-row .seller-desc{color:rgba(255,255,255,.85) !important;font-size:10px}
     .seller-row .follow-btn{margin-left:6px;flex-shrink:0;background:#e63946 !important;color:#fff !important;border:none;padding:6px 12px;border-radius:16px;font-size:11px;font-weight:800;cursor:pointer}
-    .flash-promo{top:110px !important;z-index:45 !important}
+    .flash-promo{top:168px !important;z-index:45 !important}
   `;
   document.head.appendChild(st);
 
-  /* Chaque vendeur mène à SA boutique */
+  /* Images cassées -> remplacées + rechargement forcé (anti-cache) */
+  var BROKEN={
+    'photo-1596902852634-509b7b3af7e9':'https://images.unsplash.com/photo-1595777457583-95e059d581b8',
+    'photo-1583391733956-6c78276477e2':'https://images.unsplash.com/photo-1610030469983-98e550d6193c',
+    'photo-1594938298603-c8148c4dae35':'https://images.unsplash.com/photo-1595777457583-95e059d581b8',
+    'photo-1602810318383-e386cc2a3ccf':'https://images.unsplash.com/photo-1610030469983-98e550d6193c'
+  };
+  document.querySelectorAll('img').forEach(function(img){
+    Object.keys(BROKEN).forEach(function(k){
+      if(img.src && img.src.indexOf(k)!==-1){
+        var w = img.src.indexOf('w=800')!==-1 ? 'w=800' : 'w=200';
+        img.src = BROKEN[k] + '?' + w + '&q=80&nc=' + Date.now();
+      }
+    });
+    /* filet de sécurité : toute image qui échoue -> image mode africaine valide */
+    img.onerror=function(){
+      if(this.dataset.fixed) return;
+      this.dataset.fixed='1';
+      this.src='https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=200&q=80';
+    };
+  });
+
+  /* Vendeur : visible sous le titre + cliquable vers SA boutique */
   var MAP={
     'Aïcha Couture':'boutique.html?id=1',
     'Moussa Tech':'boutique.html?id=2',
     'Mariama B':'boutique.html?id=3',
     'Fatou Fashion':'boutique.html?id=4'
   };
-
   document.querySelectorAll('.seller-row').forEach(function(row){
     var nameEl=row.querySelector('.seller-name');
     if(!nameEl) return;
     var key=Object.keys(MAP).find(function(k){return nameEl.textContent.indexOf(k)!==-1;});
     var url=MAP[key]||'boutique.html?id=1';
-
-    /* DÉPLACER le bandeau tout en haut du live (1er enfant = au-dessus de tout) */
     var liveItem=row.closest('.live-item')||row.parentElement;
     if(liveItem){
       liveItem.style.position='relative';
       liveItem.insertBefore(row, liveItem.firstChild);
     }
-
-    /* Clic sur le bandeau -> SA boutique */
     row.addEventListener('click',function(){ location.href=url; });
-
-    /* + Suivre : reste sur le live, devient "✓ Suivi" */
     var follow=row.querySelector('.follow-btn');
     if(follow){
       follow.addEventListener('click',function(e){
