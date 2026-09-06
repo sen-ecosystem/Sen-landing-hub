@@ -495,5 +495,44 @@
   });
 })();
 </script>
+   <!-- ===== VENDEUR EN HAUT + CLIQUABLE ===== -->
+<script>
+(function(){
+  var st=document.createElement('style');
+  st.textContent=`
+    .seller-row{position:absolute !important;top:60px !important;left:12px !important;right:12px !important;bottom:auto !important;z-index:12 !important;background:rgba(0,0,0,.45);backdrop-filter:blur(10px);border-radius:30px;padding:8px 12px 8px 8px;display:flex;align-items:center;gap:10px;cursor:pointer}
+    .seller-row .avatar{width:40px;height:40px;flex-shrink:0;border:2px solid #fcd116}
+    .seller-row .avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+    .seller-row .seller-name{color:#fff;font-weight:800;font-size:14px}
+    .seller-row .seller-desc{color:rgba(255,255,255,.8);font-size:11px}
+    .seller-row .follow-btn{margin-left:auto;flex-shrink:0}
+    .flash-promo{top:116px !important}
+  `;
+  document.head.appendChild(st);
+
+  /* Chaque vendeur mène à SA boutique */
+  var MAP = {
+    'Aïcha Couture':'boutique.html?id=1',
+    'Moussa Tech':'boutique.html?id=2',
+    'Mariama B':'boutique.html?id=3',
+    'Fatou Fashion':'boutique.html?id=4'
+  };
+  document.querySelectorAll('.seller-row').forEach(function(row){
+    var nameEl = row.querySelector('.seller-name');
+    if(!nameEl) return;
+    var key = Object.keys(MAP).find(function(k){ return nameEl.textContent.indexOf(k) !== -1; });
+    var url = MAP[key] || 'boutique.html?id=1';
+    row.addEventListener('click', function(){ location.href = url; });
+    /* Le bouton + Suivre ne doit PAS ouvrir la boutique */
+    var follow = row.querySelector('.follow-btn');
+    if(follow){
+      follow.addEventListener('click', function(e){
+        e.stopPropagation();
+        this.textContent = this.textContent.indexOf('Suivi') !== -1 ? '+ Suivre' : '✓ Suivi';
+      });
+    }
+  });
+})();
+</script> 
 </body>
 </html>
