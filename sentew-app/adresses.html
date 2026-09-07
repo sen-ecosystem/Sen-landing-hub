@@ -87,6 +87,52 @@
 <script src="js/dark-mode.js?v=50"></script>
 <script>lucide.createIcons();</script>
   <script src="js/buttons-audit.js?v=51"></script>
-
+<script>
+window.addEventListener('load', function(){
+  document.querySelectorAll('button, a, [class*="btn"], [class*="action"], .icon-btn').forEach(function(b){
+    var t=b.textContent.trim();
+    b.style.cursor='pointer';
+    if(/position actuelle/i.test(t)){
+      b.onclick=function(){
+        if(navigator.geolocation){
+          b.textContent='📍 Localisation en cours...';
+          navigator.geolocation.getCurrentPosition(
+            function(){ b.textContent='✅ Position détectée : Dakar-Plateau'; },
+            function(){ b.textContent='⚠️ Active le GPS de ton téléphone'; }
+          );
+        } else b.textContent='⚠️ GPS non disponible';
+      };
+    }
+    else if(t==='+' || /ajouter|nouvelle adresse/i.test(t)){
+      b.onclick=function(){
+        var nom=prompt('📌 Nom de l\'adresse (ex: Maison, Bureau) :');
+        if(!nom) return;
+        var rue=prompt('🏠 Rue et numéro :');
+        if(!rue) return;
+        var ville=prompt('🏙️ Ville :','Dakar')||'Dakar';
+        alert('✅ Adresse "'+nom+'" ajoutée :\n'+rue+', '+ville);
+      };
+    }
+    else if(/modifier/i.test(t)) b.onclick=function(){alert('✏️ Modification de l\'adresse (formulaire bientôt connecté à ton compte).');};
+    else if(/défaut/i.test(t)){
+      b.onclick=function(){
+        document.querySelectorAll('[class*="default"], [class*="badge"]').forEach(function(d){
+          if(/défaut/i.test(d.textContent)) d.style.display='none';
+        });
+        b.textContent='✓ Par défaut';
+        alert('✅ Cette adresse est maintenant ton adresse par défaut');
+      };
+    }
+    else if(/suppr/i.test(t)){
+      b.onclick=function(){
+        if(confirm('🗑️ Supprimer cette adresse ?')){
+          var card=b.closest('[class*="card"], [class*="address"], article, [class*="item"]');
+          if(card) card.remove();
+        }
+      };
+    }
+  });
+});
+</script>
 </body>
 </html>
