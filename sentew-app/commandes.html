@@ -186,5 +186,27 @@
 </nav>
 
 <script>lucide.createIcons();</script>
+  <script>
+/* Ajoute le bouton Litige sur chaque commande */
+window.addEventListener('load', function(){
+  document.querySelectorAll('a.cmd, [class*="cmd"]').forEach(function(card){
+    var href = card.getAttribute('href') || '';
+    var m = href.match(/commande-detail\.html\?id=([A-Z0-9]+)/i);
+    if(!m) return;
+    var zone = card.querySelector('[class*="btn"], [class*="actions"]') ? card : card;
+    if(zone.querySelector('.btn-litige')) return;
+    var lit = document.createElement('a');
+    lit.href = 'litige.html?order=' + m[1];
+    lit.className = 'btn-mini btn-litige';
+    lit.style.cssText = 'display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border:1.5px solid #ef4444;color:#ef4444;border-radius:8px;font-size:11px;font-weight:700;text-decoration:none;margin-top:6px;';
+    lit.innerHTML = '<i data-lucide="alert-triangle" style="width:13px;height:13px"></i> Litige';
+    lit.onclick = function(e){ e.stopPropagation(); };
+    var lastBtn = card.querySelector('.btn-mini:last-of-type');
+    if(lastBtn && lastBtn.parentElement){ lastBtn.parentElement.appendChild(lit); }
+    else { card.appendChild(lit); }
+  });
+  if(window.lucide) lucide.createIcons();
+});
+</script>
 </body>
 </html>
