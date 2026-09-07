@@ -182,5 +182,31 @@
   }
   document.getElementById('msgInput').addEventListener('keypress', e => { if (e.key === 'Enter') send(); });
 </script>
+  <script>
+window.addEventListener('load', function(){
+  var CONTACTS={
+    'support-sentew':{nom:'Support SEN TEW',badge:'Support officiel',icon:'🤖'},
+    'aicha-fashion':{nom:'Aïcha Fashion',badge:'Vendeur Silver ✓',icon:'👗'},
+    'moussa-tech':{nom:'Moussa Tech',badge:'Vendeur Gold ✓',icon:'📱'},
+    'livreur-ousmane':{nom:'Ousmane — Livreur',badge:'Livraison en cours 🛵',icon:'🛵'}
+  };
+  var id=new URLSearchParams(location.search).get('id');
+  var c=CONTACTS[id]; if(!c) return;
+  document.title=c.nom+' · SEN TEW';
+  document.querySelectorAll('h1, .chat-name, [class*="header"] [class*="name"], .topbar div, .topbar span').forEach(function(el){
+    if(el.children.length===0 && el.textContent.trim().length>2 && el.textContent.trim().length<30){
+      el.textContent=c.nom;
+    }
+  });
+  /* Le nom du contact renvoie vers sa boutique si vendeur */
+  var shop={'aicha-fashion':'boutique.html?id=1','moussa-tech':'boutique.html?id=2'}[id];
+  if(shop){
+    document.querySelectorAll('h1, .chat-name').forEach(function(el){
+      el.style.cursor='pointer';
+      el.addEventListener('click',function(){location.href=shop;});
+    });
+  }
+});
+</script>
 </body>
 </html>
