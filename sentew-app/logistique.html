@@ -8,98 +8,127 @@
 <meta name="theme-color" content="#0F6B4E">
 <script src="https://unpkg.com/lucide@latest"></script>
 <style>
-  *{box-sizing:border-box}
-  body{margin:0;font-family:'Segoe UI',-apple-system,sans-serif;background:#f5f5f0;padding-bottom:80px}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:80px;color:#0a1f17}
   .app-header{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:10}
   .header-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e;position:relative}
   .header-btn i{width:20px;height:20px}
   .badge{position:absolute;top:-2px;right:-2px;background:#dc2626;color:#fff;font-size:9px;font-weight:800;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 3px}
   .stat-card{padding:12px 8px;border-radius:12px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.08)}
   .stat-card i{width:16px;height:16px;display:block;margin:0 auto 4px}
-  .log-tab{flex:1;padding:10px;background:none;border:none;border-radius:8px;font-weight:700;font-size:12px;color:#6B7280;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-family:inherit}
-  .log-tab i{width:15px;height:15px}
+  .log-tab{flex:1;padding:10px;background:none;border:none;border-radius:8px;font-weight:700;font-size:11.5px;color:#6B7280;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;font-family:inherit}
+  .log-tab i{width:14px;height:14px}
   .log-tab.active{background:linear-gradient(135deg,#0F6B4E,#0A4D38);color:#fff}
-  .delivery-opt{display:flex;gap:10px;align-items:center;padding:12px;background:#F9FAFB;border-radius:10px;cursor:pointer;border:2px solid transparent;transition:border-color .15s}
-  .delivery-opt:has(input:checked){border-color:#0f6b4e;background:#F0FDF4}
-  .delivery-opt input{accent-color:#0f6b4e;width:16px;height:16px}
-  .delivery-opt i{width:20px;height:20px;color:#0f6b4e;flex-shrink:0}
   .order-card{background:#fff;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
   .btn-ship{flex:1;padding:12px;background:linear-gradient(135deg,#0F6B4E,#D4A574);color:#fff;border:none;border-radius:10px;font-weight:800;font-size:12.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-family:inherit;box-shadow:0 3px 10px rgba(15,107,78,.25)}
   .btn-ship i{width:16px;height:16px}
-  .btn-ship:active{transform:scale(.97)}
-  .btn-msg{width:44px;padding:12px;background:#F0FDF4;color:#0F6B4E;border:1px solid #0F6B4E33;border-radius:10px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .btn-msg{width:44px;padding:12px;background:#F0FDF4;color:#0F6B4E;border:1px solid #0F6B4E33;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center}
   .btn-msg i{width:18px;height:18px}
   .icn{width:14px;height:14px;vertical-align:-2px;color:#6B7280}
   .link-map{color:#0F6B4E;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:4px;font-size:12px}
   .link-map i{width:14px;height:14px}
-  .call-btn{width:40px;height:40px;background:#0F6B4E;color:#fff;border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-  .call-btn i{width:17px;height:17px}
   .section-card{background:#fff;border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
   .section-card h3{margin:0 0 12px;color:#0A4D38;font-size:14px;display:flex;align-items:center;gap:8px}
   .section-card h3 i{width:18px;height:18px}
   .tip-card{background:#FEF3C7;padding:12px;border-radius:10px;margin-bottom:12px;font-size:13px;display:flex;gap:8px;align-items:flex-start;line-height:1.5}
   .tip-card i{width:16px;height:16px;color:#b8860b;flex-shrink:0;margin-top:2px}
+  /* BADGES LIVREURS */
+  .driver-type{font-size:9px;font-weight:800;padding:2px 7px;border-radius:6px;text-transform:uppercase;letter-spacing:.3px}
+  .type-propre{background:#0f6b4e;color:#fff}
+  .type-partenaire{background:#3b82f6;color:#fff}
+  .type-collab{background:#d4a574;color:#fff}
+  .driver-row{display:flex;gap:10px;padding:12px;background:#F9FAFB;border-radius:12px;margin-bottom:8px;align-items:center;border-left:4px solid transparent}
+  .driver-row.propre{border-left-color:#0f6b4e}
+  .driver-row.partenaire{border-left-color:#3b82f6}
+  .driver-row.collab{border-left-color:#d4a574}
+  .driver-row img{width:48px;height:48px;border-radius:50%;object-fit:cover;flex-shrink:0}
+  .driver-info{flex:1;min-width:0}
+  .driver-name{display:flex;align-items:center;gap:6px;font-weight:800;font-size:13px}
+  .driver-meta{font-size:11px;color:#6B7280;margin-top:2px;display:flex;align-items:center;gap:4px}
+  .driver-meta i{width:11px;height:11px}
+  .assign-btn{padding:8px 12px;background:#0f6b4e;color:#fff;border:none;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;flex-shrink:0}
+  .assign-btn:active{transform:scale(.95)}
   .app-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;align-items:center;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
   .app-nav a{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:#666;padding:4px 10px}
   .app-nav a.active{color:#0f6b4e}
   .app-nav a i{width:22px;height:22px}
   .app-nav .nav-label{font-size:10px;font-weight:600}
+  /* Filtre types livreurs */
+  .filter-types{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none}
+  .filter-types::-webkit-scrollbar{display:none}
+  .ftype{flex-shrink:0;padding:6px 12px;border-radius:16px;font-size:11px;font-weight:700;border:1.5px solid #e5e7eb;background:#fff;color:#6B7280;cursor:pointer;font-family:inherit}
+  .ftype.active{background:#0f6b4e;color:#fff;border-color:#0f6b4e}
 </style>
 </head>
 <body>
 <div class="app">
   <header class="app-header">
     <button class="header-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
-    <div style="flex:1;text-align:center;font-weight:900;color:#0A4D38;display:flex;align-items:center;justify-content:center;gap:8px;"><i data-lucide="truck" style="width:20px;height:20px;color:#0f6b4e;"></i> Logistique & Livraison</div>
+    <div style="flex:1;text-align:center;font-weight:900;color:#0A4D38;display:flex;align-items:center;justify-content:center;gap:8px"><i data-lucide="truck" style="width:20px;height:20px;color:#0f6b4e"></i> Logistique & Livraison</div>
     <button class="header-btn" onclick="location.href='notifications.html'"><i data-lucide="bell"></i><span class="badge">2</span></button>
   </header>
 
-  <main class="app-content" style="padding:12px;">
-    <!-- Stats rapides -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;">
-      <div class="stat-card" style="background:#0F6B4E;color:#fff;"><i data-lucide="package"></i><div style="font-size:20px;font-weight:900;">3</div><div style="font-size:10px;">À expédier</div></div>
-      <div class="stat-card" style="background:#F59E0B;color:#fff;"><i data-lucide="truck"></i><div style="font-size:20px;font-weight:900;">5</div><div style="font-size:10px;">En cours</div></div>
-      <div class="stat-card" style="background:#3B82F6;color:#fff;"><i data-lucide="check-circle"></i><div style="font-size:20px;font-weight:900;">12</div><div style="font-size:10px;">Livrés</div></div>
-      <div class="stat-card" style="background:#D4A574;color:#fff;"><i data-lucide="star"></i><div style="font-size:20px;font-weight:900;">98%</div><div style="font-size:10px;">Satisf.</div></div>
+  <main style="padding:12px">
+    <!-- Stats -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px">
+      <div class="stat-card" style="background:#0F6B4E;color:#fff"><i data-lucide="package"></i><div style="font-size:20px;font-weight:900">3</div><div style="font-size:10px">À expédier</div></div>
+      <div class="stat-card" style="background:#F59E0B;color:#fff"><i data-lucide="truck"></i><div style="font-size:20px;font-weight:900">5</div><div style="font-size:10px">En cours</div></div>
+      <div class="stat-card" style="background:#3B82F6;color:#fff"><i data-lucide="check-circle"></i><div style="font-size:20px;font-weight:900">12</div><div style="font-size:10px">Livrés</div></div>
+      <div class="stat-card" style="background:#D4A574;color:#fff"><i data-lucide="star"></i><div style="font-size:20px;font-weight:900">98%</div><div style="font-size:10px">Satisf.</div></div>
     </div>
 
     <!-- Tabs -->
     <div style="display:flex;gap:0;background:#fff;border-radius:12px;padding:4px;margin-bottom:12px;box-shadow:0 2px 6px rgba(0,0,0,.05)">
       <button class="log-tab active" data-tab="orders"><i data-lucide="package"></i> Commandes</button>
       <button class="log-tab" data-tab="shipping"><i data-lucide="truck"></i> Livraisons</button>
+      <button class="log-tab" data-tab="drivers"><i data-lucide="users"></i> Livreurs</button>
       <button class="log-tab" data-tab="options"><i data-lucide="settings"></i> Options</button>
     </div>
 
-    <!-- COMMANDES À EXPÉDIER -->
+    <!-- COMMANDES -->
     <div id="tabOrders" class="log-content">
       <div class="tip-card">
         <i data-lucide="lightbulb"></i>
-        <div><strong>Nouveau workflow :</strong> Dès qu'un client passe commande, elle apparaît ici. Choisissez le mode de livraison → un livreur est automatiquement notifié.</div>
+        <div><strong>Workflow :</strong> Choisis le mode de livraison → un livreur <strong>propre, partenaire ou collaborateur</strong> est notifié selon la zone.</div>
       </div>
       <div id="ordersList"></div>
     </div>
 
     <!-- LIVRAISONS EN COURS -->
-    <div id="tabShipping" class="log-content" style="display:none;">
+    <div id="tabShipping" class="log-content" style="display:none">
       <div id="shippingList"></div>
     </div>
 
-    <!-- OPTIONS LIVRAISON -->
-    <div id="tabOptions" class="log-content" style="display:none;">
+    <!-- LIVREURS (AVEC DISTINCTION) -->
+    <div id="tabDrivers" class="log-content" style="display:none">
+      <div class="filter-types" id="driverFilters">
+        <button class="ftype active" data-type="all">Tous</button>
+        <button class="ftype" data-type="propre">🏢 Propres SEN TEW</button>
+        <button class="ftype" data-type="partenaire">🤝 Partenaires</button>
+        <button class="ftype" data-type="collab">👤 Collaborateurs</button>
+      </div>
+      <div id="driversList"></div>
+    </div>
+
+    <!-- OPTIONS -->
+    <div id="tabOptions" class="log-content" style="display:none">
       <div class="section-card">
-        <h3><i data-lucide="truck"></i> Modes de livraison disponibles</h3>
-        <div style="display:grid;gap:10px;">
-          <label class="delivery-opt"><input type="checkbox" checked> <i data-lucide="zap"></i> <div><strong>SEN TEW Express</strong><div style="font-size:11px;color:#6B7280;">2h Dakar · 2 000 FCFA</div></div></label>
-          <label class="delivery-opt"><input type="checkbox" checked> <i data-lucide="car"></i> <div><strong>Livraison standard</strong><div style="font-size:11px;color:#6B7280;">24h Dakar · 1 500 FCFA</div></div></label>
-          <label class="delivery-opt"><input type="checkbox" checked> <i data-lucide="map"></i> <div><strong>Régions</strong><div style="font-size:11px;color:#6B7280;">2-5 jours · 3 500-8 000 FCFA</div></div></label>
-          <label class="delivery-opt"><input type="checkbox"> <i data-lucide="plane"></i> <div><strong>International</strong><div style="font-size:11px;color:#6B7280;">7-15 jours · Sur devis</div></div></label>
-          <label class="delivery-opt"><input type="checkbox"> <i data-lucide="store"></i> <div><strong>Point relais</strong><div style="font-size:11px;color:#6B7280;">Gratuit · Retrait en boutique</div></div></label>
+        <h3><i data-lucide="truck"></i> Modes de livraison</h3>
+        <div style="display:grid;gap:10px">
+          <label class="delivery-opt" style="display:flex;gap:10px;align-items:center;padding:12px;background:#F9FAFB;border-radius:10px;border:2px solid transparent;cursor:pointer"><input type="checkbox" checked style="accent-color:#0f6b4e;width:16px;height:16px"><i data-lucide="zap" style="width:20px;height:20px;color:#0f6b4e"></i><div><strong>SEN TEW Express</strong><div style="font-size:11px;color:#6B7280">2h Dakar · 2 000 F · Livreurs propres</div></div></label>
+          <label class="delivery-opt" style="display:flex;gap:10px;align-items:center;padding:12px;background:#F9FAFB;border-radius:10px;border:2px solid transparent;cursor:pointer"><input type="checkbox" checked style="accent-color:#0f6b4e;width:16px;height:16px"><i data-lucide="car" style="width:20px;height:20px;color:#0f6b4e"></i><div><strong>Standard</strong><div style="font-size:11px;color:#6B7280">24h Dakar · 1 500 F · Propres + Partenaires</div></div></label>
+          <label class="delivery-opt" style="display:flex;gap:10px;align-items:center;padding:12px;background:#F9FAFB;border-radius:10px;border:2px solid transparent;cursor:pointer"><input type="checkbox" checked style="accent-color:#0f6b4e;width:16px;height:16px"><i data-lucide="map" style="width:20px;height:20px;color:#0f6b4e"></i><div><strong>Régions</strong><div style="font-size:11px;color:#6B7280">2-5 jours · 3 500-8 000 F · Partenaires</div></div></label>
+          <label class="delivery-opt" style="display:flex;gap:10px;align-items:center;padding:12px;background:#F9FAFB;border-radius:10px;border:2px solid transparent;cursor:pointer"><input type="checkbox" style="accent-color:#0f6b4e;width:16px;height:16px"><i data-lucide="store" style="width:20px;height:20px;color:#0f6b4e"></i><div><strong>Point relais</strong><div style="font-size:11px;color:#6B7280">Gratuit · Collaborateurs</div></div></label>
         </div>
       </div>
 
       <div class="section-card">
-        <h3><i data-lucide="users"></i> Livreurs partenaires</h3>
-        <div id="driversList"></div>
+        <h3><i data-lucide="info"></i> Types de livreurs SEN TEW</h3>
+        <div style="font-size:12px;line-height:1.6;color:#4a5a52">
+          <div style="display:flex;gap:8px;margin-bottom:10px;align-items:flex-start"><span class="driver-type type-propre">Propre</span><div>Livreurs <strong>salariés SEN TEW</strong>. Zones : Dakar centre. Livraison Express & Cash. Uniforme + assurance.</div></div>
+          <div style="display:flex;gap:8px;margin-bottom:10px;align-items:flex-start"><span class="driver-type type-partenaire">Partenaire</span><div>Sociétés de livraison <strong>sous contrat</strong> (ex: Yobante, Paps). Zones : Grand Dakar + Régions. Facturation au colis.</div></div>
+          <div style="display:flex;gap:8px;align-items:flex-start"><span class="driver-type type-collab">Collab</span><div>Indépendants <strong>freelances vérifiés</strong>. Zones : points relais, courses flexibles. Commission 15%/livraison.</div></div>
+        </div>
       </div>
     </div>
   </main>
@@ -114,99 +143,103 @@
 </div>
 
 <script>
-const ORDERS = [
-  { id:'ST24071', client:'Awa Diop', product:'Robe wax premium', addr:'Sacré-Cœur, Dakar', amount:15000, ts:Date.now()-3600000 },
-  { id:'ST24072', client:'Moussa Fall', product:'iPhone 15 Pro', addr:'Plateau, Dakar', amount:750000, ts:Date.now()-7200000 },
-  { id:'ST24073', client:'Fatou Ndiaye', product:'Palette maquillage', addr:'Almadies', amount:8500, ts:Date.now()-1800000 }
+var ORDERS=[
+  {id:'ST24071',client:'Awa Diop',product:'Robe wax premium',addr:'Sacré-Cœur, Dakar',amount:15000,ts:Date.now()-3600000},
+  {id:'ST24072',client:'Moussa Fall',product:'iPhone 15 Pro',addr:'Plateau, Dakar',amount:750000,ts:Date.now()-7200000},
+  {id:'ST24073',client:'Fatou Ndiaye',product:'Palette maquillage',addr:'Almadies',amount:8500,ts:Date.now()-1800000}
+];
+var SHIPPING=[
+  {id:'ST24068',driver:'Cheikh (Propre)',client:'Ibrahima B.',status:'En route',eta:'15 min',progress:65},
+  {id:'ST24069',driver:'Aliou (Partenaire)',client:'Mariama S.',status:'Livré',eta:'Terminé',progress:100},
+  {id:'ST24070',driver:'Modou (Collab)',client:'Ndeye K.',status:'Ramassage',eta:'5 min',progress:20}
+];
+/* LIVREURS AVEC TYPE */
+var DRIVERS=[
+  {name:'Cheikh Diop',type:'propre',vehicle:'Moto',zone:'Dakar centre',rating:4.9,deliveries:340,avatar:'https://i.pravatar.cc/60?img=12',phone:'+221 77 111 22 33'},
+  {name:'Aliou Ba',type:'partenaire',vehicle:'Voiture',zone:'Grand Dakar',rating:4.8,deliveries:520,avatar:'https://i.pravatar.cc/60?img=14',company:'Yobante Express'},
+  {name:'Modou Sarr',type:'collab',vehicle:'Moto',zone:'Banlieue / Relais',rating:4.7,deliveries:210,avatar:'https://i.pravatar.cc/60?img=15'},
+  {name:'Awa Kane',type:'propre',vehicle:'Moto',zone:'Dakar Plateau',rating:5.0,deliveries:180,avatar:'https://i.pravatar.cc/60?img=25',phone:'+221 77 444 55 66'},
+  {name:'Ibrahima Sy',type:'partenaire',vehicle:'Camionnette',zone:'Régions (Thiès, Mbour)',rating:4.6,deliveries:890,avatar:'https://i.pravatar.cc/60?img=33',company:'Paps Logistics'},
+  {name:'Fatou Fall',type:'collab',vehicle:'Vélo',zone:'Point relais Almadies',rating:4.9,deliveries:95,avatar:'https://i.pravatar.cc/60?img=44'}
 ];
 
-const SHIPPING = [
-  { id:'ST24068', driver:'Cheikh', vehicle:'Moto', client:'Ibrahima B.', status:'En route', eta:'15 min', progress:65 },
-  { id:'ST24069', driver:'Aliou', vehicle:'Voiture', client:'Mariama S.', status:'Livré', eta:'Terminé', progress:100 },
-  { id:'ST24070', driver:'Modou', vehicle:'Moto', client:'Ndeye K.', status:'Ramassage', eta:'5 min', progress:20 }
-];
-
-const DRIVERS = [
-  { name:'Cheikh Diop', vehicle:'Moto', zone:'Dakar centre', rating:4.9, deliveries:340, avatar:'https://i.pravatar.cc/60?img=12' },
-  { name:'Aliou Ba', vehicle:'Voiture', zone:'Grand Dakar', rating:4.8, deliveries:520, avatar:'https://i.pravatar.cc/60?img=14' },
-  { name:'Modou Sarr', vehicle:'Moto', zone:'Banlieue', rating:4.7, deliveries:210, avatar:'https://i.pravatar.cc/60?img=15' }
-];
-
-document.getElementById('ordersList').innerHTML = ORDERS.map(o=>`
-  <div class="order-card">
-    <div style="display:flex;justify-content:space-between;align-items:center;">
-      <strong style="color:#0F6B4E;">#${o.id}</strong>
-      <span style="font-size:11px;color:#6B7280;display:flex;align-items:center;gap:3px;"><i data-lucide="clock" class="icn"></i> ${Math.round((Date.now()-o.ts)/60000)} min</span>
-    </div>
-    <div style="margin:8px 0;">
-      <div style="font-weight:700;">${o.product}</div>
-      <div style="font-size:12px;color:#6B7280;display:flex;align-items:center;gap:4px;margin-top:4px;"><i data-lucide="user" class="icn"></i> ${o.client} · <i data-lucide="map-pin" class="icn"></i> ${o.addr}</div>
-      <div style="font-size:15px;color:#0F6B4E;font-weight:900;margin-top:6px;">${o.amount.toLocaleString('fr')} FCFA</div>
-    </div>
-    <div style="display:flex;gap:6px;margin-top:10px;">
-      <button class="btn-ship" onclick="chooseDelivery('${o.id}')"><i data-lucide="truck"></i> Choisir livreur</button>
-      <button class="btn-msg" onclick="location.href='chat.html?id=livreur-ousmane'"><i data-lucide="message-circle"></i></button>
-    </div>
-  </div>
-`).join('');
-
-document.getElementById('shippingList').innerHTML = SHIPPING.map(s=>`
-  <div class="order-card">
-    <div style="display:flex;justify-content:space-between;align-items:center;">
-      <div>
-        <strong>#${s.id}</strong> · ${s.driver} (${s.vehicle})
-        <div style="font-size:12px;color:#6B7280;margin-top:2px;">Client : ${s.client}</div>
-      </div>
-      <span style="background:${s.progress===100?'#10B981':'#F59E0B'};color:#fff;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:700;">${s.status}</span>
-    </div>
-    <div style="background:#E5E7EB;height:6px;border-radius:3px;margin:12px 0;overflow:hidden;">
-      <div style="width:${s.progress}%;height:100%;background:linear-gradient(90deg,#0F6B4E,#D4A574);transition:width .5s;"></div>
-    </div>
-    <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;">
-      <span style="display:flex;align-items:center;gap:4px;color:#6B7280;"><i data-lucide="timer" class="icn"></i> ${s.eta}</span>
-      <a href="suivi-commande.html" class="link-map"><i data-lucide="map-pin"></i> Voir sur carte →</a>
-    </div>
-  </div>
-`).join('');
-
-document.getElementById('driversList').innerHTML = DRIVERS.map((d,i)=>`
-  <div style="display:flex;gap:12px;padding:10px;background:#F9FAFB;border-radius:10px;margin-bottom:8px;align-items:center;">
-    <img src="${d.avatar}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid #0f6b4e;">
-    <div style="flex:1;min-width:0;">
-      <div style="display:flex;align-items:center;gap:5px;"><strong>${d.name}</strong> <span style="color:#d4a574;display:flex;align-items:center;gap:2px;font-size:12px;"><i data-lucide="star" style="width:12px;height:12px;fill:#d4a574;"></i> ${d.rating}</span></div>
-      <div style="font-size:11px;color:#6B7280;">${d.vehicle} · ${d.zone} · ${d.deliveries} livraisons</div>
-    </div>
-    <button class="call-btn" onclick="assignDriver(${i})"><i data-lucide="phone"></i></button>
-  </div>
-`).join('');
-
-function chooseDelivery(orderId){
-  const options = ['SEN TEW Express (2h · 2 000 F)','Standard (24h · 1 500 F)','Régions (2-5 jours)','Point relais (Gratuit)'];
-  const choice = prompt('Choisir le mode de livraison pour #'+orderId+' :\n\n'+options.map((o,i)=>(i+1)+'. '+o).join('\n')+'\n\nEntrez 1-4 :');
-  const idx = parseInt(choice)-1;
-  if(options[idx]){
-    const livreur = DRIVERS[Math.floor(Math.random()*DRIVERS.length)];
-    alert('✅ '+options[idx]+' sélectionné.\n\n🛵 Livreur assigné : '+livreur.name+' ('+livreur.zone+')\nIl est notifié automatiquement.');
-  }
+function typeLabel(t){
+  return {propre:'Propre',partenaire:'Partenaire',collab:'Collab'}[t]||t;
 }
 
-function assignDriver(i){
-  const d = DRIVERS[i];
-  alert('📞 Contacter '+d.name+'\n'+d.vehicle+' · '+d.zone+'\n⭐ '+d.rating+' · '+d.deliveries+' livraisons');
-}
+document.getElementById('ordersList').innerHTML=ORDERS.map(function(o){
+  return '<div class="order-card">'+
+    '<div style="display:flex;justify-content:space-between;align-items:center"><strong style="color:#0F6B4E">#'+o.id+'</strong><span style="font-size:11px;color:#6B7280;display:flex;align-items:center;gap:3px"><i data-lucide="clock" class="icn"></i> '+Math.round((Date.now()-o.ts)/60000)+' min</span></div>'+
+    '<div style="margin:8px 0"><div style="font-weight:700">'+o.product+'</div>'+
+    '<div style="font-size:12px;color:#6B7280;display:flex;align-items:center;gap:4px;margin-top:4px"><i data-lucide="user" class="icn"></i> '+o.client+' · <i data-lucide="map-pin" class="icn"></i> '+o.addr+'</div>'+
+    '<div style="font-size:15px;color:#0F6B4E;font-weight:900;margin-top:6px">'+o.amount.toLocaleString('fr')+' FCFA</div></div>'+
+    '<div style="display:flex;gap:6px;margin-top:10px">'+
+    '<button class="btn-ship" onclick="chooseDelivery(\''+o.id+'\')"><i data-lucide="truck"></i> Choisir livreur</button>'+
+    '<button class="btn-msg" onclick="location.href=\'chat.html?id=livreur-ousmane\'"><i data-lucide="message-circle"></i></button></div></div>';
+}).join('');
 
-document.querySelectorAll('.log-tab').forEach(t=>{
-  t.onclick = ()=>{
-    document.querySelectorAll('.log-tab').forEach(x=>x.classList.remove('active'));
-    document.querySelectorAll('.log-content').forEach(x=>x.style.display='none');
-    t.classList.add('active');
-    document.getElementById('tab'+t.dataset.tab.charAt(0).toUpperCase()+t.dataset.tab.slice(1)).style.display='block';
-    if(window.lucide) lucide.createIcons();
-  };
+document.getElementById('shippingList').innerHTML=SHIPPING.map(function(s){
+  return '<div class="order-card">'+
+    '<div style="display:flex;justify-content:space-between;align-items:center"><div><strong>#'+s.id+'</strong> · '+s.driver+'<div style="font-size:12px;color:#6B7280;margin-top:2px">Client : '+s.client+'</div></div>'+
+    '<span style="background:'+(s.progress===100?'#10B981':'#F59E0B')+';color:#fff;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:700">'+s.status+'</span></div>'+
+    '<div style="background:#E5E7EB;height:6px;border-radius:3px;margin:12px 0;overflow:hidden"><div style="width:'+s.progress+'%;height:100%;background:linear-gradient(90deg,#0F6B4E,#D4A574);transition:width .5s"></div></div>'+
+    '<div style="display:flex;justify-content:space-between;align-items:center;font-size:12px"><span style="display:flex;align-items:center;gap:4px;color:#6B7280"><i data-lucide="timer" class="icn"></i> '+s.eta+'</span>'+
+    '<a href="suivi-commande.html" class="link-map"><i data-lucide="map-pin"></i> Voir sur carte →</a></div></div>';
+}).join('');
+
+function renderDrivers(filter){
+  var list=DRIVERS;
+  if(filter && filter!=='all') list=DRIVERS.filter(function(d){return d.type===filter;});
+  document.getElementById('driversList').innerHTML=list.map(function(d,i){
+    var idx=DRIVERS.indexOf(d);
+    return '<div class="driver-row '+d.type+'">'+
+      '<img src="'+d.avatar+'" alt="'+d.name+'">'+
+      '<div class="driver-info">'+
+        '<div class="driver-name">'+d.name+' <span class="driver-type type-'+d.type+'">'+typeLabel(d.type)+'</span></div>'+
+        '<div class="driver-meta"><i data-lucide="'+(d.vehicle==='Moto'?'bike':d.vehicle==='Voiture'?'car':'truck')+'"></i> '+d.vehicle+' · '+d.zone+(d.company?' · '+d.company:'')+'</div>'+
+        '<div class="driver-meta"><i data-lucide="star" style="color:#d4a574;fill:#d4a574"></i> '+d.rating+' · '+d.deliveries+' livraisons</div>'+
+      '</div>'+
+      '<button class="assign-btn" onclick="assignDriver('+idx+')">Assigner</button></div>';
+  }).join('');
+  lucide.createIcons();
+}
+renderDrivers('all');
+
+document.getElementById('driverFilters').addEventListener('click',function(e){
+  var btn=e.target.closest('.ftype');
+  if(!btn) return;
+  document.querySelectorAll('.ftype').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  renderDrivers(btn.dataset.type);
 });
 
+function chooseDelivery(orderId){
+  var options=['SEN TEW Express (Propre · 2h · 2 000F)','Standard (Propre/Partenaire · 24h · 1 500F)','Régions (Partenaire · 2-5j)','Point relais (Collab · Gratuit)'];
+  var choice=prompt('🚚 Mode de livraison pour #'+orderId+' :\n\n'+options.map(function(o,i){return (i+1)+'. '+o;}).join('\n')+'\n\nEntrez 1-4 :');
+  var idx=parseInt(choice)-1;
+  if(!options[idx]) return;
+  var typeMap={0:'propre',1:'propre',2:'partenaire',3:'collab'};
+  var pool=DRIVERS.filter(function(d){return d.type===typeMap[idx];});
+  if(!pool.length) pool=DRIVERS.filter(function(d){return d.type==='propre';});
+  var livreur=pool[Math.floor(Math.random()*pool.length)];
+  alert('✅ '+options[idx]+'\n\n'+(livreur.type==='propre'?'🏢 Livreur SEN TEW':livreur.type==='partenaire'?'🤝 Partenaire':'👤 Collaborateur')+' assigné :\n'+livreur.name+' ('+livreur.zone+')\n⭐ '+livreur.rating+' · '+livreur.deliveries+' livraisons\n\nNotification envoyée automatiquement.');
+}
+function assignDriver(i){
+  var d=DRIVERS[i];
+  alert('📞 '+d.name+'\n\n'+(d.type==='propre'?'🏢 Livreur propre SEN TEW':d.type==='partenaire'?'🤝 Partenaire ('+(d.company||'')+')':'👤 Collaborateur indépendant')+'\n🚗 '+d.vehicle+' · '+d.zone+'\n⭐ '+d.rating+' · '+d.deliveries+' livraisons'+(d.phone?'\n📱 '+d.phone:''));
+}
+
+document.querySelectorAll('.log-tab').forEach(function(t){
+  t.onclick=function(){
+    document.querySelectorAll('.log-tab').forEach(function(x){x.classList.remove('active');});
+    document.querySelectorAll('.log-content').forEach(function(x){x.style.display='none';});
+    t.classList.add('active');
+    var map={orders:'tabOrders',shipping:'tabShipping',drivers:'tabDrivers',options:'tabOptions'};
+    document.getElementById(map[t.dataset.tab]).style.display='block';
+    lucide.createIcons();
+  };
+});
 lucide.createIcons();
 </script>
-<script src="js/dark-mode.js"></script>
 </body>
 </html>
