@@ -117,5 +117,35 @@
     event.target.classList.add('active');
   }
 <script src="js/buttons-audit.js?v=51"></script>
+<script>
+/* Fonction showTab manquante : affiche la bonne section + fallback vers les vraies pages */
+function showTab(name){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.tab').forEach(function(t){
+    if((t.getAttribute('onclick')||'').indexOf(name)!==-1) t.classList.add('active');
+  });
+  var found=false;
+  ['mentions','cgu','cgv','cookies'].forEach(function(id){
+    var el=document.getElementById(id)||document.querySelector('[data-tab="'+id+'"]')||document.querySelector('.tab-'+id)||document.querySelector('#content-'+id);
+    if(el){ el.style.display=(id===name)?'block':'none'; if(id===name) found=true; }
+  });
+  /* Si le contenu n'est pas dans la page -> ouvrir la vraie page dédiée */
+  if(!found && name!=='mentions'){
+    var pages={cgu:'cgu.html',cgv:'cgv.html',cookies:'cookies.html'};
+    if(pages[name]) location.href=pages[name];
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+window.addEventListener('load', function(){
+  if(window.lucide) lucide.createIcons();
+  /* Sécurité : même sans onclick, les onglets répondent au clic */
+  document.querySelectorAll('.tab').forEach(function(t,i){
+    t.addEventListener('click',function(){
+      var names=['mentions','cgu','cgv','cookies'];
+      showTab(names[i]||'mentions');
+    });
+  });
+});
+</script>
 </body>
 </html>
