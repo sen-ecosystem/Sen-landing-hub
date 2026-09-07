@@ -409,4 +409,40 @@ if(localStorage.getItem('sentew_onboarded') === '1'){
   location.href = 'index.html';
 }
 <script src="js/buttons-audit.js?v=51"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+/* ===== Emojis -> icônes Lucide (uniformisation SEN TEW) ===== */
+(function(){
+  var MAP={
+    '🏠':'home','🛒':'shopping-cart','💬':'message-circle','👤':'user','📱':'smartphone',
+    '🛍️':'shopping-bag','🛍':'shopping-bag','🚚':'truck','🔴':'radio','🤖':'bot','🌍':'globe',
+    '⭐':'star','❤️':'heart','🔍':'search','⚙️':'settings','📦':'package','✅':'check-circle',
+    '❌':'x-circle','⚠️':'alert-triangle','📍':'map-pin','🎉':'party-popper','🔥':'flame',
+    '💰':'banknote','👑':'crown','🔔':'bell','📷':'camera','✏️':'edit-3','🚩':'flag',
+    '👍':'thumbs-up','💳':'credit-card','🎁':'gift','🛵':'bike','✈️':'plane','🏪':'store',
+    '🔒':'lock','👁️':'eye','📧':'mail','📞':'phone','💡':'lightbulb','🎯':'target',
+    '📊':'bar-chart-3','🧾':'receipt','🆕':'sparkles','💸':'banknote','🌙':'moon'
+  };
+  function svgIcon(name){
+    return '<i data-lucide="'+name+'" style="width:1em;height:1em;display:inline-block;vertical-align:-0.12em"></i>';
+  }
+  /* Parcours tous les textes de la page */
+  var walker=document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+  var nodes=[];
+  while(walker.nextNode()){ nodes.push(walker.currentNode); }
+  nodes.forEach(function(node){
+    var txt=node.nodeValue;
+    var replaced=txt;
+    var found=false;
+    Object.keys(MAP).forEach(function(em){
+      if(replaced.indexOf(em)!==-1){ replaced=replaced.split(em).join('%%'+MAP[em]+'%%'); found=true; }
+    });
+    if(!found) return;
+    var span=document.createElement('span');
+    span.innerHTML=replaced.replace(/%%([a-z0-9-]+)%%/g, function(m,name){ return svgIcon(name); });
+    node.parentNode.replaceChild(span, node);
+  });
+  if(window.lucide) lucide.createIcons();
+})();
+</script>
 </body></html>
