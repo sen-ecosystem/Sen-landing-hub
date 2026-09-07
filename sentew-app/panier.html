@@ -225,5 +225,81 @@
 lucide.createIcons();
 function removeItem(id) { console.log('Remove item', id); }
 <script src="js/buttons-audit.js?v=51"></script>
+<script>
+window.addEventListener('load', function(){
+  /* + / − quantité + suppression corbeille */
+  document.querySelectorAll('button, a, div, span').forEach(function(b){
+    var t=b.textContent.trim();
+    if((t==='+'||t==='−'||t==='-') && b.children.length===0){
+      b.style.cursor='pointer';
+      b.onclick=function(){
+        var box=b.parentElement.querySelector('span');
+        var nums=[]; b.parentElement.querySelectorAll('*').forEach(function(e){if(/^\d+$/.test(e.textContent.trim())&&e.children.length===0)nums.push(e);});
+        var el=nums[0]; if(el){var n=parseInt(el.textContent)||1; el.textContent=(t==='+')?n+1:Math.max(1,n-1);}
+      };
+    }
+  });
+  document.querySelectorAll('[class*="delete"], [class*="trash"], i[data-lucide="trash-2"]').forEach(function(d){
+    var btn=d.closest('button')||d.parentElement;
+    btn.style.cursor='pointer';
+    btn.onclick=function(){
+      var item=btn.closest('[class*="item"], [class*="card"], article, [class*="product"]');
+      if(item && confirm('🗑️ Retirer cet article du panier ?')) item.remove();
+    };
+  });
+  /* Codes promo : chip remplit le champ, Appliquer confirme */
+  document.querySelectorAll('*').forEach(function(c){
+    if(c.children.length===0){
+      var m=c.textContent.trim().match(/^(WELCOME|RAMADAN30|FREESHIP|FLASH\d*)/);
+      if(m){
+        c.style.cursor='pointer';
+        c.onclick=function(){
+          var inp=document.querySelector('input[placeholder*="code" i]');
+          if(inp){inp.value=m[1]; inp.focus();}
+        };
+      }
+    }
+  });
+  document.querySelectorAll('button').forEach(function(b){
+    var t=b.textContent.trim();
+    if(/appliquer/i.test(t)){
+      b.onclick=function(){
+        var inp=document.querySelector('input[placeholder*="code" i]');
+        if(inp && inp.value.trim()) alert('✅ Code '+inp.value.trim().toUpperCase()+' appliqué !');
+        else alert('⚠️ Entre un code promo d\'abord');
+      };
+    }
+    if(/payer/i.test(t)){
+      b.onclick=function(){ location.href='checkout.html'; };
+    }
+  });
+  /* Livraison + paiement + facilités sélectionnables */
+  document.querySelectorAll('[class*="delivery"], [class*="shipping"], [class*="payment"], [class*="pay"], [class*="option"], [class*="installment"]').forEach(function(o){
+    o.style.cursor='pointer';
+    o.onclick=function(){
+      var sib=o.parentElement.children;
+      for(var i=0;i<sib.length;i++){sib[i].style.borderColor='';sib[i].style.background='';}
+      o.style.borderColor='#0f6b4e'; o.style.background='#f0f7f3';
+    };
+  });
+  /* "Changer" adresse + VOUS AIMEREZ AUSSI */
+  document.querySelectorAll('a, span, button').forEach(function(e){
+    if(e.children.length===0 && /^changer$/i.test(e.textContent.trim())){
+      e.style.cursor='pointer';
+      e.onclick=function(){location.href='adresses.html';};
+    }
+  });
+  document.querySelectorAll('[class*="also"] *, [class*="recommend"] *').forEach(function(card){
+    if(card.querySelector('img') && card.querySelector('[class*="price"], [class*="prix"]')){
+      card.style.cursor='pointer';
+      card.onclick=function(){location.href='produit.html?id=1';};
+      var add=card.querySelector('button');
+      if(add && /ajouter/i.test(add.textContent)){
+        add.onclick=function(ev){ev.stopPropagation(); add.textContent='✓ Ajouté'; add.style.background='#0f6b4e'; setTimeout(function(){add.textContent='+ Ajouter';},2000);};
+      }
+    }
+  });
+});
+</script>
 </body>
 </html>
