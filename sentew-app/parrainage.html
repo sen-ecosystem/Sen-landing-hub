@@ -83,5 +83,27 @@
 <script src="js/dark-mode.js?v=50"></script>
 <script>lucide.createIcons();</script>
   <script src="js/buttons-audit.js?v=51"></script>
+<script>
+window.addEventListener('load', function(){
+  var code='SENTEW-L543';
+  document.querySelectorAll('button, a, [class*="btn"]').forEach(function(b){
+    var t=b.textContent.trim();
+    b.style.cursor='pointer';
+    if(/copier/i.test(t)){
+      b.onclick=function(){
+        if(navigator.clipboard) navigator.clipboard.writeText(code);
+        b.textContent='✓ Copié !'; setTimeout(function(){b.innerHTML='📋 Copier';},2000);
+      };
+    }
+    if(/partager/i.test(t)){
+      b.onclick=function(){
+        var txt='🎁 Rejoins SEN TEW, la marketplace africaine ! Utilise mon code '+code+' : https://sen-ecosystem.com/sentew-app/register.html?ref='+code;
+        if(navigator.share) navigator.share({title:'SEN TEW Parrainage',text:txt}).catch(function(){});
+        else if(navigator.clipboard){navigator.clipboard.writeText(txt); b.textContent='✓ Lien copié !'; setTimeout(function(){b.innerHTML='🔗 Partager';},2000);}
+      };
+    }
+  });
+});
+</script>
 </body>
 </html>
