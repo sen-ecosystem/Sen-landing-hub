@@ -90,33 +90,53 @@
 <script>lucide.createIcons();</script>
   <script src="js/buttons-audit.js?v=51"></script>
 <script>
-window.addEventListener('load', function(){
-  document.querySelectorAll('button, a, [class*="btn"]').forEach(function(b){
-    var t=b.textContent.trim();
-    b.style.cursor='pointer';
-    if(/suivre gps/i.test(t)) b.onclick=function(){location.href='suivi-commande.html';};
-    else if(/^livreur$/i.test(t)) b.onclick=function(){location.href='chat.html?id=livreur-ousmane';};
-    else if(/copier code/i.test(t)) b.onclick=function(){
-      if(navigator.clipboard) navigator.clipboard.writeText('RAMADAN30');
-      b.textContent='✓ Copié !'; setTimeout(function(){b.innerHTML='📋 Copier code';},2000);
-    };
-    else if(/^voir$/i.test(t)) b.onclick=function(){location.href='produits.html?c=mode';};
-    else if(/répondre/i.test(t)) b.onclick=function(){location.href='chat.html?id=aicha-fashion';};
-    else if(/effacer tout/i.test(t)) b.onclick=function(){
-      if(confirm('🗑️ Effacer toutes les notifications ?'))
-        document.querySelectorAll('[class*="notif"], [class*="card"]').forEach(function(n){if(n.querySelector('p, div')) n.remove();});
-    };
-    else if(/gérer préférences/i.test(t)) b.onclick=function(){location.href='parametres.html';};
-  });
-  document.querySelectorAll('[class*="tab"], [class*="filter"], [class*="chip"]').forEach(function(tab){
-    tab.style.cursor='pointer';
-    tab.onclick=function(){
-      var sib=tab.parentElement.children;
-      for(var i=0;i<sib.length;i++) sib[i].classList.remove('active');
-      tab.classList.add('active');
-    };
-  });
+/* Version délégation : capte TOUS les clics, même si la page change */
+document.addEventListener('click', function(e){
+  var b = e.target.closest('button, a');
+  if(!b) return;
+  var t = b.textContent.replace(/\s+/g,' ').trim();
+
+  if(/suivre gps/i.test(t)){
+    e.preventDefault(); location.href='suivi-commande.html'; return;
+  }
+  if(/^livreur$/i.test(t)){
+    e.preventDefault(); location.href='chat.html?id=livreur-ousmane'; return;
+  }
+  if(/copier code/i.test(t)){
+    e.preventDefault();
+    if(navigator.clipboard) navigator.clipboard.writeText('RAMADAN30');
+    var old=b.innerHTML; b.innerHTML='✓ Copié !';
+    setTimeout(function(){ b.innerHTML=old; },2000); return;
+  }
+  if(/^voir$/i.test(t)){
+    e.preventDefault(); location.href='produits.html?c=mode'; return;
+  }
+  if(/répondre/i.test(t)){
+    e.preventDefault(); location.href='chat.html?id=aicha-fashion'; return;
+  }
+  if(/effacer tout/i.test(t)){
+    e.preventDefault();
+    if(confirm('🗑️ Effacer toutes les notifications ?')){
+      document.querySelectorAll('.notif, [class*="notif-card"], [class*="card"]').forEach(function(n){ n.remove(); });
+    }
+    return;
+  }
+  if(/gérer préférences/i.test(t)){
+    e.preventDefault(); location.href='parametres.html'; return;
+  }
 });
+
+/* Onglets Toutes / Commandes / Promos : filtre actif */
+document.addEventListener('click', function(e){
+  var tab = e.target.closest('[class*="tab"], [class*="chip"], [class*="filter"]');
+  if(!tab) return;
+  var sib = tab.parentElement.children;
+  for(var i=0;i<sib.length;i++) sib[i].classList.remove('active');
+  tab.classList.add('active');
+});
+
+/* Curseur main sur tous les boutons */
+document.querySelectorAll('button, a').forEach(function(b){ b.style.cursor='pointer'; });
 </script>
 </body>
 </html>
