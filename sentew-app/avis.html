@@ -4,128 +4,166 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Avis clients - SEN TEW</title>
-<meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#FAFAF7">
 <link rel="stylesheet" href="css/app.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:80px}
+  .app-header{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:10}
+  .header-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e}
+  .header-btn i{width:20px;height:20px}
+  .header-btn.gold{background:#fdf3e3;color:#b8860b}
+  .stats-card{margin:16px;background:#fff;border-radius:16px;padding:16px;display:flex;gap:16px;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+  .chips{display:flex;gap:8px;padding:0 16px 14px;overflow-x:auto;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex-shrink:0;padding:8px 14px;border-radius:20px;border:1.5px solid #e5e7eb;background:#fff;font-size:12px;font-weight:700;color:#4a5a52;cursor:pointer;display:flex;align-items:center;gap:5px;font-family:inherit}
+  .chip i{width:14px;height:14px}
+  .chip.active{background:#0f6b4e;color:#fff;border-color:#0f6b4e}
+  .review-card{background:#fff;border-radius:14px;padding:14px;margin:0 16px 10px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+  .review-card .like-btn,.review-card .reply-btn,.review-card .report-btn{cursor:pointer;display:inline-flex;align-items:center;gap:4px;background:none;border:none;font-family:inherit;font-size:11px;color:#6B7280;font-weight:600;padding:4px 6px;border-radius:8px}
+  .review-card .like-btn.liked{color:#0f6b4e;font-weight:800}
+  .review-card button:active{transform:scale(.94)}
+  .review-card .act-ic{width:14px;height:14px}
+  .app-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;align-items:center;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
+  .app-nav a{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:#666;padding:4px 10px}
+  .app-nav a.active{color:#0f6b4e}
+  .app-nav a i{width:22px;height:22px}
+  .app-nav .nav-label{font-size:10px;font-weight:600}
+</style>
 </head>
-<body oncontextmenu="return false">
+<body>
 <div class="app">
   <header class="app-header">
-    <button class="header-btn" onclick="history.back()">←</button>
-    <div style="flex:1;text-align:center;font-weight:800;color:var(--text);font-size:16px;">⭐ Avis clients</div>
-    <button class="header-btn gold" onclick="alert('✏️ Écrire un avis')">✏️</button>
+    <button class="header-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+    <div style="flex:1;text-align:center;font-weight:800;color:#0A4D38;font-size:16px;display:flex;align-items:center;justify-content:center;gap:7px"><i data-lucide="star" style="width:19px;height:19px;color:#d4a574;fill:#d4a574"></i> Avis clients</div>
+    <button class="header-btn gold" onclick="writeReview()"><i data-lucide="edit-3"></i></button>
   </header>
 
-  <main class="app-content">
-    <!-- Stats -->
-    <div style="margin:16px;background:var(--white);border-radius:16px;padding:16px;display:flex;gap:16px;align-items:center;box-shadow:var(--shadow);border:1px solid var(--border);">
-      <div style="text-align:center;flex-shrink:0;">
-        <div style="font-size:38px;font-weight:900;color:var(--gold-dark);line-height:1;">4.9</div>
-        <div style="color:var(--gold);font-size:14px;margin-top:2px;">⭐⭐⭐⭐⭐</div>
-        <div style="font-size:11px;color:var(--text-soft);margin-top:4px;font-weight:600;">127 avis</div>
+  <main>
+    <!-- Note globale + barres -->
+    <div class="stats-card">
+      <div style="text-align:center;flex-shrink:0">
+        <div style="font-size:38px;font-weight:900;color:#b8860b;line-height:1">4.9</div>
+        <div id="starsTop" style="display:flex;gap:2px;justify-content:center;margin-top:4px"></div>
+        <div style="font-size:11px;color:#6B7280;margin-top:4px;font-weight:600">127 avis</div>
       </div>
-      <div style="flex:1;" id="ratingBars"></div>
+      <div style="flex:1" id="ratingBars"></div>
     </div>
 
+    <!-- Filtres -->
     <div class="chips">
       <button class="chip active" onclick="filt('all',this)">Tous</button>
-      <button class="chip" onclick="filt('photos',this)">📸 Avec photos</button>
-      <button class="chip" onclick="filt('5star',this)">⭐ 5 étoiles</button>
-      <button class="chip" onclick="filt('recent',this)">🆕 Récents</button>
+      <button class="chip" onclick="filt('photos',this)"><i data-lucide="camera"></i> Avec photos</button>
+      <button class="chip" onclick="filt('5star',this)"><i data-lucide="star"></i> 5 étoiles</button>
+      <button class="chip" onclick="filt('recent',this)"><i data-lucide="clock"></i> Récents</button>
     </div>
 
-    <div id="reviews" style="padding:0 16px;"></div>
-    <div style="height:20px;"></div>
+    <div id="reviews"></div>
+    <div style="height:20px"></div>
   </main>
 
   <nav class="app-nav">
-    <a href="index.html"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></a>
-    <a href="categories.html"><div class="nav-icon">▦</div><div class="nav-label">Catégories</div></a>
-    <a href="panier.html"><div class="nav-icon">🛒</div><div class="nav-label">Panier</div></a>
-    <a href="messages.html"><div class="nav-icon">💬</div><div class="nav-label">Messages</div></a>
-    <a href="profil.html" class="active"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></a>
+    <a href="index.html"><i data-lucide="home"></i><div class="nav-label">Accueil</div></a>
+    <a href="categories.html"><i data-lucide="layout-grid"></i><div class="nav-label">Catégories</div></a>
+    <a href="panier.html"><i data-lucide="shopping-cart"></i><div class="nav-label">Panier</div></a>
+    <a href="messages.html"><i data-lucide="message-circle"></i><div class="nav-label">Messages</span></a>
+    <a href="profil.html"><i data-lucide="user"></i><div class="nav-label">Profil</div></a>
   </nav>
 </div>
 
 <script>
-// Barres de notation (5 → 1 étoiles)
-const barData = [
-  {stars:5, percent:85},
-  {stars:4, percent:10},
-  {stars:3, percent:3},
-  {stars:2, percent:1},
-  {stars:1, percent:1}
-];
+lucide.createIcons();
 
-let barsHTML = '';
-for (let i = 0; i < barData.length; i++) {
-  const b = barData[i];
-  barsHTML += '<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;">';
-  barsHTML += '<span style="font-size:11px;width:16px;color:var(--text);font-weight:700;">' + b.stars + '★</span>';
-  barsHTML += '<div style="flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;">';
-  barsHTML += '<div style="height:100%;width:' + b.percent + '%;background:linear-gradient(90deg,var(--gold),var(--gold-dark));border-radius:3px;"></div>';
-  barsHTML += '</div>';
-  barsHTML += '<span style="font-size:10px;color:var(--text-soft);width:32px;text-align:right;font-weight:600;">' + b.percent + '%</span>';
-  barsHTML += '</div>';
-}
-document.getElementById('ratingBars').innerHTML = barsHTML;
+/* 5 étoiles en haut */
+document.getElementById('starsTop').innerHTML =
+  '<i data-lucide="star" style="width:14px;height:14px;color:#d4a574;fill:#d4a574"></i>'.repeat(5);
+lucide.createIcons();
 
-// Avis clients
-const reviews = [
-  {name:'Aminata Diop',avatar:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200',rating:5,date:'27 juil 2026',text:'Produit magnifique, livraison ultra rapide ! Je recommande à 100% 👍',photos:2,likes:24,product:'Boubou wax premium',hasPhotos:true},
+/* Barres de notation */
+var barData=[{stars:5,percent:85},{stars:4,percent:10},{stars:3,percent:3},{stars:2,percent:1},{stars:1,percent:1}];
+var barsHTML='';
+barData.forEach(function(b){
+  barsHTML+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">'+
+    '<span style="font-size:11px;width:16px;color:#0a1f17;font-weight:700">'+b.stars+'★</span>'+
+    '<div style="flex:1;height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden">'+
+    '<div style="height:100%;width:'+b.percent+'%;background:linear-gradient(90deg,#d4a574,#b8860b);border-radius:3px"></div></div>'+
+    '<span style="font-size:10px;color:#6B7280;width:32px;text-align:right;font-weight:600">'+b.percent+'%</span></div>';
+});
+document.getElementById('ratingBars').innerHTML=barsHTML;
+
+/* Avis */
+var reviews=[
+  {name:'Aminata Diop',avatar:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200',rating:5,date:'27 juil 2026',text:'Produit magnifique, livraison ultra rapide ! Je recommande à 100%.',photos:2,likes:24,product:'Boubou wax premium',hasPhotos:true},
   {name:'Moussa Sall',avatar:'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=200',rating:5,date:'25 juil 2026',text:'Excellente qualité, exactement comme sur la photo. Vendeur très professionnel.',photos:0,likes:18,product:'Sac cuir africain',hasPhotos:false},
-  {name:'Fatou Ndiaye',avatar:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=200',rating:5,date:'22 juil 2026',text:'Wow ! Superbe finition, tissu authentique. Merci beaucoup 🙏',photos:3,likes:31,product:'Boubou wax',hasPhotos:true},
+  {name:'Fatou Ndiaye',avatar:'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=200',rating:5,date:'22 juil 2026',text:'Superbe finition, tissu authentique. Merci beaucoup !',photos:3,likes:31,product:'Boubou wax',hasPhotos:true},
   {name:'Ibrahima Ba',avatar:'https://images.unsplash.com/photo-1507081323647-4d250478b919?w=200',rating:4,date:'20 juil 2026',text:'Bon produit, livraison un peu lente mais qualité au rendez-vous.',photos:1,likes:12,product:'Écouteurs Pro',hasPhotos:true},
   {name:'Awa Mbaye',avatar:'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=200',rating:5,date:'18 juil 2026',text:'Parfait ! Emballage soigné, produit conforme. Je reviendrai !',photos:0,likes:9,product:'Bracelet ethnique',hasPhotos:false},
-  {name:'Cheikh Diouf',avatar:'https://images.unsplash.com/photo-1595152772835-219674b2a8a6?w=200',rating:5,date:'15 juil 2026',text:'Vraiment top ! SEN TEW mérite d\'être connu partout en Afrique 🌍',photos:2,likes:45,product:'Sandales cuir',hasPhotos:true}
+  {name:'Cheikh Diouf',avatar:'https://images.unsplash.com/photo-1595152772835-219674b2a8a6?w=200',rating:5,date:'15 juil 2026',text:'Vraiment top ! SEN TEW mérite d\u2019être connu partout en Afrique.',photos:2,likes:45,product:'Sandales cuir',hasPhotos:true}
 ];
 
-function renderReviews(list) {
-  let html = '';
-  for (let i = 0; i < list.length; i++) {
-    const r = list[i];
-    html += '<div style="background:var(--white);border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:var(--shadow);border:1px solid var(--border);">';
-    html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">';
-    html += '<img src="' + r.avatar + '" style="width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);pointer-events:auto;">';
-    html += '<div style="flex:1;">';
-    html += '<div style="font-weight:700;font-size:13px;color:var(--text);">' + r.name + '</div>';
-    html += '<div style="font-size:11px;color:var(--text-soft);margin-top:1px;font-weight:500;">' + r.date + ' · ' + r.product + '</div>';
-    html += '</div>';
-    html += '<div style="color:var(--gold-dark);font-size:12px;font-weight:800;">';
-    for (let s = 0; s < r.rating; s++) html += '⭐';
-    html += '</div>';
-    html += '</div>';
-    html += '<div style="font-size:13px;color:var(--text);line-height:1.5;margin-bottom:8px;">' + r.text + '</div>';
-    
-    if (r.photos > 0) {
-      html += '<div style="display:flex;gap:6px;margin-bottom:8px;">';
-      for (let p = 0; p < r.photos; p++) {
-        html += '<div style="width:60px;height:60px;background:linear-gradient(135deg,var(--emerald),var(--gold));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;">📷</div>';
-      }
-      html += '</div>';
-    }
-    
-    html += '<div style="display:flex;gap:14px;font-size:11px;color:var(--text-soft);font-weight:600;">';
-    html += '<span style="cursor:pointer;">👍 ' + r.likes + '</span>';
-    html += '<span style="cursor:pointer;">💬 Répondre</span>';
-    html += '<span style="cursor:pointer;">🚩 Signaler</span>';
-    html += '</div>';
-    html += '</div>';
+function starsHTML(n){
+  var s='';
+  for(var i=0;i<5;i++){
+    s+='<i data-lucide="star" style="width:13px;height:13px;color:'+(i<n?'#d4a574':'#e5e7eb')+';fill:'+(i<n?'#d4a574':'#e5e7eb')+'"></i>';
   }
-  document.getElementById('reviews').innerHTML = html || '<p style="text-align:center;color:var(--text-soft);padding:40px;">Aucun avis</p>';
+  return '<span style="display:inline-flex;gap:1px">'+s+'</span>';
 }
 
-function filt(type, el) {
-  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+function renderReviews(list){
+  var html='';
+  list.forEach(function(r,idx){
+    html+='<div class="review-card">'+
+      '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">'+
+      '<img src="'+r.avatar+'" style="width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid #d4a574">'+
+      '<div style="flex:1;min-width:0">'+
+      '<div style="font-weight:700;font-size:13px;color:#0a1f17">'+r.name+'</div>'+
+      '<div style="font-size:11px;color:#6B7280;margin-top:1px">'+r.date+' · '+r.product+'</div></div>'+
+      starsHTML(r.rating)+'</div>'+
+      '<div style="font-size:13px;color:#0a1f17;line-height:1.5;margin-bottom:8px">'+r.text+'</div>';
+    if(r.photos>0){
+      html+='<div style="display:flex;gap:6px;margin-bottom:8px">';
+      for(var p=0;p<r.photos;p++){
+        html+='<div style="width:60px;height:60px;background:linear-gradient(135deg,#0f6b4e,#d4a574);border-radius:8px;display:flex;align-items:center;justify-content:center"><i data-lucide="camera" style="width:20px;height:20px;color:#fff"></i></div>';
+      }
+      html+='</div>';
+    }
+    html+='<div style="display:flex;gap:8px">'+
+      '<button class="like-btn" onclick="likeReview(this,'+idx+')"><i data-lucide="thumbs-up" class="act-ic"></i> <span>'+r.likes+'</span></button>'+
+      '<button class="reply-btn" onclick="location.href=\'messages.html\'"><i data-lucide="message-circle" class="act-ic"></i> Répondre</button>'+
+      '<button class="report-btn" onclick="location.href=\'signaler.html\'"><i data-lucide="flag" class="act-ic"></i> Signaler</button>'+
+      '</div></div>';
+  });
+  document.getElementById('reviews').innerHTML=html||'<p style="text-align:center;color:#6B7280;padding:40px">Aucun avis</p>';
+  lucide.createIcons();
+}
+
+function likeReview(btn,idx){
+  var span=btn.querySelector('span');
+  var n=parseInt(span.textContent)||0;
+  if(btn.classList.toggle('liked')) span.textContent=n+1;
+  else span.textContent=n-1;
+}
+
+function writeReview(){
+  var note=prompt('⭐ Ta note (1 à 5) :','5');
+  if(!note) return;
+  var txt=prompt('✏️ Ton avis :');
+  if(!txt) return;
+  alert('✅ Merci ! Ton avis ('+note+'★) sera publié après vérification.');
+}
+
+function filt(type,el){
+  document.querySelectorAll('.chip').forEach(function(c){c.classList.remove('active');});
   el.classList.add('active');
-  let list = reviews;
-  if (type === 'photos') list = reviews.filter(r => r.hasPhotos);
-  if (type === '5star') list = reviews.filter(r => r.rating === 5);
-  if (type === 'recent') list = reviews.slice(0, 3);
+  var list=reviews;
+  if(type==='photos') list=reviews.filter(function(r){return r.hasPhotos;});
+  if(type==='5star') list=reviews.filter(function(r){return r.rating===5;});
+  if(type==='recent') list=reviews.slice(0,3);
   renderReviews(list);
 }
 
 renderReviews(reviews);
-<script src="js/buttons-audit.js?v=51"></script>
+</script>
 </body>
 </html>
