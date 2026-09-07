@@ -138,6 +138,8 @@ function showTab(name){
 }
 window.addEventListener('load', function(){
   if(window.lucide) lucide.createIcons();
+    var urlTab = new URLSearchParams(window.location.search).get('tab');
+  if(urlTab) showTab(urlTab);
   /* Sécurité : même sans onclick, les onglets répondent au clic */
   document.querySelectorAll('.tab').forEach(function(t,i){
     t.addEventListener('click',function(){
