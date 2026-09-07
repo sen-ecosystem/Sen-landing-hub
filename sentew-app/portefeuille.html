@@ -109,5 +109,44 @@
 <script src="js/dark-mode.js?v=50"></script>
 <script>lucide.createIcons();</script>
   <script src="js/buttons-audit.js?v=51"></script>
+<script>
+window.addEventListener('load', function(){
+  /* Œil : masquer/afficher le solde */
+  document.querySelectorAll('[class*="eye"], i[data-lucide="eye"], [class*="balance"] button').forEach(function(e){
+    var btn=e.closest('button')||e;
+    btn.style.cursor='pointer';
+    var hidden=false, real='';
+    btn.onclick=function(){
+      var bal=document.querySelector('[class*="amount"], [class*="solde"], [class*="balance"]');
+      document.querySelectorAll('div, span, h1, h2').forEach(function(el){
+        if(el.children.length===0 && /FCFA/i.test(el.textContent) && /\d/.test(el.textContent) && el.textContent.length<25){
+          if(!hidden){real=el.textContent; el.textContent='••••••';}
+          else{el.textContent=real;}
+        }
+      });
+      hidden=!hidden;
+    };
+  });
+  document.querySelectorAll('button, a, [class*="btn"], [class*="method"], [class*="card"], [class*="row"]').forEach(function(b){
+    var t=b.textContent.trim();
+    b.style.cursor='pointer';
+    if(/^\+?\s*recharger/i.test(t)){
+      b.onclick=function(){
+        var m=prompt('💰 Montant à recharger (FCFA) :','10000');
+        if(m && parseInt(m)>0) alert('✅ Recharge de '+parseInt(m).toLocaleString()+' FCFA lancée !\nChoisis Wave, Orange Money ou Carte ci-dessous.');
+      };
+    }
+    else if(/retirer/i.test(t)){
+      b.onclick=function(){
+        var m=prompt('💸 Montant à retirer (FCFA) :','5000');
+        if(m && parseInt(m)>0) alert('✅ Retrait de '+parseInt(m).toLocaleString()+' FCFA demandé !\nRéception Wave sous 24h.');
+      };
+    }
+    else if(/^wave/i.test(t)) b.onclick=function(){alert('🌊 Wave sélectionné\nInstantané · Frais 1%');};
+    else if(/orange money/i.test(t)) b.onclick=function(){alert('🟠 Orange Money sélectionné\nInstantané · Frais 1.5%');};
+    else if(/carte bancaire/i.test(t)) b.onclick=function(){alert('💳 Carte bancaire sélectionnée\nVisa · Mastercard · Frais 2%');};
+  });
+});
+</script>
 </body>
 </html>
