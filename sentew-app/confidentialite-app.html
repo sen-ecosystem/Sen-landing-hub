@@ -19,6 +19,7 @@
   .setting-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f0f0f0; cursor: pointer; font-size: 14px; font-weight: 600; color: #0a1f17; }
   .setting-row:last-child { border-bottom: none; }
   .setting-row > i { width: 18px; height: 18px; color: #d4a574; flex-shrink: 0; }
+  .setting-row:active { background: #f9f9f6; }
   .switch { position: relative; width: 44px; height: 24px; flex-shrink: 0; display: inline-block; }
   .switch input { display: none; }
   .slider { position: absolute; inset: 0; background: #e5e7eb; border-radius: 20px; transition: 0.25s; }
@@ -27,8 +28,9 @@
   .switch input:checked + .slider::after { left: 23px; }
   .btn-outline { width: 100%; background: #fff; color: #0f6b4e; border: 1.5px solid #0f6b4e; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; }
   .btn-outline i { width: 16px; height: 16px; }
+  .btn-outline:active { background: #f0f7f3; }
   .score-num { font-size: 46px; font-weight: 800; color: #fff; line-height: 1; }
-  .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; z-index: 40; }
+  .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0 calc(8px + env(safe-area-inset-bottom)); border-top: 1px solid #e5e7eb; z-index: 40; }
   .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
   .bottom-nav a.active { color: #0f6b4e; }
   .bottom-nav a i { width: 22px; height: 22px; }
@@ -103,22 +105,22 @@
     </div>
   </div>
 
-  <!-- Documents légaux -->
+  <!-- Documents légaux — même page à onglets que Paramètres -->
   <div class="section-card">
     <h3><i data-lucide="file-text"></i> Documents légaux</h3>
-    <div class="setting-row" onclick="location.href='cgu.html'">
+    <div class="setting-row" onclick="location.href='mentions-legales.html?tab=cgu'">
       <span>Conditions Générales d'Utilisation</span>
       <i data-lucide="chevron-right"></i>
     </div>
-    <div class="setting-row" onclick="location.href='cgv.html'">
+    <div class="setting-row" onclick="location.href='mentions-legales.html?tab=cgv'">
       <span>Conditions Générales de Vente</span>
       <i data-lucide="chevron-right"></i>
     </div>
-    <div class="setting-row" onclick="location.href='mentions-legales.html'">
+    <div class="setting-row" onclick="location.href='mentions-legales.html?tab=mentions'">
       <span>Mentions Légales</span>
       <i data-lucide="chevron-right"></i>
     </div>
-    <div class="setting-row" onclick="location.href='cookies.html'">
+    <div class="setting-row" onclick="location.href='mentions-legales.html?tab=cookies'">
       <span>Politique de cookies</span>
       <i data-lucide="chevron-right"></i>
     </div>
@@ -138,6 +140,5 @@
   function toggle2FA(){alert('Activation 2FA - Redirection vers la vérification par SMS');}
   function downloadData(){alert('Préparation de votre archive RGPD (48h par email)');}
 </script>
-<script src="js/buttons-audit.js?v=51"></script>
 </body>
 </html>
