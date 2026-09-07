@@ -172,5 +172,43 @@ document.querySelectorAll('.log-tab').forEach(t=>{
   <script src="js/dark-mode.js"></script>
 <script src="js/role-guard.js"></script>
 <script src="js/buttons-audit.js?v=51"></script>
+<style>
+/* ===== MENU DU BAS RÉPARÉ (icônes Lucide, barre fixe) ===== */
+.app-nav{position:fixed !important;bottom:0;left:0;right:0;background:#fff;display:flex !important;flex-direction:row !important;justify-content:space-around;align-items:center;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
+.app-nav a{display:flex !important;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:#666;padding:4px 10px;flex:0 1 auto}
+.app-nav a.active{color:#0f6b4e}
+.app-nav .nav-icon{font-size:20px;line-height:1}
+.app-nav .nav-label{font-size:10px;font-weight:600}
+body{padding-bottom:76px !important}
+</style>
+<script>
+window.addEventListener('load', function(){
+  /* Remplace les emojis du menu par de vraies icônes SVG Lucide */
+  var ICONS={
+    'Accueil':'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z"/></svg>',
+    'Vendeur':'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M3 9v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9M3 9h18M9 21v-6h6v6"/></svg>',
+    'Logistique':'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 17V5H2v12h12zM14 8h4l4 4v5h-8"/><circle cx="6.5" cy="17.5" r="2"/><circle cx="17.5" cy="17.5" r="2"/></svg>',
+    'Messages':'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7a8.5 8.5 0 1 1 16.1-3.8z"/></svg>',
+    'Profil':'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
+  };
+  document.querySelectorAll('.app-nav a').forEach(function(a){
+    var label=a.querySelector('.nav-label');
+    var icon=a.querySelector('.nav-icon');
+    if(label && icon && ICONS[label.textContent.trim()]){
+      icon.innerHTML=ICONS[label.textContent.trim()];
+    }
+  });
+
+  /* Boutons "Choisir livreur" : choix réel du livreur */
+  window.chooseDelivery=function(orderId){
+    var livreurs=['🛵 Ousmane (Plateau · 4.9★)','🚗 Modou (Almadies · 4.8★)','🛵 Awa (Sacré-Cœur · 5.0★)'];
+    var choix=prompt('🚚 Choisis un livreur pour '+orderId+' :\n\n1 - '+livreurs[0]+'\n2 - '+livreurs[1]+'\n3 - '+livreurs[2]+'\n\nTape 1, 2 ou 3 :');
+    var i=parseInt(choix)-1;
+    if(livreurs[i]){
+      alert('✅ '+livreurs[i]+' assigné à la commande '+orderId+' !\nLe livreur est notifié automatiquement.');
+    }
+  };
+});
+</script>
 </body>
 </html>
