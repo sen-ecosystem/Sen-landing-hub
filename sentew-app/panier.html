@@ -9,13 +9,11 @@
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:110px;color:#0a1f17}
-  /* Header */
   .cart-header{position:sticky;top:0;z-index:20;background:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #e5e7eb}
   .cart-header h1{font-size:17px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
   .icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e}
   .icon-btn i{width:20px;height:20px}
   .count-badge{background:#0f6b4e;color:#fff;font-size:11px;font-weight:800;padding:2px 8px;border-radius:12px}
-  /* Barre livraison gratuite */
   .free-ship{margin:14px 16px;background:linear-gradient(135deg,#0f6b4e,#0a4d38);border-radius:14px;padding:14px;color:#fff}
   .free-ship .ttl{font-size:13px;font-weight:800;display:flex;align-items:center;gap:7px}
   .free-ship .ttl i{width:17px;height:17px}
@@ -23,14 +21,13 @@
   .ship-fill{height:100%;width:100%;background:linear-gradient(90deg,#d4a574,#fcd116);border-radius:4px;transition:width .6s}
   .free-ship .ok{margin-top:8px;font-size:12px;display:flex;align-items:center;gap:6px;color:#fcd116;font-weight:700}
   .free-ship .ok i{width:15px;height:15px}
-  /* Articles */
   .section-ttl{margin:16px 16px 10px;font-size:12px;font-weight:800;color:#a67c3a;letter-spacing:1px;display:flex;align-items:center;gap:6px}
   .section-ttl i{width:15px;height:15px}
-  .item{display:flex;gap:12px;background:#fff;margin:0 16px 10px;padding:12px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);animation:slideIn .3s}
+  .item{display:flex;gap:12px;background:#fff;margin:0 16px 10px;padding:12px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);animation:slideIn .3s;position:relative}
   @keyframes slideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-  .item img{width:88px;height:88px;object-fit:cover;border-radius:12px;flex-shrink:0}
+  .item img{width:88px;height:88px;object-fit:cover;border-radius:12px;flex-shrink:0;cursor:pointer}
   .item .info{flex:1;min-width:0}
-  .item h3{font-size:14px;font-weight:700;line-height:1.3;margin-bottom:3px}
+  .item h3{font-size:14px;font-weight:700;line-height:1.3;margin-bottom:3px;cursor:pointer}
   .item .vendor{font-size:11px;color:#6B7280;display:flex;align-items:center;gap:4px;margin-bottom:3px;cursor:pointer}
   .item .vendor i{width:12px;height:12px;color:#0f6b4e}
   .item .variant{font-size:11px;color:#9aa5a0;margin-bottom:8px}
@@ -43,8 +40,6 @@
   .stepper .qty{min-width:26px;text-align:center;font-weight:800;font-size:14px}
   .del-btn{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:50%;background:#fef2f2;border:none;color:#ef4444;cursor:pointer;display:flex;align-items:center;justify-content:center}
   .del-btn i{width:15px;height:15px}
-  .item{position:relative}
-  /* Code promo */
   .promo-card{margin:14px 16px;background:#fff;border:1.5px dashed #d4a574;border-radius:14px;padding:14px}
   .promo-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
   .promo-head i{width:17px;height:17px;color:#a67c3a}
@@ -54,12 +49,9 @@
   .promo-row input{flex:1;min-width:0;padding:11px 12px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;font-family:inherit;text-transform:uppercase}
   .promo-row input:focus{outline:none;border-color:#0f6b4e}
   .promo-row button{padding:11px 18px;background:#0f6b4e;color:#fff;border:none;border-radius:10px;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit}
-  .promo-row button:active{transform:scale(.96)}
   .chips{display:flex;gap:8px;margin-top:10px;overflow-x:auto;scrollbar-width:none}
   .chips::-webkit-scrollbar{display:none}
   .promo-chip{flex-shrink:0;padding:6px 12px;border-radius:16px;font-size:11px;font-weight:800;cursor:pointer;border:none;font-family:inherit}
-  .promo-chip:active{transform:scale(.94)}
-  /* Livraison */
   .ship-opt{display:flex;align-items:center;gap:12px;background:#fff;margin:0 16px 10px;padding:14px;border-radius:14px;border:2px solid transparent;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.04);transition:border-color .15s}
   .ship-opt.selected{border-color:#0f6b4e;background:#f0f7f3}
   .ship-opt .sic{width:40px;height:40px;border-radius:10px;background:#f0f7f3;display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -68,8 +60,6 @@
   .ship-opt .stx b{font-size:13px;display:block}
   .ship-opt .stx small{font-size:11px;color:#6B7280}
   .ship-opt .sp{font-size:13px;font-weight:800;color:#0f6b4e}
-  .ship-opt .sp.free{color:#0f6b4e}
-  /* Adresse */
   .addr-card{display:flex;gap:12px;align-items:center;background:#fff;margin:0 16px 10px;padding:14px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04)}
   .addr-card .aic{width:38px;height:38px;border-radius:50%;background:#fef2f2;display:flex;align-items:center;justify-content:center;flex-shrink:0}
   .addr-card .aic i{width:18px;height:18px;color:#ef4444}
@@ -77,7 +67,6 @@
   .addr-card .atx b{font-size:13px}
   .addr-card .atx small{display:block;font-size:11px;color:#6B7280;margin-top:2px}
   .addr-card .chg{font-size:12px;font-weight:700;color:#0f6b4e;text-decoration:none;flex-shrink:0}
-  /* Récapitulatif */
   .summary{background:#fff;margin:14px 16px;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
   .sum-row{display:flex;justify-content:space-between;font-size:13px;color:#4a5a52;margin-bottom:8px;align-items:center}
   .sum-row span:first-child{display:flex;align-items:center;gap:6px}
@@ -89,18 +78,20 @@
   .sum-total .tt{font-size:22px;font-weight:900;color:#0f6b4e}
   .gold-pts{display:flex;align-items:center;gap:5px;font-size:11px;color:#a67c3a;margin-top:8px}
   .gold-pts i{width:13px;height:13px}
-  /* Facilités */
   .install{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 16px 0}
   .inst{padding:10px 6px;background:#fff;border:2px solid #e5e7eb;border-radius:10px;font-weight:700;font-size:11px;text-align:center;cursor:pointer;color:#0a1f17;transition:all .15s;font-family:inherit}
   .inst.selected{border-color:#0f6b4e;background:#f0f7f3;color:#0f6b4e}
-  /* Paiement */
   .pay-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 16px 0}
-  .pay{padding:12px 4px;background:#fff;border:2px solid #e5e7eb;border-radius:12px;text-align:center;cursor:pointer;font-family:inherit;transition:all .15s}
+  .pay{padding:12px 4px;background:#fff;border:2px solid #e5e7eb;border-radius:12px;text-align:center;cursor:pointer;font-family:inherit;transition:all .15s;position:relative}
   .pay .pic{width:34px;height:34px;border-radius:10px;margin:0 auto 5px;display:flex;align-items:center;justify-content:center}
   .pay .pic i{width:18px;height:18px}
   .pay small{font-size:10px;font-weight:700;color:#4a5a52}
   .pay.selected{border-color:#0f6b4e;background:#f0f7f3}
-  /* Bouton payer fixe */
+  .pay .fee{position:absolute;top:4px;right:6px;background:#fef3c7;color:#b8860b;font-size:8px;font-weight:800;padding:1px 5px;border-radius:6px}
+  /* Badge Cash sécurisé */
+  .cash-note{margin:8px 16px 0;background:#fff7ed;border:1.5px solid #fed7aa;border-radius:12px;padding:10px;font-size:11px;color:#9a3412;display:none;align-items:flex-start;gap:7px;line-height:1.4}
+  .cash-note.show{display:flex}
+  .cash-note i{width:15px;height:15px;flex-shrink:0;margin-top:1px}
   .pay-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:50;box-shadow:0 -4px 16px rgba(0,0,0,.08)}
   .pay-bar .pmini{display:flex;justify-content:space-between;font-size:12px;color:#6B7280;margin-bottom:8px}
   .pay-bar .pmini b{color:#0f6b4e;font-size:15px}
@@ -109,18 +100,14 @@
   .pay-btn i{width:18px;height:18px}
   .secure{display:flex;align-items:center;justify-content:center;gap:5px;font-size:10px;color:#9aa5a0;margin-top:8px}
   .secure i{width:11px;height:11px}
-  /* Suggestions */
   .sugg-scroll{display:flex;gap:10px;overflow-x:auto;padding:4px 16px 14px;scrollbar-width:none}
   .sugg-scroll::-webkit-scrollbar{display:none}
   .sugg{flex-shrink:0;width:130px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);cursor:pointer}
-  .sugg:active{transform:scale(.96)}
   .sugg img{width:100%;height:100px;object-fit:cover;display:block}
   .sugg .sb{padding:8px}
   .sugg .sn{font-size:11px;font-weight:700;line-height:1.3;height:28px;overflow:hidden}
   .sugg .sp{font-size:13px;font-weight:900;color:#0f6b4e;margin:4px 0 6px}
   .sugg .sa{width:100%;padding:7px;background:#0f6b4e;color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit}
-  .sugg .sa:active{background:#0a4d38}
-  /* Toast */
   .toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-20px);background:#0a1f17;color:#fff;padding:11px 20px;border-radius:24px;font-size:13px;font-weight:700;z-index:99;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;box-shadow:0 8px 20px rgba(0,0,0,.3)}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
@@ -133,18 +120,15 @@
   <button class="icon-btn" onclick="location.href='favoris.html'"><i data-lucide="heart"></i></button>
 </header>
 
-<!-- Livraison gratuite -->
 <div class="free-ship">
   <div class="ttl"><i data-lucide="truck"></i> Livraison GRATUITE dès 50 000 FCFA</div>
   <div class="ship-bar"><div class="ship-fill" id="shipFill"></div></div>
   <div class="ok" id="shipMsg"><i data-lucide="check-circle"></i> Félicitations ! Vous en bénéficiez</div>
 </div>
 
-<!-- Articles -->
 <h2 class="section-ttl"><i data-lucide="package"></i> VOS ARTICLES</h2>
 <div id="cartItems"></div>
 
-<!-- Code promo -->
 <div class="promo-card">
   <div class="promo-head">
     <i data-lucide="ticket"></i>
@@ -162,7 +146,6 @@
   </div>
 </div>
 
-<!-- Livraison -->
 <h2 class="section-ttl"><i data-lucide="truck"></i> MODE DE LIVRAISON</h2>
 <div class="ship-opt selected" data-price="1500" onclick="selectShip(this)">
   <div class="sic"><i data-lucide="zap"></i></div>
@@ -172,7 +155,7 @@
 <div class="ship-opt" data-price="0" onclick="selectShip(this)">
   <div class="sic"><i data-lucide="package"></i></div>
   <div class="stx"><b>Standard (2-3 jours)</b><small>Tout le Sénégal</small></div>
-  <div class="sp free">Gratuit</div>
+  <div class="sp">Gratuit</div>
 </div>
 <div class="ship-opt" data-price="800" onclick="selectShip(this)">
   <div class="sic"><i data-lucide="map-pin"></i></div>
@@ -180,7 +163,6 @@
   <div class="sp">800 F</div>
 </div>
 
-<!-- Adresse -->
 <h2 class="section-ttl"><i data-lucide="map-pin"></i> ADRESSE DE LIVRAISON</h2>
 <div class="addr-card">
   <div class="aic"><i data-lucide="map-pin"></i></div>
@@ -191,38 +173,40 @@
   <a href="adresses.html" class="chg">Changer</a>
 </div>
 
-<!-- Suggestions -->
 <h2 class="section-ttl"><i data-lucide="sparkles"></i> VOUS AIMEREZ AUSSI</h2>
 <div class="sugg-scroll" id="sugg"></div>
 
-<!-- Récapitulatif -->
 <div class="summary">
   <div class="sum-row"><span><i data-lucide="package"></i> Sous-total (<span id="sumCount">3</span> articles)</span><span id="sumSub">112 000 FCFA</span></div>
   <div class="sum-row discount" id="discountRow"><span><i data-lucide="tag"></i> Remise (<span id="promoLabel">-30% WELCOME</span>)</span><span id="sumDisc">−33 600 FCFA</span></div>
   <div class="sum-row"><span><i data-lucide="truck"></i> Livraison</span><span id="sumShip">1 500 FCFA</span></div>
+  <div class="sum-row" id="cashRow" style="display:none;color:#b45309"><span><i data-lucide="shield"></i> Sécurité Cash</span><span>+500 FCFA</span></div>
   <div class="sum-total"><b>TOTAL</b><span class="tt" id="sumTotal">79 900 FCFA</span></div>
   <div class="gold-pts"><i data-lucide="award"></i> Vous gagnerez <strong>+<span id="goldPts">80</span> points GOLD</strong></div>
 </div>
 
-<!-- Facilités -->
 <div class="install">
   <button class="inst selected" onclick="selectInst(this,1)">1× <span class="instAmt">79 900</span> F</button>
   <button class="inst" onclick="selectInst(this,2)">2× <span class="instAmt">39 950</span> F</button>
   <button class="inst" onclick="selectInst(this,3)">3× <span class="instAmt">26 633</span> F</button>
 </div>
 
-<!-- Paiement -->
 <div style="margin:14px 16px 4px;font-size:10px;font-weight:800;color:#4a5a52;letter-spacing:1px">MODE DE PAIEMENT</div>
 <div class="pay-grid">
-  <button class="pay selected" onclick="selectPay(this,'Wave')"><div class="pic" style="background:#e0f2fe"><i data-lucide="waves" style="color:#0284c7"></i></div><small>Wave</small></button>
-  <button class="pay" onclick="selectPay(this,'Orange Money')"><div class="pic" style="background:#fff7ed"><i data-lucide="circle" style="color:#f97316"></i></div><small>Orange M.</small></button>
-  <button class="pay" onclick="selectPay(this,'Carte bancaire')"><div class="pic" style="background:#f3e8ff"><i data-lucide="credit-card" style="color:#9333ea"></i></div><small>Carte</small></button>
-  <button class="pay" onclick="selectPay(this,'Cash à la livraison')"><div class="pic" style="background:#f0fdf4"><i data-lucide="banknote" style="color:#16a34a"></i></div><small>Cash</small></button>
+  <button class="pay selected" onclick="selectPay(this,'Wave',0)"><div class="pic" style="background:#e0f2fe"><i data-lucide="waves" style="color:#0284c7"></i></div><small>Wave</small></button>
+  <button class="pay" onclick="selectPay(this,'Orange Money',0)"><div class="pic" style="background:#fff7ed"><i data-lucide="circle" style="color:#f97316"></i></div><small>Orange M.</small></button>
+  <button class="pay" onclick="selectPay(this,'Carte bancaire',0)"><div class="pic" style="background:#f3e8ff"><i data-lucide="credit-card" style="color:#9333ea"></i></div><small>Carte</small></button>
+  <button class="pay" onclick="selectPay(this,'Cash à la livraison',500)"><span class="fee">+500F</span><div class="pic" style="background:#f0fdf4"><i data-lucide="banknote" style="color:#16a34a"></i></div><small>Cash livr.</small></button>
+</div>
+
+<!-- Note sécurité Cash -->
+<div class="cash-note" id="cashNote">
+  <i data-lucide="shield-check"></i>
+  <div><strong>Paiement Cash sécurisé :</strong> +500 FCFA de frais anti-refus (remboursés si livraison réussie). Vérification par SMS avant expédition. Après 2 refus, le Cash est désactivé.</div>
 </div>
 
 <div style="height:16px"></div>
 
-<!-- Barre de paiement fixe -->
 <div class="pay-bar">
   <div class="pmini"><span>Total à payer</span><b id="barTotal">79 900 FCFA</b></div>
   <button class="pay-btn" onclick="pay()"><i data-lucide="lock"></i> Payer <span id="btnTotal">79 900</span> FCFA</button>
@@ -233,8 +217,6 @@
 
 <script>
 lucide.createIcons();
-
-/* ===== DONNÉES ===== */
 var cart=[
   {id:1,name:'Sac cuir africain',vendor:'Aïcha Couture',bid:1,variant:'Taille : Unique · Couleur : Marron',price:22000,old:28000,qty:1,img:'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=200&h=200&fit=crop'},
   {id:2,name:'Perruque brésilienne',vendor:'Mariama B.',bid:3,variant:'Longueur : 18" · Couleur : Naturel',price:55000,old:null,qty:1,img:'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=200&h=200&fit=crop'},
@@ -245,9 +227,8 @@ var sugg=[
   {id:2,name:'Sandales cuir',price:8500,img:'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=200&h=200&fit=crop'},
   {id:5,name:'Kaftan luxe',price:65000,img:'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=200&h=200&fit=crop'}
 ];
-var shipCost=1500, discount=33600, payMethod='Wave', PROMOS={WELCOME:{pct:20},RAMADAN30:{pct:30},FREESHIP:{pct:0,ship:true}};
+var shipCost=1500, discount=33600, payMethod='Wave', cashFee=0, PROMOS={WELCOME:{pct:20},RAMADAN30:{pct:30},FREESHIP:{pct:0,ship:true}};
 
-/* ===== RENDU ARTICLES ===== */
 function renderCart(){
   var box=document.getElementById('cartItems');
   if(!cart.length){
@@ -257,25 +238,19 @@ function renderCart(){
   box.innerHTML=cart.map(function(it,i){
     return '<div class="item">'+
       '<button class="del-btn" onclick="removeItem('+i+')"><i data-lucide="trash-2"></i></button>'+
-      '<img src="'+it.img+'" alt="'+it.name+'" onclick="location.href=\'produit.html?id='+it.id+'\'" style="cursor:pointer">'+
+      '<img src="'+it.img+'" alt="'+it.name+'" onclick="location.href=\'produit.html?id='+it.id+'\'">'+
       '<div class="info">'+
-        '<h3 onclick="location.href=\'produit.html?id='+it.id+'\'" style="cursor:pointer">'+it.name+'</h3>'+
+        '<h3 onclick="location.href=\'produit.html?id='+it.id+'\'">'+it.name+'</h3>'+
         '<div class="vendor" onclick="location.href=\'boutique.html?id='+it.bid+'\'"><i data-lucide="store"></i> '+it.vendor+' <i data-lucide="badge-check" style="width:11px;height:11px;color:#3b82f6"></i></div>'+
         '<div class="variant">'+it.variant+'</div>'+
         '<div class="row">'+
           '<div><span class="price">'+fmt(it.price*it.qty)+' FCFA</span>'+(it.old?'<span class="price-old">'+fmt(it.old*it.qty)+'</span>':'')+'</div>'+
-          '<div class="stepper">'+
-            '<button onclick="chgQty('+i+',-1)">−</button>'+
-            '<span class="qty">'+it.qty+'</span>'+
-            '<button onclick="chgQty('+i+',1)">+</button>'+
-          '</div>'+
-        '</div>'+
-      '</div></div>';
+          '<div class="stepper"><button onclick="chgQty('+i+',-1)">−</button><span class="qty">'+it.qty+'</span><button onclick="chgQty('+i+',1)">+</button></div>'+
+        '</div></div></div>';
   }).join('');
   lucide.createIcons(); recalc();
 }
 
-/* ===== SUGGESTIONS ===== */
 document.getElementById('sugg').innerHTML=sugg.map(function(s){
   return '<div class="sugg" onclick="location.href=\'produit.html?id='+s.id+'\'">'+
     '<img src="'+s.img+'" alt="'+s.name+'">'+
@@ -287,59 +262,53 @@ function addSugg(id){
   var s=sugg.find(function(x){return x.id===id;});
   if(!s) return;
   cart.push({id:s.id,name:s.name,vendor:'SEN TEW',bid:1,variant:'Nouvel ajout',price:s.price,old:null,qty:1,img:s.img});
-  renderCart(); toast('✅ '+s.name+' ajouté au panier');
+  renderCart(); toast('✅ '+s.name+' ajouté');
 }
-
-/* ===== ACTIONS ===== */
-function chgQty(i,d){
-  cart[i].qty=Math.max(1,cart[i].qty+d);
-  renderCart();
-}
-function removeItem(i){
-  if(confirm('🗑️ Retirer "'+cart[i].name+'" du panier ?')){
-    cart.splice(i,1); renderCart(); toast('Article retiré');
-  }
-}
-function setPromo(code){
-  document.getElementById('promoInput').value=code;
-  applyPromo();
-}
+function chgQty(i,d){ cart[i].qty=Math.max(1,cart[i].qty+d); renderCart(); }
+function removeItem(i){ if(confirm('🗑️ Retirer "'+cart[i].name+'" ?')){ cart.splice(i,1); renderCart(); toast('Article retiré'); } }
+function setPromo(code){ document.getElementById('promoInput').value=code; applyPromo(); }
 function applyPromo(){
   var code=document.getElementById('promoInput').value.trim().toUpperCase();
-  if(!code){ toast('⚠️ Entre un code promo'); return; }
+  if(!code){ toast('⚠️ Entre un code'); return; }
   var p=PROMOS[code];
   if(!p){ toast('❌ Code invalide'); return; }
   if(p.ship){ shipCost=0; discount=0; document.getElementById('promoLabel').textContent='FREESHIP'; }
-  else { var sub=subtotal(); discount=Math.round(sub*p.pct/100); document.getElementById('promoLabel').textContent='-'+p.pct+'% '+code; }
+  else{ discount=Math.round(subtotal()*p.pct/100); document.getElementById('promoLabel').textContent='-'+p.pct+'% '+code; }
   recalc(); toast('✅ Code '+code+' appliqué !');
 }
 function selectShip(el){
   document.querySelectorAll('.ship-opt').forEach(function(o){o.classList.remove('selected');});
   el.classList.add('selected');
-  shipCost=parseInt(el.dataset.price)||0;
-  recalc();
+  shipCost=parseInt(el.dataset.price)||0; recalc();
 }
-function selectInst(el,n){
-  document.querySelectorAll('.inst').forEach(function(o){o.classList.remove('selected');});
-  el.classList.add('selected');
-}
-function selectPay(el,name){
+function selectInst(el,n){ document.querySelectorAll('.inst').forEach(function(o){o.classList.remove('selected');}); el.classList.add('selected'); }
+function selectPay(el,name,fee){
   document.querySelectorAll('.pay').forEach(function(o){o.classList.remove('selected');});
   el.classList.add('selected');
   payMethod=name;
-  toast('💳 '+name+' sélectionné');
+  cashFee=fee;
+  document.getElementById('cashNote').classList.toggle('show', fee>0);
+  document.getElementById('cashRow').style.display=fee>0?'flex':'none';
+  recalc();
+  if(fee>0) toast('💵 Cash sécurisé : +500 F (remboursés à la livraison)');
+  else toast('💳 '+name+' sélectionné');
 }
 function pay(){
-  if(!cart.length){ toast('⚠️ Ton panier est vide'); return; }
-  location.href='checkout.html';
+  if(!cart.length){ toast('⚠️ Panier vide'); return; }
+  if(payMethod==='Cash à la livraison'){
+    if(confirm('💵 PAIEMENT CASH SÉCURISÉ\n\nTu paieras '+(document.getElementById('sumTotal').textContent)+' au livreur.\n\n✅ Vérification SMS avant expédition\n✅ 500 F remboursés si livraison OK\n⚠️ Après 2 refus, le Cash sera désactivé\n\nConfirmer la commande ?')){
+      toast('✅ Commande Cash confirmée ! SMS de vérification envoyé.');
+      setTimeout(function(){ location.href='checkout.html?pay=cash'; },1500);
+    }
+    return;
+  }
+  location.href='checkout.html?pay='+encodeURIComponent(payMethod);
 }
-
-/* ===== CALCULS ===== */
 function fmt(n){ return n.toLocaleString('fr-FR').replace(/\u202f/g,' '); }
 function subtotal(){ return cart.reduce(function(s,it){return s+it.price*it.qty;},0); }
 function recalc(){
   var sub=subtotal();
-  var total=Math.max(0, sub - discount + shipCost);
+  var total=Math.max(0, sub - discount + shipCost + cashFee);
   document.getElementById('sumSub').textContent=fmt(sub)+' FCFA';
   document.getElementById('sumDisc').textContent='−'+fmt(discount)+' FCFA';
   document.getElementById('sumShip').textContent=shipCost===0?'Gratuit':fmt(shipCost)+' FCFA';
@@ -350,28 +319,17 @@ function recalc(){
   document.getElementById('cartCount').textContent=cart.reduce(function(s,it){return s+it.qty;},0);
   document.getElementById('goldPts').textContent=Math.round(total/1000);
   document.getElementById('discountRow').style.display=discount>0?'flex':'none';
-  /* facilités */
-  document.querySelectorAll('.instAmt')[0].textContent=fmt(total);
-  document.querySelectorAll('.instAmt')[1].textContent=fmt(Math.round(total/2));
-  document.querySelectorAll('.instAmt')[2].textContent=fmt(Math.round(total/3));
-  /* barre livraison gratuite */
+  var amts=document.querySelectorAll('.instAmt');
+  amts[0].textContent=fmt(total); amts[1].textContent=fmt(Math.round(total/2)); amts[2].textContent=fmt(Math.round(total/3));
   var pct=Math.min(100, Math.round(sub/50000*100));
   document.getElementById('shipFill').style.width=pct+'%';
   var msg=document.getElementById('shipMsg');
-  if(sub>=50000){ msg.innerHTML='<i data-lucide="check-circle"></i> Félicitations ! Vous en bénéficiez'; }
+  if(sub>=50000){ msg.innerHTML='<i data-lucide="check-circle"></i> Félicitations ! Vous en bénéficiez'; msg.style.color='#fcd116'; }
   else{ msg.innerHTML='<i data-lucide="info"></i> Plus que '+fmt(50000-sub)+' FCFA pour la livraison gratuite'; msg.style.color='#fff'; }
   lucide.createIcons();
 }
-
-/* ===== TOAST ===== */
-function toast(msg){
-  var t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(function(){ t.classList.remove('show'); },2200);
-}
-
-renderCart();
-lucide.createIcons();
+function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); },2200); }
+renderCart(); lucide.createIcons();
 </script>
 </body>
 </html>
