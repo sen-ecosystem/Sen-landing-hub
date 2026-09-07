@@ -29,8 +29,35 @@
     </div>
   </section>
 
+  <!-- ===== BANNIÈRE PUBLICITAIRE DÉFILANTE ===== -->
+  <div id="adBanner" style="margin:0 16px 4px;position:relative;border-radius:16px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.12)">
+    <div id="adSlides" style="display:flex;transition:transform .5s ease">
+      <a href="boutiques-live.html" style="flex-shrink:0;width:100%;background:linear-gradient(135deg,#e63946,#ff7b00);padding:16px;text-decoration:none;color:#fff;display:flex;align-items:center;gap:12px">
+        <div style="font-size:28px">🔴</div>
+        <div style="flex:1;min-width:0"><div style="font-weight:900;font-size:14px">LIVE SHOPPING EN COURS</div><div style="font-size:11px;opacity:.9">-30% flash sur la mode africaine · Regarde maintenant</div></div>
+        <span style="background:#fff;color:#e63946;font-size:10px;font-weight:800;padding:5px 10px;border-radius:10px;flex-shrink:0">VOIR ›</span>
+      </a>
+      <a href="produits.html?c=mode" style="flex-shrink:0;width:100%;background:linear-gradient(135deg,#0f6b4e,#0a4d38);padding:16px;text-decoration:none;color:#fff;display:flex;align-items:center;gap:12px">
+        <div style="font-size:28px">👗</div>
+        <div style="flex:1;min-width:0"><div style="font-weight:900;font-size:14px">NOUVELLE COLLECTION WAX</div><div style="font-size:11px;opacity:.9">Code RAMADAN30 · -30% jusqu'à ce soir</div></div>
+        <span style="background:#fcd116;color:#0a4d38;font-size:10px;font-weight:800;padding:5px 10px;border-radius:10px;flex-shrink:0">J'EN PROFITE</span>
+      </a>
+      <a href="telecharger.html" style="flex-shrink:0;width:100%;background:linear-gradient(135deg,#6b46c1,#4c1d95);padding:16px;text-decoration:none;color:#fff;display:flex;align-items:center;gap:12px">
+        <div style="font-size:28px">📲</div>
+        <div style="flex:1;min-width:0"><div style="font-weight:900;font-size:14px">TÉLÉCHARGE L'APP SEN TEW</div><div style="font-size:11px;opacity:.9">App Store & Google Play · Suivi en direct</div></div>
+        <span style="background:#fff;color:#4c1d95;font-size:10px;font-weight:800;padding:5px 10px;border-radius:10px;flex-shrink:0">INSTALLER ›</span>
+      </a>
+    </div>
+    <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:5px">
+      <span class="ad-dot" style="width:14px;height:5px;border-radius:3px;background:#fff;transition:all .3s"></span>
+      <span class="ad-dot" style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.5);transition:all .3s"></span>
+      <span class="ad-dot" style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.5);transition:all .3s"></span>
+    </div>
+    <button onclick="event.preventDefault();document.getElementById('adBanner').style.display='none'" style="position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.35);color:#fff;border:none;font-size:11px;cursor:pointer">✕</button>
+  </div>
+
   <!-- Boutiques LIVE -->
-  <div class="section-head" style="display:flex;justify-content:space-between;align-items:center;padding:0 16px">
+  <div class="section-head" style="display:flex;justify-content:space-between;align-items:center;padding:0 16px;margin-top:14px">
     <h2 style="display:flex;align-items:center;gap:6px"><i data-lucide="radio" class="icon icon-sm icon-rouge"></i> BOUTIQUES EN LIVE</h2>
     <a href="boutiques-live.html" class="see-all" style="font-weight:700">Voir tout ›</a>
   </div>
@@ -100,7 +127,7 @@
         <span class="pcard-badge pcard-badge-disc">-30%</span>
         <span class="pcard-badge pcard-badge-live"><i data-lucide="radio" style="width:9px;height:9px;display:inline"></i> LIVE</span>
       </div>
-      <button style="position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:3"><i data-lucide="heart" style="width:15px;height:15px;color:#ef4444"></i></button>
+      <button style="position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:3;border:none;cursor:pointer" onclick="event.stopPropagation();toggleFav(this)"><i data-lucide="heart" style="width:15px;height:15px;color:#ef4444"></i></button>
       <div class="pcard-img"><img src="https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=400&h=400&fit=crop" alt="Robe wax"></div>
       <div class="pcard-body" style="padding:10px 12px 12px">
         <div class="pcard-seller" style="display:flex;align-items:center;gap:4px;margin-bottom:6px;font-size:12px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%"></span> Aïcha Couture <i data-lucide="badge-check" style="width:12px;height:12px;color:#0f6b4e"></i></div>
@@ -111,7 +138,7 @@
           <span class="pcard-old-price" style="font-size:12px">50 000</span>
         </div>
         <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#4a5a52;margin-bottom:10px"><i data-lucide="package" style="width:12px;height:12px"></i> 1.2k vendus <span style="opacity:0.4">•</span> <i data-lucide="truck" style="width:12px;height:12px"></i> Gratuit</div>
-        <button class="btn-primary" style="width:100%;padding:9px;font-size:12px"><i data-lucide="shopping-cart" style="width:14px;height:14px;display:inline"></i> Ajouter</button>
+        <button class="btn-primary" style="width:100%;padding:9px;font-size:12px" onclick="event.stopPropagation();addToCart('Robe wax mariage traditionnelle')"><i data-lucide="shopping-cart" style="width:14px;height:14px;display:inline"></i> Ajouter</button>
       </div>
     </article>
 
@@ -119,7 +146,7 @@
       <div class="pcard-badges">
         <span class="pcard-badge pcard-badge-disc">-25%</span>
       </div>
-      <button style="position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:3"><i data-lucide="heart" style="width:15px;height:15px;color:#ef4444"></i></button>
+      <button style="position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:3;border:none;cursor:pointer" onclick="event.stopPropagation();toggleFav(this)"><i data-lucide="heart" style="width:15px;height:15px;color:#ef4444"></i></button>
       <div class="pcard-img"><img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400&h=400&fit=crop" alt="Sandales"></div>
       <div class="pcard-body" style="padding:10px 12px 12px">
         <div class="pcard-seller" style="display:flex;align-items:center;gap:4px;margin-bottom:6px;font-size:12px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%"></span> Aïcha Couture <i data-lucide="badge-check" style="width:12px;height:12px;color:#0f6b4e"></i></div>
@@ -130,7 +157,7 @@
           <span class="pcard-old-price" style="font-size:12px">11 500</span>
         </div>
         <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#4a5a52;margin-bottom:10px"><i data-lucide="package" style="width:12px;height:12px"></i> 456 vendus <span style="opacity:0.4">•</span> <i data-lucide="truck" style="width:12px;height:12px"></i> Gratuit</div>
-        <button class="btn-primary" style="width:100%;padding:9px;font-size:12px"><i data-lucide="shopping-cart" style="width:14px;height:14px;display:inline"></i> Ajouter</button>
+        <button class="btn-primary" style="width:100%;padding:9px;font-size:12px" onclick="event.stopPropagation();addToCart('Sandales cuir Peul premium')"><i data-lucide="shopping-cart" style="width:14px;height:14px;display:inline"></i> Ajouter</button>
       </div>
     </article>
 
@@ -138,8 +165,8 @@
       <div class="pcard-badges">
         <span class="pcard-badge pcard-badge-local">Local</span>
       </div>
-      <button style="position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:3"><i data-lucide="heart" style="width:15px;height:15px;color:#ef4444"></i></button>
-      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400&h=400&fit=crop" alt="T-shirt"></div>
+      <button style="position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:3;border:none;cursor:pointer" onclick="event.stopPropagation();toggleFav(this)"><i data-lucide="heart" style="width:15px;height:15px;color:#ef4444"></i></button>
+      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400&h=400&fit=crop" alt="Chemise"></div>
       <div class="pcard-body" style="padding:10px 12px 12px">
         <div class="pcard-seller" style="display:flex;align-items:center;gap:4px;margin-bottom:6px;font-size:12px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%"></span> Aïcha Couture <i data-lucide="badge-check" style="width:12px;height:12px;color:#0f6b4e"></i></div>
         <h3 class="pcard-name" style="font-size:14px;line-height:1.35;margin:0 0 6px;min-height:36px">Chemise en coton bio unisexe</h3>
@@ -148,7 +175,7 @@
           <span class="pcard-price" style="color:#0f6b4e !important;font-size:18px;font-weight:900">12 000 FCFA</span>
         </div>
         <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#4a5a52;margin-bottom:10px"><i data-lucide="package" style="width:12px;height:12px"></i> 2.1k vendus <span style="opacity:0.4">•</span> <i data-lucide="truck" style="width:12px;height:12px"></i> Gratuit</div>
-        <button class="btn-primary" style="width:100%;padding:9px;font-size:12px"><i data-lucide="shopping-cart" style="width:14px;height:14px;display:inline"></i> Ajouter</button>
+        <button class="btn-primary" style="width:100%;padding:9px;font-size:12px" onclick="event.stopPropagation();addToCart('Chemise en coton bio unisexe')"><i data-lucide="shopping-cart" style="width:14px;height:14px;display:inline"></i> Ajouter</button>
       </div>
     </article>
 
@@ -156,7 +183,7 @@
       <div class="pcard-badges">
         <span class="pcard-badge pcard-badge-disc">-40%</span>
       </div>
-      <button style="position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:3"><i data-lucide="heart" style="width:15px;height:15px;color:#ef4444"></i></button>
+      <button style="position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:3;border:none;cursor:pointer" onclick="event.stopPropagation();toggleFav(this)"><i data-lucide="heart" style="width:15px;height:15px;color:#ef4444"></i></button>
       <div class="pcard-img"><img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=400&fit=crop" alt="Baskets"></div>
       <div class="pcard-body" style="padding:10px 12px 12px">
         <div class="pcard-seller" style="display:flex;align-items:center;gap:4px;margin-bottom:6px;font-size:12px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%"></span> Aïcha Couture <i data-lucide="badge-check" style="width:12px;height:12px;color:#0f6b4e"></i></div>
@@ -167,7 +194,7 @@
           <span class="pcard-old-price" style="font-size:12px">42 000</span>
         </div>
         <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#4a5a52;margin-bottom:10px"><i data-lucide="package" style="width:12px;height:12px"></i> 847 vendus <span style="opacity:0.4">•</span> <i data-lucide="truck" style="width:12px;height:12px"></i> Gratuit</div>
-        <button class="btn-primary" style="width:100%;padding:9px;font-size:12px"><i data-lucide="shopping-cart" style="width:14px;height:14px;display:inline"></i> Ajouter</button>
+        <button class="btn-primary" style="width:100%;padding:9px;font-size:12px" onclick="event.stopPropagation();addToCart('Baskets pastel tendance femme')"><i data-lucide="shopping-cart" style="width:14px;height:14px;display:inline"></i> Ajouter</button>
       </div>
     </article>
 
@@ -182,8 +209,96 @@
   <a href="profil.html"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
 </nav>
 
+<!-- ===== BANDEAU COOKIES RGPD ===== -->
+<div id="cookieBar" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:#fff;border-top:2px solid #0f6b4e;box-shadow:0 -6px 24px rgba(0,0,0,.18);padding:14px 16px calc(14px + env(safe-area-inset-bottom))">
+  <div id="cookieMain">
+    <div style="display:flex;gap:10px;align-items:flex-start">
+      <div style="font-size:24px;flex-shrink:0">🍪</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:800;font-size:13px;color:#0a1f17">Nous respectons ta vie privée</div>
+        <p style="font-size:11px;color:#4a5a52;line-height:1.5;margin:4px 0 0">Nous utilisons des cookies pour améliorer ton expérience, mesurer l'audience et personnaliser les offres. <a href="mentions-legales.html?tab=cookies" style="color:#0f6b4e;font-weight:700">En savoir plus</a></p>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button onclick="cookieChoice('refuse')" style="flex:1;padding:11px;background:#f5f5f0;border:1.5px solid #e5e7eb;border-radius:10px;font-weight:700;font-size:12px;color:#4a5a52;cursor:pointer;font-family:inherit">Tout refuser</button>
+      <button onclick="cookiePrefs()" style="flex:1;padding:11px;background:#fff;border:1.5px solid #0f6b4e;border-radius:10px;font-weight:700;font-size:12px;color:#0f6b4e;cursor:pointer;font-family:inherit">Préférences</button>
+      <button onclick="cookieChoice('accept')" style="flex:1;padding:11px;background:#0f6b4e;border:none;border-radius:10px;font-weight:800;font-size:12px;color:#fff;cursor:pointer;font-family:inherit">Tout accepter</button>
+    </div>
+  </div>
+  <div id="cookiePrefs" style="display:none">
+    <div style="font-weight:800;font-size:13px;color:#0a1f17;margin-bottom:10px">⚙️ Préférences cookies</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:12px"><span><b>Nécessaires</b><br><small style="color:#9aa5a0">Indispensables au fonctionnement</small></span><span style="color:#0f6b4e;font-weight:800;font-size:11px">Toujours actifs</span></div>
+    <label style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:12px;cursor:pointer"><span><b>Mesure d'audience</b><br><small style="color:#9aa5a0">Statistiques anonymes de visite</small></span><input type="checkbox" id="ckStat" checked style="accent-color:#0f6b4e;width:18px;height:18px"></label>
+    <label style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:12px;cursor:pointer"><span><b>Personnalisation</b><br><small style="color:#9aa5a0">Offres et pubs adaptées à tes goûts</small></span><input type="checkbox" id="ckPerso" checked style="accent-color:#0f6b4e;width:18px;height:18px"></label>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button onclick="cookieBack()" style="flex:1;padding:11px;background:#f5f5f0;border:1.5px solid #e5e7eb;border-radius:10px;font-weight:700;font-size:12px;color:#4a5a52;cursor:pointer;font-family:inherit">‹ Retour</button>
+      <button onclick="cookieSave()" style="flex:2;padding:11px;background:#0f6b4e;border:none;border-radius:10px;font-weight:800;font-size:12px;color:#fff;cursor:pointer;font-family:inherit">Enregistrer mes choix</button>
+    </div>
+  </div>
+</div>
+
 <script src="js/dark-mode.js?v=50"></script>
-<script>lucide.createIcons();</script>
+<script>
+lucide.createIcons();
+
+/* ===== BANNIÈRE PUB : défilement auto 4s ===== */
+(function(){
+  var slides=document.getElementById('adSlides');
+  if(!slides) return;
+  var i=0,n=3;
+  setInterval(function(){
+    var banner=document.getElementById('adBanner');
+    if(!banner||banner.style.display==='none') return;
+    i=(i+1)%n;
+    slides.style.transform='translateX(-'+(i*100)+'%)';
+    document.querySelectorAll('.ad-dot').forEach(function(d,j){
+      d.style.width=(j===i)?'14px':'5px';
+      d.style.borderRadius=(j===i)?'3px':'50%';
+      d.style.background=(j===i)?'#fff':'rgba(255,255,255,.5)';
+    });
+  },4000);
+})();
+
+/* ===== COOKIES RGPD ===== */
+if(!localStorage.getItem('st_cookie_choice')){
+  setTimeout(function(){ document.getElementById('cookieBar').style.display='block'; },1200);
+}
+function cookieChoice(type){
+  localStorage.setItem('st_cookie_choice',JSON.stringify({choice:type,ts:Date.now()}));
+  document.getElementById('cookieBar').style.display='none';
+}
+function cookiePrefs(){
+  document.getElementById('cookieMain').style.display='none';
+  document.getElementById('cookiePrefs').style.display='block';
+}
+function cookieBack(){
+  document.getElementById('cookiePrefs').style.display='none';
+  document.getElementById('cookieMain').style.display='block';
+}
+function cookieSave(){
+  localStorage.setItem('st_cookie_choice',JSON.stringify({
+    choice:'custom',
+    stats:document.getElementById('ckStat').checked,
+    perso:document.getElementById('ckPerso').checked,
+    ts:Date.now()
+  }));
+  document.getElementById('cookieBar').style.display='none';
+}
+
+/* ===== Ajouter au panier + Favoris ===== */
+function addToCart(name){
+  var t=document.createElement('div');
+  t.textContent='✅ '+name+' ajouté au panier';
+  t.style.cssText='position:fixed;top:70px;left:50%;transform:translateX(-50%);background:#0a1f17;color:#fff;padding:11px 20px;border-radius:24px;font-size:13px;font-weight:700;z-index:999;box-shadow:0 8px 20px rgba(0,0,0,.3)';
+  document.body.appendChild(t);
+  setTimeout(function(){ t.remove(); },2000);
+}
+function toggleFav(btn){
+  var ic=btn.querySelector('svg, i');
+  if(btn.dataset.fav){ delete btn.dataset.fav; btn.style.background='rgba(255,255,255,0.95)'; }
+  else{ btn.dataset.fav='1'; btn.style.background='#fee2e2'; }
+}
+</script>
 <script src="js/buttons-audit.js?v=51"></script>
 </body>
 </html>
