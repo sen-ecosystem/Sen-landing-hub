@@ -2,304 +2,376 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Panier — SEN TEW</title>
-<link rel="stylesheet" href="css/app.css?v=50">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Mon panier - SEN TEW</title>
+<link rel="stylesheet" href="css/app.css?v=52">
 <script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:110px;color:#0a1f17}
+  /* Header */
+  .cart-header{position:sticky;top:0;z-index:20;background:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #e5e7eb}
+  .cart-header h1{font-size:17px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
+  .icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e}
+  .icon-btn i{width:20px;height:20px}
+  .count-badge{background:#0f6b4e;color:#fff;font-size:11px;font-weight:800;padding:2px 8px;border-radius:12px}
+  /* Barre livraison gratuite */
+  .free-ship{margin:14px 16px;background:linear-gradient(135deg,#0f6b4e,#0a4d38);border-radius:14px;padding:14px;color:#fff}
+  .free-ship .ttl{font-size:13px;font-weight:800;display:flex;align-items:center;gap:7px}
+  .free-ship .ttl i{width:17px;height:17px}
+  .ship-bar{height:7px;background:rgba(255,255,255,.25);border-radius:4px;margin-top:10px;overflow:hidden}
+  .ship-fill{height:100%;width:100%;background:linear-gradient(90deg,#d4a574,#fcd116);border-radius:4px;transition:width .6s}
+  .free-ship .ok{margin-top:8px;font-size:12px;display:flex;align-items:center;gap:6px;color:#fcd116;font-weight:700}
+  .free-ship .ok i{width:15px;height:15px}
+  /* Articles */
+  .section-ttl{margin:16px 16px 10px;font-size:12px;font-weight:800;color:#a67c3a;letter-spacing:1px;display:flex;align-items:center;gap:6px}
+  .section-ttl i{width:15px;height:15px}
+  .item{display:flex;gap:12px;background:#fff;margin:0 16px 10px;padding:12px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);animation:slideIn .3s}
+  @keyframes slideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .item img{width:88px;height:88px;object-fit:cover;border-radius:12px;flex-shrink:0}
+  .item .info{flex:1;min-width:0}
+  .item h3{font-size:14px;font-weight:700;line-height:1.3;margin-bottom:3px}
+  .item .vendor{font-size:11px;color:#6B7280;display:flex;align-items:center;gap:4px;margin-bottom:3px;cursor:pointer}
+  .item .vendor i{width:12px;height:12px;color:#0f6b4e}
+  .item .variant{font-size:11px;color:#9aa5a0;margin-bottom:8px}
+  .item .row{display:flex;align-items:center;justify-content:space-between}
+  .price{font-size:16px;font-weight:900;color:#0f6b4e}
+  .price-old{font-size:11px;color:#9aa5a0;text-decoration:line-through;margin-left:6px;font-weight:400}
+  .stepper{display:flex;align-items:center;gap:2px;background:#f5f5f0;border-radius:20px;padding:3px}
+  .stepper button{width:28px;height:28px;border-radius:50%;border:none;background:#fff;font-size:16px;font-weight:800;color:#0f6b4e;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+  .stepper button:active{transform:scale(.9);background:#0f6b4e;color:#fff}
+  .stepper .qty{min-width:26px;text-align:center;font-weight:800;font-size:14px}
+  .del-btn{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:50%;background:#fef2f2;border:none;color:#ef4444;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .del-btn i{width:15px;height:15px}
+  .item{position:relative}
+  /* Code promo */
+  .promo-card{margin:14px 16px;background:#fff;border:1.5px dashed #d4a574;border-radius:14px;padding:14px}
+  .promo-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+  .promo-head i{width:17px;height:17px;color:#a67c3a}
+  .promo-head strong{font-size:13px;flex:1}
+  .promo-head a{font-size:10px;font-weight:800;color:#b8860b;background:#fff4e6;padding:4px 10px;border-radius:10px;text-decoration:none}
+  .promo-row{display:flex;gap:8px}
+  .promo-row input{flex:1;min-width:0;padding:11px 12px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;font-family:inherit;text-transform:uppercase}
+  .promo-row input:focus{outline:none;border-color:#0f6b4e}
+  .promo-row button{padding:11px 18px;background:#0f6b4e;color:#fff;border:none;border-radius:10px;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit}
+  .promo-row button:active{transform:scale(.96)}
+  .chips{display:flex;gap:8px;margin-top:10px;overflow-x:auto;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .promo-chip{flex-shrink:0;padding:6px 12px;border-radius:16px;font-size:11px;font-weight:800;cursor:pointer;border:none;font-family:inherit}
+  .promo-chip:active{transform:scale(.94)}
+  /* Livraison */
+  .ship-opt{display:flex;align-items:center;gap:12px;background:#fff;margin:0 16px 10px;padding:14px;border-radius:14px;border:2px solid transparent;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.04);transition:border-color .15s}
+  .ship-opt.selected{border-color:#0f6b4e;background:#f0f7f3}
+  .ship-opt .sic{width:40px;height:40px;border-radius:10px;background:#f0f7f3;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .ship-opt .sic i{width:20px;height:20px;color:#0f6b4e}
+  .ship-opt .stx{flex:1;min-width:0}
+  .ship-opt .stx b{font-size:13px;display:block}
+  .ship-opt .stx small{font-size:11px;color:#6B7280}
+  .ship-opt .sp{font-size:13px;font-weight:800;color:#0f6b4e}
+  .ship-opt .sp.free{color:#0f6b4e}
+  /* Adresse */
+  .addr-card{display:flex;gap:12px;align-items:center;background:#fff;margin:0 16px 10px;padding:14px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04)}
+  .addr-card .aic{width:38px;height:38px;border-radius:50%;background:#fef2f2;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .addr-card .aic i{width:18px;height:18px;color:#ef4444}
+  .addr-card .atx{flex:1;min-width:0}
+  .addr-card .atx b{font-size:13px}
+  .addr-card .atx small{display:block;font-size:11px;color:#6B7280;margin-top:2px}
+  .addr-card .chg{font-size:12px;font-weight:700;color:#0f6b4e;text-decoration:none;flex-shrink:0}
+  /* Récapitulatif */
+  .summary{background:#fff;margin:14px 16px;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+  .sum-row{display:flex;justify-content:space-between;font-size:13px;color:#4a5a52;margin-bottom:8px;align-items:center}
+  .sum-row span:first-child{display:flex;align-items:center;gap:6px}
+  .sum-row i{width:14px;height:14px}
+  .sum-row.discount{color:#ef4444;font-weight:700}
+  .sum-row.discount i{color:#ef4444}
+  .sum-total{display:flex;justify-content:space-between;align-items:center;border-top:1.5px dashed #e5e7eb;padding-top:12px;margin-top:4px}
+  .sum-total b{font-size:15px}
+  .sum-total .tt{font-size:22px;font-weight:900;color:#0f6b4e}
+  .gold-pts{display:flex;align-items:center;gap:5px;font-size:11px;color:#a67c3a;margin-top:8px}
+  .gold-pts i{width:13px;height:13px}
+  /* Facilités */
+  .install{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 16px 0}
+  .inst{padding:10px 6px;background:#fff;border:2px solid #e5e7eb;border-radius:10px;font-weight:700;font-size:11px;text-align:center;cursor:pointer;color:#0a1f17;transition:all .15s;font-family:inherit}
+  .inst.selected{border-color:#0f6b4e;background:#f0f7f3;color:#0f6b4e}
+  /* Paiement */
+  .pay-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 16px 0}
+  .pay{padding:12px 4px;background:#fff;border:2px solid #e5e7eb;border-radius:12px;text-align:center;cursor:pointer;font-family:inherit;transition:all .15s}
+  .pay .pic{width:34px;height:34px;border-radius:10px;margin:0 auto 5px;display:flex;align-items:center;justify-content:center}
+  .pay .pic i{width:18px;height:18px}
+  .pay small{font-size:10px;font-weight:700;color:#4a5a52}
+  .pay.selected{border-color:#0f6b4e;background:#f0f7f3}
+  /* Bouton payer fixe */
+  .pay-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:50;box-shadow:0 -4px 16px rgba(0,0,0,.08)}
+  .pay-bar .pmini{display:flex;justify-content:space-between;font-size:12px;color:#6B7280;margin-bottom:8px}
+  .pay-bar .pmini b{color:#0f6b4e;font-size:15px}
+  .pay-btn{width:100%;background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;border:none;padding:16px;border-radius:14px;font-weight:800;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;box-shadow:0 6px 16px rgba(15,107,78,.35)}
+  .pay-btn:active{transform:scale(.98)}
+  .pay-btn i{width:18px;height:18px}
+  .secure{display:flex;align-items:center;justify-content:center;gap:5px;font-size:10px;color:#9aa5a0;margin-top:8px}
+  .secure i{width:11px;height:11px}
+  /* Suggestions */
+  .sugg-scroll{display:flex;gap:10px;overflow-x:auto;padding:4px 16px 14px;scrollbar-width:none}
+  .sugg-scroll::-webkit-scrollbar{display:none}
+  .sugg{flex-shrink:0;width:130px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);cursor:pointer}
+  .sugg:active{transform:scale(.96)}
+  .sugg img{width:100%;height:100px;object-fit:cover;display:block}
+  .sugg .sb{padding:8px}
+  .sugg .sn{font-size:11px;font-weight:700;line-height:1.3;height:28px;overflow:hidden}
+  .sugg .sp{font-size:13px;font-weight:900;color:#0f6b4e;margin:4px 0 6px}
+  .sugg .sa{width:100%;padding:7px;background:#0f6b4e;color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit}
+  .sugg .sa:active{background:#0a4d38}
+  /* Toast */
+  .toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-20px);background:#0a1f17;color:#fff;padding:11px 20px;border-radius:24px;font-size:13px;font-weight:700;z-index:99;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;box-shadow:0 8px 20px rgba(0,0,0,.3)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
 </head>
 <body class="light-mode">
 
-<header class="topbar">
-  <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left" class="icon icon-md icon-vert"></i></button>
-  <h1><i data-lucide="shopping-cart" class="icon icon-md icon-vert"></i> Mon panier <span style="color:#4a5a52;font-weight:400">(3)</span></h1>
-  <button class="icon-btn" data-theme-toggle><i data-lucide="moon" class="icon icon-md icon-vert"></i></button>
+<header class="cart-header">
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="shopping-cart"></i> Mon panier <span class="count-badge" id="cartCount">3</span></h1>
+  <button class="icon-btn" onclick="location.href='favoris.html'"><i data-lucide="heart"></i></button>
 </header>
 
-<main style="padding:12px;padding-bottom:360px">
-
-  <!-- Bandeau livraison gratuite -->
-  <div style="background:linear-gradient(90deg,#0f6b4e,#0a4d38);color:#fff;padding:12px 14px;border-radius:12px;margin-bottom:12px;display:flex;align-items:center;gap:10px">
-    <i data-lucide="truck" style="width:22px;height:22px;color:#fff;flex-shrink:0"></i>
-    <div style="flex:1">
-      <strong style="display:block;font-size:13px">🎉 Livraison GRATUITE dès 50 000 FCFA</strong>
-      <div style="background:rgba(255,255,255,0.25);border-radius:6px;height:5px;margin-top:6px;overflow:hidden">
-        <div style="background:#d4a574;height:100%;width:100%"></div>
-      </div>
-      <small style="color:rgba(255,255,255,0.9);font-size:11px;display:block;margin-top:3px">✅ Vous en bénéficiez !</small>
-    </div>
-  </div>
-
-  <!-- Articles panier -->
-  <h2 class="section-title" style="margin:12px 4px 8px"><i data-lucide="package" class="icon icon-sm icon-vert"></i> VOS ARTICLES (3)</h2>
-
-  <!-- Article 1 : ligne horizontale -->
-  <article style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:12px;margin-bottom:10px;display:flex;gap:12px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=200&h=200&fit=crop" style="width:88px;height:88px;object-fit:cover;border-radius:10px;flex-shrink:0" alt="Sac cuir">
-    <div style="flex:1;min-width:0">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px">
-        <h3 style="font-size:14px;font-weight:700;color:#0a1f17;line-height:1.3">Sac cuir africain</h3>
-        <button style="background:transparent;padding:2px" onclick="removeItem(1)"><i data-lucide="trash-2" class="icon icon-sm icon-rouge"></i></button>
-      </div>
-      <p style="color:#a67c3a;font-size:11px;font-weight:600;display:flex;align-items:center;gap:4px;margin-bottom:6px"><i data-lucide="store" class="icon icon-xs icon-vert"></i> Aïcha Couture <i data-lucide="badge-check" class="icon icon-xs icon-bleu"></i></p>
-      <p style="color:#4a5a52;font-size:11px;margin-bottom:6px">Taille : Unique · Couleur : Marron</p>
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div style="display:flex;align-items:baseline;gap:6px">
-          <span style="color:#ef4444;font-size:16px;font-weight:900">22 000 FCFA</span>
-          <span style="color:#999;text-decoration:line-through;font-size:11px">28 000</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:6px;background:#f5f5f0;border-radius:20px;padding:2px">
-          <button style="width:26px;height:26px;background:#fff;border-radius:50%;font-weight:700;color:#0a1f17">−</button>
-          <span style="font-weight:800;padding:0 4px;color:#0a1f17">1</span>
-          <button style="width:26px;height:26px;background:#0f6b4e;color:#fff;border-radius:50%;font-weight:700">+</button>
-        </div>
-      </div>
-    </div>
-  </article>
-
-  <!-- Article 2 -->
-  <article style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:12px;margin-bottom:10px;display:flex;gap:12px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=200&h=200&fit=crop" style="width:88px;height:88px;object-fit:cover;border-radius:10px;flex-shrink:0" alt="Perruque">
-    <div style="flex:1;min-width:0">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px">
-        <h3 style="font-size:14px;font-weight:700;color:#0a1f17;line-height:1.3">Perruque brésilienne</h3>
-        <button style="background:transparent;padding:2px" onclick="removeItem(2)"><i data-lucide="trash-2" class="icon icon-sm icon-rouge"></i></button>
-      </div>
-      <p style="color:#a67c3a;font-size:11px;font-weight:600;display:flex;align-items:center;gap:4px;margin-bottom:6px"><i data-lucide="store" class="icon icon-xs icon-vert"></i> Beauty Fatou <i data-lucide="badge-check" class="icon icon-xs icon-bleu"></i></p>
-      <p style="color:#4a5a52;font-size:11px;margin-bottom:6px">Longueur : 18" · Couleur : Naturel</p>
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <span style="color:#0f6b4e;font-size:16px;font-weight:900">55 000 FCFA</span>
-        <div style="display:flex;align-items:center;gap:6px;background:#f5f5f0;border-radius:20px;padding:2px">
-          <button style="width:26px;height:26px;background:#fff;border-radius:50%;font-weight:700;color:#0a1f17">−</button>
-          <span style="font-weight:800;padding:0 4px;color:#0a1f17">1</span>
-          <button style="width:26px;height:26px;background:#0f6b4e;color:#fff;border-radius:50%;font-weight:700">+</button>
-        </div>
-      </div>
-    </div>
-  </article>
-
-  <!-- Article 3 -->
-  <article style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:12px;margin-bottom:14px;display:flex;gap:12px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <img src="https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=200&h=200&fit=crop" style="width:88px;height:88px;object-fit:cover;border-radius:10px;flex-shrink:0" alt="Robe">
-    <div style="flex:1;min-width:0">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px">
-        <h3 style="font-size:14px;font-weight:700;color:#0a1f17;line-height:1.3">Robe wax mariage</h3>
-        <button style="background:transparent;padding:2px" onclick="removeItem(3)"><i data-lucide="trash-2" class="icon icon-sm icon-rouge"></i></button>
-      </div>
-      <p style="color:#a67c3a;font-size:11px;font-weight:600;display:flex;align-items:center;gap:4px;margin-bottom:6px"><i data-lucide="store" class="icon icon-xs icon-vert"></i> Aïcha Couture <i data-lucide="badge-check" class="icon icon-xs icon-bleu"></i></p>
-      <p style="color:#4a5a52;font-size:11px;margin-bottom:6px">Taille : L · Couleur : Wax bleu</p>
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <span style="color:#0f6b4e;font-size:16px;font-weight:900">35 000 FCFA</span>
-        <div style="display:flex;align-items:center;gap:6px;background:#f5f5f0;border-radius:20px;padding:2px">
-          <button style="width:26px;height:26px;background:#fff;border-radius:50%;font-weight:700;color:#0a1f17">−</button>
-          <span style="font-weight:800;padding:0 4px;color:#0a1f17">1</span>
-          <button style="width:26px;height:26px;background:#0f6b4e;color:#fff;border-radius:50%;font-weight:700">+</button>
-        </div>
-      </div>
-    </div>
-  </article>
-
-  <!-- Coupon -->
-  <div style="background:#fff;border:1.5px dashed #d4a574;border-radius:12px;padding:14px;margin-bottom:14px">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-      <i data-lucide="ticket" style="width:22px;height:22px;color:#d4a574"></i>
-      <strong style="color:#0a1f17;font-size:14px;flex:1">Code promo / Coupon</strong>
-    <a href="bons-promo.html" style="background:#fff4e6;color:#a67c3a;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700;text-decoration:none;cursor:pointer">3 disponibles ›</a>
-    </div>
-    <div style="display:flex;gap:8px">
-      <input type="text" placeholder="Entrez votre code..." style="flex:1;padding:10px 12px;border:1px solid #e5e5e0;border-radius:10px;font-size:13px">
-      <button class="btn-primary" style="padding:10px 18px;font-size:13px">Appliquer</button>
-    </div>
-    <!-- Suggestions coupons -->
-    <div style="display:flex;gap:8px;margin-top:10px;overflow-x:auto">
-      <button style="flex-shrink:0;padding:6px 12px;background:linear-gradient(90deg,#ef4444,#dc2626);color:#fff;border-radius:16px;font-size:11px;font-weight:800;display:flex;align-items:center;gap:4px"><i data-lucide="flame" style="width:12px;height:12px"></i> WELCOME -20%</button>
-      <button style="flex-shrink:0;padding:6px 12px;background:linear-gradient(90deg,#d4a574,#a67c3a);color:#fff;border-radius:16px;font-size:11px;font-weight:800;display:flex;align-items:center;gap:4px"><i data-lucide="gift" style="width:12px;height:12px"></i> RAMADAN30</button>
-      <button style="flex-shrink:0;padding:6px 12px;background:linear-gradient(90deg,#0f6b4e,#0a4d38);color:#fff;border-radius:16px;font-size:11px;font-weight:800;display:flex;align-items:center;gap:4px"><i data-lucide="truck" style="width:12px;height:12px"></i> FREESHIP</button>
-    </div>
-  </div>
-
-  <!-- Options livraison -->
-  <h2 class="section-title" style="margin:12px 4px 8px"><i data-lucide="truck" class="icon icon-sm icon-or"></i> MODE DE LIVRAISON</h2>
-
-  <label style="display:flex;align-items:center;gap:12px;background:#fff;border:2px solid #0f6b4e;border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer">
-    <div style="width:38px;height:38px;background:rgba(15,107,78,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="zap" class="icon icon-sm icon-vert"></i></div>
-    <div style="flex:1">
-      <strong style="display:block;color:#0a1f17;font-size:14px">Express Dakar (24h)</strong>
-      <small style="color:#4a5a52;font-size:11px">Livraison rapide dans Dakar</small>
-    </div>
-    <strong style="color:#0f6b4e;font-size:14px">1 500 F</strong>
-  </label>
-
-  <label style="display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer">
-    <div style="width:38px;height:38px;background:rgba(59,130,246,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="package" class="icon icon-sm icon-bleu"></i></div>
-    <div style="flex:1">
-      <strong style="display:block;color:#0a1f17;font-size:14px">Standard (2-3 jours)</strong>
-      <small style="color:#4a5a52;font-size:11px">Tout le Sénégal</small>
-    </div>
-    <strong style="color:#0f6b4e;font-size:14px">Gratuit</strong>
-  </label>
-
-  <label style="display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:12px 14px;margin-bottom:14px;cursor:pointer">
-    <div style="width:38px;height:38px;background:rgba(212,165,116,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="map-pin" class="icon icon-sm icon-or"></i></div>
-    <div style="flex:1">
-      <strong style="display:block;color:#0a1f17;font-size:14px">Point relais</strong>
-      <small style="color:#4a5a52;font-size:11px">Récupérer en 24h</small>
-    </div>
-    <strong style="color:#0f6b4e;font-size:14px">800 F</strong>
-  </label>
-
-  <!-- Adresse livraison -->
-  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:14px;margin-bottom:14px;display:flex;align-items:center;gap:12px">
-    <i data-lucide="map-pin" class="icon icon-md icon-rouge"></i>
-    <div style="flex:1">
-      <strong style="display:block;color:#0a1f17;font-size:13px">Karim Niang · 52 Rue Mohamed V</strong>
-      <small style="color:#4a5a52;font-size:11px">Dakar-Plateau, 11000 · +221 77 456 78 90</small>
-    </div>
-    <button style="color:#0f6b4e;font-weight:700;font-size:12px;background:transparent">Changer</button>
-  </div>
-
-  <!-- Suggestions VOUS AIMEREZ AUSSI -->
-  <h2 class="section-title" style="margin-top:16px"><i data-lucide="sparkles" class="icon icon-sm icon-or"></i> VOUS AIMEREZ AUSSI</h2>
-  <div style="display:flex;gap:10px;overflow-x:auto;padding:0 4px 8px;scrollbar-width:none">
-    <div style="flex-shrink:0;width:140px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:8px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-      <img src="https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=200&h=200&fit=crop" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px">
-      <p style="font-size:12px;font-weight:700;color:#0a1f17;margin:6px 0 2px;line-height:1.3;height:32px;overflow:hidden">Robe wax bleue</p>
-      <strong style="color:#0f6b4e;font-size:13px">35 000 F</strong>
-      <button class="btn-primary" style="width:100%;padding:6px;font-size:11px;margin-top:6px">+ Ajouter</button>
-    </div>
-    <div style="flex-shrink:0;width:140px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:8px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-      <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=200&h=200&fit=crop" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px">
-      <p style="font-size:12px;font-weight:700;color:#0a1f17;margin:6px 0 2px;line-height:1.3;height:32px;overflow:hidden">Sandales cuir</p>
-      <strong style="color:#0f6b4e;font-size:13px">8 500 F</strong>
-      <button class="btn-primary" style="width:100%;padding:6px;font-size:11px;margin-top:6px">+ Ajouter</button>
-    </div>
-    <div style="flex-shrink:0;width:140px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:8px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-      <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=200&h=200&fit=crop" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px">
-      <p style="font-size:12px;font-weight:700;color:#0a1f17;margin:6px 0 2px;line-height:1.3;height:32px;overflow:hidden">Baskets pastel</p>
-      <strong style="color:#0f6b4e;font-size:13px">25 000 F</strong>
-      <button class="btn-primary" style="width:100%;padding:6px;font-size:11px;margin-top:6px">+ Ajouter</button>
-    </div>
-  </div>
-
-</main>
-
-<!-- Footer paiement DÉTAILLÉ -->
-<div style="position:fixed;bottom:60px;left:0;right:0;background:#fff;border-top:1px solid #e5e5e0;padding:14px 16px;box-shadow:0 -4px 20px rgba(0,0,0,0.08);z-index:99;max-height:290px;overflow-y:auto">
-
-  <!-- Détail prix -->
-  <div style="display:flex;justify-content:space-between;color:#4a5a52;font-size:13px;margin-bottom:4px"><span style="display:flex;align-items:center;gap:6px"><i data-lucide="package" class="icon icon-xs"></i> Sous-total (3 articles)</span><span>112 000 FCFA</span></div>
-  <div style="display:flex;justify-content:space-between;color:#ef4444;font-size:13px;margin-bottom:4px"><span style="display:flex;align-items:center;gap:6px"><i data-lucide="tag" class="icon icon-xs" style="color:#ef4444"></i> Remise (-30% WELCOME)</span><span>−33 600 FCFA</span></div>
-  <div style="display:flex;justify-content:space-between;color:#4a5a52;font-size:13px;margin-bottom:6px"><span style="display:flex;align-items:center;gap:6px"><i data-lucide="truck" class="icon icon-xs"></i> Livraison Express</span><span>1 500 FCFA</span></div>
-  <div style="height:1px;background:#e5e5e0;margin:6px 0"></div>
-  <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:800;margin-bottom:4px"><span style="color:#0a1f17">TOTAL</span><span style="color:#0f6b4e;font-size:22px">79 900 FCFA</span></div>
-  <p style="color:#a67c3a;font-size:11px;margin-bottom:10px;display:flex;align-items:center;gap:4px"><i data-lucide="award" class="icon icon-xs icon-or"></i> Vous gagnerez <strong>+80 points GOLD</strong></p>
-
-  <!-- Facilités paiement -->
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px">
-    <button style="padding:8px;background:#fff;border:2px solid #0f6b4e;color:#0f6b4e;border-radius:10px;font-weight:700;font-size:11px">1× 79 900 F</button>
-    <button style="padding:8px;background:#fff;border:1.5px solid #e5e5e0;color:#0a1f17;border-radius:10px;font-weight:700;font-size:11px">2× 39 950 F</button>
-    <button style="padding:8px;background:#fff;border:1.5px solid #e5e5e0;color:#0a1f17;border-radius:10px;font-weight:700;font-size:11px">3× 26 633 F</button>
-  </div>
-
-  <!-- Modes paiement -->
-  <p style="font-size:10px;color:#4a5a52;font-weight:700;margin-bottom:6px">MODE DE PAIEMENT</p>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px">
-    <label class="pay-option active" style="padding:6px;flex-direction:column;font-size:10px;text-align:center"><i data-lucide="waves" class="icon icon-md" style="color:#00d4ff"></i><span>Wave</span></label>
-    <label class="pay-option" style="padding:6px;flex-direction:column;font-size:10px;text-align:center"><i data-lucide="circle" class="icon icon-md" style="color:#f97316"></i><span>Orange M.</span></label>
-    <label class="pay-option" style="padding:6px;flex-direction:column;font-size:10px;text-align:center"><i data-lucide="credit-card" class="icon icon-md" style="color:#635bff"></i><span>Carte</span></label>
-    <label class="pay-option" style="padding:6px;flex-direction:column;font-size:10px;text-align:center"><i data-lucide="banknote" class="icon icon-md icon-vert"></i><span>Cash</span></label>
-  </div>
-
-  <button class="btn-primary" style="width:100%;padding:14px;font-size:15px;display:flex;align-items:center;justify-content:center;gap:8px"><i data-lucide="lock" class="icon icon-sm icon-blanc"></i> Payer 79 900 FCFA</button>
+<!-- Livraison gratuite -->
+<div class="free-ship">
+  <div class="ttl"><i data-lucide="truck"></i> Livraison GRATUITE dès 50 000 FCFA</div>
+  <div class="ship-bar"><div class="ship-fill" id="shipFill"></div></div>
+  <div class="ok" id="shipMsg"><i data-lucide="check-circle"></i> Félicitations ! Vous en bénéficiez</div>
 </div>
 
-<nav class="bottom-nav">
-  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
-  <a href="recherche-ia.html"><i data-lucide="search" class="icon icon-md"></i><span>Rechercher</span></a>
-  <a href="panier.html" class="active"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
-  <a href="favoris.html"><i data-lucide="heart" class="icon icon-md"></i><span>Favoris</span></a>
-  <a href="profil.html"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
-</nav>
+<!-- Articles -->
+<h2 class="section-ttl"><i data-lucide="package"></i> VOS ARTICLES</h2>
+<div id="cartItems"></div>
 
-<script src="js/dark-mode.js?v=50"></script>
+<!-- Code promo -->
+<div class="promo-card">
+  <div class="promo-head">
+    <i data-lucide="ticket"></i>
+    <strong>Code promo / Coupon</strong>
+    <a href="bons-promo.html">3 disponibles ›</a>
+  </div>
+  <div class="promo-row">
+    <input type="text" id="promoInput" placeholder="Entrez votre code..." value="WELCOME">
+    <button onclick="applyPromo()">Appliquer</button>
+  </div>
+  <div class="chips">
+    <button class="promo-chip" style="background:#ef4444;color:#fff" onclick="setPromo('WELCOME')">🔥 WELCOME -20%</button>
+    <button class="promo-chip" style="background:#d4a574;color:#fff" onclick="setPromo('RAMADAN30')">🌙 RAMADAN30</button>
+    <button class="promo-chip" style="background:#0f6b4e;color:#fff" onclick="setPromo('FREESHIP')">🚚 FREESHIP</button>
+  </div>
+</div>
+
+<!-- Livraison -->
+<h2 class="section-ttl"><i data-lucide="truck"></i> MODE DE LIVRAISON</h2>
+<div class="ship-opt selected" data-price="1500" onclick="selectShip(this)">
+  <div class="sic"><i data-lucide="zap"></i></div>
+  <div class="stx"><b>Express Dakar (24h)</b><small>Livraison rapide dans Dakar</small></div>
+  <div class="sp">1 500 F</div>
+</div>
+<div class="ship-opt" data-price="0" onclick="selectShip(this)">
+  <div class="sic"><i data-lucide="package"></i></div>
+  <div class="stx"><b>Standard (2-3 jours)</b><small>Tout le Sénégal</small></div>
+  <div class="sp free">Gratuit</div>
+</div>
+<div class="ship-opt" data-price="800" onclick="selectShip(this)">
+  <div class="sic"><i data-lucide="map-pin"></i></div>
+  <div class="stx"><b>Point relais</b><small>Récupérer en 24h</small></div>
+  <div class="sp">800 F</div>
+</div>
+
+<!-- Adresse -->
+<h2 class="section-ttl"><i data-lucide="map-pin"></i> ADRESSE DE LIVRAISON</h2>
+<div class="addr-card">
+  <div class="aic"><i data-lucide="map-pin"></i></div>
+  <div class="atx">
+    <b>Karim Niang · 52 Rue Mohamed V</b>
+    <small>Dakar-Plateau, 11000 · +221 77 456 78 90</small>
+  </div>
+  <a href="adresses.html" class="chg">Changer</a>
+</div>
+
+<!-- Suggestions -->
+<h2 class="section-ttl"><i data-lucide="sparkles"></i> VOUS AIMEREZ AUSSI</h2>
+<div class="sugg-scroll" id="sugg"></div>
+
+<!-- Récapitulatif -->
+<div class="summary">
+  <div class="sum-row"><span><i data-lucide="package"></i> Sous-total (<span id="sumCount">3</span> articles)</span><span id="sumSub">112 000 FCFA</span></div>
+  <div class="sum-row discount" id="discountRow"><span><i data-lucide="tag"></i> Remise (<span id="promoLabel">-30% WELCOME</span>)</span><span id="sumDisc">−33 600 FCFA</span></div>
+  <div class="sum-row"><span><i data-lucide="truck"></i> Livraison</span><span id="sumShip">1 500 FCFA</span></div>
+  <div class="sum-total"><b>TOTAL</b><span class="tt" id="sumTotal">79 900 FCFA</span></div>
+  <div class="gold-pts"><i data-lucide="award"></i> Vous gagnerez <strong>+<span id="goldPts">80</span> points GOLD</strong></div>
+</div>
+
+<!-- Facilités -->
+<div class="install">
+  <button class="inst selected" onclick="selectInst(this,1)">1× <span class="instAmt">79 900</span> F</button>
+  <button class="inst" onclick="selectInst(this,2)">2× <span class="instAmt">39 950</span> F</button>
+  <button class="inst" onclick="selectInst(this,3)">3× <span class="instAmt">26 633</span> F</button>
+</div>
+
+<!-- Paiement -->
+<div style="margin:14px 16px 4px;font-size:10px;font-weight:800;color:#4a5a52;letter-spacing:1px">MODE DE PAIEMENT</div>
+<div class="pay-grid">
+  <button class="pay selected" onclick="selectPay(this,'Wave')"><div class="pic" style="background:#e0f2fe"><i data-lucide="waves" style="color:#0284c7"></i></div><small>Wave</small></button>
+  <button class="pay" onclick="selectPay(this,'Orange Money')"><div class="pic" style="background:#fff7ed"><i data-lucide="circle" style="color:#f97316"></i></div><small>Orange M.</small></button>
+  <button class="pay" onclick="selectPay(this,'Carte bancaire')"><div class="pic" style="background:#f3e8ff"><i data-lucide="credit-card" style="color:#9333ea"></i></div><small>Carte</small></button>
+  <button class="pay" onclick="selectPay(this,'Cash à la livraison')"><div class="pic" style="background:#f0fdf4"><i data-lucide="banknote" style="color:#16a34a"></i></div><small>Cash</small></button>
+</div>
+
+<div style="height:16px"></div>
+
+<!-- Barre de paiement fixe -->
+<div class="pay-bar">
+  <div class="pmini"><span>Total à payer</span><b id="barTotal">79 900 FCFA</b></div>
+  <button class="pay-btn" onclick="pay()"><i data-lucide="lock"></i> Payer <span id="btnTotal">79 900</span> FCFA</button>
+  <div class="secure"><i data-lucide="shield-check"></i> Paiement 100% sécurisé · SEN TEW</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
 lucide.createIcons();
-function removeItem(id) { console.log('Remove item', id); }
-<script src="js/buttons-audit.js?v=51"></script>
-<script>
-window.addEventListener('load', function(){
-  /* + / − quantité + suppression corbeille */
-  document.querySelectorAll('button, a, div, span').forEach(function(b){
-    var t=b.textContent.trim();
-    if((t==='+'||t==='−'||t==='-') && b.children.length===0){
-      b.style.cursor='pointer';
-      b.onclick=function(){
-        var box=b.parentElement.querySelector('span');
-        var nums=[]; b.parentElement.querySelectorAll('*').forEach(function(e){if(/^\d+$/.test(e.textContent.trim())&&e.children.length===0)nums.push(e);});
-        var el=nums[0]; if(el){var n=parseInt(el.textContent)||1; el.textContent=(t==='+')?n+1:Math.max(1,n-1);}
-      };
-    }
-  });
-  document.querySelectorAll('[class*="delete"], [class*="trash"], i[data-lucide="trash-2"]').forEach(function(d){
-    var btn=d.closest('button')||d.parentElement;
-    btn.style.cursor='pointer';
-    btn.onclick=function(){
-      var item=btn.closest('[class*="item"], [class*="card"], article, [class*="product"]');
-      if(item && confirm('🗑️ Retirer cet article du panier ?')) item.remove();
-    };
-  });
-  /* Codes promo : chip remplit le champ, Appliquer confirme */
-  document.querySelectorAll('*').forEach(function(c){
-    if(c.children.length===0){
-      var m=c.textContent.trim().match(/^(WELCOME|RAMADAN30|FREESHIP|FLASH\d*)/);
-      if(m){
-        c.style.cursor='pointer';
-        c.onclick=function(){
-          var inp=document.querySelector('input[placeholder*="code" i]');
-          if(inp){inp.value=m[1]; inp.focus();}
-        };
-      }
-    }
-  });
-  document.querySelectorAll('button').forEach(function(b){
-    var t=b.textContent.trim();
-    if(/appliquer/i.test(t)){
-      b.onclick=function(){
-        var inp=document.querySelector('input[placeholder*="code" i]');
-        if(inp && inp.value.trim()) alert('✅ Code '+inp.value.trim().toUpperCase()+' appliqué !');
-        else alert('⚠️ Entre un code promo d\'abord');
-      };
-    }
-    if(/payer/i.test(t)){
-      b.onclick=function(){ location.href='checkout.html'; };
-    }
-  });
-  /* Livraison + paiement + facilités sélectionnables */
-  document.querySelectorAll('[class*="delivery"], [class*="shipping"], [class*="payment"], [class*="pay"], [class*="option"], [class*="installment"]').forEach(function(o){
-    o.style.cursor='pointer';
-    o.onclick=function(){
-      var sib=o.parentElement.children;
-      for(var i=0;i<sib.length;i++){sib[i].style.borderColor='';sib[i].style.background='';}
-      o.style.borderColor='#0f6b4e'; o.style.background='#f0f7f3';
-    };
-  });
-  /* "Changer" adresse + VOUS AIMEREZ AUSSI */
-  document.querySelectorAll('a, span, button').forEach(function(e){
-    if(e.children.length===0 && /^changer$/i.test(e.textContent.trim())){
-      e.style.cursor='pointer';
-      e.onclick=function(){location.href='adresses.html';};
-    }
-  });
-  document.querySelectorAll('[class*="also"] *, [class*="recommend"] *').forEach(function(card){
-    if(card.querySelector('img') && card.querySelector('[class*="price"], [class*="prix"]')){
-      card.style.cursor='pointer';
-      card.onclick=function(){location.href='produit.html?id=1';};
-      var add=card.querySelector('button');
-      if(add && /ajouter/i.test(add.textContent)){
-        add.onclick=function(ev){ev.stopPropagation(); add.textContent='✓ Ajouté'; add.style.background='#0f6b4e'; setTimeout(function(){add.textContent='+ Ajouter';},2000);};
-      }
-    }
-  });
-});
+
+/* ===== DONNÉES ===== */
+var cart=[
+  {id:1,name:'Sac cuir africain',vendor:'Aïcha Couture',bid:1,variant:'Taille : Unique · Couleur : Marron',price:22000,old:28000,qty:1,img:'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=200&h=200&fit=crop'},
+  {id:2,name:'Perruque brésilienne',vendor:'Mariama B.',bid:3,variant:'Longueur : 18" · Couleur : Naturel',price:55000,old:null,qty:1,img:'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=200&h=200&fit=crop'},
+  {id:3,name:'Robe wax mariage',vendor:'Aïcha Couture',bid:1,variant:'Taille : L · Couleur : Wax bleu',price:35000,old:null,qty:1,img:'https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=200&h=200&fit=crop'}
+];
+var sugg=[
+  {id:4,name:'Robe wax bleue',price:35000,img:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=200&h=200&fit=crop'},
+  {id:2,name:'Sandales cuir',price:8500,img:'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=200&h=200&fit=crop'},
+  {id:5,name:'Kaftan luxe',price:65000,img:'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=200&h=200&fit=crop'}
+];
+var shipCost=1500, discount=33600, payMethod='Wave', PROMOS={WELCOME:{pct:20},RAMADAN30:{pct:30},FREESHIP:{pct:0,ship:true}};
+
+/* ===== RENDU ARTICLES ===== */
+function renderCart(){
+  var box=document.getElementById('cartItems');
+  if(!cart.length){
+    box.innerHTML='<div style="text-align:center;padding:40px 20px;color:#6B7280"><i data-lucide="shopping-cart" style="width:48px;height:48px;color:#d4a574"></i><p style="margin-top:10px;font-weight:700">Ton panier est vide</p><a href="produits.html" style="display:inline-block;margin-top:12px;background:#0f6b4e;color:#fff;padding:12px 24px;border-radius:12px;text-decoration:none;font-weight:800;font-size:13px">Découvrir les produits</a></div>';
+    lucide.createIcons(); recalc(); return;
+  }
+  box.innerHTML=cart.map(function(it,i){
+    return '<div class="item">'+
+      '<button class="del-btn" onclick="removeItem('+i+')"><i data-lucide="trash-2"></i></button>'+
+      '<img src="'+it.img+'" alt="'+it.name+'" onclick="location.href=\'produit.html?id='+it.id+'\'" style="cursor:pointer">'+
+      '<div class="info">'+
+        '<h3 onclick="location.href=\'produit.html?id='+it.id+'\'" style="cursor:pointer">'+it.name+'</h3>'+
+        '<div class="vendor" onclick="location.href=\'boutique.html?id='+it.bid+'\'"><i data-lucide="store"></i> '+it.vendor+' <i data-lucide="badge-check" style="width:11px;height:11px;color:#3b82f6"></i></div>'+
+        '<div class="variant">'+it.variant+'</div>'+
+        '<div class="row">'+
+          '<div><span class="price">'+fmt(it.price*it.qty)+' FCFA</span>'+(it.old?'<span class="price-old">'+fmt(it.old*it.qty)+'</span>':'')+'</div>'+
+          '<div class="stepper">'+
+            '<button onclick="chgQty('+i+',-1)">−</button>'+
+            '<span class="qty">'+it.qty+'</span>'+
+            '<button onclick="chgQty('+i+',1)">+</button>'+
+          '</div>'+
+        '</div>'+
+      '</div></div>';
+  }).join('');
+  lucide.createIcons(); recalc();
+}
+
+/* ===== SUGGESTIONS ===== */
+document.getElementById('sugg').innerHTML=sugg.map(function(s){
+  return '<div class="sugg" onclick="location.href=\'produit.html?id='+s.id+'\'">'+
+    '<img src="'+s.img+'" alt="'+s.name+'">'+
+    '<div class="sb"><div class="sn">'+s.name+'</div><div class="sp">'+fmt(s.price)+' F</div>'+
+    '<button class="sa" onclick="event.stopPropagation();addSugg('+s.id+')">+ Ajouter</button></div></div>';
+}).join('');
+
+function addSugg(id){
+  var s=sugg.find(function(x){return x.id===id;});
+  if(!s) return;
+  cart.push({id:s.id,name:s.name,vendor:'SEN TEW',bid:1,variant:'Nouvel ajout',price:s.price,old:null,qty:1,img:s.img});
+  renderCart(); toast('✅ '+s.name+' ajouté au panier');
+}
+
+/* ===== ACTIONS ===== */
+function chgQty(i,d){
+  cart[i].qty=Math.max(1,cart[i].qty+d);
+  renderCart();
+}
+function removeItem(i){
+  if(confirm('🗑️ Retirer "'+cart[i].name+'" du panier ?')){
+    cart.splice(i,1); renderCart(); toast('Article retiré');
+  }
+}
+function setPromo(code){
+  document.getElementById('promoInput').value=code;
+  applyPromo();
+}
+function applyPromo(){
+  var code=document.getElementById('promoInput').value.trim().toUpperCase();
+  if(!code){ toast('⚠️ Entre un code promo'); return; }
+  var p=PROMOS[code];
+  if(!p){ toast('❌ Code invalide'); return; }
+  if(p.ship){ shipCost=0; discount=0; document.getElementById('promoLabel').textContent='FREESHIP'; }
+  else { var sub=subtotal(); discount=Math.round(sub*p.pct/100); document.getElementById('promoLabel').textContent='-'+p.pct+'% '+code; }
+  recalc(); toast('✅ Code '+code+' appliqué !');
+}
+function selectShip(el){
+  document.querySelectorAll('.ship-opt').forEach(function(o){o.classList.remove('selected');});
+  el.classList.add('selected');
+  shipCost=parseInt(el.dataset.price)||0;
+  recalc();
+}
+function selectInst(el,n){
+  document.querySelectorAll('.inst').forEach(function(o){o.classList.remove('selected');});
+  el.classList.add('selected');
+}
+function selectPay(el,name){
+  document.querySelectorAll('.pay').forEach(function(o){o.classList.remove('selected');});
+  el.classList.add('selected');
+  payMethod=name;
+  toast('💳 '+name+' sélectionné');
+}
+function pay(){
+  if(!cart.length){ toast('⚠️ Ton panier est vide'); return; }
+  location.href='checkout.html';
+}
+
+/* ===== CALCULS ===== */
+function fmt(n){ return n.toLocaleString('fr-FR').replace(/\u202f/g,' '); }
+function subtotal(){ return cart.reduce(function(s,it){return s+it.price*it.qty;},0); }
+function recalc(){
+  var sub=subtotal();
+  var total=Math.max(0, sub - discount + shipCost);
+  document.getElementById('sumSub').textContent=fmt(sub)+' FCFA';
+  document.getElementById('sumDisc').textContent='−'+fmt(discount)+' FCFA';
+  document.getElementById('sumShip').textContent=shipCost===0?'Gratuit':fmt(shipCost)+' FCFA';
+  document.getElementById('sumTotal').textContent=fmt(total)+' FCFA';
+  document.getElementById('barTotal').textContent=fmt(total)+' FCFA';
+  document.getElementById('btnTotal').textContent=fmt(total);
+  document.getElementById('sumCount').textContent=cart.reduce(function(s,it){return s+it.qty;},0);
+  document.getElementById('cartCount').textContent=cart.reduce(function(s,it){return s+it.qty;},0);
+  document.getElementById('goldPts').textContent=Math.round(total/1000);
+  document.getElementById('discountRow').style.display=discount>0?'flex':'none';
+  /* facilités */
+  document.querySelectorAll('.instAmt')[0].textContent=fmt(total);
+  document.querySelectorAll('.instAmt')[1].textContent=fmt(Math.round(total/2));
+  document.querySelectorAll('.instAmt')[2].textContent=fmt(Math.round(total/3));
+  /* barre livraison gratuite */
+  var pct=Math.min(100, Math.round(sub/50000*100));
+  document.getElementById('shipFill').style.width=pct+'%';
+  var msg=document.getElementById('shipMsg');
+  if(sub>=50000){ msg.innerHTML='<i data-lucide="check-circle"></i> Félicitations ! Vous en bénéficiez'; }
+  else{ msg.innerHTML='<i data-lucide="info"></i> Plus que '+fmt(50000-sub)+' FCFA pour la livraison gratuite'; msg.style.color='#fff'; }
+  lucide.createIcons();
+}
+
+/* ===== TOAST ===== */
+function toast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); },2200);
+}
+
+renderCart();
+lucide.createIcons();
 </script>
 </body>
 </html>
