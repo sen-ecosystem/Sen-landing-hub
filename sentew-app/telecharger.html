@@ -1,327 +1,141 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Télécharger l'application - SEN TEW</title>
-    <link rel="stylesheet" href="css/app.css">
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Segoe UI', -apple-system, sans-serif;
-            background: #F9F9F9;
-            color: #1a1a1a;
-            padding-bottom: 90px;
-        }
-        .header {
-            background: #ffffff;
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid #eee;
-        }
-        .header a {
-            color: #1B5E3F;
-            text-decoration: none;
-            font-size: 22px;
-        }
-        .header h1 {
-            color: #1B5E3F;
-            font-size: 18px;
-            font-weight: 700;
-        }
-        .hero {
-            background: linear-gradient(135deg, #1B5E3F 0%, #2E7D5A 100%);
-            color: #ffffff;
-            padding: 40px 20px;
-            text-align: center;
-        }
-        .hero h2 {
-            font-size: 24px;
-            margin-bottom: 12px;
-        }
-        .hero p {
-            font-size: 14px;
-            opacity: 0.95;
-            line-height: 1.5;
-        }
-        .section {
-            padding: 24px 20px;
-            background: #ffffff;
-            margin-bottom: 8px;
-        }
-        .section-title {
-            color: #1B5E3F;
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            text-align: center;
-        }
-        .stores {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .store-btn {
-            background: #000000;
-            color: #ffffff;
-            padding: 14px 20px;
-            border-radius: 12px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-width: 160px;
-        }
-        .store-btn .icon {
-            font-size: 32px;
-        }
-        .store-btn small {
-            display: block;
-            font-size: 10px;
-            opacity: 0.9;
-        }
-        .store-btn strong {
-            display: block;
-            font-size: 16px;
-            font-weight: 700;
-        }
-        .payments {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-        .payment-card {
-            background: #F9F9F9;
-            padding: 16px;
-            border-radius: 12px;
-            text-align: center;
-            border: 1px solid #eee;
-        }
-        .payment-card .icon {
-            font-size: 32px;
-            margin-bottom: 8px;
-            display: block;
-        }
-        .payment-card .name {
-            font-weight: 700;
-            font-size: 14px;
-            color: #1B5E3F;
-        }
-        .payment-card .desc {
-            font-size: 11px;
-            color: #666;
-            margin-top: 4px;
-        }
-        .features {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .feature {
-            display: flex;
-            gap: 12px;
-            align-items: flex-start;
-            padding: 12px;
-            background: #F9F9F9;
-            border-radius: 10px;
-        }
-        .feature-icon {
-            font-size: 24px;
-            flex-shrink: 0;
-        }
-        .feature-text strong {
-            display: block;
-            font-size: 14px;
-            color: #1B5E3F;
-            margin-bottom: 2px;
-        }
-        .feature-text span {
-            font-size: 13px;
-            color: #666;
-        }
-        .qr-block {
-            text-align: center;
-            padding: 20px;
-        }
-        .qr-code {
-            width: 160px;
-            height: 160px;
-            background: repeating-conic-gradient(#000 0% 25%, #fff 0% 50%) 50% / 20px 20px;
-            margin: 0 auto 12px;
-            border-radius: 12px;
-            border: 4px solid #1B5E3F;
-        }
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: #ffffff;
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 0;
-            border-top: 1px solid #eee;
-        }
-        .bottom-nav a {
-            text-decoration: none;
-            color: #666;
-            font-size: 11px;
-            text-align: center;
-        }
-        .bottom-nav .icon {
-            font-size: 20px;
-            display: block;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Télécharger l'application - SEN TEW</title>
+<link rel="stylesheet" href="css/app.css">
+<meta name="theme-color" content="#0f6b4e">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',-apple-system,sans-serif;background:#f5f5f0;color:#0a1f17;padding-bottom:86px}
+  .topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:10}
+  .topbar a{width:38px;height:38px;border-radius:50%;background:#f5f5f0;display:flex;align-items:center;justify-content:center;color:#0f6b4e;text-decoration:none;flex-shrink:0}
+  .topbar a i{width:20px;height:20px}
+  .topbar h1{font-size:16px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
+  .topbar h1 i{width:19px;height:19px}
+  /* Hero */
+  .hero{background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;padding:34px 20px;text-align:center;position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:rgba(255,255,255,.08);border-radius:50%}
+  .hero::after{content:'';position:absolute;bottom:-50px;left:-30px;width:140px;height:140px;background:rgba(212,165,116,.15);border-radius:50%}
+  .hero-logo{width:72px;height:72px;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;position:relative;z-index:1}
+  .hero-logo i{width:36px;height:36px;color:#fcd116}
+  .hero h2{font-size:24px;font-weight:900;margin-bottom:8px;position:relative;z-index:1}
+  .hero p{font-size:13px;opacity:.9;line-height:1.5;position:relative;z-index:1}
+  /* Boutons stores */
+  .stores{padding:22px 16px 6px}
+  .section-ttl{font-size:15px;font-weight:800;color:#0f6b4e;margin-bottom:12px;display:flex;align-items:center;gap:7px}
+  .section-ttl i{width:17px;height:17px}
+  .store-row{display:flex;gap:10px}
+  .store-btn{flex:1;background:#0a0a0a;color:#fff;border-radius:14px;padding:13px 14px;display:flex;align-items:center;gap:10px;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:transform .15s}
+  .store-btn:active{transform:scale(.96)}
+  .store-btn svg{width:26px;height:26px;flex-shrink:0;fill:#fff}
+  .store-btn .st{line-height:1.2}
+  .store-btn small{display:block;font-size:9px;opacity:.8;font-weight:600}
+  .store-btn strong{display:block;font-size:15px;font-weight:800}
+  .compat{text-align:center;font-size:11px;color:#9aa5a0;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:5px}
+  .compat i{width:13px;height:13px}
+  /* QR Code */
+  .qr-card{margin:22px 16px;background:#fff;border-radius:16px;padding:18px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+  .qr-frame{display:inline-block;padding:12px;border:3px solid #0f6b4e;border-radius:16px;background:#fff}
+  .qr-frame img{width:180px;height:180px;display:block}
+  .qr-note{font-size:11px;color:#6B7280;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:5px}
+  .qr-note i{width:13px;height:13px;color:#0f6b4e}
+  /* Paiements */
+  .pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px}
+  .pay-card{background:#fff;border:1.5px solid #e5e7eb;border-radius:14px;padding:14px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.04)}
+  .pay-ic{width:44px;height:44px;border-radius:12px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center}
+  .pay-ic i{width:22px;height:22px}
+  .pay-card b{font-size:13px;display:block;color:#0a1f17}
+  .pay-card small{font-size:10px;color:#6B7280;display:block;margin-top:2px;line-height:1.3}
+  /* Fonctionnalités */
+  .feat-list{padding:0 16px}
+  .feat{display:flex;gap:12px;align-items:center;background:#fff;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 2px 6px rgba(0,0,0,.04)}
+  .feat .fic{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .feat .fic i{width:21px;height:21px}
+  .feat b{font-size:13.5px;display:block;color:#0a1f17}
+  .feat small{font-size:11px;color:#6B7280;display:block;margin-top:2px;line-height:1.35}
+  /* Menu du bas */
+  .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
+  .bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:#666;font-size:10px;font-weight:600;padding:4px 10px}
+  .bottom-nav a.active{color:#0f6b4e}
+  .bottom-nav a i{width:22px;height:22px}
+</style>
 </head>
-<body>
+<body class="light-mode">
 
-    <header class="header">
-        <a href="index.html">←</a>
-        <h1>📱 Télécharger l'application</h1>
-    </header>
+<header class="topbar">
+  <a href="index.html"><i data-lucide="arrow-left"></i></a>
+  <h1><i data-lucide="smartphone"></i> Télécharger l'application</h1>
+</header>
 
-    <section class="hero">
-        <h2>SEN TEW dans votre poche</h2>
-        <p>La marketplace africaine officielle.<br>Téléchargez l'application sur iOS et Android.</p>
-    </section>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-logo"><i data-lucide="shopping-bag"></i></div>
+  <h2>SEN TEW dans votre poche</h2>
+  <p>La marketplace africaine officielle.<br>Téléchargez l'application sur iOS et Android.</p>
+</div>
 
-    <section class="section">
-        <h3 class="section-title">Télécharger maintenant</h3>
-        <div class="stores">
+<!-- STORES -->
+<div class="stores">
+  <div class="section-ttl"><i data-lucide="download"></i> Télécharger maintenant</div>
+  <div class="store-row">
+    <a href="https://apps.apple.com/app/sen-tew" target="_blank" class="store-btn">
+      <svg viewBox="0 0 24 24"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8.98-.2 1.92-.82 3.24-.74 1.35.11 2.36.64 3.03 1.65-2.78 1.67-2.31 5.32.46 6.36-.56 1.49-1.29 2.96-2.36 3.9M12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25"/></svg>
+      <div class="st"><small>Télécharger sur</small><strong>App Store</strong></div>
+    </a>
+    <a href="https://play.google.com/store/apps/details?id=com.sentew" target="_blank" class="store-btn">
+      <svg viewBox="0 0 24 24"><path d="M3.6 2.3c-.3.3-.5.8-.5 1.4v16.6c0 .6.2 1.1.5 1.4l.1.1 9.3-9.3v-.2L3.7 2.2l-.1.1zm12.4 9L10.7 6l-6-3.4 11.5 6.6-2.2 2.1zm2.3-1.3c.6.3 1 .9 1 1.5s-.4 1.2-1 1.5l-2.6 1.5-2.4-2.5 2.4-2.5 2.6 1.5zM4.7 21.4l6-3.4 5.3-5.3 2.2 2.1-11.5 6.6z"/></svg>
+      <div class="st"><small>Disponible sur</small><strong>Google Play</strong></div>
+    </a>
+  </div>
+  <div class="compat"><i data-lucide="check-circle"></i> Compatible iOS 13+ et Android 8+</div>
+</div>
 
-            <a href="https://apps.apple.com/app/sen-tew" target="_blank" class="store-btn">
-                <span class="icon">🍎</span>
-                <div>
-                    <small>Télécharger sur</small>
-                    <strong>App Store</strong>
-                </div>
-            </a>
+<!-- QR CODE -->
+<div class="qr-card">
+  <div class="section-ttl" style="justify-content:center"><i data-lucide="qr-code"></i> Scanner le QR Code</div>
+  <div class="qr-frame">
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=360x360&margin=10&data=https%3A%2F%2Fsen-ecosystem.com%2Fsentew-app%2Findex.html" alt="QR Code SEN TEW">
+  </div>
+  <div class="qr-note"><i data-lucide="camera"></i> Scanne avec l'appareil photo de ton téléphone</div>
+</div>
 
-            <a href="https://play.google.com/store/apps/details?id=com.sentew" target="_blank" class="store-btn">
-                <span class="icon">▶️</span>
-                <div>
-                    <small>Disponible sur</small>
-                    <strong>Google Play</strong>
-                </div>
-            </a>
+<!-- PAIEMENTS -->
+<div class="stores" style="padding-top:4px">
+  <div class="section-ttl"><i data-lucide="credit-card"></i> Moyens de paiement acceptés</div>
+  <div class="pay-grid">
+    <div class="pay-card"><div class="pay-ic" style="background:#e0f2fe"><i data-lucide="waves" style="color:#0284c7"></i></div><b>Wave</b><small>Paiement mobile Sénégal</small></div>
+    <div class="pay-card"><div class="pay-ic" style="background:#fff7ed"><i data-lucide="circle-dot" style="color:#f97316"></i></div><b>Orange Money</b><small>Paiement mobile Sénégal</small></div>
+    <div class="pay-card"><div class="pay-ic" style="background:#eff6ff"><i data-lucide="credit-card" style="color:#1d4ed8"></i></div><b>Visa</b><small>Carte bancaire internationale</small></div>
+    <div class="pay-card"><div class="pay-ic" style="background:#fef2f2"><i data-lucide="credit-card" style="color:#dc2626"></i></div><b>Mastercard</b><small>Carte bancaire internationale</small></div>
+    <div class="pay-card"><div class="pay-ic" style="background:#f5f5f4"><i data-lucide="smartphone" style="color:#0a0a0a"></i></div><b>Apple Pay</b><small>Paiement rapide iOS</small></div>
+    <div class="pay-card"><div class="pay-ic" style="background:#f0fdf4"><i data-lucide="wallet" style="color:#16a34a"></i></div><b>Google Pay</b><small>Paiement rapide Android</small></div>
+  </div>
+</div>
 
-        </div>
-        <p style="text-align: center; color: #666; font-size: 12px; margin-top: 16px;">
-            Compatible iOS 13+ et Android 8+
-        </p>
-    </section>
+<!-- FONCTIONNALITÉS -->
+<div class="stores" style="padding-top:22px">
+  <div class="section-ttl"><i data-lucide="sparkles"></i> Fonctionnalités</div>
+  <div class="feat-list">
+    <div class="feat"><div class="fic" style="background:#fdf3e3"><i data-lucide="shopping-bag" style="color:#b8860b"></i></div><div><b>Marketplace complète</b><small>Milliers de produits locaux et internationaux</small></div></div>
+    <div class="feat"><div class="fic" style="background:#f0f7f3"><i data-lucide="truck" style="color:#0f6b4e"></i></div><div><b>Livraison rapide</b><small>24-48h à Dakar, partout au Sénégal</small></div></div>
+    <div class="feat"><div class="fic" style="background:#fef2f2"><i data-lucide="radio" style="color:#ef4444"></i></div><div><b>Boutiques en Live</b><small>Achetez en direct auprès des vendeurs</small></div></div>
+    <div class="feat"><div class="fic" style="background:#f3e8ff"><i data-lucide="bot" style="color:#9333ea"></i></div><div><b>Assistant IA</b><small>Aide 24/7 pour toutes vos questions</small></div></div>
+    <div class="feat"><div class="fic" style="background:#e0f2fe"><i data-lucide="globe" style="color:#0284c7"></i></div><div><b>Diaspora friendly</b><small>Achetez depuis la France, l'Italie, les USA…</small></div></div>
+  </div>
+</div>
 
-    <section class="section">
-        <div class="qr-block">
-            <h3 class="section-title">Scanner le QR Code</h3>
-            <div class="qr-code"></div>
-            <p style="color: #666; font-size: 13px;">
-                Scannez avec l'appareil photo de votre téléphone
-            </p>
-        </div>
-    </section>
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="layout-grid"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
+  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
+</nav>
 
-    <section class="section">
-        <h3 class="section-title">💳 Moyens de paiement acceptés</h3>
-        <div class="payments">
-
-            <div class="payment-card">
-                <span class="icon">📱</span>
-                <div class="name">Wave</div>
-                <div class="desc">Paiement mobile Sénégal</div>
-            </div>
-
-            <div class="payment-card">
-                <span class="icon">🟠</span>
-                <div class="name">Orange Money</div>
-                <div class="desc">Paiement mobile Sénégal</div>
-            </div>
-
-            <div class="payment-card">
-                <span class="icon">💳</span>
-                <div class="name">Visa</div>
-                <div class="desc">Carte bancaire internationale</div>
-            </div>
-
-            <div class="payment-card">
-                <span class="icon">💳</span>
-                <div class="name">Mastercard</div>
-                <div class="desc">Carte bancaire internationale</div>
-            </div>
-
-            <div class="payment-card">
-                <span class="icon">🍎</span>
-                <div class="name">Apple Pay</div>
-                <div class="desc">Paiement rapide iOS</div>
-            </div>
-
-            <div class="payment-card">
-                <span class="icon">🅶</span>
-                <div class="name">Google Pay</div>
-                <div class="desc">Paiement rapide Android</div>
-            </div>
-
-        </div>
-    </section>
-
-    <section class="section">
-        <h3 class="section-title">✨ Fonctionnalités</h3>
-        <div class="features">
-
-            <div class="feature">
-                <span class="feature-icon">🛍️</span>
-                <div class="feature-text">
-                    <strong>Marketplace complète</strong>
-                    <span>Milliers de produits locaux et internationaux</span>
-                </div>
-            </div>
-
-            <div class="feature">
-                <span class="feature-icon">🚚</span>
-                <div class="feature-text">
-                    <strong>Livraison rapide</strong>
-                    <span>24-48h à Dakar, partout au Sénégal</span>
-                </div>
-            </div>
-
-            <div class="feature">
-                <span class="feature-icon">🔴</span>
-                <div class="feature-text">
-                    <strong>Boutiques en Live</strong>
-                    <span>Achetez en direct auprès des vendeurs</span>
-                </div>
-            </div>
-
-            <div class="feature">
-                <span class="feature-icon">🤖</span>
-                <div class="feature-text">
-                    <strong>Assistant IA</strong>
-                    <span>Aide 24/7 pour toutes vos questions</span>
-                </div>
-            </div>
-
-            <div class="feature">
-                <span class="feature-icon">🌍</span>
-                <div class="feature-text">
-                    <strong>Diaspora friendly</strong>
-                    <span>Achetez depuis la France, l'Italie, les USA...</span>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <nav class="bottom-nav">
-        <a href="index.html"><span class="icon">🏠</span>Accueil</a>
-        <a href="categories.html"><span class="icon">🗂️</span>Catégories</a>
-        <a href="panier.html"><span class="icon">🛒</span>Panier</a>
-        <a href="messages.html"><span class="icon">💬</span>Messages</a>
-        <a href="profil.html"><span class="icon">👤</span>Profil</a>
-    </nav>
-
+<script>lucide.createIcons();</script>
+<script src="js/dark-mode.js"></script>
 </body>
 </html>
