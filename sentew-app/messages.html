@@ -202,5 +202,52 @@
 </nav>
 
 <script>lucide.createIcons();</script>
+  <script>
+window.addEventListener('load', function(){
+  /* 1) Section LIVREURS + Assistant IA dans la zone vide */
+  var nav=document.querySelector('.bottom-nav, nav');
+  var vendeursTitle=null;
+  document.querySelectorAll('h2, .section-title, div').forEach(function(el){
+    if(el.textContent.trim()==='VENDEURS'||el.textContent.trim().indexOf('🏪 VENDEURS')!==-1) vendeursTitle=el;
+  });
+  var zone=vendeursTitle?vendeursTitle.parentElement:document.body;
+  if(!document.getElementById('extra-convs')){
+    var bloc=document.createElement('div');
+    bloc.id='extra-convs';
+    bloc.innerHTML=
+      '<h2 style="color:#a67c3a;font-size:13px;font-weight:800;margin:20px 16px 8px;letter-spacing:1px">🚚 LIVREURS</h2>'+
+      '<a href="chat.html?id=livreur-ousmane" class="conv" style="display:flex;align-items:center;gap:12px;background:#fff;margin:0 16px 10px;padding:14px;border-radius:16px;text-decoration:none;color:inherit;box-shadow:0 2px 8px rgba(0,0,0,.05)">'+
+        '<div style="width:48px;height:48px;border-radius:50%;background:#e8f5ee;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🛵</div>'+
+        '<div style="flex:1;min-width:0"><div style="font-weight:800;font-size:14px">Ousmane — Livreur ✅</div>'+
+        '<div style="font-size:12px;color:#666;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Votre colis #ST-2026-1247 arrive vers 18h…</div></div>'+
+        '<div style="font-size:11px;color:#999">12 min</div>'+
+      '</a>'+
+      '<h2 style="color:#a67c3a;font-size:13px;font-weight:800;margin:20px 16px 8px;letter-spacing:1px">🤖 ASSISTANT</h2>'+
+      '<a href="assistant-ia.html" class="conv" style="display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#0f6b4e,#0a4d38);margin:0 16px 90px;padding:14px;border-radius:16px;text-decoration:none;color:#fff">'+
+        '<div style="width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🤖</div>'+
+        '<div style="flex:1;min-width:0"><div style="font-weight:800;font-size:14px">Assistant SEN TEW</div>'+
+        '<div style="font-size:12px;opacity:.85">Pose-moi tes questions sur tes commandes…</div></div>'+
+        '<span style="background:#fcd116;color:#0a4d38;font-size:10px;font-weight:800;padding:3px 8px;border-radius:10px">24/7</span>'+
+      '</a>';
+    if(nav) document.body.insertBefore(bloc,nav); else document.body.appendChild(bloc);
+  }
+
+  /* 2) Recherche qui filtre les conversations en direct */
+  var search=document.querySelector('.search-input, input[placeholder*="Rechercher"]');
+  if(search){
+    search.addEventListener('input',function(){
+      var q=this.value.toLowerCase();
+      document.querySelectorAll('a.conv, a[href*="chat.html"]').forEach(function(c){
+        c.style.display=(q===''||c.textContent.toLowerCase().indexOf(q)!==-1)?'':'none';
+      });
+    });
+  }
+
+  /* 3) Curseur + navigation garantie sur toutes les conversations */
+  document.querySelectorAll('a.conv, a[href*="chat.html"], .quick-btn').forEach(function(c){
+    c.style.cursor='pointer';
+  });
+});
+</script>
 </body>
 </html>
