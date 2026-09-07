@@ -79,5 +79,42 @@
 </nav>
 
 <script>lucide.createIcons();</script>
+  <script>
+window.addEventListener('load', function(){
+  document.querySelectorAll('a.row').forEach(function(row){
+    var t=row.textContent.trim();
+    row.style.cursor='pointer';
+    /* Les 3 lignes avec href="#" deviennent interactives */
+    if(row.getAttribute('href')==='#'){
+      row.addEventListener('click',function(e){
+        e.preventDefault();
+        if(/Profil boutique/i.test(t)){
+          var nom=prompt('🏪 Nom de la boutique :','Moussa Tech');
+          if(!nom) return;
+          var desc=prompt('📝 Description :','Spécialiste électronique et high-tech à Dakar');
+          if(desc===null) return;
+          var h2=document.querySelector('.hero-vendeur .boutique-name, h2');
+          if(h2) h2.textContent=nom;
+          alert('✅ Profil boutique mis à jour !');
+        }
+        else if(/Logo/i.test(t)){
+          alert('📷 Logo & bannière\n\nEnvoie ton logo et ta bannière par WhatsApp au support SEN TEW :\nils seront mis en ligne sous 24h.\n\n(Upload direct dans l\'app : prochainement)');
+        }
+        else if(/Horaires/i.test(t)){
+          var h=prompt('🕐 Horaires d\'ouverture :','24/7');
+          if(h){
+            var val=row.querySelector('.val');
+            if(val) val.textContent=h;
+            alert('✅ Horaires mis à jour : '+h);
+          }
+        }
+        else if(/Modes paiement/i.test(t)){
+          alert('💳 Modes de paiement acceptés :\n\n🌊 Wave ✅\n🟠 Orange Money ✅\n💳 Carte bancaire ✅\n💵 Cash à la livraison ✅\n\nContacte le support pour modifier.');
+        }
+      });
+    }
+  });
+});
+</script>
 </body>
 </html>
