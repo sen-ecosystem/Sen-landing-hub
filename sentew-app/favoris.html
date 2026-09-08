@@ -1,291 +1,196 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Favoris - SEN TEW</title>
-  <link rel="stylesheet" href="css/app.css?v=52">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
-    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; }
-    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
-    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
-    .tabs { display: flex; background: #fff; border-bottom: 1px solid #e5e7eb; }
-    .tab { flex: 1; padding: 12px; text-align: center; font-size: 13px; font-weight: 600; color: #666; cursor: pointer; border-bottom: 2px solid transparent; }
-    .tab.active { color: #0f6b4e; border-bottom-color: #0f6b4e; }
-
-    /* Grille 2 colonnes verticale */
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px; }
-    .pcard { background: #fff; border-radius: 14px; overflow: hidden; text-decoration: none; color: inherit; display: flex; flex-direction: column; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-    .pimg { height: 150px; background: #f5f5f0; position: relative; overflow: hidden; }
-    .pimg img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .heart { position: absolute; top: 8px; right: 8px; background: #fff; border: none; width: 32px; height: 32px; border-radius: 50%; color: #dc2626; box-shadow: 0 2px 4px rgba(0,0,0,0.12); cursor: pointer; display: flex; align-items: center; justify-content: center; }
-    .live-badge { position: absolute; top: 8px; left: 8px; background: #dc2626; color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 4px; display: flex; align-items: center; gap: 3px; }
-    .disc-badge { position: absolute; top: 8px; left: 8px; background: #dc2626; color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 4px; }
-    .pinfo { padding: 10px 12px 12px; }
-    .pseller { display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; color: #d4a574; text-decoration: none; margin-bottom: 5px; }
-    .pseller::before { content: ""; width: 6px; height: 6px; background: #d4a574; border-radius: 50%; }
-    .pname { font-size: 13px; font-weight: 700; color: #0a1f17; line-height: 1.3; margin-bottom: 6px; min-height: 34px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .pprice { color: #0f6b4e; font-weight: 800; font-size: 14px; margin-bottom: 3px; }
-    .pstars { color: #d4a574; font-size: 10px; }
-
-    /* Onglet Boutiques */
-    .shops-list { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
-    .shop-card { background: #fff; border-radius: 12px; padding: 12px; display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-    .shop-avatar { width: 54px; height: 54px; border-radius: 50%; overflow: hidden; border: 2px solid #d4a574; flex-shrink: 0; }
-    .shop-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .shop-info { flex: 1; min-width: 0; }
-    .shop-name { font-weight: 800; color: #0a1f17; font-size: 14px; display: flex; align-items: center; gap: 4px; }
-    .shop-desc { color: #4a5a52; font-size: 12px; margin-top: 2px; }
-    .shop-stats { display: flex; gap: 10px; font-size: 11px; color: #4a5a52; margin-top: 4px; }
-    .shop-live-btn { background: #dc2626; color: #fff; padding: 6px 12px; border-radius: 16px; font-weight: 700; font-size: 11px; display: flex; align-items: center; gap: 4px; text-decoration: none; }
-
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
-    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
-    .bottom-nav a.active { color: #0f6b4e; }
-    .bottom-nav a i { width: 22px; height: 22px; }
-
-    .hidden { display: none; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Mes Favoris - SEN TEW</title>
+<link rel="stylesheet" href="css/app.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:86px;color:#0a1f17}
+  .topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:30}
+  .topbar h1{font-size:17px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
+  .topbar h1 i{width:19px;height:19px}
+  .icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e}
+  .icon-btn i{width:19px;height:19px}
+  .tabs{display:flex;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:63px;z-index:25}
+  .tab{flex:1;padding:13px;text-align:center;font-size:13px;font-weight:700;color:#6B7280;cursor:pointer;border-bottom:2.5px solid transparent;font-family:inherit;background:none;border-top:none;border-left:none;border-right:none}
+  .tab.active{color:#0f6b4e;border-bottom-color:#0f6b4e}
+  /* Items favoris : liste verticale */
+  .fav-item{display:flex;gap:12px;background:#fff;margin:10px 16px 0;padding:12px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);cursor:pointer;position:relative;animation:fadeIn .25s}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .fav-item:active{transform:scale(.98)}
+  .fav-img{width:96px;height:96px;object-fit:cover;border-radius:12px;flex-shrink:0}
+  .fav-info{flex:1;min-width:0}
+  .fav-vendor{font-size:11px;color:#b8860b;font-weight:700;display:flex;align-items:center;gap:4px;margin-bottom:3px;text-decoration:none}
+  .fav-vendor i{width:11px;height:11px}
+  .fav-name{font-size:14px;font-weight:800;color:#0a1f17;line-height:1.3;margin-bottom:5px}
+  .fav-price{font-size:16px;font-weight:900;color:#0f6b4e}
+  .fav-rate{font-size:11px;color:#9aa5a0;margin-top:3px;display:flex;align-items:center;gap:3px}
+  .fav-rate i{width:11px;height:11px;color:#f59e0b;fill:#f59e0b}
+  .fav-actions{display:flex;gap:8px;margin-top:8px}
+  .fav-cart{flex:1;padding:8px;background:#0f6b4e;color:#fff;border:none;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;font-family:inherit}
+  .fav-cart i{width:13px;height:13px}
+  .fav-cart:active{transform:scale(.95)}
+  .fav-heart{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:#fff;border:1.5px solid #fee2e2;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.08);z-index:2}
+  .fav-heart i{width:16px;height:16px;color:#ef4444;fill:#ef4444}
+  /* Panneau FLASH pleine largeur ENTRE les produits */
+  .flash-ad{display:flex;align-items:center;gap:12px;margin:12px 16px 0;padding:15px 16px;border-radius:16px;color:#fff;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.15);position:relative;overflow:hidden;animation:adGlow 2s infinite}
+  @keyframes adGlow{0%,100%{box-shadow:0 4px 14px rgba(0,0,0,.15)}50%{box-shadow:0 4px 22px rgba(230,57,70,.4)}}
+  .flash-ad .ad-icon{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;animation:adBounce 1.6s infinite}
+  @keyframes adBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+  .flash-ad .ad-icon i{width:22px;height:22px;color:#fff}
+  .flash-ad .ad-txt{flex:1;min-width:0}
+  .flash-ad .ad-title{font-weight:900;font-size:13.5px;letter-spacing:.3px}
+  .flash-ad .ad-sub{font-size:11px;opacity:.92;margin-top:2px}
+  .flash-ad .ad-btn{background:#fff;color:#0a1f17;font-size:10px;font-weight:800;padding:7px 12px;border-radius:10px;flex-shrink:0}
+  /* Boutiques favorites */
+  .shop-item{display:flex;align-items:center;gap:12px;background:#fff;margin:10px 16px 0;padding:14px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);cursor:pointer}
+  .shop-item:active{transform:scale(.98)}
+  .shop-logo{width:52px;height:52px;border-radius:14px;object-fit:cover;flex-shrink:0;border:2px solid #d4a574}
+  .shop-name{font-size:14px;font-weight:800;display:flex;align-items:center;gap:5px}
+  .shop-name i{width:13px;height:13px;color:#3b82f6}
+  .shop-meta{font-size:11px;color:#6B7280;margin-top:3px}
+  .shop-go{width:34px;height:34px;border-radius:50%;background:#f0f7f3;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .shop-go i{width:16px;height:16px;color:#0f6b4e}
+  .empty{text-align:center;padding:50px 20px;color:#9aa5a0}
+  .empty i{width:44px;height:44px;color:#d4a574;display:block;margin:0 auto 10px}
+  .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
+  .bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:#666;font-size:10px;font-weight:600;padding:4px 10px}
+  .bottom-nav a.active{color:#0f6b4e}
+  .bottom-nav a i{width:22px;height:22px}
+</style>
 </head>
 <body class="light-mode">
 
 <header class="topbar">
   <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
   <h1><i data-lucide="heart"></i> Mes Favoris</h1>
-  <button class="icon-btn"><i data-lucide="share-2"></i></button>
+  <button class="icon-btn" onclick="shareFavs()"><i data-lucide="share-2"></i></button>
 </header>
 
 <div class="tabs">
-  <div class="tab active" onclick="showTab('produits', this)">Produits (8)</div>
-  <div class="tab" onclick="showTab('boutiques', this)">Boutiques (3)</div>
+  <button class="tab active" onclick="showTab('produits',this)">Produits (<span id="nbProd">8</span>)</button>
+  <button class="tab" onclick="showTab('boutiques',this)">Boutiques (3)</button>
 </div>
 
-<!-- ONGLET PRODUITS -->
-<div id="tab-produits">
-  <div class="grid">
-
-    <a href="produit.html?id=1" class="pcard">
-      <div class="pimg">
-        <img src="https://images.unsplash.com/photo-1592286927505-1def25115558?w=400&q=80" alt="iPhone 15 Pro">
-        <button class="heart" onclick="event.preventDefault();this.remove()"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
-      </div>
-      <div class="pinfo">
-        <a href="boutique.html?id=2" class="pseller" onclick="event.stopPropagation()">Moussa Tech ✓</a>
-        <div class="pname">iPhone 15 Pro 256GB</div>
-        <div class="pprice">850k FCFA</div>
-        <div class="pstars">★★★★★ (89)</div>
-      </div>
-    </a>
-
-    <a href="produit.html?id=2" class="pcard">
-      <div class="pimg">
-        <img src="https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=400&q=80" alt="AirPods Pro 2">
-        <span class="disc-badge">-20%</span>
-        <button class="heart" onclick="event.preventDefault();this.remove()"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
-      </div>
-      <div class="pinfo">
-        <a href="boutique.html?id=2" class="pseller" onclick="event.stopPropagation()">Moussa Tech ✓</a>
-        <div class="pname">AirPods Pro 2</div>
-        <div class="pprice">145k FCFA</div>
-        <div class="pstars">★★★★★ (156)</div>
-      </div>
-    </a>
-
-    <a href="produit.html?id=3" class="pcard">
-      <div class="pimg">
-        <img src="https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=400&q=80" alt="MacBook Air M2">
-        <button class="heart" onclick="event.preventDefault();this.remove()"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
-      </div>
-      <div class="pinfo">
-        <a href="boutique.html?id=2" class="pseller" onclick="event.stopPropagation()">Moussa Tech ✓</a>
-        <div class="pname">MacBook Air M2</div>
-        <div class="pprice">1.2M FCFA</div>
-        <div class="pstars">★★★★☆ (42)</div>
-      </div>
-    </a>
-
-    <a href="produit.html?id=4" class="pcard">
-      <div class="pimg">
-        <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&q=80" alt="Apple Watch S9">
-        <button class="heart" onclick="event.preventDefault();this.remove()"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
-      </div>
-      <div class="pinfo">
-        <a href="boutique.html?id=2" class="pseller" onclick="event.stopPropagation()">Moussa Tech ✓</a>
-        <div class="pname">Apple Watch S9</div>
-        <div class="pprice">380k FCFA</div>
-        <div class="pstars">★★★★★ (67)</div>
-      </div>
-    </a>
-
-    <a href="produit.html?id=5" class="pcard">
-      <div class="pimg">
-        <img src="https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=400&q=80" alt="Boubou wax">
-        <span class="live-badge"><i data-lucide="radio" style="width:9px;height:9px"></i> LIVE</span>
-        <button class="heart" onclick="event.preventDefault();this.remove()"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
-      </div>
-      <div class="pinfo">
-        <a href="boutique.html?id=1" class="pseller" onclick="event.stopPropagation()">Aïcha Couture ✓</a>
-        <div class="pname">Boubou wax premium</div>
-        <div class="pprice">18k FCFA</div>
-        <div class="pstars">★★★★★ (243)</div>
-      </div>
-    </a>
-
-    <a href="produit.html?id=6" class="pcard">
-      <div class="pimg">
-        <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400&q=80" alt="Sandales Peul">
-        <span class="disc-badge">-25%</span>
-        <button class="heart" onclick="event.preventDefault();this.remove()"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
-      </div>
-      <div class="pinfo">
-        <a href="boutique.html?id=1" class="pseller" onclick="event.stopPropagation()">Aïcha Couture ✓</a>
-        <div class="pname">Sandales cuir Peul</div>
-        <div class="pprice">8.5k FCFA</div>
-        <div class="pstars">★★★★☆ (89)</div>
-      </div>
-    </a>
-
-    <a href="produit.html?id=7" class="pcard">
-      <div class="pimg">
-        <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&q=80" alt="Kit karité">
-        <span class="disc-badge">-40%</span>
-        <button class="heart" onclick="event.preventDefault();this.remove()"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
-      </div>
-      <div class="pinfo">
-        <a href="boutique.html?id=3" class="pseller" onclick="event.stopPropagation()">Mariama B. ✓</a>
-        <div class="pname">Kit soin karité naturel</div>
-        <div class="pprice">13.2k FCFA</div>
-        <div class="pstars">★★★★★ (128)</div>
-      </div>
-    </a>
-
-    <a href="produit.html?id=8" class="pcard">
-      <div class="pimg">
-        <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&q=80" alt="Nike AF1">
-        <span class="live-badge"><i data-lucide="radio" style="width:9px;height:9px"></i> LIVE</span>
-        <button class="heart" onclick="event.preventDefault();this.remove()"><i data-lucide="heart" style="width:14px;height:14px;fill:currentColor"></i></button>
-      </div>
-      <div class="pinfo">
-        <a href="boutique.html?id=4" class="pseller" onclick="event.stopPropagation()">Fatou Fashion ✓</a>
-        <div class="pname">Nike Air Force 1 pastel</div>
-        <div class="pprice">39k FCFA</div>
-        <div class="pstars">★★★★★ (328)</div>
-      </div>
-    </a>
-
-  </div>
-</div>
-
-<!-- ONGLET BOUTIQUES -->
-<div id="tab-boutiques" class="hidden">
-  <div class="shops-list">
-
-    <a href="boutique.html?id=1" class="shop-card">
-      <div class="shop-avatar"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop" alt=""></div>
-      <div class="shop-info">
-        <div class="shop-name">Aïcha Couture <i data-lucide="badge-check" style="width:14px;height:14px;color:#d4a574"></i></div>
-        <div class="shop-desc">Mode africaine · Dakar</div>
-        <div class="shop-stats">
-          <span>👥 856</span>
-          <span>📦 24</span>
-          <span>⭐ 4.9</span>
-        </div>
-      </div>
-      <a href="boutiques-live.html?id=1" class="shop-live-btn" onclick="event.stopPropagation()">
-        <i data-lucide="radio" style="width:11px;height:11px"></i> LIVE
-      </a>
-    </a>
-
-    <a href="boutique.html?id=2" class="shop-card">
-      <div class="shop-avatar"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" alt=""></div>
-      <div class="shop-info">
-        <div class="shop-name">Moussa Tech <i data-lucide="badge-check" style="width:14px;height:14px;color:#d4a574"></i></div>
-        <div class="shop-desc">Électronique · Dakar</div>
-        <div class="shop-stats">
-          <span>👥 1.2k</span>
-          <span>📦 32</span>
-          <span>⭐ 4.7</span>
-        </div>
-      </div>
-      <a href="boutiques-live.html?id=2" class="shop-live-btn" onclick="event.stopPropagation()">
-        <i data-lucide="radio" style="width:11px;height:11px"></i> LIVE
-      </a>
-    </a>
-
-    <a href="boutique.html?id=4" class="shop-card">
-      <div class="shop-avatar"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&h=100&fit=crop" alt=""></div>
-      <div class="shop-info">
-        <div class="shop-name">Fatou Fashion <i data-lucide="badge-check" style="width:14px;height:14px;color:#d4a574"></i></div>
-        <div class="shop-desc">Sneakers & streetwear · Dakar</div>
-        <div class="shop-stats">
-          <span>👥 3.5k</span>
-          <span>📦 48</span>
-          <span>⭐ 4.9</span>
-        </div>
-      </div>
-      <a href="boutiques-live.html?id=4" class="shop-live-btn" onclick="event.stopPropagation()">
-        <i data-lucide="radio" style="width:11px;height:11px"></i> LIVE
-      </a>
-    </a>
-
-  </div>
-</div>
+<div id="tab-produits"></div>
+<div id="tab-boutiques" style="display:none"></div>
+<div style="height:16px"></div>
 
 <nav class="bottom-nav">
   <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
+  <a href="categories.html"><i data-lucide="layout-grid"></i><span>Catégories</span></a>
   <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
-  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
-  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
+  <a href="favoris.html" class="active"><i data-lucide="heart"></i><span>Favoris</span></a>
+  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
 <script>
-  lucide.createIcons();
+var FAVS=[
+  {id:100,nom:'iPhone 15 Pro 256GB',prix:850000,note:4.8,avis:89,vendor:'Moussa Tech',bid:2,img:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=300&h=300&fit=crop'},
+  {id:101,nom:'AirPods Pro 2',prix:180000,note:4.9,avis:156,vendor:'Moussa Tech',bid:2,img:'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=300&h=300&fit=crop'},
+  {id:103,nom:'MacBook Air M2',prix:620000,note:4.9,avis:42,vendor:'Moussa Tech',bid:2,img:'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=300&h=300&fit=crop'},
+  {id:102,nom:'Apple Watch S9',prix:280000,note:4.7,avis:67,vendor:'Moussa Tech',bid:2,img:'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=300&h=300&fit=crop'},
+  {id:1,nom:'Boubou wax premium',prix:17500,note:4.8,avis:243,vendor:'Aïcha Couture',bid:1,img:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=300&h=300&fit=crop'},
+  {id:2,nom:'Sandales cuir Peul',prix:8500,note:4.6,avis:89,vendor:'Aïcha Couture',bid:1,img:'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=300&h=300&fit=crop'},
+  {id:6,nom:'Kit soin karité naturel',prix:13200,note:4.9,avis:128,vendor:'Mariama B.',bid:3,img:'https://images.unsplash.com/photo-1600857062241-98e5dba7f214?w=300&h=300&fit=crop'},
+  {id:11,nom:'Ensemble bazin riche',prix:32000,note:4.8,avis:328,vendor:'Fatou Fashion',bid:4,img:'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&h=300&fit=crop'}
+];
 
-  function showTab(name, el) {
-    document.getElementById('tab-produits').classList.toggle('hidden', name !== 'produits');
-    document.getElementById('tab-boutiques').classList.toggle('hidden', name !== 'boutiques');
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
-    lucide.createIcons();
+var SHOPS=[
+  {bid:2,nom:'Moussa Tech',meta:'Électronique · Dakar · ⭐ 4.7 · 156 abonnés',img:'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&h=100&fit=crop'},
+  {bid:1,nom:'Aïcha Couture',meta:'Mode africaine · Dakar · ⭐ 4.9 · 2,3k abonnés',img:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100&h=100&fit=crop'},
+  {bid:4,nom:'Fatou Fashion',meta:'Prêt-à-porter · Dakar · ⭐ 4.8 · 1,2k abonnés',img:'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=100&h=100&fit=crop'}
+];
+
+/* Pubs FLASH pleine largeur — insérées ENTRE les produits (pas dedans) */
+var ADS=[
+  {bg:'linear-gradient(135deg,#e63946,#ff7b00)',icon:'zap',title:'VENTE FLASH -30%',sub:'Code RAMADAN30 · Jusqu\'à ce soir 23h',btn:'J\'EN PROFITE ›',href:'produits.html?c=mode'},
+  {bg:'linear-gradient(135deg,#0f6b4e,#0a4d38)',icon:'gift',title:'PARRAINAGE : 500 FCFA OFFERTS',sub:'Par ami qui fait sa 1ère commande',btn:'PARRAINER ›',href:'parrainage.html'},
+  {bg:'linear-gradient(135deg,#6b46c1,#4c1d95)',icon:'radio',title:'LIVE SHOPPING EN DIRECT',sub:'Achète en direct auprès des vendeurs',btn:'REGARDER ›',href:'boutiques-live.html'}
+];
+var AD_EVERY=4; /* 1 pub tous les 4 favoris */
+
+function fmt(n){return n.toLocaleString('fr-FR').replace(/\u202f/g,' ');}
+
+function adHTML(ad){
+  return '<a href="'+ad.href+'" class="flash-ad" style="background:'+ad.bg+'">'+
+    '<div class="ad-icon"><i data-lucide="'+ad.icon+'"></i></div>'+
+    '<div class="ad-txt"><div class="ad-title">'+ad.title+'</div><div class="ad-sub">'+ad.sub+'</div></div>'+
+    '<span class="ad-btn">'+ad.btn+'</span></a>';
+}
+
+function renderFavs(){
+  var box=document.getElementById('tab-produits');
+  if(!FAVS.length){
+    box.innerHTML='<div class="empty"><i data-lucide="heart"></i><b>Aucun favori</b><p style="font-size:12px;margin-top:5px">Touche le cœur d\'un produit pour l\'ajouter ici</p></div>';
+    lucide.createIcons(); return;
   }
-</script>
-<script>
-/* ===== PANNEAU FLASH IN-FEED : 1 pub tous les 8 produits (style leader) ===== */
-window.addEventListener('load', function(){
-  var EVERY = 8; /* ← change ici : 8 = tous les 8 produits (20 = tous les 20) */
-  var ADS = [
-    {bg:'linear-gradient(135deg,#e63946,#ff7b00)', icon:'⚡', title:'VENTE FLASH -30%', txt:'Code RAMADAN30 · Jusqu\'à ce soir 23h', btn:'J\'EN PROFITE', href:'produits.html?c=mode'},
-    {bg:'linear-gradient(135deg,#0f6b4e,#0a4d38)', icon:'🎁', title:'PARRAINAGE : 500 FCFA OFFERTS', txt:'Par ami qui fait sa 1ère commande', btn:'PARRAINER', href:'parrainage.html'},
-    {bg:'linear-gradient(135deg,#6b46c1,#4c1d95)', icon:'🔴', title:'LIVE SHOPPING EN DIRECT', txt:'Achète en direct auprès des vendeurs', btn:'REGARDER', href:'boutiques-live.html'},
-    {bg:'linear-gradient(135deg,#d4a574,#b8860b)', icon:'🚚', title:'LIVRAISON GRATUITE', txt:'Dès 50 000 FCFA d\'achat · Partout au Sénégal', btn:'COMMANDER', href:'produits.html'}
-  ];
-  /* Trouve les cartes produits de la page */
-  var cards = document.querySelectorAll('.prod-card, .pcard, article[class*="card"], [data-cat]');
-  if(cards.length < EVERY) return;
-  var grid = cards[0].parentElement;
-  var adIndex = 0;
-  cards.forEach(function(card, i){
-    if((i+1) % EVERY !== 0) return;
-    var ad = ADS[adIndex % ADS.length]; adIndex++;
-    var banner = document.createElement('a');
-    banner.href = ad.href;
-    banner.className = 'flash-ad';
-    banner.style.cssText = 'grid-column:1/-1;display:flex;align-items:center;gap:12px;background:'+ad.bg+';color:#fff;border-radius:14px;padding:14px 16px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.15);position:relative;overflow:hidden;animation:adGlow 2s infinite';
-    banner.innerHTML =
-      '<div style="font-size:26px;flex-shrink:0;animation:adBounce 1.5s infinite">'+ad.icon+'</div>'+
-      '<div style="flex:1;min-width:0"><div style="font-weight:900;font-size:14px;letter-spacing:.3px">'+ad.title+'</div>'+
-      '<div style="font-size:11px;opacity:.9;margin-top:2px">'+ad.txt+'</div></div>'+
-      '<span style="background:#fff;color:#0a1f17;font-size:10px;font-weight:800;padding:6px 12px;border-radius:10px;flex-shrink:0">'+ad.btn+' ›</span>';
-    card.after(banner);
+  var html='', adIdx=0;
+  FAVS.forEach(function(f,i){
+    html+='<div class="fav-item" onclick="location.href=\'produit.html?id='+f.id+'\'">'+
+      '<button class="fav-heart" onclick="event.stopPropagation();removeFav('+i+')"><i data-lucide="heart"></i></button>'+
+      '<img class="fav-img" src="'+f.img+'" alt="'+f.nom+'">'+
+      '<div class="fav-info">'+
+        '<a class="fav-vendor" href="boutique.html?id='+f.bid+'" onclick="event.stopPropagation()"><i data-lucide="store"></i> '+f.vendor+' <i data-lucide="badge-check"></i></a>'+
+        '<div class="fav-name">'+f.nom+'</div>'+
+        '<div class="fav-price">'+fmt(f.prix)+' FCFA</div>'+
+        '<div class="fav-rate"><i data-lucide="star"></i> '+f.note+' ('+f.avis+' avis)</div>'+
+        '<div class="fav-actions"><button class="fav-cart" onclick="event.stopPropagation();addCart(\''+f.nom.replace(/'/g,"\\'")+'\')"><i data-lucide="shopping-cart"></i> Ajouter au panier</button></div>'+
+      '</div></div>';
+    /* insère un panneau FLASH pleine largeur tous les 4 produits */
+    if((i+1)%AD_EVERY===0 && i<FAVS.length-1){
+      html+=adHTML(ADS[adIdx%ADS.length]); adIdx++;
+    }
   });
-  /* Animations */
-  var st = document.createElement('style');
-  st.textContent = '@keyframes adGlow{0%,100%{box-shadow:0 4px 14px rgba(0,0,0,.15)}50%{box-shadow:0 4px 22px rgba(230,57,70,.4)}}@keyframes adBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}';
-  document.head.appendChild(st);
-});
+  box.innerHTML=html;
+  document.getElementById('nbProd').textContent=FAVS.length;
+  lucide.createIcons();
+}
+
+function renderShops(){
+  document.getElementById('tab-boutiques').innerHTML=SHOPS.map(function(s){
+    return '<div class="shop-item" onclick="location.href=\'boutique.html?id='+s.bid+'\'">'+
+      '<img class="shop-logo" src="'+s.img+'" alt="'+s.nom+'">'+
+      '<div style="flex:1;min-width:0"><div class="shop-name">'+s.nom+' <i data-lucide="badge-check"></i></div>'+
+      '<div class="shop-meta">'+s.meta+'</div></div>'+
+      '<div class="shop-go"><i data-lucide="chevron-right"></i></div></div>';
+  }).join('');
+  lucide.createIcons();
+}
+
+function showTab(name,el){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+  document.getElementById('tab-produits').style.display=(name==='produits')?'block':'none';
+  document.getElementById('tab-boutiques').style.display=(name==='boutiques')?'block':'none';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function removeFav(i){
+  if(confirm('💔 Retirer "'+FAVS[i].nom+'" de tes favoris ?')){
+    FAVS.splice(i,1); renderFavs();
+  }
+}
+function addCart(nom){
+  var t=document.createElement('div');
+  t.textContent='✅ '+nom+' ajouté au panier';
+  t.style.cssText='position:fixed;top:70px;left:50%;transform:translateX(-50%);background:#0a1f17;color:#fff;padding:11px 20px;border-radius:24px;font-size:13px;font-weight:700;z-index:999;box-shadow:0 8px 20px rgba(0,0,0,.3);white-space:nowrap;max-width:92%;overflow:hidden;text-overflow:ellipsis';
+  document.body.appendChild(t);
+  setTimeout(function(){t.remove();},2000);
+}
+function shareFavs(){
+  var txt='❤️ Mes favoris SEN TEW : '+FAVS.slice(0,3).map(function(f){return f.nom;}).join(', ')+'… → https://sen-ecosystem.com/sentew-app';
+  if(navigator.share) navigator.share({title:'Mes favoris SEN TEW',text:txt}).catch(function(){});
+  else if(navigator.clipboard){navigator.clipboard.writeText(txt); alert('✓ Liste copiée !');}
+}
+
+renderFavs();
+renderShops();
+lucide.createIcons();
 </script>
+<script src="js/dark-mode.js"></script>
 </body>
 </html>
