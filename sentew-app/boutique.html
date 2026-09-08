@@ -6,6 +6,8 @@
 <title>Boutique Moussa Tech — SEN TEW</title>
 <link rel="stylesheet" href="css/app.css?v=50">
 <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
 </head>
 <body class="light-mode">
 
@@ -196,6 +198,57 @@ window.addEventListener('load', function(){
   var st = document.createElement('style');
   st.textContent = '@keyframes adGlow{0%,100%{box-shadow:0 4px 14px rgba(0,0,0,.15)}50%{box-shadow:0 4px 22px rgba(230,57,70,.4)}}@keyframes adBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}';
   document.head.appendChild(st);
+});
+</script>
+  <!-- ===== DONNÉES RÉELLES SUPABASE ===== -->
+<script>
+window.addEventListener('load', async function(){
+  // Correspondance id → slug de la base
+  var SLUGS = {'1':'aicha-couture','2':'moussa-tech','3':'mariama-b','4':'fatou-fashion'};
+  var params = new URLSearchParams(window.location.search);
+  var slug = params.get('slug') || SLUGS[params.get('id')] || 'moussa-tech';
+
+  try {
+    // 1. Charger la boutique
+    var { data: shop, error: e1 } = await supabase
+      .from('vendors').select('*').eq('slug', slug).single();
+    if (e1 || !shop) { console.warn('Boutique introuvable, données locales conservées'); return; }
+
+    // 2. Charger ses produits
+    var { data: prods, error: e2 } = await supabase
+      .from('products').select('*')
+      .eq('vendor_id', shop.id).eq('is_active', true);
+    if (e2) { console.warn('Erreur produits:', e2); return; }
+
+    // 3. Mettre à jour l'en-tête boutique
+    document.querySelectorAll('.shop-name, .vendor-name, h1, h2').forEach(function(el){
+      if (el.textContent.trim().length < 40 && el.closest('header, .shop-header, .vendor-card, body')) {
+        if (el.tagName === 'H1' || el.classList.contains('shop-name') || el.classList.contains('vendor-name')) {
+          el.textContent = shop.shop_name;
+        }
+      }
+    });
+    var logo = document.querySelector('.shop-logo, .vendor-avatar, .avatar img, img.avatar');
+    if (logo && shop.logo_url) logo.src = shop.logo_url;
+
+    // 4. Mettre à jour les cartes produits avec les vraies données
+    if (prods && prods.length) {
+      var cards = document.querySelectorAll('.product-card, .mini-card, .prod-item');
+      prods.forEach(function(p, i){
+        var card = cards[i];
+        if (!card) return;
+        var nameEl = card.querySelector('.prod-name, .name, .product-name, h3, h4');
+        var priceEl = card.querySelector('.price, .prod-price');
+        var imgEl = card.querySelector('img');
+        if (nameEl) nameEl.textContent = p.name;
+        if (priceEl) priceEl.textContent = p.price.toLocaleString('fr-FR') + ' FCFA';
+        if (imgEl && p.images && p.images[0]) imgEl.src = p.images[0];
+      });
+      console.log('✅ ' + prods.length + ' produits chargés depuis Supabase pour ' + shop.shop_name);
+    }
+  } catch(err) {
+    console.warn('Supabase indisponible, données locales conservées:', err);
+  }
 });
 </script>
 </body>
