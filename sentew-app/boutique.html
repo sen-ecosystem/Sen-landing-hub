@@ -5,17 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Boutique - SEN TEW</title>
 <script src="https://unpkg.com/lucide@latest"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:86px;color:#0a1f17}
 .topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:30}
 .topbar h1{font-size:17px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
-.icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e;text-decoration:none}
+.icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e}
 .shop-head{background:#fff;padding:20px 16px 16px;border-bottom:1px solid #e5e7eb}
 .shop-row{display:flex;align-items:center;gap:14px}
-.shop-avatar{width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid #0f6b4e;flex-shrink:0}
+.shop-avatar{width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid #0f6b4e;flex-shrink:0;background:#e5e7eb}
 .shop-name{font-size:20px;font-weight:900;color:#0a1f17;display:flex;align-items:center;gap:6px}
 .shop-meta{font-size:12px;color:#6B7280;margin-top:3px}
 .shop-desc{font-size:13px;color:#4b5563;margin-top:10px;line-height:1.5}
@@ -37,11 +35,11 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .pprice{font-size:16px;font-weight:900;color:#0f6b4e}
 .pold{font-size:11px;color:#9aa5a0;text-decoration:line-through;margin-left:6px}
 .prate{font-size:11px;color:#9aa5a0;margin-top:3px}
-.empty{text-align:center;padding:60px 20px;color:#9aa5a0}
-.loading{text-align:center;padding:60px 20px;color:#0f6b4e;font-weight:700}
+.empty{text-align:center;padding:60px 20px;color:#9aa5a0;grid-column:1/-1}
+.loading{text-align:center;padding:60px 20px;color:#0f6b4e;font-weight:700;grid-column:1/-1}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
 .bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600}
-.bottom-nav a.active{color:#0f6b4e}
+.bottom-nav a svg{width:22px;height:22px}
 </style>
 </head>
 <body>
@@ -53,7 +51,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 
 <div class="shop-head">
   <div class="shop-row">
-    <img id="shopAvatar" class="shop-avatar" src="" alt="Logo boutique">
+    <img id="shopAvatar" class="shop-avatar" src="" alt="">
     <div style="flex:1;min-width:0">
       <div class="shop-name"><span id="shopName">Chargement…</span> <i data-lucide="badge-check" style="color:#0f6b4e;width:18px"></i></div>
       <div class="shop-meta" id="shopMeta"></div>
@@ -67,7 +65,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
   </div>
   <div class="actions">
     <button class="btn-follow" id="btnFollow" onclick="toggleFollow()">+ Suivre</button>
-    <a class="btn-square" id="btnChat" href="#"><i data-lucide="message-circle"></i></a>
+    <a class="btn-square" id="btnChat" href="messages.html"><i data-lucide="message-circle"></i></a>
     <button class="btn-square" onclick="shareShop()"><i data-lucide="share-2"></i></button>
   </div>
 </div>
@@ -84,51 +82,64 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 </nav>
 
 <script>
+// ===== CONNEXION DIRECTE (sans librairie externe) =====
+var SUPA_URL = 'https://tjqkruhwmjzgfvtouqza.supabase.co';
+var SUPA_KEY = 'sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
+
+function supa(table, query){
+  return fetch(SUPA_URL + '/rest/v1/' + table + '?' + query, {
+    headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+  }).then(function(r){ return r.json(); });
+}
+
 var SLUGS = {'1':'aicha-couture','2':'moussa-tech','3':'mariama-b','4':'fatou-fashion'};
 var params = new URLSearchParams(location.search);
 var slug = params.get('slug') || SLUGS[params.get('id')] || 'moussa-tech';
 var SHOP = null;
 
-function fmt(n){ return n.toLocaleString('fr-FR'); }
+function fmt(n){ return Number(n).toLocaleString('fr-FR'); }
+
+function fail(msg){
+  document.getElementById('shopName').textContent = msg;
+  document.getElementById('grid').innerHTML = '<div class="empty">⚠️ ' + msg + '<br><br>Réessaie dans quelques secondes.</div>';
+}
 
 async function init(){
-  var res = await supabase.from('vendors').select('*').eq('slug', slug).single();
-  if (!res.data) {
-    document.getElementById('shopName').textContent = 'Boutique introuvable';
-    document.getElementById('grid').innerHTML = '<div class="empty">Cette boutique n\'existe pas.</div>';
-    return;
+  try {
+    var shops = await supa('vendors', 'select=*&slug=eq.' + slug);
+    if (!Array.isArray(shops) || !shops.length) { fail('Boutique introuvable'); return; }
+    SHOP = shops[0];
+
+    document.title = SHOP.shop_name + ' - SEN TEW';
+    document.getElementById('shopName').textContent = SHOP.shop_name;
+    document.getElementById('shopMeta').textContent = (SHOP.category||'') + ' · ' + (SHOP.city||'Dakar');
+    document.getElementById('shopDesc').textContent = SHOP.description || '';
+    if (SHOP.logo_url) document.getElementById('shopAvatar').src = SHOP.logo_url;
+    document.getElementById('stFollowers').textContent = fmt(SHOP.followers || 0);
+    document.getElementById('stRating').textContent = SHOP.rating || '5.0';
+    document.getElementById('btnChat').href = 'chat.html?v=' + SHOP.slug;
+
+    var prods = await supa('products', 'select=*&vendor_id=eq.' + SHOP.id + '&is_active=eq.true&order=created_at.desc');
+    if (!Array.isArray(prods)) prods = [];
+    document.getElementById('stProducts').textContent = prods.length;
+
+    var grid = document.getElementById('grid');
+    if (!prods.length) { grid.innerHTML = '<div class="empty">Aucun produit pour le moment.</div>'; return; }
+    grid.innerHTML = prods.map(function(p){
+      var img = (p.images && p.images[0]) ? p.images[0] : '';
+      var old = p.old_price ? '<span class="pold">' + fmt(p.old_price) + ' FCFA</span>' : '';
+      var link = 'produit.html?pid=' + p.id + (p.legacy_id ? '&id=' + p.legacy_id : '');
+      return '<article class="pcard" onclick="location.href=\'' + link + '\'">' +
+        '<img src="' + img + '" alt="">' +
+        '<div class="pbody">' +
+          '<div class="pname">' + p.name + '</div>' +
+          '<div><span class="pprice">' + fmt(p.price) + ' FCFA</span>' + old + '</div>' +
+          '<div class="prate">⭐ ' + (p.rating||'—') + ' · ' + (p.sold_count||0) + ' vendus</div>' +
+        '</div></article>';
+    }).join('');
+  } catch(e){
+    fail('Erreur de connexion');
   }
-  SHOP = res.data;
-  document.title = SHOP.shop_name + ' - SEN TEW';
-  document.getElementById('shopName').textContent = SHOP.shop_name;
-  document.getElementById('shopMeta').textContent = (SHOP.category||'') + ' · ' + (SHOP.city||'Dakar');
-  document.getElementById('shopDesc').textContent = SHOP.description || '';
-  document.getElementById('shopAvatar').src = SHOP.logo_url || '';
-  document.getElementById('stFollowers').textContent = fmt(SHOP.followers || 0);
-  document.getElementById('stRating').textContent = SHOP.rating || '5.0';
-  document.getElementById('btnChat').href = 'chat.html?v=' + SHOP.slug;
-
-  var res2 = await supabase.from('products').select('*')
-    .eq('vendor_id', SHOP.id).eq('is_active', true)
-    .order('created_at', {ascending:false});
-  var prods = res2.data || [];
-  document.getElementById('stProducts').textContent = prods.length;
-
-  var grid = document.getElementById('grid');
-  if (!prods.length) { grid.innerHTML = '<div class="empty">Aucun produit pour le moment.</div>'; return; }
-  grid.innerHTML = prods.map(function(p){
-    var img = (p.images && p.images[0]) ? p.images[0] : '';
-    var old = p.old_price ? '<span class="pold">' + fmt(p.old_price) + ' FCFA</span>' : '';
-    var link = 'produit.html?pid=' + p.id;
-    return '<article class="pcard" onclick="location.href=\'' + link + '\'">' +
-      '<img src="' + img + '" alt="' + p.name + '">' +
-      '<div class="pbody">' +
-        '<div class="pname">' + p.name + '</div>' +
-        '<div><span class="pprice">' + fmt(p.price) + ' FCFA</span>' + old + '</div>' +
-        '<div class="prate">⭐ ' + (p.rating||'—') + ' · ' + (p.sold_count||0) + ' vendus</div>' +
-      '</div></article>';
-  }).join('');
-  lucide.createIcons();
 }
 
 function toggleFollow(){
@@ -137,6 +148,10 @@ function toggleFollow(){
   var on = localStorage.getItem(key) === '1';
   if (on) { localStorage.setItem(key,'0'); b.textContent='+ Suivre'; b.classList.remove('on'); }
   else { localStorage.setItem(key,'1'); b.textContent='✓ Suivi'; b.classList.add('on'); }
+  if (SHOP) {
+    var f = (SHOP.followers||0) + (on ? 0 : 1);
+    document.getElementById('stFollowers').textContent = fmt(f);
+  }
 }
 
 function shareShop(){
@@ -145,7 +160,6 @@ function shareShop(){
   else if (navigator.clipboard) { navigator.clipboard.writeText(txt); alert('✓ Lien copié !'); }
 }
 
-// Restaurer l'état "Suivi"
 if (localStorage.getItem('follow_' + slug) === '1') {
   var b = document.getElementById('btnFollow');
   b.textContent = '✓ Suivi'; b.classList.add('on');
