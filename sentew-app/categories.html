@@ -1,145 +1,291 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catégories - SEN TEW</title>
-  <link rel="stylesheet" href="css/app.css?v=52">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
-    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; }
-    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
-    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
-    .search-bar { padding: 12px 16px; background: #fff; border-bottom: 1px solid #e5e7eb; }
-    .search-input { width: 100%; padding: 10px 12px; border: 1.5px solid #e5e7eb; border-radius: 10px; font-size: 14px; box-sizing: border-box; }
-    .categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 16px; }
-    .cat { background: #fff; border-radius: 12px; padding: 16px 8px; text-align: center; text-decoration: none; color: inherit; }
-    .cat-icon { width: 56px; height: 56px; border-radius: 16px; background: #f5f5f0; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; }
-    .cat-icon i { width: 28px; height: 28px; color: #0f6b4e; }
-    .cat-mode .cat-icon { background: #fecaca; }
-    .cat-mode .cat-icon i { color: #dc2626; }
-    .cat-elec .cat-icon { background: #dbeafe; }
-    .cat-elec .cat-icon i { color: #1e40af; }
-    .cat-food .cat-icon { background: #fef3c7; }
-    .cat-food .cat-icon i { color: #92400e; }
-    .cat-beaute .cat-icon { background: #fce7f3; }
-    .cat-beaute .cat-icon i { color: #be185d; }
-    .cat-maison .cat-icon { background: #d1fae5; }
-    .cat-maison .cat-icon i { color: #065f46; }
-    .cat-sport .cat-icon { background: #e0e7ff; }
-    .cat-sport .cat-icon i { color: #4338ca; }
-    .cat-name { font-size: 13px; font-weight: 700; }
-    .cat-count { font-size: 10px; color: #666; }
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
-    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
-    .bottom-nav a.active { color: #0f6b4e; }
-    .bottom-nav a i { width: 22px; height: 22px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Catégories - SEN TEW</title>
+<link rel="stylesheet" href="css/app.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:86px;color:#0a1f17}
+  .topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:30}
+  .topbar h1{font-size:16px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
+  .topbar h1 i{width:19px;height:19px}
+  .icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e}
+  .icon-btn i{width:20px;height:20px}
+  .search-wrap{padding:10px 16px;background:#fff;position:sticky;top:63px;z-index:25}
+  .search-bar{display:flex;align-items:center;gap:8px;background:#f5f5f0;border-radius:22px;padding:10px 14px}
+  .search-bar i{width:17px;height:17px;color:#9aa5a0;flex-shrink:0}
+  .search-bar input{flex:1;border:none;background:none;outline:none;font-size:13px;font-family:inherit}
+  .cats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px 16px}
+  .cat{background:#fff;border:2px solid transparent;border-radius:16px;padding:14px 8px;text-align:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.04);transition:all .15s}
+  .cat:active{transform:scale(.95)}
+  .cat.sel{border-color:#0f6b4e;background:#f0f7f3}
+  .cat-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 7px}
+  .cat-icon i{width:26px;height:26px}
+  .cat-name{font-size:12px;font-weight:800}
+  .cat-count{font-size:10px;color:#9aa5a0;margin-top:2px}
+  .subcats{display:flex;gap:8px;padding:4px 16px 12px;overflow-x:auto;scrollbar-width:none}
+  .subcats::-webkit-scrollbar{display:none}
+  .sub{flex-shrink:0;padding:7px 14px;border-radius:18px;background:#fff;border:1.5px solid #e5e7eb;font-size:12px;font-weight:700;color:#4a5a52;cursor:pointer;font-family:inherit}
+  .sub.on{background:#0f6b4e;color:#fff;border-color:#0f6b4e}
+  .toolbar{display:flex;gap:8px;padding:0 16px 12px;align-items:center}
+  .tool-btn{flex:1;padding:9px 6px;background:#fff;border:1.5px solid #e5e7eb;border-radius:10px;font-size:11.5px;font-weight:700;color:#4a5a52;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;font-family:inherit}
+  .tool-btn i{width:14px;height:14px}
+  .tool-btn.on{border-color:#0f6b4e;color:#0f6b4e;background:#f0f7f3}
+  .result-nb{font-size:11px;color:#9aa5a0;padding:0 16px 8px;font-weight:600}
+  .prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px}
+  .pcard{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);cursor:pointer;animation:fadeIn .25s}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .pcard:active{transform:scale(.97)}
+  .pcard .pimg{position:relative}
+  .pcard .pimg img{width:100%;height:130px;object-fit:cover;display:block}
+  .pcard .ptag{position:absolute;top:6px;left:6px;background:#ef4444;color:#fff;font-size:9px;font-weight:800;padding:2px 7px;border-radius:8px}
+  .pcard .pbody{padding:9px 10px 10px}
+  .pcard .pvendor{font-size:10px;color:#6B7280;display:flex;align-items:center;gap:3px;margin-bottom:3px}
+  .pcard .pvendor i{width:10px;height:10px;color:#0f6b4e}
+  .pcard .pname{font-size:12px;font-weight:700;line-height:1.3;height:31px;overflow:hidden;margin-bottom:4px}
+  .pcard .prate{font-size:10px;color:#f59e0b;display:flex;align-items:center;gap:3px;margin-bottom:4px}
+  .pcard .prate i{width:11px;height:11px;fill:#f59e0b}
+  .pcard .prate span{color:#9aa5a0}
+  .pcard .pprice{font-size:15px;font-weight:900;color:#0f6b4e}
+  .pcard .pold{font-size:10px;color:#9aa5a0;text-decoration:line-through;margin-left:5px}
+  .empty{text-align:center;padding:50px 20px;color:#9aa5a0;grid-column:1/-1}
+  .empty i{width:44px;height:44px;color:#d4a574;display:block;margin:0 auto 10px}
+  .filter-sheet{position:fixed;left:0;right:0;bottom:0;z-index:90;background:#fff;border-radius:20px 20px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.2);padding:18px 18px calc(18px + env(safe-area-inset-bottom));transform:translateY(110%);transition:transform .3s;max-height:80vh;overflow-y:auto}
+  .filter-sheet.open{transform:translateY(0)}
+  .sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:80;opacity:0;pointer-events:none;transition:opacity .3s}
+  .sheet-overlay.open{opacity:1;pointer-events:auto}
+  .fs-title{display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:800;margin-bottom:14px}
+  .fs-title button{background:none;border:none;font-size:20px;cursor:pointer;color:#9aa5a0}
+  .fs-sec{font-size:11px;font-weight:800;color:#a67c3a;letter-spacing:1px;margin:14px 0 8px}
+  .price-row{display:flex;gap:10px;align-items:center}
+  .price-row input{flex:1;min-width:0;padding:10px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;font-family:inherit}
+  .fchip-row{display:flex;gap:8px;flex-wrap:wrap}
+  .fchip{padding:8px 13px;border-radius:18px;border:1.5px solid #e5e7eb;background:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;color:#4a5a52}
+  .fchip.on{background:#0f6b4e;color:#fff;border-color:#0f6b4e}
+  .fs-actions{display:flex;gap:10px;margin-top:18px}
+  .fs-actions button{flex:1;padding:13px;border-radius:12px;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit}
+  .fs-reset{background:#f5f5f0;border:1.5px solid #e5e7eb;color:#4a5a52}
+  .fs-apply{background:#0f6b4e;border:none;color:#fff}
+  .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
+  .bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:#666;font-size:10px;font-weight:600;padding:4px 10px}
+  .bottom-nav a.active{color:#0f6b4e}
+  .bottom-nav a i{width:22px;height:22px}
+</style>
 </head>
 <body class="light-mode">
 
 <header class="topbar">
   <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
-  <h1><i data-lucide="grid"></i> Catégories</h1>
+  <h1><i data-lucide="layout-grid"></i> Catégories</h1>
   <button class="icon-btn" onclick="location.href='recherche-ia.html'"><i data-lucide="search"></i></button>
 </header>
 
-<div class="search-bar">
-  <input type="text" class="search-input" placeholder="🔍 Rechercher une catégorie...">
+<div class="search-wrap">
+  <div class="search-bar"><i data-lucide="search"></i><input type="text" id="searchInput" placeholder="Rechercher un produit ou une catégorie..."></div>
 </div>
 
-<div class="categories-grid">
-  <a href="recherche-resultats.html?cat=mode" class="cat cat-mode">
-    <div class="cat-icon"><i data-lucide="shirt"></i></div>
-    <div class="cat-name">Mode</div>
-    <div class="cat-count">1 240 produits</div>
-  </a>
-  <a href="recherche-resultats.html?cat=electronique" class="cat cat-elec">
-    <div class="cat-icon"><i data-lucide="smartphone"></i></div>
-    <div class="cat-name">Électronique</div>
-    <div class="cat-count">890 produits</div>
-  </a>
-  <a href="recherche-resultats.html?cat=alimentation" class="cat cat-food">
-    <div class="cat-icon"><i data-lucide="apple"></i></div>
-    <div class="cat-name">Alimentation</div>
-    <div class="cat-count">450 produits</div>
-  </a>
-  <a href="recherche-resultats.html?cat=beaute" class="cat cat-beaute">
-    <div class="cat-icon"><i data-lucide="sparkles"></i></div>
-    <div class="cat-name">Beauté</div>
-    <div class="cat-count">620 produits</div>
-  </a>
-  <a href="recherche-resultats.html?cat=maison" class="cat cat-maison">
-    <div class="cat-icon"><i data-lucide="home"></i></div>
-    <div class="cat-name">Maison</div>
-    <div class="cat-count">780 produits</div>
-  </a>
-  <a href="recherche-resultats.html?cat=sport" class="cat cat-sport">
-    <div class="cat-icon"><i data-lucide="dumbbell"></i></div>
-    <div class="cat-name">Sport</div>
-    <div class="cat-count">340 produits</div>
-  </a>
-  <a href="recherche-resultats.html?cat=livres" class="cat">
-    <div class="cat-icon"><i data-lucide="book"></i></div>
-    <div class="cat-name">Livres</div>
-    <div class="cat-count">180 produits</div>
-  </a>
-  <a href="recherche-resultats.html?cat=auto" class="cat">
-    <div class="cat-icon"><i data-lucide="car"></i></div>
-    <div class="cat-name">Auto</div>
-    <div class="cat-count">220 produits</div>
-  </a>
-  <a href="recherche-resultats.html?cat=jouets" class="cat">
-    <div class="cat-icon"><i data-lucide="gamepad-2"></i></div>
-    <div class="cat-name">Jouets</div>
-    <div class="cat-count">160 produits</div>
-  </a>
+<div class="cats-grid" id="catsGrid"></div>
+<div class="subcats" id="subcats" style="display:none"></div>
+
+<div class="toolbar" id="toolbar" style="display:none">
+  <button class="tool-btn" id="sortBtn" onclick="cycleSort()"><i data-lucide="arrow-up-down"></i> <span id="sortLabel">Pertinence</span></button>
+  <button class="tool-btn" onclick="openFilters()"><i data-lucide="sliders-horizontal"></i> Filtres <span id="fcount"></span></button>
+</div>
+<div class="result-nb" id="resultNb"></div>
+
+<div class="prod-grid" id="prodGrid"></div>
+
+<div class="sheet-overlay" id="overlay" onclick="closeFilters()"></div>
+<div class="filter-sheet" id="filterSheet">
+  <div class="fs-title">Filtres <button onclick="closeFilters()">✕</button></div>
+
+  <div class="fs-sec">PRIX (FCFA)</div>
+  <div class="price-row">
+    <input type="number" id="pMin" placeholder="Min" min="0">
+    <span style="color:#9aa5a0">—</span>
+    <input type="number" id="pMax" placeholder="Max" min="0">
+  </div>
+
+  <div class="fs-sec">NOTE MINIMUM</div>
+  <div class="fchip-row" id="rateChips">
+    <button class="fchip on" data-rate="0">Toutes</button>
+    <button class="fchip" data-rate="4">4★ et +</button>
+    <button class="fchip" data-rate="4.5">4.5★ et +</button>
+  </div>
+
+  <div class="fs-sec">AVANTAGES</div>
+  <div class="fchip-row">
+    <button class="fchip" id="fFreeShip" onclick="this.classList.toggle('on')"><i data-lucide="truck" style="width:12px;height:12px;vertical-align:-2px"></i> Livraison gratuite</button>
+    <button class="fchip" id="fPromo" onclick="this.classList.toggle('on')"><i data-lucide="tag" style="width:12px;height:12px;vertical-align:-2px"></i> En promotion</button>
+  </div>
+
+  <div class="fs-actions">
+    <button class="fs-reset" onclick="resetFilters()">Réinitialiser</button>
+    <button class="fs-apply" onclick="applyFilters()">Voir les résultats</button>
+  </div>
 </div>
 
 <nav class="bottom-nav">
   <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
-  <a href="categories.html" class="active"><i data-lucide="grid"></i><span>Catégories</span></a>
+  <a href="categories.html" class="active"><i data-lucide="layout-grid"></i><span>Catégories</span></a>
   <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
-  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
+  <a href="favoris.html"><i data-lucide="heart"></i><span>Favoris</span></a>
   <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
-<script>lucide.createIcons();</script>
 <script>
-/* ===== PANNEAU FLASH IN-FEED : 1 pub tous les 8 produits (style leader) ===== */
-window.addEventListener('load', function(){
-  var EVERY = 8; /* ← change ici : 8 = tous les 8 produits (20 = tous les 20) */
-  var ADS = [
-    {bg:'linear-gradient(135deg,#e63946,#ff7b00)', icon:'⚡', title:'VENTE FLASH -30%', txt:'Code RAMADAN30 · Jusqu\'à ce soir 23h', btn:'J\'EN PROFITE', href:'produits.html?c=mode'},
-    {bg:'linear-gradient(135deg,#0f6b4e,#0a4d38)', icon:'🎁', title:'PARRAINAGE : 500 FCFA OFFERTS', txt:'Par ami qui fait sa 1ère commande', btn:'PARRAINER', href:'parrainage.html'},
-    {bg:'linear-gradient(135deg,#6b46c1,#4c1d95)', icon:'🔴', title:'LIVE SHOPPING EN DIRECT', txt:'Achète en direct auprès des vendeurs', btn:'REGARDER', href:'boutiques-live.html'},
-    {bg:'linear-gradient(135deg,#d4a574,#b8860b)', icon:'🚚', title:'LIVRAISON GRATUITE', txt:'Dès 50 000 FCFA d\'achat · Partout au Sénégal', btn:'COMMANDER', href:'produits.html'}
-  ];
-  /* Trouve les cartes produits de la page */
-  var cards = document.querySelectorAll('.prod-card, .pcard, article[class*="card"], [data-cat]');
-  if(cards.length < EVERY) return;
-  var grid = cards[0].parentElement;
-  var adIndex = 0;
-  cards.forEach(function(card, i){
-    if((i+1) % EVERY !== 0) return;
-    var ad = ADS[adIndex % ADS.length]; adIndex++;
-    var banner = document.createElement('a');
-    banner.href = ad.href;
-    banner.className = 'flash-ad';
-    banner.style.cssText = 'grid-column:1/-1;display:flex;align-items:center;gap:12px;background:'+ad.bg+';color:#fff;border-radius:14px;padding:14px 16px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.15);position:relative;overflow:hidden;animation:adGlow 2s infinite';
-    banner.innerHTML =
-      '<div style="font-size:26px;flex-shrink:0;animation:adBounce 1.5s infinite">'+ad.icon+'</div>'+
-      '<div style="flex:1;min-width:0"><div style="font-weight:900;font-size:14px;letter-spacing:.3px">'+ad.title+'</div>'+
-      '<div style="font-size:11px;opacity:.9;margin-top:2px">'+ad.txt+'</div></div>'+
-      '<span style="background:#fff;color:#0a1f17;font-size:10px;font-weight:800;padding:6px 12px;border-radius:10px;flex-shrink:0">'+ad.btn+' ›</span>';
-    card.after(banner);
-  });
-  /* Animations */
-  var st = document.createElement('style');
-  st.textContent = '@keyframes adGlow{0%,100%{box-shadow:0 4px 14px rgba(0,0,0,.15)}50%{box-shadow:0 4px 22px rgba(230,57,70,.4)}}@keyframes adBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}';
-  document.head.appendChild(st);
+var CATS=[
+  {id:'mode',nom:'Mode',icon:'shirt',bg:'#fecaca',c:'#dc2626',count:1240,subs:['Femme','Homme','Enfant','Chaussures','Accessoires']},
+  {id:'tech',nom:'Électronique',icon:'smartphone',bg:'#dbeafe',c:'#1e40af',count:890,subs:['Téléphones','Audio','Ordinateurs','Montres','Accessoires']},
+  {id:'alimentation',nom:'Alimentation',icon:'apple',bg:'#fef3c7',c:'#92400e',count:450,subs:['Épicerie','Boissons','Frais','Bio']},
+  {id:'beaute',nom:'Beauté',icon:'sparkles',bg:'#fce7f3',c:'#be185d',count:620,subs:['Parfums','Maquillage','Soins','Cheveux']},
+  {id:'maison',nom:'Maison',icon:'home',bg:'#d1fae5',c:'#065f46',count:380,subs:['Décoration','Cuisine','Textile','Mobilier']},
+  {id:'sport',nom:'Sport',icon:'dumbbell',bg:'#e0e7ff',c:'#4338ca',count:210,subs:['Fitness','Football','Running','Outdoor']}
+];
+
+var PRODUCTS=[
+  {id:1,cat:'mode',sub:'Femme',nom:'Robe wax mariage traditionnelle',prix:35000,old:50000,note:4.8,avis:234,vendus:1200,vendor:'Aïcha Couture',bid:1,free:true,promo:true,img:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=400&fit=crop'},
+  {id:2,cat:'mode',sub:'Chaussures',nom:'Sandales cuir Peul premium',prix:8500,old:11500,note:4.6,avis:89,vendus:456,vendor:'Aïcha Couture',bid:1,free:true,promo:true,img:'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400&h=400&fit=crop'},
+  {id:3,cat:'mode',sub:'Homme',nom:'Chemise brodée homme',prix:12000,old:null,note:4.9,avis:512,vendus:2100,vendor:'Aïcha Couture',bid:1,free:true,promo:false,img:'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400&h=400&fit=crop'},
+  {id:4,cat:'mode',sub:'Femme',nom:'Kaftan luxe brodé main',prix:65000,old:null,note:4.7,avis:156,vendus:230,vendor:'Aïcha Couture',bid:1,free:false,promo:false,img:'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400&h=400&fit=crop'},
+  {id:100,cat:'tech',sub:'Téléphones',nom:'iPhone 15 Pro Max 256GB',prix:850000,old:950000,note:4.9,avis:412,vendus:340,vendor:'Moussa Tech',bid:2,free:true,promo:true,img:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=400&h=400&fit=crop'},
+  {id:101,cat:'tech',sub:'Audio',nom:'AirPods Pro 2ème génération',prix:180000,old:220000,note:4.8,avis:298,vendus:520,vendor:'Moussa Tech',bid:2,free:true,promo:true,img:'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=400&h=400&fit=crop'},
+  {id:102,cat:'tech',sub:'Montres',nom:'Apple Watch Series 9',prix:280000,old:null,note:4.7,avis:167,vendus:210,vendor:'Moussa Tech',bid:2,free:true,promo:false,img:'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=400&fit=crop'},
+  {id:103,cat:'tech',sub:'Ordinateurs',nom:'MacBook Air M2 13 pouces',prix:620000,old:700000,note:4.9,avis:203,vendus:145,vendor:'Moussa Tech',bid:2,free:true,promo:true,img:'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=400&h=400&fit=crop'},
+  {id:5,cat:'beaute',sub:'Parfums',nom:'Parfum oud royal 100ml',prix:28000,old:null,note:4.8,avis:189,vendus:430,vendor:'Mariama B.',bid:3,free:false,promo:false,img:'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=400&h=400&fit=crop'},
+  {id:6,cat:'beaute',sub:'Soins',nom:'Crème karité bio 250g',prix:6500,old:9000,note:4.7,avis:276,vendus:890,vendor:'Mariama B.',bid:3,free:true,promo:true,img:'https://images.unsplash.com/photo-1600857062241-98e5dba7f214?w=400&h=400&fit=crop'},
+  {id:7,cat:'beaute',sub:'Maquillage',nom:'Rouge à lèvres mat longue tenue',prix:4500,old:null,note:4.5,avis:134,vendus:670,vendor:'Mariama B.',bid:3,free:true,promo:false,img:'https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=400&h=400&fit=crop'},
+  {id:10,cat:'mode',sub:'Homme',nom:'Boubou Wax Premium brodé',prix:17500,old:25000,note:4.8,avis:127,vendus:342,vendor:'Fatou Fashion',bid:4,free:true,promo:true,img:'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=400&h=400&fit=crop'},
+  {id:11,cat:'mode',sub:'Femme',nom:'Ensemble bazin riche',prix:32000,old:null,note:4.9,avis:98,vendus:156,vendor:'Fatou Fashion',bid:4,free:false,promo:false,img:'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop'},
+  {id:12,cat:'mode',sub:'Accessoires',nom:'Pagne wax classique',prix:9000,old:null,note:4.6,avis:210,vendus:780,vendor:'Fatou Fashion',bid:4,free:true,promo:false,img:'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop'},
+  {id:20,cat:'maison',sub:'Décoration',nom:'Lampe artisanale laiton',prix:15000,old:20000,note:4.7,avis:64,vendus:120,vendor:'Aïcha Couture',bid:1,free:false,promo:true,img:'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400&h=400&fit=crop'},
+  {id:21,cat:'maison',sub:'Textile',nom:'Couvre-lit tissé main',prix:22000,old:null,note:4.8,avis:87,vendus:95,vendor:'Fatou Fashion',bid:4,free:true,promo:false,img:'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=400&h=400&fit=crop'},
+  {id:30,cat:'alimentation',sub:'Épicerie',nom:'Café Touba premium 500g',prix:3500,old:4500,note:4.9,avis:432,vendus:1500,vendor:'Mariama B.',bid:3,free:true,promo:true,img:'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400&h=400&fit=crop'},
+  {id:31,cat:'alimentation',sub:'Bio',nom:'Miel pur de Casamance 1L',prix:8000,old:null,note:4.8,avis:198,vendus:340,vendor:'Mariama B.',bid:3,free:true,promo:false,img:'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=400&h=400&fit=crop'},
+  {id:40,cat:'sport',sub:'Football',nom:'Maillot Lions Sénégal 2026',prix:14000,old:18000,note:4.9,avis:567,vendus:2300,vendor:'Fatou Fashion',bid:4,free:true,promo:true,img:'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=400&h=400&fit=crop'},
+  {id:41,cat:'sport',sub:'Fitness',nom:'Tapis yoga antidérapant',prix:11000,old:null,note:4.6,avis:112,vendus:280,vendor:'Moussa Tech',bid:2,free:true,promo:false,img:'https://images.unsplash.com/photo-1592432678016-e910b452f9a2?w=400&h=400&fit=crop'}
+];
+
+var state={cat:null,sub:null,search:'',sort:'pertinence',pMin:null,pMax:null,rate:0,freeShip:false,promo:false};
+var SORTS=[['pertinence','Pertinence'],['prix-asc','Prix croissant'],['prix-desc','Prix décroissant'],['ventes','Meilleures ventes'],['note','Meilleures notes']];
+var sortIdx=0;
+
+document.getElementById('catsGrid').innerHTML=CATS.map(function(c){
+  return '<div class="cat" data-id="'+c.id+'" onclick="selectCat(\''+c.id+'\')">'+
+    '<div class="cat-icon" style="background:'+c.bg+'"><i data-lucide="'+c.icon+'" style="color:'+c.c+'"></i></div>'+
+    '<div class="cat-name">'+c.nom+'</div><div class="cat-count">'+c.count.toLocaleString('fr')+' produits</div></div>';
+}).join('');
+lucide.createIcons();
+
+function selectCat(id){
+  if(state.cat===id){
+    state.cat=null; state.sub=null;
+    document.querySelectorAll('.cat').forEach(function(c){c.classList.remove('sel');});
+    document.getElementById('subcats').style.display='none';
+    document.getElementById('toolbar').style.display='none';
+    document.getElementById('resultNb').textContent='';
+    document.getElementById('prodGrid').innerHTML='';
+    return;
+  }
+  state.cat=id; state.sub=null;
+  document.querySelectorAll('.cat').forEach(function(c){c.classList.toggle('sel',c.dataset.id===id);});
+  var cat=CATS.find(function(c){return c.id===id;});
+  document.getElementById('subcats').style.display='flex';
+  document.getElementById('subcats').innerHTML='<button class="sub on" onclick="selectSub(null,this)">Tout</button>'+
+    cat.subs.map(function(s){return '<button class="sub" onclick="selectSub(\''+s+'\',this)">'+s+'</button>';}).join('');
+  document.getElementById('toolbar').style.display='flex';
+  render();
+}
+function selectSub(sub,btn){
+  state.sub=sub;
+  document.querySelectorAll('.sub').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  render();
+}
+
+function cycleSort(){
+  sortIdx=(sortIdx+1)%SORTS.length;
+  state.sort=SORTS[sortIdx][0];
+  document.getElementById('sortLabel').textContent=SORTS[sortIdx][1];
+  document.getElementById('sortBtn').classList.toggle('on',sortIdx!==0);
+  render();
+}
+
+function openFilters(){ document.getElementById('filterSheet').classList.add('open'); document.getElementById('overlay').classList.add('open'); }
+function closeFilters(){ document.getElementById('filterSheet').classList.remove('open'); document.getElementById('overlay').classList.remove('open'); }
+document.getElementById('rateChips').addEventListener('click',function(e){
+  var b=e.target.closest('.fchip'); if(!b) return;
+  document.querySelectorAll('#rateChips .fchip').forEach(function(c){c.classList.remove('on');});
+  b.classList.add('on');
 });
+function applyFilters(){
+  state.pMin=parseFloat(document.getElementById('pMin').value)||null;
+  state.pMax=parseFloat(document.getElementById('pMax').value)||null;
+  var rOn=document.querySelector('#rateChips .fchip.on');
+  state.rate=rOn?parseFloat(rOn.dataset.rate):0;
+  state.freeShip=document.getElementById('fFreeShip').classList.contains('on');
+  state.promo=document.getElementById('fPromo').classList.contains('on');
+  var n=[state.pMin!==null||state.pMax!==null, state.rate>0, state.freeShip, state.promo].filter(Boolean).length;
+  document.getElementById('fcount').textContent=n>0?'('+n+')':'';
+  closeFilters(); render();
+}
+function resetFilters(){
+  document.getElementById('pMin').value=''; document.getElementById('pMax').value='';
+  document.querySelectorAll('#rateChips .fchip').forEach(function(c,i){c.classList.toggle('on',i===0);});
+  document.getElementById('fFreeShip').classList.remove('on');
+  document.getElementById('fPromo').classList.remove('on');
+  state.pMin=null; state.pMax=null; state.rate=0; state.freeShip=false; state.promo=false;
+  document.getElementById('fcount').textContent='';
+  closeFilters(); render();
+}
+
+document.getElementById('searchInput').addEventListener('input',function(){
+  state.search=this.value.toLowerCase().trim();
+  if(state.search && !state.cat){ document.getElementById('toolbar').style.display='flex'; }
+  render();
+});
+
+function render(){
+  var grid=document.getElementById('prodGrid');
+  if(!state.cat && !state.search){ grid.innerHTML=''; document.getElementById('resultNb').textContent=''; return; }
+  var list=PRODUCTS.filter(function(p){
+    if(state.cat && p.cat!==state.cat) return false;
+    if(state.sub && p.sub!==state.sub) return false;
+    if(state.search && p.nom.toLowerCase().indexOf(state.search)===-1 && p.vendor.toLowerCase().indexOf(state.search)===-1) return false;
+    if(state.pMin!==null && p.prix<state.pMin) return false;
+    if(state.pMax!==null && p.prix>state.pMax) return false;
+    if(state.rate>0 && p.note<state.rate) return false;
+    if(state.freeShip && !p.free) return false;
+    if(state.promo && !p.promo) return false;
+    return true;
+  });
+  if(state.sort==='prix-asc') list.sort(function(a,b){return a.prix-b.prix;});
+  else if(state.sort==='prix-desc') list.sort(function(a,b){return b.prix-a.prix;});
+  else if(state.sort==='ventes') list.sort(function(a,b){return b.vendus-a.vendus;});
+  else if(state.sort==='note') list.sort(function(a,b){return b.note-a.note;});
+  else list.sort(function(a,b){return b.vendus-a.vendus;});
+
+  document.getElementById('resultNb').textContent=list.length+' résultat'+(list.length>1?'s':'');
+  if(!list.length){
+    grid.innerHTML='<div class="empty"><i data-lucide="package-search"></i><b>Aucun produit trouvé</b><p style="font-size:12px;margin-top:5px">Essaie d\'autres filtres ou une autre recherche</p></div>';
+    lucide.createIcons(); return;
+  }
+  grid.innerHTML=list.map(function(p){
+    return '<div class="pcard" onclick="location.href=\'produit.html?id='+p.id+'\'">'+
+      '<div class="pimg">'+(p.promo?'<span class="ptag">-'+Math.round((1-p.prix/p.old)*100)+'%</span>':'')+'<img src="'+p.img+'" alt="'+p.nom+'"></div>'+
+      '<div class="pbody">'+
+        '<div class="pvendor"><i data-lucide="store"></i> '+p.vendor+'</div>'+
+        '<div class="pname">'+p.nom+'</div>'+
+        '<div class="prate"><i data-lucide="star"></i> '+p.note+' <span>('+p.avis+') · '+p.vendus+' vendus</span></div>'+
+        '<div><span class="pprice">'+p.prix.toLocaleString('fr')+' F</span>'+(p.old?'<span class="pold">'+p.old.toLocaleString('fr')+'</span>':'')+'</div>'+
+      '</div></div>';
+  }).join('');
+  lucide.createIcons();
+}
+lucide.createIcons();
 </script>
 </body>
 </html>
