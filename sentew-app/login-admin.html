@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - SEN TEW</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<style>
+body{background:#0a1f17;color:#fff;font-family:'Segoe UI',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}
+.box{background:#12291f;padding:32px;border-radius:20px;width:90%;max-width:360px;text-align:center}
+h1{color:#d4a574;font-size:20px;margin-bottom:20px}
+input{width:100%;padding:13px;margin:6px 0;border-radius:10px;border:1px solid #2d4a3e;background:#0a1f17;color:#fff;font-size:14px;box-sizing:border-box}
+button{width:100%;padding:13px;background:#0f6b4e;color:#fff;border:none;border-radius:10px;font-weight:800;font-size:15px;cursor:pointer;margin-top:10px}
+.err{color:#ff8585;font-size:13px;margin-top:10px;min-height:18px}
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>🔐 Administration SEN TEW</h1>
+  <input type="email" id="email" placeholder="Email admin">
+  <input type="password" id="pass" placeholder="Mot de passe">
+  <button onclick="login()">Se connecter</button>
+  <div class="err" id="err"></div>
+</div>
+<script>
+async function login(){
+  var email = document.getElementById('email').value.trim();
+  var pass = document.getElementById('pass').value;
+  var err = document.getElementById('err');
+  var res = await supabase.auth.signInWithPassword({email: email, password: pass});
+  if (res.error) { err.textContent = 'Identifiants incorrects'; return; }
+  var chk = await supabase.from('admins').select('email').eq('email', email).single();
+  if (!chk.data) { err.textContent = 'Accès non autorisé'; await supabase.auth.signOut(); return; }
+  location.href = 'admin.html';
+}
+</script>
+</body>
+</html>
