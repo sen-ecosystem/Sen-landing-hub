@@ -2,177 +2,158 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Boutique Moussa Tech — SEN TEW</title>
-<link rel="stylesheet" href="css/app.css?v=50">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Boutique - SEN TEW</title>
 <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/supabase.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:86px;color:#0a1f17}
+.topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:30}
+.topbar h1{font-size:17px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
+.icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e;text-decoration:none}
+.shop-head{background:#fff;padding:20px 16px 16px;border-bottom:1px solid #e5e7eb}
+.shop-row{display:flex;align-items:center;gap:14px}
+.shop-avatar{width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid #0f6b4e;flex-shrink:0}
+.shop-name{font-size:20px;font-weight:900;color:#0a1f17;display:flex;align-items:center;gap:6px}
+.shop-meta{font-size:12px;color:#6B7280;margin-top:3px}
+.shop-desc{font-size:13px;color:#4b5563;margin-top:10px;line-height:1.5}
+.stats{display:flex;gap:10px;margin-top:14px}
+.stat{flex:1;background:#f5f5f0;border-radius:14px;padding:12px 6px;text-align:center}
+.stat b{display:block;font-size:17px;color:#0a1f17}
+.stat span{font-size:11px;color:#6B7280}
+.actions{display:flex;gap:10px;margin-top:14px}
+.btn-follow{flex:1;padding:12px;background:#0f6b4e;color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer}
+.btn-follow.on{background:#e5e7eb;color:#0a1f17}
+.btn-square{width:46px;height:46px;border-radius:12px;border:1.5px solid #0f6b4e;background:#fff;color:#0f6b4e;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none}
+.section{padding:16px 16px 0;font-size:13px;font-weight:800;color:#b8860b;letter-spacing:.5px;display:flex;align-items:center;gap:6px}
+.pcard-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 16px}
+.pcard{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);cursor:pointer;animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.pcard img{width:100%;height:150px;object-fit:cover;display:block}
+.pbody{padding:10px 12px 12px}
+.pname{font-size:13px;font-weight:800;color:#0a1f17;line-height:1.3;margin-bottom:4px;min-height:34px}
+.pprice{font-size:16px;font-weight:900;color:#0f6b4e}
+.pold{font-size:11px;color:#9aa5a0;text-decoration:line-through;margin-left:6px}
+.prate{font-size:11px;color:#9aa5a0;margin-top:3px}
+.empty{text-align:center;padding:60px 20px;color:#9aa5a0}
+.loading{text-align:center;padding:60px 20px;color:#0f6b4e;font-weight:700}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
+.bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600}
+.bottom-nav a.active{color:#0f6b4e}
+</style>
 </head>
-<body class="light-mode">
-
+<body>
 <header class="topbar">
-  <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left" class="icon icon-md icon-vert"></i></button>
-  <h1><i data-lucide="store" class="icon icon-md icon-vert"></i> Boutique</h1>
-  <button class="icon-btn"><i data-lucide="share-2" class="icon icon-md icon-vert"></i></button>
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="store"></i> Boutique</h1>
+  <button class="icon-btn" onclick="shareShop()"><i data-lucide="share-2"></i></button>
 </header>
 
-<main style="padding-bottom:100px">
-
-  <!-- Hero Boutique -->
-  <section style="padding:20px 16px;background:linear-gradient(135deg,#f5f5f0,#ffffff);border-bottom:1px solid #e5e5e0">
-    <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
-      <div style="width:76px;height:76px;border-radius:50%;border:3px solid #d4a574;padding:2px;flex-shrink:0">
-        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop" style="width:100%;height:100%;border-radius:50%;object-fit:cover">
-      </div>
-      <div style="flex:1">
-        <h2 style="font-size:20px;font-weight:800;color:#a67c3a;display:flex;align-items:center;gap:6px">Moussa Tech <i data-lucide="badge-check" class="icon icon-sm icon-or"></i></h2>
-        <p style="color:#4a5a52;font-size:13px;margin-top:2px">Boutique Premium · Depuis 2024</p>
-        <div style="display:flex;gap:6px;margin-top:6px">
-          <span style="background:rgba(212,165,116,0.2);color:#a67c3a;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700">Vendeur Gold</span>
-          <span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:800;display:flex;align-items:center;gap:3px"><i data-lucide="radio" style="width:9px;height:9px"></i> LIVE</span>
-        </div>
-      </div>
+<div class="shop-head">
+  <div class="shop-row">
+    <img id="shopAvatar" class="shop-avatar" src="" alt="Logo boutique">
+    <div style="flex:1;min-width:0">
+      <div class="shop-name"><span id="shopName">Chargement…</span> <i data-lucide="badge-check" style="color:#0f6b4e;width:18px"></i></div>
+      <div class="shop-meta" id="shopMeta"></div>
     </div>
-
-    <!-- Stats fix -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px">
-
-  <div class="shop-hero-stat" style="background:#fff;border-radius:14px;padding:14px 8px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05)">
-    <div style="width:36px;height:36px;background:rgba(15,107,78,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px">
-      <i data-lucide="users" style="width:20px;height:20px;color:#0f6b4e"></i>
-    </div>
-    <strong style="display:block;font-size:18px;color:#0a1f17;font-weight:900">1.2k</strong>
-    <small style="color:#4a5a52;font-size:12px">Abonnés</small>
   </div>
-
-  <div class="shop-hero-stat" style="background:#fff;border-radius:14px;padding:14px 8px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05)">
-    <div style="width:36px;height:36px;background:rgba(59,130,246,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px">
-      <i data-lucide="package" style="width:20px;height:20px;color:#3b82f6"></i>
-    </div>
-    <strong style="display:block;font-size:18px;color:#0a1f17;font-weight:900">32</strong>
-    <small style="color:#4a5a52;font-size:12px">Produits</small>
+  <div class="shop-desc" id="shopDesc"></div>
+  <div class="stats">
+    <div class="stat"><b id="stFollowers">0</b><span>Abonnés</span></div>
+    <div class="stat"><b id="stProducts">0</b><span>Produits</span></div>
+    <div class="stat"><b id="stRating">0</b><span>Note ⭐</span></div>
   </div>
-
-  <div class="shop-hero-stat" style="background:#fff;border-radius:14px;padding:14px 8px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05)">
-    <div style="width:36px;height:36px;background:rgba(245,158,11,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px">
-      <i data-lucide="star" style="width:20px;height:20px;color:#f59e0b"></i>
-    </div>
-    <strong style="display:block;font-size:18px;color:#0a1f17;font-weight:900">4.7 ⭐</strong>
-    <small style="color:#4a5a52;font-size:12px">389 avis</small>
+  <div class="actions">
+    <button class="btn-follow" id="btnFollow" onclick="toggleFollow()">+ Suivre</button>
+    <a class="btn-square" id="btnChat" href="#"><i data-lucide="message-circle"></i></a>
+    <button class="btn-square" onclick="shareShop()"><i data-lucide="share-2"></i></button>
   </div>
-
 </div>
-    <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px">
-      <button class="btn-primary" style="padding:11px;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="plus" class="icon icon-sm icon-blanc"></i> Suivre</button>
-      <button style="padding:11px;background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e;border-radius:10px;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px" onclick="location.href='messages.html'"><i data-lucide="message-circle" class="icon icon-sm icon-vert"></i></button>
-      <button style="padding:11px;background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e;border-radius:10px;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="share-2" class="icon icon-sm icon-vert"></i></button>
-    </div>
-  </section>
 
-  <h2 class="section-title"><i data-lucide="grid-3x3" class="icon icon-sm icon-vert"></i> PRODUITS DE LA BOUTIQUE</h2>
-  <div class="pcard-grid">
-
-    <article class="pcard" onclick="location.href='produit.html?id=100'">
-      <div class="pcard-badges"><span class="pcard-badge pcard-badge-live"><i data-lucide="radio" style="width:9px;height:9px;display:inline"></i> LIVE</span></div>
-      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=400&h=400&fit=crop" alt="iPhone 15"></div>
-      <div class="pcard-body" style="padding:10px 12px 12px">
-        <div class="pcard-seller" style="font-size:12px;margin-bottom:4px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%;display:inline-block;margin-right:4px"></span>Moussa Tech</div>
-        <h3 class="pcard-name" style="font-size:14px;margin-bottom:4px">iPhone 15 Pro Max 256GB</h3>
-        <p class="pcard-price" style="font-size:16px">750 000 FCFA</p>
-      </div>
-    </article>
-
-    <article class="pcard" onclick="location.href='produit.html?id=101'">
-      <div class="pcard-badges"><span class="pcard-badge pcard-badge-disc">-15%</span></div>
-      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=400&h=400&fit=crop" alt="AirPods"></div>
-      <div class="pcard-body" style="padding:10px 12px 12px">
-        <div class="pcard-seller" style="font-size:12px;margin-bottom:4px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%;display:inline-block;margin-right:4px"></span>Moussa Tech</div>
-        <h3 class="pcard-name" style="font-size:14px;margin-bottom:4px">AirPods Pro 2</h3>
-        <p class="pcard-price" style="font-size:16px">125 000 FCFA</p>
-      </div>
-    </article>
-
-    <article class="pcard" onclick="location.href='produit.html?id=102'">
-      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=400&fit=crop" alt="Apple Watch"></div>
-      <div class="pcard-body" style="padding:10px 12px 12px">
-        <div class="pcard-seller" style="font-size:12px;margin-bottom:4px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%;display:inline-block;margin-right:4px"></span>Moussa Tech</div>
-        <h3 class="pcard-name" style="font-size:14px;margin-bottom:4px">Apple Watch Series 9</h3>
-        <p class="pcard-price" style="font-size:16px">280 000 FCFA</p>
-      </div>
-    </article>
-
-    <article class="pcard" onclick="location.href='produit.html?id=103'">
-      <div class="pcard-badges"><span class="pcard-badge">Nouveau</span></div>
-      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=400&fit=crop" alt="MacBook"></div>
-      <div class="pcard-body" style="padding:10px 12px 12px">
-        <div class="pcard-seller" style="font-size:12px;margin-bottom:4px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%;display:inline-block;margin-right:4px"></span>Moussa Tech</div>
-        <h3 class="pcard-name" style="font-size:14px;margin-bottom:4px">MacBook Pro M3 14"</h3>
-        <p class="pcard-price" style="font-size:16px">1 250 000 FCFA</p>
-      </div>
-    </article>
-
-  </div>
-
-</main>
+<div class="section"><i data-lucide="grid-3x3" style="width:16px"></i> PRODUITS DE LA BOUTIQUE</div>
+<div class="pcard-grid" id="grid"><div class="loading">Chargement des produits…</div></div>
 
 <nav class="bottom-nav">
-  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="layout-grid" class="icon icon-md"></i><span>Catégories</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
-  <a href="favoris.html"><i data-lucide="heart" class="icon icon-md"></i><span>Favoris</span></a>
-  <a href="profil.html"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="layout-grid"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="favoris.html"><i data-lucide="heart"></i><span>Favoris</span></a>
+  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
-<script src="js/dark-mode.js?v=50"></script>
-<script>lucide.createIcons();</script>
-  <script src="js/buttons-audit.js?v=51"></script>
-<!-- ===== DONNÉES RÉELLES SUPABASE ===== -->
 <script>
-window.addEventListener('load', async function(){
-  var SLUGS = {'1':'aicha-couture','2':'moussa-tech','3':'mariama-b','4':'fatou-fashion'};
-  var params = new URLSearchParams(window.location.search);
-  var slug = params.get('slug') || SLUGS[params.get('id')] || 'moussa-tech';
+var SLUGS = {'1':'aicha-couture','2':'moussa-tech','3':'mariama-b','4':'fatou-fashion'};
+var params = new URLSearchParams(location.search);
+var slug = params.get('slug') || SLUGS[params.get('id')] || 'moussa-tech';
+var SHOP = null;
 
-  try {
-    // 1. Charger la boutique
-    var res = await supabase.from('vendors').select('*').eq('slug', slug).single();
-    var shop = res.data;
-    if (!shop) { console.warn('Boutique introuvable'); return; }
+function fmt(n){ return n.toLocaleString('fr-FR'); }
 
-    // 2. Charger ses produits
-    var res2 = await supabase.from('products').select('*')
-      .eq('vendor_id', shop.id).eq('is_active', true);
-    var prods = res2.data || [];
-
-    // 3. Mettre à jour le nom + logo de la boutique
-    var nameEl = document.querySelector('.shop-name') || document.querySelector('h1');
-    if (nameEl) nameEl.textContent = shop.shop_name;
-    var logo = document.querySelector('.shop-avatar img, .avatar img');
-    if (logo && shop.logo_url) logo.src = shop.logo_url;
-
-    // 4. Reconstruire les cartes produits avec les VRAIES données
-    if (prods.length) {
-      var grid = document.querySelector('.pcard-grid');
-      if (grid) {
-        grid.innerHTML = prods.map(function(p){
-          var img = (p.images && p.images[0]) ? p.images[0] : '';
-          var prix = p.price.toLocaleString('fr-FR');
-          return '<article class="pcard" onclick="location.href=\'produit.html?id=' + p.id + '\'">' +
-            '<div class="pcard-img"><img src="' + img + '" alt="' + p.name + '"></div>' +
-            '<div class="pcard-body" style="padding:10px 12px 12px">' +
-              '<div class="pcard-seller" style="font-size:12px;margin-bottom:4px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%;display:inline-block;margin-right:4px"></span>' + shop.shop_name + '</div>' +
-              '<h3 class="pcard-name" style="font-size:14px;margin-bottom:4px">' + p.name + '</h3>' +
-              '<p class="pcard-price" style="font-size:16px">' + prix + ' FCFA</p>' +
-            '</div></article>';
-        }).join('');
-        console.log('✅ ' + prods.length + ' produits réels chargés pour ' + shop.shop_name);
-      }
-    }
-  } catch(err) {
-    console.warn('Supabase indisponible:', err);
+async function init(){
+  var res = await supabase.from('vendors').select('*').eq('slug', slug).single();
+  if (!res.data) {
+    document.getElementById('shopName').textContent = 'Boutique introuvable';
+    document.getElementById('grid').innerHTML = '<div class="empty">Cette boutique n\'existe pas.</div>';
+    return;
   }
-});
+  SHOP = res.data;
+  document.title = SHOP.shop_name + ' - SEN TEW';
+  document.getElementById('shopName').textContent = SHOP.shop_name;
+  document.getElementById('shopMeta').textContent = (SHOP.category||'') + ' · ' + (SHOP.city||'Dakar');
+  document.getElementById('shopDesc').textContent = SHOP.description || '';
+  document.getElementById('shopAvatar').src = SHOP.logo_url || '';
+  document.getElementById('stFollowers').textContent = fmt(SHOP.followers || 0);
+  document.getElementById('stRating').textContent = SHOP.rating || '5.0';
+  document.getElementById('btnChat').href = 'chat.html?v=' + SHOP.slug;
+
+  var res2 = await supabase.from('products').select('*')
+    .eq('vendor_id', SHOP.id).eq('is_active', true)
+    .order('created_at', {ascending:false});
+  var prods = res2.data || [];
+  document.getElementById('stProducts').textContent = prods.length;
+
+  var grid = document.getElementById('grid');
+  if (!prods.length) { grid.innerHTML = '<div class="empty">Aucun produit pour le moment.</div>'; return; }
+  grid.innerHTML = prods.map(function(p){
+    var img = (p.images && p.images[0]) ? p.images[0] : '';
+    var old = p.old_price ? '<span class="pold">' + fmt(p.old_price) + ' FCFA</span>' : '';
+    var link = 'produit.html?pid=' + p.id;
+    return '<article class="pcard" onclick="location.href=\'' + link + '\'">' +
+      '<img src="' + img + '" alt="' + p.name + '">' +
+      '<div class="pbody">' +
+        '<div class="pname">' + p.name + '</div>' +
+        '<div><span class="pprice">' + fmt(p.price) + ' FCFA</span>' + old + '</div>' +
+        '<div class="prate">⭐ ' + (p.rating||'—') + ' · ' + (p.sold_count||0) + ' vendus</div>' +
+      '</div></article>';
+  }).join('');
+  lucide.createIcons();
+}
+
+function toggleFollow(){
+  var b = document.getElementById('btnFollow');
+  var key = 'follow_' + slug;
+  var on = localStorage.getItem(key) === '1';
+  if (on) { localStorage.setItem(key,'0'); b.textContent='+ Suivre'; b.classList.remove('on'); }
+  else { localStorage.setItem(key,'1'); b.textContent='✓ Suivi'; b.classList.add('on'); }
+}
+
+function shareShop(){
+  var txt = (SHOP ? SHOP.shop_name : 'Boutique') + ' sur SEN TEW → ' + location.href;
+  if (navigator.share) navigator.share({title:'SEN TEW', text:txt}).catch(function(){});
+  else if (navigator.clipboard) { navigator.clipboard.writeText(txt); alert('✓ Lien copié !'); }
+}
+
+// Restaurer l'état "Suivi"
+if (localStorage.getItem('follow_' + slug) === '1') {
+  var b = document.getElementById('btnFollow');
+  b.textContent = '✓ Suivi'; b.classList.add('on');
+}
+
+lucide.createIcons();
+init();
 </script>
+<script src="js/dark-mode.js"></script>
 </body>
 </html>
