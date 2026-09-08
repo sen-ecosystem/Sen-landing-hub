@@ -38,6 +38,11 @@
 </style>
 </head>
 <body class="light-mode" data-theme="light">
+  <script>
+supabase.auth.getSession().then(function(r){
+  if (!r.data.session) location.href = 'login-admin.html';
+});
+</script>
 <header class="topbar">
   <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
   <h1><i data-lucide="shield" class="icon-vert"></i> Admin</h1>
@@ -188,6 +193,5 @@
 </nav>
 <script>lucide.createIcons();</script>
   <script src="js/buttons-audit.js?v=51"></script>
-
 </body>
 </html>
