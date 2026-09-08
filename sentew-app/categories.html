@@ -69,6 +69,9 @@
   .fs-actions button{flex:1;padding:13px;border-radius:12px;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit}
   .fs-reset{background:#f5f5f0;border:1.5px solid #e5e7eb;color:#4a5a52}
   .fs-apply{background:#0f6b4e;border:none;color:#fff}
+  .flash-ad{display:flex;align-items:center;gap:12px;color:#fff;border-radius:14px;padding:14px 16px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.15);animation:adGlow 2s infinite}
+  @keyframes adGlow{0%,100%{box-shadow:0 4px 14px rgba(0,0,0,.15)}50%{box-shadow:0 4px 22px rgba(230,57,70,.4)}}
+  @keyframes adBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
   .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
   .bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:#666;font-size:10px;font-weight:600;padding:4px 10px}
   .bottom-nav a.active{color:#0f6b4e}
@@ -101,27 +104,23 @@
 <div class="sheet-overlay" id="overlay" onclick="closeFilters()"></div>
 <div class="filter-sheet" id="filterSheet">
   <div class="fs-title">Filtres <button onclick="closeFilters()">✕</button></div>
-
   <div class="fs-sec">PRIX (FCFA)</div>
   <div class="price-row">
     <input type="number" id="pMin" placeholder="Min" min="0">
     <span style="color:#9aa5a0">—</span>
     <input type="number" id="pMax" placeholder="Max" min="0">
   </div>
-
   <div class="fs-sec">NOTE MINIMUM</div>
   <div class="fchip-row" id="rateChips">
     <button class="fchip on" data-rate="0">Toutes</button>
     <button class="fchip" data-rate="4">4★ et +</button>
     <button class="fchip" data-rate="4.5">4.5★ et +</button>
   </div>
-
   <div class="fs-sec">AVANTAGES</div>
   <div class="fchip-row">
-    <button class="fchip" id="fFreeShip" onclick="this.classList.toggle('on')"><i data-lucide="truck" style="width:12px;height:12px;vertical-align:-2px"></i> Livraison gratuite</button>
-    <button class="fchip" id="fPromo" onclick="this.classList.toggle('on')"><i data-lucide="tag" style="width:12px;height:12px;vertical-align:-2px"></i> En promotion</button>
+    <button class="fchip" id="fFreeShip" onclick="this.classList.toggle('on')">🚚 Livraison gratuite</button>
+    <button class="fchip" id="fPromo" onclick="this.classList.toggle('on')">🏷️ En promotion</button>
   </div>
-
   <div class="fs-actions">
     <button class="fs-reset" onclick="resetFilters()">Réinitialiser</button>
     <button class="fs-apply" onclick="applyFilters()">Voir les résultats</button>
@@ -169,6 +168,15 @@ var PRODUCTS=[
   {id:41,cat:'sport',sub:'Fitness',nom:'Tapis yoga antidérapant',prix:11000,old:null,note:4.6,avis:112,vendus:280,vendor:'Moussa Tech',bid:2,free:true,promo:false,img:'https://images.unsplash.com/photo-1592432678016-e910b452f9a2?w=400&h=400&fit=crop'}
 ];
 
+/* Pubs FLASH intégrées — 1 panneau tous les 8 produits */
+var ADS=[
+  {bg:'linear-gradient(135deg,#e63946,#ff7b00)',icon:'⚡',title:'VENTE FLASH -30%',sub:'Code RAMADAN30 · Jusqu\'à ce soir 23h',btn:'J\'EN PROFITE ›',href:'produits.html?c=mode'},
+  {bg:'linear-gradient(135deg,#0f6b4e,#0a4d38)',icon:'🎁',title:'PARRAINAGE : 500 FCFA OFFERTS',sub:'Par ami qui fait sa 1ère commande',btn:'PARRAINER ›',href:'parrainage.html'},
+  {bg:'linear-gradient(135deg,#6b46c1,#4c1d95)',icon:'🔴',title:'LIVE SHOPPING EN DIRECT',sub:'Achète en direct auprès des vendeurs',btn:'REGARDER ›',href:'boutiques-live.html'},
+  {bg:'linear-gradient(135deg,#d4a574,#b8860b)',icon:'🚚',title:'LIVRAISON GRATUITE',sub:'Dès 50 000 FCFA d\'achat · Partout au Sénégal',btn:'COMMANDER ›',href:'produits.html'}
+];
+var AD_EVERY=8;
+
 var state={cat:null,sub:null,search:'',sort:'pertinence',pMin:null,pMax:null,rate:0,freeShip:false,promo:false};
 var SORTS=[['pertinence','Pertinence'],['prix-asc','Prix croissant'],['prix-desc','Prix décroissant'],['ventes','Meilleures ventes'],['note','Meilleures notes']];
 var sortIdx=0;
@@ -178,7 +186,6 @@ document.getElementById('catsGrid').innerHTML=CATS.map(function(c){
     '<div class="cat-icon" style="background:'+c.bg+'"><i data-lucide="'+c.icon+'" style="color:'+c.c+'"></i></div>'+
     '<div class="cat-name">'+c.nom+'</div><div class="cat-count">'+c.count.toLocaleString('fr')+' produits</div></div>';
 }).join('');
-lucide.createIcons();
 
 function selectCat(id){
   if(state.cat===id){
@@ -205,7 +212,6 @@ function selectSub(sub,btn){
   btn.classList.add('on');
   render();
 }
-
 function cycleSort(){
   sortIdx=(sortIdx+1)%SORTS.length;
   state.sort=SORTS[sortIdx][0];
@@ -213,7 +219,6 @@ function cycleSort(){
   document.getElementById('sortBtn').classList.toggle('on',sortIdx!==0);
   render();
 }
-
 function openFilters(){ document.getElementById('filterSheet').classList.add('open'); document.getElementById('overlay').classList.add('open'); }
 function closeFilters(){ document.getElementById('filterSheet').classList.remove('open'); document.getElementById('overlay').classList.remove('open'); }
 document.getElementById('rateChips').addEventListener('click',function(e){
@@ -241,12 +246,18 @@ function resetFilters(){
   document.getElementById('fcount').textContent='';
   closeFilters(); render();
 }
-
 document.getElementById('searchInput').addEventListener('input',function(){
   state.search=this.value.toLowerCase().trim();
   if(state.search && !state.cat){ document.getElementById('toolbar').style.display='flex'; }
   render();
 });
+
+function adHTML(ad){
+  return '<a href="'+ad.href+'" class="flash-ad" style="grid-column:1/-1;background:'+ad.bg+'">'+
+    '<div style="width:42px;height:42px;border-radius:11px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:22px;animation:adBounce 1.6s infinite">'+ad.icon+'</div>'+
+    '<div style="flex:1;min-width:0"><div style="font-weight:900;font-size:13px;letter-spacing:.3px">'+ad.title+'</div><div style="font-size:10.5px;opacity:.92;margin-top:2px">'+ad.sub+'</div></div>'+
+    '<span style="background:#fff;color:#0a1f17;font-size:10px;font-weight:800;padding:7px 12px;border-radius:10px;flex-shrink:0">'+ad.btn+'</span></a>';
+}
 
 function render(){
   var grid=document.getElementById('prodGrid');
@@ -273,8 +284,9 @@ function render(){
     grid.innerHTML='<div class="empty"><i data-lucide="package-search"></i><b>Aucun produit trouvé</b><p style="font-size:12px;margin-top:5px">Essaie d\'autres filtres ou une autre recherche</p></div>';
     lucide.createIcons(); return;
   }
-  grid.innerHTML=list.map(function(p){
-    return '<div class="pcard" onclick="location.href=\'produit.html?id='+p.id+'\'">'+
+  var html='', adIdx=0;
+  list.forEach(function(p,i){
+    html+='<div class="pcard" onclick="location.href=\'produit.html?id='+p.id+'\'">'+
       '<div class="pimg">'+(p.promo?'<span class="ptag">-'+Math.round((1-p.prix/p.old)*100)+'%</span>':'')+'<img src="'+p.img+'" alt="'+p.nom+'"></div>'+
       '<div class="pbody">'+
         '<div class="pvendor"><i data-lucide="store"></i> '+p.vendor+'</div>'+
@@ -282,49 +294,15 @@ function render(){
         '<div class="prate"><i data-lucide="star"></i> '+p.note+' <span>('+p.avis+') · '+p.vendus+' vendus</span></div>'+
         '<div><span class="pprice">'+p.prix.toLocaleString('fr')+' F</span>'+(p.old?'<span class="pold">'+p.old.toLocaleString('fr')+'</span>':'')+'</div>'+
       '</div></div>';
-  }).join('');
+    /* Pub FLASH pleine largeur tous les 8 produits */
+    if((i+1)%AD_EVERY===0 && i<list.length-1){
+      html+=adHTML(ADS[adIdx%ADS.length]); adIdx++;
+    }
+  });
+  grid.innerHTML=html;
   lucide.createIcons();
 }
 lucide.createIcons();
-<script>
-/* ===== PANNEAU FLASH dans la grille catégories (tous les 8 produits) ===== */
-var CAT_ADS=[
-  {bg:'linear-gradient(135deg,#e63946,#ff7b00)',icon:'⚡',title:'VENTE FLASH -30%',sub:'Code RAMADAN30 · Jusqu\'à ce soir 23h',btn:'J\'EN PROFITE ›',href:'produits.html?c=mode'},
-  {bg:'linear-gradient(135deg,#0f6b4e,#0a4d38)',icon:'🎁',title:'PARRAINAGE : 500 FCFA OFFERTS',sub:'Par ami qui fait sa 1ère commande',btn:'PARRAINER ›',href:'parrainage.html'},
-  {bg:'linear-gradient(135deg,#6b46c1,#4c1d95)',icon:'🔴',title:'LIVE SHOPPING EN DIRECT',sub:'Achète en direct auprès des vendeurs',btn:'REGARDER ›',href:'boutiques-live.html'},
-  {bg:'linear-gradient(135deg,#d4a574,#b8860b)',icon:'🚚',title:'LIVRAISON GRATUITE',sub:'Dès 50 000 FCFA d\'achat · Partout au Sénégal',btn:'COMMANDER ›',href:'produits.html'}
-];
-var CAT_AD_EVERY=8; /* 1 pub tous les 8 produits */
-var catAdIdx=0;
-function catAdHTML(){
-  var ad=CAT_ADS[catAdIdx%CAT_ADS.length]; catAdIdx++;
-  return '<a href="'+ad.href+'" class="flash-ad" style="grid-column:1/-1;display:flex;align-items:center;gap:12px;background:'+ad.bg+';color:#fff;border-radius:14px;padding:14px 16px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.15);animation:adGlow 2s infinite">'+
-    '<div style="width:42px;height:42px;border-radius:11px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:22px;animation:adBounce 1.6s infinite">'+ad.icon+'</div>'+
-    '<div style="flex:1;min-width:0"><div style="font-weight:900;font-size:13px;letter-spacing:.3px">'+ad.title+'</div><div style="font-size:10.5px;opacity:.92;margin-top:2px">'+ad.sub+'</div></div>'+
-    '<span style="background:#fff;color:#0a1f17;font-size:10px;font-weight:800;padding:7px 12px;border-radius:10px;flex-shrink:0">'+ad.btn+'</span></a>';
-}
-/* Injecte les pubs après chaque rendu de la grille */
-(function(){
-  var origRender=render;
-  render=function(){
-    origRender();
-    var grid=document.getElementById('prodGrid');
-    if(!grid) return;
-    grid.querySelectorAll('.flash-ad').forEach(function(a){a.remove();});
-    var cards=grid.querySelectorAll('.pcard');
-    catAdIdx=0;
-    cards.forEach(function(card,i){
-      if((i+1)%CAT_AD_EVERY===0 && i<cards.length-1){
-        card.insertAdjacentHTML('afterend',catAdHTML());
-      }
-    });
-    if(window.lucide) lucide.createIcons();
-  };
-})();
 </script>
-<style>
-@keyframes adGlow{0%,100%{box-shadow:0 4px 14px rgba(0,0,0,.15)}50%{box-shadow:0 4px 22px rgba(230,57,70,.4)}}
-@keyframes adBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-</style>
 </body>
 </html>
