@@ -2,302 +2,242 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<meta name="theme-color" content="#0f6b4e">
-<title>SEN TEW — Marketplace panafricaine</title>
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="css/app.css?v=50">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>SEN TEW - Marketplace du Sénégal</title>
 <script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/supabase.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:86px;color:#0a1f17}
+.topbar{display:flex;align-items:center;gap:14px;padding:14px 16px;background:#fff;position:sticky;top:0;z-index:40;border-bottom:1px solid #e5e7eb}
+.logo{font-size:19px;font-weight:900;color:#0f6b4e;display:flex;align-items:center;gap:6px;text-decoration:none;flex:1}
+.topbar a.icon,.topbar button.icon{width:38px;height:38px;border-radius:50%;background:#f5f5f0;display:flex;align-items:center;justify-content:center;color:#0f6b4e;text-decoration:none;border:none;cursor:pointer;position:relative}
+/* ===== Bannière promo (fixe, sans bouton fermer) ===== */
+.promo-banner{margin:12px 16px 0;border-radius:16px;overflow:hidden;position:relative;height:74px}
+.promo-slide{position:absolute;inset:0;display:flex;align-items:center;gap:12px;padding:0 18px;color:#fff;text-decoration:none;opacity:0;transition:opacity .6s}
+.promo-slide.on{opacity:1}
+.promo-slide .pi{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.promo-slide b{display:block;font-size:14px}
+.promo-slide span{font-size:11px;opacity:.9}
+.promo-slide .go{margin-left:auto;background:#fff;color:#0a1f17;font-size:11px;font-weight:800;padding:7px 12px;border-radius:20px;flex-shrink:0}
+.promo-dots{position:absolute;bottom:6px;left:0;right:0;display:flex;justify-content:center;gap:5px}
+.promo-dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4)}
+.promo-dots i.on{background:#fff}
+/* ===== Sections ===== */
+.section-head{display:flex;align-items:center;justify-content:space-between;padding:18px 16px 10px}
+.section-head h2{font-size:13px;font-weight:800;color:#b8860b;letter-spacing:.5px;display:flex;align-items:center;gap:6px}
+.section-head a{font-size:12px;font-weight:700;color:#0f6b4e;text-decoration:none}
+/* ===== Live boutiques ===== */
+.live-row{display:flex;gap:16px;overflow-x:auto;padding:4px 16px;scrollbar-width:none}
+.live-row::-webkit-scrollbar{display:none}
+.live-item{display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;flex-shrink:0}
+.live-item .ring{width:66px;height:66px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#e63946,#ff7b00);position:relative}
+.live-item img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2.5px solid #f5f5f0;display:block}
+.live-item .lv{position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);background:#e63946;color:#fff;font-size:8px;font-weight:800;padding:2px 7px;border-radius:8px}
+.live-item span{font-size:11px;font-weight:700;color:#0a1f17;max-width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* ===== Catégories ===== */
+.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:4px 16px}
+.cat{background:#fff;border-radius:16px;padding:16px 6px;text-align:center;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.cat .ci{width:44px;height:44px;border-radius:14px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center}
+.cat span{font-size:11px;font-weight:700;color:#0a1f17}
+/* ===== Grille produits ===== */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:4px 16px}
+.pcard{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);position:relative;animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.pcard .pimg{width:100%;height:160px;object-fit:cover;display:block;cursor:pointer}
+.badge-promo{position:absolute;top:8px;left:8px;background:#e63946;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:8px;z-index:2}
+.btn-fav{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;background:#fff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.12);z-index:2;color:#9aa5a0}
+.btn-fav.on{color:#e63946}
+.btn-fav.on svg{fill:#e63946}
+.pbody{padding:10px 12px 12px}
+.pseller{font-size:11px;color:#b8860b;font-weight:700;display:flex;align-items:center;gap:4px;margin-bottom:4px;text-decoration:none}
+.pseller:hover{text-decoration:underline}
+.pname{font-size:13px;font-weight:800;color:#0a1f17;line-height:1.3;margin-bottom:4px;min-height:34px;cursor:pointer}
+.prate{font-size:11px;color:#9aa5a0;margin-bottom:4px}
+.pprice{font-size:16px;font-weight:900;color:#0f6b4e}
+.pold{font-size:11px;color:#9aa5a0;text-decoration:line-through;margin-left:6px}
+.pmeta{font-size:10px;color:#9aa5a0;margin-top:5px;display:flex;align-items:center;gap:5px}
+.btn-add{width:100%;margin-top:8px;padding:9px;background:#0f6b4e;color:#fff;border:none;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px}
+/* ===== Pub FLASH pleine largeur (tous les 6 produits) ===== */
+.flash-ad{grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:16px;border-radius:16px;color:#fff;text-decoration:none;animation:adGlow 2s infinite}
+@keyframes adGlow{0%,100%{box-shadow:0 4px 14px rgba(0,0,0,.15)}50%{box-shadow:0 4px 22px rgba(230,57,70,.45)}}
+.flash-ad .ai{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.flash-ad b{display:block;font-size:14px}
+.flash-ad span{font-size:11px;opacity:.9}
+.flash-ad .go{margin-left:auto;background:#fff;color:#0a1f17;font-size:11px;font-weight:800;padding:7px 12px;border-radius:20px;flex-shrink:0}
+.loading,.empty{grid-column:1/-1;text-align:center;padding:40px 20px;color:#9aa5a0}
+/* ===== Cookies RGPD ===== */
+.cookie-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid #0f6b4e;padding:16px;z-index:200;box-shadow:0 -4px 20px rgba(0,0,0,.12)}
+.cookie-bar h3{font-size:14px;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.cookie-bar p{font-size:12px;color:#4b5563;line-height:1.5;margin-bottom:12px}
+.cookie-bar p a{color:#0f6b4e;font-weight:700}
+.cookie-btns{display:flex;gap:8px}
+.cookie-btns button{flex:1;padding:11px;border-radius:10px;font-size:12px;font-weight:800;cursor:pointer;border:1.5px solid #0f6b4e}
+.ck-refuse{background:#fff;color:#6B7280;border-color:#d1d5db !important}
+.ck-pref{background:#fff;color:#0f6b4e}
+.ck-accept{background:#0f6b4e;color:#fff}
+/* ===== Nav ===== */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
+.bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600;position:relative}
+.bottom-nav a.active{color:#0f6b4e}
+.bottom-nav a svg{width:22px;height:22px}
+</style>
 </head>
-<body class="light-mode">
+<body>
 
 <header class="topbar">
-  <h1><i data-lucide="globe" class="icon icon-md icon-vert"></i> SEN TEW</h1>
-  <button class="icon-btn" onclick="location.href='recherche-ia.html'"><i data-lucide="search" class="icon icon-md icon-vert"></i></button>
-  <button class="icon-btn" onclick="location.href='portefeuille.html'"><i data-lucide="wallet" class="icon icon-md icon-or"></i></button>
-  <button class="icon-btn" data-theme-toggle><i data-lucide="moon" class="icon icon-md icon-vert"></i></button>
+  <a class="logo" href="index.html"><i data-lucide="globe"></i> SEN TEW</a>
+  <a class="icon" href="recherche-ia.html" aria-label="Recherche"><i data-lucide="search"></i></a>
+  <a class="icon" href="portefeuille.html" aria-label="Portefeuille"><i data-lucide="wallet"></i></a>
+  <button class="icon" onclick="document.body.classList.toggle('dark')" aria-label="Mode sombre"><i data-lucide="moon"></i></button>
 </header>
 
-<main>
-  <!-- Hero émeraude + or -->
-  <section class="hero-emerald-gold" style="margin:12px 16px">
-    <h2 style="font-size:20px;font-weight:900;margin-bottom:4px">Bienvenue sur SEN TEW</h2>
-    <p style="font-size:13px;opacity:0.95">Africa's marketplace, delivering value</p>
-    <div style="display:flex;gap:8px;margin-top:12px">
-      <button class="btn-or" onclick="location.href='produits.html'">Explorer</button>
-      <button style="background:rgba(255,255,255,0.2);color:#fff;padding:12px 20px;border-radius:10px;font-weight:700;backdrop-filter:blur(10px)" onclick="location.href='register.html'">S'inscrire</button>
-    </div>
-  </section>
+<!-- Bannière promo défilante (fixe) -->
+<div class="promo-banner" id="promoBanner"></div>
 
-  <!-- ===== BANNIÈRE PUBLICITAIRE DÉFILANTE ===== -->
-  <div id="adBanner" style="margin:0 16px 4px;position:relative;border-radius:16px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.12)">
-    <div id="adSlides" style="display:flex;transition:transform .5s ease">
-      <a href="boutiques-live.html" style="flex-shrink:0;width:100%;background:linear-gradient(135deg,#e63946,#ff7b00);padding:16px;text-decoration:none;color:#fff;display:flex;align-items:center;gap:12px">
-        <div style="font-size:28px">🔴</div>
-        <div style="flex:1;min-width:0"><div style="font-weight:900;font-size:14px">LIVE SHOPPING EN COURS</div><div style="font-size:11px;opacity:.9">-30% flash sur la mode africaine · Regarde maintenant</div></div>
-        <span style="background:#fff;color:#e63946;font-size:10px;font-weight:800;padding:5px 10px;border-radius:10px;flex-shrink:0">VOIR ›</span>
-      </a>
-      <a href="produits.html?c=mode" style="flex-shrink:0;width:100%;background:linear-gradient(135deg,#0f6b4e,#0a4d38);padding:16px;text-decoration:none;color:#fff;display:flex;align-items:center;gap:12px">
-        <div style="font-size:28px">👗</div>
-        <div style="flex:1;min-width:0"><div style="font-weight:900;font-size:14px">NOUVELLE COLLECTION WAX</div><div style="font-size:11px;opacity:.9">Code RAMADAN30 · -30% jusqu'à ce soir</div></div>
-        <span style="background:#fcd116;color:#0a4d38;font-size:10px;font-weight:800;padding:5px 10px;border-radius:10px;flex-shrink:0">J'EN PROFITE</span>
-      </a>
-      <a href="telecharger.html" style="flex-shrink:0;width:100%;background:linear-gradient(135deg,#6b46c1,#4c1d95);padding:16px;text-decoration:none;color:#fff;display:flex;align-items:center;gap:12px">
-        <div style="font-size:28px">📲</div>
-        <div style="flex:1;min-width:0"><div style="font-weight:900;font-size:14px">TÉLÉCHARGE L'APP SEN TEW</div><div style="font-size:11px;opacity:.9">App Store & Google Play · Suivi en direct</div></div>
-        <span style="background:#fff;color:#4c1d95;font-size:10px;font-weight:800;padding:5px 10px;border-radius:10px;flex-shrink:0">INSTALLER ›</span>
-      </a>
-    </div>
-    <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:5px">
-      <span class="ad-dot" style="width:14px;height:5px;border-radius:3px;background:#fff;transition:all .3s"></span>
-      <span class="ad-dot" style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.5);transition:all .3s"></span>
-      <span class="ad-dot" style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.5);transition:all .3s"></span>
-    </div>
-  </div>
+<!-- Boutiques en live -->
+<div class="section-head">
+  <h2><i data-lucide="radio" style="width:15px;color:#e63946"></i> BOUTIQUES EN LIVE</h2>
+  <a href="boutiques-live.html">Voir tout ›</a>
+</div>
+<div class="live-row" id="liveRow"><div class="loading">Chargement…</div></div>
 
-  <!-- Boutiques LIVE -->
-  <div class="section-head" style="display:flex;justify-content:space-between;align-items:center;padding:0 16px;margin-top:14px">
-    <h2 style="display:flex;align-items:center;gap:6px"><i data-lucide="radio" class="icon icon-sm icon-rouge"></i> BOUTIQUES EN LIVE</h2>
-    <a href="boutiques-live.html" class="see-all" style="font-weight:700">Voir tout ›</a>
-  </div>
-  <div class="live-scroll" style="display:flex;gap:12px;overflow-x:auto;padding:8px 16px 16px;scrollbar-width:none">
-    <div class="live-item" style="flex-shrink:0;width:100px;text-align:center;cursor:pointer" onclick="location.href='boutique.html?id=1'">
-      <div style="position:relative;width:76px;height:76px;margin:0 auto;border-radius:50%;border:3px solid #ef4444;padding:2px">
-        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop" style="width:100%;height:100%;border-radius:50%;object-fit:cover" alt="Aïcha">
-        <span style="position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);background:#ef4444;color:#fff;font-size:9px;font-weight:800;padding:2px 8px;border-radius:8px">LIVE</span>
-      </div>
-      <strong style="display:block;margin-top:10px;font-size:12px;font-weight:700">Aïcha Cout...</strong>
-    </div>
-    <div class="live-item" style="flex-shrink:0;width:100px;text-align:center;cursor:pointer" onclick="location.href='boutique.html?id=2'">
-      <div style="position:relative;width:76px;height:76px;margin:0 auto;border-radius:50%;border:3px solid #ef4444;padding:2px">
-        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" style="width:100%;height:100%;border-radius:50%;object-fit:cover" alt="Moussa">
-        <span style="position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);background:#ef4444;color:#fff;font-size:9px;font-weight:800;padding:2px 8px;border-radius:8px">LIVE</span>
-      </div>
-      <strong style="display:block;margin-top:10px;font-size:12px;font-weight:700">Moussa Tech</strong>
-    </div>
-    <div class="live-item" style="flex-shrink:0;width:100px;text-align:center;cursor:pointer" onclick="location.href='boutique.html?id=3'">
-      <div style="position:relative;width:76px;height:76px;margin:0 auto;border-radius:50%;border:3px solid #ef4444;padding:2px">
-        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&h=100&fit=crop" style="width:100%;height:100%;border-radius:50%;object-fit:cover" alt="Mariama">
-        <span style="position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);background:#ef4444;color:#fff;font-size:9px;font-weight:800;padding:2px 8px;border-radius:8px">LIVE</span>
-      </div>
-      <strong style="display:block;margin-top:10px;font-size:12px;font-weight:700">Mariama B...</strong>
-    </div>
-    <div class="live-item" style="flex-shrink:0;width:100px;text-align:center;cursor:pointer" onclick="location.href='boutique.html?id=4'">
-      <div style="position:relative;width:76px;height:76px;margin:0 auto;border-radius:50%;border:3px solid #ef4444;padding:2px">
-        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&h=100&fit=crop" style="width:100%;height:100%;border-radius:50%;object-fit:cover" alt="Fatou">
-        <span style="position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);background:#ef4444;color:#fff;font-size:9px;font-weight:800;padding:2px 8px;border-radius:8px">LIVE</span>
-      </div>
-      <strong style="display:block;margin-top:10px;font-size:12px;font-weight:700">Fatou Fash...</strong>
-    </div>
-  </div>
+<!-- Catégories -->
+<div class="section-head"><h2><i data-lucide="layout-grid" style="width:15px"></i> CATÉGORIES</h2></div>
+<div class="cats">
+  <a class="cat" href="categories.html?c=mode"><div class="ci" style="background:#ede9fe;color:#7c3aed"><i data-lucide="shirt"></i></div><span>Mode</span></a>
+  <a class="cat" href="categories.html?c=electronique"><div class="ci" style="background:#dbeafe;color:#2563eb"><i data-lucide="smartphone"></i></div><span>Tech</span></a>
+  <a class="cat" href="categories.html?c=beaute"><div class="ci" style="background:#fce7f3;color:#db2777"><i data-lucide="sparkles"></i></div><span>Beauté</span></a>
+  <a class="cat" href="categories.html?c=maison"><div class="ci" style="background:#fef3c7;color:#b45309"><i data-lucide="home"></i></div><span>Maison</span></a>
+</div>
 
-  <!-- Catégories -->
-  <div class="section-head" style="padding:0 16px">
-    <h2 style="display:flex;align-items:center;gap:6px"><i data-lucide="layout-grid" class="icon icon-sm icon-or"></i> CATÉGORIES</h2>
-  </div>
-  <div class="cats-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:8px 16px 16px">
-    <div style="text-align:center;padding:14px 6px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;cursor:pointer" onclick="location.href='produits.html?c=mode'">
-      <div style="width:44px;height:44px;margin:0 auto 6px;background:rgba(168,85,247,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center"><i data-lucide="shirt" class="icon icon-md" style="color:#a855f7"></i></div>
-      <span style="font-size:11px;font-weight:700;color:#0a1f17">Mode</span>
-    </div>
-    <div style="text-align:center;padding:14px 6px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;cursor:pointer" onclick="location.href='produits.html?c=tech'">
-      <div style="width:44px;height:44px;margin:0 auto 6px;background:rgba(59,130,246,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center"><i data-lucide="smartphone" class="icon icon-md" style="color:#3b82f6"></i></div>
-      <span style="font-size:11px;font-weight:700;color:#0a1f17">Tech</span>
-    </div>
-    <div style="text-align:center;padding:14px 6px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;cursor:pointer" onclick="location.href='produits.html?c=beaute'">
-      <div style="width:44px;height:44px;margin:0 auto 6px;background:rgba(239,68,68,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center"><i data-lucide="sparkles" class="icon icon-md" style="color:#ef4444"></i></div>
-      <span style="font-size:11px;font-weight:700;color:#0a1f17">Beauté</span>
-    </div>
-    <div style="text-align:center;padding:14px 6px;background:#fff;border:1px solid #e5e5e0;border-radius:12px;cursor:pointer" onclick="location.href='produits.html?c=maison'">
-      <div style="width:44px;height:44px;margin:0 auto 6px;background:rgba(212,165,116,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center"><i data-lucide="home" class="icon icon-md icon-or"></i></div>
-      <span style="font-size:11px;font-weight:700;color:#0a1f17">Maison</span>
-    </div>
-  </div>
+<!-- Tendances (produits réels Supabase) -->
+<div class="section-head">
+  <h2><i data-lucide="flame" style="width:15px;color:#e63946"></i> TENDANCES</h2>
+  <a href="produits.html">Voir tout ›</a>
+</div>
+<div class="grid" id="grid"><div class="loading">Chargement des produits…</div></div>
 
-  <!-- Tendances -->
-  <div class="section-head" style="display:flex;justify-content:space-between;align-items:center;padding:0 16px">
-    <h2 style="display:flex;align-items:center;gap:6px"><i data-lucide="flame" class="icon icon-sm icon-rouge"></i> TENDANCES</h2>
-    <a href="produits.html" class="see-all" style="font-weight:700">Voir tout ›</a>
-  </div>
-  <div class="pcard-grid trend-grid" style="padding:8px 16px 20px">
-
-    <article class="pcard" onclick="location.href='produit.html?id=1'">
-      <div class="pcard-badges">
-        <span class="pcard-badge pcard-badge-disc">-30%</span>
-        <span class="pcard-badge pcard-badge-live"><i data-lucide="radio" style="width:9px;height:9px;display:inline"></i> LIVE</span>
-      </div>
-      <button style="position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:3;border:none;cursor:pointer" onclick="event.stopPropagation();toggleFav(this)"><i data-lucide="heart" style="width:15px;height:15px;color:#ef4444"></i></button>
-      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=400&h=400&fit=crop" alt="Robe wax"></div>
-      <div class="pcard-body" style="padding:10px 12px 12px">
-        <div class="pcard-seller" style="display:flex;align-items:center;gap:4px;margin-bottom:6px;font-size:12px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%"></span> Aïcha Couture <i data-lucide="badge-check" style="width:12px;height:12px;color:#0f6b4e"></i></div>
-        <h3 class="pcard-name" style="font-size:14px;line-height:1.35;margin:0 0 6px;min-height:36px">Robe wax mariage traditionnelle</h3>
-        <div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><span style="color:#f59e0b;font-size:12px;letter-spacing:1px">★★★★★</span><span style="color:#4a5a52;font-size:11px">4.8 · 234 avis</span></div>
-        <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:8px">
-          <span class="pcard-price" style="color:#ef4444 !important;font-size:18px;font-weight:900">35 000 FCFA</span>
-          <span class="pcard-old-price" style="font-size:12px">50 000</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#4a5a52;margin-bottom:10px"><i data-lucide="package" style="width:12px;height:12px"></i> 1.2k vendus <span style="opacity:0.4">•</span> <i data-lucide="truck" style="width:12px;height:12px"></i> Gratuit</div>
-        <button class="btn-primary" style="width:100%;padding:9px;font-size:12px" onclick="event.stopPropagation();addToCart('Robe wax mariage traditionnelle')"><i data-lucide="shopping-cart" style="width:14px;height:14px;display:inline"></i> Ajouter</button>
-      </div>
-    </article>
-
-    <article class="pcard" onclick="location.href='produit.html?id=2'">
-      <div class="pcard-badges">
-        <span class="pcard-badge pcard-badge-disc">-25%</span>
-      </div>
-      <button style="position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:3;border:none;cursor:pointer" onclick="event.stopPropagation();toggleFav(this)"><i data-lucide="heart" style="width:15px;height:15px;color:#ef4444"></i></button>
-      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400&h=400&fit=crop" alt="Sandales"></div>
-      <div class="pcard-body" style="padding:10px 12px 12px">
-        <div class="pcard-seller" style="display:flex;align-items:center;gap:4px;margin-bottom:6px;font-size:12px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%"></span> Aïcha Couture <i data-lucide="badge-check" style="width:12px;height:12px;color:#0f6b4e"></i></div>
-        <h3 class="pcard-name" style="font-size:14px;line-height:1.35;margin:0 0 6px;min-height:36px">Sandales cuir Peul premium</h3>
-        <div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><span style="color:#f59e0b;font-size:12px;letter-spacing:1px">★★★★☆</span><span style="color:#4a5a52;font-size:11px">4.6 · 89</span></div>
-        <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:8px">
-          <span class="pcard-price" style="color:#ef4444 !important;font-size:18px;font-weight:900">8 500 FCFA</span>
-          <span class="pcard-old-price" style="font-size:12px">11 500</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#4a5a52;margin-bottom:10px"><i data-lucide="package" style="width:12px;height:12px"></i> 456 vendus <span style="opacity:0.4">•</span> <i data-lucide="truck" style="width:12px;height:12px"></i> Gratuit</div>
-        <button class="btn-primary" style="width:100%;padding:9px;font-size:12px" onclick="event.stopPropagation();addToCart('Sandales cuir Peul premium')"><i data-lucide="shopping-cart" style="width:14px;height:14px;display:inline"></i> Ajouter</button>
-      </div>
-    </article>
-
-    <article class="pcard" onclick="location.href='produit.html?id=3'">
-      <div class="pcard-badges">
-        <span class="pcard-badge pcard-badge-local">Local</span>
-      </div>
-      <button style="position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:3;border:none;cursor:pointer" onclick="event.stopPropagation();toggleFav(this)"><i data-lucide="heart" style="width:15px;height:15px;color:#ef4444"></i></button>
-      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400&h=400&fit=crop" alt="Chemise"></div>
-      <div class="pcard-body" style="padding:10px 12px 12px">
-        <div class="pcard-seller" style="display:flex;align-items:center;gap:4px;margin-bottom:6px;font-size:12px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%"></span> Aïcha Couture <i data-lucide="badge-check" style="width:12px;height:12px;color:#0f6b4e"></i></div>
-        <h3 class="pcard-name" style="font-size:14px;line-height:1.35;margin:0 0 6px;min-height:36px">Chemise en coton bio unisexe</h3>
-        <div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><span style="color:#f59e0b;font-size:12px;letter-spacing:1px">★★★★★</span><span style="color:#4a5a52;font-size:11px">4.9 · 512</span></div>
-        <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:8px">
-          <span class="pcard-price" style="color:#0f6b4e !important;font-size:18px;font-weight:900">12 000 FCFA</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#4a5a52;margin-bottom:10px"><i data-lucide="package" style="width:12px;height:12px"></i> 2.1k vendus <span style="opacity:0.4">•</span> <i data-lucide="truck" style="width:12px;height:12px"></i> Gratuit</div>
-        <button class="btn-primary" style="width:100%;padding:9px;font-size:12px" onclick="event.stopPropagation();addToCart('Chemise en coton bio unisexe')"><i data-lucide="shopping-cart" style="width:14px;height:14px;display:inline"></i> Ajouter</button>
-      </div>
-    </article>
-
-    <article class="pcard" onclick="location.href='produit.html?id=4'">
-      <div class="pcard-badges">
-        <span class="pcard-badge pcard-badge-disc">-40%</span>
-      </div>
-      <button style="position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:3;border:none;cursor:pointer" onclick="event.stopPropagation();toggleFav(this)"><i data-lucide="heart" style="width:15px;height:15px;color:#ef4444"></i></button>
-      <div class="pcard-img"><img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=400&fit=crop" alt="Baskets"></div>
-      <div class="pcard-body" style="padding:10px 12px 12px">
-        <div class="pcard-seller" style="display:flex;align-items:center;gap:4px;margin-bottom:6px;font-size:12px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%"></span> Aïcha Couture <i data-lucide="badge-check" style="width:12px;height:12px;color:#0f6b4e"></i></div>
-        <h3 class="pcard-name" style="font-size:14px;line-height:1.35;margin:0 0 6px;min-height:36px">Baskets pastel tendance femme</h3>
-        <div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><span style="color:#f59e0b;font-size:12px;letter-spacing:1px">★★★★★</span><span style="color:#4a5a52;font-size:11px">4.7 · 328</span></div>
-        <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:8px">
-          <span class="pcard-price" style="color:#ef4444 !important;font-size:18px;font-weight:900">25 000 FCFA</span>
-          <span class="pcard-old-price" style="font-size:12px">42 000</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#4a5a52;margin-bottom:10px"><i data-lucide="package" style="width:12px;height:12px"></i> 847 vendus <span style="opacity:0.4">•</span> <i data-lucide="truck" style="width:12px;height:12px"></i> Gratuit</div>
-        <button class="btn-primary" style="width:100%;padding:9px;font-size:12px" onclick="event.stopPropagation();addToCart('Baskets pastel tendance femme')"><i data-lucide="shopping-cart" style="width:14px;height:14px;display:inline"></i> Ajouter</button>
-      </div>
-    </article>
-
-  </div>
-</main>
-
-<nav class="bottom-nav">
-  <a href="index.html" class="active"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="layout-grid" class="icon icon-md"></i><span>Catégories</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
-  <a href="favoris.html"><i data-lucide="heart" class="icon icon-md"></i><span>Favoris</span></a>
-  <a href="profil.html"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
-</nav>
-
-<!-- ===== BANDEAU COOKIES RGPD ===== -->
-<div id="cookieBar" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:#fff;border-top:2px solid #0f6b4e;box-shadow:0 -6px 24px rgba(0,0,0,.18);padding:14px 16px calc(14px + env(safe-area-inset-bottom))">
-  <div id="cookieMain">
-    <div style="display:flex;gap:10px;align-items:flex-start">
-      <div style="font-size:24px;flex-shrink:0">🍪</div>
-      <div style="flex:1;min-width:0">
-        <div style="font-weight:800;font-size:13px;color:#0a1f17">Nous respectons ta vie privée</div>
-        <p style="font-size:11px;color:#4a5a52;line-height:1.5;margin:4px 0 0">Nous utilisons des cookies pour améliorer ton expérience, mesurer l'audience et personnaliser les offres. <a href="mentions-legales.html?tab=cookies" style="color:#0f6b4e;font-weight:700">En savoir plus</a></p>
-      </div>
-    </div>
-    <div style="display:flex;gap:8px;margin-top:12px">
-      <button onclick="cookieChoice('refuse')" style="flex:1;padding:11px;background:#f5f5f0;border:1.5px solid #e5e7eb;border-radius:10px;font-weight:700;font-size:12px;color:#4a5a52;cursor:pointer;font-family:inherit">Tout refuser</button>
-      <button onclick="cookiePrefs()" style="flex:1;padding:11px;background:#fff;border:1.5px solid #0f6b4e;border-radius:10px;font-weight:700;font-size:12px;color:#0f6b4e;cursor:pointer;font-family:inherit">Préférences</button>
-      <button onclick="cookieChoice('accept')" style="flex:1;padding:11px;background:#0f6b4e;border:none;border-radius:10px;font-weight:800;font-size:12px;color:#fff;cursor:pointer;font-family:inherit">Tout accepter</button>
-    </div>
-  </div>
-  <div id="cookiePrefs" style="display:none">
-    <div style="font-weight:800;font-size:13px;color:#0a1f17;margin-bottom:10px">⚙️ Préférences cookies</div>
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:12px"><span><b>Nécessaires</b><br><small style="color:#9aa5a0">Indispensables au fonctionnement</small></span><span style="color:#0f6b4e;font-weight:800;font-size:11px">Toujours actifs</span></div>
-    <label style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:12px;cursor:pointer"><span><b>Mesure d'audience</b><br><small style="color:#9aa5a0">Statistiques anonymes de visite</small></span><input type="checkbox" id="ckStat" checked style="accent-color:#0f6b4e;width:18px;height:18px"></label>
-    <label style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:12px;cursor:pointer"><span><b>Personnalisation</b><br><small style="color:#9aa5a0">Offres et pubs adaptées à tes goûts</small></span><input type="checkbox" id="ckPerso" checked style="accent-color:#0f6b4e;width:18px;height:18px"></label>
-    <div style="display:flex;gap:8px;margin-top:12px">
-      <button onclick="cookieBack()" style="flex:1;padding:11px;background:#f5f5f0;border:1.5px solid #e5e7eb;border-radius:10px;font-weight:700;font-size:12px;color:#4a5a52;cursor:pointer;font-family:inherit">‹ Retour</button>
-      <button onclick="cookieSave()" style="flex:2;padding:11px;background:#0f6b4e;border:none;border-radius:10px;font-weight:800;font-size:12px;color:#fff;cursor:pointer;font-family:inherit">Enregistrer mes choix</button>
-    </div>
+<!-- Bandeau cookies RGPD -->
+<div class="cookie-bar" id="cookieBar" style="display:none">
+  <h3>🍪 Nous respectons ta vie privée</h3>
+  <p>Nous utilisons des cookies pour améliorer ton expérience, mesurer l'audience et personnaliser les offres. <a href="mentions-legales.html?tab=cookies">En savoir plus</a></p>
+  <div class="cookie-btns">
+    <button class="ck-refuse" onclick="cookies('refuse')">Tout refuser</button>
+    <button class="ck-pref" onclick="location.href='mentions-legales.html?tab=cookies'">Préférences</button>
+    <button class="ck-accept" onclick="cookies('accept')">Tout accepter</button>
   </div>
 </div>
 
-<script src="js/dark-mode.js?v=50"></script>
+<nav class="bottom-nav">
+  <a href="index.html" class="active"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="layout-grid"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="favoris.html"><i data-lucide="heart"></i><span>Favoris</span></a>
+  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
+</nav>
+
 <script>
-lucide.createIcons();
+// ===== Bannière promo (3 slides défilantes, fixes) =====
+var PROMOS = [
+  {bg:'linear-gradient(135deg,#0f6b4e,#0a4d38)', icon:'tag',    t:'Code RAMADAN30 · -30%',       s:"Jusqu'à ce soir",       go:"J'EN PROFITE", href:'produits.html'},
+  {bg:'linear-gradient(135deg,#e63946,#ff7b00)', icon:'zap',    t:'VENTE FLASH',                  s:'-30% sur la mode',      go:'VOIR',        href:'categories.html?c=mode'},
+  {bg:'linear-gradient(135deg,#6b46c1,#4c1d95)', icon:'radio',  t:'LIVE SHOPPING EN DIRECT',      s:'Achète en direct',      go:'REGARDER',    href:'boutiques-live.html'}
+];
+var ADS = [
+  {bg:'linear-gradient(135deg,#e63946,#ff7b00)', icon:'zap',   t:'VENTE FLASH -30%',            s:'Code RAMADAN30 · ce soir 23h', go:"J'EN PROFITE ›", href:'categories.html?c=mode'},
+  {bg:'linear-gradient(135deg,#0f6b4e,#0a4d38)', icon:'gift',  t:'PARRAINAGE : 500 FCFA OFFERTS', s:'Par ami parrainé',            go:'PARRAINER ›',    href:'parrainage.html'},
+  {bg:'linear-gradient(135deg,#6b46c1,#4c1d95)', icon:'radio', t:'LIVE SHOPPING EN DIRECT',       s:'Vendeurs en direct',          go:'REGARDER ›',    href:'boutiques-live.html'}
+];
+var curPromo = 0;
+function renderPromo(){
+  document.getElementById('promoBanner').innerHTML =
+    PROMOS.map(function(p,i){
+      return '<a class="promo-slide' + (i===curPromo?' on':'') + '" href="' + p.href + '" style="background:' + p.bg + '">' +
+        '<div class="pi"><i data-lucide="' + p.icon + '"></i></div>' +
+        '<div><b>' + p.t + '</b><span>' + p.s + '</span></div>' +
+        '<span class="go">' + p.go + '</span></a>';
+    }).join('') +
+    '<div class="promo-dots">' + PROMOS.map(function(_,i){
+      return '<i class="' + (i===curPromo?'on':'') + '"></i>';
+    }).join('') + '</div>';
+  lucide.createIcons();
+}
+renderPromo();
+setInterval(function(){ curPromo = (curPromo+1) % PROMOS.length; renderPromo(); }, 4000);
 
-/* ===== BANNIÈRE PUB : défilement auto 4s ===== */
-(function(){
-  var slides=document.getElementById('adSlides');
-  if(!slides) return;
-  var i=0,n=3;
-  setInterval(function(){
-    var banner=document.getElementById('adBanner');
-    if(!banner||banner.style.display==='none') return;
-    i=(i+1)%n;
-    slides.style.transform='translateX(-'+(i*100)+'%)';
-    document.querySelectorAll('.ad-dot').forEach(function(d,j){
-      d.style.width=(j===i)?'14px':'5px';
-      d.style.borderRadius=(j===i)?'3px':'50%';
-      d.style.background=(j===i)?'#fff':'rgba(255,255,255,.5)';
+// ===== Boutiques en live (réelles) =====
+getVendors().then(function(vendors){
+  var row = document.getElementById('liveRow');
+  if (!vendors || !vendors.length) { row.innerHTML = '<div class="empty">Aucun live pour le moment</div>'; return; }
+  row.innerHTML = vendors.map(function(v){
+    return '<a class="live-item" href="boutiques-live.html?v=' + v.slug + '">' +
+      '<div class="ring"><img src="' + (v.logo_url||'') + '" alt=""><span class="lv">LIVE</span></div>' +
+      '<span>' + v.shop_name + '</span></a>';
+  }).join('');
+});
+
+// ===== Tendances (produits réels) + pub tous les 6 =====
+getProducts().then(function(prods){
+  var grid = document.getElementById('grid');
+  if (!prods || !prods.length) { grid.innerHTML = '<div class="empty">Aucun produit disponible</div>'; return; }
+  var html = '', adIdx = 0;
+  prods.forEach(function(p, i){
+    var promo = p.old_price ? Math.round((1 - p.price/p.old_price)*100) : 0;
+    var isFav = favHas(p.id);
+    html += '<div class="pcard">' +
+      (promo ? '<span class="badge-promo">-' + promo + '%</span>' : '') +
+      '<button class="btn-fav' + (isFav?' on':'') + '" data-pid="' + p.id + '"><i data-lucide="heart" style="width:16px"></i></button>' +
+      '<img class="pimg" src="' + (p.images && p.images[0] || '') + '" alt="" onclick="location.href=\'' + lienProduit(p) + '\'">' +
+      '<div class="pbody">' +
+        (p.vendors ? '<a class="pseller" href="' + lienBoutique(p.vendors) + '">' + p.vendors.shop_name + ' <i data-lucide="badge-check" style="width:12px"></i></a>' : '') +
+        '<div class="pname" onclick="location.href=\'' + lienProduit(p) + '\'">' + p.name + '</div>' +
+        '<div class="prate">⭐ ' + (p.rating||'—') + ' · ' + (p.review_count||0) + ' avis</div>' +
+        '<div><span class="pprice">' + fmtPrix(p.price) + ' FCFA</span>' +
+        (p.old_price ? '<span class="pold">' + fmtPrix(p.old_price) + '</span>' : '') + '</div>' +
+        '<div class="pmeta"><i data-lucide="package" style="width:11px"></i> ' + (p.sold_count||0) + ' vendus' + (p.free_shipping ? ' · <i data-lucide="truck" style="width:11px"></i> Gratuit' : '') + '</div>' +
+        '<button class="btn-add" data-add="' + p.id + '"><i data-lucide="shopping-cart" style="width:13px"></i> Ajouter</button>' +
+      '</div></div>';
+    if ((i+1) % 6 === 0 && i < prods.length-1) {
+      var ad = ADS[adIdx % ADS.length]; adIdx++;
+      html += '<a class="flash-ad" href="' + ad.href + '" style="background:' + ad.bg + '">' +
+        '<div class="ai"><i data-lucide="' + ad.icon + '"></i></div>' +
+        '<div><b>' + ad.t + '</b><span>' + ad.s + '</span></div>' +
+        '<span class="go">' + ad.go + '</span></a>';
+    }
+  });
+  grid.innerHTML = html;
+  lucide.createIcons();
+
+  // Favoris
+  grid.querySelectorAll('.btn-fav').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var p = prods.find(function(x){ return x.id === btn.dataset.pid; });
+      if (p) { var on = favToggle(p); btn.classList.toggle('on', on); }
     });
-  },4000);
-})();
+  });
+  // Ajouter au panier
+  grid.querySelectorAll('[data-add]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var p = prods.find(function(x){ return x.id === btn.dataset.add; });
+      if (p) cartAdd(p, 1);
+    });
+  });
+});
 
-/* ===== COOKIES RGPD ===== */
-if(!localStorage.getItem('st_cookie_choice')){
-  setTimeout(function(){ document.getElementById('cookieBar').style.display='block'; },1200);
+// ===== Cookies RGPD =====
+if (!localStorage.getItem('sentew_cookies')) {
+  document.getElementById('cookieBar').style.display = 'block';
 }
-function cookieChoice(type){
-  localStorage.setItem('st_cookie_choice',JSON.stringify({choice:type,ts:Date.now()}));
-  document.getElementById('cookieBar').style.display='none';
-}
-function cookiePrefs(){
-  document.getElementById('cookieMain').style.display='none';
-  document.getElementById('cookiePrefs').style.display='block';
-}
-function cookieBack(){
-  document.getElementById('cookiePrefs').style.display='none';
-  document.getElementById('cookieMain').style.display='block';
-}
-function cookieSave(){
-  localStorage.setItem('st_cookie_choice',JSON.stringify({
-    choice:'custom',
-    stats:document.getElementById('ckStat').checked,
-    perso:document.getElementById('ckPerso').checked,
-    ts:Date.now()
-  }));
-  document.getElementById('cookieBar').style.display='none';
+function cookies(choice){
+  localStorage.setItem('sentew_cookies', choice);
+  document.getElementById('cookieBar').style.display = 'none';
+  toast(choice === 'accept' ? '✓ Cookies acceptés' : '✓ Cookies refusés');
 }
 
-/* ===== Ajouter au panier + Favoris ===== */
-function addToCart(name){
-  var t=document.createElement('div');
-  t.textContent='✅ '+name+' ajouté au panier';
-  t.style.cssText='position:fixed;top:70px;left:50%;transform:translateX(-50%);background:#0a1f17;color:#fff;padding:11px 20px;border-radius:24px;font-size:13px;font-weight:700;z-index:999;box-shadow:0 8px 20px rgba(0,0,0,.3)';
-  document.body.appendChild(t);
-  setTimeout(function(){ t.remove(); },2000);
-}
-function toggleFav(btn){
-  var ic=btn.querySelector('svg, i');
-  if(btn.dataset.fav){ delete btn.dataset.fav; btn.style.background='rgba(255,255,255,0.95)'; }
-  else{ btn.dataset.fav='1'; btn.style.background='#fee2e2'; }
-}
+lucide.createIcons();
+cartBadge();
 </script>
-<script src="js/buttons-audit.js?v=51"></script>
+<script src="js/dark-mode.js"></script>
 </body>
 </html>
