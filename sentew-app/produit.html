@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Boubou Wax Premium · SEN TEW</title>
@@ -274,45 +276,35 @@ document.querySelectorAll('.variant').forEach(function(v){
 function addCart(){ alert('✅ Ajouté au panier !'); location.href='panier.html'; }
 </script>
 <script src="js/buttons-audit.js?v=51"></script>
+<!-- ===== PRODUIT RÉEL SUPABASE ===== -->
 <script>
-window.addEventListener('load', function(){
-  var PRODUITS={
-    "1":{nom:"Robe wax mariage traditionnelle",prix:"35 000 FCFA",vendeur:"Aïcha Couture",bid:"1",initiale:"A"},
-    "2":{nom:"Sandales cuir Peul premium",prix:"8 500 FCFA",vendeur:"Aïcha Couture",bid:"1",initiale:"A"},
-    "3":{nom:"Chemise brodée homme",prix:"12 000 FCFA",vendeur:"Aïcha Couture",bid:"1",initiale:"A"},
-    "4":{nom:"Kaftan luxe",prix:"65 000 FCFA",vendeur:"Aïcha Couture",bid:"1",initiale:"A"},
-    "5":{nom:"Parfum oud royal",prix:"28 000 FCFA",vendeur:"Mariama B.",bid:"3",initiale:"M"},
-    "6":{nom:"Crème karité bio",prix:"6 500 FCFA",vendeur:"Mariama B.",bid:"3",initiale:"M"},
-    "7":{nom:"Rouge à lèvres mat",prix:"4 500 FCFA",vendeur:"Mariama B.",bid:"3",initiale:"M"},
-    "8":{nom:"Huile de baobab",prix:"8 000 FCFA",vendeur:"Mariama B.",bid:"3",initiale:"M"},
-    "10":{nom:"Boubou Wax Premium brodé main",prix:"17 500 FCFA",vendeur:"Fatou Fashion",bid:"4",initiale:"F"},
-    "11":{nom:"Ensemble bazin riche",prix:"32 000 FCFA",vendeur:"Fatou Fashion",bid:"4",initiale:"F"},
-    "12":{nom:"Pagne wax classique",prix:"9 000 FCFA",vendeur:"Fatou Fashion",bid:"4",initiale:"F"},
-    "13":{nom:"Foulard wax assorti",prix:"3 500 FCFA",vendeur:"Fatou Fashion",bid:"4",initiale:"F"},
-    "100":{nom:"iPhone 15 Pro Max 256GB",prix:"850 000 FCFA",vendeur:"Moussa Tech",bid:"2",initiale:"M"},
-    "101":{nom:"AirPods Pro 2",prix:"180 000 FCFA",vendeur:"Moussa Tech",bid:"2",initiale:"M"},
-    "102":{nom:"Apple Watch Series 9",prix:"280 000 FCFA",vendeur:"Moussa Tech",bid:"2",initiale:"M"},
-    "103":{nom:"MacBook Air M2 13 pouces",prix:"620 000 FCFA",vendeur:"Moussa Tech",bid:"2",initiale:"M"}
-  };
-  var id=new URLSearchParams(location.search).get('id');
-  var p=PRODUITS[id]; if(!p) return;
-
-  var titre=document.querySelector('.pname');
-  if(titre) titre.textContent=p.nom;
-  document.title=p.nom+' · SEN TEW';
-
-  var prix=document.querySelector('.price-block .price, .price');
-  if(prix) prix.textContent=p.prix;
-
-  var vcard=document.querySelector('.vendeur-card');
-  if(vcard){
-    vcard.href='boutique.html?id='+p.bid;
-    var vname=vcard.querySelector('.name');
-    if(vname) vname.innerHTML=p.vendeur+' <i data-lucide="badge-check"></i>';
-    var vav=vcard.querySelector('.avatar');
-    if(vav) vav.textContent=p.initiale;
-  }
-  if(window.lucide) lucide.createIcons();
+window.addEventListener('load', async function(){
+  var params = new URLSearchParams(location.search);
+  var pid = params.get('pid');
+  var legacy = parseInt(params.get('id') || '0');
+  if (!pid && !legacy) return;
+  try {
+    var q = supabase.from('products').select('*, vendors(id,shop_name,slug,logo_url,rating,followers)');
+    q = pid ? q.eq('id', pid) : q.eq('legacy_id', legacy);
+    var res = await q.single();
+    var p = res.data;
+    if (!p) return;
+    var name = document.querySelector('.pname, h1');
+    if (name) name.textContent = p.name;
+    var price = document.querySelector('.price');
+    if (price) price.textContent = p.price.toLocaleString('fr-FR') + ' FCFA';
+    var old = document.querySelector('.price-old');
+    if (old) { if (p.old_price) old.textContent = p.old_price.toLocaleString('fr-FR') + ' FCFA'; else old.style.display='none'; }
+    var img = document.querySelector('.pimg img, .product-img img, .gallery img, main img');
+    if (img && p.images && p.images[0]) img.src = p.images[0];
+    if (p.vendors) {
+      document.querySelectorAll('.seller-name, .vendor-name').forEach(function(el){ el.textContent = p.vendors.shop_name; });
+      document.querySelectorAll('a[href*="boutique.html"]').forEach(function(a){ a.href = 'boutique.html?slug=' + p.vendors.slug; });
+      var av = document.querySelector('.seller-avatar img, .vendor-avatar img');
+      if (av && p.vendors.logo_url) av.src = p.vendors.logo_url;
+    }
+    console.log('✅ Produit chargé depuis Supabase :', p.name);
+  } catch(e){ console.warn('Produit local conservé:', e); }
 });
 </script>
 </body>
