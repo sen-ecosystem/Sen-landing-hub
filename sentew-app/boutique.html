@@ -163,5 +163,40 @@ window.addEventListener('load', function(){
   if(window.lucide) lucide.createIcons();
 });
 </script>
+<script>
+/* ===== PANNEAU FLASH IN-FEED : 1 pub tous les 8 produits (style leader) ===== */
+window.addEventListener('load', function(){
+  var EVERY = 8; /* ← change ici : 8 = tous les 8 produits (20 = tous les 20) */
+  var ADS = [
+    {bg:'linear-gradient(135deg,#e63946,#ff7b00)', icon:'⚡', title:'VENTE FLASH -30%', txt:'Code RAMADAN30 · Jusqu\'à ce soir 23h', btn:'J\'EN PROFITE', href:'produits.html?c=mode'},
+    {bg:'linear-gradient(135deg,#0f6b4e,#0a4d38)', icon:'🎁', title:'PARRAINAGE : 500 FCFA OFFERTS', txt:'Par ami qui fait sa 1ère commande', btn:'PARRAINER', href:'parrainage.html'},
+    {bg:'linear-gradient(135deg,#6b46c1,#4c1d95)', icon:'🔴', title:'LIVE SHOPPING EN DIRECT', txt:'Achète en direct auprès des vendeurs', btn:'REGARDER', href:'boutiques-live.html'},
+    {bg:'linear-gradient(135deg,#d4a574,#b8860b)', icon:'🚚', title:'LIVRAISON GRATUITE', txt:'Dès 50 000 FCFA d\'achat · Partout au Sénégal', btn:'COMMANDER', href:'produits.html'}
+  ];
+  /* Trouve les cartes produits de la page */
+  var cards = document.querySelectorAll('.prod-card, .pcard, article[class*="card"], [data-cat]');
+  if(cards.length < EVERY) return;
+  var grid = cards[0].parentElement;
+  var adIndex = 0;
+  cards.forEach(function(card, i){
+    if((i+1) % EVERY !== 0) return;
+    var ad = ADS[adIndex % ADS.length]; adIndex++;
+    var banner = document.createElement('a');
+    banner.href = ad.href;
+    banner.className = 'flash-ad';
+    banner.style.cssText = 'grid-column:1/-1;display:flex;align-items:center;gap:12px;background:'+ad.bg+';color:#fff;border-radius:14px;padding:14px 16px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.15);position:relative;overflow:hidden;animation:adGlow 2s infinite';
+    banner.innerHTML =
+      '<div style="font-size:26px;flex-shrink:0;animation:adBounce 1.5s infinite">'+ad.icon+'</div>'+
+      '<div style="flex:1;min-width:0"><div style="font-weight:900;font-size:14px;letter-spacing:.3px">'+ad.title+'</div>'+
+      '<div style="font-size:11px;opacity:.9;margin-top:2px">'+ad.txt+'</div></div>'+
+      '<span style="background:#fff;color:#0a1f17;font-size:10px;font-weight:800;padding:6px 12px;border-radius:10px;flex-shrink:0">'+ad.btn+' ›</span>';
+    card.after(banner);
+  });
+  /* Animations */
+  var st = document.createElement('style');
+  st.textContent = '@keyframes adGlow{0%,100%{box-shadow:0 4px 14px rgba(0,0,0,.15)}50%{box-shadow:0 4px 22px rgba(230,57,70,.4)}}@keyframes adBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}';
+  document.head.appendChild(st);
+});
+</script>
 </body>
 </html>
