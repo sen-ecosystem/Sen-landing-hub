@@ -127,5 +127,52 @@
 <script src="js/dark-mode.js?v=50"></script>
 <script>lucide.createIcons();</script>
   <script src="js/buttons-audit.js?v=51"></script>
+<!-- ===== DONNÉES RÉELLES SUPABASE ===== -->
+<script>
+window.addEventListener('load', async function(){
+  var SLUGS = {'1':'aicha-couture','2':'moussa-tech','3':'mariama-b','4':'fatou-fashion'};
+  var params = new URLSearchParams(window.location.search);
+  var slug = params.get('slug') || SLUGS[params.get('id')] || 'moussa-tech';
+
+  try {
+    // 1. Charger la boutique
+    var res = await supabase.from('vendors').select('*').eq('slug', slug).single();
+    var shop = res.data;
+    if (!shop) { console.warn('Boutique introuvable'); return; }
+
+    // 2. Charger ses produits
+    var res2 = await supabase.from('products').select('*')
+      .eq('vendor_id', shop.id).eq('is_active', true);
+    var prods = res2.data || [];
+
+    // 3. Mettre à jour le nom + logo de la boutique
+    var nameEl = document.querySelector('.shop-name') || document.querySelector('h1');
+    if (nameEl) nameEl.textContent = shop.shop_name;
+    var logo = document.querySelector('.shop-avatar img, .avatar img');
+    if (logo && shop.logo_url) logo.src = shop.logo_url;
+
+    // 4. Reconstruire les cartes produits avec les VRAIES données
+    if (prods.length) {
+      var grid = document.querySelector('.pcard-grid');
+      if (grid) {
+        grid.innerHTML = prods.map(function(p){
+          var img = (p.images && p.images[0]) ? p.images[0] : '';
+          var prix = p.price.toLocaleString('fr-FR');
+          return '<article class="pcard" onclick="location.href=\'produit.html?id=' + p.id + '\'">' +
+            '<div class="pcard-img"><img src="' + img + '" alt="' + p.name + '"></div>' +
+            '<div class="pcard-body" style="padding:10px 12px 12px">' +
+              '<div class="pcard-seller" style="font-size:12px;margin-bottom:4px"><span style="width:8px;height:8px;background:#d4a574;border-radius:50%;display:inline-block;margin-right:4px"></span>' + shop.shop_name + '</div>' +
+              '<h3 class="pcard-name" style="font-size:14px;margin-bottom:4px">' + p.name + '</h3>' +
+              '<p class="pcard-price" style="font-size:16px">' + prix + ' FCFA</p>' +
+            '</div></article>';
+        }).join('');
+        console.log('✅ ' + prods.length + ' produits réels chargés pour ' + shop.shop_name);
+      }
+    }
+  } catch(err) {
+    console.warn('Supabase indisponible:', err);
+  }
+});
+</script>
 </body>
 </html>
