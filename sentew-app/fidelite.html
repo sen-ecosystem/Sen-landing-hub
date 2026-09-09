@@ -243,5 +243,21 @@
 </nav>
 
 <script>lucide.createIcons();</script>
+  <script src="js/supabase.js"></script>
+<script>
+window.addEventListener('load', function(){
+  var pts = pointsGet();
+  var lvl = pointsLevel(pts);
+  document.querySelectorAll('h1, h2, .points, .solde-points, [class*="point"]').forEach(function(el){
+    if (/\d/.test(el.textContent) && el.textContent.indexOf('FCFA') === -1 && el.children.length === 0) {
+      if (el.textContent.trim().length < 15) el.textContent = fmtPrix(pts) + ' pts';
+    }
+  });
+  document.querySelectorAll('[class*="level"], [class*="niveau"]').forEach(function(el){
+    if (el.children.length === 0) el.textContent = lvl.icon + ' ' + lvl.name;
+  });
+  toast(lvl.icon + ' Niveau ' + lvl.name + ' · ' + fmtPrix(pts) + ' points');
+});
+</script>
 </body>
 </html>
