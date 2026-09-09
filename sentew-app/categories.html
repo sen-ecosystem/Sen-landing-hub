@@ -12,39 +12,58 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:40}
 .topbar h1{font-size:17px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
 .icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e;text-decoration:none;position:relative}
-/* ===== Barre de recherche ===== */
+/* Recherche */
 .search-row{padding:10px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:63px;z-index:39}
 .search-box{display:flex;align-items:center;gap:8px;background:#f5f5f0;border-radius:24px;padding:10px 14px;border:1.5px solid transparent}
 .search-box:focus-within{border-color:#0f6b4e;background:#fff}
 .search-box input{flex:1;border:none;background:none;outline:none;font-size:13px;font-family:inherit;color:#0a1f17}
 .search-box i{color:#9aa5a0;flex-shrink:0}
-/* ===== Onglets catégories ===== */
-.cat-tabs{display:flex;gap:8px;overflow-x:auto;padding:12px 16px;scrollbar-width:none;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:113px;z-index:38}
-.cat-tabs::-webkit-scrollbar{display:none}
-.cat-tab{flex-shrink:0;padding:8px 16px;border-radius:20px;border:1.5px solid #e5e7eb;background:#fff;font-size:12px;font-weight:700;color:#4b5563;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px}
-.cat-tab.on{background:#0f6b4e;color:#fff;border-color:#0f6b4e}
-/* ===== Barre filtres + tri ===== */
-.filter-bar{display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:165px;z-index:37}
+/* ===== GRANDES CATÉGORIES (icônes Lucide, pas d'emoji) ===== */
+.cats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:12px 16px;background:#fff;border-bottom:1px solid #e5e7eb}
+.cat-cell{border:1.5px solid #e5e7eb;border-radius:14px;padding:12px 4px;text-align:center;cursor:pointer;background:#fff;transition:all .15s}
+.cat-cell.on{border-color:#0f6b4e;background:#e8f5f0}
+.cat-cell .ci{width:42px;height:42px;border-radius:12px;margin:0 auto 6px;display:flex;align-items:center;justify-content:center}
+.cat-cell span{font-size:10.5px;font-weight:700;color:#0a1f17;line-height:1.2;display:block}
+/* ===== Sous-catégories (chips) ===== */
+.sub-row{display:flex;gap:8px;overflow-x:auto;padding:10px 16px;scrollbar-width:none;background:#fff;border-bottom:1px solid #e5e7eb}
+.sub-row::-webkit-scrollbar{display:none}
+.sub-chip{flex-shrink:0;padding:7px 14px;border-radius:18px;border:1.5px solid #e5e7eb;background:#fff;font-size:11px;font-weight:700;color:#4b5563;cursor:pointer;white-space:nowrap}
+.sub-chip.on{background:#0f6b4e;color:#fff;border-color:#0f6b4e}
+/* ===== Filtres ===== */
+.filter-bar{display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:113px;z-index:37}
 .f-count{font-size:11px;color:#9aa5a0;font-weight:700;flex:1}
 .f-btn{display:flex;align-items:center;gap:5px;padding:7px 12px;border:1.5px solid #e5e7eb;background:#fff;border-radius:20px;font-size:11px;font-weight:700;color:#0a1f17;cursor:pointer}
 .f-btn.on{border-color:#0f6b4e;color:#0f6b4e;background:#e8f5f0}
-/* ===== Panneau tri ===== */
-.sort-panel{position:fixed;left:0;right:0;bottom:0;background:#fff;border-radius:20px 20px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom));z-index:300;box-shadow:0 -6px 30px rgba(0,0,0,.2);display:none;animation:up .25s}
-.sort-panel.show{display:block}
+/* ===== Panneaux du bas ===== */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:250;display:none}
+.overlay.show{display:block}
+.sheet{position:fixed;left:0;right:0;bottom:0;background:#fff;border-radius:20px 20px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom));z-index:300;display:none;animation:up .25s;max-height:75vh;overflow-y:auto}
+.sheet.show{display:block}
 @keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
-.sort-panel h3{font-size:15px;font-weight:800;margin-bottom:12px}
+.sheet h3{font-size:15px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .sort-opt{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;font-size:13px;font-weight:700;color:#4b5563;cursor:pointer}
 .sort-opt.on{background:#e8f5f0;color:#0f6b4e}
 .sort-opt i{margin-left:auto;color:#0f6b4e;opacity:0}
 .sort-opt.on i{opacity:1}
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:250;display:none}
-.overlay.show{display:block}
-/* ===== Grille produits ===== */
+/* Filtres avancés */
+.f-group{margin-bottom:16px}
+.f-group h4{font-size:12px;font-weight:800;color:#b8860b;letter-spacing:.4px;margin-bottom:8px;text-transform:uppercase}
+.f-opts{display:flex;gap:8px;flex-wrap:wrap}
+.f-opt{padding:8px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:12px;font-weight:700;color:#4b5563;cursor:pointer;background:#fff}
+.f-opt.on{border-color:#0f6b4e;color:#0f6b4e;background:#e8f5f0}
+.price-inputs{display:flex;gap:8px;align-items:center}
+.price-inputs input{flex:1;padding:10px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;font-family:inherit;outline:none}
+.price-inputs input:focus{border-color:#0f6b4e}
+.f-actions{display:flex;gap:10px;margin-top:8px}
+.f-reset{flex:1;padding:12px;background:#fff;border:1.5px solid #e5e7eb;border-radius:12px;font-size:13px;font-weight:800;color:#6B7280;cursor:pointer}
+.f-apply{flex:2;padding:12px;background:#0f6b4e;border:none;border-radius:12px;font-size:13px;font-weight:800;color:#fff;cursor:pointer}
+/* ===== Grille ===== */
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:12px;align-items:start}
 .pcard{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);position:relative;animation:fadeIn .3s;display:flex;flex-direction:column}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .pcard .pimg{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;cursor:pointer;background:#fff}
 .badge-promo{position:absolute;top:8px;left:8px;background:#e63946;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:8px;z-index:2}
+.badge-sponsor{position:absolute;top:8px;background:#0a1f17;color:#ffd166;font-size:9px;font-weight:800;padding:3px 8px;border-radius:8px;z-index:2;display:flex;align-items:center;gap:3px}
 .btn-fav{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;background:#fff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.12);z-index:2;color:#9aa5a0}
 .btn-fav.on{color:#e63946}.btn-fav.on svg{fill:#e63946}
 .pbody{padding:8px 10px 10px;flex:1;display:flex;flex-direction:column}
@@ -55,8 +74,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .pprice{font-size:16px;font-weight:900;color:#0f6b4e}
 .pold{font-size:11px;color:#9aa5a0;text-decoration:line-through;margin-left:6px}
 .pmeta{font-size:10px;color:#9aa5a0;margin-top:3px;display:flex;align-items:center;gap:5px}
-.btn-add{width:100%;margin-top:auto;padding:9px;background:#0f6b4e;color:#fff;border:none;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;margin-top:8px}
-/* ===== Pub FLASH tous les 8 ===== */
+.btn-add{width:100%;padding:9px;background:#0f6b4e;color:#fff;border:none;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;margin-top:8px}
 .flash-ad{grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:16px;border-radius:16px;color:#fff;text-decoration:none;animation:adGlow 2s infinite}
 @keyframes adGlow{0%,100%{box-shadow:0 4px 14px rgba(0,0,0,.15)}50%{box-shadow:0 4px 22px rgba(230,57,70,.45)}}
 .flash-ad .ai{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -64,7 +82,6 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .flash-ad span{font-size:11px;opacity:.9}
 .flash-ad .go{margin-left:auto;background:#fff;color:#0a1f17;font-size:11px;font-weight:800;padding:7px 12px;border-radius:20px;flex-shrink:0}
 .loading,.empty{grid-column:1/-1;text-align:center;padding:50px 20px;color:#9aa5a0;font-size:13px}
-/* ===== Nav ===== */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
 .bottom-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600;position:relative;min-height:44px}
 .bottom-nav a.active{color:#0f6b4e}
@@ -86,32 +103,65 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
   </div>
 </div>
 
-<div class="cat-tabs" id="catTabs">
-  <button class="cat-tab on" data-cat="" onclick="setCat('',this)">✨ Tout</button>
-  <button class="cat-tab" data-cat="mode" onclick="setCat('mode',this)">👗 Mode</button>
-  <button class="cat-tab" data-cat="electronique" onclick="setCat('electronique',this)">📱 Tech</button>
-  <button class="cat-tab" data-cat="beaute" onclick="setCat('beaute',this)">💄 Beauté</button>
-  <button class="cat-tab" data-cat="maison" onclick="setCat('maison',this)">🏠 Maison</button>
-</div>
+<!-- Grandes catégories (icônes Lucide) -->
+<div class="cats-grid" id="catsGrid"></div>
 
+<!-- Sous-catégories -->
+<div class="sub-row" id="subRow"></div>
+
+<!-- Filtres rapides -->
 <div class="filter-bar">
   <span class="f-count" id="fCount">Chargement…</span>
   <button class="f-btn" id="btnPromo" onclick="toggleQuick('promo')"><i data-lucide="tag" style="width:12px"></i> Promo</button>
   <button class="f-btn" id="btnShip" onclick="toggleQuick('ship')"><i data-lucide="truck" style="width:12px"></i> Gratuit</button>
-  <button class="f-btn" onclick="openSort()"><i data-lucide="arrow-up-down" style="width:12px"></i> <span id="sortLabel">Trier</span></button>
+  <button class="f-btn" onclick="openSheet('sortSheet')"><i data-lucide="arrow-up-down" style="width:12px"></i> <span id="sortLabel">Trier</span></button>
+  <button class="f-btn" id="btnFilter" onclick="openSheet('filterSheet')"><i data-lucide="sliders-horizontal" style="width:12px"></i> Filtres</button>
 </div>
 
 <div class="grid" id="grid"><div class="loading">Chargement des produits…</div></div>
 
-<div class="overlay" id="overlay" onclick="closeSort()"></div>
-<div class="sort-panel" id="sortPanel">
-  <h3>Trier par</h3>
-  <div class="sort-opt on" data-sort="reco" onclick="setSort('reco',this)">⭐ Recommandés<i data-lucide="check"></i></div>
-  <div class="sort-opt" data-sort="ventes" onclick="setSort('ventes',this)">🔥 Meilleures ventes<i data-lucide="check"></i></div>
-  <div class="sort-opt" data-sort="prix-asc" onclick="setSort('prix-asc',this)">💰 Prix croissant<i data-lucide="check"></i></div>
-  <div class="sort-opt" data-sort="prix-desc" onclick="setSort('prix-desc',this)">💎 Prix décroissant<i data-lucide="check"></i></div>
-  <div class="sort-opt" data-sort="note" onclick="setSort('note',this)">⭐ Meilleures notes<i data-lucide="check"></i></div>
-  <div class="sort-opt" data-sort="promo" onclick="setSort('promo',this)">🏷️ Plus grosses promos<i data-lucide="check"></i></div>
+<div class="overlay" id="overlay" onclick="closeSheets()"></div>
+
+<!-- Panneau TRI -->
+<div class="sheet" id="sortSheet">
+  <h3><i data-lucide="arrow-up-down" style="width:16px;color:#0f6b4e"></i> Trier par</h3>
+  <div class="sort-opt on" data-sort="reco" onclick="setSort('reco',this)"><i data-lucide="sparkles" style="width:14px;margin:0;opacity:1"></i> Recommandés<i data-lucide="check"></i></div>
+  <div class="sort-opt" data-sort="ventes" onclick="setSort('ventes',this)"><i data-lucide="flame" style="width:14px;margin:0;opacity:1"></i> Meilleures ventes<i data-lucide="check"></i></div>
+  <div class="sort-opt" data-sort="prix-asc" onclick="setSort('prix-asc',this)"><i data-lucide="arrow-down-wide-narrow" style="width:14px;margin:0;opacity:1"></i> Prix croissant<i data-lucide="check"></i></div>
+  <div class="sort-opt" data-sort="prix-desc" onclick="setSort('prix-desc',this)"><i data-lucide="arrow-up-wide-narrow" style="width:14px;margin:0;opacity:1"></i> Prix décroissant<i data-lucide="check"></i></div>
+  <div class="sort-opt" data-sort="note" onclick="setSort('note',this)"><i data-lucide="star" style="width:14px;margin:0;opacity:1"></i> Meilleures notes<i data-lucide="check"></i></div>
+  <div class="sort-opt" data-sort="promo" onclick="setSort('promo',this)"><i data-lucide="badge-percent" style="width:14px;margin:0;opacity:1"></i> Plus grosses promos<i data-lucide="check"></i></div>
+  <div class="sort-opt" data-sort="new" onclick="setSort('new',this)"><i data-lucide="clock" style="width:14px;margin:0;opacity:1"></i> Nouveautés<i data-lucide="check"></i></div>
+</div>
+
+<!-- Panneau FILTRES -->
+<div class="sheet" id="filterSheet">
+  <h3><i data-lucide="sliders-horizontal" style="width:16px;color:#0f6b4e"></i> Filtres</h3>
+  <div class="f-group">
+    <h4>Prix (FCFA)</h4>
+    <div class="price-inputs">
+      <input type="number" id="pMin" placeholder="Min" min="0">
+      <span style="color:#9aa5a0">—</span>
+      <input type="number" id="pMax" placeholder="Max" min="0">
+    </div>
+  </div>
+  <div class="f-group">
+    <h4>Note minimum</h4>
+    <div class="f-opts" id="noteOpts">
+      <button class="f-opt on" data-note="0" onclick="setNote(0,this)">Toutes</button>
+      <button class="f-opt" data-note="4" onclick="setNote(4,this)">4.0+</button>
+      <button class="f-opt" data-note="4.5" onclick="setNote(4.5,this)">4.5+</button>
+      <button class="f-opt" data-note="4.8" onclick="setNote(4.8,this)">4.8+</button>
+    </div>
+  </div>
+  <div class="f-group">
+    <h4>Boutique</h4>
+    <div class="f-opts" id="vendorOpts"><span style="font-size:12px;color:#9aa5a0">Chargement…</span></div>
+  </div>
+  <div class="f-actions">
+    <button class="f-reset" onclick="resetFilters()">Réinitialiser</button>
+    <button class="f-apply" onclick="closeSheets();applyFilters()">Voir les résultats</button>
+  </div>
 </div>
 
 <nav class="bottom-nav">
@@ -123,79 +173,167 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 </nav>
 
 <script>
-var ALL = [], CAT = '', SORT = 'reco', Q_PROMO = false, Q_SHIP = false, SEARCH = '';
+// ===== 8 CATÉGORIES + SOUS-CATÉGORIES (icônes Lucide) =====
+var CATS = [
+  {id:'',            name:'Tout',        icon:'sparkles',      bg:'#f0fdf4', fg:'#0f6b4e', subs:[]},
+  {id:'mode',        name:'Mode',        icon:'shirt',         bg:'#ede9fe', fg:'#7c3aed', subs:[['vetements','Vêtements'],['chaussures','Chaussures'],['accessoires','Accessoires'],['tissus','Wax & Bazin'],['enfants','Enfants']]},
+  {id:'electronique',name:'Tech',        icon:'smartphone',    bg:'#dbeafe', fg:'#2563eb', subs:[['smartphones','Smartphones'],['ordinateurs','Ordinateurs'],['audio','Audio & Écouteurs'],['accessoires-tech','Accessoires'],['tv','TV & Image']]},
+  {id:'beaute',      name:'Beauté',      icon:'sparkle',       bg:'#fce7f3', fg:'#db2777', subs:[['soins','Soins visage'],['corps','Corps'],['cheveux','Cheveux'],['parfums','Parfums']]},
+  {id:'maison',      name:'Maison',      icon:'sofa',          bg:'#fef3c7', fg:'#b45309', subs:[['cuisine','Cuisine'],['deco','Décoration'],['textile','Linge de maison']]},
+  {id:'alimentaire', name:'Épicerie',    icon:'shopping-basket',bg:'#ecfccb',fg:'#4d7c0f', subs:[['cereales','Céréales'],['epices','Épices'],['boissons','Boissons']]},
+  {id:'sport',       name:'Sport',       icon:'dumbbell',      bg:'#fee2e2', fg:'#dc2626', subs:[['fitness','Fitness'],['football','Football'],['vetements-sport','Vêtements']]},
+  {id:'bebe',        name:'Bébé & Maman',icon:'baby',          bg:'#cffafe', fg:'#0891b2', subs:[['puericulture','Puériculture'],['jouets','Jouets'],['allaitement','Maman']]}
+];
 var ADS = [
   {bg:'linear-gradient(135deg,#e63946,#ff7b00)', icon:'zap',   t:'VENTE FLASH -30%',              s:'Code RAMADAN30 · ce soir 23h', go:"J'EN PROFITE ›", href:'categories.html'},
   {bg:'linear-gradient(135deg,#0f6b4e,#0a4d38)', icon:'gift',  t:'PARRAINAGE : 500 FCFA OFFERTS', s:'Par ami qui commande',         go:'PARRAINER ›',    href:'parrainage.html'},
   {bg:'linear-gradient(135deg,#6b46c1,#4c1d95)', icon:'radio', t:'LIVE SHOPPING EN DIRECT',       s:'Achète en direct',             go:'REGARDER ›',     href:'boutiques-live.html'}
 ];
 
-// Catégorie depuis l'URL (?c=mode)
-var urlCat = new URLSearchParams(location.search).get('c');
-if (urlCat) {
-  CAT = urlCat;
-  document.querySelectorAll('.cat-tab').forEach(function(t){
-    t.classList.toggle('on', t.dataset.cat === urlCat);
-  });
+var ALL = [], CAT = '', SUB = '', SORT = 'reco', Q_PROMO = false, Q_SHIP = false, SEARCH = '';
+var NOTE_MIN = 0, PRICE_MIN = null, PRICE_MAX = null, VENDOR_SEL = '';
+
+// ===== Rendu catégories =====
+function renderCats(){
+  document.getElementById('catsGrid').innerHTML = CATS.map(function(c){
+    return '<div class="cat-cell' + (CAT === c.id ? ' on' : '') + '" onclick="setCat(\'' + c.id + '\')">' +
+      '<div class="ci" style="background:' + c.bg + ';color:' + c.fg + '"><i data-lucide="' + c.icon + '"></i></div>' +
+      '<span>' + c.name + '</span></div>';
+  }).join('');
+  lucide.createIcons();
+}
+function renderSubs(){
+  var cat = CATS.find(function(c){ return c.id === CAT; });
+  var row = document.getElementById('subRow');
+  if (!cat || !cat.subs.length) { row.innerHTML = ''; row.style.display = 'none'; return; }
+  row.style.display = 'flex';
+  row.innerHTML = '<button class="sub-chip' + (SUB === '' ? ' on' : '') + '" onclick="setSub(\'\')">Tout</button>' +
+    cat.subs.map(function(s){
+      return '<button class="sub-chip' + (SUB === s[0] ? ' on' : '') + '" onclick="setSub(\'' + s[0] + '\')">' + s[1] + '</button>';
+    }).join('');
+}
+function setCat(id){
+  CAT = id; SUB = '';
+  renderCats(); renderSubs(); applyFilters();
+}
+function setSub(id){ SUB = id; renderSubs(); applyFilters(); }
+
+// ===== Panneaux =====
+function openSheet(id){
+  document.getElementById('overlay').classList.add('show');
+  document.getElementById(id).classList.add('show');
+  lucide.createIcons();
+}
+function closeSheets(){
+  document.getElementById('overlay').classList.remove('show');
+  document.querySelectorAll('.sheet').forEach(function(s){ s.classList.remove('show'); });
 }
 
-function setCat(c, el){
-  CAT = c;
-  document.querySelectorAll('.cat-tab').forEach(function(t){ t.classList.remove('on'); });
-  el.classList.add('on');
-  applyFilters();
-}
-function toggleQuick(k){
-  if (k === 'promo') { Q_PROMO = !Q_PROMO; document.getElementById('btnPromo').classList.toggle('on', Q_PROMO); }
-  if (k === 'ship')  { Q_SHIP  = !Q_SHIP;  document.getElementById('btnShip').classList.toggle('on', Q_SHIP); }
-  applyFilters();
-}
-function openSort(){
-  document.getElementById('overlay').classList.add('show');
-  document.getElementById('sortPanel').classList.add('show');
-}
-function closeSort(){
-  document.getElementById('overlay').classList.remove('show');
-  document.getElementById('sortPanel').classList.remove('show');
-}
-var SORT_LABELS = {reco:'Trier', ventes:'Ventes', 'prix-asc':'Prix ↑', 'prix-desc':'Prix ↓', note:'Notes', promo:'Promos'};
+// ===== Tri =====
+var SORT_LABELS = {reco:'Trier', ventes:'Ventes', 'prix-asc':'Prix ↑', 'prix-desc':'Prix ↓', note:'Notes', promo:'Promos', 'new':'Nouveau'};
 function setSort(s, el){
   SORT = s;
   document.querySelectorAll('.sort-opt').forEach(function(o){ o.classList.remove('on'); });
   el.classList.add('on');
   document.getElementById('sortLabel').textContent = SORT_LABELS[s];
-  closeSort();
+  closeSheets();
   applyFilters();
 }
 
+// ===== Filtres rapides =====
+function toggleQuick(k){
+  if (k === 'promo') { Q_PROMO = !Q_PROMO; document.getElementById('btnPromo').classList.toggle('on', Q_PROMO); }
+  if (k === 'ship')  { Q_SHIP  = !Q_SHIP;  document.getElementById('btnShip').classList.toggle('on', Q_SHIP); }
+  applyFilters();
+}
+function setNote(n, el){
+  NOTE_MIN = n;
+  document.querySelectorAll('#noteOpts .f-opt').forEach(function(o){ o.classList.remove('on'); });
+  el.classList.add('on');
+}
+function resetFilters(){
+  NOTE_MIN = 0; PRICE_MIN = null; PRICE_MAX = null; VENDOR_SEL = '';
+  Q_PROMO = false; Q_SHIP = false;
+  document.getElementById('pMin').value = '';
+  document.getElementById('pMax').value = '';
+  document.getElementById('btnPromo').classList.remove('on');
+  document.getElementById('btnShip').classList.remove('on');
+  document.querySelectorAll('#noteOpts .f-opt, #vendorOpts .f-opt').forEach(function(o){ o.classList.remove('on'); });
+  var first = document.querySelector('#noteOpts .f-opt'); if (first) first.classList.add('on');
+  var vAll = document.querySelector('#vendorOpts .f-opt'); if (vAll) vAll.classList.add('on');
+  updateFilterBadge();
+}
+
+// ===== Filtres vendeurs (dynamiques) =====
+function renderVendorFilter(){
+  var seen = {}, vendors = [];
+  ALL.forEach(function(p){
+    if (p.vendors && !seen[p.vendors.slug]) { seen[p.vendors.slug] = true; vendors.push(p.vendors); }
+  });
+  var box = document.getElementById('vendorOpts');
+  box.innerHTML = '<button class="f-opt' + (VENDOR_SEL === '' ? ' on' : '') + '" onclick="setVendor(\'\',this)">Toutes</button>' +
+    vendors.map(function(v){
+      return '<button class="f-opt' + (VENDOR_SEL === v.slug ? ' on' : '') + '" onclick="setVendor(\'' + v.slug + '\',this)">' + v.shop_name + '</button>';
+    }).join('');
+}
+function setVendor(slug, el){
+  VENDOR_SEL = slug;
+  document.querySelectorAll('#vendorOpts .f-opt').forEach(function(o){ o.classList.remove('on'); });
+  el.classList.add('on');
+  updateFilterBadge();
+}
+function updateFilterBadge(){
+  var n = 0;
+  if (NOTE_MIN > 0) n++;
+  if (document.getElementById('pMin').value || document.getElementById('pMax').value) n++;
+  if (VENDOR_SEL) n++;
+  var b = document.getElementById('btnFilter');
+  b.classList.toggle('on', n > 0);
+}
+
+// ===== Moteur de filtre =====
 function applyFilters(){
   SEARCH = document.getElementById('searchInput').value.trim().toLowerCase();
+  PRICE_MIN = parseInt(document.getElementById('pMin').value) || null;
+  PRICE_MAX = parseInt(document.getElementById('pMax').value) || null;
+  updateFilterBadge();
+
   var list = ALL.filter(function(p){
     if (CAT && p.category !== CAT) return false;
+    if (SUB && p.subcategory !== SUB) return false;
     if (Q_PROMO && !p.old_price) return false;
     if (Q_SHIP && !p.free_shipping) return false;
+    if (NOTE_MIN && (p.rating || 0) < NOTE_MIN) return false;
+    if (PRICE_MIN !== null && p.price < PRICE_MIN) return false;
+    if (PRICE_MAX !== null && p.price > PRICE_MAX) return false;
+    if (VENDOR_SEL && (!p.vendors || p.vendors.slug !== VENDOR_SEL)) return false;
     if (SEARCH) {
       var hay = (p.name + ' ' + (p.description||'') + ' ' + (p.brand||'') + ' ' + (p.vendors ? p.vendors.shop_name : '')).toLowerCase();
       if (hay.indexOf(SEARCH) === -1) return false;
     }
     return true;
   });
-  // Tri
+
   if (SORT === 'prix-asc')  list.sort(function(a,b){ return a.price - b.price; });
   if (SORT === 'prix-desc') list.sort(function(a,b){ return b.price - a.price; });
   if (SORT === 'note')      list.sort(function(a,b){ return (b.rating||0) - (a.rating||0); });
   if (SORT === 'ventes')    list.sort(function(a,b){ return (b.sold_count||0) - (a.sold_count||0); });
+  if (SORT === 'new')       list.sort(function(a,b){ return new Date(b.created_at) - new Date(a.created_at); });
   if (SORT === 'promo')     list.sort(function(a,b){
     var pa = a.old_price ? (1 - a.price/a.old_price) : 0;
     var pb = b.old_price ? (1 - b.price/b.old_price) : 0;
     return pb - pa;
   });
-  if (SORT === 'reco')      list.sort(function(a,b){ return ((b.rating||0)*(b.sold_count||1)) - ((a.rating||0)*(a.sold_count||1)); });
+  if (SORT === 'reco')      list.sort(function(a,b){
+    if (!!b.is_sponsored !== !!a.is_sponsored) return b.is_sponsored ? 1 : -1;
+    return ((b.rating||0)*(b.sold_count||1)) - ((a.rating||0)*(a.sold_count||1));
+  });
 
   document.getElementById('fCount').textContent = list.length + ' article' + (list.length > 1 ? 's' : '');
   render(list);
 }
 
+// ===== Rendu cartes =====
 function render(list){
   var grid = document.getElementById('grid');
   if (!list.length) {
@@ -209,6 +347,7 @@ function render(list){
     var isFav = favHas(p.id);
     html += '<div class="pcard">' +
       (promo ? '<span class="badge-promo">-' + promo + '%</span>' : '') +
+      (p.is_sponsored ? '<span class="badge-sponsor" style="left:' + (promo ? '62px' : '8px') + '"><i data-lucide="zap" style="width:9px;height:9px"></i> Sponsorisé</span>' : '') +
       '<button class="btn-fav' + (isFav?' on':'') + '" data-pid="' + p.id + '"><i data-lucide="heart" style="width:16px"></i></button>' +
       '<img class="pimg" src="' + (p.images && p.images[0] || '') + '" alt="" onclick="location.href=\'' + lienProduit(p) + '\'">' +
       '<div class="pbody">' +
@@ -217,10 +356,9 @@ function render(list){
         '<div class="prate">⭐ ' + (p.rating||'—') + ' · ' + (p.review_count||0) + ' avis</div>' +
         '<div><span class="pprice">' + fmtPrix(p.price) + ' FCFA</span>' +
         (p.old_price ? '<span class="pold">' + fmtPrix(p.old_price) + '</span>' : '') + '</div>' +
-        '<div class="pmeta"><i data-lucide="package" style="width:11px"></i> ' + (p.sold_count||0) + ' vendus' + (p.free_shipping ? ' · 🚚 Gratuit' : '') + '</div>' +
+        '<div class="pmeta"><i data-lucide="package" style="width:11px"></i> ' + (p.sold_count||0) + ' vendus' + (p.free_shipping ? ' · <i data-lucide="truck" style="width:11px"></i> Gratuit' : '') + '</div>' +
         '<button class="btn-add" data-add="' + p.id + '"><i data-lucide="shopping-cart" style="width:13px"></i> Ajouter</button>' +
       '</div></div>';
-    // Pub FLASH tous les 8 articles
     if ((i+1) % 8 === 0 && i < list.length-1) {
       var ad = ADS[adIdx % ADS.length]; adIdx++;
       html += '<a class="flash-ad" href="' + ad.href + '" style="background:' + ad.bg + '">' +
@@ -246,9 +384,15 @@ function render(list){
   });
 }
 
-// ===== Chargement =====
+// ===== Init =====
+var urlCat = new URLSearchParams(location.search).get('c');
+if (urlCat) CAT = urlCat;
+renderCats();
+renderSubs();
+
 getProducts().then(function(prods){
   ALL = prods || [];
+  renderVendorFilter();
   applyFilters();
 });
 
