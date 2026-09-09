@@ -2,271 +2,388 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nouveau produit - SEN TEW</title>
-<link rel="stylesheet" href="css/app.css?v=52">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Ajouter un produit - SEN TEW</title>
 <script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/supabase.js"></script>
 <style>
-  *{box-sizing:border-box;}
-  body{background:#f5f5f0;margin:0;font-family:-apple-system,sans-serif;padding-bottom:100px;overflow-x:hidden;}
-  .topbar{background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;padding:16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,0.1);}
-  .topbar h1{margin:0;font-size:18px;color:#fff;flex:1;display:flex;align-items:center;gap:8px;}
-  .icon-btn{background:rgba(255,255,255,0.2);border:none;cursor:pointer;padding:8px;border-radius:8px;color:#fff;width:36px;height:36px;display:flex;align-items:center;justify-content:center;}
-
-  .card{background:#fff;margin:12px 16px;padding:18px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.05);overflow:hidden;}
-  .card-title{display:flex;align-items:center;gap:8px;color:#1a1a1a;font-size:13px;font-weight:700;margin-bottom:14px;letter-spacing:0.5px;text-transform:uppercase;}
-  .card-title i{color:#d4a574;width:18px;height:18px;flex-shrink:0;}
-  .required{color:#dc2626;}
-
-  /* PHOTOS */
-  .photos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-  .photo-slot{aspect-ratio:1;border:2px dashed #0f6b4e;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;background:#f9fdfb;position:relative;color:#0f6b4e;}
-  .photo-slot i{width:28px;height:28px;color:#0f6b4e;}
-  .photo-slot .lbl{font-size:11px;font-weight:600;color:#0f6b4e;}
-  .photo-slot .principal{position:absolute;top:6px;left:6px;background:#0f6b4e;color:#fff;padding:2px 8px;border-radius:10px;font-size:9px;font-weight:700;}
-  .photo-slot.video{border-color:#6b46c1;background:#faf7ff;}
-  .photo-slot.video i, .photo-slot.video .lbl{color:#6b46c1;}
-  .tip{font-size:11px;color:#666;margin-top:8px;display:flex;align-items:center;gap:6px;}
-
-  /* INPUTS */
-  .form-input, .form-select, .form-textarea{width:100%;padding:12px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:14px;background:#fff;color:#1a1a1a;box-sizing:border-box;font-family:inherit;max-width:100%;}
-  .form-input:focus, .form-select:focus, .form-textarea:focus{outline:none;border-color:#0f6b4e;}
-  .form-textarea{resize:vertical;min-height:80px;}
-  .char-count{font-size:11px;color:#999;margin-top:4px;}
-  .row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-
-  /* IA */
-  .ia-block{background:linear-gradient(135deg,#6b46c1,#4c1d95);border-radius:12px;padding:14px;margin:12px 0;color:#fff;}
-  .ia-btn{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.95);color:#6b46c1;border:none;padding:10px 14px;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px;margin-top:8px;}
-
-  /* PRIX - CORRIGÉ */
-  .price-row{display:grid;grid-template-columns:1fr 100px;gap:10px;align-items:center;margin-bottom:12px;}
-  .prefix{position:relative;width:100%;}
-  .prefix .form-input{padding-right:55px;}
-  .prefix .suffix{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#0f6b4e;font-weight:700;font-size:13px;pointer-events:none;}
-
-  .promo-row{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;}
-  .promo-check{display:flex;align-items:center;gap:6px;font-size:13px;color:#1a1a1a;white-space:nowrap;}
-  .promo-check input[type="checkbox"]{width:18px;height:18px;accent-color:#0f6b4e;flex-shrink:0;}
-
-  /* VARIANTES */
-  .variant-chip{display:inline-flex;align-items:center;gap:6px;background:#f5f5f0;color:#1a1a1a;padding:6px 12px;border-radius:20px;font-size:13px;margin:4px;cursor:pointer;border:1.5px solid transparent;}
-  .variant-chip.active{background:#0f6b4e;color:#fff;border-color:#0f6b4e;}
-  .add-chip{background:transparent;border:1.5px dashed #0f6b4e;color:#0f6b4e;}
-
-  /* STOCK */
-  .stock-warn{display:flex;align-items:center;gap:8px;background:#fef3c7;color:#92400e;padding:8px 12px;border-radius:8px;font-size:12px;margin-top:8px;}
-
-  /* CTA */
-  .bottom-actions{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:12px 16px;display:flex;gap:8px;box-shadow:0 -4px 12px rgba(0,0,0,0.08);z-index:99;}
-  .btn-draft{flex:1;background:#fff;color:#0f6b4e;border:2px solid #0f6b4e;padding:14px;border-radius:12px;font-weight:700;cursor:pointer;}
-  .btn-publish{flex:2;background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;border:none;padding:14px;border-radius:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 12px rgba(15,107,78,0.3);}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;max-width:100vw}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:110px;color:#0a1f17}
+.topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:40}
+.topbar h1{font-size:16px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
+.icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e}
+/* Étapes */
+.steps{display:flex;gap:6px;padding:12px 14px 0}
+.step{flex:1;height:4px;border-radius:2px;background:#e5e7eb}
+.step.on{background:#0f6b4e}
+/* Blocs */
+.bloc{background:#fff;margin:12px 14px 0;padding:16px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.bloc h2{font-size:12px;font-weight:800;color:#b8860b;letter-spacing:.5px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.bloc h2 .req{color:#e63946}
+label{display:block;font-size:12px;font-weight:700;color:#4b5563;margin:0 0 5px}
+input[type=text],input[type=number],textarea,select{width:100%;padding:12px 13px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:13.5px;font-family:inherit;outline:none;box-sizing:border-box;background:#fff}
+input:focus,textarea:focus,select:focus{border-color:#0f6b4e}
+textarea{min-height:88px;resize:vertical}
+.fld{margin-bottom:14px}
+.fld:last-child{margin-bottom:0}
+.hint{font-size:10.5px;color:#9aa5a0;margin-top:4px;display:flex;align-items:center;gap:4px}
+/* Grille 2 cols */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+/* Photos */
+.photo-row{display:flex;gap:10px}
+.photo-slot{width:76px;height:76px;border:2px dashed #d1d5db;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:#9aa5a0;font-size:9px;font-weight:700;text-align:center;gap:3px;position:relative;overflow:hidden;background:#fafafa}
+.photo-slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.photo-slot.full{border-style:solid;border-color:#0f6b4e}
+.photo-slot .rm{position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;border:none;font-size:10px;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:2}
+.photo-slot.full .rm{display:flex}
+.photo-slot input{display:none}
+/* Switch */
+.switch-row{display:flex;align-items:center;gap:10px;padding:12px;background:#f9fafb;border-radius:12px}
+.switch-row .si{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.switch-row b{font-size:12.5px;display:block;color:#0a1f17}
+.switch-row small{font-size:10.5px;color:#6B7280;line-height:1.3}
+.sw{margin-left:auto;width:46px;height:26px;border-radius:13px;background:#d1d5db;position:relative;cursor:pointer;flex-shrink:0;transition:background .2s;border:none}
+.sw::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.sw.on{background:#0f6b4e}
+.sw.on::after{left:23px}
+/* Calculateur de marge */
+.marge-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #4ade80;border-radius:14px;padding:14px;margin-top:4px}
+.marge-box h3{font-size:11px;font-weight:800;color:#065f46;letter-spacing:.4px;margin-bottom:9px;display:flex;align-items:center;gap:5px}
+.marge-row{display:flex;justify-content:space-between;font-size:12px;color:#166534;padding:3px 0}
+.marge-row.deduct{color:#b91c1c}
+.marge-row.net{border-top:2px solid #4ade80;margin-top:7px;padding-top:9px;font-size:15px;font-weight:900}
+.marge-row.net .mv{color:#059669}
+.marge-pct{font-size:10px;color:#065f46;text-align:right;font-weight:700}
+/* Astuce ⓘ */
+.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:12px 14px 0;font-size:12px;color:#92400e;cursor:pointer;line-height:1.5}
+.tip i{color:#b45309;flex-shrink:0;width:16px;height:16px;margin-top:1px}
+/* Barre bas */
+.submit-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -4px 16px rgba(0,0,0,.08)}
+.btn-submit{width:100%;padding:15px;background:#0f6b4e;color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-submit:disabled{background:#9aa5a0}
+/* Succès */
+.success{text-align:center;padding:50px 24px}
+.success .ok{width:76px;height:76px;border-radius:50%;background:#d1fae5;color:#065f46;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.success h2{font-size:19px;color:#0a1f17;margin-bottom:6px}
+.success p{font-size:12px;color:#6B7280;line-height:1.6}
+.success .btns{display:flex;gap:10px;margin-top:18px}
+.success .btns a,.success .btns button{flex:1;padding:13px;border-radius:12px;text-decoration:none;font-weight:800;font-size:13px;text-align:center;border:none;cursor:pointer;font-family:inherit}
+.b-green{background:#0f6b4e;color:#fff}
+.b-grey{background:#e5e7eb;color:#0a1f17}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.m-box{background:#fff;border-radius:20px;padding:20px;width:100%;max-width:360px;max-height:80vh;overflow-y:auto}
+.m-box h3{font-size:15px;font-weight:800;margin-bottom:8px}
+.m-box p{font-size:12px;color:#6B7280;line-height:1.7}
+.m-box button{width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:#0f6b4e;color:#fff;font-weight:800;cursor:pointer}
 </style>
 </head>
-<body class="light-mode">
+<body>
 
 <header class="topbar">
-  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <button class="icon-btn" onclick="location.href='produits-vendeur.html'"><i data-lucide="arrow-left"></i></button>
   <h1><i data-lucide="plus-circle"></i> Nouveau produit</h1>
-  <button class="icon-btn" onclick="location.href='aide-vendeur.html'"><i data-lucide="help-circle"></i></button>
 </header>
 
-<!-- 1. PHOTOS -->
-<div class="card">
-  <div class="card-title"><i data-lucide="camera"></i> Photos produit <span class="required">*</span> (max 5)</div>
-  <div class="photos-grid">
-    <div class="photo-slot" onclick="pickPhoto(1)">
-      <span class="principal">PRINCIPALE</span>
-      <i data-lucide="camera"></i>
-      <span class="lbl">Photo 1</span>
+<div class="steps"><div class="step on" id="s1"></div><div class="step" id="s2"></div><div class="step" id="s3"></div></div>
+
+<form id="form" onsubmit="return false">
+  <!-- Étape 1 : Infos de base -->
+  <div class="bloc">
+    <h2><i data-lucide="file-text" style="width:14px"></i> INFORMATIONS <span class="req">*</span></h2>
+    <div class="fld">
+      <label>Nom du produit <span style="color:#e63946">*</span></label>
+      <input type="text" id="fName" placeholder="Ex : Robe wax moderne femme" maxlength="80" required>
+      <div class="hint"><i data-lucide="info" style="width:11px"></i> Sois précis : nom + modèle + détail clé</div>
     </div>
-    <div class="photo-slot" onclick="pickPhoto(2)"><i data-lucide="camera"></i><span class="lbl">Photo 2</span></div>
-    <div class="photo-slot" onclick="pickPhoto(3)"><i data-lucide="camera"></i><span class="lbl">Photo 3</span></div>
-    <div class="photo-slot" onclick="pickPhoto(4)"><i data-lucide="camera"></i><span class="lbl">Photo 4</span></div>
-    <div class="photo-slot video" onclick="pickVideo()"><i data-lucide="video"></i><span class="lbl">Vidéo (30s)</span></div>
-    <div class="photo-slot" onclick="pickPhoto(5)"><i data-lucide="camera"></i><span class="lbl">Photo 5</span></div>
-  </div>
-  <div class="tip"><i data-lucide="lightbulb" style="width:14px;height:14px;color:#d4a574;"></i> 1ère photo = principale (affichée dans les listes)</div>
-
-  <!-- Retouche IA -->
-  <div class="ia-block">
-    <div style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;">
-      <i data-lucide="sparkles" style="width:18px;height:18px;color:#fff;"></i> Retouche IA automatique
+    <div class="fld">
+      <label>Description <span style="color:#e63946">*</span></label>
+      <textarea id="fDesc" placeholder="Décris ton produit : matière, qualité, usage, entretien… Plus c'est détaillé, plus ça vend."></textarea>
+      <div class="hint"><i data-lucide="info" style="width:11px"></i> Mentionne : matière, origine, entretien, garantie</div>
     </div>
-    <div style="font-size:11px;opacity:0.9;margin-top:4px;">Fond blanc pro · Correction lumière · Suppression défauts</div>
-    <button class="ia-btn" onclick="retoucheIA()"><i data-lucide="wand-2" style="width:14px;height:14px;"></i> Améliorer avec IA</button>
-  </div>
-</div>
-
-<!-- 2. NOM -->
-<div class="card">
-  <div class="card-title"><i data-lucide="tag"></i> Nom du produit <span class="required">*</span></div>
-  <input type="text" class="form-input" id="nom" maxlength="80" placeholder="Ex: Boubou traditionnel brodé main" oninput="countChars(this)">
-  <div class="char-count"><span id="count">0</span>/80 caractères</div>
-
-  <!-- Suggestion IA -->
-  <button class="ia-btn" style="background:linear-gradient(135deg,#6b46c1,#4c1d95);color:#fff;margin-top:10px;" onclick="suggestTitle()">
-    <i data-lucide="sparkles" style="width:14px;height:14px;"></i> Suggestion titre IA
-  </button>
-</div>
-
-<!-- 3. DESCRIPTION -->
-<div class="card">
-  <div class="card-title"><i data-lucide="align-left"></i> Description <span class="required">*</span></div>
-  <textarea class="form-textarea" rows="5" placeholder="Décrivez le produit : caractéristiques, origine, matière, dimensions, usage..."></textarea>
-  <button class="ia-btn" style="background:linear-gradient(135deg,#6b46c1,#4c1d95);color:#fff;margin-top:10px;" onclick="generateDesc()">
-    <i data-lucide="sparkles" style="width:14px;height:14px;"></i> Générer description IA
-  </button>
-</div>
-
-<!-- 4. CATÉGORIE -->
-<div class="card">
-  <div class="card-title"><i data-lucide="grid"></i> Catégorie <span class="required">*</span></div>
-  <div class="row-2">
-    <select class="form-select">
-      <option>Choisir catégorie</option>
-      <option>👗 Mode</option>
-      <option>📱 Électronique</option>
-      <option>🍎 Alimentation</option>
-      <option>💄 Beauté</option>
-      <option>🏠 Maison</option>
-      <option>⚽ Sport</option>
-      <option>📚 Livres</option>
-    </select>
-    <select class="form-select">
-      <option>Sous-catégorie</option>
-      <option>Traditionnel</option>
-      <option>Moderne</option>
-      <option>Enfant</option>
-    </select>
-  </div>
-</div>
-
-<!-- 5. PRIX - CORRIGÉ -->
-<div class="card">
-  <div class="card-title"><i data-lucide="banknote"></i> Prix <span class="required">*</span></div>
-
-  <div class="price-row">
-    <div class="prefix">
-      <input type="number" class="form-input" placeholder="25 000">
-      <span class="suffix">FCFA</span>
-    </div>
-    <select class="form-select">
-      <option>Fixe</option>
-      <option>Négo</option>
-    </select>
-  </div>
-
-  <div class="promo-row">
-    <label class="promo-check">
-      <input type="checkbox" id="promo"> Prix promo
-    </label>
-    <div class="prefix">
-      <input type="number" class="form-input" placeholder="Prix barré">
-      <span class="suffix">FCFA</span>
+    <div class="grid2">
+      <div class="fld">
+        <label>Catégorie <span style="color:#e63946">*</span></label>
+        <select id="fCat" onchange="updateSubs()">
+          <option value="">Choisir…</option>
+          <option value="mode">👗 Mode</option>
+          <option value="electronique">📱 Tech</option>
+          <option value="beaute">💄 Beauté</option>
+          <option value="maison">🏠 Maison</option>
+          <option value="alimentaire">🛒 Épicerie</option>
+          <option value="sport">💪 Sport</option>
+          <option value="bebe">🍼 Bébé & Maman</option>
+        </select>
+      </div>
+      <div class="fld">
+        <label>Sous-catégorie</label>
+        <select id="fSub"><option value="">D'abord la catégorie</option></select>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- 6. VARIANTES -->
-<div class="card">
-  <div class="card-title"><i data-lucide="layers"></i> Variantes (optionnel)</div>
-
-  <div style="font-size:12px;color:#666;margin-bottom:6px;font-weight:600;">Tailles</div>
-  <div>
-    <span class="variant-chip active">S</span>
-    <span class="variant-chip active">M</span>
-    <span class="variant-chip active">L</span>
-    <span class="variant-chip">XL</span>
-    <span class="variant-chip">XXL</span>
-    <span class="variant-chip add-chip">+ Ajouter</span>
-  </div>
-
-  <div style="font-size:12px;color:#666;margin:12px 0 6px;font-weight:600;">Couleurs</div>
-  <div>
-    <span class="variant-chip active">🟢 Vert</span>
-    <span class="variant-chip active">🔴 Rouge</span>
-    <span class="variant-chip">⚫ Noir</span>
-    <span class="variant-chip">⚪ Blanc</span>
-    <span class="variant-chip add-chip">+ Ajouter</span>
-  </div>
-</div>
-
-<!-- 7. STOCK & LIVRAISON -->
-<div class="card">
-  <div class="card-title"><i data-lucide="package"></i> Stock & Livraison</div>
-  <div class="row-2">
-    <div>
-      <label style="font-size:12px;color:#666;">Quantité</label>
-      <input type="number" class="form-input" placeholder="10" min="0">
+  <!-- Étape 2 : Photos -->
+  <div class="bloc">
+    <h2><i data-lucide="camera" style="width:14px"></i> PHOTOS (jusqu'à 3)</h2>
+    <div class="photo-row" id="photoRow">
+      <label class="photo-slot" data-slot="0"><input type="file" accept="image/*" onchange="addPhoto(this,0)"><i data-lucide="camera" style="width:20px"></i>Photo 1</label>
+      <label class="photo-slot" data-slot="1"><input type="file" accept="image/*" onchange="addPhoto(this,1)"><i data-lucide="camera" style="width:20px"></i>Photo 2</label>
+      <label class="photo-slot" data-slot="2"><input type="file" accept="image/*" onchange="addPhoto(this,2)"><i data-lucide="camera" style="width:20px"></i>Photo 3</label>
     </div>
-    <div>
-      <label style="font-size:12px;color:#666;">Poids (kg)</label>
-      <input type="number" class="form-input" placeholder="0.5" step="0.1">
+    <div class="hint" style="margin-top:8px"><i data-lucide="info" style="width:11px"></i> Fond clair, bonne lumière, le produit seul. La 1ère photo = celle des listes.</div>
+    <div class="fld" style="margin-top:10px">
+      <label>…ou colle des liens d'images (1 par ligne)</label>
+      <textarea id="fImgUrls" placeholder="https://…&#10;https://…" style="min-height:60px;font-size:11px"></textarea>
     </div>
   </div>
-  <div style="margin-top:10px;">
-    <label style="font-size:12px;color:#666;">Délai de préparation</label>
-    <select class="form-select">
-      <option>24h</option>
-      <option>48h</option>
-      <option>3-5 jours</option>
-      <option>Sur commande (7 jours)</option>
-    </select>
+
+  <!-- Étape 3 : Prix + stock -->
+  <div class="bloc">
+    <h2><i data-lucide="banknote" style="width:14px"></i> PRIX & STOCK <span class="req">*</span></h2>
+    <div class="grid2">
+      <div class="fld">
+        <label>Prix de vente (FCFA) <span style="color:#e63946">*</span></label>
+        <input type="number" id="fPrice" placeholder="17500" min="100" oninput="calcMarge()">
+      </div>
+      <div class="fld">
+        <label>Ancien prix (promo)</label>
+        <input type="number" id="fOld" placeholder="25000" min="0" oninput="calcMarge()">
+        <div class="hint">Laisser vide = pas de promo</div>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="fld">
+        <label>Stock <span style="color:#e63946">*</span></label>
+        <input type="number" id="fStock" placeholder="15" min="0" value="10">
+        <div class="hint"><i data-lucide="zap" style="width:11px"></i> &lt; 5 = badge « Plus que X ! »</div>
+      </div>
+      <div class="fld">
+        <label>Ton coût d'achat (FCFA)</label>
+        <input type="number" id="fCost" placeholder="10000" min="0" oninput="calcMarge()">
+        <div class="hint">Pour calculer ta marge</div>
+      </div>
+    </div>
+
+    <!-- Calculateur de marge en direct -->
+    <div class="marge-box" id="margeBox" style="display:none">
+      <h3><i data-lucide="calculator" style="width:13px"></i> TA MARGE EN DIRECT</h3>
+      <div class="marge-row"><span>Prix de vente</span><b id="mSale">0 F</b></div>
+      <div class="marge-row deduct"><span>Commission SEN TEW (5%)</span><b id="mCom">−0 F</b></div>
+      <div class="marge-row deduct" id="mShipRow" style="display:none"><span>Livraison gratuite (tu l'offres)</span><b id="mShip">−0 F</b></div>
+      <div class="marge-row deduct" id="mCostRow" style="display:none"><span>Ton coût d'achat</span><b id="mCost">−0 F</b></div>
+      <div class="marge-row net"><span>Tu gagnes</span><b class="mv" id="mNet">0 F</b></div>
+      <div class="marge-pct" id="mPct"></div>
+    </div>
   </div>
-  <div class="stock-warn"><i data-lucide="alert-circle" style="width:14px;height:14px;"></i> Alerte stock bas dès 3 unités</div>
+
+  <!-- Options -->
+  <div class="bloc">
+    <h2><i data-lucide="settings-2" style="width:14px"></i> OPTIONS</h2>
+    <div class="switch-row">
+      <div class="si" style="background:#e8f5f0;color:#0f6b4e"><i data-lucide="truck" style="width:16px"></i></div>
+      <div style="flex:1;min-width:0"><b>Livraison gratuite</b><small>Le client ne paie rien — tu l'inclus dans ton prix. Badge « 🚚 Gratuit » partout = +40% de ventes</small></div>
+      <button type="button" class="sw" id="swShip" onclick="toggleShip(this)"></button>
+    </div>
+    <div class="switch-row" style="margin-top:8px">
+      <div class="si" style="background:#fef3c7;color:#92400e"><i data-lucide="sparkles" style="width:16px"></i></div>
+      <div style="flex:1;min-width:0"><b>Mettre en avant dès l'ajout</b><small>Utilise 1 boost de ton quota → en tête de l'accueil 24h</small></div>
+      <button type="button" class="sw" id="swBoost"></button>
+    </div>
+  </div>
+
+  <div class="tip" onclick="document.getElementById('tipModal').classList.add('show')">
+    <i data-lucide="info"></i>
+    <span><b>Le secret des fiches qui vendent</b> — Prix juste + 3 photos nettes + description détaillée + livraison gratuite = top des résultats. Touche pour la checklist complète.</span>
+  </div>
+</form>
+
+<div class="submit-bar">
+  <button class="btn-submit" id="btnSubmit" onclick="submit()"><i data-lucide="check" style="width:16px"></i> Publier le produit</button>
 </div>
 
-<!-- 8. SEO / TAGS -->
-<div class="card">
-  <div class="card-title"><i data-lucide="hash"></i> Tags recherche (SEO)</div>
-  <input type="text" class="form-input" placeholder="Ex: boubou, wax, mode africaine, sénégal">
-  <div class="tip"><i data-lucide="lightbulb" style="width:14px;height:14px;color:#d4a574;"></i> Séparez par virgules · 5 tags max</div>
-  <button class="ia-btn" style="background:linear-gradient(135deg,#6b46c1,#4c1d95);color:#fff;margin-top:10px;" onclick="suggestTags()">
-    <i data-lucide="sparkles" style="width:14px;height:14px;"></i> Suggérer tags IA
-  </button>
-</div>
-
-<!-- 9. OPTIONS -->
-<div class="card">
-  <div class="card-title"><i data-lucide="settings-2"></i> Options avancées</div>
-  <label style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;color:#1a1a1a;font-size:14px;">
-    <span>Livraison gratuite</span>
-    <input type="checkbox">
-  </label>
-  <label style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;color:#1a1a1a;font-size:14px;border-top:1px solid #f0f0f0;">
-    <span>Retour accepté (14 jours)</span>
-    <input type="checkbox" checked>
-  </label>
-  <label style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;color:#1a1a1a;font-size:14px;border-top:1px solid #f0f0f0;">
-    <span>Produit sur commande</span>
-    <input type="checkbox">
-  </label>
-  <label style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;color:#1a1a1a;font-size:14px;border-top:1px solid #f0f0f0;">
-    <span>Mise en vedette (payant)</span>
-    <input type="checkbox">
-  </label>
-</div>
-
-<!-- ACTIONS BAS -->
-<div class="bottom-actions">
-  <button class="btn-draft" onclick="saveDraft()">Brouillon</button>
-  <button class="btn-publish" onclick="publish()">
-    <i data-lucide="rocket" style="width:18px;height:18px;"></i> Publier
-  </button>
+<div class="modal" id="tipModal">
+  <div class="m-box">
+    <h3>💡 La checklist du produit parfait</h3>
+    <p>
+      <b>1. Nom clair</b> — Ce que c'est + modèle + détail. Ex : « Robe wax moderne femme – taille M » pas juste « Robe ».<br><br>
+      <b>2. 3 photos</b> — Face, détail (matière/couture), porté ou en situation. Fond clair, lumière naturelle.<br><br>
+      <b>3. Description qui rassure</b> — Matière, origine (Sénégal = argument !), entretien, garantie, contenu du colis.<br><br>
+      <b>4. Prix juste</b> — Regarde le calculateur de marge. Vise 30-50% de marge nette. La livraison gratuite incluse se remarque et vend mieux.<br><br>
+      <b>5. Stock réel</b> — Mets ton vrai stock. Une rupture mal gérée = avis négatif.<br><br>
+      <b>6. Boost au bon moment</b> — Le soir (19h-22h) et le week-end = plus de vues.
+    </p>
+    <button onclick="document.getElementById('tipModal').classList.remove('show')">Compris</button>
+  </div>
 </div>
 
 <script>
+var VENDOR_SLUG = new URLSearchParams(location.search).get('v') || 'aicha-couture';
+var VENDOR = null;
+var PHOTOS = [null, null, null];
+var FREE_SHIP = false, BOOST = false;
+
+var SUBS = {
+  mode: [['vetements','Vêtements'],['chaussures','Chaussures'],['accessoires','Accessoires'],['tissus','Wax & Bazin'],['enfants','Enfants']],
+  electronique: [['smartphones','Smartphones'],['ordinateurs','Ordinateurs'],['audio','Audio & Écouteurs'],['accessoires-tech','Accessoires'],['tv','TV & Image']],
+  beaute: [['soins','Soins visage'],['corps','Corps'],['cheveux','Cheveux'],['parfums','Parfums']],
+  maison: [['cuisine','Cuisine'],['deco','Décoration'],['textile','Linge de maison']],
+  alimentaire: [['cereales','Céréales'],['epices','Épices'],['boissons','Boissons']],
+  sport: [['fitness','Fitness'],['football','Football'],['vetements-sport','Vêtements']],
+  bebe: [['puericulture','Puériculture'],['jouets','Jouets'],['allaitement','Maman']]
+};
+
+getVendorBySlug(VENDOR_SLUG).then(function(v){ VENDOR = v; });
+
+function updateSubs(){
+  var c = document.getElementById('fCat').value;
+  var sel = document.getElementById('fSub');
+  sel.innerHTML = '<option value="">Choisir…</option>' +
+    (SUBS[c] || []).map(function(s){ return '<option value="' + s[0] + '">' + s[1] + '</option>'; }).join('');
+  document.getElementById('s1').classList.add('on');
+}
+
+// Photos
+function addPhoto(input, slot){
+  var file = input.files && input.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e){
+    PHOTOS[slot] = e.target.result;
+    renderPhotos();
+  };
+  reader.readAsDataURL(file);
+  document.getElementById('s2').classList.add('on');
+}
+function removePhoto(slot, e){
+  e.preventDefault(); e.stopPropagation();
+  PHOTOS[slot] = null;
+  renderPhotos();
+}
+function renderPhotos(){
+  document.querySelectorAll('.photo-slot').forEach(function(el){
+    var i = parseInt(el.dataset.slot);
+    if (PHOTOS[i]) {
+      el.classList.add('full');
+      el.innerHTML = '<img src="' + PHOTOS[i] + '"><button class="rm" onclick="removePhoto(' + i + ',event)">✕</button>';
+    } else {
+      el.classList.remove('full');
+      el.innerHTML = '<input type="file" accept="image/*" onchange="addPhoto(this,' + i + ')"><i data-lucide="camera" style="width:20px"></i>Photo ' + (i+1);
+    }
+  });
   lucide.createIcons();
-  function countChars(el){document.getElementById('count').textContent=el.value.length;}
-  function pickPhoto(n){alert('📷 Sélection photo '+n+' (galerie ou appareil)');}
-  function pickVideo(){alert('🎥 Sélection vidéo (max 30 sec)');}
-  function retoucheIA(){alert('✨ Retouche IA en cours... Fond blanc + optimisation couleurs');}
-  function suggestTitle(){document.getElementById('nom').value='Boubou traditionnel wax brodé main Sénégal';countChars(document.getElementById('nom'));}
-  function generateDesc(){alert('✨ Description générée par IA en cours...');}
-  function suggestTags(){alert('✨ Tags suggérés : boubou, wax, mode, sénégal, tradition');}
-  function saveDraft(){alert('💾 Brouillon enregistré');location.href='vendeur.html';}
-  function publish(){if(confirm('Publier ce produit ?')){alert('🚀 Produit publié ! Visible en ligne dans 2 min.');location.href='vendeur.html';}}
+}
+
+function toggleShip(el){
+  FREE_SHIP = !FREE_SHIP;
+  el.classList.toggle('on', FREE_SHIP);
+  calcMarge();
+}
+document.getElementById('swBoost').addEventListener('click', function(){
+  BOOST = !BOOST;
+  this.classList.toggle('on', BOOST);
+});
+
+// Calculateur de marge
+function calcMarge(){
+  var price = parseInt(document.getElementById('fPrice').value) || 0;
+  var cost  = parseInt(document.getElementById('fCost').value) || 0;
+  var box = document.getElementById('margeBox');
+  if (price <= 0) { box.style.display = 'none'; return; }
+  box.style.display = 'block';
+  var com = Math.round(price * 0.05);
+  var ship = FREE_SHIP ? 1500 : 0;
+  var net = price - com - ship - cost;
+  document.getElementById('mSale').textContent = fmtPrix(price) + ' F';
+  document.getElementById('mCom').textContent = '−' + fmtPrix(com) + ' F';
+  document.getElementById('mShipRow').style.display = FREE_SHIP ? 'flex' : 'none';
+  document.getElementById('mShip').textContent = '−' + fmtPrix(ship) + ' F';
+  document.getElementById('mCostRow').style.display = cost > 0 ? 'flex' : 'none';
+  document.getElementById('mCost').textContent = '−' + fmtPrix(cost) + ' F';
+  document.getElementById('mNet').textContent = fmtPrix(net) + ' F';
+  document.getElementById('mNet').style.color = net > 0 ? '#059669' : '#dc2626';
+  document.getElementById('mPct').textContent = price > 0 ? 'Marge nette : ' + Math.round(net / price * 100) + '%' + (net <= 0 ? ' — ⚠️ trop faible, augmente ton prix' : net / price < 0.2 ? ' — correcte' : ' — excellente 👍') : '';
+  document.getElementById('s3').classList.add('on');
+}
+
+function submit(){
+  var name = document.getElementById('fName').value.trim();
+  var desc = document.getElementById('fDesc').value.trim();
+  var cat  = document.getElementById('fCat').value;
+  var sub  = document.getElementById('fSub').value;
+  var price = parseInt(document.getElementById('fPrice').value);
+  var old  = parseInt(document.getElementById('fOld').value) || null;
+  var stock = parseInt(document.getElementById('fStock').value);
+  var cost = parseInt(document.getElementById('fCost').value) || null;
+
+  if (!name)  { toast('❌ Nom du produit requis'); document.getElementById('fName').focus(); return; }
+  if (!desc)  { toast('❌ Description requise'); document.getElementById('fDesc').focus(); return; }
+  if (!cat)   { toast('❌ Choisis une catégorie'); return; }
+  if (!price || price < 100) { toast('❌ Prix minimum : 100 FCFA'); return; }
+  if (isNaN(stock) || stock < 0) { toast('❌ Indique le stock'); return; }
+  if (old && old <= price) { toast('❌ L\'ancien prix doit être supérieur au prix de vente'); return; }
+  if (!VENDOR) { toast('❌ Vendeur introuvable'); return; }
+
+  // Images : photos uploadées OU liens
+  var urlImgs = document.getElementById('fImgUrls').value.split('\n').map(function(u){ return u.trim(); }).filter(function(u){ return u.indexOf('http') === 0; });
+  var images = PHOTOS.filter(Boolean).concat(urlImgs);
+  if (!images.length) images = [''];
+
+  var btn = document.getElementById('btnSubmit');
+  btn.disabled = true;
+  btn.innerHTML = 'Publication…';
+
+  supaWrite('products', 'POST', {
+    vendor_id: VENDOR.id,
+    name: name,
+    description: desc,
+    category: cat,
+    subcategory: sub || null,
+    price: price,
+    old_price: old,
+    images: images,
+    stock: stock,
+    free_shipping: FREE_SHIP,
+    is_active: true,
+    rating: 0,
+    review_count: 0,
+    sold_count: 0
+  }).then(function(res){
+    var o = Array.isArray(res) ? res[0] : res;
+    if (!o || o.code) { throw new Error('err'); return; }
+
+    // Boost immédiat si demandé
+    if (BOOST) {
+      boosterProduit(VENDOR, o).then(function(bres){ toast(bres.msg); });
+    }
+
+    document.body.innerHTML =
+      '<div class="success">' +
+        '<div class="ok"><i data-lucide="check" style="width:36px"></i></div>' +
+        '<h2>Produit publié ! 🎉</h2>' +
+        '<p><b>' + name + '</b> est maintenant en ligne sur SEN TEW.<br>Visible dans l\'accueil, les catégories et la recherche.</p>' +
+        '<div class="btns">' +
+          '<a class="b-green" href="produit.html?pid=' + o.id + '">Voir la fiche</a>' +
+          '<button class="b-grey" onclick="location.href=\'ajouter-produit.html?v=' + VENDOR_SLUG + '\'">+ Un autre</button>' +
+        '</div>' +
+        '<div style="margin-top:12px"><a href="produits-vendeur.html?v=' + VENDOR_SLUG + '" style="font-size:12px;color:#0f6b4e;font-weight:800;text-decoration:none">← Mes produits</a></div>' +
+      '</div>';
+    lucide.createIcons();
+    window.scrollTo(0, 0);
+  }).catch(function(){
+    btn.disabled = false;
+    btn.innerHTML = '<i data-lucide="check" style="width:16px"></i> Publier le produit';
+    toast('❌ Erreur, réessaie');
+    lucide.createIcons();
+  });
+}
+
+renderPhotos();
+function renderIcons(){ if (window.lucide) lucide.createIcons(); }
+renderIcons();
+window.addEventListener('load', renderIcons);
+setTimeout(renderIcons, 600);
 </script>
+<script src="js/dark-mode.js"></script>
 </body>
 </html>
