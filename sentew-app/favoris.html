@@ -4,66 +4,49 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Mes Favoris - SEN TEW</title>
-<link rel="stylesheet" href="css/app.css">
 <script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/supabase.js"></script>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:86px;color:#0a1f17}
-  .topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:30}
-  .topbar h1{font-size:17px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
-  .topbar h1 i{width:19px;height:19px}
-  .icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e}
-  .icon-btn i{width:19px;height:19px}
-  .tabs{display:flex;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:63px;z-index:25}
-  .tab{flex:1;padding:13px;text-align:center;font-size:13px;font-weight:700;color:#6B7280;cursor:pointer;border-bottom:2.5px solid transparent;font-family:inherit;background:none;border-top:none;border-left:none;border-right:none}
-  .tab.active{color:#0f6b4e;border-bottom-color:#0f6b4e}
-  /* Items favoris : liste verticale */
-  .fav-item{display:flex;gap:12px;background:#fff;margin:10px 16px 0;padding:12px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);cursor:pointer;position:relative;animation:fadeIn .25s}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-  .fav-item:active{transform:scale(.98)}
-  .fav-img{width:96px;height:96px;object-fit:cover;border-radius:12px;flex-shrink:0}
-  .fav-info{flex:1;min-width:0}
-  .fav-vendor{font-size:11px;color:#b8860b;font-weight:700;display:flex;align-items:center;gap:4px;margin-bottom:3px;text-decoration:none}
-  .fav-vendor i{width:11px;height:11px}
-  .fav-name{font-size:14px;font-weight:800;color:#0a1f17;line-height:1.3;margin-bottom:5px}
-  .fav-price{font-size:16px;font-weight:900;color:#0f6b4e}
-  .fav-rate{font-size:11px;color:#9aa5a0;margin-top:3px;display:flex;align-items:center;gap:3px}
-  .fav-rate i{width:11px;height:11px;color:#f59e0b;fill:#f59e0b}
-  .fav-actions{display:flex;gap:8px;margin-top:8px}
-  .fav-cart{flex:1;padding:8px;background:#0f6b4e;color:#fff;border:none;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;font-family:inherit}
-  .fav-cart i{width:13px;height:13px}
-  .fav-cart:active{transform:scale(.95)}
-  .fav-heart{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:#fff;border:1.5px solid #fee2e2;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.08);z-index:2}
-  .fav-heart i{width:16px;height:16px;color:#ef4444;fill:#ef4444}
-  /* Panneau FLASH pleine largeur ENTRE les produits */
-  .flash-ad{display:flex;align-items:center;gap:12px;margin:12px 16px 0;padding:15px 16px;border-radius:16px;color:#fff;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.15);position:relative;overflow:hidden;animation:adGlow 2s infinite}
-  @keyframes adGlow{0%,100%{box-shadow:0 4px 14px rgba(0,0,0,.15)}50%{box-shadow:0 4px 22px rgba(230,57,70,.4)}}
-  .flash-ad .ad-icon{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;animation:adBounce 1.6s infinite}
-  @keyframes adBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-  .flash-ad .ad-icon i{width:22px;height:22px;color:#fff}
-  .flash-ad .ad-txt{flex:1;min-width:0}
-  .flash-ad .ad-title{font-weight:900;font-size:13.5px;letter-spacing:.3px}
-  .flash-ad .ad-sub{font-size:11px;opacity:.92;margin-top:2px}
-  .flash-ad .ad-btn{background:#fff;color:#0a1f17;font-size:10px;font-weight:800;padding:7px 12px;border-radius:10px;flex-shrink:0}
-  /* Boutiques favorites */
-  .shop-item{display:flex;align-items:center;gap:12px;background:#fff;margin:10px 16px 0;padding:14px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);cursor:pointer}
-  .shop-item:active{transform:scale(.98)}
-  .shop-logo{width:52px;height:52px;border-radius:14px;object-fit:cover;flex-shrink:0;border:2px solid #d4a574}
-  .shop-name{font-size:14px;font-weight:800;display:flex;align-items:center;gap:5px}
-  .shop-name i{width:13px;height:13px;color:#3b82f6}
-  .shop-meta{font-size:11px;color:#6B7280;margin-top:3px}
-  .shop-go{width:34px;height:34px;border-radius:50%;background:#f0f7f3;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-  .shop-go i{width:16px;height:16px;color:#0f6b4e}
-  .empty{text-align:center;padding:50px 20px;color:#9aa5a0}
-  .empty i{width:44px;height:44px;color:#d4a574;display:block;margin:0 auto 10px}
-  .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
-  .bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:#666;font-size:10px;font-weight:600;padding:4px 10px}
-  .bottom-nav a.active{color:#0f6b4e}
-  .bottom-nav a i{width:22px;height:22px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:86px;color:#0a1f17}
+.topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:30}
+.topbar h1{font-size:17px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
+.icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e}
+.tabs{display:flex;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:63px;z-index:25}
+.tab{flex:1;padding:13px;text-align:center;font-size:13px;font-weight:700;color:#6B7280;cursor:pointer;border:none;border-bottom:2.5px solid transparent;background:none}
+.tab.active{color:#0f6b4e;border-bottom-color:#0f6b4e}
+.fav-item{display:flex;gap:12px;background:#fff;margin:10px 14px 0;padding:12px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);cursor:pointer;position:relative;animation:fadeIn .25s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.fav-img{width:96px;height:96px;object-fit:cover;border-radius:12px;flex-shrink:0;background:#eee}
+.fav-info{flex:1;min-width:0;display:flex;flex-direction:column}
+.fav-vendor{font-size:11px;color:#b8860b;font-weight:700;display:flex;align-items:center;gap:4px;margin-bottom:3px;text-decoration:none}
+.fav-name{font-size:14px;font-weight:800;color:#0a1f17;line-height:1.3;margin-bottom:4px}
+.fav-price{font-size:16px;font-weight:900;color:#0f6b4e}
+.fav-old{font-size:11px;color:#9aa5a0;text-decoration:line-through;margin-left:5px}
+.fav-rate{font-size:11px;color:#9aa5a0;margin-top:3px}
+.fav-cart{margin-top:auto;padding:8px;background:#0f6b4e;color:#fff;border:none;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;width:100%}
+.fav-del{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:#fff;border:1.5px solid #fee2e2;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.08);color:#e63946;z-index:2}
+.flash-ad{display:flex;align-items:center;gap:12px;margin:12px 14px 0;padding:15px 16px;border-radius:16px;color:#fff;text-decoration:none;animation:adGlow 2s infinite}
+@keyframes adGlow{0%,100%{box-shadow:0 4px 14px rgba(0,0,0,.15)}50%{box-shadow:0 4px 22px rgba(230,57,70,.4)}}
+.flash-ad .ai{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.flash-ad b{display:block;font-size:13px}
+.flash-ad span{font-size:11px;opacity:.9}
+.flash-ad .go{margin-left:auto;background:#fff;color:#0a1f17;font-size:11px;font-weight:800;padding:7px 12px;border-radius:20px;flex-shrink:0}
+.shop-item{display:flex;align-items:center;gap:12px;background:#fff;margin:10px 14px 0;padding:14px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);cursor:pointer}
+.shop-item img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid #0f6b4e;flex-shrink:0}
+.shop-item .sn{font-size:14px;font-weight:800;display:flex;align-items:center;gap:5px}
+.shop-item .sm{font-size:11px;color:#6B7280;margin-top:2px}
+.shop-item .unf{margin-left:auto;font-size:11px;font-weight:800;color:#e63946;background:#fee2e2;border:none;padding:7px 12px;border-radius:16px;cursor:pointer;flex-shrink:0}
+.empty{text-align:center;padding:60px 24px;color:#9aa5a0}
+.empty h3{color:#0a1f17;margin:12px 0 6px;font-size:16px}
+.empty a{display:inline-block;margin-top:14px;padding:11px 22px;background:#0f6b4e;color:#fff;border-radius:12px;text-decoration:none;font-weight:800;font-size:13px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
+.bottom-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600;position:relative;min-height:44px}
+.bottom-nav a.active{color:#0f6b4e}
+.bottom-nav a svg{width:22px;height:22px}
 </style>
 </head>
-<body class="light-mode">
-
+<body>
 <header class="topbar">
   <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
   <h1><i data-lucide="heart"></i> Mes Favoris</h1>
@@ -71,13 +54,12 @@
 </header>
 
 <div class="tabs">
-  <button class="tab active" onclick="showTab('produits',this)">Produits (<span id="nbProd">8</span>)</button>
-  <button class="tab" onclick="showTab('boutiques',this)">Boutiques (3)</button>
+  <button class="tab active" onclick="showTab('p',this)">Produits (<span id="nbP">0</span>)</button>
+  <button class="tab" onclick="showTab('b',this)">Boutiques suivies (<span id="nbB">0</span>)</button>
 </div>
 
-<div id="tab-produits"></div>
-<div id="tab-boutiques" style="display:none"></div>
-<div style="height:16px"></div>
+<div id="tabP"></div>
+<div id="tabB" style="display:none"></div>
 
 <nav class="bottom-nav">
   <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
@@ -88,108 +70,108 @@
 </nav>
 
 <script>
-var FAVS=[
-  {id:100,nom:'iPhone 15 Pro 256GB',prix:850000,note:4.8,avis:89,vendor:'Moussa Tech',bid:2,img:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=300&h=300&fit=crop'},
-  {id:101,nom:'AirPods Pro 2',prix:180000,note:4.9,avis:156,vendor:'Moussa Tech',bid:2,img:'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=300&h=300&fit=crop'},
-  {id:103,nom:'MacBook Air M2',prix:620000,note:4.9,avis:42,vendor:'Moussa Tech',bid:2,img:'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=300&h=300&fit=crop'},
-  {id:102,nom:'Apple Watch S9',prix:280000,note:4.7,avis:67,vendor:'Moussa Tech',bid:2,img:'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=300&h=300&fit=crop'},
-  {id:1,nom:'Boubou wax premium',prix:17500,note:4.8,avis:243,vendor:'Aïcha Couture',bid:1,img:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=300&h=300&fit=crop'},
-  {id:2,nom:'Sandales cuir Peul',prix:8500,note:4.6,avis:89,vendor:'Aïcha Couture',bid:1,img:'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=300&h=300&fit=crop'},
-  {id:6,nom:'Kit soin karité naturel',prix:13200,note:4.9,avis:128,vendor:'Mariama B.',bid:3,img:'https://images.unsplash.com/photo-1600857062241-98e5dba7f214?w=300&h=300&fit=crop'},
-  {id:11,nom:'Ensemble bazin riche',prix:32000,note:4.8,avis:328,vendor:'Fatou Fashion',bid:4,img:'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&h=300&fit=crop'}
+var ADS = [
+  {bg:'linear-gradient(135deg,#e63946,#ff7b00)', icon:'zap',   t:'VENTE FLASH -30%',        s:'Code RAMADAN30',     go:"J'EN PROFITE ›", href:'categories.html'},
+  {bg:'linear-gradient(135deg,#6b46c1,#4c1d95)', icon:'radio', t:'LIVE SHOPPING EN DIRECT', s:'Achète en direct',   go:'REGARDER ›',     href:'boutiques-live.html'}
 ];
-
-var SHOPS=[
-  {bid:2,nom:'Moussa Tech',meta:'Électronique · Dakar · ⭐ 4.7 · 156 abonnés',img:'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&h=100&fit=crop'},
-  {bid:1,nom:'Aïcha Couture',meta:'Mode africaine · Dakar · ⭐ 4.9 · 2,3k abonnés',img:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100&h=100&fit=crop'},
-  {bid:4,nom:'Fatou Fashion',meta:'Prêt-à-porter · Dakar · ⭐ 4.8 · 1,2k abonnés',img:'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=100&h=100&fit=crop'}
-];
-
-/* Pubs FLASH pleine largeur — insérées ENTRE les produits (pas dedans) */
-var ADS=[
-  {bg:'linear-gradient(135deg,#e63946,#ff7b00)',icon:'zap',title:'VENTE FLASH -30%',sub:'Code RAMADAN30 · Jusqu\'à ce soir 23h',btn:'J\'EN PROFITE ›',href:'produits.html?c=mode'},
-  {bg:'linear-gradient(135deg,#0f6b4e,#0a4d38)',icon:'gift',title:'PARRAINAGE : 500 FCFA OFFERTS',sub:'Par ami qui fait sa 1ère commande',btn:'PARRAINER ›',href:'parrainage.html'},
-  {bg:'linear-gradient(135deg,#6b46c1,#4c1d95)',icon:'radio',title:'LIVE SHOPPING EN DIRECT',sub:'Achète en direct auprès des vendeurs',btn:'REGARDER ›',href:'boutiques-live.html'}
-];
-var AD_EVERY=4; /* 1 pub tous les 4 favoris */
-
-function fmt(n){return n.toLocaleString('fr-FR').replace(/\u202f/g,' ');}
-
-function adHTML(ad){
-  return '<a href="'+ad.href+'" class="flash-ad" style="background:'+ad.bg+'">'+
-    '<div class="ad-icon"><i data-lucide="'+ad.icon+'"></i></div>'+
-    '<div class="ad-txt"><div class="ad-title">'+ad.title+'</div><div class="ad-sub">'+ad.sub+'</div></div>'+
-    '<span class="ad-btn">'+ad.btn+'</span></a>';
-}
 
 function renderFavs(){
-  var box=document.getElementById('tab-produits');
-  if(!FAVS.length){
-    box.innerHTML='<div class="empty"><i data-lucide="heart"></i><b>Aucun favori</b><p style="font-size:12px;margin-top:5px">Touche le cœur d\'un produit pour l\'ajouter ici</p></div>';
+  var favs = favGet();
+  document.getElementById('nbP').textContent = favs.length;
+  var box = document.getElementById('tabP');
+  if (!favs.length) {
+    box.innerHTML = '<div class="empty"><i data-lucide="heart" style="width:44px;color:#d1d5db"></i><h3>Aucun favori</h3><p>Touche le cœur sur un article pour le retrouver ici.</p><a href="index.html">Découvrir les articles</a></div>';
     lucide.createIcons(); return;
   }
-  var html='', adIdx=0;
-  FAVS.forEach(function(f,i){
-    html+='<div class="fav-item" onclick="location.href=\'produit.html?id='+f.id+'\'">'+
-      '<button class="fav-heart" onclick="event.stopPropagation();removeFav('+i+')"><i data-lucide="heart"></i></button>'+
-      '<img class="fav-img" src="'+f.img+'" alt="'+f.nom+'">'+
-      '<div class="fav-info">'+
-        '<a class="fav-vendor" href="boutique.html?id='+f.bid+'" onclick="event.stopPropagation()"><i data-lucide="store"></i> '+f.vendor+' <i data-lucide="badge-check"></i></a>'+
-        '<div class="fav-name">'+f.nom+'</div>'+
-        '<div class="fav-price">'+fmt(f.prix)+' FCFA</div>'+
-        '<div class="fav-rate"><i data-lucide="star"></i> '+f.note+' ('+f.avis+' avis)</div>'+
-        '<div class="fav-actions"><button class="fav-cart" onclick="event.stopPropagation();addCart(\''+f.nom.replace(/'/g,"\\'")+'\')"><i data-lucide="shopping-cart"></i> Ajouter au panier</button></div>'+
+  var html = '', adIdx = 0;
+  favs.forEach(function(f, i){
+    html += '<div class="fav-item" onclick="location.href=\'produit.html?pid=' + f.id + '\'">' +
+      '<button class="fav-del" data-del="' + i + '"><i data-lucide="trash-2" style="width:14px"></i></button>' +
+      '<img class="fav-img" src="' + f.img + '" alt="">' +
+      '<div class="fav-info">' +
+        (f.vendor ? '<span class="fav-vendor"><i data-lucide="store" style="width:11px"></i> ' + f.vendor + '</span>' : '') +
+        '<div class="fav-name">' + f.name + '</div>' +
+        '<div><span class="fav-price">' + fmtPrix(f.price) + ' FCFA</span>' +
+        (f.old_price ? '<span class="fav-old">' + fmtPrix(f.old_price) + '</span>' : '') + '</div>' +
+        '<div class="fav-rate">⭐ ' + (f.rating || '—') + ' · ' + (f.sold_count || 0) + ' vendus</div>' +
+        '<button class="fav-cart" data-add="' + i + '"><i data-lucide="shopping-cart" style="width:12px"></i> Ajouter au panier</button>' +
       '</div></div>';
-    /* insère un panneau FLASH pleine largeur tous les 4 produits */
-    if((i+1)%AD_EVERY===0 && i<FAVS.length-1){
-      html+=adHTML(ADS[adIdx%ADS.length]); adIdx++;
+    if ((i+1) % 4 === 0 && i < favs.length-1) {
+      var ad = ADS[adIdx % ADS.length]; adIdx++;
+      html += '<a class="flash-ad" href="' + ad.href + '" style="background:' + ad.bg + '">' +
+        '<div class="ai"><i data-lucide="' + ad.icon + '"></i></div>' +
+        '<div><b>' + ad.t + '</b><span>' + ad.s + '</span></div><span class="go">' + ad.go + '</span></a>';
     }
   });
-  box.innerHTML=html;
-  document.getElementById('nbProd').textContent=FAVS.length;
+  box.innerHTML = html;
   lucide.createIcons();
+
+  box.querySelectorAll('[data-del]').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var favs = favGet();
+      favToggle(favs[parseInt(btn.dataset.del)]);
+      renderFavs();
+    });
+  });
+  box.querySelectorAll('[data-add]').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var f = favGet()[parseInt(btn.dataset.add)];
+      if (f) cartAdd({id:f.id, name:f.name, price:f.price, images:[f.img], vendors:{shop_name:f.vendor, slug:f.slug}}, 1);
+    });
+  });
 }
 
 function renderShops(){
-  document.getElementById('tab-boutiques').innerHTML=SHOPS.map(function(s){
-    return '<div class="shop-item" onclick="location.href=\'boutique.html?id='+s.bid+'\'">'+
-      '<img class="shop-logo" src="'+s.img+'" alt="'+s.nom+'">'+
-      '<div style="flex:1;min-width:0"><div class="shop-name">'+s.nom+' <i data-lucide="badge-check"></i></div>'+
-      '<div class="shop-meta">'+s.meta+'</div></div>'+
-      '<div class="shop-go"><i data-lucide="chevron-right"></i></div></div>';
-  }).join('');
-  lucide.createIcons();
-}
-
-function showTab(name,el){
-  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
-  el.classList.add('active');
-  document.getElementById('tab-produits').style.display=(name==='produits')?'block':'none';
-  document.getElementById('tab-boutiques').style.display=(name==='boutiques')?'block':'none';
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function removeFav(i){
-  if(confirm('💔 Retirer "'+FAVS[i].nom+'" de tes favoris ?')){
-    FAVS.splice(i,1); renderFavs();
+  var slugs = followGet();
+  document.getElementById('nbB').textContent = slugs.length;
+  var box = document.getElementById('tabB');
+  if (!slugs.length) {
+    box.innerHTML = '<div class="empty"><i data-lucide="store" style="width:44px;color:#d1d5db"></i><h3>Aucune boutique suivie</h3><p>Suis des boutiques pendant les lives pour recevoir leurs nouveautés.</p><a href="boutiques-live.html">Voir les lives</a></div>';
+    lucide.createIcons(); return;
   }
+  supa('vendors', 'select=*&slug=in.(' + slugs.join(',') + ')').then(function(vendors){
+    if (!vendors || !vendors.length) { box.innerHTML = '<div class="empty">Boutiques introuvables</div>'; return; }
+    box.innerHTML = vendors.map(function(v){
+      return '<div class="shop-item" onclick="location.href=\'' + lienBoutique(v) + '\'">' +
+        '<img src="' + (v.logo_url||'') + '" alt="">' +
+        '<div style="flex:1;min-width:0"><div class="sn">' + v.shop_name + ' <i data-lucide="badge-check" style="width:13px;color:#0f6b4e"></i></div>' +
+        '<div class="sm">' + (v.category||'') + ' · ⭐ ' + (v.rating||'—') + ' · ' + fmtPrix(v.followers||0) + ' abonnés</div></div>' +
+        '<button class="unf" data-slug="' + v.slug + '">Ne plus suivre</button></div>';
+    }).join('');
+    lucide.createIcons();
+    box.querySelectorAll('.unf').forEach(function(b){
+      b.addEventListener('click', function(e){
+        e.stopPropagation();
+        followToggle({slug: b.dataset.slug, shop_name: ''});
+        renderShops();
+      });
+    });
+  });
 }
-function addCart(nom){
-  var t=document.createElement('div');
-  t.textContent='✅ '+nom+' ajouté au panier';
-  t.style.cssText='position:fixed;top:70px;left:50%;transform:translateX(-50%);background:#0a1f17;color:#fff;padding:11px 20px;border-radius:24px;font-size:13px;font-weight:700;z-index:999;box-shadow:0 8px 20px rgba(0,0,0,.3);white-space:nowrap;max-width:92%;overflow:hidden;text-overflow:ellipsis';
-  document.body.appendChild(t);
-  setTimeout(function(){t.remove();},2000);
+
+function showTab(t, el){
+  document.querySelectorAll('.tab').forEach(function(x){ x.classList.remove('active'); });
+  el.classList.add('active');
+  document.getElementById('tabP').style.display = t === 'p' ? 'block' : 'none';
+  document.getElementById('tabB').style.display = t === 'b' ? 'block' : 'none';
 }
 function shareFavs(){
-  var txt='❤️ Mes favoris SEN TEW : '+FAVS.slice(0,3).map(function(f){return f.nom;}).join(', ')+'… → https://sen-ecosystem.com/sentew-app';
-  if(navigator.share) navigator.share({title:'Mes favoris SEN TEW',text:txt}).catch(function(){});
-  else if(navigator.clipboard){navigator.clipboard.writeText(txt); alert('✓ Liste copiée !');}
+  var favs = favGet();
+  if (!favs.length) { toast('Aucun favori à partager'); return; }
+  var txt = '❤️ Mes favoris SEN TEW : ' + favs.slice(0,3).map(function(f){ return f.name; }).join(', ') + ' → ' + location.origin + '/sentew-app';
+  if (navigator.share) navigator.share({title:'Mes favoris', text:txt}).catch(function(){});
+  else if (navigator.clipboard) { navigator.clipboard.writeText(txt); toast('✓ Liste copiée'); }
 }
 
 renderFavs();
 renderShops();
-lucide.createIcons();
+function renderIcons(){ if (window.lucide) lucide.createIcons(); }
+renderIcons();
+window.addEventListener('load', renderIcons);
+setTimeout(renderIcons, 600);
+cartBadge();
 </script>
 <script src="js/dark-mode.js"></script>
 </body>
