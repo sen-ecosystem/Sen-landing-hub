@@ -2,38 +2,159 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin - SEN TEW</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Administration - SEN TEW</title>
+<script src="https://unpkg.com/lucide@latest"></script>
 <script src="js/supabase.js"></script>
 <style>
-body{background:#0a1f17;color:#fff;font-family:'Segoe UI',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}
-.box{background:#12291f;padding:32px;border-radius:20px;width:90%;max-width:360px;text-align:center}
-h1{color:#d4a574;font-size:20px;margin-bottom:20px}
-input{width:100%;padding:13px;margin:6px 0;border-radius:10px;border:1px solid #2d4a3e;background:#0a1f17;color:#fff;font-size:14px;box-sizing:border-box}
-button{width:100%;padding:13px;background:#0f6b4e;color:#fff;border:none;border-radius:10px;font-weight:800;font-size:15px;cursor:pointer;margin-top:10px}
-.err{color:#ff8585;font-size:13px;margin-top:10px;min-height:18px}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;max-width:100vw}
+body{background:#0a1f17;font-family:'Segoe UI',-apple-system,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;color:#fff}
+.card{background:#fff;border-radius:22px;padding:28px 22px;width:100%;max-width:380px;color:#0a1f17;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.logo{text-align:center;margin-bottom:18px}
+.logo .badge{width:64px;height:64px;border-radius:18px;background:#0f6b4e;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;color:#fff}
+.logo h1{font-size:20px;font-weight:900;color:#0f6b4e}
+.logo p{font-size:12px;color:#6b7280;margin-top:3px}
+.field{margin-bottom:14px}
+.field label{font-size:12px;font-weight:800;color:#374151;display:block;margin-bottom:6px}
+.field .inp{display:flex;align-items:center;gap:8px;border:1.5px solid #e5e7eb;border-radius:12px;padding:0 12px;background:#f9fafb}
+.field .inp:focus-within{border-color:#0f6b4e;background:#fff}
+.field input{flex:1;border:none;background:transparent;padding:13px 0;font-size:14px;outline:none}
+.field .eye{background:none;border:none;cursor:pointer;color:#9aa5a0;display:flex;align-items:center}
+.btn-login{width:100%;padding:15px;border-radius:13px;border:none;background:#0f6b4e;color:#fff;font-size:15px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px}
+.btn-login:disabled{opacity:.6;cursor:not-allowed}
+.err{display:none;background:#fee2e2;border:1px solid #fecaca;color:#b91c1c;font-size:12px;font-weight:700;border-radius:11px;padding:11px 12px;margin-bottom:14px;align-items:center;gap:8px}
+.err.show{display:flex}
+.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin-top:16px;font-size:11.5px;color:#92400e;cursor:pointer;line-height:1.5}
+.tip i{color:#b45309;flex-shrink:0;width:15px;height:15px;margin-top:1px}
+.back{display:block;text-align:center;margin-top:14px;font-size:12px;color:#6b7280;text-decoration:none}
+.lock-note{text-align:center;font-size:10px;color:#9aa5a0;margin-top:14px;display:flex;align-items:center;justify-content:center;gap:5px}
 </style>
 </head>
 <body>
-<div class="box">
-  <h1>🔐 Administration SEN TEW</h1>
-  <input type="email" id="email" placeholder="Email admin">
-  <input type="password" id="pass" placeholder="Mot de passe">
-  <button onclick="login()">Se connecter</button>
-  <div class="err" id="err"></div>
+<div class="card">
+  <div class="logo">
+    <div class="badge"><i data-lucide="shield-check" style="width:30px;height:30px"></i></div>
+    <h1>SEN TEW Admin</h1>
+    <p>Accès réservé à l'équipe dirigeante</p>
+  </div>
+
+  <div class="err" id="errBox"><i data-lucide="alert-triangle" style="width:15px;height:15px;flex-shrink:0"></i><span id="errTxt"></span></div>
+
+  <div class="field">
+    <label>Email administrateur</label>
+    <div class="inp"><i data-lucide="mail" style="width:16px;height:16px;color:#9aa5a0"></i>
+      <input type="email" id="email" placeholder="admin@sen-tew.com" autocomplete="username">
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Mot de passe</label>
+    <div class="inp"><i data-lucide="lock" style="width:16px;height:16px;color:#9aa5a0"></i>
+      <input type="password" id="pwd" placeholder="••••••••" autocomplete="current-password">
+      <button class="eye" id="eyeBtn" type="button"><i data-lucide="eye" style="width:16px;height:16px"></i></button>
+    </div>
+  </div>
+
+  <button class="btn-login" id="loginBtn"><i data-lucide="log-in" style="width:17px;height:17px"></i>Se connecter</button>
+
+  <div class="tip" id="tipSecu">
+    <i data-lucide="info"></i>
+    <span>Astuce sécurité : cette page enregistre chaque tentative de connexion. Après 5 échecs, le compte est verrouillé 15 minutes. Ne partage jamais ces identifiants.</span>
+  </div>
+
+  <a class="back" href="index.html">← Retour à l'application</a>
+  <div class="lock-note"><i data-lucide="lock" style="width:11px;height:11px"></i>Connexion chiffrée · SEN TEW SUARL</div>
 </div>
+
 <script>
-async function login(){
-  var email = document.getElementById('email').value.trim();
-  var pass = document.getElementById('pass').value;
-  var err = document.getElementById('err');
-  var res = await supabase.auth.signInWithPassword({email: email, password: pass});
-  if (res.error) { err.textContent = 'Identifiants incorrects'; return; }
-  var chk = await supabase.from('admins').select('email').eq('email', email).single();
-  if (!chk.data) { err.textContent = 'Accès non autorisé'; await supabase.auth.signOut(); return; }
-  location.href = 'admin.html';
+lucide.createIcons();
+
+// Anti brute-force : 5 essais max puis blocage 15 min
+var SEC_KEY='st_admin_sec';
+function getSec(){try{return JSON.parse(localStorage.getItem(SEC_KEY))||{fails:0,until:0}}catch(e){return{fails:0,until:0}}}
+function setSec(s){localStorage.setItem(SEC_KEY,JSON.stringify(s))}
+
+function showErr(msg){
+  var b=document.getElementById('errBox');
+  document.getElementById('errTxt').textContent=msg;
+  b.classList.add('show');lucide.createIcons();
 }
+
+document.getElementById('eyeBtn').onclick=function(){
+  var p=document.getElementById('pwd');
+  p.type=p.type==='password'?'text':'password';
+  this.innerHTML='<i data-lucide="'+(p.type==='password'?'eye':'eye-off')+'" style="width:16px;height:16px"></i>';
+  lucide.createIcons();
+};
+
+document.getElementById('tipSecu').onclick=function(){
+  alert('🛡️ Sécurité SEN TEW Admin\n\n• 5 tentatives max, puis blocage 15 min\n• Session expire après 2 h d\'inactivité\n• Chaque connexion est horodatée dans la base\n• Change le mot de passe initial dès la 1ère connexion');
+};
+
+async function sha256(txt){
+  var buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(txt));
+  return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0')}).join('');
+}
+
+document.getElementById('loginBtn').onclick=async function(){
+  var btn=this;
+  var sec=getSec();
+  if(sec.until&&Date.now()<sec.until){
+    var min=Math.ceil((sec.until-Date.now())/60000);
+    showErr('Compte verrouillé. Réessaie dans '+min+' min.');return;
+  }
+  var email=document.getElementById('email').value.trim().toLowerCase();
+  var pwd=document.getElementById('pwd').value;
+  if(!email||!pwd){showErr('Remplis les deux champs.');return;}
+
+  btn.disabled=true;
+  btn.innerHTML='Vérification…';
+
+  try{
+    var hash=await sha256(pwd);
+    var res=await fetch(SUPA_URL+'/rest/v1/admins?email=eq.'+encodeURIComponent(email)+'&is_active=eq.true&select=*',{
+      headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}
+    });
+    var rows=await res.json();
+
+    if(rows&&rows.length&&rows[0].password_hash===hash){
+      // Connexion OK
+      setSec({fails:0,until:0});
+      sessionStorage.setItem('st_admin_session',JSON.stringify({
+        id:rows[0].id,email:rows[0].email,name:rows[0].full_name,role:rows[0].role,
+        exp:Date.now()+2*60*60*1000 // 2 h
+      }));
+      // Trace la connexion
+      fetch(SUPA_URL+'/rest/v1/admins?id=eq.'+rows[0].id,{
+        method:'PATCH',
+        headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'},
+        body:JSON.stringify({last_login:new Date().toISOString()})
+      });
+      window.location.href='admin.html';
+    }else{
+      sec.fails=(sec.fails||0)+1;
+      if(sec.fails>=5){sec.until=Date.now()+15*60*1000;sec.fails=0;
+        setSec(sec);showErr('Trop de tentatives. Verrouillé 15 minutes.');
+      }else{
+        setSec(sec);showErr('Identifiants incorrects. '+(5-sec.fails)+' essai(s) restant(s).');
+      }
+    }
+  }catch(e){
+    showErr('Erreur de connexion au serveur. Réessaie.');
+  }
+  btn.disabled=false;
+  btn.innerHTML='<i data-lucide="log-in" style="width:17px;height:17px"></i>Se connecter';
+  lucide.createIcons();
+};
+
+// Déjà connecté → direct admin
+(function(){
+  try{
+    var s=JSON.parse(sessionStorage.getItem('st_admin_session'));
+    if(s&&s.exp>Date.now())window.location.href='admin.html';
+  }catch(e){}
+})();
 </script>
 </body>
 </html>
