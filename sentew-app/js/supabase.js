@@ -351,5 +351,92 @@ function alertCheck(p) {
   } catch (e) {}
 }
 
+// ============================================
+// SEN TEW POINTS — Fidélité client
+// ============================================
+var CLIENT_ID_DEMO = '99999999-9999-9999-9999-999999999999';
+var LEVELS = {
+  teranga: { name: 'Teranga', icon: '🥉', mult: 1.0, next: 500,  perks: 'Points sur chaque achat' },
+  jaay:    { name: 'Jaay',    icon: '🥈', mult: 1.5, next: 1500, perks: 'Points ×1,5 + ventes flash 1h avant' },
+  xeweul:  { name: 'Xeweul',  icon: '🥇', mult: 2.0, next: null, perks: 'Points ×2 + livraison gratuite Dakar + support prioritaire' }
+};
+var SPEND_TIERS = [
+  { pts: 100,  label: '−500 F',        value: 500 },
+  { pts: 250,  label: '−1 500 F',      value: 1500 },
+  { pts: 500,  label: '−3 500 F ou livraison gratuite', value: 3500 },
+  { pts: 1000, label: '−8 000 F',      value: 8000 }
+];
+
+// Solde local (démo) + synchronisé base si possible
+function pointsGet() {
+  return parseInt(localStorage.getItem('sentew_points') || '0');
+}
+function pointsLevel(pts) {
+  if (pts >= 1500) return LEVELS.xeweul;
+  if (pts >= 500)  return LEVELS.jaay;
+  return LEVELS.teranga;
+}
+
+// Gagner des points (avec multiplicateur de niveau)
+function pointsEarn(basePoints, reason, orderId) {
+  var pts = pointsGet();
+  var lvl = pointsLevel(pts);
+  var gained = Math.round(basePoints * lvl.mult);
+  var newTotal = pts + gained;
+  localStorage.setItem('sentew_points', String(newTotal));
+
+  // Journal local (pour la page fidélité)
+  try {
+    var log = JSON.parse(localStorage.getItem('sentew_points_log') || '[]');
+    log.unshift({ type: 'gain', points: gained, reason: reason, at: Date.now() });
+    localStorage.setItem('sentew_points_log', JSON.stringify(log.slice(0, 50)));
+  } catch (e) {}
+
+  // Enregistrement en base (si possible)
+  supaWrite('loyalty_events', 'POST', {
+    user_id: CLIENT_ID_DEMO, type: 'gain', points: gained,
+    reason: reason, order_id: orderId || null
+  });
+  supaWrite('users', 'PATCH', { loyalty_points: newTotal }, 'id=eq.' + CLIENT_ID_DEMO);
+
+  // Toast spécial avec montée de niveau
+  var newLvl = pointsLevel(newTotal);
+  if (newLvl.name !== lvl.name) {
+    toast('🏆 NIVEAU SUPÉRIEUR : ' + newLvl.name + ' ! Tes points comptent désormais ×' + newLvl.mult);
+  } else {
+    toast('+' + gained + ' points SEN TEW ⭐');
+  }
+  return gained;
+}
+
+// Dépenser des points (au panier)
+function pointsSpend(pts, label, value) {
+  var current = pointsGet();
+  if (current < pts) { toast('❌ Pas assez de points (' + fmtPrix(current) + ' disponibles)'); return null; }
+  var newTotal = current - pts;
+  localStorage.setItem('sentew_points', String(newTotal));
+  try {
+    var log = JSON.parse(localStorage.getItem('sentew_points_log') || '[]');
+    log.unshift({ type: 'spend', points: pts, reason: label, at: Date.now() });
+    localStorage.setItem('sentew_points_log', JSON.stringify(log.slice(0, 50)));
+  } catch (e) {}
+  supaWrite('loyalty_events', 'POST', {
+    user_id: CLIENT_ID_DEMO, type: 'spend', points: pts, reason: label
+  });
+  supaWrite('users', 'PATCH', { loyalty_points: newTotal }, 'id=eq.' + CLIENT_ID_DEMO);
+  return { discount: value, label: label };
+}
+
+// Points gagnés par une commande (1 000 F = 10 pts)
+function pointsForOrder(total) {
+  return Math.floor(total / 1000) * 10;
+}
+
+// Historique
+function pointsLog() {
+  try { return JSON.parse(localStorage.getItem('sentew_points_log') || '[]'); }
+  catch (e) { return []; }
+}
+
 // Badge panier au chargement
 document.addEventListener('DOMContentLoaded', cartBadge);
