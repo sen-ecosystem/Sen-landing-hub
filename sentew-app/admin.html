@@ -3,195 +3,352 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>🛡️ Admin · SEN TEW</title>
-<meta name="theme-color" content="#0a1f17">
-<link rel="stylesheet" href="css/app.css?v=46">
+<title>SEN TEW Admin - Tableau de bord</title>
 <script src="https://unpkg.com/lucide@latest"></script>
-<script src="js/dark-mode.js?v=46" defer></script>
-<script src="js/role-guard.js?v=46" defer></script>
+<script src="js/supabase.js"></script>
 <style>
-.admin-hero{background:linear-gradient(135deg,#0a1f17,#0f6b4e);color:#fff;padding:20px 16px;border-radius:0 0 24px 24px;margin-bottom:16px}
-.admin-hero h1{font-size:22px;font-weight:900;margin:0 0 4px;display:flex;align-items:center;gap:10px}
-.admin-hero p{opacity:.85;font-size:13px;margin:0}
-.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 16px}
-.kpi-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:14px}
-.kpi-card .label{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
-.kpi-card .value{font-size:22px;font-weight:900;color:var(--text-emerald)}
-.kpi-card .delta{font-size:11px;font-weight:700;margin-top:2px}
-.kpi-card .delta.up{color:#0f6b4e}
-.kpi-card .delta.down{color:#ef4444}
-.tabs{display:flex;gap:6px;padding:0 16px;overflow-x:auto;margin-bottom:12px}
-.tabs button{padding:8px 14px;border:1px solid var(--border);background:var(--bg-card);color:var(--text-primary);border-radius:20px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px}
-.tabs button.active{background:#0f6b4e;color:#fff;border-color:#0f6b4e}
-.list-item{display:grid;grid-template-columns:auto 1fr auto;gap:12px;padding:12px 14px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;margin:0 16px 8px;align-items:center}
-.list-item .avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#d4a574,#a67c3a);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
-.list-item .info h4{font-size:14px;font-weight:700;margin:0 0 2px;color:var(--text-primary)}
-.list-item .info p{font-size:12px;color:var(--text-muted);margin:0}
-.list-item .actions{display:flex;gap:6px}
-.list-item .actions button{background:none;border:1px solid var(--border);width:32px;height:32px;border-radius:8px;color:var(--text-primary);cursor:pointer;display:flex;align-items:center;justify-content:center}
-.list-item .actions button.approve{border-color:#0f6b4e;color:#0f6b4e}
-.list-item .actions button.reject{border-color:#ef4444;color:#ef4444}
-.badge{padding:2px 8px;border-radius:6px;font-size:10px;font-weight:800}
-.badge.pending{background:#fef3c7;color:#92400e}
-.badge.active{background:#c8f0d8;color:#0a4d38}
-.badge.suspended{background:#fee2e2;color:#7f1d1d}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;max-width:100vw}
+body{background:#f0f2f5;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:80px;color:#0a1f17}
+/* Header */
+.topbar{background:#0a1f17;color:#fff;padding:16px 16px 60px;position:relative}
+.tb-row{display:flex;align-items:center;gap:10px}
+.tb-row h1{font-size:18px;font-weight:900;flex:1;display:flex;align-items:center;gap:8px}
+.tb-row .sub{font-size:11px;opacity:.7;font-weight:400}
+.tb-ico{width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,.1);border:none;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.tb-ico:hover{background:rgba(255,255,255,.2)}
+/* Filtre période */
+.period{display:flex;gap:6px;margin-top:14px}
+.period button{flex:1;padding:9px 4px;border-radius:10px;border:1px solid rgba(255,255,255,.25);background:transparent;color:#fff;font-size:11.5px;font-weight:800;cursor:pointer}
+.period button.on{background:#4ade80;border-color:#4ade80;color:#0a1f17}
+/* KPI cards */
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 14px;margin-top:-44px}
+.kpi{background:#fff;border-radius:16px;padding:14px;box-shadow:0 4px 14px rgba(0,0,0,.07);animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.kpi .ki{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.kpi .kv{font-size:19px;font-weight:900;line-height:1.1}
+.kpi .kl{font-size:10.5px;color:#6b7280;font-weight:700;margin-top:3px}
+.kpi .kt{font-size:9.5px;font-weight:800;margin-top:5px;display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:8px}
+.kt.up{background:#d1fae5;color:#065f46}
+.kt.down{background:#fee2e2;color:#b91c1c}
+.k-green{background:#d1fae5;color:#059669}
+.k-blue{background:#dbeafe;color:#1e40af}
+.k-amber{background:#fef3c7;color:#b45309}
+.k-purple{background:#ede9fe;color:#6d28d9}
+/* Sections */
+.section{margin:18px 14px 0}
+.sec-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.sec-head h2{font-size:15px;font-weight:900;flex:1}
+.sec-head .all{font-size:11px;font-weight:800;color:#0f6b4e;text-decoration:none}
+/* Onglets internes */
+.itabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:10px}
+.itabs::-webkit-scrollbar{display:none}
+.itab{flex-shrink:0;padding:7px 13px;border-radius:18px;border:1.5px solid #e5e7eb;background:#fff;font-size:11px;font-weight:800;color:#4b5563;cursor:pointer;white-space:nowrap}
+.itab.on{background:#0a1f17;color:#fff;border-color:#0a1f17}
+/* Lignes liste */
+.row-item{background:#fff;border-radius:14px;padding:12px 13px;display:flex;align-items:center;gap:11px;margin-bottom:8px;box-shadow:0 1px 5px rgba(0,0,0,.05);animation:fadeIn .25s}
+.ri-ava{width:42px;height:42px;border-radius:12px;object-fit:cover;flex-shrink:0}
+.ri-txt{flex:1;min-width:0}
+.ri-txt b{font-size:12.5px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ri-txt span{font-size:10.5px;color:#6b7280;display:block;margin-top:2px}
+.ri-right{text-align:right;flex-shrink:0}
+.ri-right .amt{font-size:12.5px;font-weight:900;color:#0f6b4e}
+.badge{font-size:9px;font-weight:800;padding:3px 8px;border-radius:9px;display:inline-block;margin-top:3px}
+.b-ok{background:#d1fae5;color:#065f46}
+.b-wait{background:#fef3c7;color:#92400e}
+.b-warn{background:#fee2e2;color:#b91c1c}
+.b-info{background:#dbeafe;color:#1e40af}
+.b-purple{background:#ede9fe;color:#6d28d9}
+.mini-btn{font-size:10px;font-weight:800;padding:6px 11px;border-radius:9px;border:none;cursor:pointer;margin-top:4px}
+.mb-green{background:#0f6b4e;color:#fff}
+.mb-red{background:#fee2e2;color:#b91c1c}
+.mb-line{background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e}
+/* Actions rapides */
+.qgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.qact{background:#fff;border-radius:14px;padding:13px 6px;text-align:center;text-decoration:none;color:#0a1f17;box-shadow:0 1px 5px rgba(0,0,0,.05);display:flex;flex-direction:column;align-items:center;gap:7px}
+.qact .qi{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center}
+.qact span{font-size:9.5px;font-weight:800;line-height:1.25}
+/* Astuce */
+.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:13px;padding:11px 12px;font-size:11.5px;color:#92400e;cursor:pointer;line-height:1.5;margin-bottom:10px}
+.tip i{color:#b45309;flex-shrink:0;width:15px;height:15px;margin-top:1px}
+/* Graphique barres simple */
+.chart{background:#fff;border-radius:16px;padding:14px;box-shadow:0 1px 5px rgba(0,0,0,.05)}
+.bars{display:flex;align-items:flex-end;gap:6px;height:110px;margin-top:10px}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px}
+.bar{width:100%;max-width:26px;border-radius:6px 6px 2px 2px;background:linear-gradient(180deg,#10b981,#0f6b4e);min-height:4px;transition:height .6s}
+.bar-lab{font-size:8.5px;color:#9aa5a0;font-weight:700}
+/* Vide / chargement */
+.loading{text-align:center;padding:30px;color:#9aa5a0;font-size:12px}
+.empty-box{text-align:center;padding:24px;color:#9aa5a0;font-size:12px;background:#fff;border-radius:14px}
+/* Déconnexion */
+.logout{position:fixed;bottom:16px;left:14px;right:14px;padding:14px;border-radius:13px;border:none;background:#0a1f17;color:#fff;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
 </style>
 </head>
-<body class="light-mode" data-theme="light">
-  <script>
-supabase.auth.getSession().then(function(r){
-  if (!r.data.session) location.href = 'login-admin.html';
+<body>
+
+<div class="topbar">
+  <div class="tb-row">
+    <h1><i data-lucide="shield-check" style="width:21px;height:21px;color:#4ade80"></i>SEN TEW Admin</h1>
+    <button class="tb-ico" id="refreshBtn" title="Actualiser"><i data-lucide="refresh-cw" style="width:17px;height:17px"></i></button>
+  </div>
+  <div class="sub" id="adminName" style="font-size:11px;opacity:.7;margin-top:4px">Connecté</div>
+  <div class="period" id="periodBar">
+    <button data-p="today" class="on">Aujourd'hui</button>
+    <button data-p="week">7 jours</button>
+    <button data-p="month">Ce mois</button>
+    <button data-p="all">Tout</button>
+  </div>
+</div>
+
+<!-- KPI -->
+<div class="kpis" id="kpis"><div class="loading" style="grid-column:1/3">Chargement des statistiques…</div></div>
+
+<!-- Actions rapides -->
+<div class="section">
+  <div class="sec-head"><h2>⚡ Actions rapides</h2></div>
+  <div class="qgrid">
+    <a class="qact" href="admin-payouts.html"><div class="qi k-green"><i data-lucide="banknote" style="width:17px;height:17px"></i></div><span>Reverse-<br>ments</span></a>
+    <a class="qact" href="#" onclick="scrollToId('secOrders');return false"><div class="qi k-blue"><i data-lucide="package" style="width:17px;height:17px"></i></div><span>Com-<br>mandes</span></a>
+    <a class="qact" href="#" onclick="scrollToId('secVendors');return false"><div class="qi k-amber"><i data-lucide="store" style="width:17px;height:17px"></i></div><span>Ven-<br>deurs</span></a>
+    <a class="qact" href="#" onclick="scrollToId('secAds');return false"><div class="qi k-purple"><i data-lucide="megaphone" style="width:17px;height:17px"></i></div><span>Ads /<br>Pub</span></a>
+  </div>
+</div>
+
+<!-- Graphique -->
+<div class="section">
+  <div class="sec-head"><h2>📈 Commandes (7 derniers jours)</h2></div>
+  <div class="chart"><div class="bars" id="chartBars"><div class="loading" style="width:100%">…</div></div></div>
+</div>
+
+<!-- Commandes -->
+<div class="section" id="secOrders">
+  <div class="sec-head"><h2>📦 Commandes récentes</h2></div>
+  <div class="itabs" id="orderTabs">
+    <button class="itab on" data-f="all">Toutes</button>
+    <button class="itab" data-f="confirmed">Confirmées</button>
+    <button class="itab" data-f="in_transit">En livraison</button>
+    <button class="itab" data-f="delivered">Livrées</button>
+    <button class="itab" data-f="cancelled">Annulées</button>
+  </div>
+  <div id="ordersList"><div class="loading">Chargement…</div></div>
+  <div class="tip" onclick="alert('📦 Gestion des commandes\n\n• Confirmées : le vendeur prépare le colis\n• En livraison : le livreur a scanné le QR code retrait\n• Livrées : code client saisi = paiement libéré au vendeur\n• Annulées : vérifier la raison et rembourser si payé en ligne\n\nⓘ Une commande bloquée +48h en préparation ? Contacte le vendeur.')">
+    <i data-lucide="info"></i><span>Astuce : une commande livrée avec code client = paiement libéré au vendeur. Clique pour tout comprendre.</span>
+  </div>
+</div>
+
+<!-- Vendeurs -->
+<div class="section" id="secVendors">
+  <div class="sec-head"><h2>🏪 Vendeurs</h2></div>
+  <div class="itabs" id="vendorTabs">
+    <button class="itab on" data-f="all">Tous</button>
+    <button class="itab" data-f="pending">En attente ⏳</button>
+    <button class="itab" data-f="verified">Vérifiés ✓</button>
+  </div>
+  <div id="vendorsList"><div class="loading">Chargement…</div></div>
+  <div class="tip" onclick="alert('🏪 Validation des vendeurs\n\n• Vérifier = la boutique devient visible avec badge ✓\n• Exiger : RCCM ou NINEA + pièce identité + numéro Wave/OM valide\n• Suspendre en cas d\'avis clients négatifs répétés\n\nⓘ Un vendeur vérifié rassure : +40% de ventes en moyenne.')">
+    <i data-lucide="info"></i><span>Astuce : ne valide un vendeur qu'après vérification RCCM/NINEA. Clique pour la checklist complète.</span>
+  </div>
+</div>
+
+<!-- Ads -->
+<div class="section" id="secAds">
+  <div class="sec-head"><h2>📣 SEN TEW Ads</h2></div>
+  <div id="adsList"><div class="loading">Chargement…</div></div>
+  <div class="tip" onclick="alert('📣 Revenus publicitaires\n\nPlans : Gratuit (1 boost/sem) · Silver 5 000 F/mois · Gold 15 000 F · Platinum 35 000 F\n\n• Les boosts actifs expirent automatiquement\n• Surveille le taux de clic : un produit boosté sans clic = mauvaise photo/titre → conseille le vendeur\n\nⓘ Objectif lancement : 10 vendeurs payants = ~180 000 F/mois de revenus pub.')">
+    <i data-lucide="info"></i><span>Astuce : les revenus Ads complètent les commissions 5%. Clique pour la stratégie.</span>
+  </div>
+</div>
+
+<button class="logout" id="logoutBtn"><i data-lucide="log-out" style="width:16px;height:16px"></i>Se déconnecter</button>
+
+<script>
+// ===== PROTECTION : pas de session = retour login =====
+var SESS=null;
+try{SESS=JSON.parse(sessionStorage.getItem('st_admin_session'))}catch(e){}
+if(!SESS||!SESS.exp||SESS.exp<Date.now()){window.location.href='login-admin.html';}
+else{
+  document.getElementById('adminName').textContent='👋 '+SESS.name+' · '+SESS.role+' · session expire à '+new Date(SESS.exp).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+}
+document.getElementById('logoutBtn').onclick=function(){
+  sessionStorage.removeItem('st_admin_session');
+  window.location.href='login-admin.html';
+};
+function scrollToId(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+
+// ===== HELPERS API =====
+async function api(path){
+  var r=await fetch(SUPA_URL+'/rest/v1/'+path,{headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}});
+  if(!r.ok)return[];
+  return r.json();
+}
+async function apiPatch(table,id,body){
+  await fetch(SUPA_URL+'/rest/v1/'+table+'?id=eq.'+id,{
+    method:'PATCH',
+    headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify(body)
+  });
+}
+function fmt(n){return (n||0).toLocaleString('fr-FR')+' F'}
+function esc(s){var d=document.createElement('div');d.textContent=s||'';return d.innerHTML}
+function scrollToId(id){var el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'})}
+
+// ===== PÉRIODE =====
+var PERIOD='today';
+function dateFrom(){
+  var d=new Date();
+  if(PERIOD==='today'){d.setHours(0,0,0,0);return d.toISOString()}
+  if(PERIOD==='week'){d.setDate(d.getDate()-7);return d.toISOString()}
+  if(PERIOD==='month'){d.setDate(1);d.setHours(0,0,0,0);return d.toISOString()}
+  return '2000-01-01T00:00:00Z';
+}
+document.getElementById('periodBar').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  this.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});
+  b.classList.add('on');PERIOD=b.dataset.p;loadAll();
 });
+document.getElementById('refreshBtn').onclick=function(){loadAll()};
+
+// ===== KPI =====
+async function loadKpis(){
+  var from=dateFrom();
+  var orders=await api('orders?created_at=gte.'+encodeURIComponent(from)+'&select=total,status,payment_status');
+  var vendors=await api('vendors?select=id');
+  var products=await api('products?select=id&is_active=eq.true');
+  var boosts=await api('ads_boosts?select=id&expires_at=gte.'+new Date().toISOString());
+
+  var ca=0,delivered=0,pending=0;
+  (orders||[]).forEach(function(o){
+    if(o.status!=='cancelled')ca+=o.total||0;
+    if(o.status==='delivered')delivered++;
+    if(o.status==='confirmed'||o.status==='preparing')pending++;
+  });
+
+  document.getElementById('kpis').innerHTML=
+    kpi('k-green','banknote',fmt(ca),'Chiffre d\'affaires','up','CA '+labelPeriod())+
+    kpi('k-blue','shopping-bag',(orders||[]).length,'Commandes','up',delivered+' livrée(s)')+
+    kpi('k-amber','store',(vendors||[]).length,'Vendeurs actifs','up',(products||[]).length+' produits')+
+    kpi('k-purple','megaphone',(boosts||[]).length,'Boosts Ads actifs',pending>0?'down':'up',pending+' commande(s) à suivre');
+  lucide.createIcons();
+}
+function kpi(cls,icon,val,label,trend,trendTxt){
+  return '<div class="kpi"><div class="ki '+cls+'"><i data-lucide="'+icon+'" style="width:17px;height:17px"></i></div>'+
+    '<div class="kv">'+val+'</div><div class="kl">'+label+'</div>'+
+    '<span class="kt '+trend+'">'+(trend==='up'?'▲':'⚠')+' '+trendTxt+'</span></div>';
+}
+function labelPeriod(){return {today:"aujourd'hui",week:'7 jours',month:'ce mois',all:'total'}[PERIOD]}
+
+// ===== GRAPHIQUE 7 JOURS =====
+async function loadChart(){
+  var d=new Date();d.setDate(d.getDate()-6);d.setHours(0,0,0,0);
+  var orders=await api('orders?created_at=gte.'+encodeURIComponent(d.toISOString())+'&select=created_at,total,status');
+  var days=[],counts=[];
+  for(var i=6;i>=0;i--){
+    var dd=new Date();dd.setDate(dd.getDate()-i);
+    days.push(dd.toLocaleDateString('fr-FR',{weekday:'short'}));
+    var key=dd.toDateString();
+    counts.push((orders||[]).filter(function(o){return new Date(o.created_at).toDateString()===key}).length);
+  }
+  var max=Math.max.apply(null,counts.concat([1]));
+  document.getElementById('chartBars').innerHTML=days.map(function(lab,i){
+    return '<div class="bar-col"><div class="bar" style="height:'+Math.round(counts[i]/max*100)+'%" title="'+counts[i]+' commande(s)"></div><div class="bar-lab">'+lab+'</div></div>';
+  }).join('');
+}
+
+// ===== COMMANDES =====
+var ORDERS=[],ORD_F='all';
+async function loadOrders(){
+  ORDERS=await api('orders?select=*&order=created_at.desc&limit=30');
+  renderOrders();
+}
+document.getElementById('orderTabs').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  this.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});
+  b.classList.add('on');ORD_F=b.dataset.f;renderOrders();
+});
+var ST_MAP={confirmed:['Confirmée','b-info'],preparing:['Préparation','b-wait'],picked_up:['Retirée','b-wait'],in_transit:['En livraison','b-purple'],delivered:['Livrée','b-ok'],cancelled:['Annulée','b-warn']};
+function renderOrders(){
+  var list=ORDERS.filter(function(o){return ORD_F==='all'||o.status===ORD_F});
+  if(!list.length){document.getElementById('ordersList').innerHTML='<div class="empty-box">Aucune commande dans ce filtre.</div>';return}
+  document.getElementById('ordersList').innerHTML=list.map(function(o){
+    var st=ST_MAP[o.status]||[o.status,'b-info'];
+    var nb=(o.items||[]).length;
+    return '<div class="row-item">'+
+      '<div class="ri-ava" style="background:#f0fdf4;display:flex;align-items:center;justify-content:center;color:#0f6b4e"><i data-lucide="package" style="width:19px;height:19px"></i></div>'+
+      '<div class="ri-txt"><b>'+esc(o.ref||o.tracking_code||('CMD-'+(o.id||'').slice(0,6)))+'</b>'+
+      '<span>'+nb+' article(s) · '+(o.city||'Dakar')+' · '+new Date(o.created_at).toLocaleDateString('fr-FR')+'</span>'+
+      '<span class="badge '+st[1]+'">'+st[0]+'</span></div>'+
+      '<div class="ri-right"><div class="amt">'+fmt(o.total)+'</div>'+
+      (o.status!=='delivered'&&o.status!=='cancelled'?'<button class="mini-btn mb-line" onclick="markDelivered(\''+o.id+'\')">✓ Livrée</button>':'')+
+      '</div></div>';
+  }).join('');
+  lucide.createIcons();
+}
+async function markDelivered(id){
+  if(!confirm('Marquer cette commande comme livrée ?'))return;
+  await apiPatch('orders',id,{status:'delivered',delivered_at:new Date().toISOString()});
+  loadOrders();loadKpis();loadChart();
+}
+
+// ===== VENDEURS =====
+var VENDORS=[],VEN_F='all';
+async function loadVendors(){
+  VENDORS=await api('vendors?select=*&order=created_at.desc');
+  renderVendors();
+}
+document.getElementById('vendorTabs').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  this.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});
+  b.classList.add('on');VEN_F=b.dataset.f;renderVendors();
+});
+function renderVendors(){
+  var list=VENDORS.filter(function(v){
+    if(VEN_F==='pending')return !v.is_verified;
+    if(VEN_F==='verified')return v.is_verified;
+    return true;
+  });
+  if(!list.length){document.getElementById('vendorsList').innerHTML='<div class="empty-box">Aucun vendeur dans ce filtre.</div>';return}
+  document.getElementById('vendorsList').innerHTML=list.map(function(v){
+    return '<div class="row-item">'+
+      '<img class="ri-ava" src="'+(v.logo_url||'')+'" onerror="this.style.display=\'none\'">'+
+      '<div class="ri-txt"><b>'+esc(v.shop_name)+'</b>'+
+      '<span>'+esc(v.category||'')+' · '+(v.city||'Dakar')+' · note '+(v.rating||5)+' · plan '+(v.plan||'gratuit')+'</span>'+
+      '<span class="badge '+(v.is_verified?'b-ok':'b-wait')+'">'+(v.is_verified?'✓ Vérifié':'⏳ En attente')+'</span></div>'+
+      '<div class="ri-right">'+
+      (v.is_verified
+        ?'<button class="mini-btn mb-red" onclick="setVendor(\''+v.id+'\',false)">Suspendre</button>'
+        :'<button class="mini-btn mb-green" onclick="setVendor(\''+v.id+'\',true)">✓ Valider</button>')+
+      '</div></div>';
+  }).join('');
+  lucide.createIcons();
+}
+async function setVendor(id,ok){
+  if(!confirm(ok?'Valider ce vendeur (boutique visible + badge ✓) ?':'Suspendre ce vendeur ?'))return;
+  await apiPatch('vendors',id,{is_verified:ok});
+  loadVendors();loadKpis();
+}
+
+// ===== ADS =====
+async function loadAds(){
+  var boosts=await api('ads_boosts?select=*,products(name,price),vendors(shop_name)&order=started_at.desc&limit=15');
+  if(!boosts||!boosts.length){document.getElementById('adsList').innerHTML='<div class="empty-box">Aucun boost pour le moment. Les vendeurs boosteront depuis leur espace.</div>';return}
+  var now=Date.now();
+  document.getElementById('adsList').innerHTML=boosts.map(function(b){
+    var active=b.expires_at&&new Date(b.expires_at).getTime()>now;
+    return '<div class="row-item">'+
+      '<div class="ri-ava" style="background:#f5f3ff;display:flex;align-items:center;justify-content:center;color:#6d28d9"><i data-lucide="zap" style="width:19px;height:19px"></i></div>'+
+      '<div class="ri-txt"><b>'+esc(b.products?b.products.name:'Produit')+'</b>'+
+      '<span>'+esc(b.vendors?b.vendors.shop_name:'')+' · '+(b.views||0)+' vues · '+(b.clicks||0)+' clics</span>'+
+      '<span class="badge '+(active?'b-ok':'b-warn')+'">'+(active?'⚡ Actif':'Expiré')+'</span></div></div>';
+  }).join('');
+  lucide.createIcons();
+}
+
+// ===== INIT =====
+async function loadAll(){
+  await Promise.all([loadKpis(),loadChart(),loadOrders(),loadVendors(),loadAds()]);
+}
+loadAll();
+lucide.createIcons();
 </script>
-<header class="topbar">
-  <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
-  <h1><i data-lucide="shield" class="icon-vert"></i> Admin</h1>
-  <button class="btn-theme" data-theme-toggle><i data-lucide="moon"></i></button>
-</header>
-
-<main style="padding-bottom:80px">
-  <!-- HERO -->
-  <section class="admin-hero">
-    <h1><i data-lucide="layout-dashboard"></i> Tableau de bord</h1>
-    <p>Vue d'ensemble SEN TEW · 26 août 2026</p>
-  </section>
-
-  <!-- KPI -->
-  <div class="kpi-grid">
-    <div class="kpi-card">
-      <div class="label"><i data-lucide="users" class="icon-sm"></i> Utilisateurs</div>
-      <div class="value">2 847</div>
-      <div class="delta up">↑ +12 aujourd'hui</div>
-    </div>
-    <div class="kpi-card">
-      <div class="label"><i data-lucide="store" class="icon-sm"></i> Vendeurs</div>
-      <div class="value">247</div>
-      <div class="delta up">↑ +8 cette semaine</div>
-    </div>
-    <div class="kpi-card">
-      <div class="label"><i data-lucide="package" class="icon-sm"></i> Commandes</div>
-      <div class="value">1 240</div>
-      <div class="delta up">↑ +45 aujourd'hui</div>
-    </div>
-    <div class="kpi-card">
-      <div class="label"><i data-lucide="dollar-sign" class="icon-sm"></i> CA (mois)</div>
-      <div class="value">15.2M</div>
-      <div class="delta up">↑ +22% vs juil.</div>
-    </div>
-    <div class="kpi-card">
-      <div class="label"><i data-lucide="alert-triangle" class="icon-sm"></i> Litiges</div>
-      <div class="value" style="color:#ef4444">8</div>
-      <div class="delta down">↑ 3 en attente</div>
-    </div>
-    <div class="kpi-card">
-      <div class="label"><i data-lucide="truck" class="icon-sm"></i> Livreurs</div>
-      <div class="value">32</div>
-      <div class="delta up">28 actifs</div>
-    </div>
-  </div>
-
-  <!-- TABS -->
-  <div class="tabs">
-    <button class="active"><i data-lucide="clock" class="icon-sm"></i> En attente</button>
-    <button><i data-lucide="store" class="icon-sm"></i> Vendeurs</button>
-    <button><i data-lucide="package" class="icon-sm"></i> Produits</button>
-    <button><i data-lucide="alert-triangle" class="icon-sm"></i> Litiges</button>
-    <button><i data-lucide="flag" class="icon-sm"></i> Signalements</button>
-    <button><i data-lucide="settings" class="icon-sm"></i> Config</button>
-  </div>
-
-  <!-- VALIDATIONS EN ATTENTE -->
-  <h2 class="section-title"><i data-lucide="clock" class="icon-or"></i> Validations en attente (5)</h2>
-
-  <div class="list-item">
-    <div class="avatar">MB</div>
-    <div class="info">
-      <h4>Mariama Beauté <span class="badge pending">Nouveau vendeur</span></h4>
-      <p>CNI + RCCM soumis · Il y a 2h</p>
-    </div>
-    <div class="actions">
-      <button class="approve"><i data-lucide="check" class="icon-sm"></i></button>
-      <button class="reject"><i data-lucide="x" class="icon-sm"></i></button>
-      <button><i data-lucide="eye" class="icon-sm"></i></button>
-    </div>
-  </div>
-
-  <div class="list-item">
-    <div class="avatar">TM</div>
-    <div class="info">
-      <h4>Tech Modou <span class="badge pending">Produit</span></h4>
-      <p>iPhone 15 Pro · Photos à valider · Il y a 4h</p>
-    </div>
-    <div class="actions">
-      <button class="approve"><i data-lucide="check" class="icon-sm"></i></button>
-      <button class="reject"><i data-lucide="x" class="icon-sm"></i></button>
-      <button><i data-lucide="eye" class="icon-sm"></i></button>
-    </div>
-  </div>
-
-  <div class="list-item">
-    <div class="avatar">AD</div>
-    <div class="info">
-      <h4>Awa Diop <span class="badge pending">Livreur</span></h4>
-      <p>Candidature livreur Dakar-Plateau · Hier</p>
-    </div>
-    <div class="actions">
-      <button class="approve"><i data-lucide="check" class="icon-sm"></i></button>
-      <button class="reject"><i data-lucide="x" class="icon-sm"></i></button>
-      <button><i data-lucide="eye" class="icon-sm"></i></button>
-    </div>
-  </div>
-
-  <!-- LITIGES OUVERTS -->
-  <h2 class="section-title"><i data-lucide="alert-triangle" class="icon-or"></i> Litiges ouverts (3)</h2>
-
-  <div class="list-item">
-    <div class="avatar" style="background:linear-gradient(135deg,#ef4444,#b91c1c)">L1</div>
-    <div class="info">
-      <h4>#LIT-2026-042 <span class="badge suspended">Urgent</span></h4>
-      <p>Client Aïsha vs Vendeur X · Commande #ST-1247</p>
-    </div>
-    <div class="actions">
-      <button><i data-lucide="eye" class="icon-sm"></i></button>
-      <button><i data-lucide="message-circle" class="icon-sm"></i></button>
-    </div>
-  </div>
-
-  <div class="list-item">
-    <div class="avatar" style="background:linear-gradient(135deg,#f59e0b,#d97706)">L2</div>
-    <div class="info">
-      <h4>#LIT-2026-041</h4>
-      <p>Remboursement demandé · #ST-1198</p>
-    </div>
-    <div class="actions">
-      <button><i data-lucide="eye" class="icon-sm"></i></button>
-      <button><i data-lucide="message-circle" class="icon-sm"></i></button>
-    </div>
-  </div>
-
-  <!-- SIGNALEMENTS -->
-  <h2 class="section-title"><i data-lucide="flag" class="icon-or"></i> Signalements récents (12)</h2>
-
-  <div class="list-item">
-    <div class="avatar" style="background:linear-gradient(135deg,#3b82f6,#2563eb)">S1</div>
-    <div class="info">
-      <h4>Produit contrefait signalé</h4>
-      <p>3 signalements · Sac "Louis Vuitton" par vendeur AB</p>
-    </div>
-    <div class="actions">
-      <button><i data-lucide="eye" class="icon-sm"></i></button>
-    </div>
-  </div>
-</main>
-
-<nav class="bottom-nav">
-  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
-  <a href="admin.html" class="active"><i data-lucide="shield"></i><span>Admin</span></a>
-  <a href="commandes.html"><i data-lucide="package"></i><span>Commandes</span></a>
-  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
-  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
-</nav>
-<script>lucide.createIcons();</script>
-  <script src="js/buttons-audit.js?v=51"></script>
 </body>
 </html>
