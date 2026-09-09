@@ -384,6 +384,7 @@ function order(){
       }
     }
     cartSave([]);
+    pointsEarn(pointsForOrder(total), 'Commande ' + (o && o.tracking_code ? o.tracking_code : ''));
     document.getElementById('page').innerHTML =
       '<div class="success">' +
         '<div class="ok"><i data-lucide="check" style="width:36px"></i></div>' +
