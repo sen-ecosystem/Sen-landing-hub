@@ -158,7 +158,25 @@ var PROMOS = {
   'RAMADAN30': { pct: 30, label: '-30% Vente Flash' },
   'SENTEW10':  { pct: 10, label: '-10% Bienvenue' },
   'WELCOME5':  { pct: 5,  label: '-5% Première commande' }
+    
+    // ----- POINTS FIDÉLITÉ -----
+  var myPts = pointsGet();
+  if (myPts >= 100) {
+    html += '<div class="bloc"><h2><i data-lucide="star" style="width:14px"></i> MES POINTS SEN TEW <span style="color:#0f6b4e">' + fmtPrix(myPts) + ' pts</span></h2>' +
+      SPEND_TIERS.filter(function(t){ return myPts >= t.pts; }).map(function(t){
+        return '<div class="pay-opt" onclick="usePoints(' + t.pts + ',' + t.value + ',\'' + t.label + '\')" style="margin-bottom:6px;padding:10px">' +
+          '<div class="pi" style="background:#fef3c7;color:#92400e;width:32px;height:32px"><i data-lucide="coins" style="width:15px"></i></div>' +
+          '<div style="flex:1"><b>' + t.label + '</b><span>' + t.pts + ' points</span></div>' +
+          '<div class="pay-radio"></div></div>';
+      }).join('') + '</div>';
+  }
 };
+  var PTS_USED = null;
+function usePoints(pts, value, label){
+  if (PTS_USED) { toast('Un seul avantage points par commande'); return; }
+  var res = pointsSpend(pts, 'Utilisé : ' + label, value);
+  if (res) { PTS_USED = res; toast('🎉 ' + label + ' appliqué !'); render(); }
+}
 var PROMO = null, ZONE = 'Dakar', PAY = 'mobile', INST = 1;
 
 var TIPS = {
@@ -348,7 +366,8 @@ function order(){
   var ship = calcShipping(items, ZONE, PAY === 'cash' ? 'cash' : 'online');
   var subtotal = cartTotal();
   var discount = PROMO ? Math.round(subtotal * PROMO.pct / 100) : 0;
-  var total = subtotal - discount + ship.fee + ship.cashFee;
+  var ptsDiscount = PTS_USED ? PTS_USED.discount : 0;
+  var total = Math.max(0, subtotal - discount - ptsDiscount + ship.fee + ship.cashFee);
   var btn = document.getElementById('btnOrder');
   btn.disabled = true;
   btn.innerHTML = 'Création de la commande…';
