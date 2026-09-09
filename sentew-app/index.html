@@ -235,7 +235,11 @@ function cookies(choice){
   toast(choice === 'accept' ? '✓ Cookies acceptés' : '✓ Cookies refusés');
 }
 
-lucide.createIcons();
+// Icônes : appel robuste (règle le menu du bas cassé)
+function renderIcons(){ if (window.lucide) lucide.createIcons(); }
+renderIcons();
+window.addEventListener('load', renderIcons);
+setTimeout(renderIcons, 600);
 cartBadge();
 </script>
 <script src="js/dark-mode.js"></script>
