@@ -373,6 +373,31 @@ function order(){
   });
 }
 
+// Charge les suggestions intelligentes dans le panier
+function loadCartSuggestions(){
+  var items = cartGet();
+  if (!items.length) return;
+  var ids = items.map(function(i){ return i.id; });
+  getSmartSuggestions(ids).then(function(rows){
+    var box = document.getElementById('cartSim');
+    if (!box) return;
+    if (!rows || !rows.length) { box.innerHTML = '<div style="color:#9aa5a0;font-size:12px;padding:8px">Aucune suggestion pour le moment</div>'; return; }
+    box.innerHTML = rows.map(function(s){
+      return '<div class="sim-card">' +
+        '<img src="' + (s.images && s.images[0] || '') + '" onclick="location.href=\'' + lienProduit(s) + '\'">' +
+        '<div class="sb"><div class="sn2" onclick="location.href=\'' + lienProduit(s) + '\'">' + s.name + '</div>' +
+        '<div class="sp">' + fmtPrix(s.price) + ' F</div>' +
+        '<button class="sadd" data-sim="' + s.id + '">+ Ajouter</button></div></div>';
+    }).join('');
+    box.querySelectorAll('[data-sim]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var p = rows.find(function(x){ return x.id === btn.dataset.sim; });
+        if (p) { cartAdd(p, 1); setTimeout(render, 300); }
+      });
+    });
+  });
+}
+
 loadShippingRules().then(function(){ render(); loadCartSuggestions(); });
 function renderIcons(){ if (window.lucide) lucide.createIcons(); }
 renderIcons();
