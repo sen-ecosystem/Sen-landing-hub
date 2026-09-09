@@ -9,7 +9,6 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:96px;color:#0a1f17}
-/* ===== Galerie ===== */
 .gallery{position:relative;background:#fff}
 .g-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
 .g-track::-webkit-scrollbar{display:none}
@@ -21,10 +20,8 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .g-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.5)}
 .g-dots i.on{background:#fff;width:22px;border-radius:4px}
 .badge-promo{position:absolute;top:14px;left:60px;background:#e63946;color:#fff;font-size:12px;font-weight:800;padding:5px 12px;border-radius:10px;z-index:5}
-/* ===== Info ===== */
 .info{background:#fff;padding:16px;margin-bottom:8px}
 .brand{font-size:11px;font-weight:800;color:#b8860b;letter-spacing:.6px;text-transform:uppercase;cursor:pointer}
-.brand:hover{text-decoration:underline}
 .price-row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:6px}
 .price{font-size:26px;font-weight:900;color:#0f6b4e}
 .price-old{font-size:14px;color:#9aa5a0;text-decoration:line-through}
@@ -43,7 +40,6 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .stock.low{background:#fff4e6;color:#b45309;animation:pulse 1.5s infinite}
 .stock.out{background:#fee2e2;color:#b91c1c}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
-/* ===== Variantes ===== */
 .varlab{font-size:12px;font-weight:800;color:#0a1f17;margin:14px 0 6px}
 .varlab b{color:#0f6b4e}
 .opts{display:flex;gap:8px;flex-wrap:wrap}
@@ -53,47 +49,48 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .qty-box{display:flex;align-items:center;border:1.5px solid #e5e7eb;border-radius:10px;overflow:hidden}
 .qty-box button{width:36px;height:36px;background:#fff;border:none;font-size:16px;font-weight:800;color:#0f6b4e;cursor:pointer}
 .qty-box span{padding:0 14px;font-size:14px;font-weight:800;min-width:36px;text-align:center}
-/* ===== Vendeur ===== */
 .seller-card{display:flex;align-items:center;gap:12px;background:#fff;padding:14px 16px;margin-bottom:8px;text-decoration:none;color:inherit}
 .seller-card img{width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid #0f6b4e;flex-shrink:0}
 .seller-card .sn{font-size:15px;font-weight:800;color:#0a1f17;display:flex;align-items:center;gap:5px}
 .seller-card .sm{font-size:11px;color:#6B7280;margin-top:2px}
 .seller-card .go{margin-left:auto;color:#0f6b4e;font-size:12px;font-weight:800}
-/* ===== ACCORDÉONS (blocs cliquables) ===== */
-.acc{background:#fff;margin-bottom:8px;overflow:hidden}
-.acc-head{display:flex;align-items:center;gap:8px;padding:15px 16px;cursor:pointer;user-select:none}
+/* ===== SECTIONS AVEC APERÇU VISIBLE (toujours ouvertes, "Lire plus") ===== */
+.acc{background:#fff;margin-bottom:8px}
+.acc-head{display:flex;align-items:center;gap:8px;padding:14px 16px 8px}
 .acc-head h2{font-size:13px;font-weight:800;color:#b8860b;letter-spacing:.5px;display:flex;align-items:center;gap:6px;flex:1}
 .acc-head .cnt{font-size:10px;font-weight:700;color:#9aa5a0;background:#f5f5f0;padding:3px 8px;border-radius:10px}
-.acc-head .chev{color:#9aa5a0;transition:transform .25s;flex-shrink:0}
-.acc.open .acc-head .chev{transform:rotate(180deg);color:#0f6b4e}
-.acc-body{max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 16px}
-.acc.open .acc-body{max-height:900px;padding:0 16px 16px}
+.acc-body{padding:0 16px 14px}
 .acc-body p{font-size:13px;color:#4b5563;line-height:1.65}
-/* Caractéristiques */
+.acc-inner{position:relative;overflow:hidden;transition:max-height .3s}
+#accDesc.clipped .acc-inner{max-height:66px}
+#accFeats.clipped .acc-inner{max-height:100px}
+#accSpecs.clipped .acc-inner{max-height:178px}
+#accAvis.clipped .acc-inner{max-height:290px}
+.acc-fade{display:none;position:absolute;left:0;right:0;bottom:0;height:56px;background:linear-gradient(rgba(255,255,255,0),#fff);pointer-events:none}
+.acc.clipped .acc-fade{display:block}
+.acc-more{display:flex;align-items:center;justify-content:center;gap:5px;width:100%;margin-top:6px;padding:10px;background:#e8f5f0;border:none;border-radius:10px;color:#0f6b4e;font-size:12px;font-weight:800;cursor:pointer}
+.acc-more svg{transition:transform .25s}
+.acc-more.open svg{transform:rotate(180deg)}
 .specs{border:1px solid #f0f0ea;border-radius:12px;overflow:hidden}
 .spec-row{display:flex;font-size:12px;border-bottom:1px solid #f0f0ea}
 .spec-row:last-child{border:none}
 .spec-row .k{background:#f9fafb;color:#6B7280;font-weight:700;padding:10px 12px;flex:0 0 40%}
 .spec-row .v{padding:10px 12px;color:#0a1f17;font-weight:600;flex:1}
-/* Points forts */
-.feats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.feats{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px}
 .feat{display:flex;align-items:center;gap:8px;font-size:12px;color:#4b5563;line-height:1.3;padding:4px 0}
 .feat i,.feat svg{color:#0f6b4e;flex-shrink:0;width:14px;height:14px}
-/* Livraison */
 .liv-row{display:flex;align-items:center;gap:10px;font-size:13px;color:#4b5563;padding:8px 0;border-bottom:1px solid #f0f0ea}
 .liv-row:last-child{border:none}
 .liv-row i{color:#0f6b4e;flex-shrink:0}
-/* Garanties */
 .guar{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .guar-item{text-align:center;padding:12px 6px;background:#f9fafb;border-radius:12px}
 .guar-item i{color:#0f6b4e;margin-bottom:6px}
 .guar-item b{display:block;font-size:11px;color:#0a1f17;line-height:1.3}
 .guar-item span{font-size:10px;color:#9aa5a0;line-height:1.3}
-/* Avis */
 .avis-note{display:flex;align-items:center;gap:14px;margin-bottom:12px}
 .avis-note .big{font-size:36px;font-weight:900;color:#0a1f17;line-height:1}
 .avis-note .stars{color:#f59e0b;font-size:16px;letter-spacing:2px}
-.rate-bars{margin:12px 0}
+.rate-bars{margin:12px 0;flex:1}
 .rate-bar{display:flex;align-items:center;gap:10px;font-size:11px;margin-bottom:5px}
 .rate-bar .lbl{color:#6B7280;font-weight:700;width:22px}
 .rate-bar .bar{flex:1;height:6px;background:#f0f0ea;border-radius:3px;overflow:hidden}
@@ -106,7 +103,6 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .avis-item .at{font-size:12px;color:#4b5563;margin-top:6px;line-height:1.5}
 .avis-item .ad{font-size:10px;color:#9aa5a0;margin-top:4px}
 .link-avis{display:block;text-align:center;font-size:12px;font-weight:800;color:#0f6b4e;text-decoration:none;padding:10px;margin-top:6px;border:1.5px solid #0f6b4e;border-radius:12px}
-/* Similaires */
 .bloc{background:#fff;padding:16px;margin-bottom:8px}
 .bloc h2{font-size:13px;font-weight:800;color:#b8860b;letter-spacing:.5px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .sim-row{display:flex;gap:10px;overflow-x:auto;padding:2px 0;scrollbar-width:none}
@@ -116,7 +112,6 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .sim-card .sb{padding:8px}
 .sim-card .sn2{font-size:11px;font-weight:700;line-height:1.3;height:28px;overflow:hidden}
 .sim-card .sp{font-size:13px;font-weight:900;color:#0f6b4e;margin-top:3px}
-/* Barre achat */
 .buy-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;gap:10px;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -4px 16px rgba(0,0,0,.08)}
 .buy-bar .bb-cart{flex:1;padding:13px;background:#fff;color:#0f6b4e;border:2px solid #0f6b4e;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
 .buy-bar .bb-buy{flex:1;padding:13px;background:#0f6b4e;color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer}
@@ -129,7 +124,6 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 <body>
 
 <div id="pageContent">
-  <!-- Galerie -->
   <div class="gallery">
     <button class="g-back" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
     <button class="g-fav" id="btnFav"><i data-lucide="heart"></i></button>
@@ -139,7 +133,6 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
     <div class="g-dots" id="gDots"></div>
   </div>
 
-  <!-- Info principale -->
   <div class="info">
     <div class="brand" id="pBrand"></div>
     <div class="price-row">
@@ -174,7 +167,6 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
     </div>
   </div>
 
-  <!-- Vendeur -->
   <a class="seller-card" id="sellerCard" href="#">
     <img id="sLogo" src="" alt="">
     <div>
@@ -184,39 +176,34 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
     <span class="go">Voir la boutique ›</span>
   </a>
 
-  <!-- ===== ACCORDÉONS CLIQUABLES ===== -->
+  <!-- ===== SECTIONS : contenu TOUJOURS visible en aperçu + bouton Lire plus ===== -->
 
-  <div class="acc open" id="accDesc">
-    <div class="acc-head" onclick="toggleAcc('accDesc')">
-      <h2><i data-lucide="file-text" style="width:15px"></i> DESCRIPTION</h2>
-      <i data-lucide="chevron-down" class="chev" style="width:18px"></i>
+  <div class="acc clipped" id="accDesc">
+    <div class="acc-head"><h2><i data-lucide="file-text" style="width:15px"></i> DESCRIPTION</h2></div>
+    <div class="acc-body">
+      <div class="acc-inner"><p id="pDesc">…</p><div class="acc-fade"></div></div>
+      <button class="acc-more" onclick="toggleAcc('accDesc',this)"><span>Lire plus</span> <i data-lucide="chevron-down" style="width:15px"></i></button>
     </div>
-    <div class="acc-body"><p id="pDesc">…</p></div>
   </div>
 
-  <div class="acc" id="accFeats" style="display:none">
-    <div class="acc-head" onclick="toggleAcc('accFeats')">
-      <h2><i data-lucide="sparkles" style="width:15px"></i> POINTS FORTS</h2>
-      <span class="cnt" id="featsCnt"></span>
-      <i data-lucide="chevron-down" class="chev" style="width:18px"></i>
+  <div class="acc clipped" id="accFeats" style="display:none">
+    <div class="acc-head"><h2><i data-lucide="sparkles" style="width:15px"></i> POINTS FORTS</h2><span class="cnt" id="featsCnt"></span></div>
+    <div class="acc-body">
+      <div class="acc-inner"><div class="feats" id="featsGrid"></div><div class="acc-fade"></div></div>
+      <button class="acc-more" onclick="toggleAcc('accFeats',this)"><span>Lire plus</span> <i data-lucide="chevron-down" style="width:15px"></i></button>
     </div>
-    <div class="acc-body"><div class="feats" id="featsGrid"></div></div>
   </div>
 
-  <div class="acc" id="accSpecs">
-    <div class="acc-head" onclick="toggleAcc('accSpecs')">
-      <h2><i data-lucide="list" style="width:15px"></i> CARACTÉRISTIQUES</h2>
-      <span class="cnt" id="specsCnt"></span>
-      <i data-lucide="chevron-down" class="chev" style="width:18px"></i>
+  <div class="acc clipped" id="accSpecs">
+    <div class="acc-head"><h2><i data-lucide="list" style="width:15px"></i> CARACTÉRISTIQUES</h2><span class="cnt" id="specsCnt"></span></div>
+    <div class="acc-body">
+      <div class="acc-inner"><div class="specs" id="specsList"></div><div class="acc-fade"></div></div>
+      <button class="acc-more" onclick="toggleAcc('accSpecs',this)"><span>Lire plus</span> <i data-lucide="chevron-down" style="width:15px"></i></button>
     </div>
-    <div class="acc-body"><div class="specs" id="specsList"></div></div>
   </div>
 
   <div class="acc" id="accGuar">
-    <div class="acc-head" onclick="toggleAcc('accGuar')">
-      <h2><i data-lucide="shield-check" style="width:15px"></i> GARANTIES SEN TEW</h2>
-      <i data-lucide="chevron-down" class="chev" style="width:18px"></i>
-    </div>
+    <div class="acc-head"><h2><i data-lucide="shield-check" style="width:15px"></i> GARANTIES SEN TEW</h2></div>
     <div class="acc-body">
       <div class="guar">
         <div class="guar-item"><i data-lucide="shield-check"></i><b>Paiement sécurisé</b><span>Mobile money · Carte · À la livraison</span></div>
@@ -227,10 +214,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
   </div>
 
   <div class="acc" id="accLiv">
-    <div class="acc-head" onclick="toggleAcc('accLiv')">
-      <h2><i data-lucide="truck" style="width:15px"></i> LIVRAISON</h2>
-      <i data-lucide="chevron-down" class="chev" style="width:18px"></i>
-    </div>
+    <div class="acc-head"><h2><i data-lucide="truck" style="width:15px"></i> LIVRAISON</h2></div>
     <div class="acc-body">
       <div class="liv-row"><i data-lucide="truck" style="width:16px"></i> Livraison Dakar : 1 000 – 2 500 FCFA · 24-48 h</div>
       <div class="liv-row"><i data-lucide="map-pin" style="width:16px"></i> Autres régions : 2 500 – 5 000 FCFA · 2-5 jours</div>
@@ -238,27 +222,26 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
     </div>
   </div>
 
-  <div class="acc" id="accAvis">
-    <div class="acc-head" onclick="toggleAcc('accAvis')">
-      <h2><i data-lucide="star" style="width:15px"></i> AVIS CLIENTS</h2>
-      <span class="cnt" id="avisCnt"></span>
-      <i data-lucide="chevron-down" class="chev" style="width:18px"></i>
-    </div>
+  <div class="acc clipped" id="accAvis">
+    <div class="acc-head"><h2><i data-lucide="star" style="width:15px"></i> AVIS CLIENTS</h2><span class="cnt" id="avisCnt"></span></div>
     <div class="acc-body">
-      <div class="avis-note">
-        <div style="text-align:center">
-          <span class="big" id="aBig">—</span>
-          <div class="stars" id="aStars"></div>
-          <div style="font-size:11px;color:#6B7280;margin-top:2px" id="aCount"></div>
+      <div class="acc-inner">
+        <div class="avis-note">
+          <div style="text-align:center">
+            <span class="big" id="aBig">—</span>
+            <div class="stars" id="aStars"></div>
+            <div style="font-size:11px;color:#6B7280;margin-top:2px" id="aCount"></div>
+          </div>
+          <div class="rate-bars" id="rateBars"></div>
         </div>
-        <div class="rate-bars" style="flex:1" id="rateBars"></div>
+        <div id="avisList"></div>
+        <div class="acc-fade"></div>
       </div>
-      <div id="avisList"></div>
+      <button class="acc-more" onclick="toggleAcc('accAvis',this)"><span>Lire plus</span> <i data-lucide="chevron-down" style="width:15px"></i></button>
       <a class="link-avis" id="avisLink" href="avis.html">Voir tous les avis ›</a>
     </div>
   </div>
 
-  <!-- Similaires (toujours visible) -->
   <div class="bloc">
     <h2><i data-lucide="sparkles" style="width:15px"></i> TU AIMERAIS AUSSI</h2>
     <div class="sim-row" id="simRow"><div style="color:#9aa5a0;font-size:12px;padding:10px">Chargement…</div></div>
@@ -276,9 +259,12 @@ var P = null, QTY = 1, SEL_COLOR = null, SEL_SIZE = null;
 var params = new URLSearchParams(location.search);
 var key = params.get('pid') || params.get('id');
 
-function toggleAcc(id){
+// "Lire plus" : déplie la section (le contenu est déjà visible en aperçu)
+function toggleAcc(id, btn){
   var el = document.getElementById(id);
-  el.classList.toggle('open');
+  var nowOpen = el.classList.toggle('clipped') === false;
+  btn.classList.toggle('open', nowOpen);
+  btn.querySelector('span').textContent = nowOpen ? 'Réduire' : 'Lire plus';
   lucide.createIcons();
 }
 function starsHTML(n){ var f=Math.round(n||0),s=''; for(var i=0;i<5;i++)s+=i<f?'★':'☆'; return s; }
@@ -305,7 +291,6 @@ function renderRateBars(p){
 function render(p){
   P = p;
   document.title = p.name + ' - SEN TEW';
-
   var imgs = (p.gallery && p.gallery.length) ? p.gallery : (p.images || []);
   if (!imgs.length) imgs = [''];
   renderGallery(imgs);
@@ -320,7 +305,6 @@ function render(p){
     var b = document.getElementById('pBadge');
     b.textContent = '-' + pct + '%'; b.style.display = 'inline-block';
   }
-
   if (p.brand) {
     var br = document.getElementById('pBrand');
     br.textContent = p.brand;
@@ -369,10 +353,15 @@ function render(p){
   }
 
   document.getElementById('pDesc').textContent = p.description || 'Aucune description.';
+  // Description courte → pas besoin du bouton
+  if ((p.description || '').length < 120) {
+    document.getElementById('accDesc').classList.remove('clipped');
+    document.querySelector('#accDesc .acc-more').style.display = 'none';
+  }
 
   if (p.features && p.features.length) {
     document.getElementById('featsGrid').innerHTML = p.features.map(function(f){
-      return '<div class="feat"><i data-lucide="check-circle-2" style="width:14px"></i><span>'+f+'</span></div>';
+      return '<div class="feat"><i data-lucide="check-circle-2"></i><span>'+f+'</span></div>';
     }).join('');
     document.getElementById('featsCnt').textContent = p.features.length;
     document.getElementById('accFeats').style.display = 'block';
