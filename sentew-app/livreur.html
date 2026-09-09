@@ -1,136 +1,319 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Espace Livreur - SEN TEW</title>
-  <link rel="stylesheet" href="css/app.css?v=52">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
-    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; }
-    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
-    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
-    .hero { background: linear-gradient(135deg, #0f6b4e, #0a4d38); color: #fff; padding: 20px 16px; }
-    .livreur-name { color: #fff; font-weight: 800; font-size: 18px; }
-    .status-toggle { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.2); padding: 6px 14px; border-radius: 20px; margin-top: 8px; width: fit-content; cursor: pointer; }
-    .dot { width: 10px; height: 10px; border-radius: 50%; background: #4ade80; }
-    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 16px; margin-top: -10px; position: relative; z-index: 2; }
-    .stat { background: #fff; padding: 14px 8px; border-radius: 12px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-    .stat .val { font-size: 20px; font-weight: 800; color: #0f6b4e; }
-    .stat .lbl { font-size: 11px; color: #666; }
-    .section { background: #fff; margin: 0 16px 12px; padding: 16px; border-radius: 12px; }
-    .section h3 { color: #0f6b4e; margin: 0 0 12px; font-size: 14px; display: flex; align-items: center; gap: 8px; }
-    .more { margin-left: auto; font-size: 12px; color: #d4a574; font-weight: 600; text-decoration: none; }
-    .dispo { background: #f5f5f0; border-left: 3px solid #0f6b4e; padding: 12px; border-radius: 8px; margin-bottom: 8px; }
-    .dispo-head { display: flex; justify-content: space-between; align-items: center; }
-    .dispo-price { color: #0f6b4e; font-weight: 800; }
-    .dispo-addr { font-size: 12px; color: #666; margin: 6px 0; }
-    .btn-accept { background: #0f6b4e; color: #fff; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; margin-top: 8px; width: 100%; }
-    .encours { display: flex; gap: 12px; align-items: center; padding: 10px 0; text-decoration: none; color: inherit; }
-    .encours-icon { width: 40px; height: 40px; background: #dbeafe; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-    .encours-icon i { color: #1e40af; }
-    .encours-info { flex: 1; }
-    .encours-num { font-weight: 700; font-size: 13px; }
-    .encours-addr { font-size: 11px; color: #666; }
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
-    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
-    .bottom-nav a.active { color: #0f6b4e; }
-    .bottom-nav a i { width: 22px; height: 22px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Livreur - SEN TEW</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="js/supabase.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:86px;color:#0a1f17}
+.topbar{background:#0a1f17;color:#fff;padding:16px;display:flex;align-items:center;gap:12px}
+.topbar .avatar{width:46px;height:46px;border-radius:50%;background:#0f6b4e;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:17px}
+.topbar h1{font-size:16px;font-weight:800}
+.topbar p{font-size:11px;color:#9aa5a0}
+.stats{display:flex;gap:10px;padding:14px 14px 0}
+.stat{flex:1;background:#fff;border-radius:14px;padding:12px 6px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.stat b{display:block;font-size:18px;color:#0f6b4e}
+.stat span{font-size:10px;color:#6B7280}
+.tabs{display:flex;gap:8px;padding:14px}
+.tab{flex:1;padding:11px;text-align:center;font-size:12px;font-weight:800;border-radius:12px;border:1.5px solid #e5e7eb;background:#fff;color:#6B7280;cursor:pointer}
+.tab.on{background:#0f6b4e;color:#fff;border-color:#0f6b4e}
+.order{background:#fff;margin:0 14px 12px;border-radius:16px;padding:14px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.o-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.o-code{font-size:13px;font-weight:900;color:#0a1f17;font-family:monospace;flex:1}
+.o-status{font-size:10px;font-weight:800;padding:4px 10px;border-radius:12px}
+.st-confirmed{background:#dbeafe;color:#1e40af}
+.st-picked_up{background:#fef3c7;color:#92400e}
+.st-in_transit{background:#ede9fe;color:#6d28d9}
+.st-delivered{background:#d1fae5;color:#065f46}
+.o-row{display:flex;align-items:center;gap:8px;font-size:12px;color:#4b5563;padding:4px 0}
+.o-row i{color:#0f6b4e;flex-shrink:0;width:15px;height:15px}
+.o-info{background:#f9fafb;border-radius:10px;padding:8px 10px;font-size:11px;color:#6B7280;margin:8px 0;display:flex;align-items:center;gap:6px;cursor:pointer}
+.o-info:hover{background:#e8f5f0}
+.o-actions{display:flex;gap:8px;margin-top:10px}
+.btn{flex:1;padding:12px;border:none;border-radius:12px;font-size:12px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn-green{background:#0f6b4e;color:#fff}
+.btn-blue{background:#1e40af;color:#fff}
+.btn-purple{background:#6d28d9;color:#fff}
+.btn-grey{background:#e5e7eb;color:#6B7280}
+.btn-gps{background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e}
+.empty{text-align:center;padding:50px 20px;color:#9aa5a0;font-size:13px}
+/* Modale scanner / code */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.m-box{background:#fff;border-radius:20px;padding:20px;width:100%;max-width:360px;text-align:center}
+.m-box h3{font-size:15px;font-weight:800;margin-bottom:6px}
+.m-box p{font-size:12px;color:#6B7280;margin-bottom:12px}
+#qrReader{width:100%;border-radius:12px;overflow:hidden;margin-bottom:10px}
+.m-box input{width:100%;padding:13px;border:2px solid #e5e7eb;border-radius:12px;font-size:20px;font-weight:900;text-align:center;letter-spacing:6px;font-family:monospace;outline:none;box-sizing:border-box}
+.m-box input:focus{border-color:#0f6b4e}
+.m-btns{display:flex;gap:8px;margin-top:12px}
+.m-btns .btn{flex:1}
+.m-err{color:#e63946;font-size:12px;font-weight:700;margin-top:8px;min-height:16px}
+/* Astuce ⓘ cliquable */
+.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:10px 12px;margin:0 14px 12px;font-size:12px;color:#92400e;cursor:pointer}
+.tip i{color:#b45309;flex-shrink:0;width:16px;height:16px;margin-top:1px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100}
+.bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600;min-height:44px;justify-content:center}
+.bottom-nav a.active{color:#0f6b4e}
+.bottom-nav a svg{width:22px;height:22px}
+</style>
 </head>
-<body class="light-mode">
+<body>
 
 <header class="topbar">
-  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
-  <h1><i data-lucide="truck"></i> Espace Livreur</h1>
-  <button class="icon-btn"><i data-lucide="bell"></i></button>
+  <div class="avatar">ON</div>
+  <div style="flex:1"><h1>Omar Ndiaye</h1><p>Livreur propre · Moto Jakarta · Dakar</p></div>
+  <i data-lucide="bike" style="width:26px;color:#4ade80"></i>
 </header>
 
-<div class="hero">
-  <div class="livreur-name">Amadou Diallo</div>
-  <div style="color:#d4a574;font-size:12px;margin-top:2px">Livreur vérifié · Note 4.8★</div>
-  <div class="status-toggle" onclick="toggleStatus()">
-    <div class="dot" id="dot"></div>
-    <span id="statusTxt" style="color:#fff;font-size:13px;font-weight:600">En ligne · Disponible</span>
+<div class="stats">
+  <div class="stat"><b id="stToday">0</b><span>Courses du jour</span></div>
+  <div class="stat"><b id="stDone">0</b><span>Livrées</span></div>
+  <div class="stat"><b id="stEarn">0 F</b><span>Gains estimés</span></div>
+</div>
+
+<div class="tabs">
+  <button class="tab on" onclick="setTab('open',this)">📦 Disponibles</button>
+  <button class="tab" onclick="setTab('mine',this)">🛵 Mes courses</button>
+  <button class="tab" onclick="setTab('done',this)">✅ Livrées</button>
+</div>
+
+<div class="tip" onclick="showTip()">
+  <i data-lucide="info"></i>
+  <span><b>Astuce livreur</b> — Chez le vendeur, demande-lui d'afficher le <b>QR code du colis</b> dans sa page Commandes, puis scanne-le ici. Touche pour tout savoir.</span>
+</div>
+
+<div id="list"><div class="empty">Chargement…</div></div>
+
+<!-- Modale scanner / code -->
+<div class="modal" id="modal">
+  <div class="m-box">
+    <h3 id="mTitle">Scanner le colis</h3>
+    <p id="mDesc"></p>
+    <div id="qrReader"></div>
+    <input type="text" id="mInput" maxlength="10" placeholder="ou tape le code">
+    <div class="m-err" id="mErr"></div>
+    <div class="m-btns">
+      <button class="btn btn-grey" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-green" onclick="validateCode()">Valider</button>
+    </div>
   </div>
 </div>
 
-<div class="stats-row">
-  <div class="stat"><div class="val">8</div><div class="lbl">Livraisons jour</div></div>
-  <div class="stat"><div class="val">24k</div><div class="lbl">Gains FCFA</div></div>
-  <div class="stat"><div class="val">4.8★</div><div class="lbl">Note</div></div>
-</div>
-
-<div class="section">
-  <h3><i data-lucide="zap"></i> Disponibles (3)</h3>
-  <div class="dispo">
-    <div class="dispo-head">
-      <span style="font-weight:700">#ST24073</span>
-      <span class="dispo-price">+1 500 FCFA</span>
-    </div>
-    <div class="dispo-addr">📦 Moussa Tech → Karim N. (Point E)</div>
-    <div style="font-size:11px;color:#666">📍 3.2 km · ⏱ Retrait 15 min</div>
-    <button class="btn-accept" onclick="accepter('ST24073')">Accepter</button>
+<!-- Modale astuces -->
+<div class="modal" id="tipModal">
+  <div class="m-box" style="text-align:left">
+    <h3>💡 Guide livreur SEN TEW</h3>
+    <p style="line-height:1.7">
+      <b>1. Retrait</b> — Le vendeur affiche le QR du colis (page Commandes). Scanne-le : le colis passe « Récupéré » automatiquement. Pas de caméra ? Tape le <b>code retrait à 4 chiffres</b>.<br><br>
+      <b>2. En route</b> — Touche « En route » : ta position GPS est partagée avec le client en temps réel.<br><br>
+      <b>3. Livraison</b> — Demande au client son <b>code de livraison à 4 chiffres</b> (visible dans son suivi de commande). C'est la preuve de livraison — jamais de litige.<br><br>
+      <b>4. Cash</b> — Si la commande est « à la livraison », encaisse le montant exact affiché et remets-le au point SEN TEW sous 24 h.
+    </p>
+    <div class="m-btns"><button class="btn btn-green" onclick="document.getElementById('tipModal').classList.remove('show')">Compris</button></div>
   </div>
-  <div class="dispo">
-    <div class="dispo-head">
-      <span style="font-weight:700">#ST24076</span>
-      <span class="dispo-price">+2 500 FCFA</span>
-    </div>
-    <div class="dispo-addr">📦 Fatou Fashion → Aïcha D. (Rufisque)</div>
-    <div style="font-size:11px;color:#666">📍 8.5 km · ⏱ Retrait 30 min</div>
-    <button class="btn-accept" onclick="accepter('ST24076')">Accepter</button>
-  </div>
-</div>
-
-<div class="section">
-  <h3><i data-lucide="package"></i> En cours <a href="livraisons-en-cours.html" class="more">Voir tout ›</a></h3>
-  <a href="livraisons-en-cours.html" class="encours">
-    <div class="encours-icon"><i data-lucide="map-pin"></i></div>
-    <div class="encours-info">
-      <div class="encours-num">#ST24072 · AirPods Pro</div>
-      <div class="encours-addr">Retrait → Rufisque</div>
-    </div>
-    <span style="font-size:11px;font-weight:700;color:#1e40af">En route</span>
-  </a>
-</div>
-
-<div class="section">
-  <h3><i data-lucide="history"></i> Historique <a href="historique-livraisons.html" class="more">Voir tout ›</a></h3>
-  <a href="historique-livraisons.html" class="encours">
-    <div class="encours-icon" style="background:#d1fae5"><i data-lucide="check" style="color:#065f46"></i></div>
-    <div class="encours-info">
-      <div class="encours-num">#ST24065</div>
-      <div class="encours-addr">Livré · +1 500 FCFA</div>
-    </div>
-  </a>
 </div>
 
 <nav class="bottom-nav">
-  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
-  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
-  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
+  <a href="livreur.html" class="active"><i data-lucide="bike"></i><span>Courses</span></a>
+  <a href="historique-livraisons.html"><i data-lucide="history"></i><span>Historique</span></a>
+  <a href="portefeuille.html"><i data-lucide="wallet"></i><span>Gains</span></a>
+  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
 <script>
-  lucide.createIcons();
-  let online = true;
-  function toggleStatus() {
-    online = !online;
-    const d = document.getElementById('dot');
-    const t = document.getElementById('statusTxt');
-    if (online) { d.style.background = '#4ade80'; t.textContent = 'En ligne · Disponible'; }
-    else { d.style.background = '#dc2626'; t.textContent = 'Hors ligne'; }
+var DRIVER_ID = '88888888-8888-8888-8888-888888888888';
+var TAB = 'open', ORDERS = [];
+var SCAN_ORDER = null, SCAN_MODE = null, qrScanner = null;
+
+var LABELS = {
+  confirmed:  ['st-confirmed',  'À retirer'],
+  preparing:  ['st-confirmed',  'En préparation'],
+  picked_up:  ['st-picked_up',  'Récupéré'],
+  in_transit: ['st-in_transit', 'En route'],
+  delivered:  ['st-delivered',  'Livré']
+};
+
+function showTip(){ document.getElementById('tipModal').classList.add('show'); }
+function setTab(t, el){
+  TAB = t;
+  document.querySelectorAll('.tab').forEach(function(x){ x.classList.remove('on'); });
+  el.classList.add('on');
+  render();
+}
+
+function load(){
+  supa('orders', 'select=*&order=created_at.desc').then(function(rows){
+    ORDERS = rows || [];
+    var mine = ORDERS.filter(function(o){ return o.driver_id === DRIVER_ID; });
+    document.getElementById('stToday').textContent = mine.filter(function(o){ return o.status !== 'delivered' && o.status !== 'cancelled'; }).length;
+    document.getElementById('stDone').textContent = mine.filter(function(o){ return o.status === 'delivered'; }).length;
+    document.getElementById('stEarn').textContent = fmtPrix(mine.filter(function(o){ return o.status === 'delivered'; }).length * 1000) + ' F';
+    render();
+  });
+}
+
+function render(){
+  var list = document.getElementById('list');
+  var rows = ORDERS.filter(function(o){
+    if (TAB === 'open') return !o.driver_id && (o.status === 'confirmed' || o.status === 'preparing');
+    if (TAB === 'mine') return o.driver_id === DRIVER_ID && o.status !== 'delivered' && o.status !== 'cancelled';
+    return o.driver_id === DRIVER_ID && o.status === 'delivered';
+  });
+  if (!rows.length) {
+    list.innerHTML = '<div class="empty">' + (TAB === 'open' ? 'Aucune course disponible pour le moment' : TAB === 'mine' ? 'Aucune course en cours' : 'Aucune livraison terminée') + '</div>';
+    return;
   }
-  function accepter(id) {
-    if (confirm('Accepter ' + id + ' ?')) {
-      alert('✅ Livraison acceptée !');
-      location.href = 'livraisons-en-cours.html';
+  list.innerHTML = rows.map(function(o){
+    var st = LABELS[o.status] || ['st-confirmed', o.status];
+    var items = (o.items || []).map(function(i){ return i.qty + '× ' + i.name; }).join(', ');
+    var actions = '';
+    if (!o.driver_id) {
+      actions = '<button class="btn btn-green" onclick="accept(\'' + o.id + '\')"><i data-lucide="check"></i> Accepter la course</button>';
+    } else if (o.status === 'confirmed' || o.status === 'preparing') {
+      actions = '<button class="btn btn-blue" onclick="openScan(\'' + o.id + '\',\'pickup\')"><i data-lucide="scan-line"></i> Scanner le colis chez le vendeur</button>';
+    } else if (o.status === 'picked_up') {
+      actions = '<button class="btn btn-purple" onclick="goTransit(\'' + o.id + '\')"><i data-lucide="navigation"></i> En route</button>';
+    } else if (o.status === 'in_transit') {
+      actions = '<button class="btn btn-green" onclick="openScan(\'' + o.id + '\',\'delivery\')"><i data-lucide="package-check"></i> Livrer (code client)</button>';
     }
+    return '<div class="order">' +
+      '<div class="o-head"><span class="o-code">' + (o.tracking_code || o.ref) + '</span><span class="o-status ' + st[0] + '">' + st[1] + '</span></div>' +
+      '<div class="o-row"><i data-lucide="package"></i> ' + items + '</div>' +
+      '<div class="o-row"><i data-lucide="map-pin"></i> ' + (o.address || '') + ', ' + (o.city || 'Dakar') + '</div>' +
+      '<div class="o-row"><i data-lucide="banknote"></i> ' + fmtPrix(o.total) + ' FCFA' + (o.payment_method === 'cash' ? ' · <b style="color:#b45309">À ENCAISSER</b>' : ' · payé en ligne ✓') + '</div>' +
+      '<div class="o-info" onclick="showTip()"><i data-lucide="info"></i> Code retrait vendeur : <b>' + (o.pickup_code || '—') + '</b> · Touche pour le guide</div>' +
+      '<div class="o-actions">' + actions +
+        '<a class="btn btn-gps" style="text-decoration:none" href="https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent((o.address||'') + ' ' + (o.city||'Dakar')) + '" target="_blank"><i data-lucide="map"></i></a>' +
+      '</div></div>';
+  }).join('');
+  lucide.createIcons();
+}
+
+// ===== GPS du livreur =====
+function sendGPS(){
+  if (!navigator.geolocation) return Promise.resolve(null);
+  return new Promise(function(resolve){
+    navigator.geolocation.getCurrentPosition(function(pos){
+      supaWrite('drivers', 'PATCH', {
+        last_lat: pos.coords.latitude, last_lng: pos.coords.longitude,
+        last_gps_at: new Date().toISOString()
+      }, 'id=eq.' + DRIVER_ID);
+      resolve(pos.coords);
+    }, function(){ resolve(null); }, {timeout: 8000});
+  });
+}
+
+function logEvent(orderId, status, note){
+  sendGPS().then(function(c){
+    supaWrite('order_events', 'POST', {
+      order_id: orderId, status: status, actor: 'driver',
+      note: note, lat: c ? c.latitude : null, lng: c ? c.longitude : null
+    });
+  });
+}
+
+// ===== Actions =====
+function accept(orderId){
+  supaWrite('orders', 'PATCH', { driver_id: DRIVER_ID }, 'id=eq.' + orderId).then(function(){
+    logEvent(orderId, 'confirmed', 'Course acceptée par Omar Ndiaye');
+    toast('✅ Course acceptée ! Va chez le vendeur.');
+    load();
+  });
+}
+
+function openScan(orderId, mode){
+  SCAN_ORDER = ORDERS.find(function(o){ return o.id === orderId; });
+  SCAN_MODE = mode;
+  document.getElementById('mErr').textContent = '';
+  document.getElementById('mInput').value = '';
+  if (mode === 'pickup') {
+    document.getElementById('mTitle').textContent = '📦 Retrait colis';
+    document.getElementById('mDesc').textContent = 'Scanne le QR du vendeur ou tape le code retrait à 4 chiffres';
+    document.getElementById('mInput').placeholder = 'Code retrait';
+  } else {
+    document.getElementById('mTitle').textContent = '🏠 Confirmation livraison';
+    document.getElementById('mDesc').textContent = 'Demande au client son code de livraison à 4 chiffres';
+    document.getElementById('mInput').placeholder = 'Code client';
   }
+  document.getElementById('modal').classList.add('show');
+  startCamera();
+}
+
+function startCamera(){
+  if (!window.Html5Qrcode) return;
+  try {
+    qrScanner = new Html5Qrcode('qrReader');
+    qrScanner.start(
+      { facingMode: 'environment' },
+      { fps: 8, qrbox: 200 },
+      function(text){ onScanned(text); },
+      function(){}
+    ).catch(function(){ /* pas de caméra : saisie manuelle */ });
+  } catch(e){}
+}
+
+function onScanned(text){
+  // Le QR vendeur contient le tracking_code ou le pickup_code
+  if (SCAN_MODE === 'pickup' &&
+      (text === SCAN_ORDER.tracking_code || text === SCAN_ORDER.pickup_code)) {
+    doPickup();
+  } else if (SCAN_MODE === 'delivery' && text === SCAN_ORDER.delivery_code) {
+    doDeliver();
+  } else {
+    document.getElementById('mErr').textContent = '❌ Mauvais colis ! Vérifie le code ' + (SCAN_ORDER.tracking_code || '');
+  }
+}
+
+function validateCode(){
+  var val = document.getElementById('mInput').value.trim().toUpperCase();
+  if (SCAN_MODE === 'pickup') {
+    if (val === SCAN_ORDER.pickup_code || val === SCAN_ORDER.tracking_code) doPickup();
+    else document.getElementById('mErr').textContent = '❌ Code incorrect, redemande au vendeur';
+  } else {
+    if (val === SCAN_ORDER.delivery_code) doDeliver();
+    else document.getElementById('mErr').textContent = '❌ Code incorrect, redemande au client';
+  }
+}
+
+function closeModal(){
+  if (qrScanner) { try { qrScanner.stop(); } catch(e){} qrScanner = null; }
+  document.getElementById('modal').classList.remove('show');
+}
+
+function doPickup(){
+  supaWrite('orders', 'PATCH', { status: 'picked_up', picked_up_at: new Date().toISOString() }, 'id=eq.' + SCAN_ORDER.id).then(function(){
+    logEvent(SCAN_ORDER.id, 'picked_up', 'Colis récupéré chez le vendeur');
+    closeModal();
+    toast('📦 Colis récupéré ! Touche « En route » en partant.');
+    load();
+  });
+}
+
+function goTransit(orderId){
+  supaWrite('orders', 'PATCH', { status: 'in_transit', in_transit_at: new Date().toISOString() }, 'id=eq.' + orderId).then(function(){
+    logEvent(orderId, 'in_transit', 'En route vers le client');
+    toast('🛵 En route ! Le client voit ta position.');
+    load();
+  });
+}
+
+function doDeliver(){
+  supaWrite('orders', 'PATCH', { status: 'delivered', delivered_at: new Date().toISOString() }, 'id=eq.' + SCAN_ORDER.id).then(function(){
+    logEvent(SCAN_ORDER.id, 'delivered', 'Livré et confirmé par code client');
+    closeModal();
+    toast('🎉 Livraison confirmée ! +1 000 F de gain.');
+    load();
+  });
+}
+
+load();
+lucide.createIcons();
 </script>
+<script src="js/dark-mode.js"></script>
 </body>
 </html>
