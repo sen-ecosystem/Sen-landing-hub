@@ -1,212 +1,114 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mes Commandes - SEN TEW</title>
-  <link rel="stylesheet" href="css/app.css?v=52">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
-    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 10; }
-    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
-    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
-    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 16px; }
-    .stat { background: #fff; padding: 12px 8px; border-radius: 10px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-    .stat .val { font-size: 18px; font-weight: 800; color: #0f6b4e; }
-    .stat .lbl { font-size: 11px; color: #666; }
-    .filter-bar { display: flex; gap: 8px; padding: 12px 16px; overflow-x: auto; background: #fff; border-bottom: 1px solid #e5e7eb; }
-    .chip { background: #f5f5f0; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
-    .chip.active { background: #0f6b4e; color: #fff; }
-    .cmd { background: #fff; margin: 10px 16px; padding: 14px; border-radius: 12px; text-decoration: none; color: inherit; display: block; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-    .cmd-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-    .cmd-num { font-weight: 800; color: #0f6b4e; font-size: 15px; }
-    .badge { padding: 3px 10px; border-radius: 10px; font-size: 10px; font-weight: 700; }
-    .b-new { background: #dbeafe; color: #1e40af; }
-    .b-prep { background: #fef3c7; color: #92400e; }
-    .b-ship { background: #e0e7ff; color: #4338ca; }
-    .b-done { background: #d1fae5; color: #065f46; }
-    .b-cancel { background: #fee2e2; color: #991b1b; }
-    .cmd-body { display: flex; gap: 12px; align-items: center; padding: 8px 0; border-top: 1px solid #f0f0f0; }
-    .cmd-icon { width: 44px; height: 44px; background: #f5f5f0; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-    .cmd-icon i { color: #d4a574; }
-    .cmd-info { flex: 1; }
-    .prod { font-weight: 600; font-size: 13px; }
-    .vendor { color: #666; font-size: 12px; margin-top: 2px; }
-    .cmd-price { color: #0f6b4e; font-weight: 800; }
-    .cmd-actions { display: flex; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #f0f0f0; }
-    .btn-mini { flex: 1; background: #f5f5f0; border: 1px solid #e5e7eb; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; color: #1a1a1a; text-decoration: none; }
-    .btn-mini.primary { background: #0f6b4e; color: #fff; border-color: #0f6b4e; }
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
-    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
-    .bottom-nav a.active { color: #0f6b4e; }
-    .bottom-nav a i { width: 22px; height: 22px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Mes Commandes - SEN TEW</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/supabase.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;max-width:100vw}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:86px;color:#0a1f17}
+.topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:40}
+.topbar h1{font-size:17px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
+.icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e;text-decoration:none;position:relative}
+/* Onglets */
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:12px 14px;scrollbar-width:none;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:63px;z-index:39}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:8px 15px;border-radius:20px;border:1.5px solid #e5e7eb;background:#fff;font-size:12px;font-weight:700;color:#4b5563;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:5px}
+.tab.on{background:#0f6b4e;color:#fff;border-color:#0f6b4e}
+.tab .n{background:rgba(0,0,0,.12);font-size:9px;padding:1px 6px;border-radius:8px}
+.tab.on .n{background:rgba(255,255,255,.25)}
+/* Carte commande */
+.order{background:#fff;margin:12px 14px 0;border-radius:16px;padding:14px;box-shadow:0 2px 8px rgba(0,0,0,.05);animation:fadeIn .25s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.o-top{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.o-code{font-size:13px;font-weight:900;font-family:monospace;color:#0a1f17;flex:1}
+.o-status{font-size:10px;font-weight:800;padding:4px 10px;border-radius:12px;display:flex;align-items:center;gap:4px}
+.st-confirmed{background:#dbeafe;color:#1e40af}
+.st-preparing{background:#fef3c7;color:#92400e}
+.st-picked_up{background:#fef3c7;color:#92400e}
+.st-in_transit{background:#ede9fe;color:#6d28d9}
+.st-delivered{background:#d1fae5;color:#065f46}
+.st-cancelled{background:#fee2e2;color:#b91c1c}
+.o-date{font-size:10px;color:#9aa5a0;margin-bottom:10px}
+.o-items{background:#f9fafb;border-radius:12px;padding:10px;margin-bottom:10px}
+.o-item{display:flex;align-items:center;gap:8px;font-size:12px;color:#4b5563;padding:3px 0}
+.o-item .qi{width:20px;height:20px;border-radius:6px;background:#e8f5f0;color:#0f6b4e;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.o-item b{color:#0a1f17}
+.o-total{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#6B7280}
+.o-total b{font-size:16px;font-weight:900;color:#0f6b4e}
+/* Progression 4 étapes */
+.progress{display:flex;align-items:flex-start;margin:12px 0 4px}
+.pstep{flex:1;text-align:center;position:relative}
+.pstep .dot{width:26px;height:26px;border-radius:50%;background:#e5e7eb;color:#9aa5a0;display:flex;align-items:center;justify-content:center;margin:0 auto;position:relative;z-index:2}
+.pstep .dot svg{width:13px;height:13px}
+.pstep.done .dot{background:#0f6b4e;color:#fff}
+.pstep.now .dot{background:#e63946;color:#fff;animation:pulse 1.4s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(230,57,70,.4)}50%{box-shadow:0 0 0 7px rgba(230,57,70,0)}}
+.pstep span{font-size:9px;font-weight:700;color:#9aa5a0;display:block;margin-top:4px;line-height:1.2}
+.pstep.done span,.pstep.now span{color:#0a1f17}
+.pstep::before{content:'';position:absolute;top:13px;left:-50%;width:100%;height:2.5px;background:#e5e7eb;z-index:1}
+.pstep:first-child::before{display:none}
+.pstep.done::before{background:#0f6b4e}
+/* Code livraison masqué → révélé */
+.deliv-code{background:#0a1f17;border-radius:12px;padding:12px;margin:10px 0;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+.deliv-code .dc-lab{font-size:10px;color:#9aa5a0;flex:1;line-height:1.4}
+.deliv-code .dc-lab b{color:#fff;display:block;font-size:11px;margin-bottom:2px}
+.deliv-code .dc-val{font-family:monospace;font-size:21px;font-weight:900;color:#4ade80;letter-spacing:5px;min-width:76px;text-align:center}
+.deliv-code .dc-eye{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.12);border:none;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+/* Tranches */
+.inst-box{background:#f5f3ff;border:1px solid #ddd6fe;border-radius:12px;padding:11px 12px;margin:10px 0}
+.inst-box h4{font-size:11px;font-weight:800;color:#6d28d9;display:flex;align-items:center;gap:5px;margin-bottom:7px}
+.inst-line{display:flex;align-items:center;gap:8px;font-size:11.5px;color:#4c1d95;padding:4px 0}
+.inst-line .ir-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.ir-paid{background:#059669}
+.ir-due{background:#f59e0b}
+.inst-line .ir-amt{margin-left:auto;font-weight:800}
+.inst-line .ir-st{font-size:9px;font-weight:800;padding:2px 7px;border-radius:8px}
+.ir-st.paid{background:#d1fae5;color:#065f46}
+.ir-st.due{background:#fef3c7;color:#92400e}
+/* Actions */
+.o-actions{display:flex;gap:8px;margin-top:10px}
+.btn{flex:1;padding:11px;border-radius:11px;font-size:11.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;text-decoration:none;border:none;font-family:inherit}
+.btn-green{background:#0f6b4e;color:#fff}
+.btn-line{background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e}
+.btn-red{background:#fff;border:1.5px solid #fecaca;color:#e63946}
+/* Astuce ⓘ */
+.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:12px 14px 0;font-size:12px;color:#92400e;cursor:pointer;line-height:1.5}
+.tip i{color:#b45309;flex-shrink:0;width:16px;height:16px;margin-top:1px}
+/* Vide */
+.empty{text-align:center;padding:60px 24px;color:#9aa5a0}
+.empty h3{color:#0a1f17;margin:12px 0 6px;font-size:16px}
+.empty a{display:inline-block;margin-top:14px;padding:12px 24px;background:#0f6b4e;color:#fff;border-radius:12px;text-decoration:none;font-weight:800;font-size:13px}
+/* Modale */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.m-box{background:#fff;border-radius:20px;padding:20px;width:100%;max-width:360px;text-align:left;max-height:80vh;overflow-y:auto}
+.m-box h3{font-size:15px;font-weight:800;margin-bottom:8px}
+.m-box p{font-size:12px;color:#6B7280;line-height:1.7}
+.m-btns{display:flex;gap:8px;margin-top:14px}
+.m-btns button{flex:1;padding:12px;border:none;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer}
+.b-green{background:#0f6b4e;color:#fff}
+.b-grey{background:#e5e7eb;color:#4b5563}
+/* Live indicator */
+.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 1.4s infinite;margin-left:4px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
+.bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600;min-height:44px;justify-content:center}
+.bottom-nav a.active{color:#0f6b4e}
+.bottom-nav a svg{width:22px;height:22px}
+</style>
 </head>
-<body class="light-mode">
+<body>
 
 <header class="topbar">
   <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
   <h1><i data-lucide="package"></i> Mes Commandes</h1>
-  <button class="icon-btn" onclick="location.href='support.html'"><i data-lucide="help-circle"></i></button>
+  <a class="icon-btn" href="notifications.html"><i data-lucide="bell"></i></a>
 </header>
 
-<div class="stats-row">
-  <div class="stat"><div class="val">12</div><div class="lbl">Total</div></div>
-  <div class="stat"><div class="val">2</div><div class="lbl">En cours</div></div>
-  <div class="stat"><div class="val">287k</div><div class="lbl">FCFA dépensés</div></div>
-</div>
-
-<div class="filter-bar">
-  <span class="chip active">Toutes (12)</span>
-  <span class="chip">En cours (2)</span>
-  <span class="chip">Expédiées (3)</span>
-  <span class="chip">Livrées (6)</span>
-  <span class="chip">Annulées (1)</span>
-</div>
-
-<a href="commande-detail.html?id=ST24073" class="cmd">
-  <div class="cmd-head">
-    <span class="cmd-num">#ST24073</span>
-    <span class="badge b-ship">En cours</span>
-  </div>
-  <div class="cmd-body">
-    <div class="cmd-icon"><i data-lucide="smartphone"></i></div>
-    <div class="cmd-info">
-      <div class="prod">iPhone 15 Pro 256GB</div>
-      <div class="vendor">Moussa Tech · Livraison prévue aujourd'hui</div>
-    </div>
-    <div class="cmd-price">681k</div>
-  </div>
-  <div class="cmd-actions">
-    <a href="suivi-commande.html?id=ST24073" class="btn-mini primary" onclick="event.stopPropagation()">
-      <i data-lucide="map-pin" style="width:14px;height:14px"></i> Suivre GPS
-    </a>
-    <a href="messages.html" class="btn-mini" onclick="event.stopPropagation()">
-      <i data-lucide="message-circle" style="width:14px;height:14px"></i> Contact
-    </a>
-  </div>
-</a>
-
-<a href="commande-detail.html?id=ST24070" class="cmd">
-  <div class="cmd-head">
-    <span class="cmd-num">#ST24070</span>
-    <span class="badge b-prep">Préparation</span>
-  </div>
-  <div class="cmd-body">
-    <div class="cmd-icon"><i data-lucide="tablet"></i></div>
-    <div class="cmd-info">
-      <div class="prod">iPad Air 5 64GB</div>
-      <div class="vendor">Digital Store · Expédition demain</div>
-    </div>
-    <div class="cmd-price">520k</div>
-  </div>
-  <div class="cmd-actions">
-    <a href="commande-detail.html?id=ST24070" class="btn-mini primary">
-      <i data-lucide="eye" style="width:14px;height:14px"></i> Détails
-    </a>
-    <a href="messages.html" class="btn-mini">
-      <i data-lucide="message-circle" style="width:14px;height:14px"></i> Contact
-    </a>
-  </div>
-</a>
-
-<a href="commande-detail.html?id=ST24068" class="cmd">
-  <div class="cmd-head">
-    <span class="cmd-num">#ST24068</span>
-    <span class="badge b-done">Livrée</span>
-  </div>
-  <div class="cmd-body">
-    <div class="cmd-icon"><i data-lucide="headphones"></i></div>
-    <div class="cmd-info">
-      <div class="prod">AirPods Pro 2</div>
-      <div class="vendor">Moussa Tech · Livré le 28/08/2026</div>
-    </div>
-    <div class="cmd-price">145k</div>
-  </div>
-  <div class="cmd-actions">
-    <a href="#" class="btn-mini primary" onclick="event.preventDefault(); alert('⭐ Noter le vendeur')">
-      <i data-lucide="star" style="width:14px;height:14px"></i> Noter
-    </a>
-    <a href="commande-detail.html?id=ST24068" class="btn-mini">
-      <i data-lucide="repeat" style="width:14px;height:14px"></i> Racheter
-    </a>
-  </div>
-</a>
-
-<a href="commande-detail.html?id=ST24065" class="cmd">
-  <div class="cmd-head">
-    <span class="cmd-num">#ST24065</span>
-    <span class="badge b-done">Livrée</span>
-  </div>
-  <div class="cmd-body">
-    <div class="cmd-icon"><i data-lucide="shirt"></i></div>
-    <div class="cmd-info">
-      <div class="prod">Boubou traditionnel wax</div>
-      <div class="vendor">Fatou Fashion · Livré le 20/08/2026</div>
-    </div>
-    <div class="cmd-price">35k</div>
-  </div>
-  <div class="cmd-actions">
-    <a href="remboursement.html" class="btn-mini" onclick="event.stopPropagation()">
-      <i data-lucide="rotate-ccw" style="width:14px;height:14px"></i> Retour
-    </a>
-    <a href="commande-detail.html?id=ST24065" class="btn-mini primary">
-      <i data-lucide="repeat" style="width:14px;height:14px"></i> Racheter
-    </a>
-  </div>
-</a>
-
-<a href="commande-detail.html?id=ST24062" class="cmd">
-  <div class="cmd-head">
-    <span class="cmd-num">#ST24062</span>
-    <span class="badge b-cancel">Annulée</span>
-  </div>
-  <div class="cmd-body">
-    <div class="cmd-icon"><i data-lucide="watch"></i></div>
-    <div class="cmd-info">
-      <div class="prod">Apple Watch Series 9</div>
-      <div class="vendor">Tech Plus · Annulée le 15/08/2026</div>
-    </div>
-    <div class="cmd-price">380k</div>
-  </div>
-  <div class="cmd-actions">
-    <a href="commande-detail.html?id=ST24062" class="btn-mini primary">
-      <i data-lucide="eye" style="width:14px;height:14px"></i> Détails
-    </a>
-  </div>
-</a>
-
-<nav class="bottom-nav">
-  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
-  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
-  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
-</nav>
-
-<script>lucide.createIcons();</script>
-  <script>
-/* Ajoute le bouton Litige sur chaque commande */
-window.addEventListener('load', function(){
-  document.querySelectorAll('a.cmd, [class*="cmd"]').forEach(function(card){
-    var href = card.getAttribute('href') || '';
-    var m = href.match(/commande-detail\.html\?id=([A-Z0-9]+)/i);
-    if(!m) return;
-    var zone = card.querySelector('[class*="btn"], [class*="actions"]') ? card : card;
-    if(zone.querySelector('.btn-litige')) return;
-    var lit = document.createElement('a');
-    lit.href = 'litige.html?order=' + m[1];
-    lit.className = 'btn-mini btn-litige';
-    lit.style.cssText = 'display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border:1.5px solid #ef4444;color:#ef4444;border-radius:8px;font-size:11px;font-weight:700;text-decoration:none;margin-top:6px;';
-    lit.innerHTML = '<i data-lucide="alert-triangle" style="width:13px;height:13px"></i> Litige';
-    lit.onclick = function(e){ e.stopPropagation(); };
-    var lastBtn = card.querySelector('.btn-mini:last-of-type');
-    if(lastBtn && lastBtn.parentElement){ lastBtn.parentElement.appendChild(lit); }
-    else { card.appendChild(lit); }
-  });
-  if(window.lucide) lucide.createIcons();
-});
-</script>
-</body>
-</html>
+<div class="tabs" id="tabs">
+  <button class="tab on" data-f="all" onclick="setFilter('all',this)">Toutes</button>
+  <button class="tab" data-f="active" onclick="setFilter('active',this)"><i data-lucide="truck" style="width:12px"></i> En cours</button>
+  <button class="tab" data-f="delivered" onclick="setFilter('delivered',this)"><i data-lucide="check" style="width:12px"></i> Livrées
