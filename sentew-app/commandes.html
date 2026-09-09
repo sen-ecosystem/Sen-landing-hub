@@ -111,4 +111,198 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 <div class="tabs" id="tabs">
   <button class="tab on" data-f="all" onclick="setFilter('all',this)">Toutes</button>
   <button class="tab" data-f="active" onclick="setFilter('active',this)"><i data-lucide="truck" style="width:12px"></i> En cours</button>
-  <button class="tab" data-f="delivered" onclick="setFilter('delivered',this)"><i data-lucide="check" style="width:12px"></i> Livrées
+  <button class="tab" data-f="delivered" onclick="setFilter('delivered',this)"><i data-lucide="check" style="width:12px"></i> Livrées</button>
+</div>
+
+<div class="tip" onclick="showTip()">
+  <i data-lucide="info"></i>
+  <span><b>Ton code de livraison</b> — Ne le donne JAMAIS par téléphone. Révèle-le uniquement quand le livreur est devant toi avec ton colis. Touche pour tout comprendre.</span>
+</div>
+
+<div id="list"><div class="empty">Chargement…</div></div>
+
+<div class="modal" id="tipModal">
+  <div class="m-box">
+    <h3>💡 Suivre sa commande SEN TEW</h3>
+    <p>
+      <b>Les 4 étapes</b> — Confirmée → En préparation → En route (tu vois le livreur sur la carte !) → Livrée.<br><br>
+      <b>🔐 Ton code de livraison</b> — Un code à 4 chiffres unique par commande. Le livreur te le demande à la remise du colis : c'est ta <b>preuve de réception</b>. Sans ce code, il ne peut pas clôturer la livraison. Ne le partage jamais par SMS ou appel.<br><br>
+      <b>📅 Paiement en tranches</b> — Si tu as payé en 2x/3x, l'échéancier apparaît sur la commande : montants, dates, statuts.<br><br>
+      <b>⚠️ Un souci ?</b> — Le bouton « Signaler » ouvre un litige. Ton argent est bloqué jusqu'à résolution : tu ne perds jamais.
+    </p>
+    <div class="m-btns"><button class="b-green" onclick="document.getElementById('tipModal').classList.remove('show')">Compris</button></div>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="categories.html"><i data-lucide="layout-grid"></i><span>Catégories</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="favoris.html"><i data-lucide="heart"></i><span>Favoris</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
+</nav>
+
+<script>
+var CLIENT_ID = '99999999-9999-9999-9999-999999999999';
+var ORDERS = [], INSTS = {}, FILTER = 'all';
+var SHOWN = {}; // codes révélés (par id de commande)
+
+var STEPS = [
+  { key: 'confirmed',  label: 'Confirmée',  icon: 'check' },
+  { key: 'preparing',  label: 'Préparation',icon: 'package' },
+  { key: 'in_transit', label: 'En route',   icon: 'bike' },
+  { key: 'delivered',  label: 'Livrée',     icon: 'home' }
+];
+var STATUS_LABEL = {
+  confirmed:  ['st-confirmed',  'Confirmée'],
+  preparing:  ['st-preparing',  'En préparation'],
+  picked_up:  ['st-picked_up',  'Récupérée'],
+  in_transit: ['st-in_transit', 'En route'],
+  delivered:  ['st-delivered',  'Livrée'],
+  cancelled:  ['st-cancelled',  'Annulée']
+};
+
+function stepIndex(status){
+  if (status === 'confirmed') return 0;
+  if (status === 'preparing' || status === 'picked_up') return 1;
+  if (status === 'in_transit') return 2;
+  if (status === 'delivered') return 3;
+  return -1; // cancelled
+}
+function showTip(){ document.getElementById('tipModal').classList.add('show'); }
+function setFilter(f, el){
+  FILTER = f;
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('on'); });
+  el.classList.add('on');
+  render();
+}
+
+function load(){
+  supa('orders', 'select=*&client_id=eq.' + CLIENT_ID + '&order=created_at.desc').then(function(rows){
+    ORDERS = rows || [];
+    // Charger les échéanciers des commandes en tranches
+    var ids = ORDERS.map(function(o){ return o.id; });
+    if (ids.length) {
+      supa('installments', 'select=*&order_id=in.(' + ids.join(',') + ')&order=num.asc').then(function(rows2){
+        INSTS = {};
+        (rows2 || []).forEach(function(r){
+          if (!INSTS[r.order_id]) INSTS[r.order_id] = [];
+          INSTS[r.order_id].push(r);
+        });
+        render();
+      });
+    } else render();
+  });
+}
+
+function toggleCode(id){
+  SHOWN[id] = !SHOWN[id];
+  render();
+}
+
+function render(){
+  var list = document.getElementById('list');
+  var rows = ORDERS.filter(function(o){
+    if (FILTER === 'active') return o.status !== 'delivered' && o.status !== 'cancelled';
+    if (FILTER === 'delivered') return o.status === 'delivered';
+    return true;
+  });
+
+  if (!rows.length) {
+    list.innerHTML = '<div class="empty"><i data-lucide="package-open" style="width:46px;color:#d1d5db"></i><h3>Aucune commande</h3><p>' + (FILTER === 'all' ? 'Tes commandes apparaîtront ici.' : 'Rien dans cette catégorie.') + '</p><a href="index.html">Découvrir les articles</a></div>';
+    lucide.createIcons(); return;
+  }
+
+  list.innerHTML = rows.map(function(o){
+    var st = STATUS_LABEL[o.status] || ['st-confirmed', o.status];
+    var idx = stepIndex(o.status);
+    var isActive = idx >= 0 && idx < 3;
+    var date = new Date(o.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) + ' · ' + new Date(o.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+
+    // Articles
+    var itemsHtml = (o.items || []).map(function(i){
+      return '<div class="o-item"><span class="qi">' + i.qty + '</span><span><b>' + i.name + '</b>' + (i.vendor ? ' · <span style="color:#b8860b">' + i.vendor + '</span>' : '') + '</span><span style="margin-left:auto;font-weight:700;color:#0f6b4e">' + fmtPrix(i.price * i.qty) + ' F</span></div>';
+    }).join('');
+
+    // Progression (pas pour les annulées)
+    var progHtml = '';
+    if (o.status !== 'cancelled') {
+      progHtml = '<div class="progress">' + STEPS.map(function(s, i){
+        var cls = i < idx ? 'done' : i === idx ? 'now' : '';
+        if (o.status === 'delivered') cls = 'done';
+        return '<div class="pstep ' + cls + '"><div class="dot"><i data-lucide="' + s.icon + '"></i></div><span>' + s.label + '</span></div>';
+      }).join('') + '</div>';
+    }
+
+    // Code de livraison (masqué par défaut, révélé au clic)
+    var codeHtml = '';
+    if (isActive && o.delivery_code) {
+      var shown = SHOWN[o.id];
+      codeHtml = '<div class="deliv-code" onclick="toggleCode(\'' + o.id + '\')">' +
+        '<div class="dc-lab"><b>🔐 Code de livraison</b>À donner au livreur uniquement à la remise du colis</div>' +
+        '<div class="dc-val">' + (shown ? o.delivery_code : '••••') + '</div>' +
+        '<button class="dc-eye"><i data-lucide="' + (shown ? 'eye-off' : 'eye') + '" style="width:15px"></i></button>' +
+      '</div>';
+    }
+
+    // Échéancier 2x/3x
+    var instHtml = '';
+    var insts = INSTS[o.id];
+    if (insts && insts.length) {
+      instHtml = '<div class="inst-box"><h4><i data-lucide="calendar-clock" style="width:13px"></i> PAIEMENT EN ' + insts.length + '×</h4>' +
+        insts.map(function(r){
+          var paid = r.status === 'paid';
+          var d = new Date(r.due_date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+          return '<div class="inst-line"><span class="ir-dot ' + (paid ? 'ir-paid' : 'ir-due') + '"></span>' +
+            '<span>Tranche ' + r.num + '/' + r.nb_total + ' · ' + d + '</span>' +
+            '<span class="ir-st ' + (paid ? 'paid' : 'due') + '">' + (paid ? 'Payée ✓' : 'À venir') + '</span>' +
+            '<span class="ir-amt">' + fmtPrix(r.amount) + ' F</span></div>';
+        }).join('') + '</div>';
+    }
+
+    // Actions
+    var actions = '';
+    if (o.status !== 'cancelled' && o.status !== 'delivered') {
+      actions += '<a class="btn btn-green" href="suivi-commande.html?t=' + (o.tracking_code || o.ref) + '"><i data-lucide="map-pin" style="width:13px"></i> Suivre</a>';
+    }
+    if (o.status === 'delivered') {
+      actions += '<button class="btn btn-green" onclick="reorder(\'' + o.id + '\')"><i data-lucide="rotate-cw" style="width:13px"></i> Racheter</button>' +
+        '<a class="btn btn-line" href="avis.html?order=' + o.id + '"><i data-lucide="star" style="width:13px"></i> Noter</a>';
+    }
+    actions += '<a class="btn btn-red" href="litige.html?order=' + (o.tracking_code || o.ref) + '"><i data-lucide="flag" style="width:13px"></i> Signaler</a>';
+
+    return '<div class="order">' +
+      '<div class="o-top"><span class="o-code">' + (o.tracking_code || o.ref) + '</span><span class="o-status ' + st[0] + '">' + st[1] + (isActive ? '<span class="live-dot"></span>' : '') + '</span></div>' +
+      '<div class="o-date">' + date + ' · ' + (o.city || 'Dakar') + '</div>' +
+      '<div class="o-items">' + itemsHtml + '</div>' +
+      progHtml + codeHtml + instHtml +
+      '<div class="o-total"><span>' + (o.payment_method === 'cash' ? '💵 À la livraison' : o.payment_method === 'card' ? '💳 Carte' : '📱 Mobile money') + (o.payment_status === 'paid' ? ' · payé ✓' : '') + '</span><b>' + fmtPrix(o.total) + ' FCFA</b></div>' +
+      '<div class="o-actions">' + actions + '</div>' +
+    '</div>';
+  }).join('');
+  lucide.createIcons();
+}
+
+// Racheter : remet les articles dans le panier
+function reorder(orderId){
+  var o = ORDERS.find(function(x){ return x.id === orderId; });
+  if (!o || !o.items) return;
+  o.items.forEach(function(i){
+    cartAdd({ id: 're-' + Date.now() + '-' + Math.random().toString(36).slice(2,6), name: i.name, price: i.price, images: [], vendor: i.vendor, slug: i.slug }, i.qty);
+  });
+  setTimeout(function(){ location.href = 'panier.html'; }, 600);
+}
+
+load();
+// Rafraîchissement auto toutes les 20 s (le livreur met à jour en direct)
+setInterval(load, 20000);
+
+function renderIcons(){ if (window.lucide) lucide.createIcons(); }
+renderIcons();
+window.addEventListener('load', renderIcons);
+setTimeout(renderIcons, 600);
+cartBadge();
+</script>
+<script src="js/dark-mode.js"></script>
+</body>
+</html>
