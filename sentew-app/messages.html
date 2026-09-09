@@ -1,253 +1,196 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Messages - SEN TEW</title>
-  <link rel="stylesheet" href="css/app.css?v=52">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
-    .topbar { background: linear-gradient(135deg, #0f6b4e, #0a4d38); color: #fff; padding: 16px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
-    .topbar h1 { color: #fff; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
-    .badge-count { background: #dc2626; color: #fff; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; margin-left: 6px; }
-    .icon-btn { background: rgba(255,255,255,0.2); border: none; cursor: pointer; padding: 8px; color: #fff; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
-    .icon-btn-write { background: #d4a574; }
-    .search-bar { padding: 12px 16px; }
-    .search-input { width: 100%; padding: 12px 16px; border: 1.5px solid #e5e7eb; border-radius: 24px; font-size: 14px; box-sizing: border-box; background: #fff; }
-    .filter-bar { display: flex; gap: 8px; padding: 0 16px 12px; overflow-x: auto; }
-    .chip { background: #fff; padding: 10px 16px; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); text-decoration: none; color: #1a1a1a; }
-    .chip.active { background: #0f6b4e; color: #fff; }
-    .chip .count { background: #f5f5f0; color: #666; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; }
-    .chip.active .count { background: rgba(255,255,255,0.25); color: #fff; }
-
-    /* ACTIONS RAPIDES - CLIQUABLES */
-    .quick-actions {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      padding: 0 16px 16px;
-    }
-    .quick-btn {
-      background: #fff;
-      padding: 14px 6px;
-      border-radius: 12px;
-      text-align: center;
-      text-decoration: none;
-      color: #1a1a1a;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      border: none;
-    }
-    .quick-btn:active { transform: scale(0.95); }
-    .qa-icon {
-      width: 44px; height: 44px;
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .qa-icon.ia { background: #ede9fe; }
-    .qa-icon.ia i { color: #6b46c1; }
-    .qa-icon.support { background: #d1fae5; }
-    .qa-icon.support i { color: #065f46; }
-    .qa-icon.cmd { background: #fef3c7; }
-    .qa-icon.cmd i { color: #d97706; }
-    .qa-icon.litige { background: #fee2e2; }
-    .qa-icon.litige i { color: #dc2626; }
-    .qa-name { font-size: 12px; font-weight: 700; color: #1a1a1a; }
-
-    .section-title {
-      color: #d4a574;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 0 20px;
-      margin: 8px 0 8px;
-      letter-spacing: 1px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .conv { background: #fff; margin: 0 16px 10px; padding: 12px; border-radius: 12px; display: flex; gap: 12px; text-decoration: none; color: inherit; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-    .avatar { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; }
-    .avatar.ia { background: #6b46c1; }
-    .avatar.ia i { color: #fff; }
-    .avatar.vendor { background: #ec4899; }
-    .avatar.vendor i { color: #fff; }
-    .avatar .online { position: absolute; bottom: 0; right: 0; width: 12px; height: 12px; background: #4ade80; border-radius: 50%; border: 2px solid #fff; }
-    .conv-info { flex: 1; min-width: 0; }
-    .conv-head { display: flex; justify-content: space-between; align-items: center; }
-    .conv-name { font-weight: 700; font-size: 14px; color: #1a1a1a; display: flex; align-items: center; gap: 4px; }
-    .conv-time { font-size: 11px; color: #0f6b4e; font-weight: 600; }
-    .conv-msg { font-size: 13px; color: #666; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .conv-tags { display: flex; gap: 6px; margin-top: 6px; }
-    .tag { padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; }
-    .tag-support { background: #ede9fe; color: #6b46c1; }
-    .tag-cmd { background: #d1fae5; color: #065f46; }
-    .tag-silver { background: #f5f5f0; color: #666; }
-    .conv-badge { background: #0f6b4e; color: #fff; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
-
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
-    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
-    .bottom-nav a.active { color: #0f6b4e; }
-    .bottom-nav a i { width: 22px; height: 22px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Messages - SEN TEW</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/supabase.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;max-width:100vw}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:86px;color:#0a1f17}
+.topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:40}
+.topbar h1{font-size:17px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
+.icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e}
+.search-row{padding:10px 14px;background:#fff;border-bottom:1px solid #e5e7eb}
+.search-box{display:flex;align-items:center;gap:8px;background:#f5f5f0;border-radius:24px;padding:10px 14px}
+.search-box input{flex:1;border:none;background:none;outline:none;font-size:13px;font-family:inherit}
+.search-box i{color:#9aa5a0;flex-shrink:0}
+/* Assistant IA en haut */
+.ai-card{display:flex;align-items:center;gap:12px;margin:12px 14px 0;padding:14px;border-radius:16px;background:linear-gradient(135deg,#6b46c1,#4c1d95);color:#fff;text-decoration:none;box-shadow:0 4px 14px rgba(107,70,193,.35)}
+.ai-card .ai-ic{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ai-card b{display:block;font-size:14px}
+.ai-card span{font-size:11px;opacity:.85}
+.ai-card .go{margin-left:auto;background:#fff;color:#4c1d95;font-size:11px;font-weight:800;padding:7px 13px;border-radius:16px;flex-shrink:0}
+/* Section titre */
+.sec-title{display:flex;align-items:center;gap:6px;padding:14px 16px 8px;font-size:12px;font-weight:800;color:#b8860b;letter-spacing:.5px}
+/* Conversation */
+.conv{display:flex;align-items:center;gap:12px;background:#fff;margin:0 14px 8px;padding:12px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);cursor:pointer;animation:fadeIn .25s;text-decoration:none;color:inherit}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.conv .cv-img{width:50px;height:50px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid #e5e7eb}
+.conv .cv-av{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;color:#fff;flex-shrink:0}
+.conv .cv-main{flex:1;min-width:0}
+.conv .cv-name{font-size:14px;font-weight:800;color:#0a1f17;display:flex;align-items:center;gap:5px}
+.conv .cv-name .role{font-size:9px;font-weight:800;padding:2px 7px;border-radius:8px;flex-shrink:0}
+.role-vendor{background:#e8f5f0;color:#0f6b4e}
+.role-driver{background:#ede9fe;color:#6d28d9}
+.role-support{background:#dbeafe;color:#1e40af}
+.conv .cv-last{font-size:12px;color:#6B7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.conv .cv-right{text-align:right;flex-shrink:0}
+.conv .cv-time{font-size:10px;color:#9aa5a0}
+.conv .cv-badge{min-width:20px;height:20px;border-radius:10px;background:#e63946;color:#fff;font-size:10px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;padding:0 6px;margin-top:5px}
+.conv .online{position:relative}
+.conv .online::after{content:'';position:absolute;bottom:1px;right:1px;width:11px;height:11px;border-radius:50%;background:#4ade80;border:2px solid #fff}
+.empty{text-align:center;padding:50px 24px;color:#9aa5a0;font-size:13px}
+/* Astuce ⓘ */
+.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:12px 14px 0;font-size:12px;color:#92400e;cursor:pointer;line-height:1.5}
+.tip i{color:#b45309;flex-shrink:0;width:16px;height:16px;margin-top:1px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.m-box{background:#fff;border-radius:20px;padding:20px;width:100%;max-width:360px}
+.m-box h3{font-size:15px;font-weight:800;margin-bottom:8px}
+.m-box p{font-size:12px;color:#6B7280;line-height:1.7}
+.m-box button{width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:#0f6b4e;color:#fff;font-weight:800;cursor:pointer}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
+.bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600;min-height:44px;justify-content:center;position:relative}
+.bottom-nav a.active{color:#0f6b4e}
+.bottom-nav a svg{width:22px;height:22px}
+</style>
 </head>
-<body class="light-mode">
+<body>
 
 <header class="topbar">
-  <div style="display:flex;align-items:center;gap:12px">
-    <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
-    <h1><i data-lucide="message-circle"></i> Messages <span class="badge-count">5</span></h1>
-  </div>
-  <button class="icon-btn icon-btn-write" onclick="alert('✏️ Nouvelle conversation')"><i data-lucide="edit-3"></i></button>
+  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="message-circle"></i> Messages</h1>
+  <button class="icon-btn" onclick="location.href='notifications.html'"><i data-lucide="bell"></i></button>
 </header>
 
-<div class="search-bar">
-  <input type="text" class="search-input" placeholder="🔍 Rechercher une conversation...">
+<div class="search-row">
+  <div class="search-box">
+    <i data-lucide="search" style="width:16px"></i>
+    <input type="text" id="searchInput" placeholder="Rechercher une conversation…" oninput="render()">
+  </div>
 </div>
 
-<div class="filter-bar">
-  <span class="chip active"><i data-lucide="inbox" style="width:14px;height:14px"></i> Toutes <span class="count">8</span></span>
-  <span class="chip">● Non lues <span class="count">5</span></span>
-  <span class="chip"><i data-lucide="store" style="width:14px;height:14px;color:#d4a574"></i> Vendeurs <span class="count">4</span></span>
+<a class="ai-card" href="assistant-ia.html">
+  <div class="ai-ic"><i data-lucide="bot" style="width:22px"></i></div>
+  <div><b>Assistant SEN TEW</b><span>Réponse immédiate · Disponible 24h/24</span></div>
+  <span class="go">Discuter</span>
+</a>
+
+<div class="sec-title"><i data-lucide="store" style="width:14px"></i> BOUTIQUES & VENDEURS</div>
+<div id="vendorList"></div>
+
+<div class="sec-title"><i data-lucide="bike" style="width:14px"></i> LIVRAISON & SUPPORT</div>
+<div id="serviceList"></div>
+
+<div class="tip" onclick="document.getElementById('tipModal').classList.add('show')">
+  <i data-lucide="info"></i>
+  <span><b>Contacte un vendeur avant d'acheter</b> — pose tes questions (taille, couleur, stock), négocie, ou demande une photo réelle du produit. Touche pour les conseils.</span>
 </div>
 
-<!-- ACTIONS RAPIDES CLIQUABLES -->
-<div class="quick-actions">
-  <a href="assistant-ia.html" class="quick-btn">
-    <div class="qa-icon ia"><i data-lucide="bot"></i></div>
-    <div class="qa-name">Assistant IA</div>
-  </a>
-  <a href="support.html" class="quick-btn">
-    <div class="qa-icon support"><i data-lucide="life-buoy"></i></div>
-    <div class="qa-name">Support</div>
-  </a>
-  <a href="commandes.html" class="quick-btn">
-    <div class="qa-icon cmd"><i data-lucide="package"></i></div>
-    <div class="qa-name">Commandes</div>
-  </a>
-  <a href="litige.html" class="quick-btn">
-    <div class="qa-icon litige"><i data-lucide="alert-circle"></i></div>
-    <div class="qa-name">Litige</div>
-  </a>
+<div class="modal" id="tipModal">
+  <div class="m-box">
+    <h3>💡 Messagerie SEN TEW</h3>
+    <p>
+      <b>🤖 Assistant SEN TEW</b> — En haut, réponse immédiate 24h/24 : suivi, retours, paiements, promos.<br><br>
+      <b>🏪 Vendeurs</b> — Chaque boutique a sa conversation. Tu peux aussi la contacter depuis sa fiche produit (icône 💬).<br><br>
+      <b>🛵 Livreur</b> — Pendant une course active, écris-lui directement ici.<br><br>
+      <b>⚠️ Sécurité</b> — Ne partage JAMAIS ton code de livraison ni tes codes de paiement par message, même si on te le demande. SEN TEW ne demande jamais ça.
+    </p>
+    <button onclick="document.getElementById('tipModal').classList.remove('show')">Compris</button>
+  </div>
 </div>
-
-<!-- ÉPINGLÉES -->
-<div class="section-title"><i data-lucide="pin" style="width:14px;height:14px"></i> ÉPINGLÉES</div>
-<a href="chat.html?id=support-sentew" class="conv">
-  <div class="avatar ia" style="background:#6b46c1">
-    <i data-lucide="bot"></i>
-    <div class="online"></div>
-  </div>
-  <div class="conv-info">
-    <div class="conv-head">
-      <div class="conv-name">Support SEN TEW <i data-lucide="badge-check" style="width:14px;height:14px;color:#3b82f6"></i></div>
-      <div class="conv-time">14:32</div>
-    </div>
-    <div class="conv-msg">Bonjour ! Votre demande de rembourse...</div>
-    <div class="conv-tags">
-      <span class="tag tag-support">Support officiel</span>
-      <span class="tag tag-cmd">#ST-2026-1198</span>
-    </div>
-  </div>
-  <div class="conv-badge">2</div>
-</a>
-
-<!-- VENDEURS -->
-<div class="section-title"><i data-lucide="store" style="width:14px;height:14px"></i> VENDEURS</div>
-<a href="chat.html?id=aicha-fashion" class="conv">
-  <div class="avatar vendor" style="background:#ec4899">
-    <i data-lucide="shirt"></i>
-    <div class="online"></div>
-  </div>
-  <div class="conv-info">
-    <div class="conv-head">
-      <div class="conv-name">Aïcha Fashion <i data-lucide="badge-check" style="width:14px;height:14px;color:#3b82f6"></i></div>
-      <div class="conv-time">13:45</div>
-    </div>
-    <div class="conv-msg">Bonjour ! Le boubou est disponible en XL...</div>
-    <div class="conv-tags">
-      <span class="tag tag-silver">Vendeur Silver</span>
-    </div>
-  </div>
-  <div class="conv-badge">3</div>
-</a>
-
-<a href="chat.html?id=moussa-tech" class="conv">
-  <div class="avatar vendor" style="background:#3b82f6">
-    <i data-lucide="smartphone"></i>
-  </div>
-  <div class="conv-info">
-    <div class="conv-head">
-      <div class="conv-name">Moussa Tech <i data-lucide="badge-check" style="width:14px;height:14px;color:#3b82f6"></i></div>
-      <div class="conv-time">Hier</div>
-    </div>
-    <div class="conv-msg">Merci pour votre commande ! Livraison...</div>
-    <div class="conv-tags">
-      <span class="tag tag-silver">Vendeur Gold</span>
-    </div>
-  </div>
-</a>
 
 <nav class="bottom-nav">
   <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
+  <a href="categories.html"><i data-lucide="layout-grid"></i><span>Catégories</span></a>
   <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
   <a href="messages.html" class="active"><i data-lucide="message-circle"></i><span>Messages</span></a>
-  <a href="profil.html"><i data-lucide="user"></i><span>Compte</span></a>
+  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
-<script>lucide.createIcons();</script>
-  <script>
-window.addEventListener('load', function(){
-  /* 1) Section LIVREURS + Assistant IA dans la zone vide */
-  var nav=document.querySelector('.bottom-nav, nav');
-  var vendeursTitle=null;
-  document.querySelectorAll('h2, .section-title, div').forEach(function(el){
-    if(el.textContent.trim()==='VENDEURS'||el.textContent.trim().indexOf('🏪 VENDEURS')!==-1) vendeursTitle=el;
-  });
-  var zone=vendeursTitle?vendeursTitle.parentElement:document.body;
-  if(!document.getElementById('extra-convs')){
-    var bloc=document.createElement('div');
-    bloc.id='extra-convs';
-    bloc.innerHTML=
-      '<h2 style="color:#a67c3a;font-size:13px;font-weight:800;margin:20px 16px 8px;letter-spacing:1px">🚚 LIVREURS</h2>'+
-      '<a href="chat.html?id=livreur-ousmane" class="conv" style="display:flex;align-items:center;gap:12px;background:#fff;margin:0 16px 10px;padding:14px;border-radius:16px;text-decoration:none;color:inherit;box-shadow:0 2px 8px rgba(0,0,0,.05)">'+
-        '<div style="width:48px;height:48px;border-radius:50%;background:#e8f5ee;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🛵</div>'+
-        '<div style="flex:1;min-width:0"><div style="font-weight:800;font-size:14px">Ousmane — Livreur ✅</div>'+
-        '<div style="font-size:12px;color:#666;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Votre colis #ST-2026-1247 arrive vers 18h…</div></div>'+
-        '<div style="font-size:11px;color:#999">12 min</div>'+
-      '</a>'+
-      '<h2 style="color:#a67c3a;font-size:13px;font-weight:800;margin:20px 16px 8px;letter-spacing:1px">🤖 ASSISTANT</h2>'+
-      '<a href="assistant-ia.html" class="conv" style="display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#0f6b4e,#0a4d38);margin:0 16px 90px;padding:14px;border-radius:16px;text-decoration:none;color:#fff">'+
-        '<div style="width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🤖</div>'+
-        '<div style="flex:1;min-width:0"><div style="font-weight:800;font-size:14px">Assistant SEN TEW</div>'+
-        '<div style="font-size:12px;opacity:.85">Pose-moi tes questions sur tes commandes…</div></div>'+
-        '<span style="background:#fcd116;color:#0a4d38;font-size:10px;font-weight:800;padding:3px 8px;border-radius:10px">24/7</span>'+
-      '</a>';
-    if(nav) document.body.insertBefore(bloc,nav); else document.body.appendChild(bloc);
-  }
+<script>
+var VENDORS = [];
 
-  /* 2) Recherche qui filtre les conversations en direct */
-  var search=document.querySelector('.search-input, input[placeholder*="Rechercher"]');
-  if(search){
-    search.addEventListener('input',function(){
-      var q=this.value.toLowerCase();
-      document.querySelectorAll('a.conv, a[href*="chat.html"]').forEach(function(c){
-        c.style.display=(q===''||c.textContent.toLowerCase().indexOf(q)!==-1)?'':'none';
-      });
-    });
-  }
+function threadGet(key){
+  try { return JSON.parse(localStorage.getItem('sentew_chat_' + key) || '[]'); } catch(e){ return []; }
+}
+function threadMeta(key){
+  var msgs = threadGet(key);
+  if (!msgs.length) return null;
+  var last = msgs[msgs.length-1];
+  var unread = msgs.filter(function(m){ return m.from !== 'me' && !m.read; }).length;
+  return { text: last.text, at: last.at, unread: unread };
+}
+function timeAgo(ts){
+  var d = Date.now() - ts;
+  if (d < 60000) return "à l'instant";
+  if (d < 3600000) return Math.floor(d/60000) + ' min';
+  if (d < 86400000) return Math.floor(d/3600000) + ' h';
+  return new Date(ts).toLocaleDateString('fr-FR', {day:'numeric', month:'short'});
+}
 
-  /* 3) Curseur + navigation garantie sur toutes les conversations */
-  document.querySelectorAll('a.conv, a[href*="chat.html"], .quick-btn').forEach(function(c){
-    c.style.cursor='pointer';
+function render(){
+  var q = document.getElementById('searchInput').value.trim().toLowerCase();
+  var vbox = document.getElementById('vendorList');
+  var sbox = document.getElementById('serviceList');
+
+  // --- Vendeurs (vrais, depuis Supabase) ---
+  var vrows = VENDORS.filter(function(v){
+    return !q || v.shop_name.toLowerCase().indexOf(q) !== -1;
   });
+  vbox.innerHTML = vrows.length ? vrows.map(function(v){
+    var meta = threadMeta('v_' + v.slug);
+    var hasLive = meta && meta.unread > 0;
+    return '<a class="conv" href="chat.html?v=' + v.slug + '">' +
+      '<div class="' + (hasLive ? 'online' : '') + '"><img class="cv-img" src="' + (v.logo_url||'') + '" alt=""></div>' +
+      '<div class="cv-main">' +
+        '<div class="cv-name">' + v.shop_name + ' <i data-lucide="badge-check" style="width:13px;color:#0f6b4e"></i> <span class="role role-vendor">Vendeur</span></div>' +
+        '<div class="cv-last">' + (meta ? meta.text.replace(/</g,'&lt;') : 'Dis bonjour à ' + v.shop_name + ' 👋') + '</div>' +
+      '</div>' +
+      '<div class="cv-right">' +
+        (meta ? '<div class="cv-time">' + timeAgo(meta.at) + '</div>' : '') +
+        (meta && meta.unread ? '<span class="cv-badge">' + meta.unread + '</span>' : '') +
+      '</div></a>';
+  }).join('') : '<div class="empty">Aucune boutique trouvée</div>';
+
+  // --- Livreur + Support ---
+  var services = [
+    { key: 'driver_omar', name: 'Omar Ndiaye', role: 'Livreur', roleCls: 'role-driver', av: 'ON', avBg: '#6d28d9', init: 'Ta course en cours — écris-moi ici 🛵', icon: 'bike' },
+    { key: 'support', name: 'Support SEN TEW', role: 'Support', roleCls: 'role-support', av: 'S', avBg: '#1e40af', init: 'Bonjour ! Une question ? On répond vite 💬', icon: 'headphones' }
+  ];
+  sbox.innerHTML = services.filter(function(s){
+    return !q || s.name.toLowerCase().indexOf(q) !== -1;
+  }).map(function(s){
+    var meta = threadMeta(s.key);
+    return '<a class="conv" href="chat.html?c=' + s.key + '">' +
+      '<div class="cv-av" style="background:' + s.avBg + '">' + s.av + '</div>' +
+      '<div class="cv-main">' +
+        '<div class="cv-name">' + s.name + ' <span class="role ' + s.roleCls + '">' + s.role + '</span></div>' +
+        '<div class="cv-last">' + (meta ? meta.text.replace(/</g,'&lt;') : s.init) + '</div>' +
+      '</div>' +
+      '<div class="cv-right">' +
+        (meta ? '<div class="cv-time">' + timeAgo(meta.at) + '</div>' : '') +
+        (meta && meta.unread ? '<span class="cv-badge">' + meta.unread + '</span>' : '') +
+      '</div></a>';
+  }).join('');
+
+  lucide.createIcons();
+}
+
+getVendors().then(function(vendors){
+  VENDORS = vendors || [];
+  render();
 });
+
+function renderIcons(){ if (window.lucide) lucide.createIcons(); }
+renderIcons();
+window.addEventListener('load', renderIcons);
+setTimeout(renderIcons, 600);
+cartBadge();
 </script>
+<script src="js/dark-mode.js"></script>
 </body>
 </html>
