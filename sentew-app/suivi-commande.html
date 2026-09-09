@@ -2,194 +2,285 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Suivi GPS - SEN TEW</title>
-<link rel="stylesheet" href="css/app.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Suivi de commande - SEN TEW</title>
 <script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/supabase.js"></script>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:80px;color:#0a1f17}
-  .topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:20}
-  .topbar h1{font-size:16px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
-  .topbar h1 i{width:19px;height:19px}
-  .icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e}
-  .icon-btn i{width:20px;height:20px}
-  /* CARTE GPS */
-  .gps-map{position:relative;height:300px;background:#e8f0ea;overflow:hidden}
-  .map-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(15,107,78,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(15,107,78,.07) 1px,transparent 1px);background-size:36px 36px}
-  .map-road{position:absolute;background:rgba(255,255,255,.9);box-shadow:0 0 0 1px rgba(15,107,78,.08)}
-  .road-h1{top:30%;left:0;right:0;height:10px;transform:rotate(-4deg)}
-  .road-h2{top:68%;left:0;right:0;height:8px;transform:rotate(3deg)}
-  .road-v1{top:0;bottom:0;left:28%;width:9px;transform:rotate(5deg)}
-  .road-v2{top:0;bottom:0;left:66%;width:8px;transform:rotate(-3deg)}
-  .map-river{position:absolute;bottom:0;left:0;right:0;height:46px;background:linear-gradient(to top,#bfdbfe,#dbeafe);border-radius:50% 50% 0 0/100% 100% 0 0;opacity:.7}
-  .map-label{position:absolute;font-size:9px;font-weight:800;color:#6B7280;background:rgba(255,255,255,.85);padding:2px 7px;border-radius:8px}
-  /* Trajet pointillé animé */
-  .route{position:absolute;z-index:3}
-  .route-dash{stroke:#0f6b4e;stroke-width:3;stroke-dasharray:8 6;fill:none;animation:dashMove 1.2s linear infinite}
-  @keyframes dashMove{to{stroke-dashoffset:-14}}
-  /* Point vendeur (départ) */
-  .pin-shop{position:absolute;z-index:4;display:flex;flex-direction:column;align-items:center;transform:translate(-50%,-100%)}
-  .pin-shop .pbox{background:#d4a574;color:#fff;padding:6px 10px;border-radius:10px;font-size:10px;font-weight:800;box-shadow:0 4px 10px rgba(0,0,0,.2);white-space:nowrap}
-  .pin-shop .pbox::after{content:'';position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#d4a574}
-  /* Point client (arrivée) */
-  .pin-home{position:absolute;z-index:4;display:flex;flex-direction:column;align-items:center;transform:translate(-50%,-100%)}
-  .pin-home .pbox{background:#0f6b4e;color:#fff;padding:6px 10px;border-radius:10px;font-size:10px;font-weight:800;box-shadow:0 4px 10px rgba(0,0,0,.2);white-space:nowrap}
-  .pin-home .pbox::after{content:'';position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#0f6b4e}
-  /* LIVREUR qui bouge le long du trajet */
-  .driver-dot{position:absolute;z-index:5;transform:translate(-50%,-50%);transition:left 1s linear,top 1s linear}
-  .driver-dot .ring{position:absolute;inset:-14px;border:3px solid rgba(230,57,70,.4);border-radius:50%;animation:ringPulse 1.6s infinite}
-  @keyframes ringPulse{0%{transform:scale(.6);opacity:1}100%{transform:scale(1.5);opacity:0}}
-  .driver-dot .dbody{width:38px;height:38px;background:#e63946;border:3px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(230,57,70,.5)}
-  .driver-dot .dbody i{width:18px;height:18px;color:#fff}
-  .gps-status{position:absolute;top:12px;left:12px;z-index:6;background:rgba(255,255,255,.95);backdrop-filter:blur(6px);padding:7px 12px;border-radius:20px;font-size:11px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:6px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
-  .gps-status .dot{width:8px;height:8px;background:#10b981;border-radius:50%;animation:pulse 1.2s infinite}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-  /* Carte ETA */
-  .eta-card{background:#fff;margin:-34px 16px 0;padding:16px;border-radius:16px;box-shadow:0 6px 18px rgba(0,0,0,.1);position:relative;z-index:10}
-  .eta-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-  .eta-top .big{font-size:22px;font-weight:900;color:#0f6b4e}
-  .eta-top .lbl{font-size:11px;color:#6B7280}
-  .progress{height:8px;background:#e5e7eb;border-radius:4px;overflow:hidden}
-  .progress .fill{height:100%;background:linear-gradient(90deg,#0f6b4e,#d4a574);border-radius:4px;transition:width 1s}
-  .progress-lbls{display:flex;justify-content:space-between;font-size:9px;color:#9aa5a0;margin-top:5px;font-weight:700}
-  /* Livreur */
-  .driver-card{display:flex;gap:12px;align-items:center;background:#fff;margin:12px 16px;padding:14px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
-  .driver-card img{width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid #0f6b4e}
-  .driver-card .dc-name{font-weight:800;font-size:14px;display:flex;align-items:center;gap:6px}
-  .driver-card .dc-meta{font-size:11px;color:#6B7280;margin-top:2px}
-  .dtype{font-size:8px;font-weight:800;padding:2px 6px;border-radius:6px;background:#0f6b4e;color:#fff;text-transform:uppercase}
-  .dc-actions{margin-left:auto;display:flex;gap:8px}
-  .dc-btn{width:40px;height:40px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
-  .dc-btn.call{background:#0f6b4e;color:#fff}
-  .dc-btn.msg{background:#f0f7f3;color:#0f6b4e;border:1.5px solid #0f6b4e33}
-  .dc-btn i{width:17px;height:17px}
-  /* Étapes */
-  .steps-card{background:#fff;margin:0 16px 12px;padding:16px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
-  .steps-card h3{font-size:13px;color:#0f6b4e;margin:0 0 10px;display:flex;align-items:center;gap:7px}
-  .steps-card h3 i{width:16px;height:16px}
-  .step{display:flex;gap:12px;padding:8px 0;position:relative}
-  .step .sdot{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#e5e7eb;color:#9aa5a0;z-index:2}
-  .step .sdot i{width:13px;height:13px}
-  .step.done .sdot{background:#0f6b4e;color:#fff}
-  .step.now .sdot{background:#e63946;color:#fff;animation:pulse 1.2s infinite}
-  .step .stx b{font-size:13px;display:block}
-  .step .stx small{font-size:11px;color:#9aa5a0}
-  .step.now .stx b{color:#e63946}
-  .step-line{position:absolute;left:11px;top:32px;bottom:-8px;width:2px;background:#e5e7eb}
-  .step:last-child .step-line{display:none}
-  .step.done .step-line{background:#0f6b4e}
-  .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100}
-  .bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#666;font-size:11px}
-  .bottom-nav a.active{color:#0f6b4e}
-  .bottom-nav a i{width:22px;height:22px}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;max-width:100vw}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:30px;color:#0a1f17}
+.topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:40}
+.topbar h1{font-size:16px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
+.icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e;text-decoration:none}
+/* ===== Carte GPS animée ===== */
+.map{position:relative;margin:14px;background:#e8f0ea;border-radius:20px;height:250px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.map-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(15,107,78,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(15,107,78,.07) 1px,transparent 1px);background-size:34px 34px}
+.map-road{position:absolute;left:12%;right:12%;top:48%;height:6px;background:#fff;border-radius:3px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.map-shop{position:absolute;left:9%;top:37%;text-align:center;z-index:3}
+.map-shop .ms-dot{width:40px;height:40px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#b8860b;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(0,0,0,.25)}
+.map-shop .ms-dot svg{transform:rotate(45deg);color:#fff;width:18px;height:18px}
+.map-shop span,.map-home span{font-size:9px;font-weight:800;color:#0a1f17;background:#fff;padding:2px 8px;border-radius:8px;margin-top:5px;display:inline-block;box-shadow:0 2px 5px rgba(0,0,0,.12);white-space:nowrap}
+.map-home{position:absolute;right:9%;top:37%;text-align:center;z-index:3}
+.map-home .ms-dot{width:40px;height:40px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#0f6b4e;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(0,0,0,.25)}
+.map-home .ms-dot svg{transform:rotate(45deg);color:#fff;width:18px;height:18px}
+.map-driver{position:absolute;top:37%;left:9%;z-index:4;transition:left 2.5s ease-in-out;text-align:center}
+.map-driver .md{width:44px;height:44px;border-radius:50%;background:#e63946;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(230,57,70,.5);border:3px solid #fff}
+.map-driver .md svg{color:#fff;width:20px;height:20px}
+.map-driver .ring{position:absolute;inset:-8px;border-radius:50%;border:2px solid rgba(230,57,70,.4);animation:ring 1.6s infinite}
+@keyframes ring{0%{transform:scale(.8);opacity:1}100%{transform:scale(1.5);opacity:0}}
+.map-driver span{font-size:9px;font-weight:800;color:#fff;background:#e63946;padding:2px 8px;border-radius:8px;display:inline-block;margin-top:5px;white-space:nowrap}
+/* ETA */
+.eta{position:absolute;top:12px;left:12px;right:12px;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:10px;z-index:5;box-shadow:0 3px 10px rgba(0,0,0,.1)}
+.eta i{color:#0f6b4e;flex-shrink:0}
+.eta b{font-size:13px;color:#0a1f17;display:block}
+.eta span{font-size:11px;color:#6B7280}
+/* ===== Statut + progression ===== */
+.bloc{background:#fff;margin:12px 14px 0;border-radius:16px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.bloc h2{font-size:12px;font-weight:800;color:#b8860b;letter-spacing:.5px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.status-big{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.status-big .si{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.status-big b{font-size:16px;color:#0a1f17;display:block}
+.status-big span{font-size:12px;color:#6B7280}
+.progress{display:flex;align-items:flex-start;margin-top:12px}
+.pstep{flex:1;text-align:center;position:relative}
+.pstep .dot{width:28px;height:28px;border-radius:50%;background:#e5e7eb;color:#9aa5a0;display:flex;align-items:center;justify-content:center;margin:0 auto;position:relative;z-index:2}
+.pstep .dot svg{width:14px;height:14px}
+.pstep.done .dot{background:#0f6b4e;color:#fff}
+.pstep.now .dot{background:#e63946;color:#fff;animation:pulse 1.4s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(230,57,70,.4)}50%{box-shadow:0 0 0 8px rgba(230,57,70,0)}}
+.pstep span{font-size:9.5px;font-weight:700;color:#9aa5a0;display:block;margin-top:5px;line-height:1.2}
+.pstep.done span,.pstep.now span{color:#0a1f17}
+.pstep::before{content:'';position:absolute;top:14px;left:-50%;width:100%;height:2.5px;background:#e5e7eb;z-index:1}
+.pstep:first-child::before{display:none}
+.pstep.done::before{background:#0f6b4e}
+.pstep .ptime{font-size:8.5px;color:#9aa5a0;font-weight:600;display:block;margin-top:1px}
+/* ===== Livreur ===== */
+.driver-card{display:flex;align-items:center;gap:12px}
+.driver-card .da{width:50px;height:50px;border-radius:50%;background:#0f6b4e;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:17px;flex-shrink:0}
+.driver-card b{font-size:14px;display:block}
+.driver-card small{font-size:11px;color:#6B7280;display:flex;align-items:center;gap:4px}
+.driver-card .actions{margin-left:auto;display:flex;gap:8px}
+.driver-card .actions a,.driver-card .actions button{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;border:none;cursor:pointer}
+.act-call{background:#0f6b4e;color:#fff}
+.act-msg{background:#e8f5f0;color:#0f6b4e;border:1.5px solid #0f6b4e !important}
+/* ===== Timeline (vrais événements) ===== */
+.timeline{position:relative;padding-left:26px}
+.timeline::before{content:'';position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:#e5e7eb}
+.tl-item{position:relative;padding:7px 0}
+.tl-item .tl-dot{position:absolute;left:-24px;top:10px;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid #d1d5db}
+.tl-item.done .tl-dot{border-color:#0f6b4e;background:#0f6b4e}
+.tl-item.now .tl-dot{border-color:#e63946;background:#e63946;animation:pulse 1.4s infinite}
+.tl-item b{font-size:12.5px;color:#0a1f17;display:block}
+.tl-item span{font-size:11px;color:#9aa5a0}
+.tl-item .tl-note{font-size:11px;color:#6B7280;font-style:italic}
+/* ===== Code + articles ===== */
+.deliv-code{background:#0a1f17;border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;margin-top:8px}
+.deliv-code .dc-lab{font-size:10px;color:#9aa5a0;flex:1;line-height:1.4}
+.deliv-code .dc-lab b{color:#fff;display:block;font-size:11px;margin-bottom:2px}
+.deliv-code .dc-val{font-family:monospace;font-size:21px;font-weight:900;color:#4ade80;letter-spacing:5px;min-width:76px;text-align:center}
+.deliv-code .dc-eye{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.12);border:none;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.o-item{display:flex;align-items:center;gap:8px;font-size:12px;color:#4b5563;padding:5px 0;border-bottom:1px solid #f0f0ea}
+.o-item:last-child{border:none}
+.o-item .qi{width:20px;height:20px;border-radius:6px;background:#e8f5f0;color:#0f6b4e;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.o-item b{color:#0a1f17}
+/* Astuce + actions */
+.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:12px 14px 0;font-size:12px;color:#92400e;cursor:pointer;line-height:1.5}
+.tip i{color:#b45309;flex-shrink:0;width:16px;height:16px;margin-top:1px}
+.actions{display:flex;gap:10px;padding:14px}
+.actions a,.actions button{flex:1;padding:13px;border-radius:12px;font-size:12.5px;font-weight:800;text-decoration:none;text-align:center;cursor:pointer;border:none;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px}
+.a-line{background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e}
+.a-red{background:#fff;border:1.5px solid #fecaca;color:#e63946}
+.a-green{background:#0f6b4e;color:#fff}
+/* Erreur */
+.err{text-align:center;padding:70px 24px;color:#9aa5a0}
+.err h3{color:#0a1f17;margin:12px 0 6px}
+.err a{display:inline-block;margin-top:14px;padding:12px 24px;background:#0f6b4e;color:#fff;border-radius:12px;text-decoration:none;font-weight:800;font-size:13px}
+/* Modale */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.m-box{background:#fff;border-radius:20px;padding:20px;width:100%;max-width:360px}
+.m-box h3{font-size:15px;font-weight:800;margin-bottom:8px}
+.m-box p{font-size:12px;color:#6B7280;line-height:1.7}
+.m-btns{display:flex;gap:8px;margin-top:14px}
+.m-btns button{flex:1;padding:12px;border:none;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;background:#0f6b4e;color:#fff}
+.refresh-note{text-align:center;font-size:10px;color:#9aa5a0;margin-top:14px;display:flex;align-items:center;justify-content:center;gap:5px}
 </style>
 </head>
-<body class="light-mode">
+<body>
 
 <header class="topbar">
   <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
-  <h1><i data-lucide="map-pin"></i> Suivi GPS · #ST-2026-1247</h1>
-  <button class="icon-btn" onclick="location.reload()"><i data-lucide="refresh-cw"></i></button>
+  <h1><i data-lucide="map-pin"></i> Suivi <span id="trackCode" style="font-family:monospace;color:#9aa5a0;font-size:13px"></span></h1>
+  <button class="icon-btn" onclick="load(true)"><i data-lucide="refresh-cw"></i></button>
 </header>
 
-<!-- ===== CARTE GPS ANIMÉE ===== -->
-<div class="gps-map">
-  <div class="map-grid"></div>
-  <div class="map-road road-h1"></div>
-  <div class="map-road road-h2"></div>
-  <div class="map-road road-v1"></div>
-  <div class="map-road road-v2"></div>
-  <div class="map-river"></div>
-  <span class="map-label" style="top:12%;left:8%">🏪 Sacré-Cœur</span>
-  <span class="map-label" style="top:52%;left:44%">🕌 Grand Mosquée</span>
-  <span class="map-label" style="bottom:58px;right:8%">🌊 Corniche</span>
+<div id="page"><div class="err">Chargement du suivi…</div></div>
 
-  <div class="gps-status"><span class="dot"></span> GPS en direct</div>
-
-  <!-- Trajet -->
-  <svg class="route" style="inset:0;width:100%;height:100%" viewBox="0 0 100 100" preserveAspectRatio="none">
-    <path class="route-dash" d="M18,22 C 35,30 45,45 55,58 S 75,72 82,80" vector-effect="non-scaling-stroke"/>
-  </svg>
-
-  <!-- Départ (vendeur) -->
-  <div class="pin-shop" style="left:18%;top:22%"><div class="pbox">🏪 Boutique</div></div>
-  <!-- Arrivée (client) -->
-  <div class="pin-home" style="left:82%;top:80%"><div class="pbox">📍 Chez vous</div></div>
-  <!-- Livreur en mouvement -->
-  <div class="driver-dot" id="driverDot" style="left:18%;top:22%">
-    <div class="ring"></div>
-    <div class="dbody"><i data-lucide="bike"></i></div>
+<div class="modal" id="tipModal">
+  <div class="m-box">
+    <h3>💡 Ton suivi en direct</h3>
+    <p>
+      <b>🗺️ La carte</b> — Le point rouge est ton livreur. Il avance à chaque étape : retrait chez le vendeur, route, arrivée. Sa vraie position GPS est partagée quand il est « En route ».<br><br>
+      <b>📜 La timeline</b> — Chaque événement est enregistré avec l'heure exacte : acceptation, retrait (scan QR chez le vendeur), départ, livraison (ton code).<br><br>
+      <b>🔐 Ton code à 4 chiffres</b> — Révèle-le seulement quand le livreur est devant toi avec le colis. Jamais par téléphone !<br><br>
+      <b>⚠️ Un problème ?</b> — « Signaler un problème » bloque le paiement jusqu'à résolution. Ton argent est protégé.
+    </p>
+    <div class="m-btns"><button onclick="document.getElementById('tipModal').classList.remove('show')">Compris</button></div>
   </div>
 </div>
-
-<!-- ETA -->
-<div class="eta-card">
-  <div class="eta-top">
-    <div><div class="big" id="etaMin">18 min</div><div class="lbl">Arrivée estimée</div></div>
-    <div style="text-align:right"><div style="font-size:13px;font-weight:800;color:#0a1f17">Ousmane est en route 🛵</div><div class="lbl">Distance : <span id="etaKm">3,2 km</span></div></div>
-  </div>
-  <div class="progress"><div class="fill" id="progressFill" style="width:20%"></div></div>
-  <div class="progress-lbls"><span>Boutique</span><span>En route</span><span>Chez vous</span></div>
-</div>
-
-<!-- Livreur -->
-<div class="driver-card">
-  <img src="https://i.pravatar.cc/100?img=12" alt="Ousmane">
-  <div style="flex:1;min-width:0">
-    <div class="dc-name">Ousmane Diallo <span class="dtype">Propre</span></div>
-    <div class="dc-meta">🛵 Moto · Dakar Plateau · ⭐ 4.9 · 340 livraisons</div>
-  </div>
-  <div class="dc-actions">
-    <button class="dc-btn call" onclick="alert('📞 Appel du livreur Ousmane...')"><i data-lucide="phone"></i></button>
-    <button class="dc-btn msg" onclick="location.href='chat.html?id=livreur-ousmane'"><i data-lucide="message-circle"></i></button>
-  </div>
-</div>
-
-<!-- Étapes -->
-<div class="steps-card">
-  <h3><i data-lucide="clipboard-list"></i> Suivi de la commande</h3>
-  <div class="step done"><div class="sdot"><i data-lucide="check"></i></div><div class="step-line"></div><div class="stx"><b>Commande confirmée</b><small>Aujourd'hui · 14:02</small></div></div>
-  <div class="step done"><div class="sdot"><i data-lucide="package"></i></div><div class="step-line"></div><div class="stx"><b>Colis préparé par la boutique</b><small>Aujourd'hui · 14:35</small></div></div>
-  <div class="step done"><div class="sdot"><i data-lucide="bike"></i></div><div class="step-line"></div><div class="stx"><b>Ramassé par Ousmane</b><small>Aujourd'hui · 15:10</small></div></div>
-  <div class="step now"><div class="sdot"><i data-lucide="navigation"></i></div><div class="step-line"></div><div class="stx"><b>En route vers vous</b><small>Position GPS en direct</small></div></div>
-  <div class="step"><div class="sdot"><i data-lucide="home"></i></div><div class="stx"><b>Livré</b><small>Estimé vers 18h</small></div></div>
-</div>
-
-<nav class="bottom-nav">
-  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="layout-grid"></i><span>Catégories</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
-  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
-  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
-</nav>
 
 <script>
-lucide.createIcons();
+var ORDER = null, EVENTS = [], DRIVER = null, CODE_SHOWN = false;
+var t = new URLSearchParams(location.search).get('t');
 
-/* ===== ANIMATION GPS : le livreur avance le long du trajet ===== */
-var path=[
-  [18,22],[24,26],[30,31],[36,37],[42,44],[48,51],[55,58],[61,63],[68,68],[75,73],[82,80]
+var STEPS = [
+  { key: 'confirmed',  label: 'Confirmée',   icon: 'check' },
+  { key: 'picked_up',  label: 'Récupérée',   icon: 'package' },
+  { key: 'in_transit', label: 'En route',    icon: 'bike' },
+  { key: 'delivered',  label: 'Livrée',      icon: 'home' }
 ];
-var step=0;
-var totalMin=18, totalKm=3.2;
-setInterval(function(){
-  if(step<path.length-1) step++;
-  var pos=path[step];
-  var dot=document.getElementById('driverDot');
-  dot.style.left=pos[0]+'%';
-  dot.style.top=pos[1]+'%';
-  /* progression + ETA qui diminuent */
-  var pct=Math.round(20 + (step/(path.length-1))*80);
-  document.getElementById('progressFill').style.width=pct+'%';
-  var minLeft=Math.max(0, Math.round(totalMin*(1-step/(path.length-1))));
-  var kmLeft=(totalKm*(1-step/(path.length-1))).toFixed(1).replace('.',',');
-  document.getElementById('etaMin').textContent=minLeft>0?minLeft+' min':'Arrivé !';
-  document.getElementById('etaKm').textContent=kmLeft+' km';
-  if(step===path.length-1){
-    document.querySelector('.step.now .stx b').textContent='Ousmane est arrivé ! 🎉';
+var STATUS_TXT = {
+  confirmed:  ['Commande confirmée', 'Le vendeur prépare ton colis', '#dbeafe', '#1e40af'],
+  preparing:  ['En préparation', 'Le vendeur emballe ton colis', '#fef3c7', '#92400e'],
+  picked_up:  ['Colis récupéré', 'Le livreur a ton colis en main', '#fef3c7', '#92400e'],
+  in_transit: ['En route !', 'Le livreur arrive vers toi', '#ede9fe', '#6d28d9'],
+  delivered:  ['Livrée 🎉', 'Bonne réception !', '#d1fae5', '#065f46'],
+  cancelled:  ['Annulée', 'Contacte le support si besoin', '#fee2e2', '#b91c1c']
+};
+var DRIVER_POS = { confirmed: 12, preparing: 12, picked_up: 32, in_transit: 58, delivered: 82 };
+var ETA_TXT = { confirmed: 'Estimation : 24-48h', preparing: 'Estimation : 24-48h', picked_up: 'Arrivée : ~35 min', in_transit: 'Arrivée : ~15 min', delivered: 'Livrée' };
+
+function load(manual){
+  supa('orders', 'select=*&tracking_code=eq.' + encodeURIComponent(t || '')).then(function(rows){
+    if (!rows || !rows.length || rows.code) {
+      document.getElementById('page').innerHTML = '<div class="err"><i data-lucide="package-search" style="width:46px;color:#d1d5db"></i><h3>Suivi introuvable</h3><p>Vérifie ton code de suivi (ex : STW-XXXXXX).</p><a href="commandes.html">Voir mes commandes</a></div>';
+      lucide.createIcons(); return;
+    }
+    ORDER = rows[0];
+    supa('order_events', 'select=*&order_id=eq.' + ORDER.id + '&order=created_at.asc').then(function(evs){
+      EVENTS = evs || [];
+      if (ORDER.driver_id) {
+        supa('drivers', 'select=*&id=eq.' + ORDER.driver_id).then(function(d){
+          DRIVER = d && d[0] ? d[0] : null;
+          render();
+        });
+      } else { DRIVER = null; render(); }
+      if (manual) toast('✓ Suivi actualisé');
+    });
+  });
+}
+
+function render(){
+  var o = ORDER;
+  document.getElementById('trackCode').textContent = o.tracking_code || '';
+  var st = STATUS_TXT[o.status] || STATUS_TXT.confirmed;
+  var idx = o.status === 'delivered' ? 3 : o.status === 'in_transit' ? 2 : (o.status === 'picked_up' || o.status === 'preparing') ? 1 : 0;
+
+  // Événement par étape (pour heures exactes)
+  function evTime(status){
+    var ev = EVENTS.find(function(e){ return e.status === status; });
+    return ev ? new Date(ev.created_at).toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}) : '';
   }
-},2000);
+
+  var html =
+  // ===== CARTE =====
+  '<div class="map">' +
+    '<div class="map-grid"></div>' +
+    '<div class="map-road"></div>' +
+    '<div class="eta"><i data-lucide="clock" style="width:18px"></i><div><b>' + (ETA_TXT[o.status] || '') + '</b><span>' + (o.address || '') + ', ' + (o.city || 'Dakar') + '</span></div></div>' +
+    '<div class="map-shop"><div class="ms-dot"><i data-lucide="store"></i></div><span>Vendeur</span></div>' +
+    '<div class="map-driver" id="driverDot" style="left:' + (DRIVER_POS[o.status] || 12) + '%"><div class="md"><div class="ring"></div><i data-lucide="bike"></i></div><span>' + (DRIVER ? DRIVER.full_name.split(' ')[0] : 'Livreur') + '</span></div>' +
+    '<div class="map-home"><div class="ms-dot"><i data-lucide="home"></i></div><span>Toi</span></div>' +
+  '</div>' +
+
+  // ===== STATUT + PROGRESSION =====
+  '<div class="bloc"><div class="status-big">' +
+    '<div class="si" style="background:' + st[2] + ';color:' + st[3] + '"><i data-lucide="' + (o.status === 'delivered' ? 'check' : o.status === 'in_transit' ? 'bike' : 'package') + '" style="width:22px"></i></div>' +
+    '<div><b>' + st[0] + '</b><span>' + st[1] + '</span></div></div>' +
+    '<div class="progress">' + STEPS.map(function(s, i){
+      var cls = i < idx ? 'done' : i === idx ? 'now' : '';
+      if (o.status === 'delivered') cls = 'done';
+      return '<div class="pstep ' + cls + '"><div class="dot"><i data-lucide="' + s.icon + '"></i></div><span>' + s.label + '</span><span class="ptime">' + (evTime(s.key) || '') + '</span></div>';
+    }).join('') + '</div></div>';
+
+  // ===== LIVREUR =====
+  if (DRIVER) {
+    var init = DRIVER.full_name.split(' ').map(function(w){ return w[0]; }).join('').slice(0,2).toUpperCase();
+    html += '<div class="bloc"><h2><i data-lucide="bike" style="width:14px"></i> TON LIVREUR</h2>' +
+      '<div class="driver-card">' +
+        '<div class="da">' + init + '</div>' +
+        '<div><b>' + DRIVER.full_name + '</b><small><i data-lucide="star" style="width:11px;color:#f59e0b"></i> ' + (DRIVER.rating || '5.0') + ' · ' + (DRIVER.vehicle || 'Moto') + ' · ' + (DRIVER.type === 'propre' ? 'Livreur SEN TEW' : 'Partenaire') + '</small></div>' +
+        '<div class="actions">' +
+          '<a class="act-call" href="tel:' + (DRIVER.phone || '') + '"><i data-lucide="phone" style="width:17px"></i></a>' +
+          '<a class="act-msg" href="chat.html?driver=1"><i data-lucide="message-circle" style="width:17px"></i></a>' +
+        '</div></div></div>';
+  }
+
+  // ===== TIMELINE (vrais événements) =====
+  html += '<div class="bloc"><h2><i data-lucide="list-checks" style="width:14px"></i> HISTORIQUE DU COLIS</h2><div class="timeline">';
+  var tlEvents = [
+    { status: 'confirmed', label: 'Commande confirmée', def: new Date(o.created_at) },
+    { status: 'picked_up', label: 'Colis récupéré chez le vendeur' },
+    { status: 'in_transit', label: 'En route vers toi' },
+    { status: 'delivered', label: 'Livrée — confirmée par ton code' }
+  ];
+  var nowIdx = idx;
+  html += tlEvents.map(function(te, i){
+    var ev = EVENTS.find(function(e){ return e.status === te.status; });
+    var dt = ev ? new Date(ev.created_at) : (i === 0 ? te.def : null);
+    var cls = i < nowIdx || o.status === 'delivered' ? 'done' : i === nowIdx ? 'now' : '';
+    return '<div class="tl-item ' + cls + '"><span class="tl-dot"></span>' +
+      '<b>' + te.label + '</b>' +
+      (dt ? '<span>' + dt.toLocaleDateString('fr-FR', {day:'numeric', month:'short'}) + ' · ' + dt.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}) + '</span>' : '<span>En attente…</span>') +
+      (ev && ev.note ? '<div class="tl-note">' + ev.note + '</div>' : '') +
+    '</div>';
+  }).join('');
+  html += '</div></div>';
+
+  // ===== CODE DE LIVRAISON =====
+  if (o.status !== 'delivered' && o.status !== 'cancelled' && o.delivery_code) {
+    html += '<div class="bloc"><h2><i data-lucide="key-round" style="width:14px"></i> TON CODE DE LIVRAISON</h2>' +
+      '<div class="deliv-code" onclick="toggleCode()">' +
+        '<div class="dc-lab"><b>🔐 Code secret à 4 chiffres</b>Révèle-le uniquement face au livreur avec ton colis</div>' +
+        '<div class="dc-val">' + (CODE_SHOWN ? o.delivery_code : '••••') + '</div>' +
+        '<button class="dc-eye"><i data-lucide="' + (CODE_SHOWN ? 'eye-off' : 'eye') + '" style="width:15px"></i></button>' +
+      '</div></div>';
+  }
+
+  // ===== ARTICLES =====
+  html += '<div class="bloc"><h2><i data-lucide="package" style="width:14px"></i> CONTENU DU COLIS</h2>' +
+    (o.items || []).map(function(i){
+      return '<div class="o-item"><span class="qi">' + i.qty + '</span><span><b>' + i.name + '</b>' + (i.vendor ? ' · <span style="color:#b8860b">' + i.vendor + '</span>' : '') + '</span><span style="margin-left:auto;font-weight:700;color:#0f6b4e">' + fmtPrix(i.price * i.qty) + ' F</span></div>';
+    }).join('') +
+    '<div style="display:flex;justify-content:space-between;margin-top:8px;padding-top:10px;border-top:2px solid #f0f0ea;font-size:14px;font-weight:900"><span>Total</span><span style="color:#0f6b4e">' + fmtPrix(o.total) + ' FCFA</span></div></div>';
+
+  // ===== ASTUCE + ACTIONS =====
+  html += '<div class="tip" onclick="document.getElementById(\'tipModal\').classList.add(\'show\')"><i data-lucide="info"></i><span><b>Comment marche le suivi en direct ?</b> Carte, timeline, code secret — touche pour tout comprendre.</span></div>' +
+    '<div class="actions">' +
+      (o.status !== 'delivered' && o.status !== 'cancelled'
+        ? '<a class="a-red" href="litige.html?order=' + o.tracking_code + '"><i data-lucide="flag" style="width:14px"></i> Signaler un problème</a>' +
+          '<a class="a-line" href="support.html"><i data-lucide="headphones" style="width:14px"></i> Support</a>'
+        : '<a class="a-green" href="avis.html?order=' + o.id + '"><i data-lucide="star" style="width:14px"></i> Noter ma commande</a>' +
+          '<a class="a-line" href="index.html"><i data-lucide="shopping-bag" style="width:14px"></i> Recommander</a>') +
+    '</div>' +
+    '<div class="refresh-note"><i data-lucide="refresh-cw" style="width:11px"></i> Actualisation automatique toutes les 15 secondes</div>';
+
+  document.getElementById('page').innerHTML = html;
+  lucide.createIcons();
+}
+
+function toggleCode(){ CODE_SHOWN = !CODE_SHOWN; render(); }
+
+if (!t) {
+  document.getElementById('page').innerHTML = '<div class="err"><i data-lucide="package-search" style="width:46px;color:#d1d5db"></i><h3>Aucun code de suivi</h3><p>Ouvre le suivi depuis ta commande.</p><a href="commandes.html">Voir mes commandes</a></div>';
+  lucide.createIcons();
+} else {
+  load();
+  setInterval(load, 15000); // temps réel
+}
+lucide.createIcons();
 </script>
+<script src="js/dark-mode.js"></script>
 </body>
 </html>
