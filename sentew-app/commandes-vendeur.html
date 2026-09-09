@@ -1,124 +1,260 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Commandes - SEN TEW</title>
-  <link rel="stylesheet" href="css/app.css?v=52">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
-    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 10; }
-    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
-    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
-    .filter-bar { display: flex; gap: 8px; padding: 12px 16px; overflow-x: auto; background: #fff; border-bottom: 1px solid #e5e7eb; }
-    .chip { background: #f5f5f0; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
-    .chip.active { background: #0f6b4e; color: #fff; }
-    .cmd { background: #fff; margin: 10px 16px; padding: 14px; border-radius: 12px; text-decoration: none; color: inherit; display: block; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-    .cmd-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-    .cmd-num { font-weight: 800; color: #0f6b4e; font-size: 15px; }
-    .badge { padding: 3px 10px; border-radius: 10px; font-size: 10px; font-weight: 700; }
-    .b-new { background: #dbeafe; color: #1e40af; }
-    .b-prep { background: #fef3c7; color: #92400e; }
-    .b-ship { background: #e0e7ff; color: #4338ca; }
-    .b-done { background: #d1fae5; color: #065f46; }
-    .cmd-body { display: flex; gap: 12px; align-items: center; padding: 8px 0; border-top: 1px solid #f0f0f0; }
-    .cmd-icon { width: 44px; height: 44px; background: #f5f5f0; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-    .cmd-icon i { color: #d4a574; }
-    .cmd-info { flex: 1; }
-    .prod { font-weight: 600; font-size: 13px; }
-    .client { color: #666; font-size: 12px; margin-top: 2px; }
-    .cmd-price { color: #0f6b4e; font-weight: 800; }
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
-    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
-    .bottom-nav a.active { color: #0f6b4e; }
-    .bottom-nav a i { width: 22px; height: 22px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Commandes - Espace Vendeur</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/supabase.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;max-width:100vw;width:100%}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:86px;color:#0a1f17}
+.topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:40}
+.topbar h1{font-size:17px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
+.icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e;text-decoration:none}
+/* Stats */
+.mini-stats{display:flex;gap:8px;padding:12px 14px 0}
+.mini-stat{flex:1;background:#fff;border-radius:12px;padding:11px 6px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.mini-stat b{display:block;font-size:15px}
+.mini-stat span{font-size:10px;color:#6B7280}
+.ms1 b{color:#1e40af}.ms2 b{color:#92400e}.ms3 b{color:#6d28d9}.ms4 b{color:#065f46}
+/* Onglets */
+.tabs{display:flex;gap:7px;overflow-x:auto;padding:12px 14px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:8px 14px;border-radius:18px;border:1.5px solid #e5e7eb;background:#fff;font-size:11px;font-weight:700;color:#4b5563;cursor:pointer;white-space:nowrap}
+.tab.on{background:#0f6b4e;color:#fff;border-color:#0f6b4e}
+/* Carte commande */
+.order{background:#fff;margin:0 14px 12px;border-radius:16px;padding:14px;box-shadow:0 2px 8px rgba(0,0,0,.05);animation:fadeIn .25s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.o-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.o-code{font-size:13px;font-weight:900;font-family:monospace;flex:1}
+.o-status{font-size:10px;font-weight:800;padding:4px 10px;border-radius:12px}
+.st-confirmed{background:#dbeafe;color:#1e40af}
+.st-preparing{background:#fef3c7;color:#92400e}
+.st-picked_up{background:#fef3c7;color:#92400e}
+.st-in_transit{background:#ede9fe;color:#6d28d9}
+.st-delivered{background:#d1fae5;color:#065f46}
+.st-cancelled{background:#fee2e2;color:#b91c1c}
+.o-date{font-size:10px;color:#9aa5a0;margin-bottom:8px}
+.o-items{background:#f9fafb;border-radius:10px;padding:9px 11px;font-size:12px;color:#4b5563;margin-bottom:8px;line-height:1.6}
+.o-items b{color:#0a1f17}
+.o-client{display:flex;align-items:center;gap:8px;font-size:12px;color:#4b5563;padding:4px 0}
+.o-client i{color:#0f6b4e;width:15px;height:15px;flex-shrink:0}
+.o-total{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#6B7280;margin-top:8px}
+.o-total b{font-size:16px;font-weight:900;color:#0f6b4e}
+.o-earn{font-size:10px;color:#059669;font-weight:700;text-align:right}
+/* Actions */
+.o-actions{display:flex;gap:8px;margin-top:10px}
+.btn{flex:1;padding:11px;border-radius:11px;font-size:11.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;border:none;font-family:inherit;text-decoration:none}
+.btn-green{background:#0f6b4e;color:#fff}
+.btn-amber{background:#f59e0b;color:#fff}
+.btn-line{background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e}
+/* Astuce ⓘ */
+.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:12px 14px;font-size:12px;color:#92400e;cursor:pointer;line-height:1.5}
+.tip i{color:#b45309;flex-shrink:0;width:16px;height:16px;margin-top:1px}
+/* ===== MODALE QR COLIS ===== */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.m-box{background:#fff;border-radius:22px;padding:22px;width:100%;max-width:340px;text-align:center}
+.m-box h3{font-size:16px;font-weight:900;margin-bottom:4px}
+.m-box .m-sub{font-size:12px;color:#6B7280;margin-bottom:14px;line-height:1.5}
+.qr-frame{background:#fff;border:3px solid #0f6b4e;border-radius:18px;padding:14px;display:inline-block;box-shadow:0 6px 20px rgba(15,107,78,.2)}
+.qr-frame img{width:210px;height:210px;display:block}
+.qr-code-txt{font-family:monospace;font-size:17px;font-weight:900;letter-spacing:2px;margin-top:12px;color:#0a1f17}
+.qr-pickup{margin-top:10px;background:#fef3c7;border-radius:12px;padding:10px;font-size:12px;color:#92400e}
+.qr-pickup b{font-family:monospace;font-size:19px;letter-spacing:5px;color:#78350f;display:block;margin-top:3px}
+.m-btns{display:flex;gap:8px;margin-top:16px}
+.m-btns button{flex:1;padding:13px;border:none;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer}
+.b-green{background:#0f6b4e;color:#fff}
+.b-grey{background:#e5e7eb;color:#4b5563}
+/* Vide */
+.empty{text-align:center;padding:50px 24px;color:#9aa5a0;font-size:13px}
+.empty h3{color:#0a1f17;margin:12px 0 6px;font-size:16px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
+.bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600;min-height:44px;justify-content:center;position:relative}
+.bottom-nav a.active{color:#0f6b4e}
+.bottom-nav a svg{width:22px;height:22px}
+</style>
 </head>
-<body class="light-mode">
+<body>
 
 <header class="topbar">
-  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
-  <h1><i data-lucide="clipboard-list"></i> Commandes</h1>
-  <button class="icon-btn"><i data-lucide="filter"></i></button>
+  <button class="icon-btn" onclick="location.href='vendeur.html'"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="shopping-bag"></i> Commandes reçues</h1>
+  <button class="icon-btn" onclick="load(true)"><i data-lucide="refresh-cw"></i></button>
 </header>
 
-<div class="filter-bar">
-  <span class="chip active">Toutes (12)</span>
-  <span class="chip">Nouvelles (3)</span>
-  <span class="chip">Préparation (2)</span>
-  <span class="chip">Expédiées (4)</span>
-  <span class="chip">Livrées (3)</span>
+<div class="mini-stats">
+  <div class="mini-stat ms1"><b id="msNew">0</b><span>À préparer</span></div>
+  <div class="mini-stat ms2"><b id="msPrep">0</b><span>En préparation</span></div>
+  <div class="mini-stat ms3"><b id="msShip">0</b><span>En livraison</span></div>
+  <div class="mini-stat ms4"><b id="msDone">0</b><span>Livrées</span></div>
 </div>
 
-<a href="commande-detail.html?id=ST24073" class="cmd">
-  <div class="cmd-head">
-    <span class="cmd-num">#ST24073</span>
-    <span class="badge b-new">Nouvelle</span>
-  </div>
-  <div class="cmd-body">
-    <div class="cmd-icon"><i data-lucide="package"></i></div>
-    <div class="cmd-info">
-      <div class="prod">iPhone 15 Pro 256GB</div>
-      <div class="client">Karim Niang · Dakar · il y a 2h</div>
-    </div>
-    <div class="cmd-price">850k</div>
-  </div>
-</a>
+<div class="tabs" id="tabs">
+  <button class="tab on" onclick="setTab('todo',this)">À traiter</button>
+  <button class="tab" onclick="setTab('ship',this)">En livraison</button>
+  <button class="tab" onclick="setTab('done',this)">Livrées</button>
+  <button class="tab" onclick="setTab('all',this)">Toutes</button>
+</div>
 
-<a href="commande-detail.html?id=ST24072" class="cmd">
-  <div class="cmd-head">
-    <span class="cmd-num">#ST24072</span>
-    <span class="badge b-ship">Expédiée</span>
-  </div>
-  <div class="cmd-body">
-    <div class="cmd-icon"><i data-lucide="truck"></i></div>
-    <div class="cmd-info">
-      <div class="prod">AirPods Pro 2</div>
-      <div class="client">Fatou Diop · Rufisque · hier</div>
-    </div>
-    <div class="cmd-price">145k</div>
-  </div>
-</a>
+<div class="tip" onclick="document.getElementById('tipModal').classList.add('show')">
+  <i data-lucide="info"></i>
+  <span><b>Comment remettre un colis au livreur ?</b> Prépare la commande → touche « Colis prêt » → montre le QR code au livreur → il scanne → c'est parti ! Touche pour le guide complet.</span>
+</div>
 
-<a href="commande-detail.html?id=ST24071" class="cmd">
-  <div class="cmd-head">
-    <span class="cmd-num">#ST24071</span>
-    <span class="badge b-done">Livrée</span>
-  </div>
-  <div class="cmd-body">
-    <div class="cmd-icon"><i data-lucide="check"></i></div>
-    <div class="cmd-info">
-      <div class="prod">MacBook Air M2</div>
-      <div class="client">Amadou Sall · Thiès · 28/08</div>
-    </div>
-    <div class="cmd-price">1.2M</div>
-  </div>
-</a>
+<div id="list"><div class="empty">Chargement…</div></div>
 
-<a href="commande-detail.html?id=ST24070" class="cmd">
-  <div class="cmd-head">
-    <span class="cmd-num">#ST24070</span>
-    <span class="badge b-prep">Préparation</span>
-  </div>
-  <div class="cmd-body">
-    <div class="cmd-icon"><i data-lucide="box"></i></div>
-    <div class="cmd-info">
-      <div class="prod">iPad Air 5</div>
-      <div class="client">Aïcha Ndoye · Dakar</div>
+<!-- ===== MODALE QR COLIS ===== -->
+<div class="modal" id="qrModal">
+  <div class="m-box">
+    <h3>📦 Remettre au livreur</h3>
+    <div class="m-sub">Montre cet écran au livreur — il scanne le QR avec son appli SEN TEW Livreur, ou tape le code retrait.</div>
+    <div class="qr-frame"><img id="qrImg" src="" alt="QR colis"></div>
+    <div class="qr-code-txt" id="qrCode"></div>
+    <div class="qr-pickup">Code retrait (si pas de scan) :<b id="qrPickup"></b></div>
+    <div class="m-btns">
+      <button class="b-grey" onclick="document.getElementById('qrModal').classList.remove('show')">Fermer</button>
+      <button class="b-green" onclick="toast('✓ En attente du scan du livreur…')">Compris</button>
     </div>
-    <div class="cmd-price">520k</div>
   </div>
-</a>
+</div>
+
+<!-- Modale guide -->
+<div class="modal" id="tipModal">
+  <div class="m-box" style="text-align:left">
+    <h3>💡 Guide vendeur — Remise colis</h3>
+    <p style="font-size:12px;color:#6B7280;line-height:1.75">
+      <b>1. À préparer</b> — Nouvelle commande → touche « Préparer » pour dire au client que c'est en cours.<br><br>
+      <b>2. Emballe</b> — Produit protégé, paquet fermé. Ajoute un petit mot de remerciement (fidélise !).<br><br>
+      <b>3. Colis prêt</b> — Touche « Colis prêt » → le <b>QR code</b> s'affiche. Quand le livreur arrive, il le scanne → la commande passe « Récupérée » <b>automatiquement</b>, le client est notifié.<br><br>
+      <b>4. Pas de caméra ?</b> — Le livreur tape le <b>code retrait à 4 chiffres</b> affiché sous le QR.<br><br>
+      <b>⚠️ Jamais sans scan</b> — Ne remets JAMAIS un colis sans que le livreur ait validé le code : c'est ta preuve de remise. Sans ça, aucun litige possible contre toi.<br><br>
+      <b>💰 Paiement</b> — Ta part (prix − commission 5%) arrive dans ta cagnotte dès la livraison confirmée, reversée chaque vendredi.
+    </p>
+    <div class="m-btns"><button class="b-green" onclick="document.getElementById('tipModal').classList.remove('show')">Compris</button></div>
+  </div>
+</div>
 
 <nav class="bottom-nav">
   <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="vendeur.html"><i data-lucide="store"></i><span>Vendeur</span></a>
+  <a href="commandes-vendeur.html" class="active"><i data-lucide="shopping-bag"></i><span>Commandes</span></a>
   <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
-  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
+  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
-<script>lucide.createIcons();</script>
+<script>
+var VENDOR_SLUG = new URLSearchParams(location.search).get('v') || 'aicha-couture';
+var VENDOR = null, ORDERS = [], TAB = 'todo';
+
+var LABELS = {
+  confirmed:  ['st-confirmed',  'À préparer'],
+  preparing:  ['st-preparing',  'En préparation'],
+  picked_up:  ['st-picked_up',  'Récupérée'],
+  in_transit: ['st-in_transit', 'En route'],
+  delivered:  ['st-delivered',  'Livrée ✓'],
+  cancelled:  ['st-cancelled',  'Annulée']
+};
+
+function setTab(t, el){
+  TAB = t;
+  document.querySelectorAll('.tab').forEach(function(x){ x.classList.remove('on'); });
+  el.classList.add('on');
+  render();
+}
+
+function load(manual){
+  getVendorBySlug(VENDOR_SLUG).then(function(v){
+    if (!v) { document.getElementById('list').innerHTML = '<div class="empty">Vendeur introuvable</div>'; return; }
+    VENDOR = v;
+    supa('orders', 'select=*&order=created_at.desc&limit=50').then(function(rows){
+      // Commandes contenant un produit de CE vendeur
+      ORDERS = (rows || []).filter(function(o){
+        return (o.items || []).some(function(i){ return i.slug === v.slug; });
+      });
+      document.getElementById('msNew').textContent  = ORDERS.filter(function(o){ return o.status==='confirmed'; }).length;
+      document.getElementById('msPrep').textContent = ORDERS.filter(function(o){ return o.status==='preparing'; }).length;
+      document.getElementById('msShip').textContent = ORDERS.filter(function(o){ return o.status==='picked_up'||o.status==='in_transit'; }).length;
+      document.getElementById('msDone').textContent = ORDERS.filter(function(o){ return o.status==='delivered'; }).length;
+      if (manual) toast('✓ Actualisé');
+      render();
+    });
+  });
+}
+
+function render(){
+  var rows = ORDERS.filter(function(o){
+    if (TAB === 'todo') return o.status === 'confirmed' || o.status === 'preparing';
+    if (TAB === 'ship') return o.status === 'picked_up' || o.status === 'in_transit';
+    if (TAB === 'done') return o.status === 'delivered' || o.status === 'cancelled';
+    return true;
+  });
+  var list = document.getElementById('list');
+  if (!rows.length) {
+    list.innerHTML = '<div class="empty"><i data-lucide="package-open" style="width:44px;color:#d1d5db"></i><h3>' + (TAB==='todo' ? 'Rien à traiter' : 'Aucune commande') + '</h3><p>' + (TAB==='todo' ? 'Les nouvelles commandes apparaîtront ici en temps réel.' : 'Change d\'onglet pour voir le reste.') + '</p></div>';
+    lucide.createIcons(); return;
+  }
+
+  list.innerHTML = rows.map(function(o){
+    var st = LABELS[o.status] || ['st-confirmed', o.status];
+    var date = new Date(o.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'short'}) + ' ' + new Date(o.created_at).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+    // Articles de CE vendeur seulement + sa part
+    var myItems = (o.items || []).filter(function(i){ return i.slug === VENDOR.slug; });
+    var myShare = Math.round(myItems.reduce(function(s,i){ return s + i.price * i.qty; }, 0) * 0.95);
+    var itemsHtml = myItems.map(function(i){ return '<b>' + i.qty + '×</b> ' + i.name; }).join('<br>');
+
+    var actions = '';
+    if (o.status === 'confirmed') {
+      actions = '<button class="btn btn-amber" onclick="setStatus(\'' + o.id + '\',\'preparing\')"><i data-lucide="package" style="width:13px"></i> Préparer</button>' +
+                '<button class="btn btn-green" onclick="showQR(\'' + o.id + '\')"><i data-lucide="qr-code" style="width:13px"></i> Colis prêt</button>';
+    } else if (o.status === 'preparing') {
+      actions = '<button class="btn btn-green" onclick="showQR(\'' + o.id + '\')"><i data-lucide="qr-code" style="width:13px"></i> Colis prêt — montrer le QR</button>';
+    } else if (o.status === 'picked_up' || o.status === 'in_transit') {
+      actions = '<button class="btn btn-line" onclick="showQR(\'' + o.id + '\')"><i data-lucide="qr-code" style="width:13px"></i> Voir le code</button>';
+    }
+
+    return '<div class="order">' +
+      '<div class="o-top"><span class="o-code">' + (o.tracking_code || o.ref) + '</span><span class="o-status ' + st[0] + '">' + st[1] + '</span></div>' +
+      '<div class="o-date">' + date + '</div>' +
+      '<div class="o-items">' + itemsHtml + '</div>' +
+      '<div class="o-client"><i data-lucide="map-pin"></i> ' + (o.address || '') + ', ' + (o.city || 'Dakar') + '</div>' +
+      '<div class="o-client"><i data-lucide="' + (o.payment_method === 'cash' ? 'banknote' : 'shield-check') + '"></i> ' +
+        (o.payment_method === 'cash' ? '<b style="color:#b45309">Paiement cash à la livraison</b>' : 'Payé en ligne ✓ — rien à encaisser') + '</div>' +
+      '<div class="o-total"><span>Ta part (−5%)<div class="o-earn">reversée vendredi</div></span><b>' + fmtPrix(myShare) + ' F</b></div>' +
+      '<div class="o-actions">' + actions + '</div>' +
+    '</div>';
+  }).join('');
+  lucide.createIcons();
+}
+
+// Statut : confirmed → preparing
+function setStatus(id, status){
+  supaWrite('orders', 'PATCH', { status: status }, 'id=eq.' + id).then(function(){
+    supaWrite('order_events', 'POST', { order_id: id, status: status, actor: 'vendor', note: VENDOR.shop_name + ' prépare le colis' });
+    toast(status === 'preparing' ? '📦 En préparation — le client est notifié' : '✓');
+    load();
+  });
+}
+
+// QR du colis (le livreur scanne ça)
+function showQR(id){
+  var o = ORDERS.find(function(x){ return x.id === id; });
+  if (!o) return;
+  document.getElementById('qrCode').textContent = o.tracking_code || o.ref;
+  document.getElementById('qrPickup').textContent = o.pickup_code || '----';
+  document.getElementById('qrImg').src = 'https://api.qrserver.com/v1/create-qr-code/?size=420x420&margin=8&data=' + encodeURIComponent(o.tracking_code || o.ref);
+  document.getElementById('qrModal').classList.add('show');
+}
+
+load();
+setInterval(load, 20000); // nouvelles commandes en direct
+function renderIcons(){ if (window.lucide) lucide.createIcons(); }
+renderIcons();
+window.addEventListener('load', renderIcons);
+setTimeout(renderIcons, 600);
+</script>
+<script src="js/dark-mode.js"></script>
 </body>
 </html>
