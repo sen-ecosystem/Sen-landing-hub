@@ -1,114 +1,218 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mes Produits - SEN TEW</title>
-  <link rel="stylesheet" href="css/app.css?v=52">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
-    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 10; }
-    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
-    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
-    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 16px; }
-    .stat { background: #fff; padding: 12px 8px; border-radius: 10px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-    .stat .val { font-size: 18px; font-weight: 800; color: #0f6b4e; }
-    .stat .lbl { font-size: 11px; color: #666; }
-    .filter-bar { display: flex; gap: 8px; padding: 12px 16px; overflow-x: auto; background: #fff; border-bottom: 1px solid #e5e7eb; }
-    .chip { background: #f5f5f0; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; }
-    .chip.active { background: #0f6b4e; color: #fff; }
-    .cta-add { background: linear-gradient(135deg, #0f6b4e, #0a4d38); color: #fff; padding: 14px; border-radius: 12px; margin: 0 16px 12px; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; }
-    .product { background: #fff; margin: 0 16px 10px; padding: 12px; border-radius: 12px; display: flex; gap: 12px; text-decoration: none; color: inherit; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-    .product-thumb { width: 70px; height: 70px; background: #f5f5f0; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-    .product-thumb i { color: #d4a574; width: 32px; height: 32px; }
-    .product-info { flex: 1; }
-    .product-name { font-weight: 700; font-size: 14px; color: #1a1a1a; }
-    .product-meta { font-size: 12px; color: #666; margin-top: 2px; }
-    .product-price { color: #0f6b4e; font-weight: 700; margin-top: 4px; }
-    .badge-status { padding: 2px 8px; border-radius: 8px; font-size: 10px; font-weight: 700; align-self: flex-start; }
-    .b-active { background: #d1fae5; color: #065f46; }
-    .b-draft { background: #fef3c7; color: #92400e; }
-    .b-out { background: #fee2e2; color: #991b1b; }
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
-    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
-    .bottom-nav a.active { color: #0f6b4e; }
-    .bottom-nav a i { width: 22px; height: 22px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Mes Produits - SEN TEW</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/supabase.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;max-width:100vw}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:96px;color:#0a1f17}
+.topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:40}
+.topbar h1{font-size:17px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
+.icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e;text-decoration:none}
+/* Stats mini */
+.mini-stats{display:flex;gap:8px;padding:12px 14px 0}
+.mini-stat{flex:1;background:#fff;border-radius:12px;padding:11px 8px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.mini-stat b{display:block;font-size:15px;color:#0f6b4e}
+.mini-stat span{font-size:10px;color:#6B7280}
+/* Recherche + filtre */
+.search-row{padding:10px 14px 0}
+.search-box{display:flex;align-items:center;gap:8px;background:#fff;border-radius:24px;padding:10px 14px;border:1.5px solid #e5e7eb}
+.search-box:focus-within{border-color:#0f6b4e}
+.search-box input{flex:1;border:none;background:none;outline:none;font-size:13px;font-family:inherit}
+.search-box i{color:#9aa5a0;flex-shrink:0}
+.fil-row{display:flex;gap:7px;overflow-x:auto;padding:10px 14px;scrollbar-width:none}
+.fil-row::-webkit-scrollbar{display:none}
+.fil{flex-shrink:0;padding:7px 14px;border-radius:18px;border:1.5px solid #e5e7eb;background:#fff;font-size:11px;font-weight:700;color:#4b5563;cursor:pointer;white-space:nowrap}
+.fil.on{background:#0f6b4e;color:#fff;border-color:#0f6b4e}
+/* Carte produit */
+.prod{display:flex;gap:12px;background:#fff;margin:0 14px 10px;padding:12px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);animation:fadeIn .25s;position:relative}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.prod img{width:80px;height:80px;object-fit:cover;border-radius:12px;flex-shrink:0;background:#eee;cursor:pointer}
+.prod .pi{flex:1;min-width:0;display:flex;flex-direction:column}
+.prod .pn{font-size:13px;font-weight:800;color:#0a1f17;line-height:1.3;cursor:pointer}
+.prod .pp{font-size:14px;font-weight:900;color:#0f6b4e;margin-top:2px}
+.prod .pp span{font-size:10px;color:#9aa5a0;text-decoration:line-through;font-weight:600;margin-left:4px}
+.prod .pm{font-size:10.5px;color:#6B7280;margin-top:3px;display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.prod .pm .low-stock{color:#e63946;font-weight:800}
+.prod .pm .ok-stock{color:#059669;font-weight:700}
+/* Badge boost */
+.boost-badge{position:absolute;top:8px;right:8px;background:#0a1f17;color:#ffd166;font-size:8.5px;font-weight:800;padding:3px 8px;border-radius:8px;display:flex;align-items:center;gap:3px}
+/* Actions */
+.prod-actions{display:flex;gap:6px;margin-top:auto;padding-top:8px}
+.pa{flex:1;padding:8px;border-radius:9px;font-size:10px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;border:none;font-family:inherit}
+.pa-boost{background:#fbbf24;color:#78350f}
+.pa-boost:disabled{background:#e5e7eb;color:#9aa5a0}
+.pa-view{background:#e8f5f0;color:#0f6b4e}
+.pa-off{background:#fee2e2;color:#b91c1c}
+.pa-on{background:#d1fae5;color:#065f46}
+/* Astuce */
+.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:10px 14px;font-size:12px;color:#92400e;cursor:pointer;line-height:1.5}
+.tip i{color:#b45309;flex-shrink:0;width:16px;height:16px;margin-top:1px}
+/* Bouton ajouter flottant */
+.fab{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom));right:16px;width:56px;height:56px;border-radius:50%;background:#0f6b4e;color:#fff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 20px rgba(15,107,78,.4);z-index:50}
+.fab:active{transform:scale(.93)}
+/* Vide */
+.empty{text-align:center;padding:60px 24px;color:#9aa5a0}
+.empty h3{color:#0a1f17;margin:12px 0 6px;font-size:16px}
+.empty a{display:inline-block;margin-top:14px;padding:12px 24px;background:#0f6b4e;color:#fff;border-radius:12px;text-decoration:none;font-weight:800;font-size:13px}
+/* Modale */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.m-box{background:#fff;border-radius:20px;padding:20px;width:100%;max-width:360px;max-height:80vh;overflow-y:auto}
+.m-box h3{font-size:15px;font-weight:800;margin-bottom:8px}
+.m-box p{font-size:12px;color:#6B7280;line-height:1.7}
+.m-box button{width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:#0f6b4e;color:#fff;font-weight:800;cursor:pointer}
+</style>
 </head>
-<body class="light-mode">
+<body>
 
 <header class="topbar">
-  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
-  <h1><i data-lucide="package"></i> Mes Produits</h1>
-  <button class="icon-btn" onclick="location.href='ajouter-produit.html'"><i data-lucide="plus"></i></button>
+  <button class="icon-btn" onclick="location.href='vendeur.html'"><i data-lucide="arrow-left"></i></button>
+  <h1><i data-lucide="package-2"></i> Mes Produits</h1>
+  <a class="icon-btn" href="ajouter-produit.html"><i data-lucide="plus"></i></a>
 </header>
 
-<div class="stats-row">
-  <div class="stat"><div class="val">24</div><div class="lbl">Actifs</div></div>
-  <div class="stat"><div class="val">3</div><div class="lbl">Brouillons</div></div>
-  <div class="stat"><div class="val">2</div><div class="lbl">Rupture</div></div>
+<div class="mini-stats">
+  <div class="mini-stat"><b id="msTotal">0</b><span>En ligne</span></div>
+  <div class="mini-stat"><b id="msSold">0</b><span>Vendus</span></div>
+  <div class="mini-stat"><b id="msBoost">0</b><span>Boostés</span></div>
 </div>
 
-<div class="filter-bar">
-  <span class="chip active">Tous</span>
-  <span class="chip">Actifs</span>
-  <span class="chip">Brouillons</span>
-  <span class="chip">Rupture</span>
+<div class="search-row">
+  <div class="search-box"><i data-lucide="search" style="width:15px"></i><input type="text" id="q" placeholder="Rechercher un produit…" oninput="render()"></div>
 </div>
 
-<a href="ajouter-produit.html" class="cta-add">
-  <i data-lucide="plus-circle"></i> Ajouter un produit
-</a>
+<div class="fil-row">
+  <button class="fil on" onclick="setFil('all',this)">Tous</button>
+  <button class="fil" onclick="setFil('stock',this)">En stock</button>
+  <button class="fil" onclick="setFil('low',this)">⚠️ Stock faible</button>
+  <button class="fil" onclick="setFil('boost',this)">⚡ Boostés</button>
+</div>
 
-<a href="produit-detail.html?id=1" class="product">
-  <div class="product-thumb"><i data-lucide="smartphone"></i></div>
-  <div class="product-info">
-    <div class="product-name">iPhone 15 Pro 256GB</div>
-    <div class="product-meta">12 vendus · Stock : 8</div>
-    <div class="product-price">850 000 FCFA</div>
+<div class="tip" onclick="document.getElementById('tipModal').classList.add('show')">
+  <i data-lucide="info"></i>
+  <span><b>Astuce</b> — Un produit avec moins de 5 en stock passe en « ⚡ Plus que X ! » dans l'app = ventes +23%. Touche pour toutes les astuces de vente.</span>
+</div>
+
+<div id="list"><div class="empty">Chargement…</div></div>
+
+<button class="fab" onclick="location.href='ajouter-produit.html'"><i data-lucide="plus" style="width:24px"></i></button>
+
+<div class="modal" id="tipModal">
+  <div class="m-box">
+    <h3>💡 Vendre plus sur SEN TEW</h3>
+    <p>
+      <b>⚡ Booster</b> — Le bouton jaune met ton produit en tête de l'accueil et des recherches pendant 24-72h. Plan gratuit = 1 boost/semaine.<br><br>
+      <b>📦 Stock faible = urgence</b> — Moins de 5 unités → badge « Plus que X ! » chez le client. Ça vend plus vite.<br><br>
+      <b>🚚 Livraison gratuite</b> — Active-la dans l'article → badge vert visible partout. +40% de conversions.<br><br>
+      <b>💰 Marge</b> — Quand tu ajoutes un produit, le calculateur te montre ta marge APRÈS commission 5% et livraison. Jamais de surprise.<br><br>
+      <b>🔄 Rupture</b> — Désactive plutôt que de laisser à 0 : ton client sera alerté du retour en stock.
+    </p>
+    <button onclick="document.getElementById('tipModal').classList.remove('show')">Compris</button>
   </div>
-  <span class="badge-status b-active">Actif</span>
-</a>
+</div>
 
-<a href="produit-detail.html?id=2" class="product">
-  <div class="product-thumb"><i data-lucide="headphones"></i></div>
-  <div class="product-info">
-    <div class="product-name">AirPods Pro 2</div>
-    <div class="product-meta">8 vendus · Stock : 15</div>
-    <div class="product-price">145 000 FCFA</div>
-  </div>
-  <span class="badge-status b-active">Actif</span>
-</a>
+<script>
+var VENDOR_SLUG = new URLSearchParams(location.search).get('v') || 'aicha-couture';
+var VENDOR = null, PRODS = [], FIL = 'all', QUOTA_MSG = '';
 
-<a href="produit-detail.html?id=3" class="product">
-  <div class="product-thumb"><i data-lucide="laptop"></i></div>
-  <div class="product-info">
-    <div class="product-name">MacBook Air M2</div>
-    <div class="product-meta">3 vendus · Stock : 0</div>
-    <div class="product-price">1 200 000 FCFA</div>
-  </div>
-  <span class="badge-status b-out">Rupture</span>
-</a>
+function setFil(f, el){
+  FIL = f;
+  document.querySelectorAll('.fil').forEach(function(x){ x.classList.remove('on'); });
+  el.classList.add('on');
+  render();
+}
 
-<a href="produit-detail.html?id=4" class="product">
-  <div class="product-thumb"><i data-lucide="watch"></i></div>
-  <div class="product-info">
-    <div class="product-name">Apple Watch Series 9</div>
-    <div class="product-meta">Brouillon · Non publié</div>
-    <div class="product-price">380 000 FCFA</div>
-  </div>
-  <span class="badge-status b-draft">Brouillon</span>
-</a>
+function load(){
+  getVendorBySlug(VENDOR_SLUG).then(function(v){
+    if (!v) { document.getElementById('list').innerHTML = '<div class="empty">Vendeur introuvable</div>'; return; }
+    VENDOR = v;
+    supa('products', 'select=*&vendor_id=eq.' + v.id + '&order=created_at.desc').then(function(rows){
+      PRODS = rows || [];
+      var actifs = PRODS.filter(function(p){ return p.is_active; });
+      document.getElementById('msTotal').textContent = actifs.length;
+      document.getElementById('msSold').textContent = PRODS.reduce(function(s,p){ return s + (p.sold_count||0); }, 0);
+      document.getElementById('msBoost').textContent = PRODS.filter(function(p){ return p.is_sponsored && p.sponsored_until && new Date(p.sponsored_until) > new Date(); }).length;
+      render();
+    });
+  });
+}
 
-<nav class="bottom-nav">
-  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
-  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
-  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
-</nav>
+function render(){
+  var q = document.getElementById('q').value.trim().toLowerCase();
+  var rows = PRODS.filter(function(p){
+    if (q && p.name.toLowerCase().indexOf(q) === -1) return false;
+    if (FIL === 'stock') return p.stock > 0 && p.is_active;
+    if (FIL === 'low') return p.stock > 0 && p.stock <= 5;
+    if (FIL === 'boost') return p.is_sponsored && p.sponsored_until && new Date(p.sponsored_until) > new Date();
+    return true;
+  });
+  var list = document.getElementById('list');
+  if (!rows.length) {
+    list.innerHTML = '<div class="empty"><i data-lucide="package-open" style="width:44px;color:#d1d5db"></i><h3>' + (PRODS.length ? 'Aucun résultat' : 'Aucun produit') + '</h3><p>' + (PRODS.length ? 'Essaie un autre filtre ou mot-clé.' : 'Ajoute ton premier article pour commencer à vendre.') + '</p>' + (PRODS.length ? '' : '<a href="ajouter-produit.html">+ Ajouter un produit</a>') + '</div>';
+    lucide.createIcons(); return;
+  }
+  list.innerHTML = rows.map(function(p){
+    var now = new Date();
+    var boosted = p.is_sponsored && p.sponsored_until && new Date(p.sponsored_until) > now;
+    var exp = boosted ? new Date(p.sponsored_until) : null;
+    var reste = exp ? Math.max(1, Math.round((exp - now) / 3600000)) + 'h' : '';
+    return '<div class="prod">' +
+      (boosted ? '<span class="boost-badge"><i data-lucide="zap" style="width:9px;height:9px"></i> Boosté · ' + reste + '</span>' : '') +
+      '<img src="' + (p.images && p.images[0] || '') + '" onclick="location.href=\'' + lienProduit(p) + '\'">' +
+      '<div class="pi">' +
+        '<div class="pn" onclick="location.href=\'' + lienProduit(p) + '\'">' + p.name + '</div>' +
+        '<div class="pp">' + fmtPrix(p.price) + ' F' + (p.old_price ? '<span>' + fmtPrix(p.old_price) + ' F</span>' : '') + '</div>' +
+        '<div class="pm">' +
+          '<span class="' + (p.stock <= 0 ? 'low-stock' : p.stock <= 5 ? 'low-stock' : 'ok-stock') + '">' + (p.stock <= 0 ? '✗ Rupture' : p.stock <= 5 ? '⚡ Plus que ' + p.stock : '✓ Stock : ' + p.stock) + '</span>' +
+          '<span>· ' + (p.sold_count||0) + ' vendus</span>' +
+          '<span>· ⭐ ' + (p.rating||'—') + '</span>' +
+          (p.free_shipping ? '<span>· 🚚 Gratuit</span>' : '') +
+        '</div>' +
+        '<div class="prod-actions">' +
+          (boosted
+            ? '<button class="pa pa-boost" disabled>⚡ En cours</button>'
+            : '<button class="pa pa-boost" onclick="boost(\'' + p.id + '\')"><i data-lucide="zap" style="width:11px"></i> Booster</button>') +
+          '<button class="pa pa-view" onclick="location.href=\'' + lienProduit(p) + '\'"><i data-lucide="eye" style="width:11px"></i> Voir</button>' +
+          (p.is_active
+            ? '<button class="pa pa-off" onclick="toggleActive(\'' + p.id + '\', false)"><i data-lucide="pause" style="width:11px"></i> Retirer</button>'
+            : '<button class="pa pa-on" onclick="toggleActive(\'' + p.id + '\', true)"><i data-lucide="play" style="width:11px"></i> Remettre</button>') +
+        '</div>' +
+      '</div></div>';
+  }).join('');
+  lucide.createIcons();
+}
 
-<script>lucide.createIcons();</script>
+function boost(pid){
+  var p = PRODS.find(function(x){ return x.id === pid; });
+  if (!p) return;
+  var btn = event.target.closest('button');
+  btn.disabled = true;
+  btn.textContent = '…';
+  boosterProduit(VENDOR, p).then(function(res){
+    toast(res.msg);
+    if (res.ok) setTimeout(load, 800);
+    else { btn.disabled = false; btn.innerHTML = '<i data-lucide="zap" style="width:11px"></i> Booster'; }
+  });
+}
+
+function toggleActive(pid, on){
+  supaWrite('products', 'PATCH', { is_active: on }, 'id=eq.' + pid).then(function(){
+    toast(on ? '✓ Produit remis en ligne' : '⏸ Produit retiré de la vente');
+    load();
+  });
+}
+
+load();
+function renderIcons(){ if (window.lucide) lucide.createIcons(); }
+renderIcons();
+window.addEventListener('load', renderIcons);
+setTimeout(renderIcons, 600);
+</script>
+<script src="js/dark-mode.js"></script>
 </body>
 </html>
