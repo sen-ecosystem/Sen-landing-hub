@@ -2,218 +2,277 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Espace Vendeur - SEN TEW</title>
-<link rel="stylesheet" href="css/app.css?v=52">
 <script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/supabase.js"></script>
 <style>
-  body{background:#f5f5f0;margin:0;font-family:-apple-system,sans-serif;padding-bottom:80px;}
-  .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:10;}
-  .topbar h1{color:#0f6b4e;font-size:18px;margin:0;display:flex;align-items:center;gap:8px;}
-  .icon-btn{background:transparent;border:none;cursor:pointer;padding:8px;color:#0f6b4e;}
-  .hero-vendeur{background:linear-gradient(135deg,#d4a574 0%,#b8860b 100%);color:#fff;padding:24px 16px;position:relative;overflow:hidden;}
-  .hero-vendeur::before{content:'';position:absolute;top:-30%;right:-10%;width:200px;height:200px;background:rgba(255,255,255,0.1);border-radius:50%;}
-  .boutique-info{display:flex;align-items:center;gap:12px;position:relative;z-index:1;}
-  .boutique-logo{width:56px;height:56px;border-radius:12px;background:rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,0.4);}
-  .boutique-logo i{width:28px;height:28px;color:#fff;}
-  .boutique-name{font-size:20px;font-weight:800;color:#fff;margin:0;text-shadow:0 2px 4px rgba(0,0,0,0.2);}
-  .boutique-status{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,0.95);padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;margin-top:4px;color:#0f6b4e;}
-
-  .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:16px;margin-top:-20px;position:relative;z-index:2;}
-  .stat{background:#fff;padding:14px 8px;border-radius:12px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.08);}
-  .stat .val{font-size:20px;font-weight:800;color:#0f6b4e;}
-  .stat .lbl{font-size:11px;color:#666;margin-top:4px;}
-
-  /* ACTIONS RAPIDES - clairement cliquables */
-  .quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 16px 16px;}
-  .qa{background:#fff;padding:14px 6px;border-radius:12px;text-align:center;text-decoration:none;color:#1a1a1a;box-shadow:0 2px 6px rgba(0,0,0,0.08);border:1.5px solid #e5e7eb;transition:all 0.2s;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;}
-  .qa:active{transform:scale(0.95);background:#f5f5f0;border-color:#0f6b4e;}
-  .qa i{width:26px;height:26px;color:#0f6b4e;}
-  .qa .label{font-size:12px;font-weight:600;color:#1a1a1a;}
-
-  /* CTA Ajouter produit */
-  .cta-add{background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;padding:16px;border-radius:12px;margin:0 16px 12px;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;box-shadow:0 4px 12px rgba(15,107,78,0.3);font-size:15px;}
-
-  /* CTA Retouche IA */
-  .cta-ia{background:linear-gradient(135deg,#6b46c1,#4c1d95);color:#fff;padding:14px 16px;border-radius:12px;margin:0 16px 16px;text-decoration:none;display:flex;align-items:center;gap:12px;box-shadow:0 4px 12px rgba(107,70,193,0.3);}
-  .cta-ia i{width:28px;height:28px;color:#fff;flex-shrink:0;}
-  .cta-ia .title{font-weight:700;font-size:14px;color:#fff;}
-  .cta-ia .sub{font-size:11px;opacity:0.9;color:#fff;}
-
-  .section{background:#fff;margin:0 16px 16px;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
-  .section h3{color:#0f6b4e;margin:0 0 12px;font-size:15px;display:flex;align-items:center;gap:8px;}
-  .section h3 .more{margin-left:auto;font-size:12px;color:#d4a574;font-weight:600;text-decoration:none;}
-
-  .cmd-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #f0f0f0;text-decoration:none;color:inherit;}
-  .cmd-item:last-child{border-bottom:none;}
-  .cmd-icon{width:40px;height:40px;border-radius:10px;background:#f5f5f0;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .cmd-icon i{color:#0f6b4e;width:22px;height:22px;}
-  .cmd-info{flex:1;}
-  .cmd-info .num{font-weight:700;color:#1a1a1a;font-size:14px;}
-  .cmd-info .desc{font-size:12px;color:#666;margin-top:2px;}
-  .cmd-price{color:#0f6b4e;font-weight:700;font-size:14px;}
-  .cmd-badge{display:inline-block;padding:2px 8px;border-radius:8px;font-size:10px;font-weight:700;margin-top:4px;}
-  .b-new{background:#dbeafe;color:#1e40af;}
-  .b-ship{background:#fef3c7;color:#b8860b;}
-  .b-done{background:#d1fae5;color:#065f46;}
-
-  /* OUTILS - cliquables visibles */
-  .tool-row{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid #f0f0f0;text-decoration:none;color:#1a1a1a;cursor:pointer;}
-  .tool-row:last-child{border-bottom:none;}
-  .tool-row:active{background:#f5f5f0;}
-  .tool-row i:first-child{width:24px;height:24px;flex-shrink:0;}
-  .tool-row span{flex:1;font-weight:600;font-size:14px;}
-  .tool-row .arrow{color:#0f6b4e;width:20px;height:20px;}
-  .tool-badge{background:#dc2626;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;margin-right:6px;}
-
-  .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0;border-top:1px solid #e5e7eb;z-index:100;}
-  .bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#666;font-size:11px;padding:4px 8px;}
-  .bottom-nav a.active{color:#0f6b4e;}
-  .bottom-nav a i{width:22px;height:22px;}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;max-width:100vw}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:86px;color:#0a1f17}
+/* ===== Header vendeur (bandeau) ===== */
+.hero{background:linear-gradient(135deg,#0a1f17,#0f6b4e);color:#fff;padding:16px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;top:-50px;right:-50px;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.06)}
+.hero-top{display:flex;align-items:center;gap:10px;margin-bottom:16px;position:relative;z-index:2}
+.hero-top .btn-back{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.hero-top h1{font-size:15px;font-weight:800;flex:1}
+.hero-top .plan-badge{font-size:10px;font-weight:800;padding:5px 11px;border-radius:12px;display:flex;align-items:center;gap:4px}
+.plan-gratuit{background:rgba(255,255,255,.2);color:#fff}
+.plan-silver{background:#94a3b8;color:#0a1f17}
+.plan-gold{background:#fbbf24;color:#0a1f17}
+.plan-platinum{background:#e0e7ff;color:#4c1d95}
+.shop-row{display:flex;align-items:center;gap:14px;position:relative;z-index:2}
+.shop-row img{width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid #fbbf24;flex-shrink:0}
+.shop-row .sn{font-size:19px;font-weight:900;display:flex;align-items:center;gap:6px}
+.shop-row .sm{font-size:11px;opacity:.85;margin-top:3px}
+.hero-actions{display:flex;gap:8px;margin-top:14px;position:relative;z-index:2}
+.hero-btn{flex:1;padding:10px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:10px;font-size:11.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;text-decoration:none;backdrop-filter:blur(6px)}
+/* ===== Stats en direct ===== */
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:12px 14px 0}
+.stat{background:#fff;border-radius:14px;padding:14px;box-shadow:0 2px 8px rgba(0,0,0,.05);position:relative}
+.stat .si{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.stat b{display:block;font-size:20px;font-weight:900;color:#0a1f17;line-height:1}
+.stat span{font-size:11px;color:#6B7280;display:block;margin-top:3px}
+.stat .trend{position:absolute;top:12px;right:12px;font-size:10px;font-weight:800;padding:3px 7px;border-radius:8px}
+.trend-up{background:#d1fae5;color:#065f46}
+/* ===== Cagnotte à reverser ===== */
+.cagnotte{background:linear-gradient(135deg,#059669,#0f6b4e);color:#fff;margin:12px 14px 0;padding:16px;border-radius:16px;box-shadow:0 4px 14px rgba(15,107,78,.3);position:relative;overflow:hidden}
+.cagnotte::after{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.08)}
+.cag-label{font-size:11px;opacity:.85;display:flex;align-items:center;gap:5px}
+.cag-amount{font-size:26px;font-weight:900;margin:4px 0;letter-spacing:-.5px}
+.cag-info{font-size:11px;opacity:.9;position:relative;z-index:2}
+/* ===== Section ===== */
+.sec-title{display:flex;align-items:center;gap:6px;padding:16px 16px 8px;font-size:12px;font-weight:800;color:#b8860b;letter-spacing:.5px}
+.sec-title a{margin-left:auto;font-size:11px;color:#0f6b4e;text-decoration:none;font-weight:800}
+/* ===== Outils (grille) ===== */
+.tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 14px}
+.tool{background:#fff;border-radius:14px;padding:12px 4px;text-align:center;cursor:pointer;text-decoration:none;color:inherit;position:relative;box-shadow:0 2px 6px rgba(0,0,0,.04)}
+.tool .ti{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px}
+.tool span{font-size:10.5px;font-weight:700;color:#0a1f17;line-height:1.2}
+.tool .badge{position:absolute;top:4px;right:4px;min-width:16px;height:16px;border-radius:8px;background:#e63946;color:#fff;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 5px}
+/* ===== Commandes à traiter ===== */
+.order-row{display:flex;align-items:center;gap:10px;background:#fff;margin:0 14px 8px;padding:12px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.05);cursor:pointer}
+.order-row .oi{width:38px;height:38px;border-radius:10px;background:#e8f5f0;color:#0f6b4e;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.order-row b{font-size:13px;font-family:monospace;display:block}
+.order-row small{font-size:11px;color:#6B7280}
+.order-row .st{margin-left:auto;font-size:10px;font-weight:800;padding:4px 10px;border-radius:10px;flex-shrink:0}
+.st-confirmed{background:#dbeafe;color:#1e40af}
+.st-preparing{background:#fef3c7;color:#92400e}
+.st-picked_up{background:#fef3c7;color:#92400e}
+.st-in_transit{background:#ede9fe;color:#6d28d9}
+/* ===== Plan Ads (bandeau upgrade) ===== */
+.plan-upsell{margin:12px 14px 0;padding:14px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:16px;display:flex;align-items:center;gap:12px;cursor:pointer;box-shadow:0 3px 10px rgba(251,191,36,.25)}
+.plan-upsell .ui{width:42px;height:42px;border-radius:12px;background:#fbbf24;color:#78350f;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.plan-upsell b{display:block;font-size:13px;color:#78350f}
+.plan-upsell span{font-size:11px;color:#92400e}
+.plan-upsell .go{margin-left:auto;background:#78350f;color:#fef3c7;font-size:11px;font-weight:800;padding:8px 12px;border-radius:14px;flex-shrink:0}
+/* ===== Astuce ⓘ ===== */
+.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:12px 14px 0;font-size:12px;color:#92400e;cursor:pointer;line-height:1.5}
+.tip i{color:#b45309;flex-shrink:0;width:16px;height:16px;margin-top:1px}
+/* Modale */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.m-box{background:#fff;border-radius:20px;padding:20px;width:100%;max-width:360px;max-height:80vh;overflow-y:auto}
+.m-box h3{font-size:15px;font-weight:800;margin-bottom:8px}
+.m-box p{font-size:12px;color:#6B7280;line-height:1.7}
+.m-box button{width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:#0f6b4e;color:#fff;font-weight:800;cursor:pointer}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
+.bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600;min-height:44px;justify-content:center;position:relative}
+.bottom-nav a.active{color:#0f6b4e}
+.bottom-nav a svg{width:22px;height:22px}
 </style>
 </head>
-<body class="light-mode">
+<body>
 
-<header class="topbar">
-  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
-  <h1><i data-lucide="store" style="color:#d4a574;"></i> Espace Vendeur</h1>
-  <button class="icon-btn" onclick="location.href='notifications.html'"><i data-lucide="bell"></i></button>
-</header>
-
-<!-- HERO BOUTIQUE -->
-<div class="hero-vendeur">
-  <div class="boutique-info">
-    <div class="boutique-logo"><i data-lucide="store"></i></div>
-    <div>
-      <div class="boutique-name">Moussa Tech</div>
-      <span class="boutique-status"><i data-lucide="check-circle" style="width:12px;height:12px;"></i> Boutique vérifiée</span>
+<div class="hero">
+  <div class="hero-top">
+    <button class="btn-back" onclick="location.href='profil.html'"><i data-lucide="arrow-left"></i></button>
+    <h1>Espace vendeur</h1>
+    <span class="plan-badge plan-gratuit" id="planBadge"><i data-lucide="award" style="width:12px"></i> GRATUIT</span>
+  </div>
+  <div class="shop-row">
+    <img id="shopLogo" src="" alt="">
+    <div style="flex:1;min-width:0">
+      <div class="sn"><span id="shopName">…</span> <i data-lucide="badge-check" style="width:16px;color:#fbbf24"></i></div>
+      <div class="sm" id="shopMeta">…</div>
     </div>
+  </div>
+  <div class="hero-actions">
+    <a class="hero-btn" href="ajouter-produit.html"><i data-lucide="plus-circle" style="width:14px"></i> Ajouter</a>
+    <a class="hero-btn" id="btnShop" href="#"><i data-lucide="store" style="width:14px"></i> Ma boutique</a>
+    <a class="hero-btn" href="parametres-boutique.html"><i data-lucide="settings" style="width:14px"></i> Réglages</a>
   </div>
 </div>
 
-<!-- STATS -->
 <div class="stats-grid">
-  <div class="stat"><div class="val">1.8M</div><div class="lbl">CA (FCFA)</div></div>
-  <div class="stat"><div class="val">32</div><div class="lbl">Ventes</div></div>
-  <div class="stat"><div class="val">4.7★</div><div class="lbl">Note</div></div>
-</div>
-
-<!-- ACTIONS RAPIDES CLIQUABLES -->
-<div class="quick-actions">
-  <a href="produits-vendeur.html" class="qa"><i data-lucide="package"></i><div class="label">Produits</div></a>
-  <a href="commandes-vendeur.html" class="qa"><i data-lucide="clipboard-list"></i><div class="label">Commandes</div></a>
-  <a href="stats-vendeur.html" class="qa"><i data-lucide="bar-chart-3"></i><div class="label">Stats</div></a>
-  <a href="portefeuille.html" class="qa"><i data-lucide="wallet"></i><div class="label">Solde</div></a>
-</div>
-
-<!-- AJOUTER PRODUIT -->
-<a href="ajouter-produit.html" class="cta-add">
-  <i data-lucide="plus-circle"></i> Ajouter un produit
-</a>
-
-<!-- RETOUCHE IA -->
-<a href="retouche-ia.html" class="cta-ia">
-  <i data-lucide="sparkles"></i>
-  <div style="flex:1;">
-    <div class="title">Retouche IA Produits</div>
-    <div class="sub">Améliorez vos photos automatiquement ✨</div>
+  <div class="stat">
+    <div class="si" style="background:#e8f5f0;color:#0f6b4e"><i data-lucide="banknote"></i></div>
+    <b id="stSales">0 F</b><span>Ventes ce mois</span>
+    <span class="trend trend-up" id="stTrend">+0%</span>
   </div>
-  <i data-lucide="chevron-right" style="width:20px;height:20px;color:#fff;"></i>
-</a>
-
-<!-- COMMANDES RÉCENTES -->
-<div class="section">
-  <h3><i data-lucide="clipboard-list"></i> Commandes récentes <a href="commandes-vendeur.html" class="more">Voir tout ›</a></h3>
-  <a href="commande-detail.html?id=ST24073" class="cmd-item">
-    <div class="cmd-icon"><i data-lucide="package"></i></div>
-    <div class="cmd-info">
-      <div class="num">#ST24073</div>
-      <div class="desc">iPhone 15 Pro - Karim N.</div>
-      <span class="cmd-badge b-new">Nouvelle</span>
-    </div>
-    <div class="cmd-price">850k</div>
-  </a>
-  <a href="commande-detail.html?id=ST24072" class="cmd-item">
-    <div class="cmd-icon"><i data-lucide="truck"></i></div>
-    <div class="cmd-info">
-      <div class="num">#ST24072</div>
-      <div class="desc">AirPods Pro - Fatou D.</div>
-      <span class="cmd-badge b-ship">Expédiée</span>
-    </div>
-    <div class="cmd-price">145k</div>
-  </a>
-  <a href="commande-detail.html?id=ST24071" class="cmd-item">
-    <div class="cmd-icon"><i data-lucide="check"></i></div>
-    <div class="cmd-info">
-      <div class="num">#ST24071</div>
-      <div class="desc">MacBook Air - Amadou S.</div>
-      <span class="cmd-badge b-done">Livrée</span>
-    </div>
-    <div class="cmd-price">1.2M</div>
-  </a>
+  <div class="stat">
+    <div class="si" style="background:#dbeafe;color:#1e40af"><i data-lucide="shopping-bag"></i></div>
+    <b id="stOrders">0</b><span>Commandes actives</span>
+  </div>
+  <div class="stat">
+    <div class="si" style="background:#fef3c7;color:#b45309"><i data-lucide="package"></i></div>
+    <b id="stProducts">0</b><span>Produits en ligne</span>
+  </div>
+  <div class="stat">
+    <div class="si" style="background:#fce7f3;color:#db2777"><i data-lucide="star"></i></div>
+    <b id="stRating">—</b><span>Note moyenne</span>
+  </div>
 </div>
 
-<!-- OUTILS - BIEN VISIBLES -->
-<div class="section">
-  <h3><i data-lucide="settings"></i> Outils Vendeur</h3>
-  <a href="boutique.html?id=2" class="tool-row">
-    <i data-lucide="store" style="color:#0f6b4e;"></i>
-    <span>Voir ma boutique (vue client)</span>
-    <i data-lucide="chevron-right" class="arrow"></i>
-  </a>
-  <a href="promotions-vendeur.html" class="tool-row">
-    <i data-lucide="percent" style="color:#dc2626;"></i>
-    <span>Promotions & coupons</span>
-    <span class="tool-badge">3 actives</span>
-    <i data-lucide="chevron-right" class="arrow"></i>
-  </a>
-  <a href="avis-vendeur.html" class="tool-row">
-    <i data-lucide="star" style="color:#d4a574;"></i>
-    <span>Avis clients</span>
-    <span class="tool-badge">2 nouveaux</span>
-    <i data-lucide="chevron-right" class="arrow"></i>
-  </a>
-  <a href="messages.html" class="tool-row">
-    <i data-lucide="message-circle" style="color:#3b82f6;"></i>
-    <span>Messages clients</span>
-    <span class="tool-badge">5</span>
-    <i data-lucide="chevron-right" class="arrow"></i>
-  </a>
-  <a href="livraisons-vendeur.html" class="tool-row">
-    <i data-lucide="truck" style="color:#0f6b4e;"></i>
-    <span>Gestion livraisons</span>
-    <i data-lucide="chevron-right" class="arrow"></i>
-  </a>
-  <a href="logistique.html" class="tool-row">
-    <i data-lucide="map" style="color:#0f6b4e;"></i>
-    <span>Logistique & expéditions</span>
-    <i data-lucide="chevron-right" class="arrow"></i>
-  </a>
-  <a href="historique-livraisons.html" class="tool-row">
-    <i data-lucide="history" style="color:#0f6b4e;"></i>
-    <span>Historique des livraisons</span>
-    <i data-lucide="chevron-right" class="arrow"></i>
-  </a>
-  <a href="parametres-boutique.html" class="tool-row">
-    <i data-lucide="settings" style="color:#666;"></i>
-    <span>Paramètres boutique</span>
-    <i data-lucide="chevron-right" class="arrow"></i>
-  </a>
-  <a href="aide-vendeur.html" class="tool-row">
-    <i data-lucide="life-buoy" style="color:#3b82f6;"></i>
-    <span>Aide vendeur</span>
-    <i data-lucide="chevron-right" class="arrow"></i>
-  </a>
+<div class="cagnotte">
+  <div class="cag-label"><i data-lucide="wallet" style="width:13px"></i> À REVERSER CETTE SEMAINE</div>
+  <div class="cag-amount" id="cagAmount">0 FCFA</div>
+  <div class="cag-info">Reversement automatique le vendredi · <b>Après commission 5%</b></div>
+</div>
+
+<div class="tip" onclick="document.getElementById('tipModal').classList.add('show')">
+  <i data-lucide="info"></i>
+  <span><b>Astuce vendeur pro</b> — Réponds aux messages en moins d'1h et livre à temps → tu passes en « Top vendeur » et ton badge devient doré. Touche pour toutes les astuces.</span>
+</div>
+
+<div class="plan-upsell" onclick="location.href='promotions-vendeur.html'" id="planUpsell">
+  <div class="ui"><i data-lucide="zap"></i></div>
+  <div style="flex:1;min-width:0"><b>Booste tes produits !</b><span>Passe en Gold ou Platinum → +300% de vues</span></div>
+  <span class="go">DÉCOUVRIR</span>
+</div>
+
+<div class="sec-title"><i data-lucide="package" style="width:14px"></i> COMMANDES À TRAITER <a href="commandes-vendeur.html">Voir tout ›</a></div>
+<div id="ordersList"><div style="text-align:center;padding:20px;color:#9aa5a0;font-size:12px">Chargement…</div></div>
+
+<div class="sec-title"><i data-lucide="wrench" style="width:14px"></i> MES OUTILS</div>
+<div class="tools-grid">
+  <a class="tool" href="produits-vendeur.html"><div class="ti" style="background:#e8f5f0;color:#0f6b4e"><i data-lucide="package-2"></i></div><span>Produits</span></a>
+  <a class="tool" href="commandes-vendeur.html"><div class="ti" style="background:#dbeafe;color:#1e40af"><i data-lucide="shopping-bag"></i></div><span>Commandes</span><span class="badge" id="badgeOrders" style="display:none">0</span></a>
+  <a class="tool" href="stats-vendeur.html"><div class="ti" style="background:#fce7f3;color:#db2777"><i data-lucide="line-chart"></i></div><span>Statistiques</span></a>
+  <a class="tool" href="promotions-vendeur.html"><div class="ti" style="background:#fef3c7;color:#b45309"><i data-lucide="zap"></i></div><span>Booster</span></a>
+  <a class="tool" href="avis-vendeur.html"><div class="ti" style="background:#ede9fe;color:#6d28d9"><i data-lucide="star"></i></div><span>Avis</span></a>
+  <a class="tool" href="messages.html"><div class="ti" style="background:#cffafe;color:#0891b2"><i data-lucide="message-circle"></i></div><span>Messages</span></a>
+  <a class="tool" href="portefeuille.html"><div class="ti" style="background:#dcfce7;color:#059669"><i data-lucide="wallet"></i></div><span>Cagnotte</span></a>
+  <a class="tool" href="logistique.html"><div class="ti" style="background:#fee2e2;color:#dc2626"><i data-lucide="truck"></i></div><span>Livraison</span></a>
+  <a class="tool" href="historique-livraisons.html"><div class="ti" style="background:#f3e8ff;color:#7c3aed"><i data-lucide="history"></i></div><span>Historique</span></a>
+  <a class="tool" href="parametres-boutique.html"><div class="ti" style="background:#e0e7ff;color:#4338ca"><i data-lucide="settings"></i></div><span>Réglages</span></a>
+  <a class="tool" href="aide-vendeur.html"><div class="ti" style="background:#fef3c7;color:#92400e"><i data-lucide="help-circle"></i></div><span>Aide</span></a>
+  <a class="tool" href="parrainage.html"><div class="ti" style="background:#f0fdf4;color:#0f6b4e"><i data-lucide="gift"></i></div><span>Parrainer</span></a>
+</div>
+
+<div class="modal" id="tipModal">
+  <div class="m-box">
+    <h3>💡 Devenir Top Vendeur SEN TEW</h3>
+    <p>
+      <b>🚀 Réponds vite</b> — En moins d'1h aux messages → ton taux monte, tu remontes dans les résultats.<br><br>
+      <b>📦 Livre à temps</b> — Emballe et remets au livreur dans les 24h. Les clients notent aussi ta rapidité.<br><br>
+      <b>📸 Photos réelles</b> — Ajoute plusieurs photos par produit (le champ galerie accepte jusqu'à 5). Les fiches complètes vendent 3x plus.<br><br>
+      <b>🏷️ Prix compétitifs + livraison gratuite</b> — Inclue la livraison dans ton prix → badge « Gratuit » = +40% de conversions.<br><br>
+      <b>💎 Passe en Gold ou Platinum</b> — Boost automatique tous les jours, badge doré, top des recherches. ROI moyen : x4 sur les ventes.<br><br>
+      <b>💬 Sois pro</b> — Salue en wolof/français, réponds en phrases claires, propose des alternatives si rupture. Tu construis ta réputation.
+    </p>
+    <button onclick="document.getElementById('tipModal').classList.remove('show')">Compris</button>
+  </div>
 </div>
 
 <nav class="bottom-nav">
   <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
+  <a href="vendeur.html" class="active"><i data-lucide="store"></i><span>Vendeur</span></a>
+  <a href="commandes-vendeur.html"><i data-lucide="shopping-bag"></i><span>Commandes</span></a>
   <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
-  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
+  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
-<script>lucide.createIcons();</script>
+<script>
+// Vendeur par défaut (démo) — quand on ajoutera l'auth : lira l'ID connecté
+var VENDOR_SLUG = new URLSearchParams(location.search).get('v') || 'aicha-couture';
+var VENDOR = null;
+
+var PLAN_LABEL = {
+  gratuit:  ['plan-gratuit',  'GRATUIT'],
+  silver:   ['plan-silver',   'SILVER'],
+  gold:     ['plan-gold',     'GOLD'],
+  platinum: ['plan-platinum', 'PLATINUM']
+};
+
+function load(){
+  getVendorBySlug(VENDOR_SLUG).then(function(v){
+    if (!v) { toast('Vendeur introuvable'); return; }
+    VENDOR = v;
+    document.getElementById('shopName').textContent = v.shop_name;
+    document.getElementById('shopMeta').textContent = (v.category || '') + ' · ' + (v.city || 'Dakar') + ' · ⭐ ' + (v.rating || '—') + ' · ' + fmtPrix(v.followers || 0) + ' abonnés';
+    document.getElementById('shopLogo').src = v.logo_url || '';
+    document.getElementById('btnShop').href = lienBoutique(v);
+    document.getElementById('stRating').textContent = v.rating || '—';
+
+    // Plan Ads
+    var plan = v.plan || 'gratuit';
+    var pl = PLAN_LABEL[plan];
+    var pb = document.getElementById('planBadge');
+    pb.className = 'plan-badge ' + pl[0];
+    pb.innerHTML = '<i data-lucide="award" style="width:12px"></i> ' + pl[1];
+    if (plan !== 'gratuit') document.getElementById('planUpsell').style.display = 'none';
+
+    // Cagnotte
+    var pending = v.pending_balance || 0;
+    document.getElementById('cagAmount').textContent = fmtPrix(pending) + ' FCFA';
+
+    // Produits en ligne
+    supa('products', 'select=id&vendor_id=eq.' + v.id + '&is_active=eq.true').then(function(prods){
+      document.getElementById('stProducts').textContent = (prods && prods.length) || 0;
+    });
+
+    // Commandes à traiter
+    supa('orders', 'select=*&order=created_at.desc&limit=20').then(function(orders){
+      orders = (orders || []).filter(function(o){
+        return (o.items || []).some(function(i){ return i.slug === v.slug; });
+      });
+      var active = orders.filter(function(o){ return o.status !== 'delivered' && o.status !== 'cancelled'; });
+      document.getElementById('stOrders').textContent = active.length;
+      if (active.length) {
+        var b = document.getElementById('badgeOrders');
+        b.textContent = active.length;
+        b.style.display = 'flex';
+      }
+      // Ventes mois (estimation à partir des commandes livrées récentes)
+      var thisMonth = orders.filter(function(o){
+        var d = new Date(o.created_at);
+        var now = new Date();
+        return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+      });
+      var sales = thisMonth.reduce(function(s,o){ return s + (o.total || 0); }, 0);
+      document.getElementById('stSales').textContent = fmtPrix(sales) + ' F';
+
+      // Liste commandes
+      var box = document.getElementById('ordersList');
+      var show = active.slice(0, 3);
+      if (!show.length) {
+        box.innerHTML = '<div style="text-align:center;padding:20px;color:#9aa5a0;font-size:12px">Aucune commande à traiter — bon travail ! 🎉</div>';
+      } else {
+        var LABELS = { confirmed: ['st-confirmed','À préparer'], preparing:['st-preparing','En préparation'], picked_up:['st-picked_up','Récupérée'], in_transit:['st-in_transit','En route'] };
+        box.innerHTML = show.map(function(o){
+          var st = LABELS[o.status] || ['st-confirmed', o.status];
+          var items = (o.items || []).map(function(i){ return i.qty + '× ' + i.name; }).join(', ');
+          return '<div class="order-row" onclick="location.href=\'commandes-vendeur.html\'">' +
+            '<div class="oi"><i data-lucide="package" style="width:16px"></i></div>' +
+            '<div style="flex:1;min-width:0"><b>' + (o.tracking_code || o.ref) + '</b><small>' + items + '</small></div>' +
+            '<span class="st ' + st[0] + '">' + st[1] + '</span></div>';
+        }).join('');
+      }
+      lucide.createIcons();
+    });
+
+    lucide.createIcons();
+  });
+}
+
+load();
+function renderIcons(){ if (window.lucide) lucide.createIcons(); }
+renderIcons();
+window.addEventListener('load', renderIcons);
+setTimeout(renderIcons, 600);
+cartBadge();
+</script>
+<script src="js/dark-mode.js"></script>
 </body>
 </html>
