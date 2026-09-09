@@ -13,6 +13,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:40}
 .topbar h1{font-size:17px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
 .icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e}
+/* Articles */
 .cart-item{display:flex;gap:12px;background:#fff;margin:10px 14px 0;padding:12px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);animation:fadeIn .25s}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .cart-item img{width:86px;height:86px;object-fit:cover;border-radius:12px;flex-shrink:0;cursor:pointer;background:#eee}
@@ -20,6 +21,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .ci-vendor{font-size:10px;color:#b8860b;font-weight:700;cursor:pointer}
 .ci-name{font-size:13px;font-weight:800;color:#0a1f17;line-height:1.3;cursor:pointer}
 .ci-price{font-size:15px;font-weight:900;color:#0f6b4e;margin-top:3px}
+.ci-ship{font-size:10px;color:#0f6b4e;font-weight:700;margin-top:2px}
 .ci-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:8px}
 .qty-box{display:flex;align-items:center;border:1.5px solid #e5e7eb;border-radius:10px;overflow:hidden}
 .qty-box button{width:30px;height:30px;background:#fff;border:none;font-size:15px;font-weight:800;color:#0f6b4e;cursor:pointer}
@@ -63,11 +65,10 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .pay-opt .tag{margin-left:auto;font-size:10px;font-weight:800;padding:4px 9px;border-radius:10px;flex-shrink:0}
 .tag-free{background:#d1fae5;color:#065f46}
 .tag-fee{background:#fef3c7;color:#92400e}
-.tag-new{background:#ede9fe;color:#6d28d9}
 .pay-radio{width:18px;height:18px;border-radius:50%;border:2px solid #d1d5db;flex-shrink:0;position:relative}
 .pay-opt.on .pay-radio{border-color:#0f6b4e}
 .pay-opt.on .pay-radio::after{content:'';position:absolute;inset:3px;border-radius:50%;background:#0f6b4e}
-/* Tranches 2x / 3x */
+/* Tranches */
 .inst-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
 .inst-opt{padding:12px 6px;border:1.5px solid #e5e7eb;border-radius:12px;text-align:center;cursor:pointer;background:#fff}
 .inst-opt.on{border-color:#6d28d9;background:#f5f3ff}
@@ -75,17 +76,26 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .inst-opt span{font-size:10px;color:#6B7280;line-height:1.3;display:block;margin-top:2px}
 .inst-detail{margin-top:10px;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:12px;padding:11px 12px;font-size:11.5px;color:#4c1d95;line-height:1.7;display:none}
 .inst-detail.show{display:block}
-.inst-detail b{color:#6d28d9}
 /* Résumé */
 .sum-row{display:flex;justify-content:space-between;font-size:13px;color:#4b5563;padding:5px 0}
 .sum-row.discount{color:#059669;font-weight:700}
 .sum-row.total{border-top:2px solid #f0f0ea;margin-top:8px;padding-top:12px;font-size:16px;font-weight:900;color:#0a1f17}
 .sum-row.total .tv{color:#0f6b4e}
 .sum-row.today{color:#6d28d9;font-weight:800}
+/* ===== SUGGESTIONS (petites cartes horizontales) ===== */
+.sim-wrap{overflow-x:auto;scrollbar-width:none;margin:0 -14px;padding:2px 14px}
+.sim-wrap::-webkit-scrollbar{display:none}
+.sim-row{display:flex;gap:10px;width:max-content}
+.sim-card{width:128px;flex-shrink:0;background:#f9fafb;border:1px solid #f0f0ea;border-radius:12px;overflow:hidden}
+.sim-card img{width:100%;height:100px;object-fit:cover;display:block;cursor:pointer;background:#fff}
+.sim-card .sb{padding:8px}
+.sim-card .sn2{font-size:11px;font-weight:700;line-height:1.3;height:27px;overflow:hidden;cursor:pointer}
+.sim-card .sp{font-size:13px;font-weight:900;color:#0f6b4e;margin-top:3px}
+.sim-card .sadd{width:100%;margin-top:6px;padding:7px;background:#0f6b4e;color:#fff;border:none;border-radius:8px;font-size:10px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px}
 /* Astuces ⓘ */
 .tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:12px 14px 0;font-size:12px;color:#92400e;cursor:pointer;line-height:1.5}
 .tip i{color:#b45309;flex-shrink:0;width:16px;height:16px;margin-top:1px}
-/* Bouton commander */
+/* Commander */
 .checkout{padding:14px 14px 0}
 .btn-order{width:100%;padding:15px;background:#0f6b4e;color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
 .btn-order:disabled{background:#9aa5a0}
@@ -127,7 +137,6 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 
 <div id="page"></div>
 
-<!-- Modale astuces -->
 <div class="modal" id="tipModal">
   <div class="m-box">
     <h3 id="tipTitle">💡 Astuce</h3>
@@ -152,7 +161,6 @@ var PROMOS = {
 };
 var PROMO = null, ZONE = 'Dakar', PAY = 'mobile', INST = 1;
 
-// ===== Astuces ⓘ cliquables =====
 var TIPS = {
   shipping: ['🚚 Livraison SEN TEW', '<b>3 façons d\'avoir la livraison GRATUITE à Dakar :</b><br><br>1️⃣ Commande ≥ 20 000 F<br>2️⃣ Paie en ligne (mobile money, carte)<br>3️⃣ Articles marqués « livraison gratuite vendeur »<br><br><b>Banlieue</b> : 2 000 F · <b>Régions</b> : 2 500 à 5 000 F (2-5 jours).<br><br>💳 <b>Paiement à la livraison</b> : +1 500 F de frais de garantie (remboursables si tu refuses un colis non conforme).'],
   payment: ['💳 Modes de paiement', '<b>Mobile money</b> — instantané, le plus utilisé au Sénégal.<br><br><b>Carte bancaire</b> — Visa/Mastercard, sécurisé 3D Secure. Obligatoire pour le paiement en tranches 2x/3x.<br><br><b>À la livraison</b> — cash à la réception, +1 500 F de garantie.<br><br>🔒 Toutes les transactions en ligne passent par un prestataire agréé. Tes données bancaires ne sont jamais stockées par SEN TEW.'],
@@ -180,7 +188,7 @@ function render(){
   var discount = PROMO ? Math.round(subtotal * PROMO.pct / 100) : 0;
   var total = subtotal - discount + ship.fee + ship.cashFee;
 
-  // ----- Articles -----
+  // Articles
   var html = items.map(function(it, i){
     return '<div class="cart-item">' +
       '<img src="' + it.img + '" alt="" onclick="location.href=\'produit.html?pid=' + it.id + '\'">' +
@@ -188,14 +196,14 @@ function render(){
         (it.vendor ? '<div class="ci-vendor" onclick="location.href=\'boutique.html?slug=' + it.slug + '\'">' + it.vendor + '</div>' : '') +
         '<div class="ci-name" onclick="location.href=\'produit.html?pid=' + it.id + '\'">' + it.name + '</div>' +
         '<div class="ci-price">' + fmtPrix(it.price) + ' FCFA</div>' +
-        (it.free_shipping ? '<div style="font-size:10px;color:#0f6b4e;font-weight:700;margin-top:2px">🚚 Livraison gratuite vendeur</div>' : '') +
+        (it.free_shipping ? '<div class="ci-ship">🚚 Livraison gratuite vendeur</div>' : '') +
         '<div class="ci-bottom">' +
           '<div class="qty-box"><button onclick="chQty(' + i + ',-1)">−</button><span>' + it.qty + '</span><button onclick="chQty(' + i + ',1)">+</button></div>' +
           '<button class="ci-del" onclick="delItem(' + i + ')"><i data-lucide="trash-2" style="width:13px"></i></button>' +
         '</div></div></div>';
   }).join('');
 
-  // ----- Barre livraison gratuite -----
+  // Barre livraison gratuite
   if (ship.free) {
     html += '<div class="free-bar won"><div class="fb-txt"><i data-lucide="party-popper"></i> Livraison GRATUITE !</div><div class="fb-sub">' + ship.reason + '</div></div>';
   } else if (ship.progress) {
@@ -207,7 +215,7 @@ function render(){
   // Astuce livraison ⓘ
   html += '<div class="tip" onclick="showTip(\'shipping\')"><i data-lucide="info"></i><span><b>3 façons d\'avoir la livraison gratuite</b> — seuil 20 000 F, paiement en ligne, ou produit offert. Touche pour les détails.</span></div>';
 
-  // ----- Promo -----
+  // Promo
   html += '<div class="bloc"><h2><i data-lucide="ticket" style="width:14px"></i> CODE PROMO</h2>';
   if (PROMO) {
     html += '<div class="promo-ok"><i data-lucide="badge-check" style="width:15px"></i> <span><b>' + PROMO.code + '</b> · ' + PROMO.label + ' appliqué</span><button onclick="rmPromo()">Retirer</button></div>';
@@ -218,7 +226,7 @@ function render(){
   }
   html += '</div>';
 
-  // ----- Zone -----
+  // Zone
   html += '<div class="bloc"><h2><i data-lucide="map-pin" style="width:14px"></i> ZONE DE LIVRAISON</h2>' +
     '<div class="zone-grid">' +
       '<div class="zone-opt' + (ZONE==='Dakar'?' on':'') + '" onclick="setZone(\'Dakar\')"><b>Dakar</b><span>' + fmtPrix(SHIP.dakar_fee) + ' F · 24-48h</span></div>' +
@@ -227,7 +235,7 @@ function render(){
     '</div>' +
     '<input class="addr-input" id="addrInput" placeholder="Adresse complète (quartier, rue, repère…)" value="' + (localStorage.getItem('sentew_addr') || '') + '"></div>';
 
-  // ----- Paiement (détaillé) -----
+  // Paiement détaillé
   html += '<div class="bloc"><h2><i data-lucide="wallet" style="width:14px"></i> MODE DE PAIEMENT <span class="h-info" onclick="showTip(\'payment\')"><i data-lucide="info" style="width:11px"></i></span></h2>' +
     '<div class="pay-opt' + (PAY==='mobile'?' on':'') + '" onclick="setPay(\'mobile\')">' +
       '<div class="pi" style="background:#e8f5f0;color:#0f6b4e"><i data-lucide="smartphone"></i></div>' +
@@ -245,16 +253,16 @@ function render(){
       '<span class="tag tag-fee">+' + fmtPrix(SHIP.cash_fee) + ' F</span>' +
       '<div class="pay-radio"></div></div>';
 
-  // ----- Tranches 2x / 3x (carte uniquement) -----
+  // Tranches 2x / 3x
   if (PAY === 'card') {
-    var t1 = Math.round(total / 1), t2 = Math.round(total / 2), t3 = Math.round(total / 3);
+    var t2 = Math.round(total / 2), t3 = Math.round(total / 3);
     html += '<div style="margin-top:6px"><div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:#6d28d9;margin-bottom:2px"><i data-lucide="calendar-clock" style="width:14px"></i> PAYER EN PLUSIEURS FOIS <span class="h-info" style="margin-left:auto" onclick="showTip(\'installments\')"><i data-lucide="info" style="width:11px"></i></span></div>' +
       '<div class="inst-row">' +
-        '<div class="inst-opt' + (INST===1?' on':'') + '" onclick="setInst(1)"><b>1×</b><span>' + fmtPrix(t1) + ' F<br>aujourd\'hui</span></div>' +
+        '<div class="inst-opt' + (INST===1?' on':'') + '" onclick="setInst(1)"><b>1×</b><span>' + fmtPrix(total) + ' F<br>aujourd\'hui</span></div>' +
         '<div class="inst-opt' + (INST===2?' on':'') + '" onclick="setInst(2)"><b>2×</b><span>' + fmtPrix(t2) + ' F<br>× 2 (30 jours)</span></div>' +
         '<div class="inst-opt' + (INST===3?' on':'') + '" onclick="setInst(3)"><b>3×</b><span>' + fmtPrix(t3) + ' F<br>× 3 (60 jours)</span></div>' +
       '</div>' +
-      '<div class="inst-detail' + (INST>1?' show':'') + '" id="instDetail">' +
+      '<div class="inst-detail' + (INST>1?' show':'') + '">' +
         '📅 <b>Échéancier :</b> ' + fmtPrix(Math.round(total/INST)) + ' F aujourd\'hui' + (INST===2 ? ' + ' + fmtPrix(t2) + ' F dans 30 jours' : '') + (INST===3 ? ' + ' + fmtPrix(t3) + ' F à 30 j + ' + fmtPrix(t3) + ' F à 60 j' : '') + '.<br>✅ Sans frais · 💳 Prélèvement automatique · 📦 Expédition dès la 1ère tranche' +
       '</div></div>';
   } else if (PAY === 'mobile') {
@@ -262,7 +270,7 @@ function render(){
   }
   html += '</div>';
 
-  // ----- Résumé détaillé -----
+  // Résumé détaillé
   var today = INST > 1 ? Math.round(total / INST) : total;
   html += '<div class="bloc"><h2><i data-lucide="receipt" style="width:14px"></i> RÉSUMÉ DÉTAILLÉ</h2>' +
     '<div class="sum-row"><span>Sous-total (' + cartCount() + ' article' + (cartCount()>1?'s':'') + ')</span><b>' + fmtPrix(subtotal) + ' F</b></div>' +
@@ -273,12 +281,12 @@ function render(){
     (INST > 1 ? '<div class="sum-row today"><span>💳 À payer aujourd\'hui (' + INST + '×)</span><b>' + fmtPrix(today) + ' F</b></div>' : '') +
   '</div>';
 
-    // ----- TU AIMERAIS AUSSI (intelligent : suit la navigation du client) -----
+  // ===== COMPLÈTE TA COMMANDE (petites cartes horizontales) =====
   html += '<div class="bloc"><h2><i data-lucide="sparkles" style="width:14px"></i> COMPLÈTE TA COMMANDE</h2>' +
-    '<div style="font-size:11px;color:#6B7280;margin-bottom:8px">Ces articles vont bien avec ton panier — la livraison reste la même 📦</div>' +
-    '<div class="sim-row" id="cartSim"><div style="color:#9aa5a0;font-size:12px;padding:8px">Chargement…</div></div></div>';
+    '<div style="font-size:11px;color:#6B7280;margin-bottom:8px">Ces articles vont bien avec ton panier — la livraison reste la même</div>' +
+    '<div class="sim-wrap"><div class="sim-row" id="cartSim"><div style="color:#9aa5a0;font-size:12px;padding:8px">Chargement…</div></div></div></div>';
 
-  // ----- Bouton -----
+  // Bouton
   html += '<div class="checkout">' +
     '<button class="btn-order" id="btnOrder" onclick="order()"><i data-lucide="lock" style="width:16px"></i> ' + (INST > 1 ? 'Payer ' + fmtPrix(today) + ' F (' + INST + '× sans frais)' : 'Commander · ' + fmtPrix(total) + ' FCFA') + '</button>' +
     '<div class="secure-row"><span><i data-lucide="shield-check" style="width:11px"></i> Paiement sécurisé</span><span><i data-lucide="rotate-ccw" style="width:11px"></i> Retour 7 jours</span><span><i data-lucide="package-check" style="width:11px"></i> Suivi en direct</span><span><i data-lucide="bike" style="width:11px"></i> Livreur identifié</span></div>' +
@@ -286,6 +294,32 @@ function render(){
 
   page.innerHTML = html;
   lucide.createIcons();
+  loadCartSuggestions();
+}
+
+// Suggestions intelligentes (petites cartes)
+function loadCartSuggestions(){
+  var items = cartGet();
+  if (!items.length) return;
+  var ids = items.map(function(i){ return i.id; });
+  getSmartSuggestions(ids).then(function(rows){
+    var box = document.getElementById('cartSim');
+    if (!box) return;
+    if (!rows || !rows.length) { box.innerHTML = '<div style="color:#9aa5a0;font-size:12px;padding:8px">Aucune suggestion pour le moment</div>'; return; }
+    box.innerHTML = rows.map(function(s){
+      return '<div class="sim-card">' +
+        '<img src="' + (s.images && s.images[0] || '') + '" alt="" onclick="location.href=\'' + lienProduit(s) + '\'">' +
+        '<div class="sb"><div class="sn2" onclick="location.href=\'' + lienProduit(s) + '\'">' + s.name + '</div>' +
+        '<div class="sp">' + fmtPrix(s.price) + ' F</div>' +
+        '<button class="sadd" data-sim="' + s.id + '">+ Ajouter</button></div></div>';
+    }).join('');
+    box.querySelectorAll('[data-sim]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var p = rows.find(function(x){ return x.id === btn.dataset.sim; });
+        if (p) { cartAdd(p, 1); setTimeout(render, 300); }
+      });
+    });
+  });
 }
 
 function chQty(i, d){ var items = cartGet(); cartQty(items[i].id, d); render(); }
@@ -336,7 +370,6 @@ function order(){
 
   supaWrite('orders', 'POST', payload).then(function(res){
     var o = Array.isArray(res) ? res[0] : res;
-    // Tranches 2x/3x enregistrées
     if (INST > 1 && o && o.id) {
       var per = Math.round(total / INST);
       for (var k = 1; k <= INST; k++) {
@@ -373,32 +406,7 @@ function order(){
   });
 }
 
-// Charge les suggestions intelligentes dans le panier
-function loadCartSuggestions(){
-  var items = cartGet();
-  if (!items.length) return;
-  var ids = items.map(function(i){ return i.id; });
-  getSmartSuggestions(ids).then(function(rows){
-    var box = document.getElementById('cartSim');
-    if (!box) return;
-    if (!rows || !rows.length) { box.innerHTML = '<div style="color:#9aa5a0;font-size:12px;padding:8px">Aucune suggestion pour le moment</div>'; return; }
-    box.innerHTML = rows.map(function(s){
-      return '<div class="sim-card">' +
-        '<img src="' + (s.images && s.images[0] || '') + '" onclick="location.href=\'' + lienProduit(s) + '\'">' +
-        '<div class="sb"><div class="sn2" onclick="location.href=\'' + lienProduit(s) + '\'">' + s.name + '</div>' +
-        '<div class="sp">' + fmtPrix(s.price) + ' F</div>' +
-        '<button class="sadd" data-sim="' + s.id + '">+ Ajouter</button></div></div>';
-    }).join('');
-    box.querySelectorAll('[data-sim]').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        var p = rows.find(function(x){ return x.id === btn.dataset.sim; });
-        if (p) { cartAdd(p, 1); setTimeout(render, 300); }
-      });
-    });
-  });
-}
-
-loadShippingRules().then(function(){ render(); loadCartSuggestions(); });
+loadShippingRules().then(render);
 function renderIcons(){ if (window.lucide) lucide.createIcons(); }
 renderIcons();
 window.addEventListener('load', renderIcons);
