@@ -1,17 +1,30 @@
 // ============================================
-// SEN TEW — FONDATION (connexion + données partagées)
-// Utilisé par TOUTES les pages de l'application
+// SEN TEW — FONDATION COMPLÈTE
+// connexion + données + panier + favoris + follows
+// + SEN TEW Ads + calculateur de livraison
 // ============================================
 
 var SUPA_URL = 'https://tjqkruhwmjzgfvtouqza.supabase.co';
 var SUPA_KEY = 'sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
 
-// --- Lecture base de données (fetch natif, sans librairie) ---
+// --- Lecture base de données ---
 function supa(table, query) {
   return fetch(SUPA_URL + '/rest/v1/' + table + '?' + (query || ''), {
     headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
   }).then(function (r) { return r.json(); })
     .catch(function () { return []; });
+}
+
+// --- Écriture base de données ---
+function supaWrite(table, method, body, query) {
+  return fetch(SUPA_URL + '/rest/v1/' + table + (query ? '?' + query : ''), {
+    method: method,
+    headers: {
+      'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY,
+      'Content-Type': 'application/json', 'Prefer': 'return=representation'
+    },
+    body: body ? JSON.stringify(body) : undefined
+  }).then(function (r) { return r.json().catch(function () { return {}; }); });
 }
 
 // --- Vendeurs ---
@@ -25,10 +38,11 @@ function getVendorBySlug(slug) {
 
 // --- Produits ---
 function getProducts(vendorId) {
-  var q = 'select=*,vendors(shop_name,slug,logo_url)&is_active=eq.true&order=created_at.desc';
+  var q = 'select=*,vendors(shop_name,slug,logo_url,plan)&is_active=eq.true&order=is_sponsored.desc,created_at.desc';
   if (vendorId) q += '&vendor_id=eq.' + vendorId;
   return supa('products', q);
 }
+function getProductsSorted(vendorId) { return getProducts(vendorId); }
 function getProduct(pidOrLegacy) {
   var q = /-/.test(pidOrLegacy)
     ? 'select=*,vendors(shop_name,slug,logo_url,rating,followers)&id=eq.' + pidOrLegacy
@@ -36,15 +50,13 @@ function getProduct(pidOrLegacy) {
   return supa('products', q).then(function (rows) { return rows && rows[0] ? rows[0] : null; });
 }
 
-// --- Liens standardisés (TOUTE l'app utilise ces 2 fonctions) ---
+// --- Liens standardisés ---
 function lienProduit(p) { return 'produit.html?pid=' + p.id; }
 function lienBoutique(v) { return 'boutique.html?slug=' + (v.slug || v); }
-
-// --- Format prix ---
 function fmtPrix(n) { return Number(n || 0).toLocaleString('fr-FR'); }
 
 // ============================================
-// PANIER PARTAGÉ (localStorage) — même panier partout
+// PANIER PARTAGÉ
 // ============================================
 function cartGet() {
   try { return JSON.parse(localStorage.getItem('sentew_cart') || '[]'); }
@@ -63,6 +75,7 @@ function cartAdd(p, qty) {
     img: (p.images && p.images[0]) || '',
     vendor: p.vendors ? p.vendors.shop_name : (p.vendor || ''),
     slug: p.vendors ? p.vendors.slug : '',
+    free_shipping: p.free_shipping || false,
     qty: qty || 1
   });
   cartSave(items);
@@ -82,7 +95,6 @@ function cartCount() {
 function cartTotal() {
   return cartGet().reduce(function (s, i) { return s + i.price * i.qty; }, 0);
 }
-// Badge rouge sur l'icône panier (automatique sur toutes les pages)
 function cartBadge() {
   var n = cartCount();
   document.querySelectorAll('a[href="panier.html"]').forEach(function (a) {
@@ -100,7 +112,7 @@ function cartBadge() {
 }
 
 // ============================================
-// FAVORIS PARTAGÉS (localStorage)
+// FAVORIS PARTAGÉS
 // ============================================
 function favGet() {
   try { return JSON.parse(localStorage.getItem('sentew_favs') || '[]'); }
@@ -122,7 +134,7 @@ function favToggle(p) {
     toast('❤️ Ajouté aux favoris');
   }
   localStorage.setItem('sentew_favs', JSON.stringify(favs));
-  return i < 0; // true = maintenant en favori
+  return i < 0;
 }
 
 // ============================================
@@ -137,13 +149,13 @@ function followToggle(vendor) {
   var f = followGet();
   var i = f.indexOf(vendor.slug);
   if (i >= 0) { f.splice(i, 1); toast('Boutique non suivie'); }
-  else { f.push(vendor.slug); toast('✓ Tu suis ' + vendor.shop_name); }
+  else { f.push(vendor.slug); toast('✓ Tu suis ' + (vendor.shop_name || 'cette boutique')); }
   localStorage.setItem('sentew_follows', JSON.stringify(f));
   return i < 0;
 }
 
 // ============================================
-// TOAST (notification discrète en haut)
+// TOAST
 // ============================================
 function toast(msg) {
   var t = document.createElement('div');
@@ -153,5 +165,99 @@ function toast(msg) {
   setTimeout(function () { t.remove(); }, 2200);
 }
 
-// Badge panier au chargement de chaque page
+// ============================================
+// LIVRAISON SEN TEW (modèle Jumia adapté Afrique)
+// ============================================
+var SHIP = {
+  free_threshold: 20000,
+  dakar_fee: 1500, suburb_fee: 2000,
+  regions_fee_min: 2500, regions_fee_max: 5000,
+  cash_fee: 1500,
+  free_zones: ['Dakar','Plateau','Almadies','Ouakam','Mermoz','Sacré-Cœur','Yoff','Ngor','HLM','Médina','Grand Dakar','Parcelles Assainies'],
+  suburbs: ['Pikine','Guédiawaye','Rufisque','Thiaroye','Keur Massar']
+};
+function loadShippingRules() {
+  return supa('shipping_rules', 'id=eq.1').then(function (r) {
+    if (r && r[0] && !r[0].code) {
+      SHIP.free_threshold  = r[0].free_threshold;
+      SHIP.dakar_fee       = r[0].dakar_fee;
+      SHIP.suburb_fee      = r[0].suburb_fee;
+      SHIP.regions_fee_min = r[0].regions_fee_min;
+      SHIP.regions_fee_max = r[0].regions_fee_max;
+      SHIP.cash_fee        = r[0].cash_fee;
+      if (r[0].free_zones) SHIP.free_zones = r[0].free_zones;
+    }
+    return SHIP;
+  }).catch(function () { return SHIP; });
+}
+function calcShipping(cartItems, zone, payMethod) {
+  var subtotal = cartItems.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
+  var allVendorFree = cartItems.length > 0 && cartItems.every(function (i) { return i.free_shipping; });
+  var inDakar  = SHIP.free_zones.indexOf(zone) >= 0;
+  var inSuburb = SHIP.suburbs.indexOf(zone) >= 0;
+  var baseFee  = inDakar ? SHIP.dakar_fee : inSuburb ? SHIP.suburb_fee : SHIP.regions_fee_min;
+  var res = { fee: baseFee, free: false, reason: '', cashFee: 0, progress: null };
+
+  if (allVendorFree) {
+    res.free = true; res.fee = 0;
+    res.reason = '🚚 Livraison gratuite offerte par le vendeur';
+  } else if (inDakar && subtotal >= SHIP.free_threshold) {
+    res.free = true; res.fee = 0;
+    res.reason = '🎉 Livraison gratuite : commande ≥ ' + fmtPrix(SHIP.free_threshold) + ' F';
+  } else if (inDakar && payMethod === 'online') {
+    res.free = true; res.fee = 0;
+    res.reason = '💳 Livraison gratuite : paiement en ligne';
+  } else {
+    if (inDakar && subtotal < SHIP.free_threshold) {
+      var rest = SHIP.free_threshold - subtotal;
+      res.progress = { rest: rest, pct: Math.round(subtotal / SHIP.free_threshold * 100) };
+      res.reason = 'Plus que ' + fmtPrix(rest) + ' F pour la livraison gratuite !';
+    } else if (!inDakar) {
+      res.reason = inSuburb ? 'Livraison banlieue' : 'Livraison régions (2-5 jours)';
+    }
+  }
+  if (payMethod === 'cash') res.cashFee = SHIP.cash_fee;
+  return res;
+}
+
+// ============================================
+// SEN TEW ADS — Boosts produits
+// ============================================
+function boosterProduit(vendor, product) {
+  var now = new Date();
+  var plan = vendor.plan || 'gratuit';
+  if (vendor.plan_expires_at && new Date(vendor.plan_expires_at) < now) plan = 'gratuit';
+
+  return supa('ads_plans', 'plan=eq.' + plan).then(function (plans) {
+    var p = plans && plans[0];
+    if (!p || p.code) return { ok: false, msg: 'Plan introuvable' };
+    var since = new Date(now);
+    if (p.quota_semaine > 0) since.setDate(since.getDate() - 7);
+    else since.setHours(0, 0, 0, 0);
+
+    return supa('ads_boosts',
+      'vendor_id=eq.' + vendor.id + '&started_at=gte.' + since.toISOString() + '&select=id'
+    ).then(function (boosts) {
+      var used = boosts ? boosts.length : 0;
+      var quota = p.quota_semaine > 0 ? p.quota_semaine : p.quota_jour;
+      var periode = p.quota_semaine > 0 ? 'cette semaine' : "aujourd'hui";
+      if (used >= quota) {
+        return { ok: false, msg: '❌ Quota épuisé : ' + quota + ' boost(s) ' + periode + ' avec le plan ' + plan.toUpperCase() };
+      }
+      var exp = new Date(now.getTime() + p.duree_heures * 3600 * 1000);
+      return supaWrite('products', 'PATCH',
+        { is_sponsored: true, sponsored_until: exp.toISOString() },
+        'id=eq.' + product.id
+      ).then(function () {
+        return supaWrite('ads_boosts', 'POST', {
+          vendor_id: vendor.id, product_id: product.id, expires_at: exp.toISOString()
+        }).then(function () {
+          return { ok: true, msg: '🚀 "' + product.name + '" boosté pour ' + p.duree_heures + 'h ! (' + (used + 1) + '/' + quota + ' ' + periode + ')' };
+        });
+      });
+    });
+  });
+}
+
+// Badge panier au chargement
 document.addEventListener('DOMContentLoaded', cartBadge);
