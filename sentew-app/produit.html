@@ -21,16 +21,16 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .g-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.5)}
 .g-dots i.on{background:#fff;width:22px;border-radius:4px}
 .badge-promo{position:absolute;top:14px;left:60px;background:#e63946;color:#fff;font-size:12px;font-weight:800;padding:5px 12px;border-radius:10px;z-index:5}
-/* ===== Bloc info ===== */
+/* ===== Info ===== */
 .info{background:#fff;padding:16px;margin-bottom:8px}
-.brand{font-size:11px;font-weight:800;color:#b8860b;letter-spacing:.6px;text-transform:uppercase}
+.brand{font-size:11px;font-weight:800;color:#b8860b;letter-spacing:.6px;text-transform:uppercase;cursor:pointer}
+.brand:hover{text-decoration:underline}
 .price-row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:6px}
 .price{font-size:26px;font-weight:900;color:#0f6b4e}
 .price-old{font-size:14px;color:#9aa5a0;text-decoration:line-through}
 .pct{font-size:12px;font-weight:800;color:#fff;background:#e63946;padding:3px 8px;border-radius:6px}
 .pname{font-size:18px;font-weight:800;color:#0a1f17;margin-top:8px;line-height:1.35}
 .pstats{display:flex;gap:14px;margin-top:10px;font-size:12px;color:#6B7280;flex-wrap:wrap;align-items:center}
-.pstats span{display:flex;align-items:center;gap:4px}
 .pstats .stars{color:#f59e0b;letter-spacing:1px;font-size:14px}
 .pstats a{color:#0f6b4e;font-weight:700;text-decoration:none}
 .chip-row{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
@@ -43,11 +43,11 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .stock.low{background:#fff4e6;color:#b45309;animation:pulse 1.5s infinite}
 .stock.out{background:#fee2e2;color:#b91c1c}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
-/* ===== Variantes (couleurs, tailles) ===== */
-.varlab{font-size:12px;font-weight:800;color:#0a1f17;margin:14px 0 6px;display:flex;align-items:center;gap:5px}
-.varlab b{color:#0f6b4e;font-weight:700}
+/* ===== Variantes ===== */
+.varlab{font-size:12px;font-weight:800;color:#0a1f17;margin:14px 0 6px}
+.varlab b{color:#0f6b4e}
 .opts{display:flex;gap:8px;flex-wrap:wrap}
-.opt{padding:8px 14px;border:1.5px solid #e5e7eb;background:#fff;border-radius:10px;cursor:pointer;font-size:12px;font-weight:700;color:#0a1f17;transition:all .15s}
+.opt{padding:8px 14px;border:1.5px solid #e5e7eb;background:#fff;border-radius:10px;cursor:pointer;font-size:12px;font-weight:700;color:#0a1f17}
 .opt.sel{border-color:#0f6b4e;background:#e8f5f0;color:#0f6b4e}
 .qty-row{display:flex;align-items:center;gap:10px;margin-top:14px}
 .qty-box{display:flex;align-items:center;border:1.5px solid #e5e7eb;border-radius:10px;overflow:hidden}
@@ -58,26 +58,38 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .seller-card img{width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid #0f6b4e;flex-shrink:0}
 .seller-card .sn{font-size:15px;font-weight:800;color:#0a1f17;display:flex;align-items:center;gap:5px}
 .seller-card .sm{font-size:11px;color:#6B7280;margin-top:2px}
-.seller-card .go{margin-left:auto;color:#0f6b4e;font-size:12px;font-weight:800;flex-shrink:0}
-/* ===== Blocs ===== */
-.bloc{background:#fff;padding:16px;margin-bottom:8px}
-.bloc h2{font-size:13px;font-weight:800;color:#b8860b;letter-spacing:.5px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.bloc p{font-size:13px;color:#4b5563;line-height:1.65}
-/* ===== Caractéristiques ===== */
+.seller-card .go{margin-left:auto;color:#0f6b4e;font-size:12px;font-weight:800}
+/* ===== ACCORDÉONS (blocs cliquables) ===== */
+.acc{background:#fff;margin-bottom:8px;overflow:hidden}
+.acc-head{display:flex;align-items:center;gap:8px;padding:15px 16px;cursor:pointer;user-select:none}
+.acc-head h2{font-size:13px;font-weight:800;color:#b8860b;letter-spacing:.5px;display:flex;align-items:center;gap:6px;flex:1}
+.acc-head .cnt{font-size:10px;font-weight:700;color:#9aa5a0;background:#f5f5f0;padding:3px 8px;border-radius:10px}
+.acc-head .chev{color:#9aa5a0;transition:transform .25s;flex-shrink:0}
+.acc.open .acc-head .chev{transform:rotate(180deg);color:#0f6b4e}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 16px}
+.acc.open .acc-body{max-height:900px;padding:0 16px 16px}
+.acc-body p{font-size:13px;color:#4b5563;line-height:1.65}
+/* Caractéristiques */
 .specs{border:1px solid #f0f0ea;border-radius:12px;overflow:hidden}
 .spec-row{display:flex;font-size:12px;border-bottom:1px solid #f0f0ea}
 .spec-row:last-child{border:none}
 .spec-row .k{background:#f9fafb;color:#6B7280;font-weight:700;padding:10px 12px;flex:0 0 40%}
 .spec-row .v{padding:10px 12px;color:#0a1f17;font-weight:600;flex:1}
-/* ===== Features (points forts) ===== */
+/* Points forts */
 .feats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .feat{display:flex;align-items:flex-start;gap:6px;font-size:12px;color:#4b5563;line-height:1.35}
 .feat i{color:#0f6b4e;flex-shrink:0;margin-top:1px}
-/* ===== Livraison ===== */
+/* Livraison */
 .liv-row{display:flex;align-items:center;gap:10px;font-size:13px;color:#4b5563;padding:8px 0;border-bottom:1px solid #f0f0ea}
 .liv-row:last-child{border:none}
 .liv-row i{color:#0f6b4e;flex-shrink:0}
-/* ===== Avis ===== */
+/* Garanties */
+.guar{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.guar-item{text-align:center;padding:12px 6px;background:#f9fafb;border-radius:12px}
+.guar-item i{color:#0f6b4e;margin-bottom:6px}
+.guar-item b{display:block;font-size:11px;color:#0a1f17;line-height:1.3}
+.guar-item span{font-size:10px;color:#9aa5a0;line-height:1.3}
+/* Avis */
 .avis-note{display:flex;align-items:center;gap:14px;margin-bottom:12px}
 .avis-note .big{font-size:36px;font-weight:900;color:#0a1f17;line-height:1}
 .avis-note .stars{color:#f59e0b;font-size:16px;letter-spacing:2px}
@@ -94,13 +106,9 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .avis-item .at{font-size:12px;color:#4b5563;margin-top:6px;line-height:1.5}
 .avis-item .ad{font-size:10px;color:#9aa5a0;margin-top:4px}
 .link-avis{display:block;text-align:center;font-size:12px;font-weight:800;color:#0f6b4e;text-decoration:none;padding:10px;margin-top:6px;border:1.5px solid #0f6b4e;border-radius:12px}
-/* ===== Garanties SEN TEW ===== */
-.guar{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.guar-item{text-align:center;padding:12px 6px;background:#f9fafb;border-radius:12px}
-.guar-item i{color:#0f6b4e;margin-bottom:6px}
-.guar-item b{display:block;font-size:11px;color:#0a1f17;line-height:1.3}
-.guar-item span{font-size:10px;color:#9aa5a0;line-height:1.3}
-/* ===== Produits similaires ===== */
+/* Similaires */
+.bloc{background:#fff;padding:16px;margin-bottom:8px}
+.bloc h2{font-size:13px;font-weight:800;color:#b8860b;letter-spacing:.5px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .sim-row{display:flex;gap:10px;overflow-x:auto;padding:2px 0;scrollbar-width:none}
 .sim-row::-webkit-scrollbar{display:none}
 .sim-card{flex-shrink:0;width:135px;background:#f5f5f0;border-radius:12px;overflow:hidden;cursor:pointer}
@@ -108,11 +116,11 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .sim-card .sb{padding:8px}
 .sim-card .sn2{font-size:11px;font-weight:700;line-height:1.3;height:28px;overflow:hidden}
 .sim-card .sp{font-size:13px;font-weight:900;color:#0f6b4e;margin-top:3px}
-/* ===== Barre achat ===== */
+/* Barre achat */
 .buy-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;gap:10px;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -4px 16px rgba(0,0,0,.08)}
 .buy-bar .bb-cart{flex:1;padding:13px;background:#fff;color:#0f6b4e;border:2px solid #0f6b4e;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
 .buy-bar .bb-buy{flex:1;padding:13px;background:#0f6b4e;color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer}
-.buy-bar .bb-chat{width:48px;border-radius:12px;border:1.5px solid #e5e7eb;background:#fff;color:#0f6b4e;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none}
+.buy-bar .bb-chat{width:48px;border-radius:12px;border:1.5px solid #e5e7eb;background:#fff;color:#0f6b4e;display:flex;align-items:center;justify-content:center;text-decoration:none}
 .empty-page{text-align:center;padding:80px 24px;color:#9aa5a0}
 .empty-page h2{font-size:17px;color:#0a1f17;margin:12px 0 6px}
 .empty-page a{display:inline-block;margin-top:14px;padding:11px 22px;background:#0f6b4e;color:#fff;border-radius:12px;text-decoration:none;font-weight:800;font-size:13px}
@@ -121,7 +129,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 <body>
 
 <div id="pageContent">
-  <!-- Galerie multi-photos avec dots -->
+  <!-- Galerie -->
   <div class="gallery">
     <button class="g-back" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
     <button class="g-fav" id="btnFav"><i data-lucide="heart"></i></button>
@@ -131,7 +139,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
     <div class="g-dots" id="gDots"></div>
   </div>
 
-  <!-- Bloc principal -->
+  <!-- Info principale -->
   <div class="info">
     <div class="brand" id="pBrand"></div>
     <div class="price-row">
@@ -143,23 +151,19 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
     <div class="pstats">
       <span class="stars" id="pStars"></span>
       <span><b id="pRating">—</b></span>
-      <span>· <a href="#avis" id="pReviews">— avis</a></span>
+      <span>· <a href="#accAvis" id="pReviews">— avis</a></span>
       <span>· <span id="pSold">— vendus</span></span>
     </div>
     <div class="chip-row" id="chipRow"></div>
     <span class="stock ok" id="pStock"></span>
-
-    <!-- Variantes couleurs -->
     <div id="colorsWrap" style="display:none">
       <div class="varlab">Couleur : <b id="curColor"></b></div>
       <div class="opts" id="colorsOpts"></div>
     </div>
-    <!-- Variantes tailles -->
     <div id="sizesWrap" style="display:none">
       <div class="varlab">Taille : <b id="curSize"></b></div>
       <div class="opts" id="sizesOpts"></div>
     </div>
-    <!-- Quantité -->
     <div class="qty-row">
       <div class="varlab" style="margin:0">Quantité :</div>
       <div class="qty-box">
@@ -180,58 +184,81 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
     <span class="go">Voir la boutique ›</span>
   </a>
 
-  <!-- Description -->
-  <div class="bloc">
-    <h2><i data-lucide="file-text" style="width:15px"></i> DESCRIPTION</h2>
-    <p id="pDesc">…</p>
-  </div>
+  <!-- ===== ACCORDÉONS CLIQUABLES ===== -->
 
-  <!-- Points forts -->
-  <div class="bloc" id="featsBloc" style="display:none">
-    <h2><i data-lucide="sparkles" style="width:15px"></i> POINTS FORTS</h2>
-    <div class="feats" id="featsGrid"></div>
-  </div>
-
-  <!-- Caractéristiques -->
-  <div class="bloc" id="specsBloc" style="display:none">
-    <h2><i data-lucide="list" style="width:15px"></i> CARACTÉRISTIQUES</h2>
-    <div class="specs" id="specsList"></div>
-  </div>
-
-  <!-- Garanties SEN TEW -->
-  <div class="bloc">
-    <h2><i data-lucide="shield-check" style="width:15px"></i> GARANTIES SEN TEW</h2>
-    <div class="guar">
-      <div class="guar-item"><i data-lucide="shield-check"></i><b>Paiement sécurisé</b><span>Wave · OM · Carte · Cash</span></div>
-      <div class="guar-item"><i data-lucide="rotate-ccw"></i><b>Retour 7 jours</b><span>Si défaut ou non conforme</span></div>
-      <div class="guar-item"><i data-lucide="award"></i><b>Vendeur vérifié</b><span>Compte SEN TEW authentique</span></div>
+  <div class="acc open" id="accDesc">
+    <div class="acc-head" onclick="toggleAcc('accDesc')">
+      <h2><i data-lucide="file-text" style="width:15px"></i> DESCRIPTION</h2>
+      <i data-lucide="chevron-down" class="chev" style="width:18px"></i>
     </div>
+    <div class="acc-body"><p id="pDesc">…</p></div>
   </div>
 
-  <!-- Livraison -->
-  <div class="bloc">
-    <h2><i data-lucide="truck" style="width:15px"></i> LIVRAISON</h2>
-    <div class="liv-row"><i data-lucide="truck" style="width:16px"></i> <span id="shipInfo">Livraison Dakar : 1 000 – 2 500 FCFA · 24-48 h</span></div>
-    <div class="liv-row"><i data-lucide="map-pin" style="width:16px"></i> Autres régions : 2 500 – 5 000 FCFA · 2-5 jours</div>
-    <div class="liv-row"><i data-lucide="clock" style="width:16px"></i> Commande avant 16 h → expédition le jour même</div>
+  <div class="acc" id="accFeats" style="display:none">
+    <div class="acc-head" onclick="toggleAcc('accFeats')">
+      <h2><i data-lucide="sparkles" style="width:15px"></i> POINTS FORTS</h2>
+      <span class="cnt" id="featsCnt"></span>
+      <i data-lucide="chevron-down" class="chev" style="width:18px"></i>
+    </div>
+    <div class="acc-body"><div class="feats" id="featsGrid"></div></div>
   </div>
 
-  <!-- Avis clients -->
-  <div class="bloc" id="avis">
-    <h2><i data-lucide="star" style="width:15px"></i> AVIS CLIENTS</h2>
-    <div class="avis-note">
-      <div style="text-align:center">
-        <span class="big" id="aBig">—</span>
-        <div class="stars" id="aStars"></div>
-        <div style="font-size:11px;color:#6B7280;margin-top:2px" id="aCount"></div>
+  <div class="acc" id="accSpecs">
+    <div class="acc-head" onclick="toggleAcc('accSpecs')">
+      <h2><i data-lucide="list" style="width:15px"></i> CARACTÉRISTIQUES</h2>
+      <span class="cnt" id="specsCnt"></span>
+      <i data-lucide="chevron-down" class="chev" style="width:18px"></i>
+    </div>
+    <div class="acc-body"><div class="specs" id="specsList"></div></div>
+  </div>
+
+  <div class="acc" id="accGuar">
+    <div class="acc-head" onclick="toggleAcc('accGuar')">
+      <h2><i data-lucide="shield-check" style="width:15px"></i> GARANTIES SEN TEW</h2>
+      <i data-lucide="chevron-down" class="chev" style="width:18px"></i>
+    </div>
+    <div class="acc-body">
+      <div class="guar">
+        <div class="guar-item"><i data-lucide="shield-check"></i><b>Paiement sécurisé</b><span>Mobile money · Carte · À la livraison</span></div>
+        <div class="guar-item"><i data-lucide="rotate-ccw"></i><b>Retour 7 jours</b><span>Si défaut ou non conforme</span></div>
+        <div class="guar-item"><i data-lucide="award"></i><b>Vendeur vérifié</b><span>Compte SEN TEW authentique</span></div>
       </div>
-      <div class="rate-bars" style="flex:1" id="rateBars"></div>
     </div>
-    <div id="avisList"></div>
-    <a class="link-avis" id="avisLink" href="avis.html">Voir tous les avis ›</a>
   </div>
 
-  <!-- Similaires -->
+  <div class="acc" id="accLiv">
+    <div class="acc-head" onclick="toggleAcc('accLiv')">
+      <h2><i data-lucide="truck" style="width:15px"></i> LIVRAISON</h2>
+      <i data-lucide="chevron-down" class="chev" style="width:18px"></i>
+    </div>
+    <div class="acc-body">
+      <div class="liv-row"><i data-lucide="truck" style="width:16px"></i> Livraison Dakar : 1 000 – 2 500 FCFA · 24-48 h</div>
+      <div class="liv-row"><i data-lucide="map-pin" style="width:16px"></i> Autres régions : 2 500 – 5 000 FCFA · 2-5 jours</div>
+      <div class="liv-row"><i data-lucide="clock" style="width:16px"></i> Commande avant 16 h → expédition le jour même</div>
+    </div>
+  </div>
+
+  <div class="acc" id="accAvis">
+    <div class="acc-head" onclick="toggleAcc('accAvis')">
+      <h2><i data-lucide="star" style="width:15px"></i> AVIS CLIENTS</h2>
+      <span class="cnt" id="avisCnt"></span>
+      <i data-lucide="chevron-down" class="chev" style="width:18px"></i>
+    </div>
+    <div class="acc-body">
+      <div class="avis-note">
+        <div style="text-align:center">
+          <span class="big" id="aBig">—</span>
+          <div class="stars" id="aStars"></div>
+          <div style="font-size:11px;color:#6B7280;margin-top:2px" id="aCount"></div>
+        </div>
+        <div class="rate-bars" style="flex:1" id="rateBars"></div>
+      </div>
+      <div id="avisList"></div>
+      <a class="link-avis" id="avisLink" href="avis.html">Voir tous les avis ›</a>
+    </div>
+  </div>
+
+  <!-- Similaires (toujours visible) -->
   <div class="bloc">
     <h2><i data-lucide="sparkles" style="width:15px"></i> TU AIMERAIS AUSSI</h2>
     <div class="sim-row" id="simRow"><div style="color:#9aa5a0;font-size:12px;padding:10px">Chargement…</div></div>
@@ -249,11 +276,15 @@ var P = null, QTY = 1, SEL_COLOR = null, SEL_SIZE = null;
 var params = new URLSearchParams(location.search);
 var key = params.get('pid') || params.get('id');
 
+function toggleAcc(id){
+  var el = document.getElementById(id);
+  el.classList.toggle('open');
+  lucide.createIcons();
+}
 function starsHTML(n){ var f=Math.round(n||0),s=''; for(var i=0;i<5;i++)s+=i<f?'★':'☆'; return s; }
 
 function renderGallery(imgs){
-  var t = document.getElementById('gTrack');
-  var d = document.getElementById('gDots');
+  var t = document.getElementById('gTrack'), d = document.getElementById('gDots');
   t.innerHTML = imgs.map(function(u){ return '<img src="'+u+'" alt="">'; }).join('');
   d.innerHTML = imgs.map(function(_,i){ return '<i class="'+(i===0?'on':'')+'"></i>'; }).join('');
   t.addEventListener('scroll', function(){
@@ -263,9 +294,8 @@ function renderGallery(imgs){
 }
 
 function renderRateBars(p){
-  var tot = (p.rating_5||0)+(p.rating_4||0)+(p.rating_3||0)+(p.rating_2||0)+(p.rating_1||0);
-  if (!tot) tot = p.review_count || 1;
-  var levels = [{n:5,v:p.rating_5||0},{n:4,v:p.rating_4||0},{n:3,v:p.rating_3||0},{n:2,v:p.rating_2||0},{n:1,v:p.rating_1||0}];
+  var tot=(p.rating_5||0)+(p.rating_4||0)+(p.rating_3||0)+(p.rating_2||0)+(p.rating_1||0) || p.review_count || 1;
+  var levels=[{n:5,v:p.rating_5||0},{n:4,v:p.rating_4||0},{n:3,v:p.rating_3||0},{n:2,v:p.rating_2||0},{n:1,v:p.rating_1||0}];
   document.getElementById('rateBars').innerHTML = levels.map(function(l){
     var pct = tot ? Math.round(l.v/tot*100) : 0;
     return '<div class="rate-bar"><span class="lbl">'+l.n+'★</span><div class="bar"><div class="fill" style="width:'+pct+'%"></div></div><span class="num">'+l.v+'</span></div>';
@@ -276,12 +306,10 @@ function render(p){
   P = p;
   document.title = p.name + ' - SEN TEW';
 
-  // Galerie
   var imgs = (p.gallery && p.gallery.length) ? p.gallery : (p.images || []);
   if (!imgs.length) imgs = [''];
   renderGallery(imgs);
 
-  // Prix + promo
   document.getElementById('pPrice').textContent = fmtPrix(p.price) + ' FCFA';
   if (p.old_price) {
     var pct = Math.round((1 - p.price / p.old_price) * 100);
@@ -293,30 +321,28 @@ function render(p){
     b.textContent = '-' + pct + '%'; b.style.display = 'inline-block';
   }
 
-  // Marque + nom
-  if (p.brand) document.getElementById('pBrand').textContent = p.brand;
+  if (p.brand) {
+    var br = document.getElementById('pBrand');
+    br.textContent = p.brand;
+    if (p.vendors) br.onclick = function(){ location.href = lienBoutique(p.vendors); };
+  }
   document.getElementById('pName').textContent = p.name;
-
-  // Stats
   document.getElementById('pStars').textContent = starsHTML(p.rating);
   document.getElementById('pRating').textContent = p.rating || '—';
   document.getElementById('pReviews').textContent = (p.review_count || 0) + ' avis';
   document.getElementById('pSold').textContent = (p.sold_count || 0) + ' vendus';
 
-  // Chips
   var chips = '';
   if (p.free_shipping) chips += '<span class="chip ship">🚚 Livraison gratuite</span>';
   if (p.warranty)      chips += '<span class="chip war">🛡️ ' + p.warranty + '</span>';
-  if (p.origin)        chips += '<span class="chip origin">🌍 Origine : ' + p.origin + '</span>';
+  if (p.origin)        chips += '<span class="chip origin">🌍 ' + p.origin + '</span>';
   document.getElementById('chipRow').innerHTML = chips;
 
-  // Stock
   var st = document.getElementById('pStock');
-  if ((p.stock || 0) <= 0)      { st.className = 'stock out'; st.textContent = '✗ Rupture de stock'; }
-  else if (p.stock <= 5)        { st.className = 'stock low'; st.textContent = '⚡ Plus que ' + p.stock + ' en stock !'; }
-  else                          { st.className = 'stock ok';  st.textContent = '✓ En stock (' + p.stock + ' disponibles)'; }
+  if ((p.stock || 0) <= 0)      { st.className='stock out'; st.textContent='✗ Rupture de stock'; }
+  else if (p.stock <= 5)        { st.className='stock low'; st.textContent='⚡ Plus que ' + p.stock + ' en stock !'; }
+  else                          { st.className='stock ok';  st.textContent='✓ En stock (' + p.stock + ' disponibles)'; }
 
-  // Couleurs
   if (p.colors && p.colors.length) {
     SEL_COLOR = p.colors[0];
     document.getElementById('curColor').textContent = SEL_COLOR;
@@ -325,7 +351,6 @@ function render(p){
     }).join('');
     document.getElementById('colorsWrap').style.display = 'block';
   }
-  // Tailles
   if (p.sizes && p.sizes.length) {
     SEL_SIZE = p.sizes[0];
     document.getElementById('curSize').textContent = SEL_SIZE;
@@ -335,7 +360,6 @@ function render(p){
     document.getElementById('sizesWrap').style.display = 'block';
   }
 
-  // Vendeur
   if (p.vendors) {
     document.getElementById('sName').textContent = p.vendors.shop_name;
     document.getElementById('sLogo').src = p.vendors.logo_url || '';
@@ -344,18 +368,16 @@ function render(p){
     document.getElementById('bbChat').href = 'chat.html?v=' + p.vendors.slug;
   }
 
-  // Description
   document.getElementById('pDesc').textContent = p.description || 'Aucune description.';
 
-  // Points forts
   if (p.features && p.features.length) {
     document.getElementById('featsGrid').innerHTML = p.features.map(function(f){
       return '<div class="feat"><i data-lucide="check-circle-2" style="width:14px"></i><span>'+f+'</span></div>';
     }).join('');
-    document.getElementById('featsBloc').style.display = 'block';
+    document.getElementById('featsCnt').textContent = p.features.length;
+    document.getElementById('accFeats').style.display = 'block';
   }
 
-  // Caractéristiques
   var specs = [];
   if (p.brand)      specs.push(['Marque', p.brand]);
   if (p.material)   specs.push(['Matière / Composition', p.material]);
@@ -365,40 +387,34 @@ function render(p){
   if (p.warranty)   specs.push(['Garantie', p.warranty]);
   specs.push(['Catégorie', (p.category || '') + (p.subcategory ? ' / ' + p.subcategory : '')]);
   specs.push(['Référence', 'SEN-' + (p.legacy_id || p.id.slice(0,8))]);
-  if (specs.length) {
-    document.getElementById('specsList').innerHTML = specs.map(function(s){
-      return '<div class="spec-row"><div class="k">'+s[0]+'</div><div class="v">'+s[1]+'</div></div>';
-    }).join('');
-    document.getElementById('specsBloc').style.display = 'block';
-  }
+  document.getElementById('specsList').innerHTML = specs.map(function(s){
+    return '<div class="spec-row"><div class="k">'+s[0]+'</div><div class="v">'+s[1]+'</div></div>';
+  }).join('');
+  document.getElementById('specsCnt').textContent = specs.length;
 
-  // Avis
   document.getElementById('aBig').textContent = p.rating || '—';
   document.getElementById('aStars').textContent = starsHTML(p.rating);
   document.getElementById('aCount').textContent = (p.review_count || 0) + ' avis';
+  document.getElementById('avisCnt').textContent = p.review_count || 0;
   renderRateBars(p);
   document.getElementById('avisLink').href = 'avis.html?pid=' + p.id;
   document.getElementById('avisList').innerHTML =
     '<div class="avis-item"><div class="ah"><span class="av">A</span> Awa D. <span class="verified">✓ Achat vérifié</span><span style="color:#f59e0b;margin-left:auto">'+starsHTML(5)+'</span></div><div class="at">Très bonne qualité, conforme à la description. Livraison rapide à Dakar.</div><div class="ad">Il y a 3 jours</div></div>' +
     '<div class="avis-item"><div class="ah"><span class="av">M</span> Modou S. <span class="verified">✓ Achat vérifié</span><span style="color:#f59e0b;margin-left:auto">'+starsHTML(Math.max(1,(p.rating||5)-0.2))+'</span></div><div class="at">Je recommande, vendeur sérieux et réactif.</div><div class="ad">Il y a 1 semaine</div></div>';
 
-  // Favori + barre d'achat
   document.getElementById('btnFav').classList.toggle('on', favHas(p.id));
   document.getElementById('buyBar').style.display = 'flex';
-
   lucide.createIcons();
 }
 
 function selColor(btn, c){
   document.querySelectorAll('#colorsOpts .opt').forEach(function(x){ x.classList.remove('sel'); });
-  btn.classList.add('sel');
-  SEL_COLOR = c;
+  btn.classList.add('sel'); SEL_COLOR = c;
   document.getElementById('curColor').textContent = c;
 }
 function selSize(btn, s){
   document.querySelectorAll('#sizesOpts .opt').forEach(function(x){ x.classList.remove('sel'); });
-  btn.classList.add('sel');
-  SEL_SIZE = s;
+  btn.classList.add('sel'); SEL_SIZE = s;
   document.getElementById('curSize').textContent = s;
 }
 function qtyChange(d){
@@ -429,8 +445,7 @@ function shareP(){
 
 document.getElementById('btnFav').addEventListener('click', function(){
   if (!P) return;
-  var on = favToggle(P);
-  this.classList.toggle('on', on);
+  this.classList.toggle('on', favToggle(P));
 });
 document.getElementById('btnCart').addEventListener('click', function(){
   if (!P) return;
