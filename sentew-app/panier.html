@@ -3,333 +3,333 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Mon panier - SEN TEW</title>
-<link rel="stylesheet" href="css/app.css?v=52">
+<title>Panier - SEN TEW</title>
 <script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/supabase.js"></script>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:110px;color:#0a1f17}
-  .cart-header{position:sticky;top:0;z-index:20;background:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #e5e7eb}
-  .cart-header h1{font-size:17px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
-  .icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e}
-  .icon-btn i{width:20px;height:20px}
-  .count-badge{background:#0f6b4e;color:#fff;font-size:11px;font-weight:800;padding:2px 8px;border-radius:12px}
-  .free-ship{margin:14px 16px;background:linear-gradient(135deg,#0f6b4e,#0a4d38);border-radius:14px;padding:14px;color:#fff}
-  .free-ship .ttl{font-size:13px;font-weight:800;display:flex;align-items:center;gap:7px}
-  .free-ship .ttl i{width:17px;height:17px}
-  .ship-bar{height:7px;background:rgba(255,255,255,.25);border-radius:4px;margin-top:10px;overflow:hidden}
-  .ship-fill{height:100%;width:100%;background:linear-gradient(90deg,#d4a574,#fcd116);border-radius:4px;transition:width .6s}
-  .free-ship .ok{margin-top:8px;font-size:12px;display:flex;align-items:center;gap:6px;color:#fcd116;font-weight:700}
-  .free-ship .ok i{width:15px;height:15px}
-  .section-ttl{margin:16px 16px 10px;font-size:12px;font-weight:800;color:#a67c3a;letter-spacing:1px;display:flex;align-items:center;gap:6px}
-  .section-ttl i{width:15px;height:15px}
-  .item{display:flex;gap:12px;background:#fff;margin:0 16px 10px;padding:12px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);animation:slideIn .3s;position:relative}
-  @keyframes slideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-  .item img{width:88px;height:88px;object-fit:cover;border-radius:12px;flex-shrink:0;cursor:pointer}
-  .item .info{flex:1;min-width:0}
-  .item h3{font-size:14px;font-weight:700;line-height:1.3;margin-bottom:3px;cursor:pointer}
-  .item .vendor{font-size:11px;color:#6B7280;display:flex;align-items:center;gap:4px;margin-bottom:3px;cursor:pointer}
-  .item .vendor i{width:12px;height:12px;color:#0f6b4e}
-  .item .variant{font-size:11px;color:#9aa5a0;margin-bottom:8px}
-  .item .row{display:flex;align-items:center;justify-content:space-between}
-  .price{font-size:16px;font-weight:900;color:#0f6b4e}
-  .price-old{font-size:11px;color:#9aa5a0;text-decoration:line-through;margin-left:6px;font-weight:400}
-  .stepper{display:flex;align-items:center;gap:2px;background:#f5f5f0;border-radius:20px;padding:3px}
-  .stepper button{width:28px;height:28px;border-radius:50%;border:none;background:#fff;font-size:16px;font-weight:800;color:#0f6b4e;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.08)}
-  .stepper button:active{transform:scale(.9);background:#0f6b4e;color:#fff}
-  .stepper .qty{min-width:26px;text-align:center;font-weight:800;font-size:14px}
-  .del-btn{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:50%;background:#fef2f2;border:none;color:#ef4444;cursor:pointer;display:flex;align-items:center;justify-content:center}
-  .del-btn i{width:15px;height:15px}
-  .promo-card{margin:14px 16px;background:#fff;border:1.5px dashed #d4a574;border-radius:14px;padding:14px}
-  .promo-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-  .promo-head i{width:17px;height:17px;color:#a67c3a}
-  .promo-head strong{font-size:13px;flex:1}
-  .promo-head a{font-size:10px;font-weight:800;color:#b8860b;background:#fff4e6;padding:4px 10px;border-radius:10px;text-decoration:none}
-  .promo-row{display:flex;gap:8px}
-  .promo-row input{flex:1;min-width:0;padding:11px 12px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;font-family:inherit;text-transform:uppercase}
-  .promo-row input:focus{outline:none;border-color:#0f6b4e}
-  .promo-row button{padding:11px 18px;background:#0f6b4e;color:#fff;border:none;border-radius:10px;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit}
-  .chips{display:flex;gap:8px;margin-top:10px;overflow-x:auto;scrollbar-width:none}
-  .chips::-webkit-scrollbar{display:none}
-  .promo-chip{flex-shrink:0;padding:6px 12px;border-radius:16px;font-size:11px;font-weight:800;cursor:pointer;border:none;font-family:inherit}
-  .ship-opt{display:flex;align-items:center;gap:12px;background:#fff;margin:0 16px 10px;padding:14px;border-radius:14px;border:2px solid transparent;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.04);transition:border-color .15s}
-  .ship-opt.selected{border-color:#0f6b4e;background:#f0f7f3}
-  .ship-opt .sic{width:40px;height:40px;border-radius:10px;background:#f0f7f3;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-  .ship-opt .sic i{width:20px;height:20px;color:#0f6b4e}
-  .ship-opt .stx{flex:1;min-width:0}
-  .ship-opt .stx b{font-size:13px;display:block}
-  .ship-opt .stx small{font-size:11px;color:#6B7280}
-  .ship-opt .sp{font-size:13px;font-weight:800;color:#0f6b4e}
-  .addr-card{display:flex;gap:12px;align-items:center;background:#fff;margin:0 16px 10px;padding:14px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04)}
-  .addr-card .aic{width:38px;height:38px;border-radius:50%;background:#fef2f2;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-  .addr-card .aic i{width:18px;height:18px;color:#ef4444}
-  .addr-card .atx{flex:1;min-width:0}
-  .addr-card .atx b{font-size:13px}
-  .addr-card .atx small{display:block;font-size:11px;color:#6B7280;margin-top:2px}
-  .addr-card .chg{font-size:12px;font-weight:700;color:#0f6b4e;text-decoration:none;flex-shrink:0}
-  .summary{background:#fff;margin:14px 16px;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
-  .sum-row{display:flex;justify-content:space-between;font-size:13px;color:#4a5a52;margin-bottom:8px;align-items:center}
-  .sum-row span:first-child{display:flex;align-items:center;gap:6px}
-  .sum-row i{width:14px;height:14px}
-  .sum-row.discount{color:#ef4444;font-weight:700}
-  .sum-row.discount i{color:#ef4444}
-  .sum-total{display:flex;justify-content:space-between;align-items:center;border-top:1.5px dashed #e5e7eb;padding-top:12px;margin-top:4px}
-  .sum-total b{font-size:15px}
-  .sum-total .tt{font-size:22px;font-weight:900;color:#0f6b4e}
-  .gold-pts{display:flex;align-items:center;gap:5px;font-size:11px;color:#a67c3a;margin-top:8px}
-  .gold-pts i{width:13px;height:13px}
-  .install{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 16px 0}
-  .inst{padding:10px 6px;background:#fff;border:2px solid #e5e7eb;border-radius:10px;font-weight:700;font-size:11px;text-align:center;cursor:pointer;color:#0a1f17;transition:all .15s;font-family:inherit}
-  .inst.selected{border-color:#0f6b4e;background:#f0f7f3;color:#0f6b4e}
-  .pay-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 16px 0}
-  .pay{padding:12px 4px;background:#fff;border:2px solid #e5e7eb;border-radius:12px;text-align:center;cursor:pointer;font-family:inherit;transition:all .15s;position:relative}
-  .pay .pic{width:34px;height:34px;border-radius:10px;margin:0 auto 5px;display:flex;align-items:center;justify-content:center}
-  .pay .pic i{width:18px;height:18px}
-  .pay small{font-size:10px;font-weight:700;color:#4a5a52}
-  .pay.selected{border-color:#0f6b4e;background:#f0f7f3}
-  .pay .fee{position:absolute;top:4px;right:6px;background:#fef3c7;color:#b8860b;font-size:8px;font-weight:800;padding:1px 5px;border-radius:6px}
-  /* Badge Cash sécurisé */
-  .cash-note{margin:8px 16px 0;background:#fff7ed;border:1.5px solid #fed7aa;border-radius:12px;padding:10px;font-size:11px;color:#9a3412;display:none;align-items:flex-start;gap:7px;line-height:1.4}
-  .cash-note.show{display:flex}
-  .cash-note i{width:15px;height:15px;flex-shrink:0;margin-top:1px}
-  .pay-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:50;box-shadow:0 -4px 16px rgba(0,0,0,.08)}
-  .pay-bar .pmini{display:flex;justify-content:space-between;font-size:12px;color:#6B7280;margin-bottom:8px}
-  .pay-bar .pmini b{color:#0f6b4e;font-size:15px}
-  .pay-btn{width:100%;background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;border:none;padding:16px;border-radius:14px;font-weight:800;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;box-shadow:0 6px 16px rgba(15,107,78,.35)}
-  .pay-btn:active{transform:scale(.98)}
-  .pay-btn i{width:18px;height:18px}
-  .secure{display:flex;align-items:center;justify-content:center;gap:5px;font-size:10px;color:#9aa5a0;margin-top:8px}
-  .secure i{width:11px;height:11px}
-  .sugg-scroll{display:flex;gap:10px;overflow-x:auto;padding:4px 16px 14px;scrollbar-width:none}
-  .sugg-scroll::-webkit-scrollbar{display:none}
-  .sugg{flex-shrink:0;width:130px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);cursor:pointer}
-  .sugg img{width:100%;height:100px;object-fit:cover;display:block}
-  .sugg .sb{padding:8px}
-  .sugg .sn{font-size:11px;font-weight:700;line-height:1.3;height:28px;overflow:hidden}
-  .sugg .sp{font-size:13px;font-weight:900;color:#0f6b4e;margin:4px 0 6px}
-  .sugg .sa{width:100%;padding:7px;background:#0f6b4e;color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit}
-  .toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-20px);background:#0a1f17;color:#fff;padding:11px 20px;border-radius:24px;font-size:13px;font-weight:700;z-index:99;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;box-shadow:0 8px 20px rgba(0,0,0,.3)}
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:96px;color:#0a1f17}
+.topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:40}
+.topbar h1{font-size:17px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
+.icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e}
+/* ===== Articles ===== */
+.cart-item{display:flex;gap:12px;background:#fff;margin:10px 14px 0;padding:12px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);animation:fadeIn .25s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.cart-item img{width:86px;height:86px;object-fit:cover;border-radius:12px;flex-shrink:0;cursor:pointer;background:#eee}
+.ci-info{flex:1;min-width:0;display:flex;flex-direction:column}
+.ci-vendor{font-size:10px;color:#b8860b;font-weight:700;cursor:pointer}
+.ci-name{font-size:13px;font-weight:800;color:#0a1f17;line-height:1.3;cursor:pointer}
+.ci-price{font-size:15px;font-weight:900;color:#0f6b4e;margin-top:3px}
+.ci-ship{font-size:10px;margin-top:2px}
+.ci-ship.free{color:#0f6b4e;font-weight:700}
+.ci-ship.paid{color:#b45309}
+.ci-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:8px}
+.qty-box{display:flex;align-items:center;border:1.5px solid #e5e7eb;border-radius:10px;overflow:hidden}
+.qty-box button{width:30px;height:30px;background:#fff;border:none;font-size:15px;font-weight:800;color:#0f6b4e;cursor:pointer}
+.qty-box span{padding:0 10px;font-size:13px;font-weight:800;min-width:30px;text-align:center}
+.ci-del{width:32px;height:32px;border-radius:50%;background:#fff;border:1.5px solid #fee2e2;color:#e63946;display:flex;align-items:center;justify-content:center;cursor:pointer}
+/* ===== Barre livraison gratuite ===== */
+.free-bar{background:#fff;margin:12px 14px 0;padding:14px;border-radius:16px;border:1.5px solid #0f6b4e;box-shadow:0 2px 10px rgba(15,107,78,.12)}
+.free-bar .fb-txt{font-size:12px;font-weight:800;color:#0a1f17;display:flex;align-items:center;gap:7px}
+.free-bar .fb-txt i{color:#0f6b4e;width:17px;height:17px}
+.free-bar .fb-sub{font-size:11px;color:#6B7280;margin-top:3px}
+.fb-track{height:9px;background:#f0f0ea;border-radius:5px;margin-top:9px;overflow:hidden}
+.fb-fill{height:100%;background:linear-gradient(90deg,#0f6b4e,#4ade80);border-radius:5px;transition:width .4s}
+.free-bar.won{border-color:#4ade80;background:#f0fdf4}
+/* ===== Promo ===== */
+.bloc{background:#fff;margin:12px 14px 0;padding:14px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.bloc h2{font-size:12px;font-weight:800;color:#b8860b;letter-spacing:.5px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.promo-row{display:flex;gap:8px}
+.promo-row input{flex:1;padding:11px 14px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:13px;font-family:inherit;outline:none;text-transform:uppercase}
+.promo-row input:focus{border-color:#0f6b4e}
+.promo-row button{padding:11px 18px;background:#0f6b4e;color:#fff;border:none;border-radius:12px;font-size:12px;font-weight:800;cursor:pointer}
+.promo-ok{display:flex;align-items:center;gap:8px;background:#f0fdf4;border:1.5px dashed #4ade80;border-radius:12px;padding:10px 12px;font-size:12px;font-weight:700;color:#065f46}
+.promo-ok button{margin-left:auto;background:none;border:none;color:#e63946;font-weight:800;cursor:pointer;font-size:12px}
+.promo-err{color:#e63946;font-size:11px;font-weight:700;margin-top:6px}
+.promo-link{display:block;margin-top:8px;font-size:11px;color:#0f6b4e;font-weight:700;text-decoration:none}
+/* ===== Zone de livraison ===== */
+.zone-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.zone-opt{padding:11px 6px;border:1.5px solid #e5e7eb;border-radius:12px;text-align:center;cursor:pointer;background:#fff}
+.zone-opt.on{border-color:#0f6b4e;background:#e8f5f0}
+.zone-opt b{display:block;font-size:11px;color:#0a1f17}
+.zone-opt span{font-size:10px;color:#6B7280}
+.addr-input{width:100%;margin-top:10px;padding:11px 14px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:13px;font-family:inherit;outline:none;box-sizing:border-box}
+.addr-input:focus{border-color:#0f6b4e}
+/* ===== Paiement ===== */
+.pay-opt{display:flex;align-items:center;gap:12px;padding:13px;border:1.5px solid #e5e7eb;border-radius:14px;cursor:pointer;background:#fff;margin-bottom:8px}
+.pay-opt.on{border-color:#0f6b4e;background:#e8f5f0}
+.pay-opt .pi{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pay-opt b{display:block;font-size:13px;color:#0a1f17}
+.pay-opt span{font-size:11px;color:#6B7280;line-height:1.3}
+.pay-opt .tag{margin-left:auto;font-size:10px;font-weight:800;padding:4px 9px;border-radius:10px;flex-shrink:0}
+.tag-free{background:#d1fae5;color:#065f46}
+.tag-fee{background:#fef3c7;color:#92400e}
+.pay-radio{width:18px;height:18px;border-radius:50%;border:2px solid #d1d5db;flex-shrink:0;position:relative}
+.pay-opt.on .pay-radio{border-color:#0f6b4e}
+.pay-opt.on .pay-radio::after{content:'';position:absolute;inset:3px;border-radius:50%;background:#0f6b4e}
+/* ===== Résumé ===== */
+.sum-row{display:flex;justify-content:space-between;font-size:13px;color:#4b5563;padding:5px 0}
+.sum-row.discount{color:#059669;font-weight:700}
+.sum-row.total{border-top:2px solid #f0f0ea;margin-top:8px;padding-top:12px;font-size:16px;font-weight:900;color:#0a1f17}
+.sum-row.total .tv{color:#0f6b4e}
+/* ===== Commander ===== */
+.checkout-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -4px 16px rgba(0,0,0,.08)}
+.btn-order{width:100%;padding:15px;background:#0f6b4e;color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-order:disabled{background:#9aa5a0}
+.secure-row{display:flex;justify-content:center;gap:14px;margin-top:8px;font-size:10px;color:#9aa5a0}
+.secure-row span{display:flex;align-items:center;gap:4px}
+/* ===== Vide / succès ===== */
+.empty{text-align:center;padding:60px 24px;color:#9aa5a0}
+.empty h3{color:#0a1f17;margin:12px 0 6px;font-size:16px}
+.empty a{display:inline-block;margin-top:14px;padding:12px 24px;background:#0f6b4e;color:#fff;border-radius:12px;text-decoration:none;font-weight:800;font-size:13px}
+.success{text-align:center;padding:50px 24px}
+.success .ok{width:76px;height:76px;border-radius:50%;background:#d1fae5;color:#065f46;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.success h2{font-size:19px;color:#0a1f17;margin-bottom:6px}
+.success .code{display:inline-block;background:#0a1f17;color:#4ade80;font-family:monospace;font-size:17px;font-weight:900;padding:10px 20px;border-radius:12px;letter-spacing:2px;margin:12px 0}
+.success p{font-size:12px;color:#6B7280;line-height:1.6}
+.success .btns{display:flex;gap:10px;margin-top:18px}
+.success .btns a{flex:1;padding:13px;border-radius:12px;text-decoration:none;font-weight:800;font-size:13px;text-align:center}
+.b-green{background:#0f6b4e;color:#fff}
+.b-grey{background:#e5e7eb;color:#0a1f17}
 </style>
 </head>
-<body class="light-mode">
+<body>
 
-<header class="cart-header">
+<header class="topbar">
   <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
-  <h1><i data-lucide="shopping-cart"></i> Mon panier <span class="count-badge" id="cartCount">3</span></h1>
-  <button class="icon-btn" onclick="location.href='favoris.html'"><i data-lucide="heart"></i></button>
+  <h1><i data-lucide="shopping-cart"></i> Mon Panier <span id="nbItems" style="color:#9aa5a0;font-size:13px;font-weight:700"></span></h1>
+  <button class="icon-btn" onclick="clearCart()"><i data-lucide="trash-2"></i></button>
 </header>
 
-<div class="free-ship">
-  <div class="ttl"><i data-lucide="truck"></i> Livraison GRATUITE dès 50 000 FCFA</div>
-  <div class="ship-bar"><div class="ship-fill" id="shipFill"></div></div>
-  <div class="ok" id="shipMsg"><i data-lucide="check-circle"></i> Félicitations ! Vous en bénéficiez</div>
-</div>
+<div id="page"></div>
 
-<h2 class="section-ttl"><i data-lucide="package"></i> VOS ARTICLES</h2>
-<div id="cartItems"></div>
-
-<div class="promo-card">
-  <div class="promo-head">
-    <i data-lucide="ticket"></i>
-    <strong>Code promo / Coupon</strong>
-    <a href="bons-promo.html">3 disponibles ›</a>
-  </div>
-  <div class="promo-row">
-    <input type="text" id="promoInput" placeholder="Entrez votre code..." value="WELCOME">
-    <button onclick="applyPromo()">Appliquer</button>
-  </div>
-  <div class="chips">
-    <button class="promo-chip" style="background:#ef4444;color:#fff" onclick="setPromo('WELCOME')">🔥 WELCOME -20%</button>
-    <button class="promo-chip" style="background:#d4a574;color:#fff" onclick="setPromo('RAMADAN30')">🌙 RAMADAN30</button>
-    <button class="promo-chip" style="background:#0f6b4e;color:#fff" onclick="setPromo('FREESHIP')">🚚 FREESHIP</button>
-  </div>
-</div>
-
-<h2 class="section-ttl"><i data-lucide="truck"></i> MODE DE LIVRAISON</h2>
-<div class="ship-opt selected" data-price="1500" onclick="selectShip(this)">
-  <div class="sic"><i data-lucide="zap"></i></div>
-  <div class="stx"><b>Express Dakar (24h)</b><small>Livraison rapide dans Dakar</small></div>
-  <div class="sp">1 500 F</div>
-</div>
-<div class="ship-opt" data-price="0" onclick="selectShip(this)">
-  <div class="sic"><i data-lucide="package"></i></div>
-  <div class="stx"><b>Standard (2-3 jours)</b><small>Tout le Sénégal</small></div>
-  <div class="sp">Gratuit</div>
-</div>
-<div class="ship-opt" data-price="800" onclick="selectShip(this)">
-  <div class="sic"><i data-lucide="map-pin"></i></div>
-  <div class="stx"><b>Point relais</b><small>Récupérer en 24h</small></div>
-  <div class="sp">800 F</div>
-</div>
-
-<h2 class="section-ttl"><i data-lucide="map-pin"></i> ADRESSE DE LIVRAISON</h2>
-<div class="addr-card">
-  <div class="aic"><i data-lucide="map-pin"></i></div>
-  <div class="atx">
-    <b>Karim Niang · 52 Rue Mohamed V</b>
-    <small>Dakar-Plateau, 11000 · +221 77 456 78 90</small>
-  </div>
-  <a href="adresses.html" class="chg">Changer</a>
-</div>
-
-<h2 class="section-ttl"><i data-lucide="sparkles"></i> VOUS AIMEREZ AUSSI</h2>
-<div class="sugg-scroll" id="sugg"></div>
-
-<div class="summary">
-  <div class="sum-row"><span><i data-lucide="package"></i> Sous-total (<span id="sumCount">3</span> articles)</span><span id="sumSub">112 000 FCFA</span></div>
-  <div class="sum-row discount" id="discountRow"><span><i data-lucide="tag"></i> Remise (<span id="promoLabel">-30% WELCOME</span>)</span><span id="sumDisc">−33 600 FCFA</span></div>
-  <div class="sum-row"><span><i data-lucide="truck"></i> Livraison</span><span id="sumShip">1 500 FCFA</span></div>
-  <div class="sum-row" id="cashRow" style="display:none;color:#b45309"><span><i data-lucide="shield"></i> Sécurité Cash</span><span>+500 FCFA</span></div>
-  <div class="sum-total"><b>TOTAL</b><span class="tt" id="sumTotal">79 900 FCFA</span></div>
-  <div class="gold-pts"><i data-lucide="award"></i> Vous gagnerez <strong>+<span id="goldPts">80</span> points GOLD</strong></div>
-</div>
-
-<div class="install">
-  <button class="inst selected" onclick="selectInst(this,1)">1× <span class="instAmt">79 900</span> F</button>
-  <button class="inst" onclick="selectInst(this,2)">2× <span class="instAmt">39 950</span> F</button>
-  <button class="inst" onclick="selectInst(this,3)">3× <span class="instAmt">26 633</span> F</button>
-</div>
-
-<div style="margin:14px 16px 4px;font-size:10px;font-weight:800;color:#4a5a52;letter-spacing:1px">MODE DE PAIEMENT</div>
-<div class="pay-grid">
-  <button class="pay selected" onclick="selectPay(this,'Wave',0)"><div class="pic" style="background:#e0f2fe"><i data-lucide="waves" style="color:#0284c7"></i></div><small>Wave</small></button>
-  <button class="pay" onclick="selectPay(this,'Orange Money',0)"><div class="pic" style="background:#fff7ed"><i data-lucide="circle" style="color:#f97316"></i></div><small>Orange M.</small></button>
-  <button class="pay" onclick="selectPay(this,'Carte bancaire',0)"><div class="pic" style="background:#f3e8ff"><i data-lucide="credit-card" style="color:#9333ea"></i></div><small>Carte</small></button>
-  <button class="pay" onclick="selectPay(this,'Cash à la livraison',500)"><span class="fee">+500F</span><div class="pic" style="background:#f0fdf4"><i data-lucide="banknote" style="color:#16a34a"></i></div><small>Cash livr.</small></button>
-</div>
-
-<!-- Note sécurité Cash -->
-<div class="cash-note" id="cashNote">
-  <i data-lucide="shield-check"></i>
-  <div><strong>Paiement Cash sécurisé :</strong> +500 FCFA de frais anti-refus (remboursés si livraison réussie). Vérification par SMS avant expédition. Après 2 refus, le Cash est désactivé.</div>
-</div>
-
-<div style="height:16px"></div>
-
-<div class="pay-bar">
-  <div class="pmini"><span>Total à payer</span><b id="barTotal">79 900 FCFA</b></div>
-  <button class="pay-btn" onclick="pay()"><i data-lucide="lock"></i> Payer <span id="btnTotal">79 900</span> FCFA</button>
-  <div class="secure"><i data-lucide="shield-check"></i> Paiement 100% sécurisé · SEN TEW</div>
-</div>
-
-<div class="toast" id="toast"></div>
+<nav class="bottom-nav" style="position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:99;box-shadow:0 -2px 10px rgba(0,0,0,.05)">
+  <a href="index.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600;min-height:44px;justify-content:center"><i data-lucide="home"></i><span>Accueil</span></a>
+  <a href="categories.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600;min-height:44px;justify-content:center"><i data-lucide="layout-grid"></i><span>Catégories</span></a>
+  <a href="favoris.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600;min-height:44px;justify-content:center"><i data-lucide="heart"></i><span>Favoris</span></a>
+  <a href="profil.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600;min-height:44px;justify-content:center"><i data-lucide="user"></i><span>Profil</span></a>
+</nav>
 
 <script>
-lucide.createIcons();
-var cart=[
-  {id:1,name:'Sac cuir africain',vendor:'Aïcha Couture',bid:1,variant:'Taille : Unique · Couleur : Marron',price:22000,old:28000,qty:1,img:'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=200&h=200&fit=crop'},
-  {id:2,name:'Perruque brésilienne',vendor:'Mariama B.',bid:3,variant:'Longueur : 18" · Couleur : Naturel',price:55000,old:null,qty:1,img:'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=200&h=200&fit=crop'},
-  {id:3,name:'Robe wax mariage',vendor:'Aïcha Couture',bid:1,variant:'Taille : L · Couleur : Wax bleu',price:35000,old:null,qty:1,img:'https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=200&h=200&fit=crop'}
-];
-var sugg=[
-  {id:4,name:'Robe wax bleue',price:35000,img:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=200&h=200&fit=crop'},
-  {id:2,name:'Sandales cuir',price:8500,img:'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=200&h=200&fit=crop'},
-  {id:5,name:'Kaftan luxe',price:65000,img:'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=200&h=200&fit=crop'}
-];
-var shipCost=1500, discount=33600, payMethod='Wave', cashFee=0, PROMOS={WELCOME:{pct:20},RAMADAN30:{pct:30},FREESHIP:{pct:0,ship:true}};
+var PROMOS = {
+  'RAMADAN30': { pct: 30, label: '-30% Vente Flash' },
+  'SENTEW10':  { pct: 10, label: '-10% Bienvenue' },
+  'WELCOME5':  { pct: 5,  label: '-5% Première commande' }
+};
+var PROMO = null;
+var ZONE = 'Dakar';
+var PAY = 'online';
 
-function renderCart(){
-  var box=document.getElementById('cartItems');
-  if(!cart.length){
-    box.innerHTML='<div style="text-align:center;padding:40px 20px;color:#6B7280"><i data-lucide="shopping-cart" style="width:48px;height:48px;color:#d4a574"></i><p style="margin-top:10px;font-weight:700">Ton panier est vide</p><a href="produits.html" style="display:inline-block;margin-top:12px;background:#0f6b4e;color:#fff;padding:12px 24px;border-radius:12px;text-decoration:none;font-weight:800;font-size:13px">Découvrir les produits</a></div>';
-    lucide.createIcons(); recalc(); return;
-  }
-  box.innerHTML=cart.map(function(it,i){
-    return '<div class="item">'+
-      '<button class="del-btn" onclick="removeItem('+i+')"><i data-lucide="trash-2"></i></button>'+
-      '<img src="'+it.img+'" alt="'+it.name+'" onclick="location.href=\'produit.html?id='+it.id+'\'">'+
-      '<div class="info">'+
-        '<h3 onclick="location.href=\'produit.html?id='+it.id+'\'">'+it.name+'</h3>'+
-        '<div class="vendor" onclick="location.href=\'boutique.html?id='+it.bid+'\'"><i data-lucide="store"></i> '+it.vendor+' <i data-lucide="badge-check" style="width:11px;height:11px;color:#3b82f6"></i></div>'+
-        '<div class="variant">'+it.variant+'</div>'+
-        '<div class="row">'+
-          '<div><span class="price">'+fmt(it.price*it.qty)+' FCFA</span>'+(it.old?'<span class="price-old">'+fmt(it.old*it.qty)+'</span>':'')+'</div>'+
-          '<div class="stepper"><button onclick="chgQty('+i+',-1)">−</button><span class="qty">'+it.qty+'</span><button onclick="chgQty('+i+',1)">+</button></div>'+
-        '</div></div></div>';
-  }).join('');
-  lucide.createIcons(); recalc();
+function itemShipNote(it){
+  // Note livraison par article (indicatif vendeur)
+  return null;
 }
 
-document.getElementById('sugg').innerHTML=sugg.map(function(s){
-  return '<div class="sugg" onclick="location.href=\'produit.html?id='+s.id+'\'">'+
-    '<img src="'+s.img+'" alt="'+s.name+'">'+
-    '<div class="sb"><div class="sn">'+s.name+'</div><div class="sp">'+fmt(s.price)+' F</div>'+
-    '<button class="sa" onclick="event.stopPropagation();addSugg('+s.id+')">+ Ajouter</button></div></div>';
-}).join('');
+function render(){
+  var items = cartGet();
+  var page = document.getElementById('page');
+  document.getElementById('nbItems').textContent = items.length ? '(' + cartCount() + ')' : '';
 
-function addSugg(id){
-  var s=sugg.find(function(x){return x.id===id;});
-  if(!s) return;
-  cart.push({id:s.id,name:s.name,vendor:'SEN TEW',bid:1,variant:'Nouvel ajout',price:s.price,old:null,qty:1,img:s.img});
-  renderCart(); toast('✅ '+s.name+' ajouté');
-}
-function chgQty(i,d){ cart[i].qty=Math.max(1,cart[i].qty+d); renderCart(); }
-function removeItem(i){ if(confirm('🗑️ Retirer "'+cart[i].name+'" ?')){ cart.splice(i,1); renderCart(); toast('Article retiré'); } }
-function setPromo(code){ document.getElementById('promoInput').value=code; applyPromo(); }
-function applyPromo(){
-  var code=document.getElementById('promoInput').value.trim().toUpperCase();
-  if(!code){ toast('⚠️ Entre un code'); return; }
-  var p=PROMOS[code];
-  if(!p){ toast('❌ Code invalide'); return; }
-  if(p.ship){ shipCost=0; discount=0; document.getElementById('promoLabel').textContent='FREESHIP'; }
-  else{ discount=Math.round(subtotal()*p.pct/100); document.getElementById('promoLabel').textContent='-'+p.pct+'% '+code; }
-  recalc(); toast('✅ Code '+code+' appliqué !');
-}
-function selectShip(el){
-  document.querySelectorAll('.ship-opt').forEach(function(o){o.classList.remove('selected');});
-  el.classList.add('selected');
-  shipCost=parseInt(el.dataset.price)||0; recalc();
-}
-function selectInst(el,n){ document.querySelectorAll('.inst').forEach(function(o){o.classList.remove('selected');}); el.classList.add('selected'); }
-function selectPay(el,name,fee){
-  document.querySelectorAll('.pay').forEach(function(o){o.classList.remove('selected');});
-  el.classList.add('selected');
-  payMethod=name;
-  cashFee=fee;
-  document.getElementById('cashNote').classList.toggle('show', fee>0);
-  document.getElementById('cashRow').style.display=fee>0?'flex':'none';
-  recalc();
-  if(fee>0) toast('💵 Cash sécurisé : +500 F (remboursés à la livraison)');
-  else toast('💳 '+name+' sélectionné');
-}
-function pay(){
-  if(!cart.length){ toast('⚠️ Panier vide'); return; }
-  if(payMethod==='Cash à la livraison'){
-    if(confirm('💵 PAIEMENT CASH SÉCURISÉ\n\nTu paieras '+(document.getElementById('sumTotal').textContent)+' au livreur.\n\n✅ Vérification SMS avant expédition\n✅ 500 F remboursés si livraison OK\n⚠️ Après 2 refus, le Cash sera désactivé\n\nConfirmer la commande ?')){
-      toast('✅ Commande Cash confirmée ! SMS de vérification envoyé.');
-      setTimeout(function(){ location.href='checkout.html?pay=cash'; },1500);
-    }
+  if (!items.length) {
+    page.innerHTML = '<div class="empty"><i data-lucide="shopping-cart" style="width:48px;color:#d1d5db"></i><h3>Ton panier est vide</h3><p>Découvre nos articles et ajoute ce qui te plaît.</p><a href="index.html">Voir les articles</a></div>';
+    lucide.createIcons();
     return;
   }
-  location.href='checkout.html?pay='+encodeURIComponent(payMethod);
-}
-function fmt(n){ return n.toLocaleString('fr-FR').replace(/\u202f/g,' '); }
-function subtotal(){ return cart.reduce(function(s,it){return s+it.price*it.qty;},0); }
-function recalc(){
-  var sub=subtotal();
-  var total=Math.max(0, sub - discount + shipCost + cashFee);
-  document.getElementById('sumSub').textContent=fmt(sub)+' FCFA';
-  document.getElementById('sumDisc').textContent='−'+fmt(discount)+' FCFA';
-  document.getElementById('sumShip').textContent=shipCost===0?'Gratuit':fmt(shipCost)+' FCFA';
-  document.getElementById('sumTotal').textContent=fmt(total)+' FCFA';
-  document.getElementById('barTotal').textContent=fmt(total)+' FCFA';
-  document.getElementById('btnTotal').textContent=fmt(total);
-  document.getElementById('sumCount').textContent=cart.reduce(function(s,it){return s+it.qty;},0);
-  document.getElementById('cartCount').textContent=cart.reduce(function(s,it){return s+it.qty;},0);
-  document.getElementById('goldPts').textContent=Math.round(total/1000);
-  document.getElementById('discountRow').style.display=discount>0?'flex':'none';
-  var amts=document.querySelectorAll('.instAmt');
-  amts[0].textContent=fmt(total); amts[1].textContent=fmt(Math.round(total/2)); amts[2].textContent=fmt(Math.round(total/3));
-  var pct=Math.min(100, Math.round(sub/50000*100));
-  document.getElementById('shipFill').style.width=pct+'%';
-  var msg=document.getElementById('shipMsg');
-  if(sub>=50000){ msg.innerHTML='<i data-lucide="check-circle"></i> Félicitations ! Vous en bénéficiez'; msg.style.color='#fcd116'; }
-  else{ msg.innerHTML='<i data-lucide="info"></i> Plus que '+fmt(50000-sub)+' FCFA pour la livraison gratuite'; msg.style.color='#fff'; }
+
+  // Calcul livraison via la fonction centrale (règles SEN TEW)
+  var ship = calcShipping(items, ZONE, PAY);
+  var subtotal = cartTotal();
+  var discount = PROMO ? Math.round(subtotal * PROMO.pct / 100) : 0;
+  var total = subtotal - discount + ship.fee + ship.cashFee;
+
+  // ----- Articles -----
+  var html = items.map(function(it, i){
+    return '<div class="cart-item">' +
+      '<img src="' + it.img + '" alt="" onclick="location.href=\'produit.html?pid=' + it.id + '\'">' +
+      '<div class="ci-info">' +
+        (it.vendor ? '<div class="ci-vendor" onclick="location.href=\'boutique.html?slug=' + it.slug + '\'"><i data-lucide="store" style="width:10px;display:inline"></i> ' + it.vendor + '</div>' : '') +
+        '<div class="ci-name" onclick="location.href=\'produit.html?pid=' + it.id + '\'">' + it.name + '</div>' +
+        '<div class="ci-price">' + fmtPrix(it.price) + ' FCFA</div>' +
+        (it.free_shipping ? '<div class="ci-ship free">🚚 Livraison gratuite vendeur</div>' : '') +
+        '<div class="ci-bottom">' +
+          '<div class="qty-box"><button onclick="chQty(' + i + ',-1)">−</button><span>' + it.qty + '</span><button onclick="chQty(' + i + ',1)">+</button></div>' +
+          '<button class="ci-del" onclick="delItem(' + i + ')"><i data-lucide="trash-2" style="width:13px"></i></button>' +
+        '</div>' +
+      '</div></div>';
+  }).join('');
+
+  // ----- Barre livraison gratuite -----
+  if (ship.free) {
+    html += '<div class="free-bar won"><div class="fb-txt"><i data-lucide="party-popper"></i> Livraison GRATUITE !</div>' +
+      '<div class="fb-sub">' + ship.reason + '</div></div>';
+  } else if (ship.progress) {
+    html += '<div class="free-bar"><div class="fb-txt"><i data-lucide="target"></i> Plus que <b style="color:#0f6b4e">' + fmtPrix(ship.progress.rest) + ' F</b> pour la LIVRAISON GRATUITE</div>' +
+      '<div class="fb-track"><div class="fb-fill" style="width:' + ship.progress.pct + '%"></div></div>' +
+      '<div class="fb-sub">ou paie en ligne → livraison offerte à Dakar</div></div>';
+  } else {
+    html += '<div class="free-bar"><div class="fb-txt"><i data-lucide="truck"></i> ' + ship.reason + '</div></div>';
+  }
+
+  // ----- Promo -----
+  html += '<div class="bloc"><h2><i data-lucide="ticket" style="width:14px"></i> CODE PROMO</h2>';
+  if (PROMO) {
+    html += '<div class="promo-ok"><i data-lucide="badge-check" style="width:15px"></i> <span><b>' + PROMO.code + '</b> · ' + PROMO.label + ' appliqué</span><button onclick="rmPromo()">Retirer</button></div>';
+  } else {
+    html += '<div class="promo-row"><input type="text" id="promoInput" placeholder="Ex : RAMADAN30" maxlength="20"><button onclick="applyPromo()">Appliquer</button></div>' +
+      '<div class="promo-err" id="promoErr"></div>' +
+      '<a class="promo-link" href="bons-promo.html">Voir mes bons disponibles ›</a>';
+  }
+  html += '</div>';
+
+  // ----- Zone -----
+  html += '<div class="bloc"><h2><i data-lucide="map-pin" style="width:14px"></i> ZONE DE LIVRAISON</h2>' +
+    '<div class="zone-grid">' +
+      '<div class="zone-opt' + (ZONE==='Dakar'?' on':'') + '" onclick="setZone(\'Dakar\',this)"><b>Dakar</b><span>' + fmtPrix(SHIP.dakar_fee) + ' F · 24-48h</span></div>' +
+      '<div class="zone-opt' + (ZONE==='Pikine'?' on':'') + '" onclick="setZone(\'Pikine\',this)"><b>Banlieue</b><span>' + fmtPrix(SHIP.suburb_fee) + ' F · 24-48h</span></div>' +
+      '<div class="zone-opt' + (ZONE==='Thiès'?' on':'') + '" onclick="setZone(\'Thiès\',this)"><b>Régions</b><span>' + fmtPrix(SHIP.regions_fee_min) + '+ F · 2-5j</span></div>' +
+    '</div>' +
+    '<input class="addr-input" id="addrInput" placeholder="Adresse complète (quartier, rue, repère…)" value="' + (localStorage.getItem('sentew_addr') || '') + '">' +
+  '</div>';
+
+  // ----- Paiement -----
+  html += '<div class="bloc"><h2><i data-lucide="wallet" style="width:14px"></i> MODE DE PAIEMENT</h2>' +
+    '<div class="pay-opt' + (PAY==='online'?' on':'') + '" onclick="setPay(\'online\')">' +
+      '<div class="pi" style="background:#e8f5f0;color:#0f6b4e"><i data-lucide="smartphone"></i></div>' +
+      '<div style="flex:1"><b>Paiement en ligne</b><span>Mobile money ou carte bancaire — sécurisé</span></div>' +
+      (ZONE === 'Dakar' ? '<span class="tag tag-free">Livraison GRATUITE</span>' : '<span class="tag tag-free">Recommandé</span>') +
+      '<div class="pay-radio"></div></div>' +
+    '<div class="pay-opt' + (PAY==='cash'?' on':'') + '" onclick="setPay(\'cash\')">' +
+      '<div class="pi" style="background:#fef3c7;color:#92400e"><i data-lucide="banknote"></i></div>' +
+      '<div style="flex:1"><b>À la livraison</b><span>Paie en cash à la réception du colis</span></div>' +
+      '<span class="tag tag-fee">+' + fmtPrix(SHIP.cash_fee) + ' F</span>' +
+      '<div class="pay-radio"></div></div>' +
+  '</div>';
+
+  // ----- Résumé -----
+  html += '<div class="bloc"><h2><i data-lucide="receipt" style="width:14px"></i> RÉSUMÉ</h2>' +
+    '<div class="sum-row"><span>Sous-total (' + cartCount() + ' article' + (cartCount()>1?'s':'') + ')</span><b>' + fmtPrix(subtotal) + ' F</b></div>' +
+    (discount ? '<div class="sum-row discount"><span>Code ' + PROMO.code + '</span><b>−' + fmtPrix(discount) + ' F</b></div>' : '') +
+    '<div class="sum-row"><span>Livraison · ' + ZONE + '</span><b>' + (ship.free ? '<span style="color:#059669">GRATUITE 🎉</span>' : fmtPrix(ship.fee) + ' F') + '</b></div>' +
+    (ship.cashFee ? '<div class="sum-row"><span>Paiement à la livraison</span><b>+' + fmtPrix(ship.cashFee) + ' F</b></div>' : '') +
+    '<div class="sum-row total"><span>Total</span><span class="tv">' + fmtPrix(total) + ' FCFA</span></div>' +
+  '</div>';
+
+  // ----- Bouton commander -----
+  html += '<div style="padding:14px 14px 0">' +
+    '<button class="btn-order" id="btnOrder" onclick="order()"><i data-lucide="lock" style="width:16px"></i> Commander · ' + fmtPrix(total) + ' FCFA</button>' +
+    '<div class="secure-row"><span><i data-lucide="shield-check" style="width:11px"></i> Paiement sécurisé</span><span><i data-lucide="rotate-ccw" style="width:11px"></i> Retour 7 jours</span><span><i data-lucide="package-check" style="width:11px"></i> Suivi en direct</span></div>' +
+  '</div>';
+
+  page.innerHTML = html;
   lucide.createIcons();
 }
-function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); },2200); }
-renderCart(); lucide.createIcons();
+
+function chQty(i, d){
+  var items = cartGet();
+  cartQty(items[i].id, d);
+  render();
+}
+function delItem(i){
+  var items = cartGet();
+  cartRemove(items[i].id);
+  render();
+}
+function clearCart(){
+  if (confirm('Vider tout le panier ?')) { cartSave([]); render(); }
+}
+function setZone(z, el){
+  ZONE = z;
+  render();
+}
+function setPay(p){
+  PAY = p;
+  render();
+}
+function applyPromo(){
+  var code = document.getElementById('promoInput').value.trim().toUpperCase();
+  var err = document.getElementById('promoErr');
+  if (!code) return;
+  if (PROMOS[code]) {
+    PROMO = Object.assign({ code: code }, PROMOS[code]);
+    toast('🎉 Code ' + code + ' appliqué !');
+    render();
+  } else {
+    err.textContent = '❌ Code invalide ou expiré';
+  }
+}
+function rmPromo(){ PROMO = null; render(); }
+
+// ===== COMMANDE RÉELLE EN BASE =====
+function order(){
+  var items = cartGet();
+  if (!items.length) return;
+  var addr = document.getElementById('addrInput');
+  if (addr && !addr.value.trim()) {
+    toast('📍 Ajoute ton adresse de livraison');
+    addr.focus();
+    return;
+  }
+  if (addr) localStorage.setItem('sentew_addr', addr.value.trim());
+
+  var ship = calcShipping(items, ZONE, PAY);
+  var subtotal = cartTotal();
+  var discount = PROMO ? Math.round(subtotal * PROMO.pct / 100) : 0;
+  var total = subtotal - discount + ship.fee + ship.cashFee;
+  var btn = document.getElementById('btnOrder');
+  btn.disabled = true;
+  btn.innerHTML = '<i data-lucide="loader-2" style="width:16px"></i> Création de la commande…';
+  lucide.createIcons();
+
+  var payload = {
+    client_id: '99999999-9999-9999-9999-999999999999',
+    items: items.map(function(i){ return { name: i.name, price: i.price, qty: i.qty, vendor: i.vendor, slug: i.slug }; }),
+    subtotal: subtotal,
+    discount: discount,
+    promo_code: PROMO ? PROMO.code : null,
+    shipping_fee: ship.fee,
+    cash_fee: ship.cashFee,
+    total: total,
+    payment_method: PAY === 'online' ? 'mobile_money' : 'cash',
+    payment_status: PAY === 'online' ? 'paid' : 'pending',
+    status: 'confirmed',
+    address: addr ? addr.value.trim() : '',
+    city: ZONE
+  };
+
+  supaWrite('orders', 'POST', payload).then(function(res){
+    var o = Array.isArray(res) ? res[0] : res;
+    cartSave([]);
+    var page = document.getElementById('page');
+    page.innerHTML =
+      '<div class="success">' +
+        '<div class="ok"><i data-lucide="check" style="width:36px"></i></div>' +
+        '<h2>Commande confirmée ! 🎉</h2>' +
+        '<p>Merci pour ta confiance. Ton colis est en préparation.</p>' +
+        '<div class="code">' + (o && o.tracking_code ? o.tracking_code : 'STW-OK') + '</div>' +
+        '<p>🏠 Ton <b>code de livraison</b> : <b style="font-size:16px;color:#0f6b4e">' + (o && o.delivery_code ? o.delivery_code : '----') + '</b><br>Donne-le <b>uniquement</b> au livreur quand tu reçois ton colis.</p>' +
+        '<div class="btns">' +
+          '<a class="b-green" href="suivi-commande.html?t=' + (o && o.tracking_code ? o.tracking_code : '') + '">📍 Suivre ma commande</a>' +
+          '<a class="b-grey" href="index.html">Continuer</a>' +
+        '</div>' +
+      '</div>';
+    lucide.createIcons();
+    cartBadge();
+    window.scrollTo(0, 0);
+  }).catch(function(){
+    btn.disabled = false;
+    btn.innerHTML = 'Réessayer';
+    toast('❌ Erreur de connexion, réessaie');
+  });
+}
+
+// Règles de livraison depuis la base, puis rendu
+loadShippingRules().then(render);
+function renderIcons(){ if (window.lucide) lucide.createIcons(); }
+renderIcons();
+window.addEventListener('load', renderIcons);
+setTimeout(renderIcons, 600);
+cartBadge();
 </script>
+<script src="js/dark-mode.js"></script>
 </body>
 </html>
