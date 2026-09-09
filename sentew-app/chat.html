@@ -1,212 +1,258 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chat - SEN TEW</title>
-  <link rel="stylesheet" href="css/app.css?v=52">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 140px; }
-    .topbar { background: linear-gradient(135deg, #0f6b4e, #0a4d38); color: #fff; padding: 12px 16px; display: flex; align-items: center; gap: 10px; position: sticky; top: 0; z-index: 10; }
-    .icon-btn { background: rgba(255,255,255,0.2); border: none; cursor: pointer; padding: 8px; color: #fff; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
-    .vendor-avatar { width: 40px; height: 40px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; }
-    .vendor-avatar i { color: #ec4899; }
-    .vendor-avatar .dot { position: absolute; bottom: 0; right: 0; width: 10px; height: 10px; background: #4ade80; border-radius: 50%; border: 2px solid #fff; }
-    .vendor-info { flex: 1; }
-    .vendor-name { color: #fff; font-weight: 800; font-size: 15px; display: flex; align-items: center; gap: 4px; }
-    .vendor-status { color: #d1fae5; font-size: 11px; display: flex; align-items: center; gap: 4px; }
-    .vendor-status .online { width: 8px; height: 8px; background: #4ade80; border-radius: 50%; }
-
-    /* Bandeau produit */
-    .product-banner { background: #fffbea; border-bottom: 1px solid #fde68a; padding: 10px 16px; display: flex; align-items: center; gap: 10px; }
-    .product-banner img, .product-banner .product-thumb { width: 44px; height: 44px; background: #f5f5f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .product-thumb i { color: #d4a574; }
-    .product-info { flex: 1; }
-    .product-name { font-weight: 700; font-size: 13px; color: #1a1a1a; }
-    .product-price { font-size: 12px; color: #b8860b; font-weight: 600; display: flex; align-items: center; gap: 4px; margin-top: 2px; }
-    .btn-view { background: #d4a574; color: #fff; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; text-decoration: none; }
-
-    /* Conversation */
-    .conversation { padding: 16px; }
-    .msg-time { text-align: center; font-size: 11px; color: #999; margin: 12px 0; }
-    .bubble { max-width: 75%; padding: 10px 14px; border-radius: 16px; font-size: 13px; margin-bottom: 4px; line-height: 1.4; }
-    .bubble.received { background: #fff; color: #1a1a1a; border-bottom-left-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-    .bubble.sent { background: linear-gradient(135deg, #0f6b4e, #0a4d38); color: #fff; margin-left: auto; border-bottom-right-radius: 4px; }
-    .bubble-wrap { display: flex; flex-direction: column; margin-bottom: 8px; }
-    .bubble-wrap.sent-wrap { align-items: flex-end; }
-    .bubble-meta { font-size: 10px; color: #999; padding: 0 6px; display: flex; align-items: center; gap: 4px; }
-    .check-read { color: #3b82f6; }
-
-    /* Carte produit dans message */
-    .product-card-msg { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.08); max-width: 250px; margin-bottom: 4px; }
-    .product-card-msg .img-big { height: 140px; background: linear-gradient(135deg, #fce7f3, #f9a8d4); display: flex; align-items: center; justify-content: center; }
-    .product-card-msg .img-big i { color: #be185d; width: 60px; height: 60px; }
-    .product-card-msg .info { padding: 12px; }
-    .product-card-msg .name { font-weight: 700; font-size: 13px; color: #1a1a1a; }
-    .product-card-msg .price { color: #d4a574; font-weight: 800; font-size: 14px; margin-top: 4px; }
-
-    /* Carte adresse dans message */
-    .address-card-msg { background: linear-gradient(135deg, #3b82f6, #1e40af); color: #fff; border-radius: 12px; padding: 12px; max-width: 250px; margin-bottom: 4px; }
-    .address-card-msg .addr-icon { display: flex; align-items: center; gap: 6px; font-size: 12px; opacity: 0.9; }
-    .address-card-msg .addr-name { font-weight: 700; margin-top: 4px; font-size: 14px; }
-    .address-card-msg .addr-detail { font-size: 12px; opacity: 0.95; margin-top: 2px; }
-
-    /* Actions rapides */
-    .quick-replies { display: flex; gap: 8px; padding: 8px 12px; overflow-x: auto; background: #fff; border-top: 1px solid #e5e7eb; position: fixed; bottom: 118px; left: 0; right: 0; z-index: 5; }
-    .qr-chip { background: #fff; color: #0f6b4e; border: 1.5px solid #0f6b4e; padding: 8px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; white-space: nowrap; cursor: pointer; display: flex; align-items: center; gap: 6px; }
-    .qr-chip i { width: 14px; height: 14px; color: #d4a574; }
-
-    /* Input */
-    .input-bar { position: fixed; bottom: 60px; left: 0; right: 0; background: #fff; padding: 10px 12px; display: flex; align-items: center; gap: 8px; border-top: 1px solid #e5e7eb; }
-    .input-plus { background: transparent; border: none; padding: 8px; cursor: pointer; color: #666; }
-    .input-field { flex: 1; padding: 10px 16px; border: 1.5px solid #e5e7eb; border-radius: 20px; font-size: 14px; box-sizing: border-box; }
-    .btn-send { background: #0f6b4e; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-    .btn-send i { color: #fff; width: 18px; height: 18px; }
-
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; z-index: 5; }
-    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
-    .bottom-nav a.active { color: #0f6b4e; }
-    .bottom-nav a i { width: 22px; height: 22px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Chat - SEN TEW</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/supabase.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;display:flex;flex-direction:column;color:#0a1f17}
+/* Header contact */
+.chat-head{display:flex;align-items:center;gap:11px;padding:12px 14px;background:#fff;border-bottom:1px solid #e5e7eb;flex-shrink:0}
+.icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e;flex-shrink:0}
+.ch-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #0f6b4e;flex-shrink:0}
+.ch-av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;color:#fff;flex-shrink:0}
+.ch-name{font-size:14px;font-weight:800;display:flex;align-items:center;gap:5px}
+.ch-status{font-size:11px;color:#6B7280;display:flex;align-items:center;gap:4px}
+.ch-status .dot{width:7px;height:7px;border-radius:50%;background:#4ade80}
+.ch-shop{margin-left:auto;font-size:11px;font-weight:800;color:#0f6b4e;text-decoration:none;background:#e8f5f0;padding:7px 12px;border-radius:16px;flex-shrink:0}
+/* Messages */
+.chat-body{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:78%;padding:10px 14px;border-radius:18px;font-size:13.5px;line-height:1.45;animation:msgIn .2s;word-wrap:break-word}
+@keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.msg.me{align-self:flex-end;background:#0f6b4e;color:#fff;border-bottom-right-radius:5px}
+.msg.them{align-self:flex-start;background:#fff;color:#0a1f17;border-bottom-left-radius:5px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.msg .mt{display:block;font-size:9px;opacity:.6;margin-top:4px;text-align:right}
+.msg-day{align-self:center;font-size:10px;font-weight:800;color:#9aa5a0;background:#e5e7eb;padding:4px 12px;border-radius:12px;margin:6px 0}
+/* Suggestions rapides */
+.quick-row{display:flex;gap:7px;overflow-x:auto;padding:8px 14px;scrollbar-width:none;flex-shrink:0;background:#fff;border-top:1px solid #f0f0ea}
+.quick-row::-webkit-scrollbar{display:none}
+.quick{flex-shrink:0;padding:8px 13px;border:1.5px solid #e5e7eb;background:#fff;border-radius:18px;font-size:11.5px;font-weight:700;color:#0f6b4e;cursor:pointer;white-space:nowrap}
+/* Typing */
+.typing{align-self:flex-start;background:#fff;padding:11px 16px;border-radius:18px;border-bottom-left-radius:5px;display:none;gap:4px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.typing.show{display:flex}
+.typing i{width:7px;height:7px;border-radius:50%;background:#9aa5a0;animation:tp 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.15s}
+.typing i:nth-child(3){animation-delay:.3s}
+@keyframes tp{0%,60%,100%{transform:none;opacity:.4}30%{transform:translateY(-4px);opacity:1}}
+/* Input */
+.chat-input{display:flex;gap:8px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid #e5e7eb;flex-shrink:0;align-items:center}
+.chat-input input{flex:1;min-width:0;padding:12px 16px;border:1.5px solid #e5e7eb;border-radius:24px;font-size:13px;font-family:inherit;outline:none}
+.chat-input input:focus{border-color:#0f6b4e}
+.chat-input button{width:44px;height:44px;border-radius:50%;border:none;background:#0f6b4e;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+</style>
 </head>
-<body class="light-mode">
+<body>
 
-<header class="topbar">
-  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
-  <div class="vendor-avatar">
-    <i data-lucide="shirt"></i>
-    <div class="dot"></div>
+<header class="chat-head">
+  <button class="icon-btn" onclick="location.href='messages.html'"><i data-lucide="arrow-left"></i></button>
+  <div id="chAvatar"></div>
+  <div style="min-width:0">
+    <div class="ch-name" id="chName">…</div>
+    <div class="ch-status"><span class="dot"></span> <span id="chStatus">En ligne</span></div>
   </div>
-  <div class="vendor-info">
-    <div class="vendor-name">Aïcha Fashion <i data-lucide="badge-check" style="width:14px;height:14px;color:#93c5fd"></i></div>
-    <div class="vendor-status"><span class="online"></span> En ligne</div>
-  </div>
-  <button class="icon-btn" onclick="location.href='tel:+221'"><i data-lucide="phone"></i></button>
-  <button class="icon-btn" onclick="location.href='boutique.html'"><i data-lucide="store"></i></button>
-  <button class="icon-btn"><i data-lucide="more-vertical"></i></button>
+  <a class="ch-shop" id="chShop" href="#" style="display:none">Voir la boutique ›</a>
 </header>
 
-<!-- Bandeau produit lié -->
-<div class="product-banner">
-  <div class="product-thumb"><i data-lucide="shirt"></i></div>
-  <div class="product-info">
-    <div class="product-name">Boubou traditionnel brodé</div>
-    <div class="product-price"><i data-lucide="banknote" style="width:12px;height:12px"></i> 25 000 FCFA · #ST-2026-1247</div>
-  </div>
-  <a href="produit-detail.html?id=boubou-1247" class="btn-view">Voir</a>
+<div class="chat-body" id="chatBody"></div>
+<div class="quick-row" id="quickRow"></div>
+<div class="chat-input">
+  <input type="text" id="msgInput" placeholder="Écris ton message…" maxlength="300">
+  <button onclick="send()"><i data-lucide="send" style="width:17px"></i></button>
 </div>
-
-<!-- Conversation -->
-<div class="conversation">
-  <div class="msg-time">Aujourd'hui</div>
-
-  <!-- Carte produit envoyée par vendeur -->
-  <div class="bubble-wrap">
-    <div class="product-card-msg">
-      <div class="img-big"><i data-lucide="shirt"></i></div>
-      <div class="info">
-        <div class="name">Boubou traditionnel brodé main</div>
-        <div class="price">25 000 FCFA</div>
-      </div>
-    </div>
-    <div class="bubble-meta">10:38</div>
-  </div>
-
-  <div class="bubble-wrap">
-    <div class="bubble received">Oui ! Disponible en XL en 3 couleurs : Rouge, Bleu, Vert <i data-lucide="smile" style="width:14px;height:14px;color:#d4a574;vertical-align:middle"></i></div>
-    <div class="bubble-meta">10:38</div>
-  </div>
-
-  <div class="bubble-wrap sent-wrap">
-    <div class="bubble sent">Parfait ! Je vais prendre le bleu. Livraison possible aujourd'hui ?</div>
-    <div class="bubble-meta">10:42 <i data-lucide="check-check" class="check-read" style="width:12px;height:12px"></i></div>
-  </div>
-
-  <div class="bubble-wrap">
-    <div class="bubble received">Oui, livraison en 3-4h dans Dakar. Frais : 1 500 FCFA (gratuit dès 15 000 FCFA <i data-lucide="check-circle" style="width:14px;height:14px;color:#0f6b4e;vertical-align:middle"></i>)</div>
-    <div class="bubble-meta">10:45</div>
-  </div>
-
-  <!-- Carte adresse -->
-  <div class="bubble-wrap">
-    <div class="address-card-msg">
-      <div class="addr-icon"><i data-lucide="map-pin" style="width:14px;height:14px"></i> Localisation boutique</div>
-      <div class="addr-name">Aïcha Fashion</div>
-      <div class="addr-detail">Almadies, Dakar · 3.2 km</div>
-    </div>
-    <div class="bubble-meta">10:46</div>
-  </div>
-</div>
-
-<!-- Réponses rapides -->
-<div class="quick-replies">
-  <div class="qr-chip" onclick="sendMsg('Bonjour')"><i data-lucide="hand"></i> Bonjour</div>
-  <div class="qr-chip" onclick="sendMsg('Disponible ?')"><i data-lucide="package"></i> Disponible ?</div>
-  <div class="qr-chip" onclick="sendMsg('Prix ?')"><i data-lucide="banknote"></i> Prix ?</div>
-  <div class="qr-chip" onclick="sendMsg('Livraison ?')"><i data-lucide="truck"></i> Livraison ?</div>
-  <div class="qr-chip" onclick="sendMsg('Merci')"><i data-lucide="heart"></i> Merci</div>
-</div>
-
-<!-- Input -->
-<div class="input-bar">
-  <button class="input-plus"><i data-lucide="plus"></i></button>
-  <input type="text" class="input-field" id="msgInput" placeholder="Message...">
-  <button class="btn-send" onclick="send()"><i data-lucide="send"></i></button>
-</div>
-
-<nav class="bottom-nav">
-  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
-  <a href="messages.html" class="active"><i data-lucide="message-circle"></i><span>Messages</span></a>
-  <a href="profil.html"><i data-lucide="user"></i><span>Compte</span></a>
-</nav>
 
 <script>
-  lucide.createIcons();
-  function sendMsg(txt) {
-    document.getElementById('msgInput').value = txt;
-    send();
+var params = new URLSearchParams(location.search);
+var vSlug = params.get('v');
+var cKey = params.get('c');
+var CONTACT = null, THREAD_KEY = '';
+
+// ===== Identification du contact =====
+var SERVICES = {
+  'support': { key:'support', name:'Support SEN TEW', av:'S', bg:'#1e40af', status:'Répond en ~2 min',
+    quick:['Où est ma commande ?','Faire un retour','Problème de paiement','Parler à un humain'],
+    hello:'Bonjour ! 👋 Je suis le support SEN TEW. Comment puis-je t\'aider aujourd\'hui ?',
+    replies: [
+      ['commande', 'Pour suivre ta commande, va dans « Mes commandes » puis touche « Suivre » — tu verras le livreur sur la carte en direct. Tu as un code de suivi STW-… ?'],
+      ['retour', 'Pas de souci ! Tu as 7 jours après réception pour un retour gratuit si le produit est défectueux ou non conforme. Donne-moi ton code de commande STW-… et je lance la procédure.'],
+      ['paiement', 'Pour un souci de paiement : vérifie d\'abord que la transaction apparaît dans ton portefeuille. Sinon envoie-moi la référence et l\'heure, je vérifie immédiatement.'],
+      ['humain', 'Bien sûr ! Un conseiller humain te répondra sous 15 minutes aux heures ouvrées (9h-20h). Laisse-moi ta question, il la verra.'],
+      ['default', 'Bien noté ! Je transmets ta demande. Tu peux aussi consulter l\'aide : livraison 24-48h à Dakar, retours 7 jours, paiement sécurisé. Autre chose ?']
+    ]
+  },
+  'driver_omar': { key:'driver_omar', name:'Omar Ndiaye', av:'ON', bg:'#6d28d9', status:'Livreur · En course',
+    quick:['Tu arrives quand ?','Je suis devant le portail','Appelle-moi en arrivant','Merci !'],
+    hello:'Salaam ! C\'est Omar, ton livreur SEN TEW 🛵. Pour toute question sur ta livraison, je suis là.',
+    replies: [
+      ['quand', 'J\'arrive dans environ 15 minutes ! Tu peux suivre ma position sur la carte dans « Suivi de commande ». Prépare ton code de livraison à 4 chiffres 😉'],
+      ['portail', 'Parfait, je te repère. J\'arrive dans quelques minutes, garde ton téléphone à portée de main.'],
+      ['appelle', 'D\'accord, je t\'appelle dès que je suis devant. À tout de suite !'],
+      ['merci', 'Avec plaisir ! N\'oublie pas de noter la livraison, ça m\'aide beaucoup ⭐'],
+      ['default', 'Bien reçu ! Je te tiens au courant en direct. Tu peux aussi suivre ma position sur la carte de suivi.']
+    ]
   }
-  function send() {
-    const input = document.getElementById('msgInput');
-    const msg = input.value.trim();
-    if (!msg) return;
-    document.querySelector('.conversation').insertAdjacentHTML('beforeend',
-      `<div class="bubble-wrap sent-wrap"><div class="bubble sent">${msg}</div><div class="bubble-meta">Maintenant <i data-lucide="check" style="width:12px;height:12px"></i></div></div>`
-    );
-    input.value = '';
-    lucide.createIcons();
-    window.scrollTo(0, document.body.scrollHeight);
+};
+
+var VENDOR_REPLIES = {
+  'aicha-couture': [
+    ['taille', 'Nos boubous taillent normalement. Si tu hésites entre deux tailles, prends la plus grande. Je peux t\'envoyer le guide des mesures !'],
+    ['stock', 'Oui, tout ce qui est affiché est en stock à Dakar. Expédition le jour même si tu commandes avant 16h !'],
+    ['photo', 'Avec plaisir ! Je te prépare des photos réelles du modèle porté. Dis-moi la couleur qui t\'intéresse.'],
+    ['prix', 'Les prix sont déjà les meilleurs du marché, mais avec le code RAMADAN30 tu as -30% en ce moment ! 🎉'],
+    ['default', 'Salaam et bienvenue chez Aïcha Couture ! 👗 Pose-moi tes questions : tailles, couleurs, tissu, livraison… je réponds vite.']
+  ],
+  'moussa-tech': [
+    ['garantie', 'Tous nos produits sont neufs avec garantie 1 an. Facture incluse dans le colis.'],
+    ['neuf', 'Oui, 100% neufs et scellés. Jamais de reconditionné sans que ce soit écrit.'],
+    ['livraison', 'Livraison 24-48h sur Dakar. Pour la tech, je recommande le paiement en ligne : livraison gratuite !'],
+    ['default', 'Bienvenue chez Moussa Tech 📱 ! Dis-moi ce que tu cherches, je te conseille le meilleur rapport qualité-prix.']
+  ],
+  'mariama-b': [
+    ['naturel', 'Oui, 100% naturel ! Karité pur du Sénégal, aucun produit chimique, non testé sur les animaux.'],
+    ['peau', 'Le kit karité convient à toutes les peaux, même sensibles. Utilise-le matin et soir pour de beaux résultats en 2 semaines.'],
+    ['default', 'Bienvenue chez Mariama B 💄 ! Toutes mes formules sont 100% naturelles. Dis-moi ton type de peau, je te conseille.']
+  ],
+  'fatou-fashion': [
+    ['taille', 'Nos ensembles vont du S au XXL. Le bazin riche se reprend facilement chez un tailleur si besoin !'],
+    ['commande', 'Pour les cérémonies, commande au moins 5 jours avant pour être tranquille. Livraison express possible !'],
+    ['default', 'Bienvenue chez Fatou Fashion ✨ ! Prêt-à-porter et bazin de qualité. Une occasion spéciale ? Je te trouve la tenue parfaite.']
+  ]
+};
+
+function findReply(contact, text){
+  var rules = contact.replies || [];
+  var t = text.toLowerCase();
+  for (var i = 0; i < rules.length; i++) {
+    if (rules[i][0] !== 'default' && t.indexOf(rules[i][0]) !== -1) return rules[i][1];
   }
-  document.getElementById('msgInput').addEventListener('keypress', e => { if (e.key === 'Enter') send(); });
-</script>
-  <script>
-window.addEventListener('load', function(){
-  var CONTACTS={
-    'support-sentew':{nom:'Support SEN TEW',badge:'Support officiel',icon:'🤖'},
-    'aicha-fashion':{nom:'Aïcha Fashion',badge:'Vendeur Silver ✓',icon:'👗'},
-    'moussa-tech':{nom:'Moussa Tech',badge:'Vendeur Gold ✓',icon:'📱'},
-    'livreur-ousmane':{nom:'Ousmane — Livreur',badge:'Livraison en cours 🛵',icon:'🛵'}
-  };
-  var id=new URLSearchParams(location.search).get('id');
-  var c=CONTACTS[id]; if(!c) return;
-  document.title=c.nom+' · SEN TEW';
-  document.querySelectorAll('h1, .chat-name, [class*="header"] [class*="name"], .topbar div, .topbar span').forEach(function(el){
-    if(el.children.length===0 && el.textContent.trim().length>2 && el.textContent.trim().length<30){
-      el.textContent=c.nom;
-    }
-  });
-  /* Le nom du contact renvoie vers sa boutique si vendeur */
-  var shop={'aicha-fashion':'boutique.html?id=1','moussa-tech':'boutique.html?id=2'}[id];
-  if(shop){
-    document.querySelectorAll('h1, .chat-name').forEach(function(el){
-      el.style.cursor='pointer';
-      el.addEventListener('click',function(){location.href=shop;});
+  return rules.length ? rules[rules.length-1][1] : 'Bien reçu, je reviens vers toi très vite !';
+}
+
+function threadGet(){
+  try { return JSON.parse(localStorage.getItem('sentew_chat_' + THREAD_KEY) || '[]'); } catch(e){ return []; }
+}
+function threadSave(msgs){
+  localStorage.setItem('sentew_chat_' + THREAD_KEY, JSON.stringify(msgs.slice(-60)));
+}
+function pushMsg(from, text){
+  var msgs = threadGet();
+  msgs.push({ from: from, text: text, at: Date.now(), read: from === 'me' });
+  threadSave(msgs);
+}
+
+function renderMsgs(){
+  var body = document.getElementById('chatBody');
+  var msgs = threadGet();
+  var lastDay = '';
+  body.innerHTML = msgs.map(function(m){
+    var day = new Date(m.at).toLocaleDateString('fr-FR', { day:'numeric', month:'long' });
+    var sep = '';
+    if (day !== lastDay) { lastDay = day; sep = '<div class="msg-day">' + day + '</div>'; }
+    var time = new Date(m.at).toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
+    return sep + '<div class="msg ' + (m.from === 'me' ? 'me' : 'them') + '">' +
+      m.text.replace(/</g,'&lt;') + '<span class="mt">' + time + (m.from === 'me' ? ' ✓✓' : '') + '</span></div>';
+  }).join('');
+  body.scrollTop = body.scrollHeight;
+  // Marquer comme lus
+  var all = threadGet();
+  all.forEach(function(m){ m.read = true; });
+  threadSave(all);
+}
+
+function renderQuick(){
+  document.getElementById('quickRow').innerHTML = (CONTACT.quick || []).map(function(q){
+    return '<button class="quick" onclick="quickSend(\'' + q.replace(/'/g,"\\'") + '\')">' + q + '</button>';
+  }).join('');
+}
+
+function send(){
+  var input = document.getElementById('msgInput');
+  var text = input.value.trim();
+  if (!text) return;
+  pushMsg('me', text);
+  input.value = '';
+  renderMsgs();
+  replyWithTyping(text);
+}
+function quickSend(q){
+  pushMsg('me', q);
+  renderMsgs();
+  replyWithTyping(q);
+}
+
+function replyWithTyping(userText){
+  // Indicateur "en train d'écrire…"
+  var body = document.getElementById('chatBody');
+  var tp = document.createElement('div');
+  tp.className = 'typing show';
+  tp.id = 'tpBubble';
+  tp.innerHTML = '<i></i><i></i><i></i>';
+  body.appendChild(tp);
+  body.scrollTop = body.scrollHeight;
+  document.getElementById('chStatus').textContent = 'En train d\'écrire…';
+
+  setTimeout(function(){
+    var el = document.getElementById('tpBubble');
+    if (el) el.remove();
+    document.getElementById('chStatus').textContent = CONTACT.status;
+    pushMsg('them', findReply(CONTACT, userText));
+    renderMsgs();
+  }, 1200 + Math.random() * 1200);
+}
+
+// ===== Init =====
+function initContact(){
+  if (cKey && SERVICES[cKey]) {
+    CONTACT = SERVICES[cKey];
+    THREAD_KEY = cKey;
+    setupUI(null);
+  } else if (vSlug) {
+    getVendorBySlug(vSlug).then(function(v){
+      if (!v) { location.href = 'messages.html'; return; }
+      CONTACT = {
+        name: v.shop_name, logo: v.logo_url, status: 'Vendeur · Répond vite',
+        quick: ['Ce modèle est en stock ?','Quelles tailles dispo ?','Tu peux envoyer une photo réelle ?','C\'est négociable ?'],
+        replies: VENDOR_REPLIES[v.slug] || [ ['default','Bienvenue ! Pose-moi ta question, je réponds vite 😊'] ],
+        hello: 'Salaam ! Bienvenue chez ' + v.shop_name + ' 🛍️ Comment puis-je t\'aider ?'
+      };
+      CONTACT.slug = v.slug;
+      THREAD_KEY = 'v_' + v.slug;
+      setupUI(v);
     });
+  } else {
+    location.href = 'messages.html';
   }
+}
+
+function setupUI(vendor){
+  document.title = CONTACT.name + ' - Chat SEN TEW';
+  document.getElementById('chName').innerHTML = CONTACT.name + ' <i data-lucide="badge-check" style="width:14px;color:#0f6b4e"></i>';
+  document.getElementById('chStatus').textContent = CONTACT.status;
+  document.getElementById('chAvatar').innerHTML = CONTACT.logo
+    ? '<img class="ch-avatar" src="' + CONTACT.logo + '" alt="">'
+    : '<div class="ch-av" style="background:' + CONTACT.bg + '">' + CONTACT.av + '</div>';
+  if (vendor) {
+    var link = document.getElementById('chShop');
+    link.style.display = 'block';
+    link.href = lienBoutique(vendor);
+  }
+  renderQuick();
+  // Message d'accueil si conversation vide
+  if (!threadGet().length) pushMsg('them', CONTACT.hello);
+  renderMsgs();
+  lucide.createIcons();
+}
+
+document.getElementById('msgInput').addEventListener('keydown', function(e){
+  if (e.key === 'Enter') send();
 });
+
+initContact();
+lucide.createIcons();
 </script>
+<script src="js/dark-mode.js"></script>
 </body>
 </html>
