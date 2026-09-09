@@ -273,6 +273,11 @@ function render(){
     (INST > 1 ? '<div class="sum-row today"><span>💳 À payer aujourd\'hui (' + INST + '×)</span><b>' + fmtPrix(today) + ' F</b></div>' : '') +
   '</div>';
 
+    // ----- TU AIMERAIS AUSSI (intelligent : suit la navigation du client) -----
+  html += '<div class="bloc"><h2><i data-lucide="sparkles" style="width:14px"></i> COMPLÈTE TA COMMANDE</h2>' +
+    '<div style="font-size:11px;color:#6B7280;margin-bottom:8px">Ces articles vont bien avec ton panier — la livraison reste la même 📦</div>' +
+    '<div class="sim-row" id="cartSim"><div style="color:#9aa5a0;font-size:12px;padding:8px">Chargement…</div></div></div>';
+
   // ----- Bouton -----
   html += '<div class="checkout">' +
     '<button class="btn-order" id="btnOrder" onclick="order()"><i data-lucide="lock" style="width:16px"></i> ' + (INST > 1 ? 'Payer ' + fmtPrix(today) + ' F (' + INST + '× sans frais)' : 'Commander · ' + fmtPrix(total) + ' FCFA') + '</button>' +
@@ -368,7 +373,7 @@ function order(){
   });
 }
 
-loadShippingRules().then(render);
+loadShippingRules().then(function(){ render(); loadCartSuggestions(); });
 function renderIcons(){ if (window.lucide) lucide.createIcons(); }
 renderIcons();
 window.addEventListener('load', renderIcons);
