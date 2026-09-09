@@ -259,5 +259,97 @@ function boosterProduit(vendor, product) {
   });
 }
 
+// ============================================
+// SEN TEW PULSE — Intelligence client (style Amazon/Jumia)
+// ============================================
+
+// 1. MÉMOIRE DE NAVIGATION : chaque produit/catégorie vu est mémorisé
+function pulseView(p) {
+  try {
+    var h = JSON.parse(localStorage.getItem('sentew_history') || '[]');
+    h = h.filter(function (x) { return x.id !== p.id; });
+    h.unshift({
+      id: p.id, name: p.name, price: p.price,
+      img: (p.images && p.images[0]) || '', category: p.category || '',
+      vendor: p.vendors ? p.vendors.shop_name : (p.vendor || ''),
+      slug: p.vendors ? p.vendors.slug : (p.slug || ''),
+      at: Date.now()
+    });
+    localStorage.setItem('sentew_history', JSON.stringify(h.slice(0, 20)));
+  } catch (e) {}
+}
+function pulseHistory() {
+  try { return JSON.parse(localStorage.getItem('sentew_history') || '[]'); }
+  catch (e) { return []; }
+}
+// "Vu récemment" (pour l'accueil / le panier)
+function getRecentlyViewed(excludeId) {
+  return pulseHistory().filter(function (h) { return h.id !== excludeId; }).slice(0, 8);
+}
+// Produits similaires intelligents : même catégorie que ce que le client regarde
+function getSmartSuggestions(excludeIds) {
+  var hist = pulseHistory();
+  var cat = hist.length ? hist[0].category : '';
+  var q = 'select=*,vendors(shop_name,slug)&is_active=eq.true&limit=8';
+  if (cat) q += '&category=eq.' + encodeURIComponent(cat);
+  return supa('products', q).then(function (rows) {
+    rows = rows || [];
+    if (excludeIds) rows = rows.filter(function (r) { return excludeIds.indexOf(r.id) === -1; });
+    return rows;
+  });
+}
+
+// 2. RELANCE PANIER ABANDONNÉ : rappel intelligent
+function pulseCartReminder() {
+  var items = cartGet();
+  if (!items.length) return;
+  var lastToast = parseInt(localStorage.getItem('sentew_cart_toast') || '0');
+  var now = Date.now();
+  // Rappel max 1 fois toutes les 2 minutes de navigation
+  if (now - lastToast < 120000) return;
+  setTimeout(function () {
+    if (!cartGet().length) return;
+    var t = document.createElement('div');
+    t.style.cssText = 'position:fixed;bottom:90px;left:14px;right:14px;background:#0a1f17;color:#fff;padding:13px 16px;border-radius:16px;z-index:9990;box-shadow:0 8px 24px rgba(0,0,0,.35);display:flex;align-items:center;gap:10px;font-size:12.5px;cursor:pointer;animation:fadeIn .3s';
+    t.innerHTML = '<span style="font-size:20px">🛒</span><span style="flex:1"><b>Tu as ' + cartCount() + ' article(s) qui t\'attendent !</b><br><span style="opacity:.8;font-size:11px">Finalise avant que le stock ne parte — livraison gratuite dès 20 000 F</span></span><b style="color:#4ade80;flex-shrink:0">Voir ›</b>';
+    t.onclick = function () { location.href = 'panier.html'; };
+    document.body.appendChild(t);
+    setTimeout(function () { t.remove(); }, 8000);
+    localStorage.setItem('sentew_cart_toast', String(now));
+  }, 15000); // 15 s après l'ouverture de la page
+}
+document.addEventListener('DOMContentLoaded', pulseCartReminder);
+
+// 3. ALERTES PRIX / STOCK : le client s'abonne à un produit
+function alertSubscribe(p, type) { // type: 'prix' | 'stock'
+  try {
+    var a = JSON.parse(localStorage.getItem('sentew_alerts') || '[]');
+    if (a.some(function (x) { return x.id === p.id && x.type === type; })) {
+      toast('🔔 Alerte déjà active pour cet article');
+      return false;
+    }
+    a.push({ id: p.id, name: p.name, price: p.price, type: type, at: Date.now() });
+    localStorage.setItem('sentew_alerts', JSON.stringify(a));
+    toast(type === 'prix' ? '🔔 Alerte prix activée ! On te prévient si ça baisse' : '🔔 On te prévient dès le retour en stock');
+    return true;
+  } catch (e) { return false; }
+}
+function alertCheck(p) {
+  // Compare avec l'alerte enregistrée : baisse de prix ou retour stock
+  try {
+    var a = JSON.parse(localStorage.getItem('sentew_alerts') || '[]');
+    a.forEach(function (al) {
+      if (al.id === p.id) {
+        if (al.type === 'prix' && p.price < al.price) {
+          toast('📉 PRIX EN BAISSE : ' + p.name + ' — ' + fmtPrix(al.price) + ' F → ' + fmtPrix(p.price) + ' F !');
+        }
+        if (al.type === 'stock' && p.stock > 0) {
+          toast('🎉 DE RETOUR EN STOCK : ' + p.name + ' !');
+        }
+      }
+    });
+  } catch (e) {}
+}
+
 // Badge panier au chargement
 document.addEventListener('DOMContentLoaded', cartBadge);
