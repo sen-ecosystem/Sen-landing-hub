@@ -3,232 +3,222 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Live Shopping · SEN TEW</title>
-<link rel="stylesheet" href="css/app.css?v=52">
+<title>Lives - SEN TEW</title>
 <script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/supabase.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#000;font-family:'Segoe UI',-apple-system,sans-serif;overflow:hidden}
-.live-container{height:100vh;height:100dvh;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none}
-.live-container::-webkit-scrollbar{display:none}
-.live-item{position:relative;height:100vh;height:100dvh;scroll-snap-align:start;overflow:hidden}
+#feed{height:100vh;height:100dvh;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none}
+#feed::-webkit-scrollbar{display:none}
+.live{position:relative;height:100vh;height:100dvh;scroll-snap-align:start;overflow:hidden}
 .live-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.live-shade{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.55) 0%,transparent 25%,transparent 55%,rgba(0,0,0,.65) 100%)}
-
-/* ===== BARRE DU HAUT (retour / LIVE / viewers) — TOUJOURS VISIBLE ===== */
-.top-live{position:absolute;top:12px;left:12px;right:12px;display:flex;align-items:center;justify-content:space-between;z-index:60}
-.back-btn{width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;color:#fff;text-decoration:none;font-size:18px;flex-shrink:0}
-.live-badge{background:#e63946;color:#fff;font-weight:800;font-size:13px;padding:7px 16px;border-radius:20px;display:flex;align-items:center;gap:6px;box-shadow:0 4px 12px rgba(230,57,70,.5)}
-.live-badge::before{content:'';width:8px;height:8px;background:#fff;border-radius:50%;animation:pulse 1.2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.viewers{background:rgba(0,0,0,.5);backdrop-filter:blur(8px);color:#fff;font-size:12px;font-weight:700;padding:7px 12px;border-radius:20px;display:flex;align-items:center;gap:5px;flex-shrink:0}
-
-/* ===== VENDEUR : SOUS la barre, compact, cliquable ===== */
-.seller-row{position:absolute;top:62px;left:12px;z-index:55;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.55);backdrop-filter:blur(10px);border-radius:30px;padding:5px 6px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.4);max-width:62%}
-.seller-row .avatar{width:36px;height:36px;border-radius:50%;overflow:hidden;border:2px solid #fcd116;flex-shrink:0}
-.seller-row .avatar img{width:100%;height:100%;object-fit:cover}
-.seller-row .sname{color:#fff;font-weight:800;font-size:12.5px;line-height:1.2;white-space:nowrap}
-.seller-row .sdesc{color:rgba(255,255,255,.85);font-size:10px;white-space:nowrap}
-.follow-btn{background:#e63946;color:#fff;border:none;padding:7px 14px;border-radius:18px;font-size:11.5px;font-weight:800;cursor:pointer;flex-shrink:0;margin-left:4px;transition:transform .15s}
-.follow-btn:active{transform:scale(.92)}
-.follow-btn.followed{background:#0f6b4e}
-
-/* ===== FLASH PROMO : sous le vendeur ===== */
-.flash-promo{position:absolute;top:118px;left:12px;z-index:55;background:linear-gradient(90deg,#e63946,#ff7b00);color:#fff;font-weight:800;font-size:12px;padding:6px 12px;border-radius:20px;display:flex;align-items:center;gap:6px;box-shadow:0 4px 12px rgba(230,57,70,.5);animation:flashPulse 1.2s infinite}
-@keyframes flashPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
-
-/* ===== ACTIONS DROITE ===== */
-.right-actions{position:absolute;right:10px;bottom:230px;z-index:55;display:flex;flex-direction:column;gap:16px;align-items:center}
-.act-btn{width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,.45);backdrop-filter:blur(8px);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s;position:relative}
-.act-btn:active{transform:scale(.85)}
-.act-btn .ic{font-size:20px}
-.act-btn .cnt{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.6);color:#fff;font-size:9px;font-weight:700;padding:1px 6px;border-radius:8px;white-space:nowrap}
-.act-btn.liked{background:rgba(230,57,70,.85)}
-
-/* ===== COMMENTAIRES ===== */
-.chat-zone{position:absolute;left:12px;right:70px;bottom:196px;max-height:150px;overflow-y:auto;z-index:54;display:flex;flex-direction:column;justify-content:flex-end;scrollbar-width:none;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 25%);mask-image:linear-gradient(to bottom,transparent,#000 25%)}
-.chat-zone::-webkit-scrollbar{display:none}
-.chat-msg{background:rgba(0,0,0,.55);color:#fff;padding:6px 12px;border-radius:14px;font-size:12px;margin-bottom:6px;max-width:92%;line-height:1.4;backdrop-filter:blur(8px);width:fit-content;animation:chatIn .3s}
-@keyframes chatIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.chat-msg b{color:#fcd116;margin-right:4px}
-.chat-msg.system{color:#fcd116;font-weight:700}
-
-/* ===== CHAMP COMMENTAIRE ===== */
-.chat-input{position:absolute;left:12px;right:70px;bottom:150px;z-index:55;display:flex;gap:6px;align-items:center}
-.chat-input input{flex:1;min-width:0;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.25);color:#fff;padding:10px 14px;border-radius:22px;font-size:13px;outline:none;backdrop-filter:blur(8px);font-family:inherit}
-.chat-input input::placeholder{color:rgba(255,255,255,.7)}
-.chat-input button{width:40px;height:40px;flex-shrink:0;border-radius:50%;border:none;background:#0f6b4e;color:#fff;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-
-/* ===== PRODUITS EN BAS ===== */
-.products-bar{position:absolute;left:0;right:0;bottom:0;z-index:56;display:flex;gap:10px;padding:10px 12px calc(12px + env(safe-area-inset-bottom));overflow-x:auto;scrollbar-width:none;background:linear-gradient(to top,rgba(0,0,0,.75),transparent)}
-.products-bar::-webkit-scrollbar{display:none}
-.pcard{flex-shrink:0;width:150px;background:#fff;border-radius:14px;overflow:hidden;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3);transition:transform .15s;text-decoration:none;color:inherit;display:block}
-.pcard:active{transform:scale(.95)}
-.pcard img{width:100%;height:100px;object-fit:cover;display:block}
-.pcard .pbody{padding:8px 10px}
-.pcard .pname{font-size:12px;font-weight:700;color:#1a1a1a;line-height:1.2;margin-bottom:3px}
-.pcard .pprice{font-size:14px;font-weight:800;color:#0f6b4e}
-.pcard .ptag{position:absolute;top:6px;left:6px;background:#e63946;color:#fff;font-size:9px;font-weight:800;padding:2px 7px;border-radius:8px}
-.pcard{position:relative}
+.live-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,transparent 30%,transparent 55%,rgba(0,0,0,.75) 100%)}
+/* ===== Barre du haut ===== */
+.top{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:10px;padding:14px 14px 0;z-index:20}
+.top .tb{width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.4);border:none;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(8px);text-decoration:none}
+.top .ttl{color:#fff;font-weight:800;font-size:15px;flex:1;text-align:center;text-shadow:0 2px 6px rgba(0,0,0,.5)}
+.live-badge{position:absolute;top:60px;left:14px;z-index:15;background:#e63946;color:#fff;font-size:11px;font-weight:800;padding:5px 12px;border-radius:16px;display:flex;align-items:center;gap:6px;animation:pulse 1.4s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+.viewers{position:absolute;top:60px;right:14px;z-index:15;background:rgba(0,0,0,.45);color:#fff;font-size:11px;font-weight:700;padding:5px 12px;border-radius:16px;display:flex;align-items:center;gap:5px;backdrop-filter:blur(8px)}
+/* ===== Bandeau vendeur (sous le badge LIVE) ===== */
+.seller{position:absolute;top:100px;left:14px;right:70px;z-index:15;display:flex;align-items:center;gap:10px;cursor:pointer}
+.seller img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2.5px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.seller .sn{color:#fff;font-weight:800;font-size:14px;display:flex;align-items:center;gap:5px;text-shadow:0 2px 4px rgba(0,0,0,.6)}
+.seller .sm{color:rgba(255,255,255,.85);font-size:11px;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.btn-follow{background:#0f6b4e;color:#fff;border:none;font-size:11px;font-weight:800;padding:8px 14px;border-radius:18px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.35);flex-shrink:0}
+.btn-follow.on{background:rgba(255,255,255,.25);backdrop-filter:blur(6px)}
+/* ===== Titre promo du live ===== */
+.promo-title{position:absolute;left:14px;right:80px;bottom:210px;z-index:14;color:#fff;font-weight:800;font-size:14px;text-shadow:0 2px 6px rgba(0,0,0,.7);line-height:1.35}
+/* ===== Commentaires ===== */
+.chat-zone{position:absolute;left:14px;right:80px;bottom:150px;z-index:13;display:flex;flex-direction:column;gap:5px;max-height:130px;overflow:hidden;justify-content:flex-end}
+.chat-msg{background:rgba(0,0,0,.45);color:#fff;font-size:12px;padding:7px 12px;border-radius:16px;backdrop-filter:blur(6px);max-width:85%;animation:msgIn .25s}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.chat-msg b{color:#ffd166}
+.chat-input{position:absolute;left:14px;right:80px;bottom:108px;z-index:14;display:flex;gap:6px}
+.chat-input input{flex:1;min-width:0;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.3);color:#fff;padding:9px 14px;border-radius:22px;font-size:13px;outline:none;backdrop-filter:blur(8px);font-family:inherit}
+.chat-input input::placeholder{color:rgba(255,255,255,.65)}
+.chat-input button{width:38px;height:38px;flex-shrink:0;border-radius:50%;border:none;background:#0f6b4e;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
+/* ===== Actions droite ===== */
+.side{position:absolute;right:12px;bottom:150px;z-index:15;display:flex;flex-direction:column;gap:16px;align-items:center}
+.side button{background:none;border:none;color:#fff;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;font-size:10px;font-weight:700;text-shadow:0 2px 4px rgba(0,0,0,.6)}
+.side button svg{width:28px;height:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))}
+.side button.on{color:#ff4d6d}.side button.on svg{fill:#ff4d6d}
+/* ===== Barre produits (SES produits réels) ===== */
+.prod-bar{position:absolute;left:0;right:0;bottom:0;z-index:16;display:flex;gap:10px;overflow-x:auto;padding:10px 14px calc(14px + env(safe-area-inset-bottom));scrollbar-width:none;background:linear-gradient(0deg,rgba(0,0,0,.7),transparent)}
+.prod-bar::-webkit-scrollbar{display:none}
+.pcard{flex-shrink:0;width:150px;background:#fff;border-radius:14px;overflow:hidden;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35);position:relative;text-decoration:none;color:inherit;display:block}
+.pcard:active{transform:scale(.96)}
+.pcard img{width:100%;height:96px;object-fit:cover;display:block}
+.pcard .pb{padding:8px 10px}
+.pcard .pn{font-size:11px;font-weight:700;color:#1a1a1a;line-height:1.25;height:27px;overflow:hidden}
+.pcard .pp{font-size:14px;font-weight:900;color:#0f6b4e;margin-top:2px}
+.pcard .po{font-size:10px;color:#9aa5a0;text-decoration:line-through;margin-left:4px}
+.ptag{position:absolute;top:6px;left:6px;background:#e63946;color:#fff;font-size:9px;font-weight:800;padding:2px 7px;border-radius:8px}
+/* Flash */
+.flash{position:absolute;top:148px;left:14px;z-index:14;background:linear-gradient(90deg,#e63946,#ff7b00);color:#fff;font-weight:800;font-size:11px;padding:6px 12px;border-radius:20px;display:flex;align-items:center;gap:6px;box-shadow:0 4px 12px rgba(230,57,70,.5);animation:pulse 1.2s infinite}
+.loader{height:100vh;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
 </style>
 </head>
 <body>
-<div class="live-container" id="lives"></div>
+<div id="feed"><div class="loader">Chargement des lives…</div></div>
 
 <script>
-var LIVES=[
- {bid:1,nom:'Aïcha Couture',desc:'Mode africaine · Dakar',avatar:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100&q=80',
-  bg:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&q=80',viewers:'1 234',titre:'👗 Nouvelle collection wax 2026',
-  produits:[
-   {id:1,nom:'Robe wax mariage',prix:'35 000 F',img:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=300&q=80',tag:'-30%'},
-   {id:2,nom:'Sandales Peul',prix:'8 500 F',img:'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=300&q=80'},
-   {id:4,nom:'Kaftan luxe',prix:'65 000 F',img:'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=300&q=80',tag:'TOP'}
-  ]},
- {bid:2,nom:'Moussa Tech',desc:'Électronique · Dakar',avatar:'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&q=80',
-  bg:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=800&q=80',viewers:'892',titre:'📱 Déstockage iPhone & MacBook',
-  produits:[
-   {id:100,nom:'iPhone 15 Pro',prix:'850 000 F',img:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=300&q=80',tag:'-30%'},
-   {id:103,nom:'MacBook Air',prix:'620 000 F',img:'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=300&q=80'},
-   {id:101,nom:'AirPods Pro',prix:'180 000 F',img:'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=300&q=80'}
-  ]},
- {bid:3,nom:'Mariama B.',desc:'Beauté · Dakar',avatar:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&q=80',
-  bg:'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=800&q=80',viewers:'456',titre:'💄 Routine beauté 100% naturelle',
-  produits:[
-   {id:5,nom:'Parfum oud royal',prix:'28 000 F',img:'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=300&q=80',tag:'NOUVEAU'},
-   {id:6,nom:'Crème karité bio',prix:'6 500 F',img:'https://images.unsplash.com/photo-1600857062241-98e5dba7f214?w=300&q=80'},
-   {id:7,nom:'Rouge à lèvres mat',prix:'4 500 F',img:'https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=300&q=80'}
-  ]},
- {bid:4,nom:'Fatou Fashion',desc:'Prêt-à-porter · Dakar',avatar:'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=100&q=80',
-  bg:'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=800&q=80',viewers:'678',titre:'✨ Arrivage prêt-à-porter',
-  produits:[
-   {id:10,nom:'Boubou Wax Premium',prix:'17 500 F',img:'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=300&q=80',tag:'-30%'},
-   {id:11,nom:'Ensemble bazin',prix:'32 000 F',img:'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&q=80'},
-   {id:13,nom:'Foulard wax',prix:'3 500 F',img:'https://images.unsplash.com/photo-1542272604-787c3835535d?w=300&q=80'}
-  ]}
-];
+var TITRES = {
+  'aicha-couture': '👗 Nouvelle collection wax 2026 #mode #wax',
+  'moussa-tech': '📱 Déstockage Tech #tech #dakar',
+  'mariama-b': '💄 Routine beauté 100% naturelle #beauté',
+  'fatou-fashion': '✨ Arrivage prêt-à-porter #fashion'
+};
+var CHATS = {
+  'aicha-couture': [['Awa','Ce boubou est magnifique 😍'],['Modou','Tu livres à Thiès ?'],['Fatou','Je viens de commander ! 🔥']],
+  'moussa-tech': [['Ibrahima','C\'est neuf ?'],['Aïcha','Prix du MacBook ?'],['Cheikh','Garantie incluse ? 👍']],
+  'mariama-b': [['Adja','Le karité sent trop bon'],['Bineta','Résultat en combien de jours ?'],['Omar','C\'est 100% naturel ?']],
+  'fatou-fashion': [('Marie'),[''],[]]
+};
+CHATS['fatou-fashion'] = [['Marie','Trop beau ce bazin 😍'],['Sokhna','Tu as du XXL ?'],['Jean','Commandé ! ✨']];
 
-var MSGS=[
- ['system','🎉 Bienvenue dans le live !'],
- ['Aïcha D.','Bonsoir tout le monde ! 😍'],
- ['Moussa F.','C\'est dispo en bleu ?'],
- ['Fatou N.','Je commande maintenant 🛒'],
- ['Ibra S.','Livraison à Thiès possible ?'],
- ['Awa K.','Trop beau 🔥🔥'],
- ['Cheikh T.','Le prix c\'est combien déjà ?'],
- ['Mariam B.','Je prends 2 ! 🙌']
-];
+var feed = document.getElementById('feed');
 
-var container=document.getElementById('lives');
+function followKey(slug){ return 'sentew_follows'; }
 
-LIVES.forEach(function(L,idx){
- var item=document.createElement('div');
- item.className='live-item';
- item.innerHTML=
-  '<img class="live-bg" src="'+L.bg+'" alt="Live '+L.nom+'">'+
-  '<div class="live-shade"></div>'+
-  /* barre du haut */
-  '<div class="top-live">'+
-   '<a href="index.html" class="back-btn">←</a>'+
-   '<span class="live-badge">LIVE</span>'+
-   '<span class="viewers">👥 '+L.viewers+'</span>'+
-  '</div>'+
-  /* vendeur : SOUS la barre, compact, cliquable */
-  '<div class="seller-row" data-bid="'+L.bid+'">'+
-   '<div class="avatar"><img src="'+L.avatar+'" alt=""></div>'+
-   '<div><div class="sname">'+L.nom+' ✓</div><div class="sdesc">'+L.desc+'</div></div>'+
-   '<button class="follow-btn">+ Suivre</button>'+
-  '</div>'+
-  /* flash */
-  '<div class="flash-promo" data-s="299">⚡ FLASH -30% · <span class="fsec">4:59</span></div>'+
-  /* actions droite */
-  '<div class="right-actions">'+
-   '<button class="act-btn like-btn"><span class="ic">❤️</span><span class="cnt">'+(1200+idx*340)+'</span></button>'+
-   '<button class="act-btn share-btn"><span class="ic">↗️</span><span class="cnt">Partager</span></button>'+
-   '<button class="act-btn shop-btn" data-bid="'+L.bid+'"><span class="ic">🛍️</span><span class="cnt">Boutique</span></button>'+
-  '</div>'+
-  /* commentaires */
-  '<div class="chat-zone"></div>'+
-  /* champ */
-  '<div class="chat-input"><input type="text" placeholder="💬 Écris un commentaire..." maxlength="120"><button type="button">➤</button></div>'+
-  /* produits */
-  '<div class="products-bar">'+
-   L.produits.map(function(p){
-    return '<a class="pcard" href="produit.html?id='+p.id+'">'+
-     (p.tag?'<span class="ptag">'+p.tag+'</span>':'')+
-     '<img src="'+p.img+'" alt="'+p.nom+'">'+
-     '<div class="pbody"><div class="pname">'+p.nom+'</div><div class="pprice">'+p.prix+'</div></div></a>';
-   }).join('')+
-  '</div>';
- container.appendChild(item);
+function buildLive(v, prods){
+  var el = document.createElement('div');
+  el.className = 'live';
+  var bg = (prods[0] && prods[0].images && prods[0].images[0]) || v.logo_url || '';
+  var nbV = 80 + Math.floor(Math.random() * 300);
 
- /* vendeur cliquable -> SA boutique */
- var row=item.querySelector('.seller-row');
- row.addEventListener('click',function(){location.href='boutique.html?id='+L.bid;});
- var fb=item.querySelector('.follow-btn');
- fb.addEventListener('click',function(e){
-  e.stopPropagation();
-  var on=this.classList.toggle('followed');
-  this.textContent=on?'✓ Suivi':'+ Suivre';
- });
- /* boutique via icône droite */
- item.querySelector('.shop-btn').addEventListener('click',function(){location.href='boutique.html?id='+L.bid;});
- /* like */
- var like=item.querySelector('.like-btn');
- like.addEventListener('click',function(){
-  var c=this.querySelector('.cnt');
-  var n=parseInt(c.textContent.replace(/\s/g,''))||0;
-  if(this.classList.toggle('liked')) c.textContent=(n+1).toLocaleString('fr');
-  else c.textContent=(n-1).toLocaleString('fr');
- });
- /* partage */
- item.querySelector('.share-btn').addEventListener('click',function(){
-  var txt='🔴 LIVE '+L.nom+' sur SEN TEW : '+L.titre+' → https://sen-ecosystem.com/sentew-app/boutiques-live.html';
-  if(navigator.share) navigator.share({title:'SEN TEW Live',text:txt}).catch(function(){});
-  else if(navigator.clipboard){navigator.clipboard.writeText(txt); alert('✓ Lien du live copié !');}
- });
- /* commentaires auto */
- var zone=item.querySelector('.chat-zone');
- MSGS.slice(0,3).forEach(function(m){addMsg(zone,m);});
- var i=3;
- setInterval(function(){
-  if(document.hidden) return;
-  addMsg(zone,MSGS[i%MSGS.length]); i++;
-  while(zone.children.length>6) zone.removeChild(zone.firstChild);
-  zone.scrollTop=zone.scrollHeight;
- },5000+idx*1300);
- /* envoyer son commentaire */
- var input=item.querySelector('.chat-input input');
- var btn=item.querySelector('.chat-input button');
- function send(){
-  var t=input.value.trim(); if(!t) return;
-  addMsg(zone,['Toi',t.replace(/</g,'&lt;')]);
-  while(zone.children.length>6) zone.removeChild(zone.firstChild);
-  zone.scrollTop=zone.scrollHeight;
-  input.value='';
- }
- btn.addEventListener('click',send);
- input.addEventListener('keydown',function(e){if(e.key==='Enter')send();});
-});
+  var prodsHtml = prods.map(function(p){
+    var promo = p.old_price ? '<span class="ptag">-' + Math.round((1-p.price/p.old_price)*100) + '%</span>' : '';
+    return '<a class="pcard" href="' + lienProduit(p) + '">' + promo +
+      '<img src="' + (p.images && p.images[0] || '') + '" alt="">' +
+      '<div class="pb"><div class="pn">' + p.name + '</div>' +
+      '<div><span class="pp">' + fmtPrix(p.price) + ' F</span>' +
+      (p.old_price ? '<span class="po">' + fmtPrix(p.old_price) + '</span>' : '') + '</div></div></a>';
+  }).join('');
 
-function addMsg(zone,m){
- var d=document.createElement('div');
- d.className='chat-msg'+(m[0]==='system'?' system':'');
- d.innerHTML=(m[0]==='system')?m[1]:'<b>'+m[0]+'</b>'+m[1];
- zone.appendChild(d);
+  el.innerHTML =
+    '<img class="live-bg" src="' + bg + '" alt="">' +
+    '<div class="live-shade"></div>' +
+    '<div class="top">' +
+      '<button class="tb" onclick="location.href=\'index.html\'"><i data-lucide="arrow-left"></i></button>' +
+      '<div class="ttl">Boutiques en direct</div>' +
+      '<a class="tb" href="panier.html"><i data-lucide="shopping-cart"></i></a>' +
+    '</div>' +
+    '<span class="live-badge"><i data-lucide="radio" style="width:12px"></i> LIVE</span>' +
+    '<span class="viewers"><i data-lucide="eye" style="width:12px"></i> <span class="vc">' + nbV + '</span></span>' +
+    '<div class="seller" data-slug="' + v.slug + '">' +
+      '<img src="' + (v.logo_url||'') + '" alt="">' +
+      '<div style="flex:1;min-width:0">' +
+        '<div class="sn">' + v.shop_name + ' <i data-lucide="badge-check" style="width:14px;color:#4ade80"></i></div>' +
+        '<div class="sm">⭐ ' + v.rating + ' · ' + fmtPrix(v.followers||0) + ' abonnés</div>' +
+      '</div>' +
+      '<button class="btn-follow" data-follow="' + v.slug + '">+ Suivre</button>' +
+    '</div>' +
+    '<div class="flash">⚡ FLASH -30% · <span class="cd">04:59</span></div>' +
+    '<div class="promo-title">' + (TITRES[v.slug] || '🔥 Live shopping') + '</div>' +
+    '<div class="chat-zone" data-chat="' + v.slug + '"></div>' +
+    '<div class="chat-input"><input type="text" placeholder="💬 Écris un commentaire…" maxlength="120"><button type="button"><i data-lucide="send" style="width:15px"></i></button></div>' +
+    '<div class="side">' +
+      '<button data-like><i data-lucide="heart"></i><span class="lc">' + (120 + Math.floor(Math.random()*400)) + '</span></button>' +
+      '<button onclick="location.href=\'boutique.html?slug=' + v.slug + '\'"><i data-lucide="store"></i><span>Boutique</span></button>' +
+      '<button data-share><i data-lucide="share-2"></i><span>Partager</span></button>' +
+    '</div>' +
+    '<div class="prod-bar">' + prodsHtml + '</div>';
+
+  feed.appendChild(el);
+
+  // Clic bandeau vendeur → SA boutique
+  el.querySelector('.seller').addEventListener('click', function(e){
+    if (e.target.closest('[data-follow]')) return;
+    location.href = 'boutique.html?slug=' + v.slug;
+  });
+
+  // Suivre (persistant)
+  var fb = el.querySelector('[data-follow]');
+  if (followHas(v.slug)) { fb.textContent = '✓ Suivi'; fb.classList.add('on'); }
+  fb.addEventListener('click', function(e){
+    e.stopPropagation();
+    var on = followToggle(v);
+    fb.textContent = on ? '✓ Suivi' : '+ Suivre';
+    fb.classList.toggle('on', on);
+  });
+
+  // Like
+  var lb = el.querySelector('[data-like]');
+  lb.addEventListener('click', function(){
+    var on = lb.classList.toggle('on');
+    var lc = lb.querySelector('.lc');
+    lc.textContent = parseInt(lc.textContent) + (on ? 1 : -1);
+  });
+
+  // Partager
+  el.querySelector('[data-share]').addEventListener('click', function(){
+    var txt = '🔴 ' + v.shop_name + ' est EN LIVE sur SEN TEW ! ' + location.origin + '/sentew-app/boutiques-live.html?v=' + v.slug;
+    if (navigator.share) navigator.share({title:'Live SEN TEW', text:txt}).catch(function(){});
+    else if (navigator.clipboard) { navigator.clipboard.writeText(txt); toast('✓ Lien du live copié'); }
+  });
+
+  // Commentaires défilants
+  var zone = el.querySelector('[data-chat]');
+  var msgs = CHATS[v.slug] || [];
+  var mi = 0;
+  function pushMsg(who, txt){
+    var d = document.createElement('div');
+    d.className = 'chat-msg';
+    d.innerHTML = '<b>' + who + '</b> ' + txt.replace(/</g,'&lt;');
+    zone.appendChild(d);
+    while (zone.children.length > 4) zone.removeChild(zone.firstChild);
+  }
+  msgs.slice(0,2).forEach(function(m){ pushMsg(m[0], m[1]); });
+  var chatTimer = setInterval(function(){
+    if (!document.body.contains(el)) { clearInterval(chatTimer); return; }
+    var m = msgs[mi % msgs.length]; mi++;
+    pushMsg(m[0], m[1]);
+  }, 4000);
+
+  // Envoi commentaire
+  var input = el.querySelector('.chat-input input');
+  var sendBtn = el.querySelector('.chat-input button');
+  function send(){
+    var t = input.value.trim();
+    if (!t) return;
+    pushMsg('Toi', t);
+    input.value = '';
+  }
+  sendBtn.addEventListener('click', send);
+  input.addEventListener('keydown', function(e){ if (e.key === 'Enter') send(); });
+
+  // Countdown flash
+  var sec = 299;
+  var cd = el.querySelector('.cd');
+  setInterval(function(){
+    if (sec > 0) sec--;
+    var m = Math.floor(sec/60), s = sec%60;
+    cd.textContent = m + ':' + (s<10?'0':'') + s;
+  }, 1000);
 }
 
-/* compte à rebours FLASH */
-setInterval(function(){
- document.querySelectorAll('.flash-promo').forEach(function(f){
-  var s=parseInt(f.dataset.s)||0;
-  if(s>0) s--;
-  f.dataset.s=s;
-  var m=Math.floor(s/60), r=s%60;
-  f.querySelector('.fsec').textContent=m+':'+(r<10?'0':'')+r;
- });
-},1000);
+// ===== Chargement : vendeurs réels + leurs vrais produits =====
+getVendors().then(async function(vendors){
+  if (!vendors || !vendors.length) {
+    feed.innerHTML = '<div class="loader">Aucun live pour le moment</div>';
+    return;
+  }
+  feed.innerHTML = '';
+  // Ordre : vendeur demandé (?v=slug) en premier
+  var want = new URLSearchParams(location.search).get('v');
+  if (want) vendors.sort(function(a,b){ return a.slug === want ? -1 : b.slug === want ? 1 : 0; });
+
+  for (var i = 0; i < vendors.length; i++) {
+    var prods = await getProducts(vendors[i].id);
+    buildLive(vendors[i], prods || []);
+  }
+  lucide.createIcons();
+  cartBadge();
+});
+lucide.createIcons();
 </script>
-<script src="js/dark-mode.js?v=50"></script>
-<script>if(window.lucide)lucide.createIcons();</script>
+<script src="js/dark-mode.js"></script>
 </body>
 </html>
