@@ -3,95 +3,106 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SEN TEW Admin - Tableau de bord</title>
+<title>SEN TEW Admin Pro</title>
 <script src="https://unpkg.com/lucide@latest"></script>
-<script src="js/supabase.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{overflow-x:hidden;max-width:100vw}
-body{background:#f0f2f5;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:80px;color:#0a1f17}
-/* Header */
-.topbar{background:#0a1f17;color:#fff;padding:16px 16px 60px;position:relative}
+body{background:#f0f2f5;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:90px;color:#0a1f17}
+.topbar{background:linear-gradient(160deg,#0a1f17,#0f6b4e);color:#fff;padding:16px 16px 56px}
 .tb-row{display:flex;align-items:center;gap:10px}
-.tb-row h1{font-size:18px;font-weight:900;flex:1;display:flex;align-items:center;gap:8px}
-.tb-row .sub{font-size:11px;opacity:.7;font-weight:400}
-.tb-ico{width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,.1);border:none;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
-.tb-ico:hover{background:rgba(255,255,255,.2)}
-/* Filtre période */
-.period{display:flex;gap:6px;margin-top:14px}
-.period button{flex:1;padding:9px 4px;border-radius:10px;border:1px solid rgba(255,255,255,.25);background:transparent;color:#fff;font-size:11.5px;font-weight:800;cursor:pointer}
+.tb-row h1{font-size:17px;font-weight:900;flex:1}
+.tb-ico{width:36px;height:36px;border-radius:11px;background:rgba(255,255,255,.12);border:none;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px}
+.tb-sub{font-size:10.5px;opacity:.75;margin-top:4px}
+.period{display:flex;gap:6px;margin-top:13px}
+.period button{flex:1;padding:9px 3px;border-radius:10px;border:1px solid rgba(255,255,255,.25);background:transparent;color:#fff;font-size:11px;font-weight:800;cursor:pointer}
 .period button.on{background:#4ade80;border-color:#4ade80;color:#0a1f17}
-/* KPI cards */
-.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 14px;margin-top:-44px}
-.kpi{background:#fff;border-radius:16px;padding:14px;box-shadow:0 4px 14px rgba(0,0,0,.07);animation:fadeIn .3s}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.kpi .ki{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:8px}
-.kpi .kv{font-size:19px;font-weight:900;line-height:1.1}
-.kpi .kl{font-size:10.5px;color:#6b7280;font-weight:700;margin-top:3px}
-.kpi .kt{font-size:9.5px;font-weight:800;margin-top:5px;display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:8px}
-.kt.up{background:#d1fae5;color:#065f46}
-.kt.down{background:#fee2e2;color:#b91c1c}
-.k-green{background:#d1fae5;color:#059669}
-.k-blue{background:#dbeafe;color:#1e40af}
-.k-amber{background:#fef3c7;color:#b45309}
-.k-purple{background:#ede9fe;color:#6d28d9}
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;padding:0 13px;margin-top:-42px}
+.kpi{background:#fff;border-radius:15px;padding:13px;box-shadow:0 4px 14px rgba(0,0,0,.07)}
+.kpi .ki{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:7px}
+.kpi .kv{font-size:17px;font-weight:900}
+.kpi .kl{font-size:10px;color:#6b7280;font-weight:700;margin-top:2px}
+.kpi .kt{font-size:9px;font-weight:800;margin-top:4px;display:inline-block;padding:2px 7px;border-radius:8px}
+.kt.up{background:#d1fae5;color:#065f46}.kt.warn{background:#fef3c7;color:#92400e}.kt.bad{background:#fee2e2;color:#b91c1c}
+.k-green{background:#d1fae5;color:#059669}.k-blue{background:#dbeafe;color:#1e40af}.k-amber{background:#fef3c7;color:#b45309}.k-purple{background:#ede9fe;color:#6d28d9}.k-red{background:#fee2e2;color:#dc2626}.k-dark{background:#0a1f17;color:#4ade80}
+/* Alertes */
+.alert-strip{margin:12px 13px 0;display:flex;flex-direction:column;gap:7px}
+.alert{display:flex;align-items:center;gap:9px;background:#fff;border-left:4px solid #f59e0b;border-radius:11px;padding:10px 12px;font-size:11.5px;font-weight:700;color:#78350f;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.alert.red{border-color:#dc2626;color:#7f1d1d}
+.alert .go{margin-left:auto;font-size:10px;color:#9aa5a0;font-weight:800;white-space:nowrap}
 /* Sections */
-.section{margin:18px 14px 0}
-.sec-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.sec-head h2{font-size:15px;font-weight:900;flex:1}
-.sec-head .all{font-size:11px;font-weight:800;color:#0f6b4e;text-decoration:none}
-/* Onglets internes */
+.section{margin:16px 13px 0}
+.sec-head{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.sec-head h2{font-size:14.5px;font-weight:900;flex:1}
+.sec-head .cnt{font-size:10px;font-weight:800;background:#0a1f17;color:#4ade80;padding:3px 9px;border-radius:10px}
+/* Onglets */
 .itabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:10px}
 .itabs::-webkit-scrollbar{display:none}
 .itab{flex-shrink:0;padding:7px 13px;border-radius:18px;border:1.5px solid #e5e7eb;background:#fff;font-size:11px;font-weight:800;color:#4b5563;cursor:pointer;white-space:nowrap}
 .itab.on{background:#0a1f17;color:#fff;border-color:#0a1f17}
-/* Lignes liste */
-.row-item{background:#fff;border-radius:14px;padding:12px 13px;display:flex;align-items:center;gap:11px;margin-bottom:8px;box-shadow:0 1px 5px rgba(0,0,0,.05);animation:fadeIn .25s}
-.ri-ava{width:42px;height:42px;border-radius:12px;object-fit:cover;flex-shrink:0}
+/* Recherche */
+.search{display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid #e5e7eb;border-radius:12px;padding:0 12px;margin-bottom:10px}
+.search input{flex:1;border:none;outline:none;padding:11px 0;font-size:13px;background:transparent}
+/* Lignes */
+.row{background:#fff;border-radius:14px;padding:12px;display:flex;align-items:center;gap:10px;margin-bottom:8px;box-shadow:0 1px 5px rgba(0,0,0,.05);cursor:pointer}
+.ri-ava{width:42px;height:42px;border-radius:12px;object-fit:cover;flex-shrink:0;background:#f3f4f6}
+.ri-ico{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ri-txt{flex:1;min-width:0}
 .ri-txt b{font-size:12.5px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ri-txt span{font-size:10.5px;color:#6b7280;display:block;margin-top:2px}
 .ri-right{text-align:right;flex-shrink:0}
-.ri-right .amt{font-size:12.5px;font-weight:900;color:#0f6b4e}
+.amt{font-size:12.5px;font-weight:900;color:#0f6b4e}
 .badge{font-size:9px;font-weight:800;padding:3px 8px;border-radius:9px;display:inline-block;margin-top:3px}
-.b-ok{background:#d1fae5;color:#065f46}
-.b-wait{background:#fef3c7;color:#92400e}
-.b-warn{background:#fee2e2;color:#b91c1c}
-.b-info{background:#dbeafe;color:#1e40af}
-.b-purple{background:#ede9fe;color:#6d28d9}
-.mini-btn{font-size:10px;font-weight:800;padding:6px 11px;border-radius:9px;border:none;cursor:pointer;margin-top:4px}
-.mb-green{background:#0f6b4e;color:#fff}
-.mb-red{background:#fee2e2;color:#b91c1c}
-.mb-line{background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e}
-/* Actions rapides */
-.qgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
-.qact{background:#fff;border-radius:14px;padding:13px 6px;text-align:center;text-decoration:none;color:#0a1f17;box-shadow:0 1px 5px rgba(0,0,0,.05);display:flex;flex-direction:column;align-items:center;gap:7px}
-.qact .qi{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center}
-.qact span{font-size:9.5px;font-weight:800;line-height:1.25}
+.b-ok{background:#d1fae5;color:#065f46}.b-wait{background:#fef3c7;color:#92400e}.b-warn{background:#fee2e2;color:#b91c1c}.b-info{background:#dbeafe;color:#1e40af}.b-purple{background:#ede9fe;color:#6d28d9}
+.mbtn{font-size:10px;font-weight:800;padding:7px 11px;border-radius:9px;border:none;cursor:pointer;margin-top:5px;margin-left:4px}
+.mb-green{background:#0f6b4e;color:#fff}.mb-red{background:#fee2e2;color:#b91c1c}.mb-line{background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e}
 /* Astuce */
-.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:13px;padding:11px 12px;font-size:11.5px;color:#92400e;cursor:pointer;line-height:1.5;margin-bottom:10px}
-.tip i{color:#b45309;flex-shrink:0;width:15px;height:15px;margin-top:1px}
-/* Graphique barres simple */
-.chart{background:#fff;border-radius:16px;padding:14px;box-shadow:0 1px 5px rgba(0,0,0,.05)}
-.bars{display:flex;align-items:flex-end;gap:6px;height:110px;margin-top:10px}
-.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px}
-.bar{width:100%;max-width:26px;border-radius:6px 6px 2px 2px;background:linear-gradient(180deg,#10b981,#0f6b4e);min-height:4px;transition:height .6s}
-.bar-lab{font-size:8.5px;color:#9aa5a0;font-weight:700}
-/* Vide / chargement */
-.loading{text-align:center;padding:30px;color:#9aa5a0;font-size:12px}
-.empty-box{text-align:center;padding:24px;color:#9aa5a0;font-size:12px;background:#fff;border-radius:14px}
-/* Déconnexion */
-.logout{position:fixed;bottom:16px;left:14px;right:14px;padding:14px;border-radius:13px;border:none;background:#0a1f17;color:#fff;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;font-size:11.5px;color:#92400e;cursor:pointer;line-height:1.5;margin-bottom:10px}
+/* Graphique */
+.chart{background:#fff;border-radius:15px;padding:13px;box-shadow:0 1px 5px rgba(0,0,0,.05)}
+.bars{display:flex;align-items:flex-end;gap:6px;height:100px;margin-top:10px}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.bar{width:100%;max-width:24px;border-radius:5px 5px 2px 2px;background:linear-gradient(180deg,#10b981,#0f6b4e);min-height:4px}
+.bar-lab{font-size:8px;color:#9aa5a0;font-weight:700}
+/* Top list */
+.top-row{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid #f3f4f6;font-size:12px}
+.top-row:last-child{border:none}
+.top-num{width:22px;height:22px;border-radius:7px;background:#f3f4f6;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.top-row b{flex:1;font-size:12px}
+.top-row span{font-weight:900;color:#0f6b4e;font-size:11.5px}
+/* Navigation modules */
+.modnav{position:sticky;top:0;z-index:50;background:#f0f2f5;padding:8px 13px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid #e5e7eb}
+.modnav::-webkit-scrollbar{display:none}
+.modnav button{flex-shrink:0;padding:8px 13px;border-radius:11px;border:none;background:#fff;font-size:11px;font-weight:800;color:#4b5563;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.modnav button.on{background:#0f6b4e;color:#fff}
+.module{display:none}
+.module.on{display:block}
+/* Finance box */
+.fin-box{background:#fff;border-radius:15px;padding:14px;box-shadow:0 1px 5px rgba(0,0,0,.05);margin-bottom:9px}
+.fin-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed #f3f4f6;font-size:12.5px}
+.fin-row:last-child{border:none}
+.fin-row b{font-weight:900}
+.fin-total{background:#f0fdf4;border-radius:11px;padding:11px 13px;display:flex;justify-content:space-between;font-weight:900;font-size:14px;color:#065f46;margin-top:8px}
+/* Formulaires mini */
+.fld{margin-bottom:10px}
+.fld label{font-size:11px;font-weight:800;color:#374151;display:block;margin-bottom:5px}
+.fld input,.fld select{width:100%;border:1.5px solid #e5e7eb;border-radius:11px;padding:11px 12px;font-size:13px;outline:none;background:#f9fafb}
+.btn-full{width:100%;padding:13px;border-radius:12px;border:none;background:#0f6b4e;color:#fff;font-size:13px;font-weight:900;cursor:pointer}
+.btn-csv{width:100%;padding:13px;border-radius:12px;border:1.5px solid #0f6b4e;background:#fff;color:#0f6b4e;font-size:12.5px;font-weight:900;cursor:pointer;margin-top:8px}
+.empty{text-align:center;padding:26px;color:#9aa5a0;font-size:12px;background:#fff;border-radius:14px}
+.loading{text-align:center;padding:24px;color:#9aa5a0;font-size:12px}
+.logout{position:fixed;bottom:14px;left:13px;right:13px;padding:14px;border-radius:13px;border:none;background:#0a1f17;color:#fff;font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.25);z-index:60}
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <div class="tb-row">
-    <h1><i data-lucide="shield-check" style="width:21px;height:21px;color:#4ade80"></i>SEN TEW Admin</h1>
-    <button class="tb-ico" id="refreshBtn" title="Actualiser"><i data-lucide="refresh-cw" style="width:17px;height:17px"></i></button>
+    <h1>🛡️ SEN TEW Admin Pro</h1>
+    <button class="tb-ico" onclick="loadAll()" title="Actualiser">↻</button>
   </div>
-  <div class="sub" id="adminName" style="font-size:11px;opacity:.7;margin-top:4px">Connecté</div>
+  <div class="tb-sub" id="adminInfo">Connecté · 2FA ✓</div>
   <div class="period" id="periodBar">
     <button data-p="today" class="on">Aujourd'hui</button>
     <button data-p="week">7 jours</button>
@@ -100,99 +111,195 @@ body{background:#f0f2f5;font-family:'Segoe UI',-apple-system,sans-serif;padding-
   </div>
 </div>
 
-<!-- KPI -->
-<div class="kpis" id="kpis"><div class="loading" style="grid-column:1/3">Chargement des statistiques…</div></div>
+<!-- MODULES -->
+<div class="modnav" id="modNav">
+  <button data-m="dash" class="on">📊 Tableau</button>
+  <button data-m="orders">📦 Commandes</button>
+  <button data-m="vendors">🏪 Vendeurs</button>
+  <button data-m="payouts">💸 Reversements</button>
+  <button data-m="drivers">🛵 Livreurs</button>
+  <button data-m="disputes">⚖️ Litiges</button>
+  <button data-m="finance">🏦 Finances</button>
+  <button data-m="ads">📣 Ads</button>
+  <button data-m="promo">🎟️ Promo</button>
+  <button data-m="tools">🔧 Outils</button>
+</div>
 
-<!-- Actions rapides -->
-<div class="section">
-  <div class="sec-head"><h2>⚡ Actions rapides</h2></div>
-  <div class="qgrid">
-    <a class="qact" href="admin-payouts.html"><div class="qi k-green"><i data-lucide="banknote" style="width:17px;height:17px"></i></div><span>Reverse-<br>ments</span></a>
-    <a class="qact" href="#" onclick="scrollToId('secOrders');return false"><div class="qi k-blue"><i data-lucide="package" style="width:17px;height:17px"></i></div><span>Com-<br>mandes</span></a>
-    <a class="qact" href="#" onclick="scrollToId('secVendors');return false"><div class="qi k-amber"><i data-lucide="store" style="width:17px;height:17px"></i></div><span>Ven-<br>deurs</span></a>
-    <a class="qact" href="#" onclick="scrollToId('secAds');return false"><div class="qi k-purple"><i data-lucide="megaphone" style="width:17px;height:17px"></i></div><span>Ads /<br>Pub</span></a>
+<!-- ═══ TABLEAU DE BORD ═══ -->
+<div class="module on" id="m-dash">
+  <div class="kpis" id="kpis"><div class="loading" style="grid-column:1/3">Chargement…</div></div>
+  <div class="alert-strip" id="alerts"></div>
+  <div class="section">
+    <div class="sec-head"><h2>📈 Commandes · 7 jours</h2></div>
+    <div class="chart"><div class="bars" id="chartBars"><div class="loading" style="width:100%">…</div></div></div>
+  </div>
+  <div class="section">
+    <div class="sec-head"><h2>🏆 Top vendeurs (CA)</h2></div>
+    <div class="chart" id="topVendors"><div class="loading">…</div></div>
+  </div>
+  <div class="section">
+    <div class="sec-head"><h2>🔥 Top produits (ventes)</h2></div>
+    <div class="chart" id="topProducts"><div class="loading">…</div></div>
   </div>
 </div>
 
-<!-- Graphique -->
-<div class="section">
-  <div class="sec-head"><h2>📈 Commandes (7 derniers jours)</h2></div>
-  <div class="chart"><div class="bars" id="chartBars"><div class="loading" style="width:100%">…</div></div></div>
-</div>
-
-<!-- Commandes -->
-<div class="section" id="secOrders">
-  <div class="sec-head"><h2>📦 Commandes récentes</h2></div>
-  <div class="itabs" id="orderTabs">
-    <button class="itab on" data-f="all">Toutes</button>
-    <button class="itab" data-f="confirmed">Confirmées</button>
-    <button class="itab" data-f="in_transit">En livraison</button>
-    <button class="itab" data-f="delivered">Livrées</button>
-    <button class="itab" data-f="cancelled">Annulées</button>
-  </div>
-  <div id="ordersList"><div class="loading">Chargement…</div></div>
-  <div class="tip" onclick="alert('📦 Gestion des commandes\n\n• Confirmées : le vendeur prépare le colis\n• En livraison : le livreur a scanné le QR code retrait\n• Livrées : code client saisi = paiement libéré au vendeur\n• Annulées : vérifier la raison et rembourser si payé en ligne\n\nⓘ Une commande bloquée +48h en préparation ? Contacte le vendeur.')">
-    <i data-lucide="info"></i><span>Astuce : une commande livrée avec code client = paiement libéré au vendeur. Clique pour tout comprendre.</span>
+<!-- ═══ COMMANDES ═══ -->
+<div class="module" id="m-orders">
+  <div class="section">
+    <div class="search">🔍<input id="ordSearch" placeholder="Rechercher par code (STW-…) ou ville…"></div>
+    <div class="itabs" id="ordTabs">
+      <button class="itab on" data-f="all">Toutes</button>
+      <button class="itab" data-f="confirmed">Confirmées</button>
+      <button class="itab" data-f="preparing">Préparation</button>
+      <button class="itab" data-f="in_transit">En livraison</button>
+      <button class="itab" data-f="delivered">Livrées</button>
+      <button class="itab" data-f="cancelled">Annulées</button>
+    </div>
+    <div id="ordersList"><div class="loading">Chargement…</div></div>
+    <div class="tip" onclick="alert('📦 Cycle d\'une commande\n\n1. Confirmée → vendeur prépare + QR colis\n2. Préparation → livreur scanne le code retrait\n3. En livraison → GPS temps réel\n4. Livrée → client saisit son code secret → paiement libéré\n\nⓘ Commande bloquée +48h ? Contacte le vendeur directement.')">ⓘ<span>Astuce : commande bloquée +48h en préparation ? Agis vite. Clique pour le cycle complet.</span></div>
+    <button class="btn-csv" onclick="exportCSV()">⬇️ Exporter les commandes (CSV comptabilité)</button>
   </div>
 </div>
 
-<!-- Vendeurs -->
-<div class="section" id="secVendors">
-  <div class="sec-head"><h2>🏪 Vendeurs</h2></div>
-  <div class="itabs" id="vendorTabs">
-    <button class="itab on" data-f="all">Tous</button>
-    <button class="itab" data-f="pending">En attente ⏳</button>
-    <button class="itab" data-f="verified">Vérifiés ✓</button>
-  </div>
-  <div id="vendorsList"><div class="loading">Chargement…</div></div>
-  <div class="tip" onclick="alert('🏪 Validation des vendeurs\n\n• Vérifier = la boutique devient visible avec badge ✓\n• Exiger : RCCM ou NINEA + pièce identité + numéro Wave/OM valide\n• Suspendre en cas d\'avis clients négatifs répétés\n\nⓘ Un vendeur vérifié rassure : +40% de ventes en moyenne.')">
-    <i data-lucide="info"></i><span>Astuce : ne valide un vendeur qu'après vérification RCCM/NINEA. Clique pour la checklist complète.</span>
-  </div>
-</div>
-
-<!-- Ads -->
-<div class="section" id="secAds">
-  <div class="sec-head"><h2>📣 SEN TEW Ads</h2></div>
-  <div id="adsList"><div class="loading">Chargement…</div></div>
-  <div class="tip" onclick="alert('📣 Revenus publicitaires\n\nPlans : Gratuit (1 boost/sem) · Silver 5 000 F/mois · Gold 15 000 F · Platinum 35 000 F\n\n• Les boosts actifs expirent automatiquement\n• Surveille le taux de clic : un produit boosté sans clic = mauvaise photo/titre → conseille le vendeur\n\nⓘ Objectif lancement : 10 vendeurs payants = ~180 000 F/mois de revenus pub.')">
-    <i data-lucide="info"></i><span>Astuce : les revenus Ads complètent les commissions 5%. Clique pour la stratégie.</span>
+<!-- ═══ VENDEURS ═══ -->
+<div class="module" id="m-vendors">
+  <div class="section">
+    <div class="search">🔍<input id="venSearch" placeholder="Rechercher une boutique…"></div>
+    <div class="itabs" id="venTabs">
+      <button class="itab on" data-f="all">Tous</button>
+      <button class="itab" data-f="pending">⏳ En attente</button>
+      <button class="itab" data-f="verified">✓ Vérifiés</button>
+      <button class="itab" data-f="payant">💎 Plans payants</button>
+    </div>
+    <div id="vendorsList"><div class="loading">Chargement…</div></div>
+    <div class="tip" onclick="alert('🏪 Checklist validation vendeur\n\n✓ RCCM ou NINEA valide\n✓ Pièce d\'identité\n✓ Numéro Wave/OM à son nom\n✓ 3+ produits avec vraies photos\n\nⓘ Un vendeur vérifié vend en moyenne +40%.')">ⓘ<span>Astuce validation : ne valide qu'après RCCM/NINEA + pièce. Clique pour la checklist.</span></div>
   </div>
 </div>
 
-<button class="logout" id="logoutBtn"><i data-lucide="log-out" style="width:16px;height:16px"></i>Se déconnecter</button>
+<!-- ═══ REVERSEMENTS ═══ -->
+<div class="module" id="m-payouts">
+  <div class="section">
+    <div class="sec-head"><h2>💸 À reverser cette semaine</h2><span class="cnt" id="payCount">0</span></div>
+    <div class="fin-box" id="payTotalBox"><div class="loading">Calcul…</div></div>
+    <div id="payoutList"><div class="loading">Chargement…</div></div>
+    <button class="btn-full" id="payAllBtn" onclick="payAll()">💸 Tout payer maintenant</button>
+    <div class="tip" style="margin-top:10px" onclick="alert('💸 Comment fonctionne le reversement\n\n1. Client paie → argent sur ton compte PayDunya\n2. Livraison confirmée (code client)\n3. Sécurité 24h anti-litige\n4. Le lundi : tu paies tous les vendeurs en 1 clic\n\nCalcul auto :\nPrix client − 5% commission − ~2,5% frais PayDunya − livraison si gratuite\n\nⓘ Wave/OM = instantané et gratuit. Virement = 24-48h.')">ⓘ<span>Astuce : Wave/OM = instantané gratuit. Clique pour le circuit complet de l'argent.</span></div>
+    <div class="sec-head" style="margin-top:16px"><h2>📜 Historique des paiements</h2></div>
+    <div id="payoutHistory"><div class="empty">Aucun reversement pour le moment.</div></div>
+  </div>
+</div>
+
+<!-- ═══ LIVREURS ═══ -->
+<div class="module" id="m-drivers">
+  <div class="section">
+    <div class="itabs" id="drvTabs">
+      <button class="itab on" data-f="all">Tous</button>
+      <button class="itab" data-f="dispo">🟢 Disponibles</button>
+      <button class="itab" data-f="occupe">🔴 En course</button>
+    </div>
+    <div id="driversList"><div class="loading">Chargement…</div></div>
+    <div class="tip" onclick="alert('🛵 Gestion livreurs\n\n• 🟢 Disponible = peut prendre une course\n• GPS mis à jour à chaque scan\n• Note < 4.0 après 20 courses → entretien\n\nⓘ Les livreurs scannent le QR colis au retrait et le code client à la livraison : zéro dispute possible.')">ⓘ<span>Astuce : QR au retrait + code client à la livraison = zéro dispute. Clique pour la gestion.</span></div>
+  </div>
+</div>
+
+<!-- ═══ LITIGES ═══ -->
+<div class="module" id="m-disputes">
+  <div class="section">
+    <div class="itabs" id="disTabs">
+      <button class="itab on" data-f="open">🔴 Ouverts</button>
+      <button class="itab" data-f="resolved">✅ Résolus</button>
+    </div>
+    <div id="disputesList"><div class="empty">Aucun litige ouvert. 🎉</div></div>
+    <div class="tip" onclick="alert('⚖️ Traiter un litige en 3 questions\n\n1. Le client a-t-il saisi son code livraison ? → Si OUI, le colis est livré (preuve)\n2. Le vendeur a-t-il expédié le bon produit ? (photo QR colis)\n3. Qui a raison ? → Remboursement client OU paiement vendeur\n\nDélai max : 48h. Au-delà, rembourse le client par principe (comme Amazon).')">ⓘ<span>Astuce litiges : règle des 48h — au-delà, rembourse le client. Clique pour la méthode.</span></div>
+  </div>
+</div>
+
+<!-- ═══ FINANCES ═══ -->
+<div class="module" id="m-finance">
+  <div class="section">
+    <div class="fin-box" id="finBox"><div class="loading">Calcul…</div></div>
+    <div class="tip" onclick="alert('🏦 Tes 4 sources de revenus SEN TEW\n\n1. Commission 5% sur chaque vente\n2. Abonnements Ads (Silver 5 000 / Gold 15 000 / Platinum 35 000 F/mois)\n3. Marge logistique (livraisons groupées)\n4. Frais paiement à la livraison (1 500 F, anti-annulation)\n\nObjectif mois 3 : 10 vendeurs payants + 100 commandes/sem ≈ 400 000 F/mois.')">ⓘ<span>Astuce : tes 4 sources de revenus expliquées. Clique pour la stratégie mois 3.</span></div>
+    <button class="btn-csv" onclick="exportFinance()">⬇️ Exporter le bilan (CSV expert-comptable)</button>
+  </div>
+</div>
+
+<!-- ═══ ADS ═══ -->
+<div class="module" id="m-ads">
+  <div class="section">
+    <div class="sec-head"><h2>📣 Boosts actifs & expirés</h2><span class="cnt" id="adsCount">0</span></div>
+    <div id="adsList"><div class="loading">Chargement…</div></div>
+    <div class="tip" onclick="alert('📣 Plans SEN TEW Ads\n\nGratuit : 1 boost/semaine\nSilver 5 000 F : 1 boost/jour\nGold 15 000 F : 3 boosts/jour + bannière accueil\nPlatinum 35 000 F : 10 boosts/jour + priorité live\n\nⓘ Un boost sans clic = mauvaise photo. Conseille le vendeur au lieu de le laisser payer pour rien : il restera fidèle.')">ⓘ<span>Astuce Ads : conseille les vendeurs sans clic — fidélité garantie. Clique pour les plans.</span></div>
+  </div>
+</div>
+
+<!-- ═══ PROMO ═══ -->
+<div class="module" id="m-promo">
+  <div class="section">
+    <div class="sec-head"><h2>🎟️ Créer un code promo</h2></div>
+    <div class="fin-box">
+      <div class="fld"><label>Code (ex: TERANGA10)</label><input id="promoCode" placeholder="TERANGA10" autocapitalize="characters"></div>
+      <div class="fld"><label>Réduction (%)</label><input id="promoPct" type="number" min="1" max="90" placeholder="10"></div>
+      <button class="btn-full" onclick="createPromo()">✓ Activer le code</button>
+    </div>
+    <div class="sec-head"><h2>Codes actifs</h2><span class="cnt" id="promoCount">0</span></div>
+    <div id="promoList"><div class="empty">Aucun code promo.</div></div>
+    <div class="tip" onclick="alert('🎟️ Stratégie codes promo\n\n• Lancement : TERANGA10 (-10%) → bouche à oreille\n• Panier abandonné : COMEBACK5 → notification 24h après\n• Parrainage : 500 F offerts au parrain + filleul\n\nⓘ Ne dépasse jamais -20% : au-delà, les clients attendent toujours la promo.')">ⓘ<span>Astuce : jamais plus de -20%. Clique pour la stratégie promo complète.</span></div>
+  </div>
+</div>
+
+<!-- ═══ OUTILS ═══ -->
+<div class="module" id="m-tools">
+  <div class="section">
+    <div class="sec-head"><h2>📢 Message à tous les vendeurs</h2></div>
+    <div class="fin-box">
+      <div class="fld"><label>Message (visible dans leur espace)</label><input id="notifMsg" placeholder="Ex: Journée sans commission ce vendredi ! 🎉"></div>
+      <button class="btn-full" onclick="sendNotif()">📢 Envoyer à tous</button>
+    </div>
+    <div class="sec-head" style="margin-top:16px"><h2>🔐 Journal des connexions admin</h2></div>
+    <div id="logList"><div class="empty">Aucune connexion enregistrée.</div></div>
+    <div class="tip" onclick="alert('🔐 Sécurité\n\n• Le journal garde les 50 derniers événements\n• password_fail répété = quelqu\'un teste ton mot de passe → change-le\n• login_success inconnu = alerte immédiate\n\nⓘ Vérifie ce journal chaque semaine, 30 secondes suffisent.')">ⓘ<span>Astuce sécurité : vérifie ce journal chaque semaine. Clique pour savoir quoi regarder.</span></div>
+  </div>
+</div>
+
+<button class="logout" onclick="logout()">🚪 Se déconnecter</button>
 
 <script>
-// ===== PROTECTION : pas de session = retour login =====
+/* ===== CONFIG ===== */
+var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
+var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
+
+/* ===== SÉCURITÉ : session obligatoire ===== */
 var SESS=null;
 try{SESS=JSON.parse(sessionStorage.getItem('st_admin_session'))}catch(e){}
-if(!SESS||!SESS.exp||SESS.exp<Date.now()){window.location.href='login-admin.html';}
+if(!SESS||!SESS.exp||SESS.exp<Date.now()){window.location.href='login-admin.html'}
 else{
-  document.getElementById('adminName').textContent='👋 '+SESS.name+' · '+SESS.role+' · session expire à '+new Date(SESS.exp).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('adminInfo').textContent='👋 '+SESS.name+' · '+(SESS.twofa?'2FA ✓':'')+' · expire '+new Date(SESS.exp).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
 }
-document.getElementById('logoutBtn').onclick=function(){
-  sessionStorage.removeItem('st_admin_session');
-  window.location.href='login-admin.html';
-};
-function scrollToId(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+function logout(){sessionStorage.removeItem('st_admin_session');window.location.href='login-admin.html'}
 
-// ===== HELPERS API =====
+/* ===== HELPERS ===== */
 async function api(path){
-  var r=await fetch(SUPA_URL+'/rest/v1/'+path,{headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}});
-  if(!r.ok)return[];
-  return r.json();
-}
-async function apiPatch(table,id,body){
-  await fetch(SUPA_URL+'/rest/v1/'+table+'?id=eq.'+id,{
-    method:'PATCH',
-    headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'},
-    body:JSON.stringify(body)
-  });
+  try{
+    var r=await fetch(SUPA_URL+'/rest/v1/'+path,{headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}});
+    if(!r.ok)return[];
+    return await r.json();
+  }catch(e){return[]}
 }
 function fmt(n){return (n||0).toLocaleString('fr-FR')+' F'}
-function esc(s){var d=document.createElement('div');d.textContent=s||'';return d.innerHTML}
-function scrollToId(id){var el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'})}
+function esc(s){var d=document.createElement('div');d.textContent=String(s||'');return d.innerHTML}
+function $(id){return document.getElementById(id)}
 
-// ===== PÉRIODE =====
+/* ===== NAVIGATION MODULES ===== */
+$('modNav').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  this.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});
+  b.classList.add('on');
+  document.querySelectorAll('.module').forEach(function(m){m.classList.remove('on')});
+  $('m-'+b.dataset.m).classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+/* ===== PÉRIODE ===== */
 var PERIOD='today';
 function dateFrom(){
   var d=new Date();
@@ -201,154 +308,371 @@ function dateFrom(){
   if(PERIOD==='month'){d.setDate(1);d.setHours(0,0,0,0);return d.toISOString()}
   return '2000-01-01T00:00:00Z';
 }
-document.getElementById('periodBar').addEventListener('click',function(e){
+$('periodBar').addEventListener('click',function(e){
   var b=e.target.closest('button');if(!b)return;
   this.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});
-  b.classList.add('on');PERIOD=b.dataset.p;loadAll();
+  b.classList.add('on');PERIOD=b.dataset.p;loadDash();loadFinance();
 });
-document.getElementById('refreshBtn').onclick=function(){loadAll()};
 
-// ===== KPI =====
-async function loadKpis(){
+/* ===== DONNÉES GLOBALES ===== */
+var ORDERS=[],VENDORS=[],PRODUCTS=[],DRIVERS=[],BOOSTS=[];
+
+async function loadAll(){
+  var res=await Promise.all([
+    api('orders?select=*&order=created_at.desc&limit=100'),
+    api('vendors?select=*&order=created_at.desc'),
+    api('products?select=*&is_active=eq.true'),
+    api('drivers?select=*'),
+    api('ads_boosts?select=*,products(name,price),vendors(shop_name)&order=started_at.desc&limit=20')
+  ]);
+  ORDERS=res[0]||[];VENDORS=res[1]||[];PRODUCTS=res[2]||[];DRIVERS=res[3]||[];BOOSTS=res[4]||[];
+  loadDash();renderOrders();renderVendors();renderPayouts();renderDrivers();renderDisputes();loadFinance();renderAds();renderPromos();renderLog();
+}
+
+/* ===== TABLEAU DE BORD ===== */
+function loadDash(){
   var from=dateFrom();
-  var orders=await api('orders?created_at=gte.'+encodeURIComponent(from)+'&select=total,status,payment_status');
-  var vendors=await api('vendors?select=id');
-  var products=await api('products?select=id&is_active=eq.true');
-  var boosts=await api('ads_boosts?select=id&expires_at=gte.'+new Date().toISOString());
-
-  var ca=0,delivered=0,pending=0;
-  (orders||[]).forEach(function(o){
+  var list=ORDERS.filter(function(o){return new Date(o.created_at)>=new Date(from)});
+  var ca=0,del=0,pend=0,canc=0;
+  list.forEach(function(o){
     if(o.status!=='cancelled')ca+=o.total||0;
-    if(o.status==='delivered')delivered++;
-    if(o.status==='confirmed'||o.status==='preparing')pending++;
+    if(o.status==='delivered')del++;
+    if(o.status==='confirmed'||o.status==='preparing')pend++;
+    if(o.status==='cancelled')canc++;
   });
-
-  document.getElementById('kpis').innerHTML=
-    kpi('k-green','banknote',fmt(ca),'Chiffre d\'affaires','up','CA '+labelPeriod())+
-    kpi('k-blue','shopping-bag',(orders||[]).length,'Commandes','up',delivered+' livrée(s)')+
-    kpi('k-amber','store',(vendors||[]).length,'Vendeurs actifs','up',(products||[]).length+' produits')+
-    kpi('k-purple','megaphone',(boosts||[]).length,'Boosts Ads actifs',pending>0?'down':'up',pending+' commande(s) à suivre');
-  lucide.createIcons();
-}
-function kpi(cls,icon,val,label,trend,trendTxt){
-  return '<div class="kpi"><div class="ki '+cls+'"><i data-lucide="'+icon+'" style="width:17px;height:17px"></i></div>'+
-    '<div class="kv">'+val+'</div><div class="kl">'+label+'</div>'+
-    '<span class="kt '+trend+'">'+(trend==='up'?'▲':'⚠')+' '+trendTxt+'</span></div>';
-}
-function labelPeriod(){return {today:"aujourd'hui",week:'7 jours',month:'ce mois',all:'total'}[PERIOD]}
-
-// ===== GRAPHIQUE 7 JOURS =====
-async function loadChart(){
-  var d=new Date();d.setDate(d.getDate()-6);d.setHours(0,0,0,0);
-  var orders=await api('orders?created_at=gte.'+encodeURIComponent(d.toISOString())+'&select=created_at,total,status');
+  var nb=list.length||0;
+  var tm=nb?Math.round(ca/nb):0;
+  var td=nb?Math.round(del/nb*100):0;
+  var activeBoosts=BOOSTS.filter(function(b){return b.expires_at&&new Date(b.expires_at)>new Date()}).length;
+  $('kpis').innerHTML=
+    kpi('k-green','💰',fmt(ca),'Chiffre d\'affaires','up',labelP())+
+    kpi('k-blue','📦',nb,'Commandes','up',del+' livrée(s)')+
+    kpi('k-amber','🧾',fmt(tm),'Ticket moyen',tm>15000?'up':'warn',tm>15000?'Excellent':'À booster')+
+    kpi('k-purple','✅',td+'%','Taux de livraison',td>80?'up':'warn',canc+' annulée(s)')+
+    kpi('k-dark','🏪',VENDORS.length,'Vendeurs','up',PRODUCTS.length+' produits')+
+    kpi('k-red','⚡',activeBoosts,'Boosts actifs','up','Revenus Ads');
+  /* Alertes intelligentes */
+  var alerts=[];
+  var vPending=VENDORS.filter(function(v){return !v.is_verified}).length;
+  if(vPending)alerts.push({t:'🏪 '+vPending+' vendeur(s) en attente de validation',m:'vendors',red:false});
+  if(pend)alerts.push({t:'📦 '+pend+' commande(s) à suivre (préparation)',m:'orders',red:pend>3});
+  var stuck=ORDERS.filter(function(o){return o.status==='preparing'&&(Date.now()-new Date(o.created_at))>48*3600*1000}).length;
+  if(stuck)alerts.push({t:'🚨 '+stuck+' commande(s) bloquée(s) +48h !',m:'orders',red:true});
+  var dis=JSON.parse(localStorage.getItem('st_disputes')||'[]').filter(function(d){return d.status==='open'}).length;
+  if(dis)alerts.push({t:'⚖️ '+dis+' litige(s) ouvert(s) — délai 48h',m:'disputes',red:true});
+  $('alerts').innerHTML=alerts.map(function(a){
+    return '<div class="alert'+(a.red?' red':'')+'" onclick="goMod(\''+a.m+'\')">'+a.t+'<span class="go">Traiter →</span></div>';
+  }).join('');
+  /* Graphique */
   var days=[],counts=[];
   for(var i=6;i>=0;i--){
     var dd=new Date();dd.setDate(dd.getDate()-i);
     days.push(dd.toLocaleDateString('fr-FR',{weekday:'short'}));
     var key=dd.toDateString();
-    counts.push((orders||[]).filter(function(o){return new Date(o.created_at).toDateString()===key}).length);
+    counts.push(ORDERS.filter(function(o){return new Date(o.created_at).toDateString()===key}).length);
   }
   var max=Math.max.apply(null,counts.concat([1]));
-  document.getElementById('chartBars').innerHTML=days.map(function(lab,i){
-    return '<div class="bar-col"><div class="bar" style="height:'+Math.round(counts[i]/max*100)+'%" title="'+counts[i]+' commande(s)"></div><div class="bar-lab">'+lab+'</div></div>';
+  $('chartBars').innerHTML=days.map(function(l,i){
+    return '<div class="bar-col"><div class="bar" style="height:'+Math.round(counts[i]/max*100)+'%"></div><div class="bar-lab">'+l+'</div></div>';
   }).join('');
+  /* Top vendeurs (CA estimé via produits vendus) */
+  var tv=VENDORS.map(function(v){
+    var pv=PRODUCTS.filter(function(p){return p.vendor_id===v.id});
+    var ca2=pv.reduce(function(s,p){return s+(p.price||0)*(p.sold_count||0)},0);
+    return {name:v.shop_name,ca:ca2};
+  }).sort(function(a,b){return b.ca-a.ca}).slice(0,5);
+  $('topVendors').innerHTML=tv.length?tv.map(function(v,i){
+    return '<div class="top-row"><div class="top-num">'+(i+1)+'</div><b>'+esc(v.name)+'</b><span>'+fmt(v.ca)+'</span></div>';
+  }).join(''):'<div class="empty">Pas encore de ventes.</div>';
+  /* Top produits */
+  var tp=PRODUCTS.slice().sort(function(a,b){return (b.sold_count||0)-(a.sold_count||0)}).slice(0,5);
+  $('topProducts').innerHTML=tp.length?tp.map(function(p,i){
+    return '<div class="top-row"><div class="top-num">'+(i+1)+'</div><b>'+esc(p.name)+'</b><span>'+(p.sold_count||0)+' vendus</span></div>';
+  }).join(''):'<div class="empty">Aucun produit.</div>';
+}
+function kpi(cls,ico,val,label,tr,trt){
+  return '<div class="kpi"><div class="ki '+cls+'">'+ico+'</div><div class="kv">'+val+'</div><div class="kl">'+label+'</div><span class="kt '+tr+'">'+trt+'</span></div>';
+}
+function labelP(){return{today:"aujourd'hui",week:'7 jours',month:'ce mois',all:'total'}[PERIOD]}
+function goMod(m){
+  document.querySelectorAll('#modNav button').forEach(function(b){b.classList.toggle('on',b.dataset.m===m)});
+  document.querySelectorAll('.module').forEach(function(x){x.classList.remove('on')});
+  $('m-'+m).classList.add('on');window.scrollTo({top:0});
 }
 
-// ===== COMMANDES =====
-var ORDERS=[],ORD_F='all';
-async function loadOrders(){
-  ORDERS=await api('orders?select=*&order=created_at.desc&limit=30');
-  renderOrders();
-}
-document.getElementById('orderTabs').addEventListener('click',function(e){
+/* ===== COMMANDES ===== */
+var ORD_F='all',ORD_Q='';
+$('ordTabs').addEventListener('click',function(e){
   var b=e.target.closest('button');if(!b)return;
   this.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});
   b.classList.add('on');ORD_F=b.dataset.f;renderOrders();
 });
+$('ordSearch').addEventListener('input',function(){ORD_Q=this.value.toLowerCase();renderOrders()});
 var ST_MAP={confirmed:['Confirmée','b-info'],preparing:['Préparation','b-wait'],picked_up:['Retirée','b-wait'],in_transit:['En livraison','b-purple'],delivered:['Livrée','b-ok'],cancelled:['Annulée','b-warn']};
 function renderOrders(){
-  var list=ORDERS.filter(function(o){return ORD_F==='all'||o.status===ORD_F});
-  if(!list.length){document.getElementById('ordersList').innerHTML='<div class="empty-box">Aucune commande dans ce filtre.</div>';return}
-  document.getElementById('ordersList').innerHTML=list.map(function(o){
+  var list=ORDERS.filter(function(o){
+    if(ORD_F!=='all'&&o.status!==ORD_F)return false;
+    if(ORD_Q){
+      var s=((o.ref||'')+(o.tracking_code||'')+(o.city||'')).toLowerCase();
+      if(s.indexOf(ORD_Q)===-1)return false;
+    }
+    return true;
+  });
+  if(!list.length){$('ordersList').innerHTML='<div class="empty">Aucune commande dans ce filtre.</div>';return}
+  $('ordersList').innerHTML=list.slice(0,40).map(function(o){
     var st=ST_MAP[o.status]||[o.status,'b-info'];
-    var nb=(o.items||[]).length;
-    return '<div class="row-item">'+
-      '<div class="ri-ava" style="background:#f0fdf4;display:flex;align-items:center;justify-content:center;color:#0f6b4e"><i data-lucide="package" style="width:19px;height:19px"></i></div>'+
+    return '<div class="row" onclick="orderDetail(\''+o.id+'\')">'+
+      '<div class="ri-ico" style="background:#f0fdf4;color:#0f6b4e">📦</div>'+
       '<div class="ri-txt"><b>'+esc(o.ref||o.tracking_code||('CMD-'+(o.id||'').slice(0,6)))+'</b>'+
-      '<span>'+nb+' article(s) · '+(o.city||'Dakar')+' · '+new Date(o.created_at).toLocaleDateString('fr-FR')+'</span>'+
+      '<span>'+((o.items||[]).length)+' article(s) · '+(o.city||'Dakar')+' · '+new Date(o.created_at).toLocaleDateString('fr-FR')+'</span>'+
       '<span class="badge '+st[1]+'">'+st[0]+'</span></div>'+
-      '<div class="ri-right"><div class="amt">'+fmt(o.total)+'</div>'+
-      (o.status!=='delivered'&&o.status!=='cancelled'?'<button class="mini-btn mb-line" onclick="markDelivered(\''+o.id+'\')">✓ Livrée</button>':'')+
-      '</div></div>';
+      '<div class="ri-right"><div class="amt">'+fmt(o.total)+'</div></div></div>';
   }).join('');
-  lucide.createIcons();
 }
-async function markDelivered(id){
-  if(!confirm('Marquer cette commande comme livrée ?'))return;
-  await apiPatch('orders',id,{status:'delivered',delivered_at:new Date().toISOString()});
-  loadOrders();loadKpis();loadChart();
+function orderDetail(id){
+  var o=ORDERS.find(function(x){return x.id===id});if(!o)return;
+  var items=(o.items||[]).map(function(i){return '• '+(i.name||'Article')+' × '+(i.qty||1)+' — '+fmt((i.price||0)*(i.qty||1))}).join('\n');
+  alert('📦 '+(o.ref||o.tracking_code||'Commande')+'\n\n'+items+'\n\nTotal : '+fmt(o.total)+'\nStatut : '+(ST_MAP[o.status]?ST_MAP[o.status][0]:o.status)+'\nPaiement : '+(o.payment_method||'—')+'\nVille : '+(o.city||'Dakar')+'\nAdresse : '+(o.address||'—')+'\nDate : '+new Date(o.created_at).toLocaleString('fr-FR'));
+}
+function exportCSV(){
+  var rows=[['Ref','Date','Statut','Paiement','Ville','Total']];
+  ORDERS.forEach(function(o){rows.push([o.ref||o.tracking_code||o.id,new Date(o.created_at).toLocaleDateString('fr-FR'),o.status,o.payment_method||'',o.city||'',o.total||0])});
+  dlCSV(rows,'commandes_sentew.csv');
+}
+function dlCSV(rows,name){
+  var csv=rows.map(function(r){return r.join(';')}).join('\n');
+  var a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download=name;a.click();
 }
 
-// ===== VENDEURS =====
-var VENDORS=[],VEN_F='all';
-async function loadVendors(){
-  VENDORS=await api('vendors?select=*&order=created_at.desc');
-  renderVendors();
-}
-document.getElementById('vendorTabs').addEventListener('click',function(e){
+/* ===== VENDEURS ===== */
+var VEN_F='all',VEN_Q='';
+$('venTabs').addEventListener('click',function(e){
   var b=e.target.closest('button');if(!b)return;
   this.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});
   b.classList.add('on');VEN_F=b.dataset.f;renderVendors();
 });
+$('venSearch').addEventListener('input',function(){VEN_Q=this.value.toLowerCase();renderVendors()});
 function renderVendors(){
   var list=VENDORS.filter(function(v){
-    if(VEN_F==='pending')return !v.is_verified;
-    if(VEN_F==='verified')return v.is_verified;
+    if(VEN_F==='pending'&&v.is_verified)return false;
+    if(VEN_F==='verified'&&!v.is_verified)return false;
+    if(VEN_F==='payant'&&(v.plan||'gratuit')==='gratuit')return false;
+    if(VEN_Q&&(v.shop_name||'').toLowerCase().indexOf(VEN_Q)===-1)return false;
     return true;
   });
-  if(!list.length){document.getElementById('vendorsList').innerHTML='<div class="empty-box">Aucun vendeur dans ce filtre.</div>';return}
-  document.getElementById('vendorsList').innerHTML=list.map(function(v){
-    return '<div class="row-item">'+
-      '<img class="ri-ava" src="'+(v.logo_url||'')+'" onerror="this.style.display=\'none\'">'+
+  if(!list.length){$('vendorsList').innerHTML='<div class="empty">Aucun vendeur dans ce filtre.</div>';return}
+  $('vendorsList').innerHTML=list.map(function(v){
+    var pv=PRODUCTS.filter(function(p){return p.vendor_id===v.id});
+    var ca=pv.reduce(function(s,p){return s+(p.price||0)*(p.sold_count||0)},0);
+    return '<div class="row">'+
+      (v.logo_url?'<img class="ri-ava" src="'+v.logo_url+'" onerror="this.outerHTML=\'<div class=ri-ico style=background:#f0fdf4>🏪</div>\'">':'<div class="ri-ico" style="background:#f0fdf4">🏪</div>')+
       '<div class="ri-txt"><b>'+esc(v.shop_name)+'</b>'+
-      '<span>'+esc(v.category||'')+' · '+(v.city||'Dakar')+' · note '+(v.rating||5)+' · plan '+(v.plan||'gratuit')+'</span>'+
-      '<span class="badge '+(v.is_verified?'b-ok':'b-wait')+'">'+(v.is_verified?'✓ Vérifié':'⏳ En attente')+'</span></div>'+
+      '<span>'+esc(v.category||'')+' · '+(v.city||'Dakar')+' · ★'+(v.rating||5)+' · '+pv.length+' produits · CA '+fmt(ca)+'</span>'+
+      '<span class="badge '+(v.is_verified?'b-ok':'b-wait')+'">'+(v.is_verified?'✓ Vérifié':'⏳ En attente')+'</span>'+
+      ' <span class="badge b-purple">💎 '+(v.plan||'gratuit')+'</span></div>'+
       '<div class="ri-right">'+
       (v.is_verified
-        ?'<button class="mini-btn mb-red" onclick="setVendor(\''+v.id+'\',false)">Suspendre</button>'
-        :'<button class="mini-btn mb-green" onclick="setVendor(\''+v.id+'\',true)">✓ Valider</button>')+
+        ?'<button class="mbtn mb-red" onclick="setVendor(\''+v.id+'\',false)">Suspendre</button>'
+        :'<button class="mbtn mb-green" onclick="setVendor(\''+v.id+'\',true)">✓ Valider</button>')+
       '</div></div>';
   }).join('');
-  lucide.createIcons();
 }
 async function setVendor(id,ok){
-  if(!confirm(ok?'Valider ce vendeur (boutique visible + badge ✓) ?':'Suspendre ce vendeur ?'))return;
-  await apiPatch('vendors',id,{is_verified:ok});
-  loadVendors();loadKpis();
+  if(!confirm(ok?'✓ Valider ce vendeur ? (boutique visible + badge)':'Suspendre ce vendeur ?'))return;
+  await fetch(SUPA_URL+'/rest/v1/vendors?id=eq.'+id,{method:'PATCH',
+    headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify({is_verified:ok})});
+  loadAll();
 }
 
-// ===== ADS =====
-async function loadAds(){
-  var boosts=await api('ads_boosts?select=*,products(name,price),vendors(shop_name)&order=started_at.desc&limit=15');
-  if(!boosts||!boosts.length){document.getElementById('adsList').innerHTML='<div class="empty-box">Aucun boost pour le moment. Les vendeurs boosteront depuis leur espace.</div>';return}
+/* ===== REVERSEMENTS ===== */
+function vendorOwed(v){
+  var pv=PRODUCTS.filter(function(p){return p.vendor_id===v.id});
+  var brut=pv.reduce(function(s,p){return s+(p.price||0)*(p.sold_count||0)},0);
+  return Math.round(brut*0.95); /* commission 5% */
+}
+function renderPayouts(){
+  var owed=VENDORS.map(function(v){return {v:v,amount:vendorOwed(v)}}).filter(function(x){return x.amount>0});
+  var total=owed.reduce(function(s,x){return s+x.amount},0);
+  $('payCount').textContent=owed.length;
+  $('payTotalBox').innerHTML='<div class="fin-row"><span>Vendeurs à payer</span><b>'+owed.length+'</b></div>'+
+    '<div class="fin-row"><span>Commission SEN TEW gardée (5%)</span><b>'+fmt(Math.round(total/0.95*0.05))+'</b></div>'+
+    '<div class="fin-total"><span>💸 Total à reverser</span><span>'+fmt(total)+'</span></div>';
+  $('payoutList').innerHTML=owed.length?owed.map(function(x){
+    return '<div class="row"><div class="ri-ico" style="background:#f0fdf4">🏪</div>'+
+      '<div class="ri-txt"><b>'+esc(x.v.shop_name)+'</b><span>Net vendeur (après 5% commission)</span></div>'+
+      '<div class="ri-right"><div class="amt">'+fmt(x.amount)+'</div>'+
+      '<button class="mbtn mb-green" onclick="payOne(\''+x.v.id+'\',\''+esc(x.v.shop_name)+'\','+x.amount+')">Payer</button></div></div>';
+  }).join(''):'<div class="empty">Rien à reverser. 🎉</div>';
+  var hist=JSON.parse(localStorage.getItem('st_payouts_admin')||'[]');
+  $('payoutHistory').innerHTML=hist.length?hist.slice(0,10).map(function(h){
+    return '<div class="row"><div class="ri-ico" style="background:#d1fae5">✅</div>'+
+      '<div class="ri-txt"><b>'+esc(h.name)+'</b><span>'+new Date(h.date).toLocaleDateString('fr-FR')+' · '+(h.method||'Wave')+'</span></div>'+
+      '<div class="ri-right"><div class="amt">'+fmt(h.amount)+'</div><span class="badge b-ok">Payé</span></div></div>';
+  }).join(''):'<div class="empty">Aucun reversement pour le moment.</div>';
+}
+function recordPayout(name,amount){
+  var h=JSON.parse(localStorage.getItem('st_payouts_admin')||'[]');
+  h.unshift({name:name,amount:amount,date:new Date().toISOString(),method:'Wave'});
+  localStorage.setItem('st_payouts_admin',JSON.stringify(h.slice(0,50)));
+}
+function payOne(id,name,amount){
+  if(!confirm('💸 Payer '+fmt(amount)+' à '+name+' ?\n\n(En production : PayDunya envoie automatiquement sur son Wave/OM)'))return;
+  recordPayout(name,amount);
+  alert('✅ Reversement enregistré !\n\n'+name+' — '+fmt(amount)+'\n\nQuand PayDunya sera actif (après RCCM), l\'envoi sera automatique.');
+  renderPayouts();
+}
+function payAll(){
+  var owed=VENDORS.map(function(v){return {v:v,amount:vendorOwed(v)}}).filter(function(x){return x.amount>0});
+  if(!owed.length){alert('Rien à payer.');return}
+  var total=owed.reduce(function(s,x){return s+x.amount},0);
+  if(!confirm('💸 Payer '+owed.length+' vendeur(s) — total '+fmt(total)+' ?'))return;
+  owed.forEach(function(x){recordPayout(x.v.shop_name,x.amount)});
+  alert('✅ '+owed.length+' reversements enregistrés !\nTotal : '+fmt(total)+'\n\nAvec PayDunya : tout part en 1 clic, preuve incluse.');
+  renderPayouts();
+}
+
+/* ===== LIVREURS ===== */
+var DRV_F='all';
+$('drvTabs').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  this.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});
+  b.classList.add('on');DRV_F=b.dataset.f;renderDrivers();
+});
+function renderDrivers(){
+  var list=DRIVERS.filter(function(d){
+    if(DRV_F==='dispo'&&!d.is_available)return false;
+    if(DRV_F==='occupe'&&d.is_available)return false;
+    return true;
+  });
+  if(!list.length){$('driversList').innerHTML='<div class="empty">Aucun livreur dans ce filtre.<br><br>💡 Les livreurs s\'inscrivent via livreur.html</div>';return}
+  $('driversList').innerHTML=list.map(function(d){
+    return '<div class="row"><div class="ri-ico" style="background:'+(d.is_available?'#d1fae5':'#fee2e2')+'">🛵</div>'+
+      '<div class="ri-txt"><b>'+esc(d.full_name)+'</b>'+
+      '<span>'+esc(d.vehicle||'Moto')+' · '+(d.zone||'Dakar')+' · ★'+(d.rating||5)+' · '+(d.total_deliveries||0)+' courses</span>'+
+      '<span class="badge '+(d.is_available?'b-ok':'b-warn')+'">'+(d.is_available?'🟢 Disponible':'🔴 En course')+'</span></div></div>';
+  }).join('');
+}
+
+/* ===== LITIGES ===== */
+var DIS_F='open';
+$('disTabs').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  this.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});
+  b.classList.add('on');DIS_F=b.dataset.f;renderDisputes();
+});
+function getDisputes(){return JSON.parse(localStorage.getItem('st_disputes')||'[]')}
+function renderDisputes(){
+  var list=getDisputes().filter(function(d){return DIS_F==='open'?d.status==='open':d.status!=='open'});
+  if(!list.length){$('disputesList').innerHTML='<div class="empty">'+(DIS_F==='open'?'Aucun litige ouvert. 🎉':'Aucun litige résolu.')+'</div>';return}
+  $('disputesList').innerHTML=list.map(function(d,i){
+    return '<div class="row"><div class="ri-ico" style="background:'+(d.status==='open'?'#fee2e2':'#d1fae5')+'">⚖️</div>'+
+      '<div class="ri-txt"><b>'+esc(d.order_ref||'Commande')+'</b>'+
+      '<span>'+esc(d.reason||'')+' · '+new Date(d.date).toLocaleDateString('fr-FR')+'</span></div>'+
+      (d.status==='open'
+        ?'<div class="ri-right"><button class="mbtn mb-green" onclick="resolveDispute('+i+',\'client\')">Rembourser</button><button class="mbtn mb-line" onclick="resolveDispute('+i+',\'vendor\')">Payer vendeur</button></div>'
+        :'<span class="badge b-ok">Résolu</span>')+'</div>';
+  }).join('');
+}
+function resolveDispute(i,who){
+  var list=getDisputes();
+  if(!confirm(who==='client'?'💰 Rembourser le client ?':'🏪 Payer le vendeur ?'))return;
+  list[i].status='resolved';list[i].resolution=who;
+  localStorage.setItem('st_disputes',JSON.stringify(list));
+  renderDisputes();loadDash();
+}
+
+/* ===== FINANCES ===== */
+function loadFinance(){
+  var from=dateFrom();
+  var list=ORDERS.filter(function(o){return new Date(o.created_at)>=new Date(from)&&o.status!=='cancelled'});
+  var ca=list.reduce(function(s,o){return s+(o.total||0)},0);
+  var comm=Math.round(ca*0.05);
+  var owed=VENDORS.reduce(function(s,v){return s+vendorOwed(v)},0);
+  var adsRev=VENDORS.reduce(function(s,v){
+    var p={silver:5000,gold:15000,platinum:35000}[v.plan]||0;return s+p},0);
+  var net=comm+adsRev;
+  $('finBox').innerHTML=
+    '<div class="fin-row"><span>💰 CA brut ('+labelP()+')</span><b>'+fmt(ca)+'</b></div>'+
+    '<div class="fin-row"><span>📣 Revenus Ads (mensuel)</span><b>'+fmt(adsRev)+'</b></div>'+
+    '<div class="fin-row"><span>💸 À reverser aux vendeurs</span><b style="color:#b45309">− '+fmt(owed)+'</b></div>'+
+    '<div class="fin-row"><span>🧾 Commissions 5%</span><b>'+fmt(comm)+'</b></div>'+
+    '<div class="fin-total"><span>✅ Revenu net SEN TEW</span><span>'+fmt(net)+'</span></div>';
+}
+function exportFinance(){
+  var rows=[['Poste','Montant FCFA']];
+  var ca=ORDERS.filter(function(o){return o.status!=='cancelled'}).reduce(function(s,o){return s+(o.total||0)},0);
+  rows.push(['CA brut total',ca]);
+  rows.push(['Commissions 5%',Math.round(ca*0.05)]);
+  rows.push(['A reverser vendeurs',VENDORS.reduce(function(s,v){return s+vendorOwed(v)},0)]);
+  rows.push(['Revenus Ads mensuels',VENDORS.reduce(function(s,v){return s+({silver:5000,gold:15000,platinum:35000}[v.plan]||0)},0)]);
+  dlCSV(rows,'bilan_sentew_'+new Date().toISOString().slice(0,10)+'.csv');
+}
+
+/* ===== ADS ===== */
+function renderAds(){
   var now=Date.now();
-  document.getElementById('adsList').innerHTML=boosts.map(function(b){
+  var act=BOOSTS.filter(function(b){return b.expires_at&&new Date(b.expires_at).getTime()>now}).length;
+  $('adsCount').textContent=act;
+  if(!BOOSTS.length){$('adsList').innerHTML='<div class="empty">Aucun boost pour le moment.<br><br>💡 Les vendeurs boostent depuis leur espace.</div>';return}
+  $('adsList').innerHTML=BOOSTS.map(function(b){
     var active=b.expires_at&&new Date(b.expires_at).getTime()>now;
-    return '<div class="row-item">'+
-      '<div class="ri-ava" style="background:#f5f3ff;display:flex;align-items:center;justify-content:center;color:#6d28d9"><i data-lucide="zap" style="width:19px;height:19px"></i></div>'+
+    return '<div class="row"><div class="ri-ico" style="background:#f5f3ff;color:#6d28d9">⚡</div>'+
       '<div class="ri-txt"><b>'+esc(b.products?b.products.name:'Produit')+'</b>'+
       '<span>'+esc(b.vendors?b.vendors.shop_name:'')+' · '+(b.views||0)+' vues · '+(b.clicks||0)+' clics</span>'+
       '<span class="badge '+(active?'b-ok':'b-warn')+'">'+(active?'⚡ Actif':'Expiré')+'</span></div></div>';
   }).join('');
-  lucide.createIcons();
 }
 
-// ===== INIT =====
-async function loadAll(){
-  await Promise.all([loadKpis(),loadChart(),loadOrders(),loadVendors(),loadAds()]);
+/* ===== PROMO ===== */
+function getPromos(){return JSON.parse(localStorage.getItem('st_promos_admin')||'[]')}
+function createPromo(){
+  var code=$('promoCode').value.trim().toUpperCase();
+  var pct=parseInt($('promoPct').value);
+  if(!code||!pct||pct<1||pct>90){alert('⚠️ Code + % entre 1 et 90 requis.');return}
+  var p=getPromos();
+  p.unshift({code:code,pct:pct,active:true,created:new Date().toISOString()});
+  localStorage.setItem('st_promos_admin',JSON.stringify(p));
+  $('promoCode').value='';$('promoPct').value='';
+  renderPromos();
+  alert('✅ Code '+code+' (-'+pct+'%) activé !\n\nLes clients peuvent l\'utiliser dans le panier.');
 }
+function renderPromos(){
+  var p=getPromos();
+  var act=p.filter(function(x){return x.active}).length;
+  $('promoCount').textContent=act;
+  $('promoList').innerHTML=p.length?p.slice(0,10).map(function(x,i){
+    return '<div class="row"><div class="ri-ico" style="background:'+(x.active?'#f0fdf4':'#f3f4f6')+'">🎟️</div>'+
+      '<div class="ri-txt"><b>'+esc(x.code)+'</b><span>-'+x.pct+'% · créé le '+new Date(x.created).toLocaleDateString('fr-FR')+'</span></div>'+
+      (x.active?'<button class="mbtn mb-red" onclick="togglePromo('+i+')">Désactiver</button>':'<span class="badge b-warn">Inactif</span>')+'</div>';
+  }).join(''):'<div class="empty">Aucun code promo.</div>';
+}
+function togglePromo(i){var p=getPromos();p[i].active=false;localStorage.setItem('st_promos_admin',JSON.stringify(p));renderPromos()}
+
+/* ===== OUTILS ===== */
+function sendNotif(){
+  var m=$('notifMsg').value.trim();
+  if(!m){alert('⚠️ Écris un message.');return}
+  var n=JSON.parse(localStorage.getItem('st_notifs_vendors')||'[]');
+  n.unshift({msg:m,date:new Date().toISOString()});
+  localStorage.setItem('st_notifs_vendors',JSON.stringify(n.slice(0,20)));
+  $('notifMsg').value='';
+  alert('📢 Message envoyé à '+VENDORS.length+' vendeur(s) !\n\nIls le verront dans leur espace vendeur.');
+}
+function renderLog(){
+  var j=JSON.parse(localStorage.getItem('st_admin_log')||'[]');
+  var ICONS={password_ok:'🔑',password_fail:'🚫','2fa_fail':'⚠️',login_success:'✅'};
+  $('logList').innerHTML=j.length?j.slice(0,15).map(function(e){
+    return '<div class="row"><div class="ri-ico" style="background:#f3f4f6">'+(ICONS[e.type]||'📋')+'</div>'+
+      '<div class="ri-txt"><b>'+e.type.replace(/_/g,' ')+'</b>'+
+      '<span>'+new Date(e.date).toLocaleString('fr-FR')+' · '+esc(e.ua||'')+'</span></div></div>';
+  }).join(''):'<div class="empty">Aucune connexion enregistrée.</div>';
+}
+
+/* ===== INIT ===== */
 loadAll();
-lucide.createIcons();
 </script>
 </body>
 </html>
