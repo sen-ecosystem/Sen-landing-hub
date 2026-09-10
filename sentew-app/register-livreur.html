@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Devenir Livreur - SEN TEW</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/security-shield.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;max-width:100vw}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:30px;color:#0a1f17}
+.hero{background:linear-gradient(160deg,#0a1f17,#0f6b4e);color:#fff;padding:26px 18px 66px;text-align:center}
+.hero .hi{font-size:38px;margin-bottom:8px}
+.hero h1{font-size:21px;font-weight:900}
+.hero p{font-size:12.5px;opacity:.85;margin-top:6px;line-height:1.5}
+/* Avantages */
+.avantages{display:flex;gap:9px;padding:0 14px;margin-top:-44px}
+.av{flex:1;background:#fff;border-radius:15px;padding:13px 8px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.av .ai{font-size:24px;margin-bottom:6px}
+.av b{font-size:11px;display:block;color:#0a1f17}
+.av span{font-size:9px;color:#6b7280;display:block;margin-top:3px;line-height:1.35}
+/* Formulaire */
+.form{background:#fff;margin:14px;border-radius:18px;padding:18px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.form h2{font-size:16px;font-weight:900;margin-bottom:4px}
+.form .fsub{font-size:11.5px;color:#6b7280;margin-bottom:16px}
+.fld{margin-bottom:13px}
+.fld label{font-size:11.5px;font-weight:800;color:#374151;display:block;margin-bottom:6px}
+.fld input,.fld select{width:100%;border:1.5px solid #e5e7eb;border-radius:12px;padding:13px 14px;font-size:14px;outline:none;background:#f9fafb;transition:border .2s}
+.fld input:focus,.fld select:focus{border-color:#0f6b4e;background:#fff}
+.fld .hint{font-size:10px;color:#9aa5a0;margin-top:4px}
+/* Conditions */
+.cond{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:14px;padding:14px;margin:14px 0;max-height:180px;overflow-y:auto;font-size:11.5px;color:#4b5563;line-height:1.65}
+.cond h4{font-size:12px;color:#0a1f17;margin:10px 0 4px}
+.cond h4:first-child{margin-top:0}
+.check{display:flex;align-items:flex-start;gap:10px;background:#f0fdf4;border:1.5px solid #a7f3d0;border-radius:13px;padding:13px;margin-top:12px;cursor:pointer}
+.check .box{width:22px;height:22px;border-radius:7px;border:2px solid #0f6b4e;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;transition:all .2s}
+.check.on .box{background:#0f6b4e}
+.check span{font-size:11.5px;color:#065f46;font-weight:600;line-height:1.5}
+.btn{width:100%;padding:16px;border-radius:14px;border:none;background:linear-gradient(135deg,#0f6b4e,#10b981);color:#fff;font-size:15px;font-weight:900;cursor:pointer;margin-top:16px;box-shadow:0 8px 20px rgba(15,107,78,.3)}
+.btn:disabled{opacity:.45;box-shadow:none}
+.btn-line{background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e;box-shadow:none}
+/* Gains */
+.gains{background:#0a1f17;border-radius:16px;padding:16px;margin:14px;color:#fff}
+.gains h3{font-size:14px;font-weight:900;margin-bottom:12px;text-align:center}
+.g-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px dashed rgba(255,255,255,.15);font-size:12.5px}
+.g-row:last-child{border:none}
+.g-row b{color:#4ade80}
+/* Succès */
+.success{display:none;text-align:center;padding:30px 20px}
+.success.show{display:block}
+.success .si{font-size:52px}
+.success h2{font-size:19px;font-weight:900;color:#0f6b4e;margin:12px 0 8px}
+.success p{font-size:12.5px;color:#6b7280;line-height:1.6}
+.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:14px;font-size:11.5px;color:#92400e;cursor:pointer;line-height:1.5}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hi">🛵</div>
+  <h1>Deviens Livreur SEN TEW</h1>
+  <p>Gagne de l'argent à ton rythme, avec ta moto ou ton vélo.<br>Paiement chaque semaine, directement sur Wave ou Orange Money.</p>
+</div>
+
+<div class="avantages">
+  <div class="av"><div class="ai">💰</div><b>1 000 - 2 000 F</b><span>par livraison selon la zone</span></div>
+  <div class="av"><div class="ai">📅</div><b>Chaque lundi</b><span>paiement automatique</span></div>
+  <div class="av"><div class="ai">🕐</div><b>Libre</b><span>tu choisis tes horaires</span></div>
+</div>
+
+<div class="gains">
+  <h3>💰 Combien tu gagnes ?</h3>
+  <div class="g-row"><span>🛵 Livraison Dakar centre</span><b>1 000 F</b></div>
+  <div class="g-row"><span>🛵 Livraison banlieue</span><b>1 500 F</b></div>
+  <div class="g-row"><span>🛵 Livraison région</span><b>2 000 F</b></div>
+  <div class="g-row"><span>⭐ Bonus 20 livraisons/semaine</span><b>+ 3 000 F</b></div>
+  <div class="g-row"><span>🏆 Bonus note 4.8+ maintenue</span><b>+ 5 000 F/mois</b></div>
+</div>
+
+<div class="form" id="formBox">
+  <h2>📝 Inscription (2 minutes)</h2>
+  <div class="fsub">Un admin valide ton dossier sous 24h — tu reçois un appel de vérification.</div>
+
+  <div class="fld">
+    <label>NOM COMPLET *</label>
+    <input id="fName" placeholder="Ex : Mamadou Diallo" autocapitalize="words">
+  </div>
+  <div class="fld">
+    <label>TÉLÉPHONE (Wave ou OM) *</label>
+    <input id="fPhone" type="tel" placeholder="Ex : 77 123 45 67" inputmode="numeric">
+    <div class="hint">C'est sur ce numéro que tu recevras tes paiements chaque lundi.</div>
+  </div>
+  <div class="fld">
+    <label>VÉHICULE *</label>
+    <select id="fVehicle">
+      <option value="">Choisir…</option>
+      <option value="moto">🏍️ Moto</option>
+      <option value="velo">🚲 Vélo</option>
+      <option value="voiture">🚗 Voiture</option>
+      <option value="pied">🚶 À pied (Dakar centre uniquement)</option>
+    </select>
+  </div>
+  <div class="fld">
+    <label>ZONES DE LIVRAISON *</label>
+    <select id="fZone">
+      <option value="">Choisir…</option>
+      <option>Dakar centre (Plateau, Médina, HLM)</option>
+      <option>Dakar Nord (Almadies, Ngor, Yoff, Ouakam)</option>
+      <option>Dakar Sud (Sacré-Cœur, Mermoz, Grand Dakar)</option>
+      <option>Banlieue (Parcelles, Pikine, Guédiawaye)</option>
+      <option>Régions (Thiès, Mbour, autres)</option>
+    </select>
+  </div>
+  <div class="fld">
+    <label>NUMÉRO CNI *</label>
+    <input id="fCni" placeholder="Ex : 1 234 567 890 123" inputmode="numeric">
+    <div class="hint">Obligatoire pour ta protection et celle des clients.</div>
+  </div>
+
+  <div class="cond" id="condBox">
+    <h4>📜 CONDITIONS DU LIVREUR PARTENAIRE SEN TEW</h4>
+    <b>Article 1 — Rôle.</b> Le livreur récupère les colis chez les vendeurs (scan du code retrait) et les livre aux clients (saisie du code de livraison du client).<br><br>
+    <b>Article 2 — Rémunération.</b> 1 000 à 2 000 F par livraison selon la zone, versés chaque lundi sur Wave/Orange Money. Bonus : +3 000 F après 20 livraisons/semaine, +5 000 F/mois si note ≥ 4.8.<br><br>
+    <b>Article 3 — Obligations.</b> Le livreur s'engage à : livrer dans les délais indiqués, ne jamais ouvrir un colis, traiter les clients avec respect, activer le GPS pendant les courses, signaler tout problème immédiatement dans l'application.<br><br>
+    <b>Article 4 — Codes.</b> Le code de livraison est saisi UNIQUEMENT devant le client. Toute saisie frauduleuse entraîne la suspension immédiate et le non-paiement de la course.<br><br>
+    <b>Article 5 — Colis.</b> Le livreur est responsable du colis entre le scan de retrait et la livraison confirmée. Colis perdu ou endommagé par négligence = retenue sur les gains.<br><br>
+    <b>Article 6 — Suspension.</b> Note moyenne < 4.0 après 20 courses, 3 signalements clients, ou fraude avérée = suspension du compte après examen par l'administration.<br><br>
+    <b>Article 7 — Indépendance.</b> Le livreur est un partenaire indépendant : il choisit librement ses disponibilités. Aucun horaire imposé.<br><br>
+    <b>Article 8 — Données.</b> Les coordonnées des clients sont confidentielles : interdiction de les réutiliser hors livraison (loi sénégalaise sur les données personnelles).
+  </div>
+
+  <div class="check" id="checkBox">
+    <div class="box" id="checkMark"></div>
+    <span>J'ai lu et j'accepte les <b>conditions du livreur partenaire</b> ci-dessus, et je confirme que mes informations sont exactes.</span>
+  </div>
+
+  <button class="btn" id="submitBtn" disabled>📨 Envoyer ma candidature</button>
+</div>
+
+<div class="form success" id="successBox">
+  <div class="si">🎉</div>
+  <h2>Candidature envoyée !</h2>
+  <p>Ton dossier est transmis à l'administration SEN TEW.<br><br>
+  <b>Prochaines étapes :</b><br>
+  1. Un admin vérifie ton dossier (sous 24h)<br>
+  2. Tu reçois un appel de vérification<br>
+  3. Tu te connectes sur <b>livreur.html</b> et tu commences tes courses 🛵</p>
+  <button class="btn btn-line" onclick="window.location.href='index.html'">← Retour à l'accueil</button>
+</div>
+
+<div class="tip" onclick="alert('💡 Conseils pour être accepté rapidement\n\n✓ Vrai nom + vrai numéro CNI\n✓ Numéro Wave/OM actif (c\'est là que tu es payé)\n✓ Choisis la zone que tu connais le mieux\n✓ Réponds vite à l\'appel de vérification\n\nⓘ Les livreurs les mieux notés reçoivent les courses en priorité.')">ⓘ<span>Astuce : les livreurs bien notés reçoivent les courses en priorité. Clique pour les conseils d'acceptation.</span></div>
+
+<script>
+lucide.createIcons();
+var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
+var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
+
+var accepted=false;
+document.getElementById('checkBox').onclick=function(){
+  accepted=!accepted;
+  this.classList.toggle('on',accepted);
+  document.getElementById('checkMark').textContent=accepted?'✓':'';
+  document.getElementById('submitBtn').disabled=!accepted;
+};
+
+document.getElementById('submitBtn').onclick=function(){
+  var name=document.getElementById('fName').value.trim();
+  var phone=document.getElementById('fPhone').value.replace(/\s/g,'');
+  var vehicle=document.getElementById('fVehicle').value;
+  var zone=document.getElementById('fZone').value;
+  var cni=document.getElementById('fCni').value.replace(/\s/g,'');
+  if(!name||!phone||!vehicle||!zone||!cni){alert('⚠️ Remplis tous les champs obligatoires (*).');return}
+  if(phone.length<9){alert('⚠️ Numéro de téléphone invalide.');return}
+
+  var btn=this;btn.disabled=true;btn.textContent='Envoi en cours…';
+
+  fetch(SUPA_URL+'/rest/v1/drivers',{
+    method:'POST',
+    headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+    body:JSON.stringify({
+      full_name:name,phone:phone,vehicle:vehicle,zone:zone,
+      type:'collab',company:'CNI:'+cni,
+      is_available:false,rating:5.0,total_deliveries:0
+    })
+  })
+  .then(function(r){
+    if(r.ok||r.status===201){
+      document.getElementById('formBox').style.display='none';
+      document.getElementById('successBox').classList.add('show');
+      window.scrollTo({top:0,behavior:'smooth'});
+    }else{
+      alert('⚠️ Erreur d\'envoi ('+r.status+'). Réessaie dans quelques minutes.');
+      btn.disabled=false;btn.textContent='📨 Envoyer ma candidature';
+    }
+  })
+  .catch(function(){
+    alert('⚠️ Pas de connexion. Vérifie ton internet et réessaie.');
+    btn.disabled=false;btn.textContent='📨 Envoyer ma candidature';
+  });
+};
+</script>
+</body>
+</html>
