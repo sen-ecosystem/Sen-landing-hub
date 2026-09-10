@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Suivi de commande - SEN TEW</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/security-shield.js"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="js/supabase.js"></script>
 <style>
@@ -105,6 +108,25 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .m-btns{display:flex;gap:8px;margin-top:14px}
 .m-btns button{flex:1;padding:12px;border:none;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;background:#0f6b4e;color:#fff}
 .refresh-note{text-align:center;font-size:10px;color:#9aa5a0;margin-top:14px;display:flex;align-items:center;justify-content:center;gap:5px}
+/* Carte réelle */
+#map{width:100%;height:280px;border-radius:0 0 18px 18px;z-index:1}
+/* Fiche livreur */
+.driver-card{background:#fff;margin:-34px 14px 0;border-radius:18px;padding:14px;box-shadow:0 8px 24px rgba(0,0,0,.14);position:relative;z-index:5;display:flex;align-items:center;gap:12px;animation:fadeUp .4s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.dc-photo{width:62px;height:62px;border-radius:50%;object-fit:cover;border:3px solid #0f6b4e;flex-shrink:0}
+.dc-info{flex:1;min-width:0}
+.dc-info b{font-size:15px;font-weight:900;display:flex;align-items:center;gap:6px}
+.dc-info .dc-sub{font-size:11px;color:#6b7280;margin-top:2px}
+.dc-plate{display:inline-flex;align-items:center;gap:5px;background:#0a1f17;color:#fff;font-family:monospace;font-size:12px;font-weight:900;letter-spacing:1.5px;padding:5px 11px;border-radius:8px;margin-top:6px;border:2px solid #4ade80}
+.dc-stars{font-size:11px;color:#f59e0b;font-weight:800;margin-top:3px}
+.dc-actions{display:flex;flex-direction:column;gap:7px}
+.dc-btn{width:42px;height:42px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:17px;text-decoration:none}
+.dc-call{background:#d1fae5}
+.dc-msg{background:#dbeafe}
+/* Bandeau statut GPS */
+.gps-live{display:flex;align-items:center;gap:8px;background:#f0fdf4;border:1px solid #a7f3d0;border-radius:12px;padding:10px 13px;margin:12px 14px 0;font-size:11.5px;color:#065f46;font-weight:700}
+.gps-dot{width:9px;height:9px;border-radius:50%;background:#10b981;animation:pulseG 1.4s infinite;flex-shrink:0}
+@keyframes pulseG{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.5)}50%{box-shadow:0 0 0 7px rgba(16,185,129,0)}}
 </style>
 </head>
 <body>
@@ -184,15 +206,29 @@ function render(){
   }
 
   var html =
-  // ===== CARTE =====
-  '<div class="map">' +
-    '<div class="map-grid"></div>' +
-    '<div class="map-road"></div>' +
-    '<div class="eta"><i data-lucide="clock" style="width:18px"></i><div><b>' + (ETA_TXT[o.status] || '') + '</b><span>' + (o.address || '') + ', ' + (o.city || 'Dakar') + '</span></div></div>' +
-    '<div class="map-shop"><div class="ms-dot"><i data-lucide="store"></i></div><span>Vendeur</span></div>' +
-    '<div class="map-driver" id="driverDot" style="left:' + (DRIVER_POS[o.status] || 12) + '%"><div class="md"><div class="ring"></div><i data-lucide="bike"></i></div><span>' + (DRIVER ? DRIVER.full_name.split(' ')[0] : 'Livreur') + '</span></div>' +
-    '<div class="map-home"><div class="ms-dot"><i data-lucide="home"></i></div><span>Toi</span></div>' +
-  '</div>' +
+    
+<!-- CARTE RÉELLE -->
+<div id="map"></div>
+
+<!-- FICHE LIVREUR : nom + photo + plaque -->
+<div class="driver-card" id="driverCard">
+  <img class="dc-photo" id="dPhoto" src="" alt="Livreur">
+  <div class="dc-info">
+    <b id="dName">Livreur SEN TEW <span style="color:#0f6b4e">✓</span></b>
+    <div class="dc-sub" id="dVehicle">Moto 125cc</div>
+    <div class="dc-plate">🏍️ <span id="dPlate">DK-0000-A</span></div>
+    <div class="dc-stars" id="dStars">★★★★★ 5.0 · 0 livraisons</div>
+  </div>
+  <div class="dc-actions">
+    <a class="dc-btn dc-call" id="dCall" href="#">📞</a>
+    <a class="dc-btn dc-msg" id="dMsg" href="#">💬</a>
+  </div>
+</div>
+
+<div class="gps-live" id="gpsLive">
+  <span class="gps-dot"></span>
+  <span id="gpsText">Position GPS du livreur en direct — mise à jour toutes les 15 s</span>
+</div>
 
   // ===== STATUT + PROGRESSION =====
   '<div class="bloc"><div class="status-big">' +
