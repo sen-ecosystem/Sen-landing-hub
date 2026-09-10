@@ -542,19 +542,51 @@ $('drvTabs').addEventListener('click',function(e){
   this.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});
   b.classList.add('on');DRV_F=b.dataset.f;renderDrivers();
 });
+var DRIVER_RATES={centre:1000,banlieue:1500,region:2000};
+function driverOwed(d){
+  var nb=d.total_deliveries||0;
+  var base=nb*1200; /* moyenne 1 200 F/course */
+  var bonus=(nb>=20?3000:0)+((d.rating||5)>=4.8&&nb>=20?5000:0);
+  return Math.round(base+bonus);
+}
 function renderDrivers(){
   var list=DRIVERS.filter(function(d){
     if(DRV_F==='dispo'&&!d.is_available)return false;
     if(DRV_F==='occupe'&&d.is_available)return false;
     return true;
   });
-  if(!list.length){$('driversList').innerHTML='<div class="empty">Aucun livreur dans ce filtre.<br><br>💡 Les livreurs s\'inscrivent via livreur.html</div>';return}
-  $('driversList').innerHTML=list.map(function(d){
+  if(!list.length){$('driversList').innerHTML='<div class="empty">Aucun livreur dans ce filtre.<br><br>💡 Ils s\'inscrivent via <b>register-livreur.html</b></div>';return}
+  var totalPay=0;
+  var html=list.map(function(d){
+    var owed=driverOwed(d);totalPay+=owed;
+    var isNew=(d.total_deliveries||0)===0;
     return '<div class="row"><div class="ri-ico" style="background:'+(d.is_available?'#d1fae5':'#fee2e2')+'">🛵</div>'+
       '<div class="ri-txt"><b>'+esc(d.full_name)+'</b>'+
       '<span>'+esc(d.vehicle||'Moto')+' · '+(d.zone||'Dakar')+' · ★'+(d.rating||5)+' · '+(d.total_deliveries||0)+' courses</span>'+
-      '<span class="badge '+(d.is_available?'b-ok':'b-warn')+'">'+(d.is_available?'🟢 Disponible':'🔴 En course')+'</span></div></div>';
+      (isNew?'<span class="badge b-info">🆕 Candidature à valider</span>':'<span class="badge '+(d.is_available?'b-ok':'b-warn')+'">'+(d.is_available?'🟢 Disponible':'🔴 En course')+'</span>')+
+      '</div>'+
+      '<div class="ri-right">'+
+      (isNew
+        ?'<button class="mbtn mb-green" onclick="activateDriver(\''+d.id+'\')">✓ Valider</button>'
+        :'<div class="amt">'+fmt(owed)+'</div><button class="mbtn mb-green" onclick="payDriver(\''+d.id+'\',\''+esc(d.full_name)+'\','+owed+')">💸 Payer</button>')+
+      '</div></div>';
   }).join('');
+  $('driversList').innerHTML='<div class="fin-box" style="margin-bottom:10px"><div class="fin-row"><span>🛵 Livreurs actifs</span><b>'+list.length+'</b></div><div class="fin-total"><span>💸 Paye totale du lundi</span><span>'+fmt(totalPay)+'</span></div></div>'+html;
+}
+async function activateDriver(id){
+  if(!confirm('✓ Valider ce livreur ?\n\nIl pourra accepter des courses immédiatement.'))return;
+  await fetch(SUPA_URL+'/rest/v1/drivers?id=eq.'+id,{method:'PATCH',
+    headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify({is_available:true})});
+  loadAll();
+}
+function payDriver(id,name,amount){
+  if(!confirm('💸 Payer '+fmt(amount)+' à '+name+' ?\n\n(En production : envoi automatique sur son Wave/OM)'))return;
+  var h=JSON.parse(localStorage.getItem('st_payouts_admin')||'[]');
+  h.unshift({name:'🛵 '+name,amount:amount,date:new Date().toISOString(),method:'Wave'});
+  localStorage.setItem('st_payouts_admin',JSON.stringify(h.slice(0,50)));
+  alert('✅ Paye livreur enregistrée !\n\n'+name+' — '+fmt(amount)+'\n\nVisible dans Reversements → Historique.');
+  renderDrivers();
 }
 
 /* ===== LITIGES ===== */
