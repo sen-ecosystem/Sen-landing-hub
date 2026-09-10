@@ -219,6 +219,29 @@ function logEvent(orderId, status, note){
   });
 }
 
+/* ===== GPS LIVE : envoi de position pendant les courses ===== */
+var gpsWatch=null;
+function startGpsSharing(driverId){
+  if(!navigator.geolocation){alert('⚠️ Active le GPS de ton téléphone pour recevoir des courses.');return}
+  if(gpsWatch)navigator.geolocation.clearWatch(gpsWatch);
+  gpsWatch=navigator.geolocation.watchPosition(function(pos){
+    fetch(SUPA_URL+'/rest/v1/drivers?id=eq.'+driverId,{
+      method:'PATCH',
+      headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({
+        last_lat:pos.coords.latitude,
+        last_lng:pos.coords.longitude,
+        last_gps_at:new Date().toISOString()
+      })
+    }).catch(function(){});
+  },function(){
+    alert('⚠️ GPS refusé. Le client ne peut pas te suivre — active la localisation.');
+  },{enableHighAccuracy:true,maximumAge:10000,timeout:20000});
+}
+function stopGpsSharing(){
+  if(gpsWatch){navigator.geolocation.clearWatch(gpsWatch);gpsWatch=null}
+}
+
 // ===== Actions =====
 function accept(orderId){
   supaWrite('orders', 'PATCH', { driver_id: DRIVER_ID }, 'id=eq.' + orderId).then(function(){
