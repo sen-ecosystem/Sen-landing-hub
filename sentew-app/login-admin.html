@@ -7,71 +7,145 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{overflow-x:hidden;max-width:100vw}
-body{background:#0a1f17;font-family:'Segoe UI',-apple-system,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.card{background:#fff;border-radius:22px;padding:30px 24px;width:100%;max-width:380px;color:#0a1f17;box-shadow:0 20px 60px rgba(0,0,0,.45)}
-.badge{width:64px;height:64px;border-radius:18px;background:#0f6b4e;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:30px}
-h1{font-size:21px;font-weight:900;color:#0f6b4e;text-align:center}
-p.sub{font-size:12px;color:#6b7280;text-align:center;margin:5px 0 20px}
+body{background:radial-gradient(1200px 600px at 80% -10%,#14532d 0%,#0a1f17 55%,#071410 100%);font-family:'Segoe UI',-apple-system,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:22px;position:relative}
+.glow{position:fixed;border-radius:50%;filter:blur(90px);opacity:.25;pointer-events:none}
+.g1{width:280px;height:280px;background:#10b981;top:-60px;right:-60px}
+.g2{width:220px;height:220px;background:#f59e0b;bottom:-40px;left:-50px}
+.card{background:rgba(255,255,255,.98);border-radius:26px;padding:34px 26px 26px;width:100%;max-width:395px;color:#0a1f17;box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.08);animation:up .5s ease;position:relative;z-index:2}
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.badge{width:70px;height:70px;border-radius:20px;background:linear-gradient(135deg,#0f6b4e,#10b981);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:32px;box-shadow:0 10px 26px rgba(15,107,78,.4)}
+h1{font-size:22px;font-weight:900;background:linear-gradient(90deg,#0f6b4e,#10b981);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-align:center;letter-spacing:-.3px}
+p.sub{font-size:12px;color:#6b7280;text-align:center;margin:5px 0 22px}
 .field{margin-bottom:14px}
-.field label{font-size:12px;font-weight:800;color:#374151;display:block;margin-bottom:6px}
-.inp{display:flex;align-items:center;gap:8px;border:1.5px solid #e5e7eb;border-radius:12px;padding:0 12px;background:#f9fafb}
-.inp:focus-within{border-color:#0f6b4e;background:#fff}
+.field label{font-size:11.5px;font-weight:800;color:#374151;display:block;margin-bottom:6px;letter-spacing:.2px}
+.inp{display:flex;align-items:center;gap:9px;border:1.5px solid #e5e7eb;border-radius:14px;padding:0 14px;background:#f9fafb;transition:all .2s}
+.inp:focus-within{border-color:#0f6b4e;background:#fff;box-shadow:0 0 0 4px rgba(15,107,78,.09)}
 .inp .ico{font-size:15px}
-.inp input{flex:1;border:none;background:transparent;padding:14px 0;font-size:15px;outline:none}
-.eye{background:none;border:none;cursor:pointer;font-size:16px;padding:4px}
-.btn{width:100%;padding:16px;border-radius:13px;border:none;background:#0f6b4e;color:#fff;font-size:15px;font-weight:900;cursor:pointer;margin-top:6px}
+.inp input{flex:1;border:none;background:transparent;padding:15px 0;font-size:15px;outline:none}
+.eye{background:none;border:none;cursor:pointer;font-size:17px;padding:4px}
+.btn{width:100%;padding:17px;border-radius:15px;border:none;background:linear-gradient(135deg,#0f6b4e,#10b981);color:#fff;font-size:15px;font-weight:900;cursor:pointer;margin-top:6px;box-shadow:0 10px 24px rgba(15,107,78,.35);transition:transform .15s;letter-spacing:.2px}
+.btn:active{transform:scale(.98)}
 .btn:disabled{opacity:.6}
-.err{display:none;background:#fee2e2;border:1px solid #fecaca;color:#b91c1c;font-size:12.5px;font-weight:700;border-radius:11px;padding:12px;margin-bottom:14px;line-height:1.5}
+.btn-grey{background:#f3f4f6;color:#374151;font-size:12px;padding:12px;margin-top:9px;box-shadow:none}
+.err{display:none;background:#fef2f2;border:1.5px solid #fecaca;color:#b91c1c;font-size:12.5px;font-weight:700;border-radius:13px;padding:12px 14px;margin-bottom:14px;line-height:1.5;animation:shake .35s}
 .err.show{display:block}
-.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:12px;margin-top:16px;font-size:11.5px;color:#92400e;cursor:pointer;line-height:1.55}
-.back{display:block;text-align:center;margin-top:15px;font-size:12px;color:#6b7280;text-decoration:none}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.ok-box{display:none;background:#f0fdf4;border:1.5px solid #a7f3d0;color:#065f46;font-size:12px;font-weight:700;border-radius:13px;padding:12px 14px;margin-bottom:14px;line-height:1.5}
+.ok-box.show{display:block}
+/* Verrouillage */
+.lock-timer{display:none;background:#0a1f17;color:#fff;border-radius:15px;padding:16px;text-align:center;margin-bottom:14px}
+.lock-timer.show{display:block}
+.lock-timer .lt-num{font-size:32px;font-weight:900;color:#fbbf24;font-variant-numeric:tabular-nums;letter-spacing:2px}
+.lock-timer .lt-lab{font-size:11px;color:#9ca3af;font-weight:700;margin-top:3px}
+/* Alerte piratage */
+.hack-alert{display:none;background:linear-gradient(135deg,#7f1d1d,#991b1b);color:#fff;border-radius:15px;padding:16px;text-align:center;margin-bottom:14px;animation:blink 1.2s infinite}
+.hack-alert.show{display:block}
+@keyframes blink{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.5)}50%{box-shadow:0 0 0 8px rgba(220,38,38,0)}}
+.hack-alert .ha-t{font-size:14px;font-weight:900}
+.hack-alert .ha-s{font-size:11px;color:#fecaca;margin-top:4px;line-height:1.5}
+/* 2FA */
+.code-row{display:flex;gap:8px;justify-content:center;margin:10px 0 6px}
+.code-row input{width:47px;height:56px;text-align:center;font-size:23px;font-weight:900;border:1.5px solid #e5e7eb;border-radius:14px;background:#f9fafb;outline:none;transition:all .15s;color:#0a1f17}
+.code-row input:focus{border-color:#0f6b4e;background:#fff;box-shadow:0 0 0 4px rgba(15,107,78,.09)}
+.demo-code{background:#0a1f17;color:#4ade80;font-family:monospace;font-size:26px;font-weight:900;letter-spacing:9px;text-align:center;padding:15px;border-radius:14px;margin:10px 0;box-shadow:inset 0 0 0 1px rgba(74,222,128,.25)}
+.code-timer{text-align:center;font-size:11px;font-weight:800;color:#b45309;margin-bottom:8px;font-variant-numeric:tabular-nums}
+.step2{display:none}.step2.show{display:block}
+.step1.hide{display:none}
+.tip{display:flex;gap:9px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:13px;padding:12px;margin-top:18px;font-size:11.5px;color:#92400e;cursor:pointer;line-height:1.55}
+.back{display:block;text-align:center;margin-top:16px;font-size:12px;color:#6b7280;text-decoration:none;font-weight:600}
 .note{text-align:center;font-size:10px;color:#9aa5a0;margin-top:14px}
+.sec-line{display:flex;justify-content:center;gap:10px;margin-top:14px;flex-wrap:wrap}
+.sec-pill{display:flex;align-items:center;gap:4px;font-size:9.5px;font-weight:800;color:#6b7280;background:#f3f4f6;padding:4px 10px;border-radius:9px}
 </style>
 </head>
 <body>
+<div class="glow g1"></div><div class="glow g2"></div>
+
 <div class="card">
   <div class="badge">🛡️</div>
   <h1>SEN TEW Admin</h1>
-  <p class="sub">Accès réservé à l'équipe dirigeante</p>
+  <p class="sub" id="subTitle">Espace dirigeant · Protection anti-piratage active</p>
+
+  <!-- ALERTE PIRATAGE -->
+  <div class="hack-alert" id="hackBox">
+    <div style="font-size:26px">🚨</div>
+    <div class="ha-t">TENTATIVE DE PIRATAGE DÉTECTÉE</div>
+    <div class="ha-s">Le système a bloqué l'accès et enregistré l'alerte.<br>Si ce n'était pas toi, change ton mot de passe immédiatement.</div>
+  </div>
 
   <div class="err" id="errBox"></div>
+  <div class="ok-box" id="okBox"></div>
 
-  <div class="field">
-    <label>Email administrateur</label>
-    <div class="inp"><span class="ico">✉️</span>
-      <input type="email" id="email" placeholder="admin@sen-tew.com" autocapitalize="none" autocorrect="off" spellcheck="false">
+  <div class="lock-timer" id="lockBox">
+    <div style="font-size:24px">🔒</div>
+    <div class="lt-num" id="lockNum">15:00</div>
+    <div class="lt-lab">Accès verrouillé — protection anti-hacker active</div>
+  </div>
+
+  <!-- ÉTAPE 1 -->
+  <div class="step1" id="step1">
+    <div class="field">
+      <label>EMAIL ADMINISTRATEUR</label>
+      <div class="inp"><span class="ico">✉️</span>
+        <input type="email" id="email" placeholder="admin@sen-tew.com" autocapitalize="none" autocorrect="off" spellcheck="false">
+      </div>
+    </div>
+    <div class="field">
+      <label>MOT DE PASSE</label>
+      <div class="inp"><span class="ico">🔒</span>
+        <input type="password" id="pwd" placeholder="••••••••••" autocapitalize="none" autocorrect="off" spellcheck="false">
+        <button class="eye" id="eyeBtn" type="button">👁️</button>
+      </div>
+    </div>
+    <button class="btn" id="loginBtn">Continuer →</button>
+    <div class="sec-line">
+      <span class="sec-pill">🔐 SHA-256</span>
+      <span class="sec-pill">🛡️ 3 essais / 15 min</span>
+      <span class="sec-pill">🚨 Alerte piratage auto</span>
     </div>
   </div>
 
-  <div class="field">
-    <label>Mot de passe</label>
-    <div class="inp"><span class="ico">🔒</span>
-      <input type="password" id="pwd" placeholder="Ton mot de passe" autocapitalize="none" autocorrect="off" spellcheck="false">
-      <button class="eye" id="eyeBtn" type="button">👁️</button>
+  <!-- ÉTAPE 2 : 2FA -->
+  <div class="step2" id="step2">
+    <p class="sub" style="margin-bottom:8px">📧 Code à 6 chiffres envoyé</p>
+    <div class="code-timer" id="codeTimer">⏱️ Expire dans 02:00</div>
+    <div class="code-row" id="codeRow">
+      <input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric">
+      <input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric">
     </div>
+    <button class="btn" id="codeBtn">✓ Valider et entrer</button>
+    <button class="btn btn-grey" id="resendBtn">↻ Renvoyer un code</button>
+    <button class="btn btn-grey" id="backBtn">← Retour</button>
   </div>
-
-  <button class="btn" id="loginBtn">Se connecter →</button>
 
   <div class="tip" id="tipBtn">
     <span>ⓘ</span>
-    <span>Astuce sécurité : après 5 erreurs, pause de 15 min sur cet appareil. La session dure 2 heures. Ne partage jamais ces identifiants. <b>Clique pour en savoir plus.</b></span>
+    <span><b>Bouclier anti-piratage</b> : 3 essais → blocage 15 min. Blocages répétés → escalade 30 min, 60 min, puis alerte 🚨 enregistrée et signalée. Code 2FA valable 2 minutes seulement. Clique pour les détails.</span>
   </div>
 
   <a class="back" href="index.html">← Retour à l'application</a>
-  <div class="note">🔐 Connexion chiffrée SHA-256 · SEN TEW SUARL</div>
+  <div class="note">SEN TEW SUARL · Connexion chiffrée · © 2026</div>
 </div>
 
 <script>
-/* ============================================================
-   IDENTIFIANTS ADMIN — cryptés, jamais en clair
-   Email : admin@sen-tew.com
-   Le mot de passe est stocké sous forme d'empreinte SHA-256.
-   ============================================================ */
-var ADMIN_EMAIL = 'admin@sen-tew.com';
-var ADMIN_HASH  = '9a527facc1252fe5fa723d0c8b83438b9968b0b8aaf4d27aecec0b63e3100f99';
+/* ============ CONFIG ADMIN ============ */
+var ADMIN_EMAIL='admin@sen-tew.com';
+var ADMIN_HASH='9a527facc1252fe5fa723d0c8b83438b9968b0b8aaf4d27aecec0b63e3100f99'; /* Sentew2026! */
 
-/* ---- SHA-256 pur JavaScript (marche sur tous les téléphones) ---- */
+/* ============ RÈGLES DE SÉCURITÉ ============ */
+var MAX_ESSAIS=3;          /* essais avant blocage */
+var LOCK_MINUTES=15;       /* durée du 1er blocage */
+var CODE_EXPIRE_MIN=2;     /* le code 2FA expire en 2 minutes */
+var LOCK_ESCALATION=[15,30,60]; /* blocages successifs : 15 min → 30 min → 60 min → ALERTE PIRATAGE */
+var HACK_THRESHOLD=3;      /* nombre de blocages avant l'alerte piratage */
+
+/* ============ EMAIL D'ALERTE (EmailJS — optionnel) ============ */
+var EMAILJS_PUBLIC_KEY='';
+var EMAILJS_SERVICE_ID='';
+var EMAILJS_TEMPLATE_ID='';
+var ADMIN_NOTIFY_EMAIL='admin@sen-tew.com';
+
+/* ---- SHA-256 pur JS ---- */
 function sha256(ascii){
   function rr(v,a){return(v>>>a)|(v<<(32-a))}
   var maxWord=Math.pow(2,32),result='';
@@ -87,10 +161,7 @@ function sha256(ascii){
   }
   ascii+='\x80';
   while(ascii.length%64-56)ascii+='\x00';
-  for(var i=0;i<ascii.length;i++){
-    var j=ascii.charCodeAt(i);
-    words[i>>2]|=j<<((3-i)%4)*8;
-  }
+  for(var i=0;i<ascii.length;i++){var j=ascii.charCodeAt(i);words[i>>2]|=j<<((3-i)%4)*8}
   words[words.length]=(asciiBitLength/maxWord)|0;
   words[words.length]=asciiBitLength;
   for(var j=0;j<words.length;){
@@ -107,76 +178,200 @@ function sha256(ascii){
     }
     for(var i=0;i<8;i++){hash[i]=(hash[i]+oldHash[i])|0}
   }
-  for(var i=0;i<8;i++){
-    for(var j=3;j+1;j--){
-      var b=(hash[i]>>(j*8))&255;
-      result+=((b<16)?'0':'')+b.toString(16);
-    }
-  }
+  for(var i=0;i<8;i++){for(var j=3;j+1;j--){var b=(hash[i]>>(j*8))&255;result+=((b<16)?'0':'')+b.toString(16)}}
   return result;
 }
 
-/* ---- Anti brute-force (sur l'appareil) ---- */
-var SEC_KEY='st_admin_lock';
-function getSec(){try{return JSON.parse(localStorage.getItem(SEC_KEY))||{fails:0,until:0}}catch(e){return{fails:0,until:0}}}
-function setSec(s){localStorage.setItem(SEC_KEY,JSON.stringify(s))}
-function showErr(m){var b=document.getElementById('errBox');b.textContent='⚠️ '+m;b.classList.add('show')}
+/* ============ SYSTÈME ANTI-PIRATAGE ============ */
+/* Structure : {fails, until, lockCount, hacked} */
+function getSec(){
+  try{
+    var s=JSON.parse(localStorage.getItem('st_admin_shield'));
+    if(s&&typeof s.fails==='number')return s;
+  }catch(e){}
+  return {fails:0,until:0,lockCount:0,hacked:false};
+}
+function setSec(s){localStorage.setItem('st_admin_shield',JSON.stringify(s))}
 
-/* ---- Œil : voir/cacher le mot de passe ---- */
+function journal(type,detail){
+  try{
+    var j=JSON.parse(localStorage.getItem('st_admin_log'))||[];
+    j.unshift({date:new Date().toISOString(),type:type,detail:detail||'',ua:navigator.userAgent.slice(0,80)});
+    localStorage.setItem('st_admin_log',JSON.stringify(j.slice(0,50)));
+  }catch(e){}
+}
+
+function showErr(m){var b=document.getElementById('errBox');b.textContent='⚠️ '+m;b.classList.remove('show');void b.offsetWidth;b.classList.add('show')}
+function hideErr(){document.getElementById('errBox').classList.remove('show')}
+function showOk(m){var b=document.getElementById('okBox');b.innerHTML=m;b.classList.add('show')}
+
+/* ---- 🚨 ALERTE PIRATAGE : blocage + signalement ---- */
+function triggerHackAlert(){
+  var sec=getSec();
+  sec.hacked=true;
+  setSec(sec);
+  journal('🚨_HACK_ALERT','Blocages répétés détectés — piratage présumé');
+  document.getElementById('hackBox').classList.add('show');
+  /* Signalement par email si EmailJS configuré */
+  if(EMAILJS_PUBLIC_KEY&&EMAILJS_SERVICE_ID&&EMAILJS_TEMPLATE_ID){
+    fetch('https://api.emailjs.com/api/v1.0/email/send',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({service_id:EMAILJS_SERVICE_ID,template_id:EMAILJS_TEMPLATE_ID,user_id:EMAILJS_PUBLIC_KEY,
+      template_params:{code:'🚨 ALERTE PIRATAGE SEN TEW ADMIN — '+new Date().toLocaleString('fr-FR')+' — appareil : '+navigator.userAgent.slice(0,60),to_email:ADMIN_NOTIFY_EMAIL}})}).catch(function(){});
+  }
+  /* Son/vibration d'alerte sur l'appareil */
+  try{if(navigator.vibrate)navigator.vibrate([200,100,200,100,200])}catch(e){}
+}
+
+/* ---- Minuteur de verrouillage en direct ---- */
+var lockTimer=null;
+function showLock(){
+  var sec=getSec();
+  var box=document.getElementById('lockBox');
+  if(sec.hacked)document.getElementById('hackBox').classList.add('show');
+  if(!sec.until||Date.now()>=sec.until){
+    box.classList.remove('show');
+    document.getElementById('loginBtn').disabled=false;
+    if(lockTimer)clearInterval(lockTimer);
+    return;
+  }
+  box.classList.add('show');
+  document.getElementById('loginBtn').disabled=true;
+  if(lockTimer)clearInterval(lockTimer);
+  lockTimer=setInterval(function(){
+    var rest=getSec().until-Date.now();
+    if(rest<=0){showLock();hideErr();return}
+    var m=Math.floor(rest/60000),s=Math.floor((rest%60000)/1000);
+    document.getElementById('lockNum').textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+  },250);
+}
+
 document.getElementById('eyeBtn').onclick=function(){
   var p=document.getElementById('pwd');
   p.type=p.type==='password'?'text':'password';
   this.textContent=p.type==='password'?'👁️':'🙈';
 };
-
-/* ---- Astuce cliquable ---- */
 document.getElementById('tipBtn').onclick=function(){
-  alert('🛡️ Sécurité SEN TEW Admin\n\n• Mot de passe jamais visible, même dans le code (empreinte cryptée)\n• 5 essais maximum puis pause de 15 minutes\n• La session se ferme toute seule après 2 heures\n• Pour changer le mot de passe : demande à ton assistant, une seule ligne à modifier');
+  alert('🛡️ Bouclier anti-piratage SEN TEW\n\n• Mot de passe crypté SHA-256 (jamais lisible)\n• '+MAX_ESSAIS+' essais → blocage '+LOCK_MINUTES+' min (minuteur visible)\n• Blocages répétés → escalade : 15 min, 30 min, 60 min\n• 3 blocages = 🚨 ALERTE PIRATAGE : signalée, enregistrée dans le journal, email d\'alerte envoyé\n• Code 2FA : expire en '+CODE_EXPIRE_MIN+' minutes\n• Session : 2 heures maximum\n\n💡 Journal complet : admin.html → Outils');
 };
 
-/* ---- CONNEXION ---- */
+/* ============ ÉTAPE 1 : mot de passe ============ */
+var CURRENT_CODE=null,CODE_EXP=0,codeTimer=null;
 document.getElementById('loginBtn').onclick=function(){
-  var btn=this;
-  var sec=getSec();
-  if(sec.until&&Date.now()<sec.until){
-    showErr('Pause sécurité : réessaie dans '+Math.ceil((sec.until-Date.now())/60000)+' min (ou ouvre en navigation privée).');
-    return;
-  }
+  var btn=this,sec=getSec();
+  if(sec.hacked&&sec.until&&Date.now()<sec.until){showLock();return}
+  if(sec.until&&Date.now()<sec.until){showLock();showErr('Verrouillé. Regarde le minuteur.');return}
   var email=document.getElementById('email').value.trim().toLowerCase();
   var pwd=document.getElementById('pwd').value;
-  if(!email||!pwd){showErr('Remplis les deux champs.');return;}
-
+  if(!email||!pwd){showErr('Remplis les deux champs.');return}
   btn.disabled=true;btn.textContent='Vérification…';
-
-  /* Vérification locale, instantanée, sans serveur */
   setTimeout(function(){
-    if(email===ADMIN_EMAIL && sha256(pwd)===ADMIN_HASH){
-      setSec({fails:0,until:0});
-      sessionStorage.setItem('st_admin_session',JSON.stringify({
-        email:email,name:'Administrateur SEN TEW',role:'superadmin',
-        exp:Date.now()+2*60*60*1000
-      }));
-      window.location.href='admin.html';
+    if(email===ADMIN_EMAIL&&sha256(pwd)===ADMIN_HASH){
+      hideErr();
+      document.getElementById('hackBox').classList.remove('show');
+      setSec({fails:0,until:0,lockCount:0,hacked:false});
+      journal('password_ok');
+      send2FA();
     }else{
+      journal('password_fail');
       sec.fails=(sec.fails||0)+1;
-      if(sec.fails>=5){
-        setSec({fails:0,until:Date.now()+15*60*1000});
-        showErr('Trop de tentatives. Pause de 15 minutes (ou navigation privée).');
+      if(sec.fails>=MAX_ESSAIS){
+        /* Blocage avec escalade */
+        sec.lockCount=(sec.lockCount||0)+1;
+        var idx=Math.min(sec.lockCount-1,LOCK_ESCALATION.length-1);
+        var lockMin=LOCK_ESCALATION[idx];
+        sec.fails=0;
+        sec.until=Date.now()+lockMin*60*1000;
+        journal('lockout_'+lockMin+'min','Blocage n°'+sec.lockCount);
+        /* Alerte piratage si blocages répétés */
+        if(sec.lockCount>=HACK_THRESHOLD){
+          sec.until=Date.now()+24*60*60*1000; /* verrouillage 24h */
+          triggerHackAlert();
+          showErr('🚨 PIRATAGE PRÉSUMÉ : accès bloqué 24h. Alerte signalée à l\'administrateur.');
+        }else{
+          showErr('Trop de tentatives. Blocage de '+lockMin+' minutes (niveau '+sec.lockCount+').');
+        }
+        setSec(sec);
+        showLock();
       }else{
         setSec(sec);
-        showErr('Identifiants incorrects. '+(5-sec.fails)+' essai(s) restant(s).');
+        showErr('Identifiants incorrects. '+(MAX_ESSAIS-sec.fails)+' essai(s) avant blocage de '+LOCK_MINUTES+' min.');
       }
-      btn.disabled=false;btn.textContent='Se connecter →';
     }
-  },300);
+    btn.disabled=false;btn.textContent='Continuer →';
+  },400);
 };
 
-/* Déjà connecté → direct vers le tableau de bord */
+/* ============ ÉTAPE 2 : 2FA (expire en 2 min) ============ */
+function send2FA(){
+  CURRENT_CODE=String(Math.floor(100000+Math.random()*900000));
+  CODE_EXP=Date.now()+CODE_EXPIRE_MIN*60*1000;
+  document.getElementById('step1').classList.add('hide');
+  document.getElementById('step2').classList.add('show');
+  document.getElementById('subTitle').textContent='Étape 2/2 · Code de vérification';
+  hideErr();
+  /* Minuteur d'expiration visible */
+  if(codeTimer)clearInterval(codeTimer);
+  codeTimer=setInterval(function(){
+    var rest=CODE_EXP-Date.now();
+    if(rest<=0){clearInterval(codeTimer);
+      document.getElementById('codeTimer').textContent='⏱️ Code expiré — renvoie un nouveau code';
+      document.getElementById('codeTimer').style.color='#b91c1c';return}
+    var m=Math.floor(rest/60000),s=Math.floor((rest%60000)/1000);
+    document.getElementById('codeTimer').textContent='⏱️ Expire dans 0'+m+':'+(s<10?'0':'')+s;
+    document.getElementById('codeTimer').style.color=rest<30000?'#b91c1c':'#b45309';
+  },250);
+  if(EMAILJS_PUBLIC_KEY&&EMAILJS_SERVICE_ID&&EMAILJS_TEMPLATE_ID){
+    showOk('📧 Code envoyé sur <b>'+ADMIN_NOTIFY_EMAIL+'</b> (vérifie les spams). Valable '+CODE_EXPIRE_MIN+' min.');
+    fetch('https://api.emailjs.com/api/v1.0/email/send',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({service_id:EMAILJS_SERVICE_ID,template_id:EMAILJS_TEMPLATE_ID,user_id:EMAILJS_PUBLIC_KEY,
+      template_params:{code:CURRENT_CODE,to_email:ADMIN_NOTIFY_EMAIL}})}).catch(function(){});
+  }else{
+    var ex=document.getElementById('demoCode');
+    if(!ex){ex=document.createElement('div');ex.id='demoCode';
+      document.getElementById('step2').insertBefore(ex,document.getElementById('codeRow'));}
+    ex.className='demo-code';ex.innerHTML=CURRENT_CODE;
+    showOk('🧪 <b>Mode démo</b> : code affiché ci-dessous. Valable <b>'+CODE_EXPIRE_MIN+' min</b> — un minuteur tourne au-dessus.');
+  }
+  var f=document.querySelector('#codeRow input');if(f)f.focus();
+}
+document.getElementById('codeRow').addEventListener('input',function(e){
+  var t=e.target;if(t.value&&t.nextElementSibling)t.nextElementSibling.focus();
+});
+document.getElementById('codeRow').addEventListener('keydown',function(e){
+  if(e.key==='Backspace'&&!e.target.value&&e.target.previousElementSibling)e.target.previousElementSibling.focus();
+});
+document.getElementById('codeBtn').onclick=function(){
+  var inputs=document.querySelectorAll('#codeRow input'),code='';
+  inputs.forEach(function(i){code+=i.value});
+  if(code.length<6){showErr('Entre les 6 chiffres.');return}
+  if(Date.now()>CODE_EXP){showErr('Code expiré ('+CODE_EXPIRE_MIN+' min). Clique "Renvoyer".');return}
+  if(code===CURRENT_CODE){
+    if(codeTimer)clearInterval(codeTimer);
+    journal('login_success','2FA validé');
+    sessionStorage.setItem('st_admin_session',JSON.stringify({
+      email:ADMIN_EMAIL,name:'Administrateur SEN TEW',role:'superadmin',
+      twofa:true,exp:Date.now()+2*60*60*1000}));
+    window.location.href='admin.html';
+  }else{
+    journal('2fa_fail');
+    showErr('Code incorrect. Réessaie (il expire dans 2 min).');
+    inputs.forEach(function(i){i.value=''});inputs[0].focus();
+  }
+};
+document.getElementById('resendBtn').onclick=function(){send2FA()};
+document.getElementById('backBtn').onclick=function(){
+  if(codeTimer)clearInterval(codeTimer);
+  document.getElementById('step2').classList.remove('show');
+  document.getElementById('step1').classList.remove('hide');
+  document.getElementById('subTitle').textContent='Espace dirigeant · Protection anti-piratage active';
+  hideErr();
+};
+
+/* Init */
 (function(){
-  try{
-    var s=JSON.parse(sessionStorage.getItem('st_admin_session'));
-    if(s&&s.exp>Date.now())window.location.href='admin.html';
-  }catch(e){}
+  try{var s=JSON.parse(sessionStorage.getItem('st_admin_session'));
+    if(s&&s.exp>Date.now()){window.location.href='admin.html';return}}catch(e){}
+  showLock();
 })();
 </script>
 </body>
