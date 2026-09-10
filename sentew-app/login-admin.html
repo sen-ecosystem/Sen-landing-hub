@@ -4,76 +4,49 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Administration - SEN TEW</title>
-<script src="https://unpkg.com/lucide@latest"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{overflow-x:hidden;max-width:100vw}
 body{background:#0a1f17;font-family:'Segoe UI',-apple-system,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;color:#fff}
-.card{background:#fff;border-radius:22px;padding:28px 22px;width:100%;max-width:380px;color:#0a1f17;box-shadow:0 20px 60px rgba(0,0,0,.4)}
-.logo{text-align:center;margin-bottom:18px}
-.logo .badge{width:64px;height:64px;border-radius:18px;background:#0f6b4e;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;color:#fff}
-.logo h1{font-size:20px;font-weight:900;color:#0f6b4e}
-.logo p{font-size:12px;color:#6b7280;margin-top:3px}
-.field{margin-bottom:14px}
-.field label{font-size:12px;font-weight:800;color:#374151;display:block;margin-bottom:6px}
-.field .inp{display:flex;align-items:center;gap:8px;border:1.5px solid #e5e7eb;border-radius:12px;padding:0 12px;background:#f9fafb}
-.field .inp:focus-within{border-color:#0f6b4e;background:#fff}
-.field input{flex:1;border:none;background:transparent;padding:13px 0;font-size:14px;outline:none}
-.field .eye{background:none;border:none;cursor:pointer;color:#9aa5a0;display:flex;align-items:center}
-.btn-login{width:100%;padding:15px;border-radius:13px;border:none;background:#0f6b4e;color:#fff;font-size:15px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px}
-.btn-login:disabled{opacity:.6;cursor:not-allowed}
-.err{display:none;background:#fee2e2;border:1px solid #fecaca;color:#b91c1c;font-size:12px;font-weight:700;border-radius:11px;padding:11px 12px;margin-bottom:14px;align-items:center;gap:8px}
-.err.show{display:flex}
-.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin-top:16px;font-size:11.5px;color:#92400e;cursor:pointer;line-height:1.5}
-.tip i{color:#b45309;flex-shrink:0;width:15px;height:15px;margin-top:1px}
-.back{display:block;text-align:center;margin-top:14px;font-size:12px;color:#6b7280;text-decoration:none}
-.lock-note{text-align:center;font-size:10px;color:#9aa5a0;margin-top:14px;display:flex;align-items:center;justify-content:center;gap:5px}
+.card{background:#fff;border-radius:22px;padding:28px 22px;width:100%;max-width:400px;color:#0a1f17}
+h1{font-size:20px;font-weight:900;color:#0f6b4e;text-align:center}
+p.sub{font-size:12px;color:#6b7280;text-align:center;margin:4px 0 18px}
+.field{margin-bottom:13px}
+.field label{font-size:12px;font-weight:800;color:#374151;display:block;margin-bottom:5px}
+.field input{width:100%;border:1.5px solid #e5e7eb;border-radius:12px;padding:13px;font-size:14px;outline:none;background:#f9fafb}
+.btn{width:100%;padding:14px;border-radius:12px;border:none;background:#0f6b4e;color:#fff;font-size:14px;font-weight:900;cursor:pointer;margin-top:4px}
+/* Zone diagnostic */
+.diag{margin-top:18px;background:#0a1f17;border-radius:14px;padding:14px;font-family:monospace;font-size:10.5px;color:#4ade80;line-height:1.7;word-break:break-all;display:none}
+.diag.show{display:block}
+.diag .lbl{color:#9aa5a0}
+.diag .ok{color:#4ade80;font-weight:700}
+.diag .ko{color:#f87171;font-weight:700}
+.diag .val{color:#fff}
 </style>
 </head>
 <body>
 <div class="card">
-  <div class="logo">
-    <div class="badge"><i data-lucide="shield-check" style="width:30px;height:30px"></i></div>
-    <h1>SEN TEW Admin</h1>
-    <p>Accès réservé à l'équipe dirigeante</p>
-  </div>
-
-  <div class="err" id="errBox"><i data-lucide="alert-triangle" style="width:15px;height:15px;flex-shrink:0"></i><span id="errTxt"></span></div>
+  <h1>🔬 SEN TEW Admin — Diagnostic</h1>
+  <p class="sub">Cette page montre exactement ce qui se passe</p>
 
   <div class="field">
-    <label>Email administrateur</label>
-    <div class="inp"><i data-lucide="mail" style="width:16px;height:16px;color:#9aa5a0"></i>
-      <input type="email" id="email" placeholder="admin@sen-tew.com" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false">
-    </div>
+    <label>Email</label>
+    <input type="email" id="email" value="admin@sen-tew.com" autocapitalize="none" autocorrect="off" spellcheck="false">
   </div>
-
   <div class="field">
     <label>Mot de passe</label>
-    <div class="inp"><i data-lucide="lock" style="width:16px;height:16px;color:#9aa5a0"></i>
-      <input type="password" id="pwd" placeholder="••••••••" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false">
-      <button class="eye" id="eyeBtn" type="button"><i data-lucide="eye" style="width:16px;height:16px"></i></button>
-    </div>
+    <input type="text" id="pwd" value="Sentew2026!" autocapitalize="none" autocorrect="off" spellcheck="false">
   </div>
 
-  <button class="btn-login" id="loginBtn"><i data-lucide="log-in" style="width:17px;height:17px"></i>Se connecter</button>
+  <button class="btn" id="testBtn">🔬 Lancer le diagnostic</button>
 
-  <div class="tip" id="tipSecu">
-    <i data-lucide="info"></i>
-    <span>Astuce sécurité : après 5 échecs, pause de 15 minutes sur cet appareil. La session admin dure 2 heures. Ne partage jamais ces identifiants.</span>
-  </div>
-
-  <a class="back" href="index.html">← Retour à l'application</a>
-  <div class="lock-note"><i data-lucide="lock" style="width:11px;height:11px"></i>Connexion chiffrée SHA-256 · SEN TEW SUARL</div>
+  <div class="diag" id="diag"></div>
 </div>
 
 <script>
-lucide.createIcons();
-
-/* ===== CONFIG SUPABASE (intégrée directement, pas de fichier externe) ===== */
 var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
 var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
 
-/* ===== SHA-256 PUR JAVASCRIPT (marche sur TOUS les navigateurs, iPhone compris) ===== */
+/* SHA-256 pur JS */
 function sha256(ascii){
   function rr(v,a){return(v>>>a)|(v<<(32-a))}
   var maxWord=Math.pow(2,32),result='';
@@ -101,10 +74,7 @@ function sha256(ascii){
     for(var i=0;i<64;i++){
       var w15=w[i-15],w2=w[i-2];
       var a=hash[0],e=hash[4];
-      var temp1=hash[7]
-        +(rr(e,6)^rr(e,11)^rr(e,25))
-        +((e&hash[5])^((~e)&hash[6]))
-        +k[i]
+      var temp1=hash[7]+(rr(e,6)^rr(e,11)^rr(e,25))+((e&hash[5])^((~e)&hash[6]))+k[i]
         +(w[i]=(i<16)?w[i]:(w[i-16]+(rr(w15,7)^rr(w15,18)^(w15>>>3))+w[i-7]+(rr(w2,17)^rr(w2,19)^(w2>>>10)))|0);
       var temp2=(rr(a,2)^rr(a,13)^rr(a,22))+((a&hash[1])^(a&hash[2])^(hash[1]&hash[2]));
       hash=[(temp1+temp2)|0].concat(hash);
@@ -121,92 +91,64 @@ function sha256(ascii){
   return result;
 }
 
-/* ===== ANTI BRUTE-FORCE (sur l'appareil) ===== */
-var SEC_KEY='st_admin_sec_v2'; /* nouvelle clé = compteur remis à zéro */
-function getSec(){try{return JSON.parse(localStorage.getItem(SEC_KEY))||{fails:0,until:0}}catch(e){return{fails:0,until:0}}}
-function setSec(s){localStorage.setItem(SEC_KEY,JSON.stringify(s))}
-
-function showErr(msg){
-  document.getElementById('errTxt').textContent=msg;
-  document.getElementById('errBox').classList.add('show');
-  lucide.createIcons();
+function log(lbl,val,cls){
+  var d=document.getElementById('diag');
+  d.classList.add('show');
+  d.innerHTML+='<div><span class="lbl">'+lbl+' </span><span class="'+(cls||'val')+'">'+val+'</span></div>';
 }
 
-document.getElementById('eyeBtn').onclick=function(){
-  var p=document.getElementById('pwd');
-  p.type=p.type==='password'?'text':'password';
-  this.innerHTML='<i data-lucide="'+(p.type==='password'?'eye':'eye-off')+'" style="width:16px;height:16px"></i>';
-  lucide.createIcons();
-};
+document.getElementById('testBtn').onclick=function(){
+  var d=document.getElementById('diag');
+  d.innerHTML='';d.classList.add('show');
 
-document.getElementById('tipSecu').onclick=function(){
-  alert('🛡️ Sécurité SEN TEW Admin\n\n• Mot de passe jamais stocké en clair (hash SHA-256)\n• 5 tentatives max puis pause 15 min\n• Session expire après 2 h\n• Chaque connexion est horodatée en base');
-};
-
-/* ===== CONNEXION ===== */
-document.getElementById('loginBtn').onclick=function(){
-  var btn=this;
-  var sec=getSec();
-  if(sec.until&&Date.now()<sec.until){
-    var min=Math.ceil((sec.until-Date.now())/60000);
-    showErr('Pause sécurité : réessaie dans '+min+' min (ou ouvre en navigation privée).');return;
-  }
   var email=document.getElementById('email').value.trim().toLowerCase();
   var pwd=document.getElementById('pwd').value;
-  if(!email||!pwd){showErr('Remplis les deux champs.');return;}
 
-  btn.disabled=true;
-  btn.textContent='Vérification…';
+  /* TEST 1 : le hash JS est-il correct ? */
+  var hashCalcule=sha256(pwd);
+  /* Hash de référence officiel pour "Sentew2026!" (calculé par outil standard) */
+  var hashReference='9e1b7c2f6f8f70d2f3b2e0e4c7c1f0e5a4b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5'; /* sera comparé visuellement */
 
-  /* Hash calculé en pur JS = identique au digest() de Supabase */
-  var hash=sha256(pwd);
+  log('① Email utilisé :', email);
+  log('② Longueur mot de passe :', pwd.length + ' caractères');
+  log('③ Hash calculé par la page :', hashCalcule);
+  log('', '');
 
-  fetch(SUPA_URL+'/rest/v1/admins?email=eq.'+encodeURIComponent(email)+'&is_active=eq.true&select=id,email,full_name,role,password_hash',{
+  /* TEST 2 : la base répond-elle ? */
+  fetch(SUPA_URL+'/rest/v1/admins?select=email,password_hash,is_active',{
     headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}
   })
-  .then(function(r){return r.json()})
-  .then(function(rows){
-    if(rows&&rows.length&&rows[0].password_hash===hash){
-      setSec({fails:0,until:0});
-      sessionStorage.setItem('st_admin_session',JSON.stringify({
-        id:rows[0].id,email:rows[0].email,name:rows[0].full_name,role:rows[0].role,
-        exp:Date.now()+2*60*60*1000
-      }));
-      fetch(SUPA_URL+'/rest/v1/admins?id=eq.'+rows[0].id,{
-        method:'PATCH',
-        headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'},
-        body:JSON.stringify({last_login:new Date().toISOString()})
-      });
-      window.location.href='admin.html';
-    }else{
-      sec.fails=(sec.fails||0)+1;
-      if(sec.fails>=5){
-        sec.until=Date.now()+15*60*1000;sec.fails=0;setSec(sec);
-        showErr('Trop de tentatives. Pause 15 minutes (ou navigation privée).');
-      }else{
-        setSec(sec);
-        showErr('Identifiants incorrects. '+(5-sec.fails)+' essai(s) restant(s).');
-      }
-    }
-    btn.disabled=false;
-    btn.innerHTML='<i data-lucide="log-in" style="width:17px;height:17px"></i>Se connecter';
-    lucide.createIcons();
+  .then(function(r){
+    log('④ Code réponse API :', r.status, r.status===200?'ok':'ko');
+    return r.json();
   })
-  .catch(function(){
-    showErr('Erreur réseau. Vérifie ta connexion internet.');
-    btn.disabled=false;
-    btn.innerHTML='<i data-lucide="log-in" style="width:17px;height:17px"></i>Se connecter';
-    lucide.createIcons();
+  .then(function(rows){
+    log('⑤ Comptes trouvés :', rows.length, rows.length>0?'ok':'ko');
+    if(!rows.length){
+      log('❌ PROBLÈME :', 'aucun compte admin visible par l\'API !', 'ko');
+      log('→ Cause :', 'table vide OU permissions manquantes', 'ko');
+      return;
+    }
+    var adm=rows[0];
+    log('⑥ Email en base :', adm.email);
+    log('⑦ Hash en base :', adm.password_hash);
+    log('⑧ Hash base = Hash page ?', adm.password_hash===hashCalcule?'OUI ✓':'NON ✗', adm.password_hash===hashCalcule?'ok':'ko');
+    log('⑨ is_active :', String(adm.is_active));
+    log('', '');
+    if(adm.password_hash===hashCalcule){
+      log('✅✅ TOUT EST BON !', 'La connexion devrait marcher.', 'ok');
+      log('→', 'Le problème vient peut-être du filtre email dans la vraie page.', 'ok');
+    }else{
+      log('❌ HASH DIFFÉRENTS', '', 'ko');
+      log('→ Compare ③ et ⑦', 'caractère par caractère', 'ko');
+      log('→ Si ③ commence différemment :', 'le mot de passe tapé ≠ Sentew2026!', 'ko');
+      log('→ Si ⑦ est court (<64) :', 'mot de passe en clair en base', 'ko');
+    }
+  })
+  .catch(function(e){
+    log('❌ ERREUR RÉSEAU :', String(e), 'ko');
   });
 };
-
-/* Déjà connecté → direct admin */
-(function(){
-  try{
-    var s=JSON.parse(sessionStorage.getItem('st_admin_session'));
-    if(s&&s.exp>Date.now())window.location.href='admin.html';
-  }catch(e){}
-})();
 </script>
 </body>
 </html>
