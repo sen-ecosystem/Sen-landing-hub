@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Administration - SEN TEW</title>
 <script src="https://unpkg.com/lucide@latest"></script>
-<script src="js/supabase.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{overflow-x:hidden;max-width:100vw}
@@ -44,14 +43,14 @@ body{background:#0a1f17;font-family:'Segoe UI',-apple-system,sans-serif;min-heig
   <div class="field">
     <label>Email administrateur</label>
     <div class="inp"><i data-lucide="mail" style="width:16px;height:16px;color:#9aa5a0"></i>
-      <input type="email" id="email" placeholder="admin@sen-tew.com" autocomplete="username">
+      <input type="email" id="email" placeholder="admin@sen-tew.com" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false">
     </div>
   </div>
 
   <div class="field">
     <label>Mot de passe</label>
     <div class="inp"><i data-lucide="lock" style="width:16px;height:16px;color:#9aa5a0"></i>
-      <input type="password" id="pwd" placeholder="••••••••" autocomplete="current-password">
+      <input type="password" id="pwd" placeholder="••••••••" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false">
       <button class="eye" id="eyeBtn" type="button"><i data-lucide="eye" style="width:16px;height:16px"></i></button>
     </div>
   </div>
@@ -60,54 +59,26 @@ body{background:#0a1f17;font-family:'Segoe UI',-apple-system,sans-serif;min-heig
 
   <div class="tip" id="tipSecu">
     <i data-lucide="info"></i>
-    <span>Astuce sécurité : cette page enregistre chaque tentative de connexion. Après 5 échecs, le compte est verrouillé 15 minutes. Ne partage jamais ces identifiants.</span>
+    <span>Astuce sécurité : après 5 échecs, pause de 15 minutes sur cet appareil. La session admin dure 2 heures. Ne partage jamais ces identifiants.</span>
   </div>
 
   <a class="back" href="index.html">← Retour à l'application</a>
-  <div class="lock-note"><i data-lucide="lock" style="width:11px;height:11px"></i>Connexion chiffrée · SEN TEW SUARL</div>
+  <div class="lock-note"><i data-lucide="lock" style="width:11px;height:11px"></i>Connexion chiffrée SHA-256 · SEN TEW SUARL</div>
 </div>
 
 <script>
 lucide.createIcons();
 
-// Anti brute-force : 5 essais max puis blocage 15 min
-var SEC_KEY='st_admin_sec';
-function getSec(){try{return JSON.parse(localStorage.getItem(SEC_KEY))||{fails:0,until:0}}catch(e){return{fails:0,until:0}}}
-function setSec(s){localStorage.setItem(SEC_KEY,JSON.stringify(s))}
+/* ===== CONFIG SUPABASE (intégrée directement, pas de fichier externe) ===== */
+var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
+var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
 
-function showErr(msg){
-  var b=document.getElementById('errBox');
-  document.getElementById('errTxt').textContent=msg;
-  b.classList.add('show');lucide.createIcons();
-}
-
-document.getElementById('eyeBtn').onclick=function(){
-  var p=document.getElementById('pwd');
-  p.type=p.type==='password'?'text':'password';
-  this.innerHTML='<i data-lucide="'+(p.type==='password'?'eye':'eye-off')+'" style="width:16px;height:16px"></i>';
-  lucide.createIcons();
-};
-
-document.getElementById('tipSecu').onclick=function(){
-  alert('🛡️ Sécurité SEN TEW Admin\n\n• 5 tentatives max, puis blocage 15 min\n• Session expire après 2 h d\'inactivité\n• Chaque connexion est horodatée dans la base\n• Change le mot de passe initial dès la 1ère connexion');
-};
-
-async function sha256(txt){
-  // Méthode 1 : crypto.subtle (moderne, HTTPS)
-  try{
-    if(window.crypto&&crypto.subtle&&window.isSecureContext){
-      var buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(txt));
-      return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0')}).join('');
-    }
-  }catch(e){}
-  // Méthode 2 : SHA-256 pur JavaScript (fallback universel)
-  return sha256js(txt);
-}
-function sha256js(ascii){
+/* ===== SHA-256 PUR JAVASCRIPT (marche sur TOUS les navigateurs, iPhone compris) ===== */
+function sha256(ascii){
   function rr(v,a){return(v>>>a)|(v<<(32-a))}
   var maxWord=Math.pow(2,32),result='';
   var words=[],asciiBitLength=ascii.length*8;
-  var hash=sha256js.h=sha256js.h||[],k=sha256js.k=sha256js.k||[];
+  var hash=sha256.h=sha256.h||[],k=sha256.k=sha256.k||[];
   var primeCounter=k.length,isComposite={};
   for(var candidate=2;primeCounter<64;candidate++){
     if(!isComposite[candidate]){
@@ -119,7 +90,7 @@ function sha256js(ascii){
   ascii+='\x80';
   while(ascii.length%64-56)ascii+='\x00';
   for(var i=0;i<ascii.length;i++){
-    var j=ascii.charCodeAt(i);if(j>>8)return;
+    var j=ascii.charCodeAt(i);
     words[i>>2]|=j<<((3-i)%4)*8;
   }
   words[words.length]=(asciiBitLength/maxWord)|0;
@@ -144,41 +115,63 @@ function sha256js(ascii){
   for(var i=0;i<8;i++){
     for(var j=3;j+1;j--){
       var b=(hash[i]>>(j*8))&255;
-      result+=((b<16)?0:'')+b.toString(16);
+      result+=((b<16)?'0':'')+b.toString(16);
     }
   }
   return result;
 }
 
-document.getElementById('loginBtn').onclick=async function(){
+/* ===== ANTI BRUTE-FORCE (sur l'appareil) ===== */
+var SEC_KEY='st_admin_sec_v2'; /* nouvelle clé = compteur remis à zéro */
+function getSec(){try{return JSON.parse(localStorage.getItem(SEC_KEY))||{fails:0,until:0}}catch(e){return{fails:0,until:0}}}
+function setSec(s){localStorage.setItem(SEC_KEY,JSON.stringify(s))}
+
+function showErr(msg){
+  document.getElementById('errTxt').textContent=msg;
+  document.getElementById('errBox').classList.add('show');
+  lucide.createIcons();
+}
+
+document.getElementById('eyeBtn').onclick=function(){
+  var p=document.getElementById('pwd');
+  p.type=p.type==='password'?'text':'password';
+  this.innerHTML='<i data-lucide="'+(p.type==='password'?'eye':'eye-off')+'" style="width:16px;height:16px"></i>';
+  lucide.createIcons();
+};
+
+document.getElementById('tipSecu').onclick=function(){
+  alert('🛡️ Sécurité SEN TEW Admin\n\n• Mot de passe jamais stocké en clair (hash SHA-256)\n• 5 tentatives max puis pause 15 min\n• Session expire après 2 h\n• Chaque connexion est horodatée en base');
+};
+
+/* ===== CONNEXION ===== */
+document.getElementById('loginBtn').onclick=function(){
   var btn=this;
   var sec=getSec();
   if(sec.until&&Date.now()<sec.until){
     var min=Math.ceil((sec.until-Date.now())/60000);
-    showErr('Compte verrouillé. Réessaie dans '+min+' min.');return;
+    showErr('Pause sécurité : réessaie dans '+min+' min (ou ouvre en navigation privée).');return;
   }
   var email=document.getElementById('email').value.trim().toLowerCase();
   var pwd=document.getElementById('pwd').value;
   if(!email||!pwd){showErr('Remplis les deux champs.');return;}
 
   btn.disabled=true;
-  btn.innerHTML='Vérification…';
+  btn.textContent='Vérification…';
 
-  try{
-    var hash=await sha256(pwd);
-    var res=await fetch(SUPA_URL+'/rest/v1/admins?email=eq.'+encodeURIComponent(email)+'&is_active=eq.true&select=*',{
-      headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}
-    });
-    var rows=await res.json();
+  /* Hash calculé en pur JS = identique au digest() de Supabase */
+  var hash=sha256(pwd);
 
+  fetch(SUPA_URL+'/rest/v1/admins?email=eq.'+encodeURIComponent(email)+'&is_active=eq.true&select=id,email,full_name,role,password_hash',{
+    headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}
+  })
+  .then(function(r){return r.json()})
+  .then(function(rows){
     if(rows&&rows.length&&rows[0].password_hash===hash){
-      // Connexion OK
       setSec({fails:0,until:0});
       sessionStorage.setItem('st_admin_session',JSON.stringify({
         id:rows[0].id,email:rows[0].email,name:rows[0].full_name,role:rows[0].role,
-        exp:Date.now()+2*60*60*1000 // 2 h
+        exp:Date.now()+2*60*60*1000
       }));
-      // Trace la connexion
       fetch(SUPA_URL+'/rest/v1/admins?id=eq.'+rows[0].id,{
         method:'PATCH',
         headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'},
@@ -187,21 +180,27 @@ document.getElementById('loginBtn').onclick=async function(){
       window.location.href='admin.html';
     }else{
       sec.fails=(sec.fails||0)+1;
-      if(sec.fails>=5){sec.until=Date.now()+15*60*1000;sec.fails=0;
-        setSec(sec);showErr('Trop de tentatives. Verrouillé 15 minutes.');
+      if(sec.fails>=5){
+        sec.until=Date.now()+15*60*1000;sec.fails=0;setSec(sec);
+        showErr('Trop de tentatives. Pause 15 minutes (ou navigation privée).');
       }else{
-        setSec(sec);showErr('Identifiants incorrects. '+(5-sec.fails)+' essai(s) restant(s).');
+        setSec(sec);
+        showErr('Identifiants incorrects. '+(5-sec.fails)+' essai(s) restant(s).');
       }
     }
-  }catch(e){
-    showErr('Erreur de connexion au serveur. Réessaie.');
-  }
-  btn.disabled=false;
-  btn.innerHTML='<i data-lucide="log-in" style="width:17px;height:17px"></i>Se connecter';
-  lucide.createIcons();
+    btn.disabled=false;
+    btn.innerHTML='<i data-lucide="log-in" style="width:17px;height:17px"></i>Se connecter';
+    lucide.createIcons();
+  })
+  .catch(function(){
+    showErr('Erreur réseau. Vérifie ta connexion internet.');
+    btn.disabled=false;
+    btn.innerHTML='<i data-lucide="log-in" style="width:17px;height:17px"></i>Se connecter';
+    lucide.createIcons();
+  });
 };
 
-// Déjà connecté → direct admin
+/* Déjà connecté → direct admin */
 (function(){
   try{
     var s=JSON.parse(sessionStorage.getItem('st_admin_session'));
