@@ -3,387 +3,330 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Ajouter un produit - SEN TEW</title>
+<title>Ajouter un produit - SEN TEW Vendeur</title>
 <script src="https://unpkg.com/lucide@latest"></script>
-<script src="js/supabase.js"></script>
+<script src="js/security-shield.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{overflow-x:hidden;max-width:100vw}
-body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:110px;color:#0a1f17}
-.topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:40}
-.topbar h1{font-size:16px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
-.icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e}
-/* Étapes */
-.steps{display:flex;gap:6px;padding:12px 14px 0}
-.step{flex:1;height:4px;border-radius:2px;background:#e5e7eb}
-.step.on{background:#0f6b4e}
-/* Blocs */
-.bloc{background:#fff;margin:12px 14px 0;padding:16px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
-.bloc h2{font-size:12px;font-weight:800;color:#b8860b;letter-spacing:.5px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
-.bloc h2 .req{color:#e63946}
-label{display:block;font-size:12px;font-weight:700;color:#4b5563;margin:0 0 5px}
-input[type=text],input[type=number],textarea,select{width:100%;padding:12px 13px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:13.5px;font-family:inherit;outline:none;box-sizing:border-box;background:#fff}
-input:focus,textarea:focus,select:focus{border-color:#0f6b4e}
-textarea{min-height:88px;resize:vertical}
-.fld{margin-bottom:14px}
-.fld:last-child{margin-bottom:0}
-.hint{font-size:10.5px;color:#9aa5a0;margin-top:4px;display:flex;align-items:center;gap:4px}
-/* Grille 2 cols */
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:90px;color:#0a1f17}
+.topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:50}
+.topbar h1{font-size:16px;font-weight:900;color:#0f6b4e;flex:1;display:flex;align-items:center;gap:8px}
+.topbar h1 i{width:18px;height:18px}
+.icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e;text-decoration:none}
+.icon-btn i{width:17px;height:17px}
+.card{background:#fff;margin:12px 14px 0;border-radius:16px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.card h3{font-size:13px;font-weight:900;margin-bottom:12px;display:flex;align-items:center;gap:7px}
+.card h3 i{width:16px;height:16px;color:#0f6b4e}
+.fld{margin-bottom:12px}
+.fld label{font-size:11px;font-weight:800;color:#374151;display:block;margin-bottom:5px;letter-spacing:.2px}
+.fld label .opt{font-weight:600;color:#9aa5a0;font-size:10px}
+.fld input,.fld select,.fld textarea{width:100%;border:1.5px solid #e5e7eb;border-radius:12px;padding:12px 13px;font-size:14px;outline:none;background:#f9fafb;transition:all .2s;font-family:inherit;box-sizing:border-box}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:#0f6b4e;background:#fff}
+.fld textarea{min-height:80px;resize:vertical}
+.hint{font-size:10px;color:#9aa5a0;margin-top:4px;line-height:1.45}
+/* ═══ GRILLE 2 COLONNES (fix débordement promo) ═══ */
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid2 .fld{margin-bottom:0}
+.grid2 .fld input{width:100%;min-width:0;padding:12px 10px;font-size:14px}
+/* Prix avec suffixe FCFA */
+.price-wrap{position:relative}
+.price-wrap input{padding-right:48px}
+.price-wrap .suf{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:900;color:#0f6b4e;pointer-events:none}
+/* Calculateur de marge en direct */
+.marge-box{background:#f0fdf4;border:1.5px solid #a7f3d0;border-radius:13px;padding:13px;margin-top:12px}
+.marge-box h4{font-size:11px;font-weight:900;color:#065f46;display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.marge-box h4 i{width:14px;height:14px}
+.m-row{display:flex;justify-content:space-between;font-size:12px;color:#065f46;padding:4px 0}
+.m-row b{font-weight:900}
+.m-row.net{border-top:1.5px dashed #a7f3d0;margin-top:5px;padding-top:8px;font-size:13px}
+.m-row.net b{color:#0f6b4e;font-size:15px}
+.m-row.warn b{color:#b45309}
 /* Photos */
-.photo-row{display:flex;gap:10px}
-.photo-slot{width:76px;height:76px;border:2px dashed #d1d5db;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:#9aa5a0;font-size:9px;font-weight:700;text-align:center;gap:3px;position:relative;overflow:hidden;background:#fafafa}
-.photo-slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.photo-slot.full{border-style:solid;border-color:#0f6b4e}
-.photo-slot .rm{position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;border:none;font-size:10px;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:2}
-.photo-slot.full .rm{display:flex}
-.photo-slot input{display:none}
-/* Switch */
-.switch-row{display:flex;align-items:center;gap:10px;padding:12px;background:#f9fafb;border-radius:12px}
-.switch-row .si{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.switch-row b{font-size:12.5px;display:block;color:#0a1f17}
-.switch-row small{font-size:10.5px;color:#6B7280;line-height:1.3}
-.sw{margin-left:auto;width:46px;height:26px;border-radius:13px;background:#d1d5db;position:relative;cursor:pointer;flex-shrink:0;transition:background .2s;border:none}
-.sw::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
-.sw.on{background:#0f6b4e}
-.sw.on::after{left:23px}
-/* Calculateur de marge */
-.marge-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #4ade80;border-radius:14px;padding:14px;margin-top:4px}
-.marge-box h3{font-size:11px;font-weight:800;color:#065f46;letter-spacing:.4px;margin-bottom:9px;display:flex;align-items:center;gap:5px}
-.marge-row{display:flex;justify-content:space-between;font-size:12px;color:#166534;padding:3px 0}
-.marge-row.deduct{color:#b91c1c}
-.marge-row.net{border-top:2px solid #4ade80;margin-top:7px;padding-top:9px;font-size:15px;font-weight:900}
-.marge-row.net .mv{color:#059669}
-.marge-pct{font-size:10px;color:#065f46;text-align:right;font-weight:700}
-/* Astuce ⓘ */
-.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:12px 14px 0;font-size:12px;color:#92400e;cursor:pointer;line-height:1.5}
-.tip i{color:#b45309;flex-shrink:0;width:16px;height:16px;margin-top:1px}
-/* Barre bas */
-.submit-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -4px 16px rgba(0,0,0,.08)}
-.btn-submit{width:100%;padding:15px;background:#0f6b4e;color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-submit:disabled{background:#9aa5a0}
+.photo-zone{border:2px dashed #d1d5db;border-radius:14px;padding:22px;text-align:center;cursor:pointer;background:#f9fafb;transition:all .2s}
+.photo-zone:active{background:#f0fdf4;border-color:#0f6b4e}
+.photo-zone .pi{width:44px;height:44px;border-radius:13px;background:#f0fdf4;color:#0f6b4e;display:flex;align-items:center;justify-content:center;margin:0 auto 8px}
+.photo-zone .pi i{width:21px;height:21px}
+.photo-zone b{font-size:12.5px;display:block}
+.photo-zone span{font-size:10px;color:#9aa5a0;display:block;margin-top:3px}
+.photo-preview{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.photo-preview img{width:64px;height:64px;border-radius:11px;object-fit:cover;border:2px solid #e5e7eb}
+/* Livraison gratuite */
+.ship-toggle{display:flex;align-items:center;gap:11px;background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:13px;padding:13px;cursor:pointer}
+.ship-toggle .tog{width:44px;height:24px;border-radius:12px;background:#d1d5db;position:relative;flex-shrink:0;transition:background .2s}
+.ship-toggle .tog::after{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:3px;left:3px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.ship-toggle.on .tog{background:#0f6b4e}
+.ship-toggle.on .tog::after{left:23px}
+.ship-toggle b{font-size:12.5px;display:block}
+.ship-toggle span{font-size:10px;color:#6b7280;display:block;margin-top:2px;line-height:1.4}
+/* Boutons */
+.btn{width:100%;padding:16px;border-radius:14px;border:none;background:linear-gradient(135deg,#0f6b4e,#10b981);color:#fff;font-size:15px;font-weight:900;cursor:pointer;margin-top:14px;box-shadow:0 8px 20px rgba(15,107,78,.3);display:flex;align-items:center;justify-content:center;gap:8px}
+.btn:disabled{opacity:.5;box-shadow:none}
+.btn i{width:17px;height:17px}
+.err{display:none;background:#fef2f2;border:1.5px solid #fecaca;color:#b91c1c;font-size:12px;font-weight:700;border-radius:12px;padding:11px 13px;margin:12px 14px 0;line-height:1.5}
+.err.show{display:block}
+/* Astuce */
+.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:12px 14px 0;font-size:11.5px;color:#92400e;cursor:pointer;line-height:1.55}
 /* Succès */
-.success{text-align:center;padding:50px 24px}
-.success .ok{width:76px;height:76px;border-radius:50%;background:#d1fae5;color:#065f46;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
-.success h2{font-size:19px;color:#0a1f17;margin-bottom:6px}
-.success p{font-size:12px;color:#6B7280;line-height:1.6}
-.success .btns{display:flex;gap:10px;margin-top:18px}
-.success .btns a,.success .btns button{flex:1;padding:13px;border-radius:12px;text-decoration:none;font-weight:800;font-size:13px;text-align:center;border:none;cursor:pointer;font-family:inherit}
-.b-green{background:#0f6b4e;color:#fff}
-.b-grey{background:#e5e7eb;color:#0a1f17}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
-.modal.show{display:flex}
-.m-box{background:#fff;border-radius:20px;padding:20px;width:100%;max-width:360px;max-height:80vh;overflow-y:auto}
-.m-box h3{font-size:15px;font-weight:800;margin-bottom:8px}
-.m-box p{font-size:12px;color:#6B7280;line-height:1.7}
-.m-box button{width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:#0f6b4e;color:#fff;font-weight:800;cursor:pointer}
+.success{display:none;margin:12px 14px 0;background:#fff;border-radius:16px;padding:30px 20px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.success.show{display:block}
+.success .si{width:64px;height:64px;border-radius:50%;background:#f0fdf4;color:#0f6b4e;display:flex;align-items:center;justify-content:center;margin:0 auto}
+.success .si i{width:30px;height:30px}
+.success h2{font-size:17px;font-weight:900;color:#0f6b4e;margin:12px 0 6px}
+.success p{font-size:12px;color:#6b7280;line-height:1.6}
+.success .btn{margin-top:16px}
 </style>
 </head>
 <body>
 
-<header class="topbar">
-  <button class="icon-btn" onclick="location.href='produits-vendeur.html'"><i data-lucide="arrow-left"></i></button>
-  <h1><i data-lucide="plus-circle"></i> Nouveau produit</h1>
-</header>
+<div class="topbar">
+  <a class="icon-btn" href="vendeur.html"><i data-lucide="arrow-left"></i></a>
+  <h1><i data-lucide="package-plus"></i>Nouveau produit</h1>
+</div>
 
-<div class="steps"><div class="step on" id="s1"></div><div class="step" id="s2"></div><div class="step" id="s3"></div></div>
+<div class="err" id="errBox"></div>
 
-<form id="form" onsubmit="return false">
-  <!-- Étape 1 : Infos de base -->
-  <div class="bloc">
-    <h2><i data-lucide="file-text" style="width:14px"></i> INFORMATIONS <span class="req">*</span></h2>
+<div id="formZone">
+
+  <!-- PHOTOS -->
+  <div class="card">
+    <h3><i data-lucide="image"></i>Photos du produit</h3>
+    <div class="photo-zone" id="photoZone">
+      <div class="pi"><i data-lucide="camera"></i></div>
+      <b>Ajoute jusqu'à 4 photos</b>
+      <span>1ère photo = image principale. Carrée, bien éclairée, fond clair.</span>
+    </div>
+    <input type="file" id="photoInput" accept="image/*" multiple style="display:none">
+    <div class="photo-preview" id="photoPreview"></div>
+  </div>
+
+  <!-- INFOS -->
+  <div class="card">
+    <h3><i data-lucide="tag"></i>Informations</h3>
     <div class="fld">
-      <label>Nom du produit <span style="color:#e63946">*</span></label>
-      <input type="text" id="fName" placeholder="Ex : Robe wax moderne femme" maxlength="80" required>
-      <div class="hint"><i data-lucide="info" style="width:11px"></i> Sois précis : nom + modèle + détail clé</div>
+      <label>NOM DU PRODUIT *</label>
+      <input id="pName" placeholder="Ex : Boubou wax premium" maxlength="60">
+      <div class="hint">Court et précis : ce que le client taperait dans la recherche.</div>
     </div>
     <div class="fld">
-      <label>Description <span style="color:#e63946">*</span></label>
-      <textarea id="fDesc" placeholder="Décris ton produit : matière, qualité, usage, entretien… Plus c'est détaillé, plus ça vend."></textarea>
-      <div class="hint"><i data-lucide="info" style="width:11px"></i> Mentionne : matière, origine, entretien, garantie</div>
+      <label>CATÉGORIE *</label>
+      <select id="pCat">
+        <option value="">Choisir…</option>
+        <option value="mode">Mode & Vêtements</option>
+        <option value="electronique">Électronique</option>
+        <option value="beaute">Beauté & Soins</option>
+        <option value="maison">Maison & Déco</option>
+        <option value="alimentation">Alimentation</option>
+        <option value="sport">Sport & Loisirs</option>
+        <option value="bebe">Bébé & Enfant</option>
+        <option value="auto">Auto & Moto</option>
+      </select>
     </div>
-    <div class="grid2">
-      <div class="fld">
-        <label>Catégorie <span style="color:#e63946">*</span></label>
-        <select id="fCat" onchange="updateSubs()">
-          <option value="">Choisir…</option>
-          <option value="mode">👗 Mode</option>
-          <option value="electronique">📱 Tech</option>
-          <option value="beaute">💄 Beauté</option>
-          <option value="maison">🏠 Maison</option>
-          <option value="alimentaire">🛒 Épicerie</option>
-          <option value="sport">💪 Sport</option>
-          <option value="bebe">🍼 Bébé & Maman</option>
-        </select>
-      </div>
-      <div class="fld">
-        <label>Sous-catégorie</label>
-        <select id="fSub"><option value="">D'abord la catégorie</option></select>
-      </div>
+    <div class="fld" id="subWrap" style="display:none">
+      <label>SOUS-CATÉGORIE *</label>
+      <select id="pSub"><option value="">Choisir d'abord la catégorie…</option></select>
+    </div>
+    <div class="fld" style="margin-bottom:0">
+      <label>DESCRIPTION *</label>
+      <textarea id="pDesc" placeholder="Matière, tailles disponibles, état (neuf/occasion), ce qui est inclus…"></textarea>
+      <div class="hint">Plus tu détailles, moins le client pose de questions = plus tu vends vite.</div>
     </div>
   </div>
 
-  <!-- Étape 2 : Photos -->
-  <div class="bloc">
-    <h2><i data-lucide="camera" style="width:14px"></i> PHOTOS (jusqu'à 3)</h2>
-    <div class="photo-row" id="photoRow">
-      <label class="photo-slot" data-slot="0"><input type="file" accept="image/*" onchange="addPhoto(this,0)"><i data-lucide="camera" style="width:20px"></i>Photo 1</label>
-      <label class="photo-slot" data-slot="1"><input type="file" accept="image/*" onchange="addPhoto(this,1)"><i data-lucide="camera" style="width:20px"></i>Photo 2</label>
-      <label class="photo-slot" data-slot="2"><input type="file" accept="image/*" onchange="addPhoto(this,2)"><i data-lucide="camera" style="width:20px"></i>Photo 3</label>
-    </div>
-    <div class="hint" style="margin-top:8px"><i data-lucide="info" style="width:11px"></i> Fond clair, bonne lumière, le produit seul. La 1ère photo = celle des listes.</div>
-    <div class="fld" style="margin-top:10px">
-      <label>…ou colle des liens d'images (1 par ligne)</label>
-      <textarea id="fImgUrls" placeholder="https://…&#10;https://…" style="min-height:60px;font-size:11px"></textarea>
-    </div>
-  </div>
-
-  <!-- Étape 3 : Prix + stock -->
-  <div class="bloc">
-    <h2><i data-lucide="banknote" style="width:14px"></i> PRIX & STOCK <span class="req">*</span></h2>
+  <!-- PRIX — GRILLE 2 COLONNES (fix débordement) -->
+  <div class="card">
+    <h3><i data-lucide="banknote"></i>Prix</h3>
     <div class="grid2">
       <div class="fld">
-        <label>Prix de vente (FCFA) <span style="color:#e63946">*</span></label>
-        <input type="number" id="fPrice" placeholder="17500" min="100" oninput="calcMarge()">
+        <label>PRIX DE VENTE *</label>
+        <div class="price-wrap">
+          <input id="pPrice" type="number" inputmode="numeric" placeholder="17500" min="100">
+          <span class="suf">FCFA</span>
+        </div>
       </div>
       <div class="fld">
-        <label>Ancien prix (promo)</label>
-        <input type="number" id="fOld" placeholder="25000" min="0" oninput="calcMarge()">
-        <div class="hint">Laisser vide = pas de promo</div>
+        <label>ANCIEN PRIX <span class="opt">(promo)</span></label>
+        <div class="price-wrap">
+          <input id="pOldPrice" type="number" inputmode="numeric" placeholder="25000" min="0">
+          <span class="suf">FCFA</span>
+        </div>
       </div>
     </div>
-    <div class="grid2">
-      <div class="fld">
-        <label>Stock <span style="color:#e63946">*</span></label>
-        <input type="number" id="fStock" placeholder="15" min="0" value="10">
-        <div class="hint"><i data-lucide="zap" style="width:11px"></i> &lt; 5 = badge « Plus que X ! »</div>
-      </div>
-      <div class="fld">
-        <label>Ton coût d'achat (FCFA)</label>
-        <input type="number" id="fCost" placeholder="10000" min="0" oninput="calcMarge()">
-        <div class="hint">Pour calculer ta marge</div>
-      </div>
-    </div>
+    <div class="hint" style="margin-top:6px">Ancien prix rempli = badge <b>PROMO -X%</b> affiché automatiquement. Laisse vide si pas de promo.</div>
 
-    <!-- Calculateur de marge en direct -->
     <div class="marge-box" id="margeBox" style="display:none">
-      <h3><i data-lucide="calculator" style="width:13px"></i> TA MARGE EN DIRECT</h3>
-      <div class="marge-row"><span>Prix de vente</span><b id="mSale">0 F</b></div>
-      <div class="marge-row deduct"><span>Commission SEN TEW (5%)</span><b id="mCom">−0 F</b></div>
-      <div class="marge-row deduct" id="mShipRow" style="display:none"><span>Livraison gratuite (tu l'offres)</span><b id="mShip">−0 F</b></div>
-      <div class="marge-row deduct" id="mCostRow" style="display:none"><span>Ton coût d'achat</span><b id="mCost">−0 F</b></div>
-      <div class="marge-row net"><span>Tu gagnes</span><b class="mv" id="mNet">0 F</b></div>
-      <div class="marge-pct" id="mPct"></div>
+      <h4><i data-lucide="calculator"></i>Ta marge réelle (calcul en direct)</h4>
+      <div class="m-row"><span>Prix de vente</span><b id="mPrix">—</b></div>
+      <div class="m-row"><span>Commission SEN TEW</span><b id="mComm">—</b></div>
+      <div class="m-row" id="mShipRow" style="display:none"><span>Livraison gratuite (à ta charge)</span><b id="mShip">—</b></div>
+      <div class="m-row net"><span>Tu reçois par vente</span><b id="mNet">—</b></div>
     </div>
   </div>
 
-  <!-- Options -->
-  <div class="bloc">
-    <h2><i data-lucide="settings-2" style="width:14px"></i> OPTIONS</h2>
-    <div class="switch-row">
-      <div class="si" style="background:#e8f5f0;color:#0f6b4e"><i data-lucide="truck" style="width:16px"></i></div>
-      <div style="flex:1;min-width:0"><b>Livraison gratuite</b><small>Le client ne paie rien — tu l'inclus dans ton prix. Badge « 🚚 Gratuit » partout = +40% de ventes</small></div>
-      <button type="button" class="sw" id="swShip" onclick="toggleShip(this)"></button>
+  <!-- STOCK + LIVRAISON -->
+  <div class="card">
+    <h3><i data-lucide="boxes"></i>Stock & livraison</h3>
+    <div class="grid2">
+      <div class="fld">
+        <label>QUANTITÉ EN STOCK *</label>
+        <input id="pStock" type="number" inputmode="numeric" placeholder="10" min="1">
+      </div>
+      <div class="fld">
+        <label>POIDS <span class="opt">(estimation)</span></label>
+        <input id="pWeight" type="number" inputmode="numeric" placeholder="500" min="0">
+      </div>
     </div>
-    <div class="switch-row" style="margin-top:8px">
-      <div class="si" style="background:#fef3c7;color:#92400e"><i data-lucide="sparkles" style="width:16px"></i></div>
-      <div style="flex:1;min-width:0"><b>Mettre en avant dès l'ajout</b><small>Utilise 1 boost de ton quota → en tête de l'accueil 24h</small></div>
-      <button type="button" class="sw" id="swBoost"></button>
+    <div class="ship-toggle" id="shipToggle" style="margin-top:12px">
+      <div class="tog"></div>
+      <div>
+        <b>Livraison gratuite offerte</b>
+        <span>Tu paies la livraison à la place du client. Les produits "livraison gratuite" vendent 2× plus — vérifie ta marge ci-dessus.</span>
+      </div>
     </div>
   </div>
 
-  <div class="tip" onclick="document.getElementById('tipModal').classList.add('show')">
-    <i data-lucide="info"></i>
-    <span><b>Le secret des fiches qui vendent</b> — Prix juste + 3 photos nettes + description détaillée + livraison gratuite = top des résultats. Touche pour la checklist complète.</span>
-  </div>
-</form>
-
-<div class="submit-bar">
-  <button class="btn-submit" id="btnSubmit" onclick="submit()"><i data-lucide="check" style="width:16px"></i> Publier le produit</button>
+  <button class="btn" id="publishBtn"><i data-lucide="rocket"></i>Publier le produit</button>
 </div>
 
-<div class="modal" id="tipModal">
-  <div class="m-box">
-    <h3>💡 La checklist du produit parfait</h3>
-    <p>
-      <b>1. Nom clair</b> — Ce que c'est + modèle + détail. Ex : « Robe wax moderne femme – taille M » pas juste « Robe ».<br><br>
-      <b>2. 3 photos</b> — Face, détail (matière/couture), porté ou en situation. Fond clair, lumière naturelle.<br><br>
-      <b>3. Description qui rassure</b> — Matière, origine (Sénégal = argument !), entretien, garantie, contenu du colis.<br><br>
-      <b>4. Prix juste</b> — Regarde le calculateur de marge. Vise 30-50% de marge nette. La livraison gratuite incluse se remarque et vend mieux.<br><br>
-      <b>5. Stock réel</b> — Mets ton vrai stock. Une rupture mal gérée = avis négatif.<br><br>
-      <b>6. Boost au bon moment</b> — Le soir (19h-22h) et le week-end = plus de vues.
-    </p>
-    <button onclick="document.getElementById('tipModal').classList.remove('show')">Compris</button>
-  </div>
+<!-- SUCCÈS -->
+<div class="success" id="successBox">
+  <div class="si"><i data-lucide="check"></i></div>
+  <h2>Produit publié !</h2>
+  <p>Il est maintenant visible par tous les clients SEN TEW.<br>Retouche-le à tout moment depuis « Mes produits ».</p>
+  <button class="btn" onclick="window.location.href='produits-vendeur.html'"><i data-lucide="package"></i>Voir mes produits</button>
 </div>
+
+<div class="tip" onclick="alert('Conseils de pro pour vendre vite\n\n• Photo 1 : produit seul, fond clair, lumière du jour\n• Prix promo réel : le client vérifie — une fausse promo détruit ta note\n• Livraison gratuite = badge vert + 2× plus de ventes si ta marge le permet\n• Stock réel : un client qui commande un produit épuisé = litige\n\nⓘ Produits sponsorisés : booste ce produit depuis Promotions dans ton espace.')">ⓘ<span>Astuce : photo claire + promo réelle + livraison gratuite = les 3 leviers n°1 des vendeurs qui réussissent. Clique pour les conseils.</span></div>
 
 <script>
-var VENDOR_SLUG = new URLSearchParams(location.search).get('v') || 'aicha-couture';
-var VENDOR = null;
-var PHOTOS = [null, null, null];
-var FREE_SHIP = false, BOOST = false;
+lucide.createIcons();
+var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
+var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
 
-var SUBS = {
-  mode: [['vetements','Vêtements'],['chaussures','Chaussures'],['accessoires','Accessoires'],['tissus','Wax & Bazin'],['enfants','Enfants']],
-  electronique: [['smartphones','Smartphones'],['ordinateurs','Ordinateurs'],['audio','Audio & Écouteurs'],['accessoires-tech','Accessoires'],['tv','TV & Image']],
-  beaute: [['soins','Soins visage'],['corps','Corps'],['cheveux','Cheveux'],['parfums','Parfums']],
-  maison: [['cuisine','Cuisine'],['deco','Décoration'],['textile','Linge de maison']],
-  alimentaire: [['cereales','Céréales'],['epices','Épices'],['boissons','Boissons']],
-  sport: [['fitness','Fitness'],['football','Football'],['vetements-sport','Vêtements']],
-  bebe: [['puericulture','Puériculture'],['jouets','Jouets'],['allaitement','Maman']]
+function showErr(m){var b=document.getElementById('errBox');b.textContent=m;b.classList.remove('show');void b.offsetWidth;b.classList.add('show');window.scrollTo({top:0,behavior:'smooth'})}
+function hideErr(){document.getElementById('errBox').classList.remove('show')}
+function fmt(n){return (n||0).toLocaleString('fr-FR')+' F'}
+
+/* ===== Vendeur connecté ? ===== */
+var USER=null;
+try{USER=JSON.parse(localStorage.getItem('st_user'))}catch(e){}
+
+/* ===== Sous-catégories dynamiques ===== */
+var SUBS={
+  mode:['vetements','chaussures','sacs & accessoires','pagnes & tissus','bijoux'],
+  electronique:['smartphones','ordinateurs','audio','tv & video','accessoires'],
+  beaute:['soins visage','soins corps','cheveux','maquillage','parfums'],
+  maison:['meubles','cuisine','decoration','literie','electromenager'],
+  alimentation:['cereales','epices','boissons','produits locaux','conserves'],
+  sport:['fitness','football','cyclisme','arts martiaux'],
+  bebe:['vetements bebe','jouets','puériculture','alimentation bebe'],
+  auto:['pieces detachees','accessoires auto','entretien']
 };
-
-getVendorBySlug(VENDOR_SLUG).then(function(v){ VENDOR = v; });
-
-function updateSubs(){
-  var c = document.getElementById('fCat').value;
-  var sel = document.getElementById('fSub');
-  sel.innerHTML = '<option value="">Choisir…</option>' +
-    (SUBS[c] || []).map(function(s){ return '<option value="' + s[0] + '">' + s[1] + '</option>'; }).join('');
-  document.getElementById('s1').classList.add('on');
-}
-
-// Photos
-function addPhoto(input, slot){
-  var file = input.files && input.files[0];
-  if (!file) return;
-  var reader = new FileReader();
-  reader.onload = function(e){
-    PHOTOS[slot] = e.target.result;
-    renderPhotos();
-  };
-  reader.readAsDataURL(file);
-  document.getElementById('s2').classList.add('on');
-}
-function removePhoto(slot, e){
-  e.preventDefault(); e.stopPropagation();
-  PHOTOS[slot] = null;
-  renderPhotos();
-}
-function renderPhotos(){
-  document.querySelectorAll('.photo-slot').forEach(function(el){
-    var i = parseInt(el.dataset.slot);
-    if (PHOTOS[i]) {
-      el.classList.add('full');
-      el.innerHTML = '<img src="' + PHOTOS[i] + '"><button class="rm" onclick="removePhoto(' + i + ',event)">✕</button>';
-    } else {
-      el.classList.remove('full');
-      el.innerHTML = '<input type="file" accept="image/*" onchange="addPhoto(this,' + i + ')"><i data-lucide="camera" style="width:20px"></i>Photo ' + (i+1);
-    }
-  });
-  lucide.createIcons();
-}
-
-function toggleShip(el){
-  FREE_SHIP = !FREE_SHIP;
-  el.classList.toggle('on', FREE_SHIP);
-  calcMarge();
-}
-document.getElementById('swBoost').addEventListener('click', function(){
-  BOOST = !BOOST;
-  this.classList.toggle('on', BOOST);
+document.getElementById('pCat').addEventListener('change',function(){
+  var sub=document.getElementById('pSub'),wrap=document.getElementById('subWrap');
+  var list=SUBS[this.value]||[];
+  if(!list.length){wrap.style.display='none';return}
+  wrap.style.display='block';
+  sub.innerHTML='<option value="">Choisir…</option>'+list.map(function(s){return '<option value="'+s+'">'+s.charAt(0).toUpperCase()+s.slice(1)+'</option>'}).join('');
 });
 
-// Calculateur de marge
-function calcMarge(){
-  var price = parseInt(document.getElementById('fPrice').value) || 0;
-  var cost  = parseInt(document.getElementById('fCost').value) || 0;
-  var box = document.getElementById('margeBox');
-  if (price <= 0) { box.style.display = 'none'; return; }
-  box.style.display = 'block';
-  var com = Math.round(price * 0.05);
-  var ship = FREE_SHIP ? 1500 : 0;
-  var net = price - com - ship - cost;
-  document.getElementById('mSale').textContent = fmtPrix(price) + ' F';
-  document.getElementById('mCom').textContent = '−' + fmtPrix(com) + ' F';
-  document.getElementById('mShipRow').style.display = FREE_SHIP ? 'flex' : 'none';
-  document.getElementById('mShip').textContent = '−' + fmtPrix(ship) + ' F';
-  document.getElementById('mCostRow').style.display = cost > 0 ? 'flex' : 'none';
-  document.getElementById('mCost').textContent = '−' + fmtPrix(cost) + ' F';
-  document.getElementById('mNet').textContent = fmtPrix(net) + ' F';
-  document.getElementById('mNet').style.color = net > 0 ? '#059669' : '#dc2626';
-  document.getElementById('mPct').textContent = price > 0 ? 'Marge nette : ' + Math.round(net / price * 100) + '%' + (net <= 0 ? ' — ⚠️ trop faible, augmente ton prix' : net / price < 0.2 ? ' — correcte' : ' — excellente 👍') : '';
-  document.getElementById('s3').classList.add('on');
-}
-
-function submit(){
-  var name = document.getElementById('fName').value.trim();
-  var desc = document.getElementById('fDesc').value.trim();
-  var cat  = document.getElementById('fCat').value;
-  var sub  = document.getElementById('fSub').value;
-  var price = parseInt(document.getElementById('fPrice').value);
-  var old  = parseInt(document.getElementById('fOld').value) || null;
-  var stock = parseInt(document.getElementById('fStock').value);
-  var cost = parseInt(document.getElementById('fCost').value) || null;
-
-  if (!name)  { toast('❌ Nom du produit requis'); document.getElementById('fName').focus(); return; }
-  if (!desc)  { toast('❌ Description requise'); document.getElementById('fDesc').focus(); return; }
-  if (!cat)   { toast('❌ Choisis une catégorie'); return; }
-  if (!price || price < 100) { toast('❌ Prix minimum : 100 FCFA'); return; }
-  if (isNaN(stock) || stock < 0) { toast('❌ Indique le stock'); return; }
-  if (old && old <= price) { toast('❌ L\'ancien prix doit être supérieur au prix de vente'); return; }
-  if (!VENDOR) { toast('❌ Vendeur introuvable'); return; }
-
-  // Images : photos uploadées OU liens
-  var urlImgs = document.getElementById('fImgUrls').value.split('\n').map(function(u){ return u.trim(); }).filter(function(u){ return u.indexOf('http') === 0; });
-  var images = PHOTOS.filter(Boolean).concat(urlImgs);
-  if (!images.length) images = [''];
-
-  var btn = document.getElementById('btnSubmit');
-  btn.disabled = true;
-  btn.innerHTML = 'Publication…';
-
-  supaWrite('products', 'POST', {
-    vendor_id: VENDOR.id,
-    name: name,
-    description: desc,
-    category: cat,
-    subcategory: sub || null,
-    price: price,
-    old_price: old,
-    images: images,
-    stock: stock,
-    free_shipping: FREE_SHIP,
-    is_active: true,
-    rating: 0,
-    review_count: 0,
-    sold_count: 0
-  }).then(function(res){
-    var o = Array.isArray(res) ? res[0] : res;
-    if (!o || o.code) { throw new Error('err'); return; }
-
-    // Boost immédiat si demandé
-    if (BOOST) {
-      boosterProduit(VENDOR, o).then(function(bres){ toast(bres.msg); });
-    }
-
-    document.body.innerHTML =
-      '<div class="success">' +
-        '<div class="ok"><i data-lucide="check" style="width:36px"></i></div>' +
-        '<h2>Produit publié ! 🎉</h2>' +
-        '<p><b>' + name + '</b> est maintenant en ligne sur SEN TEW.<br>Visible dans l\'accueil, les catégories et la recherche.</p>' +
-        '<div class="btns">' +
-          '<a class="b-green" href="produit.html?pid=' + o.id + '">Voir la fiche</a>' +
-          '<button class="b-grey" onclick="location.href=\'ajouter-produit.html?v=' + VENDOR_SLUG + '\'">+ Un autre</button>' +
-        '</div>' +
-        '<div style="margin-top:12px"><a href="produits-vendeur.html?v=' + VENDOR_SLUG + '" style="font-size:12px;color:#0f6b4e;font-weight:800;text-decoration:none">← Mes produits</a></div>' +
-      '</div>';
-    lucide.createIcons();
-    window.scrollTo(0, 0);
-  }).catch(function(){
-    btn.disabled = false;
-    btn.innerHTML = '<i data-lucide="check" style="width:16px"></i> Publier le produit';
-    toast('❌ Erreur, réessaie');
-    lucide.createIcons();
+/* ===== Photos (prévisualisation locale) ===== */
+var PHOTO_URLS=[];
+document.getElementById('photoZone').onclick=function(){document.getElementById('photoInput').click()};
+document.getElementById('photoInput').addEventListener('change',function(){
+  var files=Array.from(this.files).slice(0,4);
+  var prev=document.getElementById('photoPreview');
+  prev.innerHTML='';
+  PHOTO_URLS=[];
+  files.forEach(function(f){
+    var url=URL.createObjectURL(f);
+    PHOTO_URLS.push(url);
+    var img=document.createElement('img');
+    img.src=url;prev.appendChild(img);
   });
-}
+});
 
-renderPhotos();
-function renderIcons(){ if (window.lucide) lucide.createIcons(); }
-renderIcons();
-window.addEventListener('load', renderIcons);
-setTimeout(renderIcons, 600);
+/* ===== Livraison gratuite ===== */
+var FREE_SHIP=false;
+document.getElementById('shipToggle').onclick=function(){
+  FREE_SHIP=!FREE_SHIP;
+  this.classList.toggle('on',FREE_SHIP);
+  calcMarge();
+};
+
+/* ===== Calculateur de marge en direct ===== */
+function calcMarge(){
+  var price=parseInt(document.getElementById('pPrice').value)||0;
+  var box=document.getElementById('margeBox');
+  if(price<100){box.style.display='none';return}
+  box.style.display='block';
+  var comm=Math.round(price*0.08); /* niveau Teranga par défaut */
+  var ship=FREE_SHIP?1500:0;
+  var net=price-comm-ship;
+  document.getElementById('mPrix').textContent=fmt(price);
+  document.getElementById('mComm').textContent='- '+fmt(comm);
+  document.getElementById('mShipRow').style.display=FREE_SHIP?'flex':'none';
+  document.getElementById('mShip').textContent='- '+fmt(ship);
+  var netRow=document.getElementById('mNet');
+  netRow.textContent=fmt(net);
+  netRow.parentElement.classList.toggle('warn',net<price*0.7);
+}
+document.getElementById('pPrice').addEventListener('input',calcMarge);
+
+/* ===== PUBLICATION ===== */
+document.getElementById('publishBtn').onclick=function(){
+  var name=document.getElementById('pName').value.trim();
+  var cat=document.getElementById('pCat').value;
+  var sub=document.getElementById('pSub').value;
+  var desc=document.getElementById('pDesc').value.trim();
+  var price=parseInt(document.getElementById('pPrice').value)||0;
+  var oldPrice=parseInt(document.getElementById('pOldPrice').value)||null;
+  var stock=parseInt(document.getElementById('pStock').value)||0;
+  var weight=parseInt(document.getElementById('pWeight').value)||null;
+
+  if(name.length<3){showErr('Nom du produit trop court.');return}
+  if(!cat){showErr('Choisis une catégorie.');return}
+  if(document.getElementById('subWrap').style.display!=='none'&&!sub){showErr('Choisis une sous-catégorie.');return}
+  if(desc.length<10){showErr('Description trop courte (10 caractères min).');return}
+  if(price<100){showErr('Prix minimum : 100 FCFA.');return}
+  if(oldPrice&&oldPrice<=price){showErr('L\'ancien prix doit être supérieur au prix de vente (sinon ce n\'est pas une promo).');return}
+  if(stock<1){showErr('Stock minimum : 1.');return}
+
+  var btn=this;btn.disabled=true;btn.innerHTML='Publication en cours…';
+
+  /* Vendeur démo par défaut si non connecté (Aïcha Couture) */
+  var vendorId=(USER&&USER.vendor_id)||'11111111-1111-1111-1111-111111111111';
+
+  fetch(SUPA_URL+'/rest/v1/products',{
+    method:'POST',
+    headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+    body:JSON.stringify({
+      vendor_id:vendorId,
+      name:name,description:desc,
+      category:cat,subcategory:sub||null,
+      price:price,old_price:oldPrice,
+      images:PHOTO_URLS.length?PHOTO_URLS:['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600'],
+      stock:stock,weight_g:weight,
+      free_shipping:FREE_SHIP,
+      is_active:true,rating:0,review_count:0,sold_count:0
+    })
+  })
+  .then(function(r){
+    if(r.ok||r.status===201){
+      document.getElementById('formZone').style.display='none';
+      document.getElementById('successBox').classList.add('show');
+      lucide.createIcons();
+      window.scrollTo({top:0,behavior:'smooth'});
+    }else{
+      showErr('Erreur de publication ('+r.status+'). Réessaie.');
+      btn.disabled=false;btn.innerHTML='<i data-lucide="rocket"></i>Publier le produit';lucide.createIcons();
+    }
+  })
+  .catch(function(){
+    showErr('Pas de connexion internet. Réessaie.');
+    btn.disabled=false;btn.innerHTML='<i data-lucide="rocket"></i>Publier le produit';lucide.createIcons();
+  });
+};
 </script>
-<script src="js/dark-mode.js"></script>
 </body>
 </html>
