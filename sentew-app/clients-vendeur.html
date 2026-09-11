@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Mes Clients - SEN TEW Vendeur</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/security-shield.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;max-width:100vw}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:90px;color:#0a1f17}
+.topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:50}
+.topbar h1{font-size:16px;font-weight:900;color:#0f6b4e;flex:1;display:flex;align-items:center;gap:8px}
+.topbar h1 i{width:18px;height:18px}
+.icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;color:#0f6b4e;text-decoration:none}
+.icon-btn i{width:17px;height:17px}
+/* Résumé */
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;padding:12px 14px 0}
+.sum{background:#fff;border-radius:14px;padding:12px 8px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.sum b{font-size:17px;font-weight:900;display:block;color:#0f6b4e}
+.sum span{font-size:9px;color:#9aa5a0;font-weight:700;display:block;margin-top:3px}
+/* Filtres */
+.filters{display:flex;gap:7px;padding:12px 14px 0;overflow-x:auto;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.flt{flex-shrink:0;padding:8px 14px;border-radius:18px;border:1.5px solid #e5e7eb;background:#fff;font-size:11px;font-weight:800;color:#4b5563;cursor:pointer;white-space:nowrap}
+.flt.on{background:#0f6b4e;color:#fff;border-color:#0f6b4e}
+/* Recherche */
+.search{display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid #e5e7eb;border-radius:12px;padding:0 12px;margin:12px 14px 0}
+.search i{width:15px;height:15px;color:#9aa5a0}
+.search input{flex:1;border:none;outline:none;padding:11px 0;font-size:13px;background:transparent}
+/* Carte client */
+.client{background:#fff;margin:10px 14px 0;border-radius:15px;padding:13px;box-shadow:0 2px 8px rgba(0,0,0,.05);display:flex;align-items:center;gap:11px;animation:fadeIn .25s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.cl-ava{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#0f6b4e,#10b981);color:#fff;font-weight:900;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cl-txt{flex:1;min-width:0}
+.cl-txt b{font-size:13px;display:flex;align-items:center;gap:6px}
+.cl-txt .cl-sub{font-size:10.5px;color:#6b7280;display:block;margin-top:2px}
+.cl-right{text-align:right;flex-shrink:0}
+.cl-right .ca{font-size:13px;font-weight:900;color:#0f6b4e;display:block}
+.cl-right .nb{font-size:9.5px;color:#9aa5a0;font-weight:700}
+.vip-tag{font-size:8.5px;font-weight:900;background:#fef3c7;color:#b45309;padding:2px 7px;border-radius:8px}
+.new-tag{font-size:8.5px;font-weight:900;background:#dbeafe;color:#1e40af;padding:2px 7px;border-radius:8px}
+/* Segment cards */
+.seg{display:flex;gap:9px;padding:0 14px;margin-top:12px}
+.seg-card{flex:1;background:#fff;border-radius:14px;padding:13px 11px;box-shadow:0 2px 8px rgba(0,0,0,.05);cursor:pointer;transition:transform .15s}
+.seg-card:active{transform:scale(.97)}
+.seg-card .sg-i{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:7px}
+.seg-card .sg-i i{width:16px;height:16px}
+.seg-card b{font-size:11px;display:block}
+.seg-card span{font-size:9px;color:#9aa5a0;display:block;margin-top:2px;line-height:1.35}
+.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:14px;font-size:11.5px;color:#92400e;cursor:pointer;line-height:1.55}
+.empty{text-align:center;padding:30px;color:#9aa5a0;font-size:12px;background:#fff;border-radius:14px;margin:12px 14px 0}
+.empty .ei{font-size:36px;margin-bottom:8px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e5e7eb;display:flex;z-index:60;padding:6px 0 max(6px,env(safe-area-inset-bottom))}
+.bottom-nav a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:#9aa5a0;font-size:9.5px;font-weight:700;padding:4px 0;min-height:44px;justify-content:center}
+.bottom-nav a.on{color:#0f6b4e}
+.bottom-nav a i{width:20px;height:20px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="icon-btn" href="vendeur.html"><i data-lucide="arrow-left"></i></a>
+  <h1><i data-lucide="users"></i>Mes clients</h1>
+  <a class="icon-btn" href="messages.html"><i data-lucide="message-square"></i></a>
+</div>
+
+<div class="summary" id="summary">
+  <div class="sum"><b>—</b><span>CLIENTS</span></div>
+  <div class="sum"><b>—</b><span>VIP 🏆</span></div>
+  <div class="sum"><b>—</b><span>NOUVEAUX</span></div>
+</div>
+
+<div class="filters" id="filters">
+  <button class="flt on" data-f="all">Tous</button>
+  <button class="flt" data-f="vip">🏆 VIP (3+ commandes)</button>
+  <button class="flt" data-f="new">🆕 Nouveaux</button>
+  <button class="flt" data-f="big">💰 Gros acheteurs</button>
+</div>
+
+<div class="search">
+  <i data-lucide="search"></i>
+  <input id="searchInput" placeholder="Rechercher un client par nom ou téléphone…">
+</div>
+
+<div class="seg">
+  <div class="seg-card" onclick="segAction('vip')">
+    <div class="sg-i" style="background:#fef3c7;color:#b45309"><i data-lucide="crown"></i></div>
+    <b>Fidéliser les VIP</b>
+    <span>Envoie un code promo à tes meilleurs clients</span>
+  </div>
+  <div class="seg-card" onclick="segAction('back')">
+    <div class="sg-i" style="background:#dbeafe;color:#1e40af"><i data-lucide="rotate-ccw"></i></div>
+    <b>Faire revenir</b>
+    <span>Relance ceux qui n'ont pas commandé depuis 30j</span>
+  </div>
+</div>
+
+<div id="clientList"><div class="empty"><div class="ei">⏳</div>Chargement de tes clients…</div></div>
+
+<div class="tip" onclick="alert('Gérer tes clients comme un pro\n\n• VIP (3+ commandes) = 20% de tes clients font 60% de ton CA — chouchoute-les\n• Nouveau client = envoie-lui un message de remerciement, il reviendra\n• Gros acheteur = propose-lui tes nouveautés en premier\n• Client qui ne revient plus = code promo de retour\n\nⓘ Un client fidélisé coûte 5× moins cher qu\'un nouveau.')"><span>ⓘ</span><span>Astuce : 20% de tes clients font 60% de tes ventes. Clique pour la méthode de fidélisation des pros.</span></div>
+
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home"></i>Accueil</a>
+  <a href="produits-vendeur.html"><i data-lucide="package"></i>Produits</a>
+  <a href="commandes-vendeur.html"><i data-lucide="shopping-bag"></i>Commandes</a>
+  <a href="messages.html"><i data-lucide="message-circle"></i>Messages</a>
+  <a href="vendeur.html" class="on"><i data-lucide="store"></i>Boutique</a>
+</nav>
+
+<script>
+lucide.createIcons();
+var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
+var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
+function esc(s){var d=document.createElement('div');d.textContent=String(s==null?'':s);return d.innerHTML}
+function fmt(n){return (n||0).toLocaleString('fr-FR')+' F'}
+function $(id){return document.getElementById(id)}
+
+var CLIENTS=[],FILTER='all',QUERY='';
+
+/* Charge les commandes et construit les profils clients */
+fetch(SUPA_URL+'/rest/v1/orders?select=client_id,total,status,created_at&order=created_at.desc&limit=300',{
+  headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}})
+.then(function(r){return r.json()})
+.then(function(orders){
+  return buildClients(orders||[]);
+})
+.then(function(){
+  renderSummary();renderList();
+})
+.catch(function(){
+  $('clientList').innerHTML='<div class="empty"><div class="ei">📡</div>Erreur réseau — recharge la page.</div>';
+});
+
+function buildClients(orders){
+  /* Groupe par client_id */
+  var map={};
+  orders.forEach(function(o){
+    if(o.status==='cancelled'||!o.client_id)return;
+    if(!map[o.client_id])map[o.client_id]={id:o.client_id,count:0,total:0,lastOrder:null,firstOrder:null};
+    map[o.client_id].count++;
+    map[o.client_id].total+=(o.total||0);
+    var d=new Date(o.created_at);
+    if(!map[o.client_id].lastOrder||d>map[o.client_id].lastOrder)map[o.client_id].lastOrder=d;
+    if(!map[o.client_id].firstOrder||d<map[o.client_id].firstOrder)map[o.client_id].firstOrder=d;
+  });
+  var ids=Object.keys(map);
+  if(!ids.length){CLIENTS=[];return Promise.resolve()}
+  /* Récupère les infos clients */
+  return fetch(SUPA_URL+'/rest/v1/users?id=in.('+ids.join(',')+')&select=id,full_name,phone,avatar_url,loyalty_points',{
+    headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}})
+  .then(function(r){return r.json()})
+  .then(function(users){
+    CLIENTS=(users||[]).map(function(u){
+      var m=map[u.id]||{count:0,total:0};
+      return {
+        id:u.id,name:u.full_name||'Client',phone:u.phone||'',
+        avatar:u.avatar_url||'',points:u.loyalty_points||0,
+        orders:m.count,total:m.total,lastOrder:m.lastOrder,firstOrder:m.firstOrder,
+        isVip:m.count>=3,
+        isNew:m.count===1&&(Date.now()-m.firstOrder)<14*86400000,
+        isBig:m.total>=100000
+      };
+    }).sort(function(a,b){return b.total-a.total});
+  });
+}
+
+function renderSummary(){
+  var vip=CLIENTS.filter(function(c){return c.isVip}).length;
+  var nw=CLIENTS.filter(function(c){return c.isNew}).length;
+  $('summary').innerHTML=
+    '<div class="sum"><b>'+CLIENTS.length+'</b><span>CLIENTS</span></div>'+
+    '<div class="sum"><b>'+vip+'</b><span>VIP 🏆</span></div>'+
+    '<div class="sum"><b>'+nw+'</b><span>NOUVEAUX</span></div>';
+}
+
+function renderList(){
+  var list=CLIENTS.filter(function(c){
+    if(FILTER==='vip'&&!c.isVip)return false;
+    if(FILTER==='new'&&!c.isNew)return false;
+    if(FILTER==='big'&&!c.isBig)return false;
+    if(QUERY&&(c.name.toLowerCase().indexOf(QUERY)===-1&&c.phone.indexOf(QUERY)===-1))return false;
+    return true;
+  });
+  if(!list.length){
+    $('clientList').innerHTML='<div class="empty"><div class="ei">👥</div>'+(CLIENTS.length?'Aucun client dans ce filtre.':'Tes premiers clients apparaîtront ici dès ta première vente.')+'</div>';
+    return;
+  }
+  $('clientList').innerHTML=list.map(function(c){
+    var tags='';
+    if(c.isVip)tags+='<span class="vip-tag">🏆 VIP</span> ';
+    if(c.isNew)tags+='<span class="new-tag">🆕 Nouveau</span>';
+    var last=c.lastOrder?'Dernière commande : '+c.lastOrder.toLocaleDateString('fr-FR'):'';
+    return '<div class="client">'+
+      '<div class="cl-ava">'+(c.name.charAt(0).toUpperCase())+'</div>'+
+      '<div class="cl-txt"><b>'+esc(c.name)+'</b> '+tags+
+      '<span class="cl-sub">'+esc(c.phone)+' · '+last+'</span></div>'+
+      '<div class="cl-right"><span class="ca">'+fmt(c.total)+'</span>'+
+      '<span class="nb">'+c.orders+' commande(s)</span></div></div>';
+  }).join('');
+}
+
+$('filters').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  this.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});
+  b.classList.add('on');FILTER=b.dataset.f;renderList();
+});
+$('searchInput').addEventListener('input',function(){QUERY=this.value.toLowerCase();renderList()});
+
+function segAction(type){
+  if(type==='vip'){
+    var n=CLIENTS.filter(function(c){return c.isVip}).length;
+    alert('🏆 Fidéliser tes VIP\n\n'+n+' client(s) VIP identifié(s).\n\nAction recommandée :\n• Crée un code promo VIP10 (-10%) dans ton espace\n• Envoie-le par message à chacun\n\nUn VIP remercié commande 2× plus souvent.');
+  }else{
+    var n=CLIENTS.filter(function(c){return c.lastOrder&&(Date.now()-c.lastOrder)>30*86400000}).length;
+    alert('🔄 Faire revenir tes clients\n\n'+n+' client(s) n\'ont pas commandé depuis 30 jours.\n\nAction recommandée :\n• Code COMEBACK5 (-5% + livraison gratuite)\n• Message personnalisé : « Tu nous manques ! »\n\nLes relances bien faites ramènent 25% des clients.');
+  }
+}
+</script>
+</body>
+</html>
