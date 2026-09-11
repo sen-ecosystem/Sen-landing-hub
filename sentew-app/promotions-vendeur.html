@@ -1,97 +1,269 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Promotions - SEN TEW</title>
-  <link rel="stylesheet" href="css/app.css?v=52">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 80px; }
-    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 10; }
-    .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
-    .icon-btn { background: transparent; border: none; cursor: pointer; padding: 8px; color: #0f6b4e; }
-    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 16px; }
-    .stat { background: #fff; padding: 12px 8px; border-radius: 10px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-    .stat .val { font-size: 18px; font-weight: 800; color: #0f6b4e; }
-    .stat .lbl { font-size: 11px; color: #666; }
-    .cta-add { background: linear-gradient(135deg, #dc2626, #991b1b); color: #fff; padding: 14px; border-radius: 12px; margin: 0 16px 12px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; border: none; width: calc(100% - 32px); cursor: pointer; }
-    .promo { background: #fff; margin: 0 16px 10px; padding: 14px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-    .promo-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-    .code { background: linear-gradient(135deg, #0f6b4e, #0a4d38); color: #fff; padding: 6px 14px; border-radius: 8px; font-weight: 800; font-size: 14px; letter-spacing: 1px; }
-    .badge { padding: 3px 10px; border-radius: 10px; font-size: 10px; font-weight: 700; background: #d1fae5; color: #065f46; }
-    .promo-info { font-size: 13px; color: #666; margin-top: 8px; }
-    .promo-actions { display: flex; gap: 8px; margin-top: 10px; }
-    .btn-mini { flex: 1; background: #f5f5f0; border: 1px solid #e5e7eb; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; }
-    .btn-mini.danger { color: #dc2626; border-color: #fecaca; }
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; }
-    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
-    .bottom-nav a.active { color: #0f6b4e; }
-    .bottom-nav a i { width: 22px; height: 22px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Promotions & Abonnements - SEN TEW Vendeur</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/security-shield.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;max-width:100vw}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:90px;color:#0a1f17}
+.topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:50}
+.topbar h1{font-size:16px;font-weight:900;color:#0f6b4e;flex:1;display:flex;align-items:center;gap:8px}
+.topbar h1 i{width:18px;height:18px}
+.icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;color:#0f6b4e;text-decoration:none}
+.icon-btn i{width:17px;height:17px}
+/* Mon plan actuel */
+.my-plan{margin:12px 14px 0;background:linear-gradient(135deg,#0a1f17,#0f6b4e);border-radius:18px;padding:18px;color:#fff;position:relative;overflow:hidden}
+.my-plan::after{content:'';position:absolute;top:-50px;right:-50px;width:140px;height:140px;background:#10b981;border-radius:50%;filter:blur(60px);opacity:.4}
+.my-plan .mp-tag{font-size:10px;font-weight:900;letter-spacing:1px;opacity:.8}
+.my-plan h2{font-size:22px;font-weight:900;margin-top:3px;position:relative}
+.my-plan .mp-sub{font-size:11.5px;opacity:.85;margin-top:4px;position:relative;line-height:1.5}
+.my-plan .mp-stats{display:flex;gap:10px;margin-top:13px;position:relative}
+.my-plan .mp-stat{flex:1;background:rgba(255,255,255,.1);border-radius:12px;padding:10px;text-align:center}
+.my-plan .mp-stat b{font-size:15px;display:block;color:#4ade80}
+.my-plan .mp-stat span{font-size:9px;opacity:.8;font-weight:700;display:block;margin-top:2px}
+/* Plans */
+.plans-title{margin:20px 14px 0;font-size:15px;font-weight:900;display:flex;align-items:center;gap:8px}
+.plans-title i{width:17px;height:17px;color:#0f6b4e}
+.plan{margin:12px 14px 0;background:#fff;border-radius:18px;padding:18px;box-shadow:0 3px 12px rgba(0,0,0,.06);border:2px solid transparent;position:relative}
+.plan.popular{border-color:#f59e0b}
+.plan.best{border-color:#8b5cf6}
+.plan .pop-tag{position:absolute;top:-11px;left:18px;background:#f59e0b;color:#fff;font-size:9.5px;font-weight:900;padding:4px 12px;border-radius:10px;letter-spacing:.3px}
+.plan.best .pop-tag{background:#8b5cf6}
+.plan-head{display:flex;align-items:center;gap:12px}
+.plan-ico{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:23px;flex-shrink:0}
+.plan-head b{font-size:17px;font-weight:900;display:block}
+.plan-head .pd{font-size:11px;color:#6b7280;margin-top:2px;display:block}
+.plan-price{margin-left:auto;text-align:right}
+.plan-price b{font-size:19px;font-weight:900;color:#0f6b4e;display:block}
+.plan-price span{font-size:9.5px;color:#9aa5a0;font-weight:700}
+.plan-feats{margin:13px 0 0;padding:0;list-style:none}
+.plan-feats li{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#374151;padding:5px 0;line-height:1.5}
+.plan-feats li i{width:15px;height:15px;color:#059669;flex-shrink:0;margin-top:1px}
+.plan-feats li.no{color:#b91c1c}
+.plan-feats li.no i{color:#dc2626}
+.plan-btn{width:100%;padding:14px;border-radius:13px;border:none;font-size:13.5px;font-weight:900;cursor:pointer;margin-top:13px;display:flex;align-items:center;justify-content:center;gap:7px}
+.plan-btn i{width:16px;height:16px}
+.pb-green{background:linear-gradient(135deg,#0f6b4e,#10b981);color:#fff;box-shadow:0 6px 16px rgba(15,107,78,.3)}
+.pb-line{background:#fff;border:1.5px solid #e5e7eb;color:#6b7280}
+.pb-current{background:#f0fdf4;border:1.5px solid #0f6b4e;color:#0f6b4e}
+/* Boost section */
+.boost-sec{margin:22px 14px 0}
+.boost-card{background:#fff;border-radius:16px;padding:15px;margin-bottom:9px;box-shadow:0 2px 8px rgba(0,0,0,.05);display:flex;align-items:center;gap:11px}
+.boost-card .bi{width:42px;height:42px;border-radius:12px;background:#f5f3ff;color:#6d28d9;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.boost-card .bi i{width:19px;height:19px}
+.boost-card b{font-size:12.5px;display:block}
+.boost-card span{font-size:10.5px;color:#6b7280;display:block;margin-top:2px}
+.boost-card .bb{margin-left:auto}
+.mbtn{font-size:10.5px;font-weight:800;padding:8px 13px;border-radius:10px;border:none;cursor:pointer;background:#0f6b4e;color:#fff;white-space:nowrap}
+.mbtn:disabled{background:#e5e7eb;color:#9aa5a0;cursor:not-allowed}
+.mbtn-boosted{background:#fef3c7;color:#92400e}
+/* Astuce */
+.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:14px;font-size:11.5px;color:#92400e;cursor:pointer;line-height:1.55}
+.empty{text-align:center;padding:26px;color:#9aa5a0;font-size:12px;background:#fff;border-radius:14px;margin:0 14px}
+</style>
 </head>
-<body class="light-mode">
+<body>
 
-<header class="topbar">
-  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
-  <h1><i data-lucide="percent"></i> Promotions</h1>
-  <button class="icon-btn" onclick="alert('Créer promotion')"><i data-lucide="plus"></i></button>
-</header>
-
-<div class="stats-row">
-  <div class="stat"><div class="val">3</div><div class="lbl">Actives</div></div>
-  <div class="stat"><div class="val">147</div><div class="lbl">Utilisations</div></div>
-  <div class="stat"><div class="val">245k</div><div class="lbl">Remises FCFA</div></div>
+<div class="topbar">
+  <a class="icon-btn" href="vendeur.html"><i data-lucide="arrow-left"></i></a>
+  <h1><i data-lucide="megaphone"></i>Promotions & Visibilité</h1>
 </div>
 
-<button class="cta-add" onclick="alert('Créer nouvelle promotion')">
-  <i data-lucide="plus-circle"></i> Créer une promotion
-</button>
+<!-- MON PLAN ACTUEL -->
+<div class="my-plan" id="myPlan"><div style="text-align:center;opacity:.7;font-size:12px">Chargement de ton plan…</div></div>
 
-<div class="promo">
-  <div class="promo-head">
-    <span class="code">RENTREE20</span>
-    <span class="badge">Active</span>
+<!-- LES 4 PLANS -->
+<div class="plans-title"><i data-lucide="crown"></i>Choisis ton plan</div>
+
+<!-- GRATUIT -->
+<div class="plan">
+  <div class="plan-head">
+    <div class="plan-ico" style="background:#f3f4f6"><i data-lucide="leaf" style="width:22px;height:22px;color:#6b7280"></i></div>
+    <div><b>Gratuit</b><span class="pd">Pour démarrer et tester</span></div>
+    <div class="plan-price"><b>0 F</b><span>pour toujours</span></div>
   </div>
-  <div class="promo-info"><strong>-20%</strong> sur tout · Jusqu'au 30/09/2026 · <strong>52</strong> utilisations</div>
-  <div class="promo-actions">
-    <button class="btn-mini"><i data-lucide="edit-2" style="width:14px;height:14px"></i> Modifier</button>
-    <button class="btn-mini danger"><i data-lucide="pause" style="width:14px;height:14px"></i> Suspendre</button>
-  </div>
+  <ul class="plan-feats">
+    <li><i data-lucide="check"></i>5 produits maximum</li>
+    <li><i data-lucide="check"></i>1 boost pub par semaine</li>
+    <li><i data-lucide="check"></i>Commission 8% par vente</li>
+    <li class="no"><i data-lucide="x"></i>Photo IA Studio</li>
+    <li class="no"><i data-lucide="x"></i>Badge boutique vérifiée</li>
+  </ul>
+  <button class="plan-btn pb-line" id="btn-gratuit" disabled>Plan actuel</button>
 </div>
 
-<div class="promo">
-  <div class="promo-head">
-    <span class="code">FLASH50</span>
-    <span class="badge">Active</span>
+<!-- SILVER -->
+<div class="plan">
+  <div class="plan-head">
+    <div class="plan-ico" style="background:#e5e7eb"><i data-lucide="medal" style="width:22px;height:22px;color:#4b5563"></i></div>
+    <div><b>Silver</b><span class="pd">Pour vendre sérieusement</span></div>
+    <div class="plan-price"><b>5 000 F</b><span>par mois</span></div>
   </div>
-  <div class="promo-info"><strong>-50%</strong> sur électronique · 24h restantes · <strong>28</strong> utilisations</div>
-  <div class="promo-actions">
-    <button class="btn-mini"><i data-lucide="edit-2" style="width:14px;height:14px"></i> Modifier</button>
-    <button class="btn-mini danger"><i data-lucide="pause" style="width:14px;height:14px"></i> Suspendre</button>
-  </div>
+  <ul class="plan-feats">
+    <li><i data-lucide="check"></i>30 produits</li>
+    <li><i data-lucide="check"></i>1 boost pub par jour</li>
+    <li><i data-lucide="check"></i><b>Photo IA Studio : 10 photos/mois</b></li>
+    <li><i data-lucide="check"></i>Reversement en 48h</li>
+    <li class="no"><i data-lucide="x"></i>Bannière page d'accueil</li>
+  </ul>
+  <button class="plan-btn pb-green" id="btn-silver" onclick="subscribe('silver',5000)"><i data-lucide="zap"></i>Passer à Silver</button>
 </div>
 
-<div class="promo">
-  <div class="promo-head">
-    <span class="code">FREESHIP</span>
-    <span class="badge">Active</span>
+<!-- GOLD -->
+<div class="plan popular">
+  <div class="pop-tag">LE PLUS CHOISI</div>
+  <div class="plan-head">
+    <div class="plan-ico" style="background:#fef3c7"><i data-lucide="crown" style="width:22px;height:22px;color:#b45309"></i></div>
+    <div><b>Gold</b><span class="pd">Pour les boutiques qui grandissent</span></div>
+    <div class="plan-price"><b>15 000 F</b><span>par mois</span></div>
   </div>
-  <div class="promo-info"><strong>Livraison gratuite</strong> dès 15k FCFA · Permanente · <strong>67</strong> utilisations</div>
-  <div class="promo-actions">
-    <button class="btn-mini"><i data-lucide="edit-2" style="width:14px;height:14px"></i> Modifier</button>
-    <button class="btn-mini danger"><i data-lucide="pause" style="width:14px;height:14px"></i> Suspendre</button>
-  </div>
+  <ul class="plan-feats">
+    <li><i data-lucide="check"></i>100 produits</li>
+    <li><i data-lucide="check"></i>3 boosts pub par jour</li>
+    <li><i data-lucide="check"></i><b>Photo IA Studio : 50 photos/mois</b></li>
+    <li><i data-lucide="check"></i><b>Bannière sur la page d'accueil</b></li>
+    <li><i data-lucide="check"></i>Mis en avant dans les lives</li>
+  </ul>
+  <button class="plan-btn pb-green" id="btn-gold" onclick="subscribe('gold',15000)"><i data-lucide="crown"></i>Passer à Gold</button>
 </div>
 
-<nav class="bottom-nav">
-  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
-  <a href="messages.html"><i data-lucide="message-circle"></i><span>Messages</span></a>
-  <a href="profil.html" class="active"><i data-lucide="user"></i><span>Profil</span></a>
-</nav>
+<!-- PLATINUM -->
+<div class="plan best">
+  <div class="pop-tag">MAXIMUM</div>
+  <div class="plan-head">
+    <div class="plan-ico" style="background:#ede9fe"><i data-lucide="gem" style="width:22px;height:22px;color:#6d28d9"></i></div>
+    <div><b>Platinum</b><span class="pd">Pour dominer ta catégorie</span></div>
+    <div class="plan-price"><b>35 000 F</b><span>par mois</span></div>
+  </div>
+  <ul class="plan-feats">
+    <li><i data-lucide="check"></i>Produits illimités</li>
+    <li><i data-lucide="check"></i>10 boosts pub par jour</li>
+    <li><i data-lucide="check"></i><b>Photo IA Studio illimitée</b></li>
+    <li><i data-lucide="check"></i>Bannière + priorité absolue (accueil, lives, recherches)</li>
+    <li><i data-lucide="check"></i>Conseiller dédié + stats avancées</li>
+  </ul>
+  <button class="plan-btn pb-green" id="btn-platinum" onclick="subscribe('platinum',35000)"><i data-lucide="gem"></i>Passer à Platinum</button>
+</div>
 
-<script>lucide.createIcons();</script>
+<!-- BOOSTER UN PRODUIT -->
+<div class="boost-sec">
+  <div class="plans-title"><i data-lucide="rocket"></i>Booster un produit maintenant</div>
+  <div id="boostList"><div class="empty">Chargement de tes produits…</div></div>
+</div>
+
+<div class="tip" onclick="alert('Comment fonctionne le boost\n\n• Ton produit passe en TÊTE de l\'accueil et des recherches pendant 24-72h (selon ton plan)\n• Badge ⚡ Sponsorisé visible\n• Quota selon ton plan : il se recharge chaque jour\n\nConseil de pro : booste un produit AVEC une bonne photo et un prix promo — un boost sur une mauvaise fiche = argent perdu.\n\nⓘ Paiement des plans : par paiement mobile ou carte, activation immédiate.')">ⓘ<span>Astuce : un boost marche seulement si la fiche est bonne (photo + promo). Clique pour la méthode des vendeurs qui cartonnent.</span></div>
+
+<script>
+lucide.createIcons();
+var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
+var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
+function esc(s){var d=document.createElement('div');d.textContent=String(s==null?'':s);return d.innerHTML}
+function fmt(n){return (n||0).toLocaleString('fr-FR')+' F'}
+
+var USER=null;
+try{USER=JSON.parse(localStorage.getItem('st_user'))}catch(e){}
+var VENDOR_ID=(USER&&USER.vendor_id)||'11111111-1111-1111-1111-111111111111';
+var MY_PLAN='gratuit';
+var PLAN_QUOTA={gratuit:'1 boost/semaine',silver:'1 boost/jour',gold:'3 boosts/jour',platinum:'10 boosts/jour'};
+var PLAN_DUREE={gratuit:24,silver:24,gold:48,platinum:72};
+var PLAN_NAMES={gratuit:'Gratuit',silver:'Silver',gold:'Gold',platinum:'Platinum'};
+
+/* ===== Charger mon plan ===== */
+fetch(SUPA_URL+'/rest/v1/vendors?id=eq.'+VENDOR_ID+'&select=shop_name,plan,plan_expires_at',{
+  headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}})
+.then(function(r){return r.json()})
+.then(function(rows){
+  if(rows&&rows.length){MY_PLAN=rows[0].plan||'gratuit';
+    renderMyPlan(rows[0]);markButtons();}
+  loadProducts();
+}).catch(function(){renderMyPlan(null);loadProducts()});
+
+function renderMyPlan(v){
+  var exp=v&&v.plan_expires_at?new Date(v.plan_expires_at).toLocaleDateString('fr-FR'):null;
+  document.getElementById('myPlan').innerHTML=
+    '<div class="mp-tag">TON PLAN ACTUEL</div>'+
+    '<h2>'+(PLAN_NAMES[MY_PLAN]||'Gratuit')+'</h2>'+
+    '<div class="mp-sub">'+(v?esc(v.shop_name):'Ta boutique')+(exp?' · actif jusqu\'au '+exp:'')+'</div>'+
+    '<div class="mp-stats">'+
+    '<div class="mp-stat"><b>'+(PLAN_QUOTA[MY_PLAN]||'—')+'</b><span>BOOSTS PUB</span></div>'+
+    '<div class="mp-stat"><b>'+(MY_PLAN==='gratuit'?'0':'✓')+'</b><span>PHOTO IA</span></div>'+
+    '<div class="mp-stat"><b>'+(PLAN_DUREE[MY_PLAN]||24)+'h</b><span>VISIBILITÉ / BOOST</span></div>'+
+    '</div>';
+}
+function markButtons(){
+  ['gratuit','silver','gold','platinum'].forEach(function(p){
+    var b=document.getElementById('btn-'+p);
+    if(!b)return;
+    if(p===MY_PLAN){
+      b.className='plan-btn pb-current';
+      b.disabled=true;
+      b.innerHTML='<i data-lucide="check-circle"></i>Ton plan actuel';
+    }
+  });
+  lucide.createIcons();
+}
+
+/* ===== S'abonner ===== */
+function subscribe(plan,price){
+  var duree=PLAN_DUREE[plan];
+  if(!confirm('Passer au plan '+PLAN_NAMES[plan]+' — '+fmt(price)+'/mois ?\n\nTu obtiens :\n• '+PLAN_QUOTA[plan]+'\n• Photo IA '+(plan==='silver'?'10 photos/mois':plan==='gold'?'50 photos/mois':'illimitée')+'\n• Boosts de '+duree+'h\n\nLe paiement mobile/carte s\'activera au lancement PayDunya. En attendant, l\'admin active ton plan manuellement après réception.'))return;
+  /* Enregistre la demande d'abonnement */
+  fetch(SUPA_URL+'/rest/v1/ads_subscriptions',{
+    method:'POST',
+    headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+    body:JSON.stringify({vendor_id:VENDOR_ID,plan:plan,prix:price,status:'pending',created_at:new Date().toISOString()})
+  }).catch(function(){});
+  alert('Demande envoyée !\n\nPlan '+PLAN_NAMES[plan]+' ('+fmt(price)+'/mois)\n\nL\'administration te contacte pour le paiement, puis ton plan est activé. Tu seras notifié dans Messages.');
+}
+
+/* ===== Mes produits à booster ===== */
+var MY_PRODUCTS=[];
+function loadProducts(){
+  fetch(SUPA_URL+'/rest/v1/products?vendor_id=eq.'+VENDOR_ID+'&is_active=eq.true&select=id,name,price,is_sponsored,sponsored_until&order=created_at.desc',{
+    headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}})
+  .then(function(r){return r.json()})
+  .then(function(rows){MY_PRODUCTS=rows||[];renderBoosts()})
+  .catch(function(){document.getElementById('boostList').innerHTML='<div class="empty">Erreur de chargement.</div>'});
+}
+function renderBoosts(){
+  if(!MY_PRODUCTS.length){
+    document.getElementById('boostList').innerHTML='<div class="empty">Aucun produit publié.<br><br>Ajoute d\'abord un produit, puis booste-le ici.</div>';
+    return;
+  }
+  document.getElementById('boostList').innerHTML=MY_PRODUCTS.map(function(p){
+    var boosted=p.is_sponsored&&p.sponsored_until&&new Date(p.sponsored_until)>new Date();
+    return '<div class="boost-card">'+
+      '<div class="bi"><i data-lucide="package"></i></div>'+
+      '<div><b>'+esc(p.name)+'</b><span>'+fmt(p.price)+(boosted?' · ⚡ boosté jusqu\'à '+new Date(p.sponsored_until).toLocaleDateString('fr-FR'):'')+'</span></div>'+
+      '<div class="bb">'+(boosted
+        ?'<button class="mbtn mbtn-boosted" disabled>⚡ En tête</button>'
+        :'<button class="mbtn" onclick="boost(\''+p.id+'\',\''+esc(p.name).replace(/'/g,"\\'")+'\')">🚀 Booster</button>')+
+      '</div></div>';
+  }).join('');
+  lucide.createIcons();
+}
+function boost(pid,name){
+  if(!confirm('Booster « '+name+' » ?\n\nTon produit passe en tête de l\'accueil et des recherches pendant '+PLAN_DUREE[MY_PLAN]+'h avec le badge ⚡ Sponsorisé.\n\nQuota utilisé selon ton plan '+PLAN_NAMES[MY_PLAN]+' ('+PLAN_QUOTA[MY_PLAN]+').'))return;
+  var until=new Date(Date.now()+PLAN_DUREE[MY_PLAN]*3600*1000).toISOString();
+  /* Enregistre le boost */
+  fetch(SUPA_URL+'/rest/v1/ads_boosts',{
+    method:'POST',
+    headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+    body:JSON.stringify({vendor_id:VENDOR_ID,product_id:pid,expires_at:until,views:0,clicks:0})
+  }).catch(function(){});
+  /* Marque le produit sponsorisé */
+  fetch(SUPA_URL+'/rest/v1/products?id=eq.'+pid,{
+    method:'PATCH',
+    headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify({is_sponsored:true,sponsored_until:until})
+  })
+  .then(function(){loadProducts()})
+  .catch(function(){loadProducts()});
+}
+</script>
 </body>
 </html>
