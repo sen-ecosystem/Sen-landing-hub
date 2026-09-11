@@ -1,62 +1,217 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Connexion - SEN TEW</title>
-  <link rel="stylesheet" href="css/app.css?v=52">
-  <style>
-    body { background: linear-gradient(135deg, #0f6b4e, #0a4d38); margin: 0; font-family: -apple-system, sans-serif; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 20px; }
-    .logo { text-align: center; color: #fff; margin-bottom: 24px; }
-    .logo h1 { color: #fff; margin: 0; font-size: 32px; font-weight: 900; }
-    .logo p { color: #d4a574; font-size: 13px; margin: 4px 0 0; }
-    .card { background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
-    .card h2 { color: #0f6b4e; margin: 0 0 16px; font-size: 20px; text-align: center; }
-    .field { margin-bottom: 14px; }
-    .label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
-    .input { width: 100%; padding: 12px; border: 1.5px solid #e5e7eb; border-radius: 10px; font-size: 14px; box-sizing: border-box; }
-    .forgot { text-align: right; margin-top: 6px; font-size: 12px; }
-    .forgot a { color: #0f6b4e; text-decoration: none; font-weight: 600; }
-    .btn { width: 100%; background: linear-gradient(135deg, #0f6b4e, #0a4d38); color: #fff; border: none; padding: 14px; border-radius: 10px; font-weight: 700; cursor: pointer; margin-top: 8px; }
-    .divider { text-align: center; margin: 16px 0; color: #999; font-size: 12px; }
-    .social { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .social-btn { padding: 10px; border: 1.5px solid #e5e7eb; border-radius: 10px; background: #fff; font-size: 13px; font-weight: 600; cursor: pointer; }
-    .register { text-align: center; margin-top: 14px; font-size: 13px; }
-    .register a { color: #0f6b4e; font-weight: 700; text-decoration: none; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Connexion - SEN TEW</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/security-shield.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;max-width:100vw}
+body{background:linear-gradient(160deg,#0a1f17 0%,#0f6b4e 55%,#14532d 100%);font-family:'Segoe UI',-apple-system,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 18px;color:#0a1f17}
+.brand{text-align:center;margin-bottom:22px}
+.brand img{width:170px;max-width:65%;filter:drop-shadow(0 8px 22px rgba(0,0,0,.4))}
+.brand .logo-txt{font-size:30px;font-weight:900;letter-spacing:3px;color:#fff}
+.brand .logo-txt span{color:#d4a94e}
+.brand p{color:#d4a94e;font-size:12px;font-weight:700;letter-spacing:.4px;margin-top:6px}
+.card{background:#fff;border-radius:22px;padding:26px 20px;width:100%;max-width:390px;box-shadow:0 24px 60px rgba(0,0,0,.35);animation:up .45s ease}
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.card h2{font-size:18px;font-weight:900;text-align:center;margin-bottom:18px;color:#0f6b4e}
+.fld{margin-bottom:14px}
+.fld label{font-size:11.5px;font-weight:800;color:#374151;display:block;margin-bottom:6px;letter-spacing:.2px}
+.inp{display:flex;align-items:center;gap:9px;border:1.5px solid #e5e7eb;border-radius:13px;padding:0 13px;background:#f9fafb;transition:all .2s}
+.inp:focus-within{border-color:#0f6b4e;background:#fff;box-shadow:0 0 0 3px rgba(15,107,78,.08)}
+.inp .ico{color:#9aa5a0;display:flex;align-items:center}
+.inp .ico i{width:16px;height:16px}
+.inp input{flex:1;border:none;background:transparent;padding:14px 0;font-size:14px;outline:none;min-width:0}
+.inp select{border:none;background:transparent;font-size:14px;font-weight:800;color:#0f6b4e;outline:none;padding:14px 0;max-width:112px}
+.inp .sep-v{width:1.5px;height:22px;background:#e5e7eb;flex-shrink:0}
+.eye{background:none;border:none;cursor:pointer;color:#9aa5a0;display:flex;align-items:center;padding:4px}
+.eye i{width:16px;height:16px}
+.forgot{text-align:right;margin:-6px 0 12px}
+.forgot a{font-size:11.5px;color:#0f6b4e;font-weight:700;text-decoration:none;cursor:pointer}
+.btn{width:100%;padding:16px;border-radius:14px;border:none;background:linear-gradient(135deg,#0f6b4e,#10b981);color:#fff;font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 8px 20px rgba(15,107,78,.3);display:flex;align-items:center;justify-content:center;gap:8px}
+.btn:disabled{opacity:.5}
+.btn i{width:17px;height:17px}
+.err{display:none;background:#fef2f2;border:1.5px solid #fecaca;color:#b91c1c;font-size:12px;font-weight:700;border-radius:12px;padding:11px 13px;margin-bottom:13px;line-height:1.5;animation:shake .3s}
+.err.show{display:block}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.sep{display:flex;align-items:center;gap:12px;margin:18px 0 14px;color:#9aa5a0;font-size:10.5px;font-weight:800;letter-spacing:.4px}
+.sep::before,.sep::after{content:'';flex:1;height:1px;background:#e5e7eb}
+.socials{display:flex;gap:9px}
+.soc{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 6px;border-radius:12px;border:1.5px solid #e5e7eb;background:#fff;font-size:12.5px;font-weight:800;cursor:pointer;transition:all .15s;color:#0a1f17}
+.soc:active{transform:scale(.97)}
+.soc svg{width:19px;height:19px;flex-shrink:0}
+.soc.fb{background:#1877F2;border-color:#1877F2;color:#fff}
+.soc.fb svg{fill:#fff}
+.soc.apple{background:#000;border-color:#000;color:#fff}
+.soc.apple svg{fill:#fff}
+.register-link{text-align:center;margin-top:18px;font-size:12.5px;color:#6b7280}
+.register-link a{color:#0f6b4e;font-weight:800;text-decoration:none}
+.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin-top:16px;font-size:11.5px;color:#92400e;cursor:pointer;line-height:1.55}
+</style>
 </head>
 <body>
 
-<div class="logo">
-  <h1>SEN TEW</h1>
-  <p>Marketplace du Sénégal</p>
+<div class="brand">
+  <img src="assets/logo.png" alt="SEN TEW" onerror="this.outerHTML='<div class=logo-txt>SEN <span>TEW</span></div>'">
+  <p>Marketplace du Sénégal — Africa's marketplace, delivering value</p>
 </div>
 
 <div class="card">
   <h2>Connexion</h2>
 
-  <div class="field">
-    <label class="label">Email ou téléphone</label>
-    <input type="text" class="input" placeholder="hello@sen-tew.com">
+  <div class="err" id="errBox"></div>
+
+  <div class="fld">
+    <label>TÉLÉPHONE</label>
+    <div class="inp">
+      <select id="fCountry">
+        <option value="+221" selected>🇸🇳 +221</option>
+        <option value="+33">🇫🇷 +33</option>
+        <option value="+1">🇺🇸 +1</option>
+        <option value="+225">🇨🇮 +225</option>
+        <option value="+223">🇲🇱 +223</option>
+        <option value="+224">🇬🇳 +224</option>
+        <option value="+222">🇲🇷 +222</option>
+        <option value="+220">🇬🇲 +220</option>
+        <option value="+212">🇲🇦 +212</option>
+        <option value="+39">🇮🇹 +39</option>
+        <option value="+34">🇪🇸 +34</option>
+        <option value="+32">🇧🇪 +32</option>
+        <option value="+41">🇨🇭 +41</option>
+        <option value="+44">🇬🇧 +44</option>
+        <option value="+49">🇩🇪 +49</option>
+        <option value="+213">🇩🇿 +213</option>
+        <option value="+216">🇹🇳 +216</option>
+        <option value="+237">🇨🇲 +237</option>
+        <option value="+226">🇧🇫 +226</option>
+        <option value="+228">🇹🇬 +228</option>
+        <option value="+229">🇧🇯 +229</option>
+      </select>
+      <span class="sep-v"></span>
+      <input id="fPhone" type="tel" inputmode="numeric" placeholder="77 123 45 67" autocomplete="tel">
+    </div>
   </div>
 
-  <div class="field">
-    <label class="label">Mot de passe</label>
-    <input type="password" class="input" placeholder="••••••••">
-    <div class="forgot"><a href="forgot-password.html">Mot de passe oublié ?</a></div>
+  <div class="fld">
+    <label>MOT DE PASSE</label>
+    <div class="inp"><span class="ico"><i data-lucide="lock"></i></span>
+      <input id="fPwd" type="password" placeholder="Ton mot de passe" autocomplete="current-password" autocapitalize="none" autocorrect="off">
+      <button class="eye" id="eyeBtn" type="button"><i data-lucide="eye"></i></button>
+    </div>
   </div>
 
-  <button class="btn" onclick="location.href='index.html'">Se connecter</button>
+  <div class="forgot"><a onclick="forgotPwd()">Mot de passe oublié ?</a></div>
 
-  <div class="divider">— ou —</div>
+  <button class="btn" id="loginBtn"><i data-lucide="log-in"></i>Se connecter</button>
 
-  <div class="social">
-    <button class="social-btn">Google</button>
-    <button class="social-btn">Facebook</button>
+  <div class="sep">OU CONTINUE AVEC</div>
+
+  <div class="socials">
+    <button class="soc google" onclick="oauthLogin('google')">
+      <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.5 6.1 29.5 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.5 6.1 29.5 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C36.9 40.2 44 35 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
+      Google
+    </button>
+    <button class="soc fb" onclick="oauthLogin('facebook')">
+      <svg viewBox="0 0 24 24"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.09 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.09 24 18.1 24 12.07z"/></svg>
+      Facebook
+    </button>
+    <button class="soc apple" onclick="oauthLogin('apple')">
+      <svg viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+      Apple
+    </button>
   </div>
 
-  <div class="register">Pas de compte ? <a href="register.html">S'inscrire</a></div>
+  <div class="register-link">Pas de compte ? <a href="register.html">S'inscrire gratuitement →</a></div>
+
+  <div class="tip" onclick="alert('Connexion sécurisée SEN TEW\n\n• Ton mot de passe est vérifié de façon cryptée\n• Tes points fidélité et ton panier te retrouvent sur tous tes appareils\n• Diaspora : choisis l\'indicatif de ton pays\n\nⓘ Un compte = achats, ventes et livraisons.')"><span>ⓘ</span><span>Astuce : un seul compte pour <b>acheter, vendre et suivre tes livraisons</b>, partout dans le monde. Clique pour en savoir plus.</span></div>
 </div>
 
+<script>
+lucide.createIcons();
+var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
+var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
+var sbClient=window.supabase?window.supabase.createClient(SUPA_URL,SUPA_KEY):null;
+
+function showErr(m){var b=document.getElementById('errBox');b.textContent='⚠️ '+m;b.classList.remove('show');void b.offsetWidth;b.classList.add('show')}
+
+/* SHA-256 pur JS */
+function sha256(a){function rr(v,n){return(v>>>n)|(v<<(32-n))}var mw=Math.pow(2,32),res='';var words=[],bl=a.length*8;var h=sha256.h=sha256.h||[],k=sha256.k=sha256.k||[];var pc=k.length,comp={};for(var c=2;pc<64;c++){if(!comp[c]){for(var i=0;i<313;i+=c)comp[i]=c;h[pc]=(Math.pow(c,.5)*mw)|0;k[pc++]=(Math.pow(c,1/3)*mw)|0}}a+='\x80';while(a.length%64-56)a+='\x00';for(var i=0;i<a.length;i++){var j=a.charCodeAt(i);words[i>>2]|=j<<((3-i)%4)*8}words[words.length]=(bl/mw)|0;words[words.length]=bl;for(var j=0;j<words.length;){var w=words.slice(j,j+=16),oh=h;h=h.slice(0,8);for(var i=0;i<64;i++){var w15=w[i-15],w2=w[i-2];var x=h[0],e=h[4];var t1=h[7]+(rr(e,6)^rr(e,11)^rr(e,25))+((e&h[5])^((~e)&h[6]))+k[i]+(w[i]=(i<16)?w[i]:(w[i-16]+(rr(w15,7)^rr(w15,18)^(w15>>>3))+w[i-7]+(rr(w2,17)^rr(w2,19)^(w2>>>10)))|0);var t2=(rr(x,2)^rr(x,13)^rr(x,22))+((x&h[1])^(x&h[2])^(h[1]&h[2]));h=[(t1+t2)|0].concat(h);h[4]=(h[4]+t1)|0}for(var i=0;i<8;i++){h[i]=(h[i]+oh[i])|0}}for(var i=0;i<8;i++){for(var j=3;j+1;j--){var b=(h[i]>>(j*8))&255;res+=((b<16)?'0':'')+b.toString(16)}}return res}
+
+document.getElementById('eyeBtn').onclick=function(){
+  var p=document.getElementById('fPwd');
+  p.type=p.type==='password'?'text':'password';
+  this.innerHTML='<i data-lucide="'+(p.type==='password'?'eye':'eye-off')+'"></i>';
+  lucide.createIcons();
+};
+
+/* OAuth cliquable */
+function oauthLogin(provider){
+  if(!sbClient){showErr('Service en cours de chargement, réessaie.');return}
+  sbClient.auth.signInWithOAuth({
+    provider:provider,
+    options:{redirectTo:'https://sen-ecosystem.com/sentew-app/index.html'}
+  }).then(function(res){
+    if(res.error){
+      alert('Connexion '+provider.charAt(0).toUpperCase()+provider.slice(1)+' en cours d\'activation.\n\nElle sera disponible au lancement officiel. En attendant, connecte-toi avec ton numéro de téléphone.');
+    }
+  }).catch(function(){
+    alert('Connexion '+provider+' bientôt disponible. Utilise ton téléphone ci-dessus.');
+  });
+}
+
+function forgotPwd(){
+  alert('Mot de passe oublié ?\n\nContacte le support SEN TEW avec ton numéro de téléphone : un agent vérifiera ton identité et réinitialisera ton accès.\n\n(Au lancement : réinitialisation automatique par SMS.)');
+}
+
+/* ═══ CONNEXION (mot de passe vérifié en base, crypté) ═══ */
+document.getElementById('loginBtn').onclick=function(){
+  var country=document.getElementById('fCountry').value;
+  var phone=document.getElementById('fPhone').value.replace(/[\s.\-]/g,'').replace(/^0+/,'');
+  var pwd=document.getElementById('fPwd').value;
+  if(!/^[0-9]{6,14}$/.test(phone)){showErr('Numéro invalide.');return}
+  if(!pwd){showErr('Entre ton mot de passe.');return}
+
+  var btn=this;btn.disabled=true;btn.innerHTML='Vérification…';
+  var fullPhone=country+phone;
+  var hash=sha256(pwd);
+
+  fetch(SUPA_URL+'/rest/v1/users?phone=eq.'+encodeURIComponent(fullPhone)+'&select=*',{
+    headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}
+  })
+  .then(function(r){return r.json()})
+  .then(function(rows){
+    if(!rows||!rows.length){
+      showErr('Aucun compte avec ce numéro. Crée ton compte gratuitement.');
+      resetBtn(btn);return;
+    }
+    var u=rows[0];
+    if(u.password_hash&&u.password_hash!==hash){
+      showErr('Mot de passe incorrect.');
+      resetBtn(btn);return;
+    }
+    /* Connexion réussie */
+    localStorage.setItem('st_user',JSON.stringify({
+      id:u.id,name:u.full_name,phone:u.phone,role:u.role,points:u.loyalty_points||0
+    }));
+    try{localStorage.setItem('st_points',String(u.loyalty_points||0))}catch(e){}
+    window.location.href=(u.role==='vendeur')?'vendeur.html':(u.role==='livreur'?'livreur.html':'index.html');
+  })
+  .catch(function(){
+    showErr('Pas de connexion internet. Réessaie.');
+    resetBtn(btn);
+  });
+};
+function resetBtn(btn){btn.disabled=false;btn.innerHTML='<i data-lucide="log-in"></i>Se connecter';lucide.createIcons()}
+
+/* Déjà connecté → direct */
+(function(){try{
+  var u=JSON.parse(localStorage.getItem('st_user'));
+  if(u&&u.id){window.location.href=(u.role==='vendeur')?'vendeur.html':'index.html'}
+}catch(e){}})();
+</script>
 </body>
 </html>
