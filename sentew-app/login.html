@@ -30,6 +30,8 @@ body{background:linear-gradient(160deg,#0a1f17 0%,#0f6b4e 55%,#14532d 100%);font
 .inp .sep-v{width:1.5px;height:22px;background:#e5e7eb;flex-shrink:0}
 .eye{background:none;border:none;cursor:pointer;color:#9aa5a0;display:flex;align-items:center;padding:4px}
 .eye i{width:16px;height:16px}
+.switch{text-align:right;margin-top:6px}
+.switch a{font-size:11px;color:#0f6b4e;font-weight:700;cursor:pointer}
 .forgot{text-align:right;margin:-6px 0 12px}
 .forgot a{font-size:11.5px;color:#0f6b4e;font-weight:700;text-decoration:none;cursor:pointer}
 .btn{width:100%;padding:16px;border-radius:14px;border:none;background:linear-gradient(135deg,#0f6b4e,#10b981);color:#fff;font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 8px 20px rgba(15,107,78,.3);display:flex;align-items:center;justify-content:center;gap:8px}
@@ -56,7 +58,7 @@ body{background:linear-gradient(160deg,#0a1f17 0%,#0f6b4e 55%,#14532d 100%);font
 <body>
 
 <div class="brand">
-  <img src="assets/logo.png" alt="SEN TEW" onerror="this.outerHTML='<div class=logo-txt>SEN <span>TEW</span></div>'">
+  <img src="assets/Logo.png" alt="SEN TEW" onerror="this.outerHTML='<div class=logo-txt>SEN <span>TEW</span></div>'">
   <p>Marketplace du Sénégal — Africa's marketplace, delivering value</p>
 </div>
 
@@ -65,9 +67,14 @@ body{background:linear-gradient(160deg,#0a1f17 0%,#0f6b4e 55%,#14532d 100%);font
 
   <div class="err" id="errBox"></div>
 
+  <!-- EMAIL (mode par défaut — modèle Amazon/Jumia) -->
   <div class="fld">
-    <label>TÉLÉPHONE</label>
-    <div class="inp">
+    <label id="idLabel">EMAIL</label>
+    <div class="inp" id="emailInp"><span class="ico"><i data-lucide="mail"></i></span>
+      <input id="fEmail" type="email" placeholder="exemple@email.com" autocapitalize="none" autocorrect="off" autocomplete="email">
+    </div>
+    <!-- TÉLÉPHONE (mode secondaire) -->
+    <div class="inp" id="phoneInp" style="display:none">
       <select id="fCountry">
         <option value="+221" selected>🇸🇳 +221</option>
         <option value="+33">🇫🇷 +33</option>
@@ -94,6 +101,7 @@ body{background:linear-gradient(160deg,#0a1f17 0%,#0f6b4e 55%,#14532d 100%);font
       <span class="sep-v"></span>
       <input id="fPhone" type="tel" inputmode="numeric" placeholder="77 123 45 67" autocomplete="tel">
     </div>
+    <div class="switch"><a id="switchMode" onclick="toggleMode()">📱 Utiliser mon numéro de téléphone</a></div>
   </div>
 
   <div class="fld">
@@ -127,7 +135,7 @@ body{background:linear-gradient(160deg,#0a1f17 0%,#0f6b4e 55%,#14532d 100%);font
 
   <div class="register-link">Pas de compte ? <a href="register.html">S'inscrire gratuitement →</a></div>
 
-  <div class="tip" onclick="alert('Connexion sécurisée SEN TEW\n\n• Ton mot de passe est vérifié de façon cryptée\n• Tes points fidélité et ton panier te retrouvent sur tous tes appareils\n• Diaspora : choisis l\'indicatif de ton pays\n\nⓘ Un compte = achats, ventes et livraisons.')"><span>ⓘ</span><span>Astuce : un seul compte pour <b>acheter, vendre et suivre tes livraisons</b>, partout dans le monde. Clique pour en savoir plus.</span></div>
+  <div class="tip" onclick="alert('Connexion sécurisée SEN TEW\n\n• Ton mot de passe est vérifié de façon cryptée\n• Un seul compte : achats, fidélité, livraisons sur tous tes appareils\n• Diaspora : email ou numéro international\n\nⓘ Pas d\'email ? Clique sur « Utiliser mon numéro de téléphone ».')"><span>ⓘ</span><span>Astuce : un seul compte pour <b>acheter, vendre et suivre tes livraisons</b>, partout dans le monde. Clique pour en savoir plus.</span></div>
 </div>
 
 <script>
@@ -136,7 +144,7 @@ var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
 var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
 var sbClient=window.supabase?window.supabase.createClient(SUPA_URL,SUPA_KEY):null;
 
-function showErr(m){var b=document.getElementById('errBox');b.textContent='⚠️ '+m;b.classList.remove('show');void b.offsetWidth;b.classList.add('show')}
+function showErr(m){var b=document.getElementById('errBox');b.textContent=m;b.classList.remove('show');void b.offsetWidth;b.classList.add('show')}
 
 /* SHA-256 pur JS */
 function sha256(a){function rr(v,n){return(v>>>n)|(v<<(32-n))}var mw=Math.pow(2,32),res='';var words=[],bl=a.length*8;var h=sha256.h=sha256.h||[],k=sha256.k=sha256.k||[];var pc=k.length,comp={};for(var c=2;pc<64;c++){if(!comp[c]){for(var i=0;i<313;i+=c)comp[i]=c;h[pc]=(Math.pow(c,.5)*mw)|0;k[pc++]=(Math.pow(c,1/3)*mw)|0}}a+='\x80';while(a.length%64-56)a+='\x00';for(var i=0;i<a.length;i++){var j=a.charCodeAt(i);words[i>>2]|=j<<((3-i)%4)*8}words[words.length]=(bl/mw)|0;words[words.length]=bl;for(var j=0;j<words.length;){var w=words.slice(j,j+=16),oh=h;h=h.slice(0,8);for(var i=0;i<64;i++){var w15=w[i-15],w2=w[i-2];var x=h[0],e=h[4];var t1=h[7]+(rr(e,6)^rr(e,11)^rr(e,25))+((e&h[5])^((~e)&h[6]))+k[i]+(w[i]=(i<16)?w[i]:(w[i-16]+(rr(w15,7)^rr(w15,18)^(w15>>>3))+w[i-7]+(rr(w2,17)^rr(w2,19)^(w2>>>10)))|0);var t2=(rr(x,2)^rr(x,13)^rr(x,22))+((x&h[1])^(x&h[2])^(h[1]&h[2]));h=[(t1+t2)|0].concat(h);h[4]=(h[4]+t1)|0}for(var i=0;i<8;i++){h[i]=(h[i]+oh[i])|0}}for(var i=0;i<8;i++){for(var j=3;j+1;j--){var b=(h[i]>>(j*8))&255;res+=((b<16)?'0':'')+b.toString(16)}}return res}
@@ -148,6 +156,16 @@ document.getElementById('eyeBtn').onclick=function(){
   lucide.createIcons();
 };
 
+/* ===== Bascule email / téléphone (Option B) ===== */
+var MODE='email';
+function toggleMode(){
+  MODE=MODE==='email'?'phone':'email';
+  document.getElementById('emailInp').style.display=MODE==='email'?'flex':'none';
+  document.getElementById('phoneInp').style.display=MODE==='phone'?'flex':'none';
+  document.getElementById('idLabel').textContent=MODE==='email'?'EMAIL':'TÉLÉPHONE';
+  document.getElementById('switchMode').textContent=MODE==='email'?'📱 Utiliser mon numéro de téléphone':'✉️ Utiliser mon email';
+}
+
 /* OAuth cliquable */
 function oauthLogin(provider){
   if(!sbClient){showErr('Service en cours de chargement, réessaie.');return}
@@ -156,36 +174,44 @@ function oauthLogin(provider){
     options:{redirectTo:'https://sen-ecosystem.com/sentew-app/index.html'}
   }).then(function(res){
     if(res.error){
-      alert('Connexion '+provider.charAt(0).toUpperCase()+provider.slice(1)+' en cours d\'activation.\n\nElle sera disponible au lancement officiel. En attendant, connecte-toi avec ton numéro de téléphone.');
+      alert('Connexion '+provider.charAt(0).toUpperCase()+provider.slice(1)+' en cours d\'activation.\n\nElle sera disponible au lancement officiel. En attendant, connecte-toi avec ton email ci-dessus.');
     }
   }).catch(function(){
-    alert('Connexion '+provider+' bientôt disponible. Utilise ton téléphone ci-dessus.');
+    alert('Connexion '+provider+' bientôt disponible. Utilise ton email ci-dessus.');
   });
 }
 
 function forgotPwd(){
-  alert('Mot de passe oublié ?\n\nContacte le support SEN TEW avec ton numéro de téléphone : un agent vérifiera ton identité et réinitialisera ton accès.\n\n(Au lancement : réinitialisation automatique par SMS.)');
+  alert('Mot de passe oublié ?\n\nContacte le support SEN TEW avec ton email ou ton numéro : un agent vérifiera ton identité et réinitialisera ton accès.\n\n(Au lancement : réinitialisation automatique par email.)');
 }
 
-/* ═══ CONNEXION (mot de passe vérifié en base, crypté) ═══ */
+/* ═══ CONNEXION (vérification cryptée en base) ═══ */
 document.getElementById('loginBtn').onclick=function(){
-  var country=document.getElementById('fCountry').value;
-  var phone=document.getElementById('fPhone').value.replace(/[\s.\-]/g,'').replace(/^0+/,'');
   var pwd=document.getElementById('fPwd').value;
-  if(!/^[0-9]{6,14}$/.test(phone)){showErr('Numéro invalide.');return}
   if(!pwd){showErr('Entre ton mot de passe.');return}
 
   var btn=this;btn.disabled=true;btn.innerHTML='Vérification…';
-  var fullPhone=country+phone;
   var hash=sha256(pwd);
+  var query='';
 
-  fetch(SUPA_URL+'/rest/v1/users?phone=eq.'+encodeURIComponent(fullPhone)+'&select=*',{
+  if(MODE==='email'){
+    var email=document.getElementById('fEmail').value.trim().toLowerCase();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){showErr('Email invalide.');resetBtn(btn);return}
+    query='email=eq.'+encodeURIComponent(email);
+  }else{
+    var country=document.getElementById('fCountry').value;
+    var phone=document.getElementById('fPhone').value.replace(/[\s.\-]/g,'').replace(/^0+/,'');
+    if(!/^[0-9]{6,14}$/.test(phone)){showErr('Numéro invalide.');resetBtn(btn);return}
+    query='phone=eq.'+encodeURIComponent(country+phone);
+  }
+
+  fetch(SUPA_URL+'/rest/v1/users?'+query+'&select=*',{
     headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}
   })
   .then(function(r){return r.json()})
   .then(function(rows){
     if(!rows||!rows.length){
-      showErr('Aucun compte avec ce numéro. Crée ton compte gratuitement.');
+      showErr(MODE==='email'?'Aucun compte avec cet email. Crée ton compte gratuitement.':'Aucun compte avec ce numéro. Crée ton compte gratuitement.');
       resetBtn(btn);return;
     }
     var u=rows[0];
@@ -193,9 +219,8 @@ document.getElementById('loginBtn').onclick=function(){
       showErr('Mot de passe incorrect.');
       resetBtn(btn);return;
     }
-    /* Connexion réussie */
     localStorage.setItem('st_user',JSON.stringify({
-      id:u.id,name:u.full_name,phone:u.phone,role:u.role,points:u.loyalty_points||0
+      id:u.id,name:u.full_name,email:u.email||'',phone:u.phone,role:u.role,points:u.loyalty_points||0
     }));
     try{localStorage.setItem('st_points',String(u.loyalty_points||0))}catch(e){}
     window.location.href=(u.role==='vendeur')?'vendeur.html':(u.role==='livreur'?'livreur.html':'index.html');
