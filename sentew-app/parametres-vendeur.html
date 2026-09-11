@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Paramètres Boutique - SEN TEW Vendeur</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/security-shield.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;max-width:100vw}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:90px;color:#0a1f17}
+.topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:50}
+.topbar h1{font-size:16px;font-weight:900;color:#0f6b4e;flex:1;display:flex;align-items:center;gap:8px}
+.topbar h1 i{width:18px;height:18px}
+.icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;color:#0f6b4e;text-decoration:none}
+.icon-btn i{width:17px;height:17px}
+.card{background:#fff;margin:12px 14px 0;border-radius:16px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.card h3{font-size:13px;font-weight:900;display:flex;align-items:center;gap:7px;margin-bottom:13px}
+.card h3 i{width:16px;height:16px;color:#0f6b4e}
+.fld{margin-bottom:12px}
+.fld label{font-size:11px;font-weight:800;color:#374151;display:block;margin-bottom:5px;letter-spacing:.2px}
+.fld label .opt{font-weight:600;color:#9aa5a0;font-size:10px}
+.fld input,.fld select,.fld textarea{width:100%;border:1.5px solid #e5e7eb;border-radius:12px;padding:12px 13px;font-size:13.5px;outline:none;background:#f9fafb;font-family:inherit;box-sizing:border-box;transition:border .2s}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:#0f6b4e;background:#fff}
+.fld textarea{min-height:70px;resize:vertical}
+.hint{font-size:10px;color:#9aa5a0;margin-top:4px;line-height:1.45}
+.btn{width:100%;padding:14px;border-radius:13px;border:none;background:linear-gradient(135deg,#0f6b4e,#10b981);color:#fff;font-size:14px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;margin-top:6px}
+.btn:disabled{opacity:.5}
+.btn i{width:16px;height:16px}
+.btn-line{background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e}
+/* Xeweul highlight */
+.xeweul-card{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:16px;padding:16px;color:#fff;margin:12px 14px 0;position:relative;overflow:hidden}
+.xeweul-card::after{content:'';position:absolute;top:-40px;right:-40px;width:110px;height:110px;background:#8b5cf6;border-radius:50%;filter:blur(50px);opacity:.5}
+.xeweul-card h3{font-size:13px;font-weight:900;display:flex;align-items:center;gap:7px;position:relative}
+.xeweul-card h3 i{width:16px;height:16px;color:#c4b5fd}
+.xeweul-card p{font-size:11px;color:#c7d2fe;line-height:1.55;margin-top:5px;position:relative}
+.xeweul-card .fld input{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#fff;position:relative}
+.xeweul-card .fld input::placeholder{color:#a5b4fc}
+.xeweul-card .fld label{color:#c7d2fe;position:relative}
+/* Toggle */
+.toggle-row{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid #f3f4f6;cursor:pointer}
+.toggle-row:last-child{border:none}
+.toggle-row .ti{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.toggle-row .ti i{width:16px;height:16px}
+.toggle-row .tt{flex:1}
+.toggle-row .tt b{font-size:12.5px;display:block}
+.toggle-row .tt span{font-size:10px;color:#9aa5a0;display:block;margin-top:2px;line-height:1.4}
+.toggle-row .tog{width:44px;height:24px;border-radius:12px;background:#d1d5db;position:relative;flex-shrink:0;transition:background .2s}
+.toggle-row .tog::after{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:3px;left:3px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.toggle-row.on .tog{background:#0f6b4e}
+.toggle-row.on .tog::after{left:23px}
+/* Logo upload */
+.logo-zone{display:flex;align-items:center;gap:13px}
+.logo-zone img{width:64px;height:64px;border-radius:16px;object-fit:cover;border:2px solid #e5e7eb;flex-shrink:0;background:#f3f4f6}
+.logo-zone .lz-txt{flex:1}
+.logo-zone .lz-txt b{font-size:12.5px;display:block}
+.logo-zone .lz-txt span{font-size:10px;color:#9aa5a0;display:block;margin-top:3px;line-height:1.4}
+.logo-zone .lz-btn{font-size:11px;font-weight:800;padding:8px 14px;border-radius:10px;border:1.5px solid #0f6b4e;background:#fff;color:#0f6b4e;cursor:pointer;flex-shrink:0}
+.saved{background:#f0fdf4;border:1.5px solid #a7f3d0;color:#065f46;font-size:11.5px;font-weight:800;border-radius:11px;padding:10px 13px;margin-top:10px;display:none;align-items:center;gap:7px}
+.saved.show{display:flex}
+.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:14px;font-size:11.5px;color:#92400e;cursor:pointer;line-height:1.55}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e5e7eb;display:flex;z-index:60;padding:6px 0 max(6px,env(safe-area-inset-bottom))}
+.bottom-nav a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:#9aa5a0;font-size:9.5px;font-weight:700;padding:4px 0;min-height:44px;justify-content:center}
+.bottom-nav a.on{color:#0f6b4e}
+.bottom-nav a i{width:20px;height:20px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="icon-btn" href="vendeur.html"><i data-lucide="arrow-left"></i></a>
+  <h1><i data-lucide="sliders"></i>Paramètres boutique</h1>
+</div>
+
+<!-- Identité -->
+<div class="card">
+  <h3><i data-lucide="store"></i>Ma boutique</h3>
+  <div class="logo-zone">
+    <img id="logoPreview" src="assets/Logo.png" onerror="this.src='assets/Logo.png'">
+    <div class="lz-txt"><b>Logo de la boutique</b><span>Carré, fond clair. Visible par tous les clients.</span></div>
+    <button class="lz-btn" onclick="document.getElementById('logoInput').click()">Changer</button>
+    <input type="file" id="logoInput" accept="image/*" style="display:none">
+  </div>
+  <div class="fld" style="margin-top:13px">
+    <label>NOM DE LA BOUTIQUE</label>
+    <input id="pShopName" placeholder="Ex : Aïcha Couture">
+  </div>
+  <div class="fld">
+    <label>DESCRIPTION</label>
+    <textarea id="pDesc" placeholder="Ce que tu vends, ce qui te rend unique…"></textarea>
+  </div>
+  <div class="fld" style="margin-bottom:0">
+    <label>QUARTIER / VILLE</label>
+    <input id="pCity" placeholder="Ex : Sacré-Cœur 3, Dakar">
+  </div>
+</div>
+
+<!-- Reversement -->
+<div class="card">
+  <h3><i data-lucide="banknote"></i>Mes reversements</h3>
+  <div class="fld">
+    <label>NUMÉRO PAIEMENT MOBILE *</label>
+    <input id="pPayPhone" type="tel" inputmode="numeric" placeholder="77 123 45 67">
+    <div class="hint">C'est sur ce numéro que tu reçois ta cagnotte chaque lundi. Vérifie-le bien — une erreur = argent envoyé à quelqu'un d'autre.</div>
+  </div>
+  <div class="fld" style="margin-bottom:0">
+    <label>MÉTHODE PRÉFÉRÉE</label>
+    <select id="pPayMethod">
+      <option value="mobile_money">Paiement mobile (instantané, gratuit)</option>
+      <option value="bank">Virement bancaire (24-48h)</option>
+    </select>
+  </div>
+</div>
+
+<!-- Xeweul : RCCM/NINEA -->
+<div class="xeweul-card">
+  <h3><i data-lucide="badge-check"></i>Passer au niveau Xeweul ✓</h3>
+  <p>Ajoute ton numéro RCCM ou NINEA → badge vert officiel, commission réduite à 5%, produits illimités, top des recherches. Vérification admin sous 24h.</p>
+  <div class="fld" style="margin:12px 0 0">
+    <label>NUMÉRO RCCM OU NINEA</label>
+    <input id="pRccm" placeholder="Ex : SN.DKR.2026.A.1234">
+  </div>
+  <button class="btn" id="rccmBtn" style="background:#8b5cf6;margin-top:8px"><i data-lucide="badge-check"></i>Soumettre pour vérification</button>
+</div>
+
+<!-- Notifications -->
+<div class="card">
+  <h3><i data-lucide="bell"></i>Notifications</h3>
+  <div class="toggle-row on" data-key="new_order">
+    <div class="ti" style="background:#d1fae5;color:#059669"><i data-lucide="shopping-bag"></i></div>
+    <div class="tt"><b>Nouvelle commande</b><span>Alerte immédiate à chaque vente</span></div>
+    <div class="tog"></div>
+  </div>
+  <div class="toggle-row on" data-key="low_stock">
+    <div class="ti" style="background:#fef3c7;color:#b45309"><i data-lucide="package-x"></i></div>
+    <div class="tt"><b>Stock faible</b><span>Quand un produit passe sous 5 unités</span></div>
+    <div class="tog"></div>
+  </div>
+  <div class="toggle-row on" data-key="new_review">
+    <div class="ti" style="background:#dbeafe;color:#1e40af"><i data-lucide="star"></i></div>
+    <div class="tt"><b>Nouvel avis client</b><span>Réponds vite = meilleure note</span></div>
+    <div class="tog"></div>
+  </div>
+  <div class="toggle-row" data-key="payout">
+    <div class="ti" style="background:#ede9fe;color:#6d28d9"><i data-lucide="banknote"></i></div>
+    <div class="tt"><b>Reversement effectué</b><span>Confirmation chaque lundi</span></div>
+    <div class="tog"></div>
+  </div>
+</div>
+
+<button class="btn" id="saveBtn" style="margin:16px 14px 0;width:calc(100% - 28px)"><i data-lucide="save"></i>Enregistrer les modifications</button>
+<div class="saved" id="savedBox"><i data-lucide="check-circle" style="width:15px;height:15px"></i>Modifications enregistrées ✓</div>
+
+<div class="tip" onclick="alert('Paramètres bien réglés = plus de ventes\n\n• Logo pro = confiance immédiate du client\n• Description unique = tu te démarques des concurrents\n• RCCM ajouté = niveau Xeweul ✓ = -3% de commission = des milliers de F économisés chaque mois\n• Notifications activées = tu ne rates jamais une commande\n\nⓘ Vérifie ton numéro de reversement : une erreur = argent perdu.')"><span>ⓘ</span><span>Astuce : ajouter ton RCCM/NINEA te fait économiser <b>3% sur chaque vente</b> (commission 8% → 5%). Clique pour le calcul.</span></div>
+
+<nav class="bottom-nav">
+  <a href="index.html"><i data-lucide="home"></i>Accueil</a>
+  <a href="produits-vendeur.html"><i data-lucide="package"></i>Produits</a>
+  <a href="commandes-vendeur.html"><i data-lucide="shopping-bag"></i>Commandes</a>
+  <a href="messages.html"><i data-lucide="message-circle"></i>Messages</a>
+  <a href="vendeur.html" class="on"><i data-lucide="store"></i>Boutique</a>
+</nav>
+
+<script>
+lucide.createIcons();
+var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
+var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
+function $(id){return document.getElementById(id)}
+
+var USER=null;
+try{USER=JSON.parse(localStorage.getItem('st_user'))}catch(e){}
+var VENDOR_ID=(USER&&USER.vendor_id)||'11111111-1111-1111-1111-111111111111';
+var NEW_LOGO_URL=null;
+
+/* Charger les données actuelles */
+fetch(SUPA_URL+'/rest/v1/vendors?id=eq.'+VENDOR_ID+'&select=*',{
+  headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}})
+.then(function(r){return r.json()})
+.then(function(rows){
+  if(!rows||!rows.length)return;
+  var v=rows[0];
+  $('pShopName').value=v.shop_name||'';
+  $('pDesc').value=v.description||'';
+  $('pCity').value=v.city||'';
+  if(v.logo_url)$('logoPreview').src=v.logo_url;
+  if(v.pending_phone)$('pPayPhone').value=v.pending_phone;
+}).catch(function(){});
+
+/* Logo preview local */
+$('logoInput').addEventListener('change',function(){
+  if(this.files.length){
+    $('logoPreview').src=URL.createObjectURL(this.files[0]);
+    NEW_LOGO_URL='pending'; /* upload au lancement (storage Supabase) */
+  }
+});
+
+/* Toggles notifications */
+document.querySelectorAll('.toggle-row').forEach(function(t){
+  t.onclick=function(){
+    this.classList.toggle('on');
+    var prefs=JSON.parse(localStorage.getItem('st_vendor_notifs')||'{}');
+    prefs[this.dataset.key]=this.classList.contains('on');
+    localStorage.setItem('st_vendor_notifs',JSON.stringify(prefs));
+  };
+});
+/* Restaurer les toggles */
+(function(){
+  var prefs=JSON.parse(localStorage.getItem('st_vendor_notifs')||'{}');
+  document.querySelectorAll('.toggle-row').forEach(function(t){
+    if(prefs[t.dataset.key]===false)t.classList.remove('on');
+  });
+})();
+
+/* RCCM → Xeweul */
+$('rccmBtn').onclick=function(){
+  var rccm=$('pRccm').value.trim();
+  if(rccm.length<6){alert('Entre ton numéro RCCM ou NINEA complet.');return}
+  if(!confirm('Soumettre « '+rccm+' » pour vérification ?\n\nL\'admin vérifie sous 24h. Si valide :\n• Badge vert ✓ officiel\n• Commission 8% → 5%\n• Produits illimités\n• Top des recherches'))return;
+  /* Enregistre la demande (en attente de validation admin) */
+  fetch(SUPA_URL+'/rest/v1/vendors?id=eq.'+VENDOR_ID,{
+    method:'PATCH',
+    headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify({banner_url:'RCCM_PENDING:'+rccm}) /* champ temporaire, remplacé par colonne dédiée à l'audit */
+  }).then(function(){
+    alert('✅ Demande envoyée !\n\nTon numéro est en vérification par l\'administration.\nTu seras notifié dans Messages sous 24h.\n\nSi valide → tu passes Xeweul ✓ immédiatement.');
+    $('pRccm').value='';
+  }).catch(function(){
+    alert('Erreur réseau. Réessaie.');
+  });
+};
+
+/* Enregistrer */
+$('saveBtn').onclick=function(){
+  var name=$('pShopName').value.trim();
+  if(name.length<3){alert('Nom de boutique trop court.');return}
+  var btn=this;btn.disabled=true;btn.innerHTML='Enregistrement…';
+  fetch(SUPA_URL+'/rest/v1/vendors?id=eq.'+VENDOR_ID,{
+    method:'PATCH',
+    headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify({
+      shop_name:name,
+      description:$('pDesc').value.trim(),
+      city:$('pCity').value.trim()
+    })
+  })
+  .then(function(r){
+    btn.disabled=false;btn.innerHTML='<i data-lucide="save"></i>Enregistrer les modifications';lucide.createIcons();
+    if(r.ok){
+      $('savedBox').classList.add('show');
+      setTimeout(function(){$('savedBox').classList.remove('show')},3000);
+    }else{
+      alert('Erreur ('+r.status+'). Réessaie.');
+    }
+  })
+  .catch(function(){
+    btn.disabled=false;btn.innerHTML='<i data-lucide="save"></i>Enregistrer les modifications';lucide.createIcons();
+    alert('Erreur réseau. Réessaie.');
+  });
+};
+</script>
+</body>
+</html>
