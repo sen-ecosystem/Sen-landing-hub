@@ -2,104 +2,320 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Devenir vendeur — SEN TEW</title>
-<link rel="stylesheet" href="css/app.css?v=50">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Devenir Vendeur - SEN TEW</title>
 <script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/security-shield.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;max-width:100vw}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:40px;color:#0a1f17}
+.hero{background:linear-gradient(160deg,#0a1f17,#0f6b4e);color:#fff;padding:30px 20px 64px;text-align:center}
+.hero img{width:130px;max-width:55%;margin:0 auto 8px;display:block;filter:drop-shadow(0 6px 18px rgba(0,0,0,.35))}
+.hero .logo-txt{font-size:24px;font-weight:900;letter-spacing:2px}
+.hero .logo-txt span{color:#d4a94e}
+.hero h1{font-size:20px;font-weight:900;margin-top:6px}
+.hero p{font-size:12px;opacity:.88;margin-top:6px;line-height:1.55}
+/* Avantages */
+.avantages{display:flex;gap:9px;padding:0 14px;margin-top:-40px}
+.av{flex:1;background:#fff;border-radius:15px;padding:13px 8px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.av .ai{width:38px;height:38px;border-radius:12px;background:#f0fdf4;color:#0f6b4e;display:flex;align-items:center;justify-content:center;margin:0 auto 7px}
+.av .ai i{width:18px;height:18px}
+.av b{font-size:11px;display:block}
+.av span{font-size:9px;color:#9aa5a0;display:block;margin-top:3px;line-height:1.35}
+/* Niveaux */
+.levels-title{margin:22px 14px 0;font-size:15px;font-weight:900;display:flex;align-items:center;gap:8px}
+.levels-title i{width:17px;height:17px;color:#0f6b4e}
+.level{margin:11px 14px 0;background:#fff;border-radius:17px;padding:16px;box-shadow:0 3px 10px rgba(0,0,0,.06);border:2px solid transparent}
+.level.t3{border-color:#d4a94e}
+.lv-head{display:flex;align-items:center;gap:11px}
+.lv-badge{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.lv-head b{font-size:15px;font-weight:900;display:flex;align-items:center;gap:6px}
+.lv-head .lv-sub{font-size:10.5px;color:#6b7280;display:block;margin-top:2px}
+.lv-comm{margin-left:auto;text-align:center;background:#f0fdf4;border-radius:11px;padding:7px 11px;flex-shrink:0}
+.lv-comm b{font-size:14px;color:#0f6b4e;display:block;font-weight:900}
+.lv-comm span{font-size:8.5px;color:#6b7280;font-weight:700}
+.lv-feats{margin-top:11px}
+.lv-feats div{display:flex;gap:7px;font-size:11.5px;color:#4b5563;padding:3.5px 0;line-height:1.45}
+.lv-feats div i{width:14px;height:14px;color:#059669;flex-shrink:0;margin-top:1px}
+.lv-req{margin-top:10px;background:#f9fafb;border-radius:11px;padding:10px 12px;font-size:10.5px;color:#6b7280;line-height:1.5}
+.lv-req b{color:#0a1f17;display:block;margin-bottom:2px;font-size:11px}
+/* Formulaire */
+.form{background:#fff;margin:20px 14px 0;border-radius:18px;padding:18px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.form h2{font-size:16px;font-weight:900;margin-bottom:4px}
+.form .fsub{font-size:11.5px;color:#6b7280;margin-bottom:16px}
+.fld{margin-bottom:13px}
+.fld label{font-size:11.5px;font-weight:800;color:#374151;display:block;margin-bottom:6px;letter-spacing:.2px}
+.fld label .opt{font-weight:600;color:#9aa5a0;font-size:10px}
+.inp{display:flex;align-items:center;gap:9px;border:1.5px solid #e5e7eb;border-radius:13px;padding:0 13px;background:#f9fafb;transition:all .2s}
+.inp:focus-within{border-color:#0f6b4e;background:#fff}
+.inp .ico{color:#9aa5a0;display:flex;align-items:center}
+.inp .ico i{width:16px;height:16px}
+.inp input,.inp select{flex:1;border:none;background:transparent;padding:14px 0;font-size:14px;outline:none;min-width:0;font-family:inherit}
+.hint{font-size:10px;color:#9aa5a0;margin-top:4px;line-height:1.45}
+/* Upload document */
+.doc-zone{border:2px dashed #d1d5db;border-radius:13px;padding:16px;text-align:center;cursor:pointer;background:#f9fafb;transition:all .2s}
+.doc-zone:active{border-color:#0f6b4e;background:#f0fdf4}
+.doc-zone .di{width:38px;height:38px;border-radius:11px;background:#f0fdf4;color:#0f6b4e;display:flex;align-items:center;justify-content:center;margin:0 auto 7px}
+.doc-zone .di i{width:18px;height:18px}
+.doc-zone b{font-size:12px;display:block}
+.doc-zone span{font-size:9.5px;color:#9aa5a0;display:block;margin-top:3px;line-height:1.4}
+.doc-zone.done{border-color:#0f6b4e;border-style:solid;background:#f0fdf4}
+/* Checkbox conditions */
+.check{display:flex;align-items:flex-start;gap:10px;background:#f0fdf4;border:1.5px solid #a7f3d0;border-radius:13px;padding:13px;margin-top:13px;cursor:pointer}
+.check .box{width:22px;height:22px;border-radius:7px;border:2px solid #0f6b4e;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;transition:all .2s}
+.check.on .box{background:#0f6b4e}
+.check span{font-size:11px;color:#065f46;font-weight:600;line-height:1.5}
+.btn{width:100%;padding:16px;border-radius:14px;border:none;background:linear-gradient(135deg,#0f6b4e,#10b981);color:#fff;font-size:15px;font-weight:900;cursor:pointer;margin-top:16px;box-shadow:0 8px 20px rgba(15,107,78,.3);display:flex;align-items:center;justify-content:center;gap:8px}
+.btn:disabled{opacity:.45;box-shadow:none}
+.btn i{width:17px;height:17px}
+.btn-line{background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e;box-shadow:none}
+.err{display:none;background:#fef2f2;border:1.5px solid #fecaca;color:#b91c1c;font-size:12px;font-weight:700;border-radius:12px;padding:11px 13px;margin-bottom:13px;line-height:1.5}
+.err.show{display:block}
+/* Succès */
+.success{display:none;background:#fff;margin:20px 14px 0;border-radius:18px;padding:30px 20px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.success.show{display:block}
+.success .si{width:64px;height:64px;border-radius:50%;background:#f0fdf4;color:#0f6b4e;display:flex;align-items:center;justify-content:center;margin:0 auto}
+.success .si i{width:30px;height:30px}
+.success h2{font-size:18px;font-weight:900;color:#0f6b4e;margin:12px 0 6px}
+.success p{font-size:12px;color:#6b7280;line-height:1.65}
+/* Astuce */
+.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:14px;font-size:11.5px;color:#92400e;cursor:pointer;line-height:1.55}
+</style>
 </head>
-<body class="light-mode">
+<body>
 
-<header class="topbar">
-  <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left" class="icon icon-md icon-vert"></i></button>
-  <h1><i data-lucide="store" class="icon icon-md icon-vert"></i> Devenir vendeur</h1>
-</header>
+<div class="hero">
+  <img src="assets/Logo.png" alt="SEN TEW" onerror="this.outerHTML='<div class=logo-txt style=color:#fff>SEN <span>TEW</span></div>'">
+  <h1>Vends sur SEN TEW</h1>
+  <p>Ta boutique en ligne en 5 minutes.<br>Des milliers de clients à Dakar et dans toute la diaspora.</p>
+</div>
 
-<main style="padding:16px;padding-bottom:100px">
+<div class="avantages">
+  <div class="av"><div class="ai"><i data-lucide="percent"></i></div><b>Commission</b><span>dès 5% seulement</span></div>
+  <div class="av"><div class="ai"><i data-lucide="bike"></i></div><b>Livraison</b><span>nos livreurs gèrent</span></div>
+  <div class="av"><div class="ai"><i data-lucide="banknote"></i></div><b>Paiement</b><span>chaque semaine</span></div>
+</div>
 
-  <!-- Hero -->
-  <div style="background:linear-gradient(135deg,#0f6b4e,#0a4d38);border-radius:14px;padding:24px 18px;margin-bottom:14px;text-align:center;color:#fff;">
-    <div style="width:64px;height:64px;background:rgba(255,255,255,0.15);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;"><i data-lucide="store" style="width:32px;height:32px;color:#d4a574;"></i></div>
-    <h2 style="color:#fff;margin:0 0 6px;font-size:20px;">Vends sur SEN TEW</h2>
-    <p style="color:#e8f5ee;font-size:13px;margin:0;line-height:1.5;">Rejoins des centaines de vendeurs sénégalais et touche des clients au Sénégal et dans toute la diaspora 🌍</p>
+<!-- ═══ LES 3 NIVEAUX VENDEUR ═══ -->
+<div class="levels-title"><i data-lucide="trending-up"></i>Ton parcours vendeur — 3 niveaux</div>
+
+<!-- TERANGA -->
+<div class="level">
+  <div class="lv-head">
+    <div class="lv-badge" style="background:#fef3c7">🥉</div>
+    <div><b>Teranga</b><span class="lv-sub">Débutant — sans documents pro</span></div>
+    <div class="lv-comm"><b>8%</b><span>commission</span></div>
   </div>
-
-  <!-- Avantages -->
-  <h2 class="section-title"><i data-lucide="sparkles" class="icon icon-sm icon-or"></i> TES AVANTAGES</h2>
-  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <div style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f5f5f0"><i data-lucide="percent" class="icon icon-md icon-vert"></i><div style="flex:1"><div style="font-size:14px;font-weight:600;color:#0a1f17">Commission 0% les 3 premiers mois</div><div style="font-size:12px;color:#4a5a52">Ensuite seulement 5% par vente</div></div></div>
-    <div style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f5f5f0"><i data-lucide="truck" class="icon icon-md icon-vert"></i><div style="flex:1"><div style="font-size:14px;font-weight:600;color:#0a1f17">Livraison gérée par SEN TEW</div><div style="font-size:12px;color:#4a5a52">Nos livreurs partenaires s'occupent de tout</div></div></div>
-    <div style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f5f5f0"><i data-lucide="radio" class="icon icon-md icon-rouge"></i><div style="flex:1"><div style="font-size:14px;font-weight:600;color:#0a1f17">Ventes en Live</div><div style="font-size:12px;color:#4a5a52">Vends en direct en vidéo depuis ta boutique</div></div></div>
-    <div style="padding:14px 16px;display:flex;align-items:center;gap:12px"><i data-lucide="wallet" class="icon icon-md icon-or"></i><div style="flex:1"><div style="font-size:14px;font-weight:600;color:#0a1f17">Paiement sécurisé</div><div style="font-size:12px;color:#4a5a52">Reçois ton argent par Wave ou Orange Money</div></div></div>
+  <div class="lv-feats">
+    <div><i data-lucide="check"></i>5 produits maximum</div>
+    <div><i data-lucide="check"></i>Reversement 7 jours après livraison</div>
+    <div><i data-lucide="check"></i>1 boost pub par semaine</div>
   </div>
+  <div class="lv-req"><b>Pour démarrer :</b>ta CNI seule suffit. Tu vends dès aujourd'hui.</div>
+</div>
 
-  <!-- Formulaire -->
-  <h2 class="section-title"><i data-lucide="clipboard-list" class="icon icon-sm icon-vert"></i> TA BOUTIQUE</h2>
-  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <div style="margin-bottom:12px;">
-      <label style="font-size:12px;color:#4a5a52;font-weight:600;display:block;margin-bottom:4px;">Nom de la boutique *</label>
-      <input type="text" placeholder="Ex: Aïcha Couture" style="width:100%;padding:12px;border:1.5px solid #e5e5e0;border-radius:10px;font-size:14px;box-sizing:border-box;font-family:inherit;">
+<!-- JAAY -->
+<div class="level">
+  <div class="lv-head">
+    <div class="lv-badge" style="background:#e5e7eb">🥈</div>
+    <div><b>Jaay</b><span class="lv-sub">Confirmé — par tes résultats</span></div>
+    <div class="lv-comm"><b>6%</b><span>commission</span></div>
+  </div>
+  <div class="lv-feats">
+    <div><i data-lucide="check"></i>30 produits</div>
+    <div><i data-lucide="check"></i>Reversement en 48h</div>
+    <div><i data-lucide="check"></i>Tous les boosts + Photo IA (avec abonnement)</div>
+  </div>
+  <div class="lv-req"><b>Pour y arriver :</b>500 points vendeur (livraisons rapides, notes 5★, zéro litige). <b>Pas besoin de documents</b> — tes résultats parlent.</div>
+</div>
+
+<!-- XEWEUL -->
+<div class="level t3">
+  <div class="lv-head">
+    <div class="lv-badge" style="background:#ede9fe">🥇</div>
+    <div><b>Xeweul ✓</b><span class="lv-sub">Pro vérifié — le niveau maximum</span></div>
+    <div class="lv-comm"><b>5%</b><span>commission</span></div>
+  </div>
+  <div class="lv-feats">
+    <div><i data-lucide="check"></i>Produits illimités</div>
+    <div><i data-lucide="check"></i>Badge vert ✓ officiel (les clients achètent +40% en confiance)</div>
+    <div><i data-lucide="check"></i>Reversement chaque lundi</div>
+    <div><i data-lucide="check"></i>Top des résultats de recherche</div>
+  </div>
+  <div class="lv-req"><b>Pour y arriver :</b>RCCM ou NINEA + CNI. Le badge ✓ fait exploser tes ventes.</div>
+</div>
+
+<!-- ═══ FORMULAIRE ═══ -->
+<div class="form" id="formBox">
+  <h2>Ouvre ta boutique</h2>
+  <div class="fsub">Niveau Teranga (débutant) — validation admin sous 24h, tu reçois une réponse dans Messages.</div>
+
+  <div class="err" id="errBox"></div>
+
+  <div class="fld">
+    <label>NOM DE LA BOUTIQUE *</label>
+    <div class="inp"><span class="ico"><i data-lucide="store"></i></span>
+      <input id="vShop" placeholder="Ex : Aïcha Couture" maxlength="40">
     </div>
-    <div style="margin-bottom:12px;">
-      <label style="font-size:12px;color:#4a5a52;font-weight:600;display:block;margin-bottom:4px;">Catégorie principale *</label>
-      <select style="width:100%;padding:12px;border:1.5px solid #e5e5e0;border-radius:10px;font-size:14px;box-sizing:border-box;font-family:inherit;background:#fff;">
-        <option>Choisir...</option>
-        <option>👗 Mode & Couture</option>
-        <option>📱 Électronique</option>
-        <option>💄 Beauté & Cosmétiques</option>
-        <option>🏠 Maison & Décoration</option>
-        <option>🍲 Alimentation</option>
-        <option>🎨 Artisanat</option>
-        <option>Autre</option>
+  </div>
+
+  <div class="fld">
+    <label>TON NOM COMPLET *</label>
+    <div class="inp"><span class="ico"><i data-lucide="user"></i></span>
+      <input id="vName" placeholder="Ex : Aïcha Diallo" autocomplete="name">
+    </div>
+  </div>
+
+  <div class="fld">
+    <label>TÉLÉPHONE (paiement mobile) *</label>
+    <div class="inp"><span class="ico"><i data-lucide="phone"></i></span>
+      <input id="vPhone" type="tel" inputmode="numeric" placeholder="77 123 45 67" autocomplete="tel">
+    </div>
+    <div class="hint">C'est sur ce numéro que tu reçois tes reversements chaque semaine.</div>
+  </div>
+
+  <div class="fld">
+    <label>CATÉGORIE PRINCIPALE *</label>
+    <div class="inp"><span class="ico"><i data-lucide="tag"></i></span>
+      <select id="vCat">
+        <option value="">Choisir…</option>
+        <option value="mode">Mode & Vêtements</option>
+        <option value="electronique">Électronique</option>
+        <option value="beaute">Beauté & Soins</option>
+        <option value="maison">Maison & Déco</option>
+        <option value="alimentation">Alimentation</option>
+        <option value="sport">Sport & Loisirs</option>
+        <option value="bebe">Bébé & Enfant</option>
+        <option value="auto">Auto & Moto</option>
       </select>
     </div>
-    <div style="margin-bottom:12px;">
-      <label style="font-size:12px;color:#4a5a52;font-weight:600;display:block;margin-bottom:4px;">Téléphone WhatsApp *</label>
-      <input type="tel" placeholder="+221 77 000 00 00" style="width:100%;padding:12px;border:1.5px solid #e5e5e0;border-radius:10px;font-size:14px;box-sizing:border-box;font-family:inherit;">
-    </div>
-    <div>
-      <label style="font-size:12px;color:#4a5a52;font-weight:600;display:block;margin-bottom:4px;">Ville *</label>
-      <select style="width:100%;padding:12px;border:1.5px solid #e5e5e0;border-radius:10px;font-size:14px;box-sizing:border-box;font-family:inherit;background:#fff;">
-        <option>Choisir...</option>
-        <option>Dakar</option>
-        <option>Thiès</option>
-        <option>Mbour</option>
-        <option>Saint-Louis</option>
-        <option>Ziguinchor</option>
-        <option>Kaolack</option>
-        <option>Autre ville</option>
-      </select>
+  </div>
+
+  <div class="fld">
+    <label>QUARTIER / VILLE *</label>
+    <div class="inp"><span class="ico"><i data-lucide="map-pin"></i></span>
+      <input id="vCity" placeholder="Ex : Sacré-Cœur 3, Dakar">
     </div>
   </div>
 
-  <!-- Documents -->
-  <h2 class="section-title"><i data-lucide="file-check" class="icon icon-sm icon-bleu"></i> DOCUMENTS (OPTIONNEL)</h2>
-  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <div style="font-size:12px;color:#4a5a52;line-height:1.6;margin-bottom:10px;">Pour obtenir le badge <b style="color:#0f6b4e;">✓ Boutique vérifiée</b>, tu pourras ajouter plus tard ta carte d'identité et ton NINEA dans tes paramètres vendeur.</div>
-    <div style="background:#EAF5EE;border-radius:10px;padding:12px;display:flex;gap:10px;align-items:flex-start;">
-      <i data-lucide="info" style="width:18px;height:18px;color:#0f6b4e;flex-shrink:0;margin-top:1px;"></i>
-      <span style="font-size:12px;color:#0f6b4e;line-height:1.5;">Tu peux commencer à vendre <b>immédiatement</b>, sans document. La vérification se fait après.</span>
+  <div class="fld">
+    <label>PHOTO DE TA CNI * <span class="opt">(recto)</span></label>
+    <div class="doc-zone" id="cniZone">
+      <div class="di"><i data-lucide="id-card"></i></div>
+      <b>Prends ta CNI en photo</b>
+      <span>Bien lisible, à plat, sans reflet. Vérifiée par l'admin sous 24h.</span>
     </div>
+    <input type="file" id="cniInput" accept="image/*" capture="environment" style="display:none">
   </div>
 
-  <!-- Bouton -->
-  <button onclick="alert('🎉 Demande envoyée ! Notre équipe te contacte sous 24h sur WhatsApp pour activer ta boutique.');location.href='vendeur.html'" style="width:100%;background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;border:none;padding:16px;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 12px rgba(15,107,78,0.3);font-family:inherit;">
-    <i data-lucide="rocket" style="width:18px;height:18px;"></i> Créer ma boutique gratuitement
-  </button>
+  <div class="fld">
+    <label>RCCM OU NINEA <span class="opt">(facultatif — débloque le niveau Xeweul ✓)</span></label>
+    <div class="inp"><span class="ico"><i data-lucide="file-check"></i></span>
+      <input id="vRccm" placeholder="Ex : SN.DKR.2026.A.1234 (si tu l'as)">
+    </div>
+    <div class="hint">Pas de RCCM ? Pas grave : tu démarres en Teranga et tu montes avec tes ventes. Tu l'ajouteras plus tard pour le niveau Xeweul.</div>
+  </div>
 
-  <a href="support.html" style="display:block;text-align:center;margin-top:14px;color:#0f6b4e;font-size:13px;font-weight:600;text-decoration:none;">Une question ? Contacte le support</a>
+  <div class="check" id="checkBox">
+    <div class="box" id="checkMark"></div>
+    <span>J'accepte les <b>conditions vendeur SEN TEW</b> : produits authentiques, préparation sous 24h, commission selon mon niveau, zéro contrefaçon (suspension immédiate).</span>
+  </div>
 
-</main>
+  <button class="btn" id="submitBtn" disabled><i data-lucide="rocket"></i>Ouvrir ma boutique</button>
+</div>
 
-<nav class="bottom-nav">
-  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="layout-grid" class="icon icon-md"></i><span>Catégories</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
-  <a href="messages.html"><i data-lucide="message-circle" class="icon icon-md"></i><span>Messages</span></a>
-  <a href="profil.html" class="active"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
-</nav>
+<!-- SUCCÈS -->
+<div class="success" id="successBox">
+  <div class="si"><i data-lucide="check"></i></div>
+  <h2>Boutique créée !</h2>
+  <p>Ta demande est envoyée à l'administration.<br><br><b>Prochaines étapes :</b><br>1. L'admin vérifie ta CNI (sous 24h)<br>2. Tu es notifié dans Messages<br>3. Tu ajoutes tes 5 premiers produits et tu vends 🎉<br><br><b>Niveau Teranga</b> · 5 produits · commission 8%</p>
+  <button class="btn" onclick="window.location.href='vendeur.html'"><i data-lucide="store"></i>Aller à mon espace vendeur</button>
+</div>
 
-<script src="js/dark-mode.js?v=50"></script>
-<script>lucide.createIcons();</script>
-<script src="js/buttons-audit.js?v=51"></script>
+<div class="tip" onclick="alert('Comment monter de niveau vite\n\n🥉 → 🥈 Teranga vers Jaay (500 points) :\n• Livre dans les délais : +10 pts par commande\n• Note 5★ : +5 pts\n• Réponds aux clients en moins d\'1h : +2 pts\n• 1 mois sans litige : +50 pts\n\n🥈 → 🥇 Jaay vers Xeweul :\n• Ajoute ton RCCM ou NINEA dans ton espace\n\nⓘ Chaque niveau baisse ta commission et augmente ta visibilité = tu gagnes plus.')">ⓘ<span>Astuce : chaque niveau <b>baisse ta commission</b> et augmente ta visibilité. Clique pour la méthode pour monter vite.</span></div>
+
+<script>
+lucide.createIcons();
+var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
+var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
+function showErr(m){var b=document.getElementById('errBox');b.textContent=m;b.classList.remove('show');void b.offsetWidth;b.classList.add('show')}
+function esc(s){var d=document.createElement('div');d.textContent=String(s==null?'':s);return d.innerHTML}
+
+/* CNI upload */
+var CNI_OK=false;
+document.getElementById('cniZone').onclick=function(){document.getElementById('cniInput').click()};
+document.getElementById('cniInput').addEventListener('change',function(){
+  if(this.files.length){
+    CNI_OK=true;
+    var z=document.getElementById('cniZone');
+    z.classList.add('done');
+    z.innerHTML='<div class="di"><i data-lucide="check-circle"></i></div><b>CNI reçue ✓</b><span>'+this.files[0].name+'</span>';
+    lucide.createIcons();
+  }
+});
+
+/* Conditions */
+var accepted=false;
+document.getElementById('checkBox').onclick=function(){
+  accepted=!accepted;
+  this.classList.toggle('on',accepted);
+  document.getElementById('checkMark').textContent=accepted?'✓':'';
+  document.getElementById('submitBtn').disabled=!accepted;
+};
+
+/* Soumission */
+document.getElementById('submitBtn').onclick=function(){
+  var shop=document.getElementById('vShop').value.trim();
+  var name=document.getElementById('vName').value.trim();
+  var phone=document.getElementById('vPhone').value.replace(/[\s.\-]/g,'');
+  var cat=document.getElementById('vCat').value;
+  var city=document.getElementById('vCity').value.trim();
+  var rccm=document.getElementById('vRccm').value.trim();
+
+  if(shop.length<3){showErr('Nom de boutique trop court.');return}
+  if(name.length<3){showErr('Entre ton nom complet.');return}
+  if(!/^[0-9]{9}$/.test(phone)){showErr('Numéro invalide (9 chiffres, ex : 77 123 45 67).');return}
+  if(!cat){showErr('Choisis ta catégorie principale.');return}
+  if(city.length<3){showErr('Indique ton quartier / ta ville.');return}
+  if(!CNI_OK){showErr('Photo de ta CNI obligatoire (sécurité des clients).');return}
+
+  var btn=this;btn.disabled=true;btn.innerHTML='Envoi en cours…';
+
+  var slug=shop.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+
+  fetch(SUPA_URL+'/rest/v1/vendors',{
+    method:'POST',
+    headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+    body:JSON.stringify({
+      shop_name:shop,slug:slug,
+      description:'Boutique '+shop+' — '+city,
+      category:cat,city:city,
+      rating:5.0,followers:0,total_sales:0,
+      is_verified:false,           /* Teranga : non vérifié au départ */
+      plan:'gratuit',
+      commission_rate:8.00         /* niveau Teranga */
+    })
+  })
+  .then(function(r){
+    if(r.ok||r.status===201){
+      document.getElementById('formBox').style.display='none';
+      document.getElementById('successBox').classList.add('show');
+      lucide.createIcons();
+      window.scrollTo({top:0,behavior:'smooth'});
+    }else if(r.status===409){
+      showErr('Ce nom de boutique est déjà pris. Ajoute ton quartier (ex : "'+shop+' Sacré-Cœur").');
+      btn.disabled=false;btn.innerHTML='<i data-lucide="rocket"></i>Ouvrir ma boutique';lucide.createIcons();
+    }else{
+      showErr('Erreur d\'envoi ('+r.status+'). Réessaie.');
+      btn.disabled=false;btn.innerHTML='<i data-lucide="rocket"></i>Ouvrir ma boutique';lucide.createIcons();
+    }
+  })
+  .catch(function(){
+    showErr('Pas de connexion internet. Réessaie.');
+    btn.disabled=false;btn.innerHTML='<i data-lucide="rocket"></i>Ouvrir ma boutique';lucide.createIcons();
+  });
+};
+</script>
 </body>
 </html>
