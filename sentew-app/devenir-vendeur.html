@@ -81,6 +81,16 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .success p{font-size:12px;color:#6b7280;line-height:1.65}
 /* Astuce */
 .tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:14px;font-size:11.5px;color:#92400e;cursor:pointer;line-height:1.55}
+/* Documents Xeweul */
+.xeweul-docs{background:#f5f3ff;border:1.5px solid #ddd6fe;border-radius:14px;padding:14px;margin-top:12px}
+.xeweul-docs h4{font-size:12px;font-weight:900;color:#6d28d9;display:flex;align-items:center;gap:6px;margin-bottom:10px}
+.xeweul-docs h4 i{width:15px;height:15px}
+.xd-row{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px dashed #e9d5ff;font-size:11.5px;color:#4c1d95}
+.xd-row:last-child{border:none}
+.xd-row .xi{width:30px;height:30px;border-radius:9px;background:#ede9fe;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.xd-row .xi i{width:14px;height:14px;color:#6d28d9}
+.xd-row b{flex:1;font-size:11.5px}
+.xd-row span{font-size:9.5px;color:#7c3aed;font-weight:700}
 </style>
 </head>
 <body>
@@ -209,12 +219,38 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
     <input type="file" id="cniInput" accept="image/*" capture="environment" style="display:none">
   </div>
 
-  <div class="fld">
+    <div class="fld">
     <label>RCCM OU NINEA <span class="opt">(facultatif — débloque le niveau Xeweul ✓)</span></label>
     <div class="inp"><span class="ico"><i data-lucide="file-check"></i></span>
       <input id="vRccm" placeholder="Ex : SN.DKR.2026.A.1234 (si tu l'as)">
     </div>
-    <div class="hint">Pas de RCCM ? Pas grave : tu démarres en Teranga et tu montes avec tes ventes. Tu l'ajouteras plus tard pour le niveau Xeweul.</div>
+    <div class="hint">Pas de RCCM ? Pas grave : tu démarres en Teranga et tu montes avec tes ventes.</div>
+  </div>
+
+  <!-- Documents Xeweul (si RCCM renseigné) -->
+  <div class="xeweul-docs" id="xeweulDocs" style="display:none">
+    <h4><i data-lucide="badge-check"></i>Documents pour le niveau Xeweul ✓</h4>
+    <div class="xd-row">
+      <div class="xi"><i data-lucide="file-text"></i></div>
+      <b>RCCM ou NINEA <span style="color:#e63946">*</span></b>
+      <span>requis</span>
+    </div>
+    <div class="xd-row">
+      <div class="xi"><i data-lucide="store"></i></div>
+      <b>Photo de ta boutique / atelier / stock <span style="color:#e63946">*</span></b>
+      <span>requis</span>
+    </div>
+    <div class="xd-row">
+      <div class="xi"><i data-lucide="receipt"></i></div>
+      <b>2 factures fournisseurs récentes <span style="color:#e63946">*</span></b>
+      <span>requis</span>
+    </div>
+    <div class="xd-row">
+      <div class="xi"><i data-lucide="scan-face"></i></div>
+      <b>Selfie avec ta CNI en main <span style="color:#e63946">*</span></b>
+      <span>requis</span>
+    </div>
+    <div class="hint" style="margin-top:9px">💡 Ces documents prouvent que ton activité est réelle. L'admin les vérifie sous 24h → badge ✓ + commission 5% + produits illimités. Ils sont conservés de façon sécurisée et ne sont jamais partagés.</div>
   </div>
 
   <div class="check" id="checkBox">
