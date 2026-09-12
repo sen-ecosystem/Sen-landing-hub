@@ -104,12 +104,46 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
     <input id="pPayPhone" type="tel" inputmode="numeric" placeholder="77 123 45 67">
     <div class="hint">C'est sur ce numéro que tu reçois ta cagnotte chaque lundi. Vérifie-le bien — une erreur = argent envoyé à quelqu'un d'autre.</div>
   </div>
-  <div class="fld" style="margin-bottom:0">
+    <div class="fld" style="margin-bottom:0">
     <label>MÉTHODE PRÉFÉRÉE</label>
     <select id="pPayMethod">
       <option value="mobile_money">Paiement mobile (instantané, gratuit)</option>
-      <option value="bank">Virement bancaire (24-48h)</option>
+      <option value="bank">Virement bancaire (24-48h ouvrées)</option>
     </select>
+  </div>
+
+  <!-- Bandeau délai selon méthode -->
+  <div id="delayBanner" style="margin-top:10px;background:#f0fdf4;border:1.5px solid #a7f3d0;border-radius:12px;padding:11px 13px;font-size:11.5px;color:#065f46;font-weight:700;line-height:1.55">
+    ⚡ <b>Paiement mobile</b> : reversé chaque <b>lundi</b>, reçu en quelques secondes. Aucun frais.
+  </div>
+
+  <!-- Champs bancaires (cachés par défaut) -->
+  <div id="bankFields" style="display:none;margin-top:10px">
+    <div class="fld">
+      <label>BANQUE</label>
+      <select id="pBank">
+        <option value="">Choisir ta banque…</option>
+        <option>CBAO</option>
+        <option>Société Générale Sénégal</option>
+        <option>Banque Atlantique</option>
+        <option>Ecobank</option>
+        <option>UBA</option>
+        <option>BNDE</option>
+        <option>BHS</option>
+        <option>BIS</option>
+        <option>Orabank</option>
+        <option>Autre</option>
+      </select>
+    </div>
+    <div class="fld">
+      <label>TITULAIRE DU COMPTE *</label>
+      <input id="pBankName" placeholder="Nom exact comme sur ton compte">
+    </div>
+    <div class="fld" style="margin-bottom:0">
+      <label>IBAN / NUMÉRO DE COMPTE *</label>
+      <input id="pIban" placeholder="Ex : SN08 SN01 0012 3456 7890 1234 5678">
+      <div class="hint">Demande ton RIB à ta banque — l'IBAN commence par SN.</div>
+    </div>
   </div>
 </div>
 
@@ -204,6 +238,17 @@ document.querySelectorAll('.toggle-row').forEach(function(t){
     localStorage.setItem('st_vendor_notifs',JSON.stringify(prefs));
   };
 });
+
+  /* ===== Bascule méthode de reversement ===== */
+document.getElementById('pPayMethod').addEventListener('change',function(){
+  var isBank=this.value==='bank';
+  document.getElementById('bankFields').style.display=isBank?'block':'none';
+  document.getElementById('delayBanner').innerHTML=isBank
+    ?'🏦 <b>Virement bancaire</b> : déclenché chaque <b>lundi</b>, reçu sous <b>24 à 48h ouvrées</b> (mardi/mercredi au plus tard). Frais : 500 F par virement.'
+    :'⚡ <b>Paiement mobile</b> : reversé chaque <b>lundi</b>, reçu en quelques secondes. Aucun frais.';
+  lucide.createIcons();
+});
+
 /* Restaurer les toggles */
 (function(){
   var prefs=JSON.parse(localStorage.getItem('st_vendor_notifs')||'{}');
@@ -238,11 +283,13 @@ $('saveBtn').onclick=function(){
   fetch(SUPA_URL+'/rest/v1/vendors?id=eq.'+VENDOR_ID,{
     method:'PATCH',
     headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'},
-    body:JSON.stringify({
+      body:JSON.stringify({
       shop_name:name,
       description:$('pDesc').value.trim(),
-      city:$('pCity').value.trim()
-    })
+      city:$('pCity').value.trim(),
+      pending_phone:$('pPayPhone').value.replace(/\s/g,''),
+      default_carrier:document.getElementById('pPayMethod').value
+    }) 
   })
   .then(function(r){
     btn.disabled=false;btn.innerHTML='<i data-lucide="save"></i>Enregistrer les modifications';lucide.createIcons();
