@@ -174,13 +174,19 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 
   <div class="doc-note">🛡️ <b>Pourquoi ces documents ?</b> Les clients te confient leurs colis et leurs adresses. La vérification protège tout le monde — et les livreurs vérifiés reçoivent <b>les courses en priorité</b>.</div>
 
-  <!-- CNI -->
-  <div class="doc-zone" id="dz-cni" data-doc="CNI">
+   <!-- CNI recto + verso -->
+  <div class="doc-zone" id="dz-cni" data-doc="CNI recto" style="margin-bottom:9px">
     <div class="di"><i data-lucide="id-card"></i></div>
-    <b>Carte Nationale d'Identité <span class="req">*</span></b>
-    <span>Recto bien lisible, à plat, sans reflet</span>
+    <b>CNI — RECTO <span class="req">*</span></b>
+    <span>La face avec ta photo. Lisible, à plat, sans reflet</span>
   </div>
   <input type="file" id="fi-cni" accept="image/*" capture="environment" style="display:none">
+  <div class="doc-zone" id="dz-cni_verso" data-doc="CNI verso">
+    <div class="di"><i data-lucide="id-card"></i></div>
+    <b>CNI — VERSO <span class="req">*</span></b>
+    <span>La face arrière. Les deux faces sont obligatoires (comme les banques)</span>
+  </div>
+  <input type="file" id="fi-cni_verso" accept="image/*" capture="environment" style="display:none">
 
   <!-- Selfie -->
   <div class="doc-zone" id="dz-selfie" data-doc="Selfie">
@@ -264,7 +270,7 @@ function showErr(m){var b=document.getElementById('errBox');b.textContent=m;b.cl
 function hideErr(){document.getElementById('errBox').classList.remove('show')}
 
 /* ===== Véhicule → documents conditionnels ===== */
-var DOCS={cni:false,selfie:false,casque:false,permis:false,grise:false,assurance:false};
+var DOCS={cni:false,cni_verso:false,selfie:false,casque:false,permis:false,grise:false,assurance:false};
 document.getElementById('fVehicle').addEventListener('change',function(){
   var motor=(this.value==='moto'||this.value==='voiture');
   ['casque','permis','grise','assurance'].forEach(function(d){
@@ -276,7 +282,7 @@ document.getElementById('fVehicle').addEventListener('change',function(){
 });
 
 /* ===== Upload documents (zones cliquables) ===== */
-[['cni'],['selfie'],['casque'],['permis'],['grise'],['assurance']].forEach(function(pair){
+[['cni'],['cni_verso'],['selfie'],['casque'],['permis'],['grise'],['assurance']].forEach(function(pair){
   var key=pair[0];
   var zone=document.getElementById('dz-'+key);
   var input=document.getElementById('fi-'+key);
@@ -317,7 +323,8 @@ document.getElementById('submitBtn').onclick=function(){
   if(!zone){showErr('Choisis ta zone de livraison.');return}
   if(!vehicle){showErr('Choisis ton type de véhicule.');return}
   if(motor&&!plate){showErr('Plaque d\'immatriculation obligatoire (affichée au client).');return}
-  if(!DOCS.cni){showErr('Photo de ta CNI obligatoire (étape 3).');return}
+  if(!DOCS.cni){showErr('Photo CNI recto obligatoire (étape 3).');return}
+  if(!DOCS.cni_verso){showErr('Photo CNI verso obligatoire aussi.');return}
   if(!DOCS.selfie){showErr('Selfie de vérification obligatoire (comparé à ta CNI).');return}
   if(motor&&!DOCS.permis){showErr('Photo du permis obligatoire pour véhicule motorisé.');return}
   if(motor&&!DOCS.grise){showErr('Photo de la carte grise obligatoire.');return}
@@ -336,7 +343,7 @@ document.getElementById('submitBtn').onclick=function(){
       plate:motor?plate:null,
       zone:zone,
       type:'collab',
-      company:'DOCS:cni+selfie'+(DOCS.permis?'+permis':'')+(DOCS.grise?'+grise':'')+(DOCS.casque?'+casque':'')+(DOCS.assurance?'+assurance':''),
+      company:'DOCS:cni_recto+cni_verso+selfie'+(DOCS.permis?'+permis':'')+(DOCS.grise?'+grise':'')+(DOCS.casque?'+casque':'')+(DOCS.assurance?'+assurance':''),
       is_available:false,
       rating:5.0,
       total_deliveries:0
