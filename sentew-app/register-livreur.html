@@ -9,100 +9,110 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{overflow-x:hidden;max-width:100vw}
-body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:30px;color:#0a1f17}
-.hero{background:linear-gradient(160deg,#0a1f17,#0f6b4e);color:#fff;padding:26px 18px 66px;text-align:center}
-.hero .hi{font-size:38px;margin-bottom:8px}
-.hero h1{font-size:21px;font-weight:900}
-.hero p{font-size:12.5px;opacity:.85;margin-top:6px;line-height:1.5}
-/* Avantages */
-.avantages{display:flex;gap:9px;padding:0 14px;margin-top:-44px}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:40px;color:#0a1f17}
+.hero{background:linear-gradient(160deg,#0a1f17,#0f6b4e);color:#fff;padding:26px 18px 62px;text-align:center}
+.hero img{width:120px;max-width:50%;margin:0 auto 6px;display:block;filter:drop-shadow(0 6px 16px rgba(0,0,0,.35))}
+.hero h1{font-size:20px;font-weight:900;margin-top:4px}
+.hero p{font-size:12px;opacity:.88;margin-top:6px;line-height:1.55}
+.avantages{display:flex;gap:9px;padding:0 14px;margin-top:-38px}
 .av{flex:1;background:#fff;border-radius:15px;padding:13px 8px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.08)}
-.av .ai{font-size:24px;margin-bottom:6px}
-.av b{font-size:11px;display:block;color:#0a1f17}
-.av span{font-size:9px;color:#6b7280;display:block;margin-top:3px;line-height:1.35}
-/* Formulaire */
-.form{background:#fff;margin:14px;border-radius:18px;padding:18px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
-.form h2{font-size:16px;font-weight:900;margin-bottom:4px}
-.form .fsub{font-size:11.5px;color:#6b7280;margin-bottom:16px}
-.fld{margin-bottom:13px}
-.fld label{font-size:11.5px;font-weight:800;color:#374151;display:block;margin-bottom:6px}
-.fld input,.fld select{width:100%;border:1.5px solid #e5e7eb;border-radius:12px;padding:13px 14px;font-size:14px;outline:none;background:#f9fafb;transition:border .2s}
-.fld input:focus,.fld select:focus{border-color:#0f6b4e;background:#fff}
-.fld .hint{font-size:10px;color:#9aa5a0;margin-top:4px}
-/* Conditions */
-.cond{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:14px;padding:14px;margin:14px 0;max-height:180px;overflow-y:auto;font-size:11.5px;color:#4b5563;line-height:1.65}
-.cond h4{font-size:12px;color:#0a1f17;margin:10px 0 4px}
-.cond h4:first-child{margin-top:0}
-.check{display:flex;align-items:flex-start;gap:10px;background:#f0fdf4;border:1.5px solid #a7f3d0;border-radius:13px;padding:13px;margin-top:12px;cursor:pointer}
-.check .box{width:22px;height:22px;border-radius:7px;border:2px solid #0f6b4e;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;transition:all .2s}
-.check.on .box{background:#0f6b4e}
-.check span{font-size:11.5px;color:#065f46;font-weight:600;line-height:1.5}
-.btn{width:100%;padding:16px;border-radius:14px;border:none;background:linear-gradient(135deg,#0f6b4e,#10b981);color:#fff;font-size:15px;font-weight:900;cursor:pointer;margin-top:16px;box-shadow:0 8px 20px rgba(15,107,78,.3)}
-.btn:disabled{opacity:.45;box-shadow:none}
-.btn-line{background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e;box-shadow:none}
+.av .ai{width:36px;height:36px;border-radius:11px;background:#f0fdf4;color:#0f6b4e;display:flex;align-items:center;justify-content:center;margin:0 auto 6px}
+.av .ai i{width:17px;height:17px}
+.av b{font-size:11px;display:block}
+.av span{font-size:9px;color:#9aa5a0;display:block;margin-top:3px;line-height:1.35}
 /* Gains */
 .gains{background:#0a1f17;border-radius:16px;padding:16px;margin:14px;color:#fff}
-.gains h3{font-size:14px;font-weight:900;margin-bottom:12px;text-align:center}
+.gains h3{font-size:13.5px;font-weight:900;margin-bottom:11px;display:flex;align-items:center;gap:7px}
+.gains h3 i{width:16px;height:16px;color:#4ade80}
 .g-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px dashed rgba(255,255,255,.15);font-size:12.5px}
 .g-row:last-child{border:none}
 .g-row b{color:#4ade80}
-/* Succès */
-.success{display:none;text-align:center;padding:30px 20px}
+/* Formulaire */
+.form{background:#fff;margin:0 14px;border-radius:18px;padding:18px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.form h2{font-size:16px;font-weight:900;margin-bottom:4px}
+.form .fsub{font-size:11.5px;color:#6b7280;margin-bottom:16px;line-height:1.5}
+.step-tag{display:inline-block;font-size:9.5px;font-weight:900;letter-spacing:1px;color:#0f6b4e;background:#f0fdf4;padding:4px 11px;border-radius:9px;margin-bottom:14px}
+.fld{margin-bottom:13px}
+.fld label{font-size:11.5px;font-weight:800;color:#374151;display:block;margin-bottom:6px}
+.fld label .req{color:#e63946}
+.fld label .opt{font-weight:600;color:#9aa5a0;font-size:10px}
+.fld input,.fld select{width:100%;border:1.5px solid #e5e7eb;border-radius:12px;padding:13px 14px;font-size:14px;outline:none;background:#f9fafb;font-family:inherit;box-sizing:border-box;transition:border .2s}
+.fld input:focus,.fld select:focus{border-color:#0f6b4e;background:#fff}
+.hint{font-size:10px;color:#9aa5a0;margin-top:4px;line-height:1.45}
+/* Documents */
+.doc-zone{border:2px dashed #d1d5db;border-radius:13px;padding:15px;text-align:center;cursor:pointer;background:#f9fafb;transition:all .2s;margin-bottom:11px}
+.doc-zone:active{border-color:#0f6b4e;background:#f0fdf4}
+.doc-zone .di{width:38px;height:38px;border-radius:11px;background:#f0fdf4;color:#0f6b4e;display:flex;align-items:center;justify-content:center;margin:0 auto 6px}
+.doc-zone .di i{width:18px;height:18px}
+.doc-zone b{font-size:12px;display:block}
+.doc-zone span{font-size:9.5px;color:#9aa5a0;display:block;margin-top:3px;line-height:1.4}
+.doc-zone.done{border-color:#0f6b4e;border-style:solid;background:#f0fdf4}
+.doc-zone.done .di{background:#0f6b4e;color:#fff}
+.doc-note{font-size:10px;color:#6b7280;background:#f9fafb;border-radius:10px;padding:9px 11px;line-height:1.5;margin-bottom:13px}
+/* Conditions */
+.cond{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:13px;padding:13px;margin:13px 0;max-height:170px;overflow-y:auto;font-size:11px;color:#4b5563;line-height:1.6}
+.cond h4{font-size:11.5px;color:#0a1f17;margin:9px 0 3px}
+.cond h4:first-child{margin-top:0}
+.check{display:flex;align-items:flex-start;gap:10px;background:#f0fdf4;border:1.5px solid #a7f3d0;border-radius:13px;padding:13px;cursor:pointer}
+.check .box{width:22px;height:22px;border-radius:7px;border:2px solid #0f6b4e;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;transition:all .2s}
+.check.on .box{background:#0f6b4e}
+.check span{font-size:11px;color:#065f46;font-weight:600;line-height:1.5}
+.btn{width:100%;padding:16px;border-radius:14px;border:none;background:linear-gradient(135deg,#0f6b4e,#10b981);color:#fff;font-size:15px;font-weight:900;cursor:pointer;margin-top:14px;box-shadow:0 8px 20px rgba(15,107,78,.3);display:flex;align-items:center;justify-content:center;gap:8px}
+.btn:disabled{opacity:.45;box-shadow:none}
+.btn i{width:17px;height:17px}
+.btn-line{background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e;box-shadow:none}
+.err{display:none;background:#fef2f2;border:1.5px solid #fecaca;color:#b91c1c;font-size:12px;font-weight:700;border-radius:12px;padding:11px 13px;margin:0 14px 12px;line-height:1.5}
+.err.show{display:block}
+.success{display:none;background:#fff;margin:14px;border-radius:18px;padding:30px 20px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.06)}
 .success.show{display:block}
-.success .si{font-size:52px}
-.success h2{font-size:19px;font-weight:900;color:#0f6b4e;margin:12px 0 8px}
-.success p{font-size:12.5px;color:#6b7280;line-height:1.6}
-.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:14px;font-size:11.5px;color:#92400e;cursor:pointer;line-height:1.5}
+.success .si{width:64px;height:64px;border-radius:50%;background:#f0fdf4;color:#0f6b4e;display:flex;align-items:center;justify-content:center;margin:0 auto}
+.success .si i{width:30px;height:30px}
+.success h2{font-size:18px;font-weight:900;color:#0f6b4e;margin:12px 0 6px}
+.success p{font-size:12px;color:#6b7280;line-height:1.65}
+.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:14px;font-size:11.5px;color:#92400e;cursor:pointer;line-height:1.55}
 </style>
 </head>
 <body>
 
 <div class="hero">
-  <div class="hi">🛵</div>
-  <h1>Deviens Livreur SEN TEW</h1>
-  <p>Gagne de l'argent à ton rythme, avec ta moto ou ton vélo.<br>Paiement chaque semaine, directement sur Wave ou Orange Money.</p>
+  <img src="assets/Logo.png" alt="SEN TEW" onerror="this.outerHTML='<div style=font-size:24px;font-weight:900;color:#fff>SEN <span style=color:#d4a94e>TEW</span></div>'">
+  <h1>Deviens Livreur Partenaire</h1>
+  <p>Gagne à ton rythme avec ta moto, ton vélo ou ta voiture.<br>Payé chaque lundi, directement sur ton paiement mobile.</p>
 </div>
 
 <div class="avantages">
-  <div class="av"><div class="ai">💰</div><b>1 000 - 2 000 F</b><span>par livraison selon la zone</span></div>
-  <div class="av"><div class="ai">📅</div><b>Chaque lundi</b><span>paiement automatique</span></div>
-  <div class="av"><div class="ai">🕐</div><b>Libre</b><span>tu choisis tes horaires</span></div>
+  <div class="av"><div class="ai"><i data-lucide="banknote"></i></div><b>1 000 – 2 000 F</b><span>par livraison selon zone</span></div>
+  <div class="av"><div class="ai"><i data-lucide="calendar-check"></i></div><b>Chaque lundi</b><span>paiement automatique</span></div>
+  <div class="av"><div class="ai"><i data-lucide="clock"></i></div><b>100% libre</b><span>tu choisis tes horaires</span></div>
 </div>
 
 <div class="gains">
-  <h3>💰 Combien tu gagnes ?</h3>
-  <div class="g-row"><span>🛵 Livraison Dakar centre</span><b>1 000 F</b></div>
-  <div class="g-row"><span>🛵 Livraison banlieue</span><b>1 500 F</b></div>
-  <div class="g-row"><span>🛵 Livraison région</span><b>2 000 F</b></div>
-  <div class="g-row"><span>⭐ Bonus 20 livraisons/semaine</span><b>+ 3 000 F</b></div>
-  <div class="g-row"><span>🏆 Bonus note 4.8+ maintenue</span><b>+ 5 000 F/mois</b></div>
+  <h3><i data-lucide="wallet"></i>Combien tu gagnes</h3>
+  <div class="g-row"><span>Livraison Dakar centre</span><b>1 000 F</b></div>
+  <div class="g-row"><span>Livraison banlieue</span><b>1 500 F</b></div>
+  <div class="g-row"><span>Livraison région</span><b>2 000 F</b></div>
+  <div class="g-row"><span>Bonus : 20 livraisons / semaine</span><b>+ 3 000 F</b></div>
+  <div class="g-row"><span>Bonus : note 4.8+ maintenue 1 mois</span><b>+ 5 000 F</b></div>
 </div>
 
+<div class="err" id="errBox"></div>
+
 <div class="form" id="formBox">
-  <h2>📝 Inscription (2 minutes)</h2>
-  <div class="fsub">Un admin valide ton dossier sous 24h — tu reçois un appel de vérification.</div>
+
+  <!-- ═══ ÉTAPE 1 : IDENTITÉ ═══ -->
+  <div class="step-tag">ÉTAPE 1/3 — TON IDENTITÉ</div>
 
   <div class="fld">
-    <label>NOM COMPLET *</label>
-    <input id="fName" placeholder="Ex : Mamadou Diallo" autocapitalize="words">
+    <label>NOM COMPLET <span class="req">*</span></label>
+    <input id="fName" placeholder="Ex : Mamadou Diallo" autocapitalize="words" autocomplete="name">
   </div>
   <div class="fld">
-    <label>TÉLÉPHONE (Wave ou OM) *</label>
-    <input id="fPhone" type="tel" placeholder="Ex : 77 123 45 67" inputmode="numeric">
-    <div class="hint">C'est sur ce numéro que tu recevras tes paiements chaque lundi.</div>
+    <label>TÉLÉPHONE (paiement mobile) <span class="req">*</span></label>
+    <input id="fPhone" type="tel" inputmode="numeric" placeholder="77 123 45 67" autocomplete="tel">
+    <div class="hint">C'est sur ce numéro que tu reçois ta paye chaque lundi.</div>
   </div>
   <div class="fld">
-    <label>VÉHICULE *</label>
-    <select id="fVehicle">
-      <option value="">Choisir…</option>
-      <option value="moto">🏍️ Moto</option>
-      <option value="velo">🚲 Vélo</option>
-      <option value="voiture">🚗 Voiture</option>
-      <option value="pied">🚶 À pied (Dakar centre uniquement)</option>
-    </select>
-  </div>
-  <div class="fld">
-    <label>ZONES DE LIVRAISON *</label>
+    <label>ZONE DE LIVRAISON <span class="req">*</span></label>
     <select id="fZone">
       <option value="">Choisir…</option>
       <option>Dakar centre (Plateau, Médina, HLM)</option>
@@ -112,50 +122,157 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
       <option>Régions (Thiès, Mbour, autres)</option>
     </select>
   </div>
+
+  <!-- ═══ ÉTAPE 2 : VÉHICULE ═══ -->
+  <div class="step-tag">ÉTAPE 2/3 — TON VÉHICULE</div>
+
   <div class="fld">
-    <label>NUMÉRO CNI *</label>
-    <input id="fCni" placeholder="Ex : 1 234 567 890 123" inputmode="numeric">
-    <div class="hint">Obligatoire pour ta protection et celle des clients.</div>
+    <label>TYPE DE VÉHICULE <span class="req">*</span></label>
+    <select id="fVehicle">
+      <option value="">Choisir…</option>
+      <option value="moto">Moto / Scooter</option>
+      <option value="velo">Vélo</option>
+      <option value="voiture">Voiture</option>
+      <option value="pied">À pied (Dakar centre uniquement)</option>
+    </select>
   </div>
 
-  <div class="cond" id="condBox">
-    <h4>📜 CONDITIONS DU LIVREUR PARTENAIRE SEN TEW</h4>
-    <b>Article 1 — Rôle.</b> Le livreur récupère les colis chez les vendeurs (scan du code retrait) et les livre aux clients (saisie du code de livraison du client).<br><br>
-    <b>Article 2 — Rémunération.</b> 1 000 à 2 000 F par livraison selon la zone, versés chaque lundi sur Wave/Orange Money. Bonus : +3 000 F après 20 livraisons/semaine, +5 000 F/mois si note ≥ 4.8.<br><br>
-    <b>Article 3 — Obligations.</b> Le livreur s'engage à : livrer dans les délais indiqués, ne jamais ouvrir un colis, traiter les clients avec respect, activer le GPS pendant les courses, signaler tout problème immédiatement dans l'application.<br><br>
-    <b>Article 4 — Codes.</b> Le code de livraison est saisi UNIQUEMENT devant le client. Toute saisie frauduleuse entraîne la suspension immédiate et le non-paiement de la course.<br><br>
-    <b>Article 5 — Colis.</b> Le livreur est responsable du colis entre le scan de retrait et la livraison confirmée. Colis perdu ou endommagé par négligence = retenue sur les gains.<br><br>
-    <b>Article 6 — Suspension.</b> Note moyenne < 4.0 après 20 courses, 3 signalements clients, ou fraude avérée = suspension du compte après examen par l'administration.<br><br>
-    <b>Article 7 — Indépendance.</b> Le livreur est un partenaire indépendant : il choisit librement ses disponibilités. Aucun horaire imposé.<br><br>
-    <b>Article 8 — Données.</b> Les coordonnées des clients sont confidentielles : interdiction de les réutiliser hors livraison (loi sénégalaise sur les données personnelles).
+  <!-- Champs conditionnels motorisé -->
+  <div id="motorFields" style="display:none">
+    <div class="fld">
+      <label>PLAQUE D'IMMATRICULATION <span class="req">*</span></label>
+      <input id="fPlate" placeholder="Ex : DK-4521-A" autocapitalize="characters">
+      <div class="hint">Affichée au client pendant le suivi — il reconnaît ton véhicule.</div>
+    </div>
+    <div class="fld">
+      <label>MODÈLE DU VÉHICULE</label>
+      <input id="fModel" placeholder="Ex : Moto TVS 125 rouge">
+    </div>
+  </div>
+
+  <!-- ═══ ÉTAPE 3 : DOCUMENTS ═══ -->
+  <div class="step-tag">ÉTAPE 3/3 — VÉRIFICATION (comme Uber / Glovo)</div>
+
+  <div class="doc-note">🛡️ <b>Pourquoi ces documents ?</b> Les clients te confient leurs colis et leurs adresses. La vérification protège tout le monde — et les livreurs vérifiés reçoivent <b>les courses en priorité</b>.</div>
+
+  <!-- CNI -->
+  <div class="doc-zone" id="dz-cni" data-doc="CNI">
+    <div class="di"><i data-lucide="id-card"></i></div>
+    <b>Carte Nationale d'Identité <span class="req">*</span></b>
+    <span>Recto bien lisible, à plat, sans reflet</span>
+  </div>
+  <input type="file" id="fi-cni" accept="image/*" capture="environment" style="display:none">
+
+  <!-- Selfie -->
+  <div class="doc-zone" id="dz-selfie" data-doc="Selfie">
+    <div class="di"><i data-lucide="scan-face"></i></div>
+    <b>Selfie de vérification <span class="req">*</span></b>
+    <span>Ton visage en ce moment — comparé à ta CNI (anti-usurpation)</span>
+  </div>
+  <input type="file" id="fi-selfie" accept="image/*" capture="user" style="display:none">
+
+  <!-- Casque -->
+  <div class="doc-zone" id="dz-casque" data-doc="Casque" style="display:none">
+    <div class="di"><i data-lucide="hard-hat"></i></div>
+    <b>Photo avec ton casque <span class="req">*</span></b>
+    <span>Obligatoire pour moto/scooter — ta sécurité d'abord</span>
+  </div>
+  <input type="file" id="fi-casque" accept="image/*" capture="environment" style="display:none">
+
+  <!-- Permis -->
+  <div class="doc-zone" id="dz-permis" data-doc="Permis" style="display:none">
+    <div class="di"><i data-lucide="id-card"></i></div>
+    <b>Permis de conduire <span class="req">*</span></b>
+    <span>Photo lisible du permis correspondant à ton véhicule</span>
+  </div>
+  <input type="file" id="fi-permis" accept="image/*" capture="environment" style="display:none">
+
+  <!-- Carte grise -->
+  <div class="doc-zone" id="dz-grise" data-doc="Carte grise" style="display:none">
+    <div class="di"><i data-lucide="file-text"></i></div>
+    <b>Carte grise <span class="req">*</span></b>
+    <span>Prouve que le véhicule est déclaré à ton nom</span>
+  </div>
+  <input type="file" id="fi-grise" accept="image/*" capture="environment" style="display:none">
+
+  <!-- Assurance (recommandée) -->
+  <div class="doc-zone" id="dz-assurance" data-doc="Assurance" style="display:none">
+    <div class="di"><i data-lucide="shield"></i></div>
+    <b>Assurance véhicule <span style="color:#b45309">(fortement recommandée)</span></b>
+    <span>En cas d'accident, tout est couvert. Sans elle, tu roules à tes risques.</span>
+  </div>
+  <input type="file" id="fi-assurance" accept="image/*" capture="environment" style="display:none">
+
+  <!-- Conditions -->
+  <div class="cond">
+    <h4>CONDITIONS DU LIVREUR PARTENAIRE SEN TEW</h4>
+    <b>1. Rôle.</b> Je récupère les colis chez les vendeurs (scan du code retrait) et les livre aux clients (le client saisit son code secret devant moi).<br><br>
+    <b>2. Rémunération.</b> 1 000 à 2 000 F par livraison selon la zone, versés chaque lundi par paiement mobile. Bonus : +3 000 F après 20 livraisons/semaine, +5 000 F/mois si note ≥ 4.8.<br><br>
+    <b>3. Mes engagements.</b> Livrer dans les délais · ne jamais ouvrir un colis · respecter les clients · GPS activé pendant chaque course · signaler tout problème immédiatement dans l'app.<br><br>
+    <b>4. Codes.</b> Le code de livraison est saisi UNIQUEMENT par le client, devant moi, colis en main. Toute fraude = suspension immédiate + course non payée.<br><br>
+    <b>5. Colis.</b> Je suis responsable du colis entre le scan de retrait et la livraison confirmée. Colis perdu par négligence = retenue sur mes gains.<br><br>
+    <b>6. Sécurité routière.</b> Casque obligatoire à moto. Je roule prudemment : ma vie et celle des autres avant la vitesse.<br><br>
+    <b>7. Suspension.</b> Note < 4.0 après 20 courses, 3 signalements clients, ou fraude = suspension après examen par l'administration.<br><br>
+    <b>8. Indépendance.</b> Je suis partenaire indépendant : je choisis librement mes disponibilités, aucun horaire imposé.<br><br>
+    <b>9. Confidentialité.</b> Les coordonnées des clients sont strictement réservées à la livraison (loi sur les données personnelles).
   </div>
 
   <div class="check" id="checkBox">
     <div class="box" id="checkMark"></div>
-    <span>J'ai lu et j'accepte les <b>conditions du livreur partenaire</b> ci-dessus, et je confirme que mes informations sont exactes.</span>
+    <span>J'ai lu et j'accepte les <b>conditions du livreur partenaire</b>. Je confirme que mes informations et mes documents sont authentiques.</span>
   </div>
 
-  <button class="btn" id="submitBtn" disabled>📨 Envoyer ma candidature</button>
+  <button class="btn" id="submitBtn" disabled><i data-lucide="send"></i>Envoyer ma candidature</button>
 </div>
 
-<div class="form success" id="successBox">
-  <div class="si">🎉</div>
+<!-- SUCCÈS -->
+<div class="success" id="successBox">
+  <div class="si"><i data-lucide="check"></i></div>
   <h2>Candidature envoyée !</h2>
-  <p>Ton dossier est transmis à l'administration SEN TEW.<br><br>
-  <b>Prochaines étapes :</b><br>
-  1. Un admin vérifie ton dossier (sous 24h)<br>
-  2. Tu reçois un appel de vérification<br>
-  3. Tu te connectes sur <b>livreur.html</b> et tu commences tes courses 🛵</p>
-  <button class="btn btn-line" onclick="window.location.href='index.html'">← Retour à l'accueil</button>
+  <p>L'administration vérifie tes documents sous <b>24h</b>.<br><br><b>Prochaines étapes :</b><br>1. Vérification CNI + selfie + documents véhicule<br>2. Appel de confirmation sur ton numéro<br>3. Tu te connectes sur <b>livreur.html</b> et tu prends ta première course 🛵<br><br>Ta plaque sera visible par les clients pendant le suivi — comme les grandes apps de livraison.</p>
+  <button class="btn" onclick="window.location.href='index.html'"><i data-lucide="home"></i>Retour à l'accueil</button>
 </div>
 
-<div class="tip" onclick="alert('💡 Conseils pour être accepté rapidement\n\n✓ Vrai nom + vrai numéro CNI\n✓ Numéro Wave/OM actif (c\'est là que tu es payé)\n✓ Choisis la zone que tu connais le mieux\n✓ Réponds vite à l\'appel de vérification\n\nⓘ Les livreurs les mieux notés reçoivent les courses en priorité.')">ⓘ<span>Astuce : les livreurs bien notés reçoivent les courses en priorité. Clique pour les conseils d'acceptation.</span></div>
+<div class="tip" onclick="alert('Être accepté rapidement\n\n✓ Photos nettes : documents à plat, bien éclairés, lisibles\n✓ Selfie : visage dégagé, lumière du jour, sans lunettes de soleil\n✓ Numéro de paiement mobile actif (c\'est ta paye)\n✓ Réponds vite à l\'appel de vérification\n\nⓘ Les livreurs vérifiés complets (tous les documents) reçoivent les courses en priorité et gagnent ~30% de plus.')"><span>ⓘ</span><span>Astuce : les livreurs avec <b>tous leurs documents validés</b> reçoivent les courses en priorité. Clique pour être accepté du premier coup.</span></div>
 
 <script>
 lucide.createIcons();
 var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
 var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
+function showErr(m){var b=document.getElementById('errBox');b.textContent=m;b.classList.remove('show');void b.offsetWidth;b.classList.add('show');window.scrollTo({top:0,behavior:'smooth'})}
+function hideErr(){document.getElementById('errBox').classList.remove('show')}
 
+/* ===== Véhicule → documents conditionnels ===== */
+var DOCS={cni:false,selfie:false,casque:false,permis:false,grise:false,assurance:false};
+document.getElementById('fVehicle').addEventListener('change',function(){
+  var motor=(this.value==='moto'||this.value==='voiture');
+  ['casque','permis','grise','assurance'].forEach(function(d){
+    document.getElementById('dz-'+d).style.display=motor?'block':'none';
+  });
+  /* Casque uniquement pour moto (pas voiture) */
+  document.getElementById('dz-casque').style.display=(this.value==='moto')?'block':'none';
+  document.getElementById('motorFields').style.display=motor?'block':'none';
+});
+
+/* ===== Upload documents (zones cliquables) ===== */
+[['cni'],['selfie'],['casque'],['permis'],['grise'],['assurance']].forEach(function(pair){
+  var key=pair[0];
+  var zone=document.getElementById('dz-'+key);
+  var input=document.getElementById('fi-'+key);
+  if(!zone||!input)return;
+  zone.onclick=function(){input.click()};
+  input.addEventListener('change',function(){
+    if(this.files.length){
+      DOCS[key]=true;
+      zone.classList.add('done');
+      var label=zone.dataset.doc;
+      zone.innerHTML='<div class="di"><i data-lucide="check-circle"></i></div><b>'+label+' reçu ✓</b><span>'+this.files[0].name+'</span>';
+      lucide.createIcons();
+    }
+  });
+});
+
+/* ===== Conditions ===== */
 var accepted=false;
 document.getElementById('checkBox').onclick=function(){
   accepted=!accepted;
@@ -164,39 +281,60 @@ document.getElementById('checkBox').onclick=function(){
   document.getElementById('submitBtn').disabled=!accepted;
 };
 
+/* ===== Soumission ===== */
 document.getElementById('submitBtn').onclick=function(){
   var name=document.getElementById('fName').value.trim();
-  var phone=document.getElementById('fPhone').value.replace(/\s/g,'');
-  var vehicle=document.getElementById('fVehicle').value;
+  var phone=document.getElementById('fPhone').value.replace(/[\s.\-]/g,'');
   var zone=document.getElementById('fZone').value;
-  var cni=document.getElementById('fCni').value.replace(/\s/g,'');
-  if(!name||!phone||!vehicle||!zone||!cni){alert('⚠️ Remplis tous les champs obligatoires (*).');return}
-  if(phone.length<9){alert('⚠️ Numéro de téléphone invalide.');return}
+  var vehicle=document.getElementById('fVehicle').value;
+  var plate=document.getElementById('fPlate').value.trim().toUpperCase();
+  var model=document.getElementById('fModel').value.trim();
+  var motor=(vehicle==='moto'||vehicle==='voiture');
 
-  var btn=this;btn.disabled=true;btn.textContent='Envoi en cours…';
+  if(name.length<3){showErr('Entre ton nom complet.');return}
+  if(!/^[0-9]{9}$/.test(phone)){showErr('Numéro invalide (9 chiffres, ex : 77 123 45 67).');return}
+  if(!zone){showErr('Choisis ta zone de livraison.');return}
+  if(!vehicle){showErr('Choisis ton type de véhicule.');return}
+  if(motor&&!plate){showErr('Plaque d\'immatriculation obligatoire (affichée au client).');return}
+  if(!DOCS.cni){showErr('Photo de ta CNI obligatoire (étape 3).');return}
+  if(!DOCS.selfie){showErr('Selfie de vérification obligatoire (comparé à ta CNI).');return}
+  if(motor&&!DOCS.permis){showErr('Photo du permis obligatoire pour véhicule motorisé.');return}
+  if(motor&&!DOCS.grise){showErr('Photo de la carte grise obligatoire.');return}
+  if(vehicle==='moto'&&!DOCS.casque){showErr('Photo avec casque obligatoire à moto — ta sécurité d\'abord.');return}
+
+  var btn=this;btn.disabled=true;btn.innerHTML='Envoi en cours…';
 
   fetch(SUPA_URL+'/rest/v1/drivers',{
     method:'POST',
     headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
     body:JSON.stringify({
-      full_name:name,phone:phone,vehicle:vehicle,zone:zone,
-      type:'collab',company:'CNI:'+cni,
-      is_available:false,rating:5.0,total_deliveries:0
+      full_name:name,
+      phone:'+221'+phone,
+      vehicle:vehicle,
+      vehicle_model:model||null,
+      plate:motor?plate:null,
+      zone:zone,
+      type:'collab',
+      company:'DOCS:cni+selfie'+(DOCS.permis?'+permis':'')+(DOCS.grise?'+grise':'')+(DOCS.casque?'+casque':'')+(DOCS.assurance?'+assurance':''),
+      is_available:false,
+      rating:5.0,
+      total_deliveries:0
     })
   })
   .then(function(r){
     if(r.ok||r.status===201){
       document.getElementById('formBox').style.display='none';
       document.getElementById('successBox').classList.add('show');
+      lucide.createIcons();
       window.scrollTo({top:0,behavior:'smooth'});
     }else{
-      alert('⚠️ Erreur d\'envoi ('+r.status+'). Réessaie dans quelques minutes.');
-      btn.disabled=false;btn.textContent='📨 Envoyer ma candidature';
+      showErr('Erreur d\'envoi ('+r.status+'). Réessaie.');
+      btn.disabled=false;btn.innerHTML='<i data-lucide="send"></i>Envoyer ma candidature';lucide.createIcons();
     }
   })
   .catch(function(){
-    alert('⚠️ Pas de connexion. Vérifie ton internet et réessaie.');
-    btn.disabled=false;btn.textContent='📨 Envoyer ma candidature';
+    showErr('Pas de connexion internet. Réessaie.');
+    btn.disabled=false;btn.innerHTML='<i data-lucide="send"></i>Envoyer ma candidature';lucide.createIcons();
   });
 };
 </script>
