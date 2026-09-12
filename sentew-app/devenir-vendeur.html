@@ -275,6 +275,13 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 
 <script>
 lucide.createIcons();
+
+/* Affiche les documents Xeweul quand RCCM est renseigné */
+document.getElementById('vRccm').addEventListener('input',function(){
+  var has=this.value.trim().length>=6;
+  document.getElementById('xeweulDocs').style.display=has?'block':'none';
+});
+
 var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
 var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
 function showErr(m){var b=document.getElementById('errBox');b.textContent=m;b.classList.remove('show');void b.offsetWidth;b.classList.add('show')}
