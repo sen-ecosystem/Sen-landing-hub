@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Documents & Conformité - SEN TEW Admin</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/security-shield.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;max-width:100vw}
+body{background:#f0f2f5;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:90px;color:#0a1f17}
+.topbar{background:#0a1f17;color:#fff;padding:15px 16px;display:flex;align-items:center;gap:11px;position:sticky;top:0;z-index:50}
+.topbar h1{font-size:16px;font-weight:900;flex:1;display:flex;align-items:center;gap:8px}
+.icon-btn{width:36px;height:36px;border-radius:11px;background:rgba(255,255,255,.12);border:none;color:#fff;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:15px}
+.legal{background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;margin:12px 14px 0;padding:13px;font-size:11.5px;color:#9a3412;line-height:1.6;cursor:pointer}
+.legal b{display:block;margin-bottom:3px}
+.itabs{display:flex;gap:6px;overflow-x:auto;padding:12px 14px 4px;scrollbar-width:none}
+.itabs::-webkit-scrollbar{display:none}
+.itab{flex-shrink:0;padding:8px 14px;border-radius:18px;border:1.5px solid #e5e7eb;background:#fff;font-size:11px;font-weight:800;color:#4b5563;cursor:pointer;white-space:nowrap}
+.itab.on{background:#0a1f17;color:#fff;border-color:#0a1f17}
+.doc-card{background:#fff;margin:10px 14px 0;border-radius:15px;padding:13px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.doc-head{display:flex;align-items:center;gap:10px}
+.doc-ava{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.doc-head b{font-size:13px;display:block}
+.doc-head span{font-size:10.5px;color:#6b7280;display:block;margin-top:2px}
+.doc-badge{margin-left:auto;font-size:9px;font-weight:800;padding:4px 10px;border-radius:9px;flex-shrink:0}
+.b-wait{background:#fef3c7;color:#92400e}.b-ok{background:#d1fae5;color:#065f46}.b-no{background:#fee2e2;color:#b91c1c}.b-arch{background:#f3f4f6;color:#6b7280}
+.doc-list{margin-top:11px}
+.doc-item{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px dashed #f3f4f6;font-size:11.5px}
+.doc-item:last-child{border:none}
+.doc-item .di{width:30px;height:30px;border-radius:9px;background:#f0fdf4;color:#0f6b4e;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.doc-item .di i{width:14px;height:14px}
+.doc-item b{flex:1;font-size:11.5px}
+.doc-item .st{font-size:9px;font-weight:800;padding:3px 8px;border-radius:8px}
+.doc-actions{display:flex;gap:7px;margin-top:11px}
+.abtn{flex:1;padding:11px;border-radius:11px;font-size:11px;font-weight:800;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px}
+.abtn-g{background:#0f6b4e;color:#fff}
+.abtn-r{background:#fee2e2;color:#b91c1c}
+.abtn-l{background:#fff;border:1.5px solid #e5e7eb;color:#374151}
+.empty{text-align:center;padding:28px;color:#9aa5a0;font-size:12px;background:#fff;border-radius:14px;margin:12px 14px 0}
+.search{display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid #e5e7eb;border-radius:12px;padding:0 12px;margin:12px 14px 0}
+.search input{flex:1;border:none;outline:none;padding:11px 0;font-size:13px;background:transparent}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="icon-btn" href="admin.html">←</a>
+  <h1>🗂️ Documents & Conformité</h1>
+  <a class="icon-btn" href="admin.html">↻</a>
+</div>
+
+<div class="legal" onclick="alert('Obligation légale de conservation\n\n• Les documents d\'identité des vendeurs et livreurs sont CONSERVÉS MÊME APRÈS LEUR DÉPART de SEN TEW\n• Règle technique : suppression IMPOSSIBLE (verrou base de données)\n• Finalité : mise à disposition des autorités en cas de problème majeur (fraude, enquête, litige grave)\n• Conforme : loi sénégalaise 2008-12 sur les données personnelles + loi anti-blanchiment 2004-09\n\nⓘ Ne jamais partager un document sans réquisition officielle.')">
+  <b>⚖️ Conservation légale active</b>
+  Ces documents sont conservés à vie (même après départ du partenaire) pour les autorités en cas de problème majeur. Clique pour le cadre légal.
+</div>
+
+<div class="itabs" id="tabs">
+  <button class="itab on" data-f="pending">⏳ À vérifier</button>
+  <button class="itab" data-f="validated">✅ Validés</button>
+  <button class="itab" data-f="rejected">✗ Refusés</button>
+  <button class="itab" data-f="archived">🗄️ Archives (partis)</button>
+</div>
+
+<div class="search">🔍<input id="q" placeholder="Rechercher par nom ou téléphone…"></div>
+
+<div id="list"><div class="empty">Chargement…</div></div>
+
+<script>
+/* Protection admin */
+var SESS=null;
+try{SESS=JSON.parse(sessionStorage.getItem('st_admin_session'))}catch(e){}
+if(!SESS||!SESS.exp||SESS.exp<Date.now()){window.location.href='login-admin.html'}
+
+lucide.createIcons();
+var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
+var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
+function esc(s){var d=document.createElement('div');d.textContent=String(s==null?'':s);return d.innerHTML}
+
+var DOCS=[],FILTER='pending',QUERY='';
+var DOC_LABELS={cni_recto:'CNI recto',cni_verso:'CNI verso',selfie:'Selfie facial',permis:'Permis',carte_grise:'Carte grise',casque:'Photo casque',assurance:'Assurance',rccm:'RCCM / NINEA'};
+var DOC_ICONS={vendeur:'🏪',livreur:'🛵'};
+
+async function load(){
+  try{
+    var r=await fetch(SUPA_URL+'/rest/v1/kyc_documents?select=*&order=created_at.desc&limit=200',{
+      headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}});
+    DOCS=await r.json()||[];
+  }catch(e){DOCS=[]}
+  render();
+}
+
+/* Groupe par personne */
+function grouped(){
+  var map={};
+  DOCS.forEach(function(d){
+    if(FILTER==='archived'){if(!d.archived_at)return}
+    else if(d.status!==FILTER)return;
+    if(QUERY&&(d.subject_name||'').toLowerCase().indexOf(QUERY)===-1&&(d.subject_phone||'').indexOf(QUERY)===-1)return;
+    var k=d.subject_type+'-'+d.subject_id;
+    if(!map[k])map[k]={type:d.subject_type,name:d.subject_name,phone:d.subject_phone||'—',docs:[],archived:!!d.archived_at};
+    map[k].docs.push(d);
+  });
+  return Object.values(map);
+}
+
+function render(){
+  var groups=grouped();
+  if(!groups.length){
+    document.getElementById('list').innerHTML='<div class="empty">'+(FILTER==='pending'?'Aucun document en attente 🎉':'Rien dans cet onglet.')+'<br><br>💡 Les documents arrivent ici dès qu\'un vendeur (devenir-vendeur.html) ou livreur (register-livreur.html) s\'inscrit.</div>';
+    return;
+  }
+  document.getElementById('list').innerHTML=groups.map(function(g,gi){
+    var stBadge=g.archived?'<span class="doc-badge b-arch">🗄️ ARCHIVÉ</span>'
+      :(FILTER==='pending'?'<span class="doc-badge b-wait">⏳ À vérifier</span>'
+      :(FILTER==='validated'?'<span class="doc-badge b-ok">✅ Validé</span>'
+      :'<span class="doc-badge b-no">✗ Refusé</span>'));
+    return '<div class="doc-card">'+
+      '<div class="doc-head"><div class="doc-ava" style="background:#f0fdf4">'+(DOC_ICONS[g.type]||'👤')+'</div>'+
+      '<div><b>'+esc(g.name)+'</b><span>'+(g.type==='vendeur'?'Vendeur':'Livreur')+' · '+esc(g.phone)+'</span></div>'+stBadge+'</div>'+
+      '<div class="doc-list">'+g.docs.map(function(d){
+        return '<div class="doc-item"><div class="di"><i data-lucide="file-check"></i></div>'+
+          '<b>'+(DOC_LABELS[d.doc_type]||d.doc_type)+'</b>'+
+          (d.file_url?'<button class="abtn abtn-l" style="flex:0 0 auto;padding:7px 11px" onclick="window.open(\''+d.file_url+'\')">Voir</button>':'<span class="st b-arch">'+(d.file_name||'reçu')+'</span>')+
+          '</div>';
+      }).join('')+'</div>'+
+      (FILTER==='pending'?'<div class="doc-actions">'+
+        '<button class="abtn abtn-g" onclick="decide('+gi+',\'validated\')">✓ Valider</button>'+
+        '<button class="abtn abtn-r" onclick="decide('+gi+',\'rejected\')">✗ Refuser</button></div>':'')+
+      '</div>';
+  }).join('');
+  lucide.createIcons();
+  window._groups=groups;
+}
+
+async function decide(gi,decision){
+  var g=window._groups[gi];
+  var reason='';
+  if(decision==='rejected'){
+    reason=prompt('Raison du refus (le partenaire la verra) :','Document illisible — reprends la photo à la lumière du jour');
+    if(reason===null)return;
+  }
+  if(!confirm((decision==='validated'?'✓ Valider TOUS les documents de '+g.name+' ?':'✗ Refuser le dossier de '+g.name+' ?')))return;
+  for(var i=0;i<g.docs.length;i++){
+    await fetch(SUPA_URL+'/rest/v1/kyc_documents?id=eq.'+g.docs[i].id,{
+      method:'PATCH',
+      headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({status:decision,rejection_reason:reason||null,verified_by:SESS.email,verified_at:new Date().toISOString()})
+    }).catch(function(){});
+  }
+  /* Si vendeur validé → badge vérifié (Xeweul) */
+  if(decision==='validated'&&g.type==='vendeur'){
+    await fetch(SUPA_URL+'/rest/v1/vendors?id=eq.'+g.docs[0].subject_id,{
+      method:'PATCH',
+      headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({is_verified:true,commission_rate:5.00})
+    }).catch(function(){});
+  }
+  alert(decision==='validated'?'✅ Dossier validé !\n\n'+g.name+' est notifié.'+(g.type==='vendeur'?'\nBadge ✓ activé + commission 5% (Xeweul).':''):'Dossier refusé. '+g.name+' est notifié avec la raison.');
+  load();
+}
+
+document.getElementById('tabs').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  this.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});
+  b.classList.add('on');FILTER=b.dataset.f;render();
+});
+document.getElementById('q').addEventListener('input',function(){QUERY=this.value.toLowerCase();render()});
+load();
+</script>
+</body>
+</html>
