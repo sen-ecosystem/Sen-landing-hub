@@ -6,6 +6,20 @@
 <title>Devenir livreur - SEN TEW</title>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="js/security-shield.js"></script>
+  <script>
+function goStep(n){
+  var ps=document.querySelectorAll('.panel');
+  for(var i=0;i<ps.length;i++)ps[i].classList.remove('on');
+  var t=document.getElementById('step'+n);
+  if(t)t.classList.add('on');
+  for(var j=1;j<=3;j++){
+    var s=document.getElementById('s'+j);
+    if(s){s.classList.toggle('on',j===n);s.classList.toggle('done',j<n);}
+  }
+  var e=document.getElementById('err');if(e)e.style.display='none';
+  window.scrollTo(0,0);
+}
+</script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0a1f17;padding-bottom:40px}
@@ -83,31 +97,10 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0
 </div>
 <div class="wrap">
   <div class="steps">
-    <div class="stp on" id="s1"><div class="bar"></div><span>1 · Avantages</span></div>
-    <div class="stp" id="s2"><div class="bar"></div><span>2 · Mes infos</span></div>
-    <div class="stp" id="s3"><div class="bar"></div><span>3 · Documents</span></div>
+<div class="stp on" id="s1" onclick="goStep(1)"><div class="bar"></div><span>1 · Avantages</span></div>
+<div class="stp" id="s2" onclick="goStep(2)"><div class="bar"></div><span>2 · Mes infos</span></div>
+<div class="stp" id="s3" onclick="goStep(3)"><div class="bar"></div><span>3 · Documents</span></div>
   </div>
-  <script>
-/* Navigation étapes V2 — handlers installés AU CHARGEMENT */
-window.goStep=function(n){
-  var ps=document.querySelectorAll('.panel');
-  for(var i=0;i<ps.length;i++)ps[i].classList.remove('on');
-  var t=document.getElementById('step'+n);
-  if(t)t.classList.add('on');
-  for(var j=1;j<=3;j++){
-    var s=document.getElementById('s'+j);
-    if(s){s.classList.toggle('on',j===n);s.classList.toggle('done',j<n);}
-  }
-  window.scrollTo(0,0);
-};
-/* Installation immédiate des clics (les éléments existent déjà, le script est après) */
-document.getElementById('s1').onclick=function(){window.goStep(1);};
-document.getElementById('s2').onclick=function(){window.goStep(2);};
-document.getElementById('s3').onclick=function(){window.goStep(3);};
-document.getElementById('s1').style.cursor='pointer';
-document.getElementById('s2').style.cursor='pointer';
-document.getElementById('s3').style.cursor='pointer';
-</script>
   <div class="err" id="err"></div>
 
   <div class="panel on" id="step1">
