@@ -2,141 +2,107 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Notifications — SEN TEW</title>
-<link rel="stylesheet" href="css/app.css?v=50">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Notifications - SEN TEW</title>
 <script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/security-shield.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0a1f17;padding-bottom:90px}
+.topbar{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:50}
+.topbar img{height:30px}
+.topbar h1{font-size:14px;font-weight:900;color:#0f6b4e;flex:1}
+.topbar a{color:#9aa5a0;text-decoration:none;font-size:13px;font-weight:700}
+.wrap{max-width:520px;margin:0 auto;padding:14px}
+.hero{background:linear-gradient(160deg,#0a1f17,#0f6b4e);border-radius:18px;color:#fff;padding:18px;text-align:center;margin-bottom:14px}
+.hero h2{font-size:17px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:8px}
+.hero h2 svg{width:19px;height:19px}
+.hero p{font-size:11px;opacity:.85;margin-top:4px}
+.nitem{background:#fff;border-radius:14px;padding:13px 14px;margin-bottom:9px;box-shadow:0 2px 8px rgba(0,0,0,.05);display:flex;gap:11px;border-left:4px solid #e5e7eb}
+.nitem.unread{border-left-color:#0f6b4e;background:#fafffe}
+.nitem .ni{width:38px;height:38px;border-radius:11px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nitem .ni svg{width:18px;height:18px;color:#0f6b4e}
+.nitem .nc{flex:1;min-width:0}
+.nitem b{font-size:12.5px;display:block;margin-bottom:3px}
+.nitem p{font-size:11.5px;color:#4b5563;line-height:1.55}
+.nitem small{display:block;font-size:9.5px;color:#9aa5a0;margin-top:5px}
+.nitem .dot{width:9px;height:9px;border-radius:50%;background:#10b981;flex-shrink:0;margin-top:5px}
+.nitem.read .dot{background:#e5e7eb}
+.empty{text-align:center;padding:44px 20px;color:#9aa5a0}
+.empty svg{width:44px;height:44px;margin-bottom:12px;color:#d1d5db}
+.empty h3{color:#0a1f17;font-size:15px;margin-bottom:5px}
+.empty p{font-size:12px;line-height:1.6}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e5e7eb;display:flex;z-index:600;padding:6px 0 max(6px,env(safe-area-inset-bottom))}
+.bottom-nav a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:#9aa5a0;font-size:9.5px;font-weight:700;padding:4px 0;min-height:44px;justify-content:center}
+.bottom-nav a.on{color:#0f6b4e}
+.bottom-nav a svg{width:20px;height:20px}
+</style>
 </head>
-<body class="light-mode">
-
-<header class="hero-emerald-gold" style="border-radius:0;padding:16px;display:flex;align-items:center;gap:12px">
-  <button onclick="history.back()" style="background:rgba(255,255,255,0.2);border:none;color:#fff;width:36px;height:36px;border-radius:50%"><i data-lucide="arrow-left" class="icon icon-md icon-blanc"></i></button>
-  <h1 style="color:#fff !important;font-size:18px;font-weight:800;flex:1;display:flex;align-items:center;gap:8px"><i data-lucide="bell" class="icon icon-md icon-blanc"></i> Notifications <span style="background:#ef4444;color:#fff;font-size:11px;padding:2px 8px;border-radius:10px">8</span></h1>
-  <button style="background:#fff;color:#0f6b4e;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;display:flex;align-items:center;gap:4px"><i data-lucide="check-check" class="icon icon-xs icon-vert"></i> Tout lu</button>
-</header>
-
-<!-- Filtres -->
-<div style="display:flex;gap:8px;padding:12px 16px;overflow-x:auto">
-  <button class="btn-primary" style="padding:8px 14px;font-size:12px;display:flex;align-items:center;gap:6px"><i data-lucide="inbox" class="icon icon-sm icon-blanc"></i> Toutes <span style="background:#fff;color:#0f6b4e;padding:1px 7px;border-radius:10px">10</span></button>
-  <button style="padding:8px 14px;background:#fff;border:1px solid #e5e5e0;border-radius:20px;font-size:12px;color:#0a1f17;font-weight:700;display:flex;align-items:center;gap:6px"><i data-lucide="package" class="icon icon-sm icon-or"></i> Commandes <span style="background:#e5e5e0;color:#0a1f17;padding:1px 7px;border-radius:10px">3</span></button>
-  <button style="padding:8px 14px;background:#fff;border:1px solid #e5e5e0;border-radius:20px;font-size:12px;color:#0a1f17;font-weight:700;display:flex;align-items:center;gap:6px"><i data-lucide="flame" class="icon icon-sm icon-rouge"></i> Promos</button>
+<body>
+<div class="topbar">
+  <img src="assets/Logo.png" alt="SEN TEW" onerror="this.style.display='none'">
+  <h1>Notifications</h1>
+  <a href="index.html">✕</a>
 </div>
-
-<!-- Aujourd'hui -->
-<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 16px;background:#fff;border-radius:12px;margin:0 16px 12px">
-  <strong style="display:flex;align-items:center;gap:6px;color:#0f6b4e;font-size:13px"><i data-lucide="zap" class="icon icon-sm icon-or"></i> AUJOURD'HUI · 1 SEPTEMBRE 2026</strong>
-  <span style="background:rgba(15,107,78,0.12);color:#0f6b4e;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700">5 NOUVELLES</span>
-</div>
-
-<!-- Notif 1 : Commande expédiée -->
-<div class="notif-card" style="border-radius:12px;margin:0 16px 12px;padding:14px;display:flex;gap:12px;position:relative">
-  <div style="width:44px;height:44px;background:linear-gradient(135deg,#0f6b4e,#0a4d38);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="package" class="icon icon-md icon-blanc"></i></div>
-  <div style="flex:1">
-    <strong style="color:#0a1f17;font-size:14px">Commande expédiée !</strong>
-    <p style="color:#4a5a52;font-size:12px;margin:4px 0">Votre commande <b>#ST-2026-1247</b> est en route. Livraison prévue aujourd'hui vers 18h.</p>
-    <small style="color:#4a5a52;font-size:11px;display:flex;align-items:center;gap:6px;margin-top:4px"><i data-lucide="clock" class="icon icon-xs" style="color:#4a5a52"></i> Il y a 12 min · <i data-lucide="map-pin" class="icon icon-xs" style="color:#ef4444"></i> Livreur Ousmane</small>
-    <div style="display:flex;gap:8px;margin-top:10px">
-      <button class="btn-primary" style="padding:8px 14px;font-size:12px;display:flex;align-items:center;gap:6px"><i data-lucide="map" class="icon icon-xs icon-blanc"></i> Suivre GPS</button>
-      <button style="padding:8px 14px;background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e;border-radius:8px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px"><i data-lucide="phone" class="icon icon-xs icon-vert"></i> Livreur</button>
-    </div>
+<div class="wrap">
+  <div class="hero">
+    <h2><i data-lucide="bell"></i> Ton centre de messages</h2>
+    <p>Validations, reversements, rappels — tout arrive ici.</p>
   </div>
-  <span style="position:absolute;top:10px;right:10px;width:8px;height:8px;background:#0f6b4e;border-radius:50%"></span>
+  <div id="list"></div>
 </div>
-
-<!-- Notif 2 : FLASH -->
-<div class="notif-card flash" style="border-radius:12px;margin:0 16px 12px;padding:14px;display:flex;gap:12px;position:relative">
-  <div style="width:44px;height:44px;background:linear-gradient(135deg,#ef4444,#b91c1c);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="flame" class="icon icon-md icon-blanc"></i></div>
-  <div style="flex:1">
-    <strong style="color:#0a1f17;font-size:14px">FLASH -30% pendant 3h !</strong>
-    <p style="color:#4a5a52;font-size:12px;margin:4px 0">Vente flash sur la <b>Mode africaine</b> avec le code <b>RAMADAN30</b>. Ne rate pas ça !</p>
-    <small style="color:#4a5a52;font-size:11px;display:flex;align-items:center;gap:6px;margin-top:4px"><i data-lucide="clock" class="icon icon-xs" style="color:#4a5a52"></i> Il y a 45 min · <i data-lucide="alarm-clock" class="icon icon-xs icon-rouge"></i> Expire à 23h</small>
-    <div style="display:flex;gap:8px;margin-top:10px">
-      <button style="padding:8px 14px;background:#ef4444;color:#fff;border-radius:8px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px"><i data-lucide="copy" class="icon icon-xs icon-blanc"></i> Copier code</button>
-      <button style="padding:8px 14px;background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e;border-radius:8px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px"><i data-lucide="shopping-bag" class="icon icon-xs icon-vert"></i> Voir</button>
-    </div>
-  </div>
-  <span style="position:absolute;top:10px;right:10px;width:8px;height:8px;background:#0f6b4e;border-radius:50%"></span>
-</div>
-
-<!-- Notif 3 : Message vendeur -->
-<div class="notif-card" style="border-left-color:#3b82f6 !important;border-radius:12px;margin:0 16px 12px;padding:14px;display:flex;gap:12px;position:relative">
-  <div style="width:44px;height:44px;background:linear-gradient(135deg,#3b82f6,#2563eb);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="message-circle" class="icon icon-md icon-blanc"></i></div>
-  <div style="flex:1">
-    <strong style="color:#0a1f17;font-size:14px">Aïcha Fashion vous a répondu</strong>
-    <p style="color:#4a5a52;font-size:12px;margin:4px 0">« Bonjour ! Le boubou est disponible en XL en 3 couleurs. Livraison possible demain 🚚 »</p>
-    <small style="color:#4a5a52;font-size:11px;display:flex;align-items:center;gap:6px;margin-top:4px"><i data-lucide="clock" class="icon icon-xs" style="color:#4a5a52"></i> Il y a 1h · <i data-lucide="store" class="icon icon-xs icon-vert"></i> Vendeur vérifié <i data-lucide="check" class="icon icon-xs icon-vert"></i></small>
-    <div style="display:flex;gap:8px;margin-top:10px">
-      <button style="padding:8px 14px;background:#3b82f6;color:#fff;border-radius:8px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px"><i data-lucide="message-circle" class="icon icon-xs icon-blanc"></i> Répondre</button>
-    </div>
-  </div>
-  <span style="position:absolute;top:10px;right:10px;width:8px;height:8px;background:#0f6b4e;border-radius:50%"></span>
-</div>
-
-<!-- Actions footer -->
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px;padding-bottom:100px">
-  <button style="background:#fff;border:1px solid #e5e5e0;color:#4a5a52;padding:12px;border-radius:10px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="trash-2" class="icon icon-sm" style="color:#4a5a52"></i> Effacer tout</button>
-  <button class="btn-primary" style="padding:12px;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="settings" class="icon icon-sm icon-blanc"></i> Gérer préférences</button>
-</div>
-
 <nav class="bottom-nav">
-  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="layout-grid" class="icon icon-md"></i><span>Catégories</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
-  <a href="notifications.html" class="active"><i data-lucide="bell" class="icon icon-md"></i><span>Notifs</span></a>
-  <a href="profil.html"><i data-lucide="user" class="icon icon-md"></i><span>Compte</span></a>
+  <a href="index.html"><i data-lucide="home"></i>Accueil</a>
+  <a href="categories.html"><i data-lucide="grid-2x2"></i>Catégories</a>
+  <a href="notifications.html" class="on"><i data-lucide="bell"></i>Notifs</a>
+  <a href="commandes.html"><i data-lucide="package"></i>Commandes</a>
+  <a href="profil.html"><i data-lucide="user"></i>Profil</a>
 </nav>
-
-<script src="js/dark-mode.js?v=50"></script>
-<script>lucide.createIcons();</script>
-  <script src="js/buttons-audit.js?v=51"></script>
 <script>
-/* Version délégation : capte TOUS les clics, même si la page change */
-document.addEventListener('click', function(e){
-  var b = e.target.closest('button, a');
-  if(!b) return;
-  var t = b.textContent.replace(/\s+/g,' ').trim();
-
-  if(/suivre gps/i.test(t)){
-    e.preventDefault(); location.href='suivi-commande.html'; return;
+lucide.createIcons();
+var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
+var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
+function esc(s){var d=document.createElement('div');d.textContent=String(s==null?'':s);return d.innerHTML;}
+function iconFor(t){
+  if(t==='kyc_pending'||t==='admin_msg')return 'mail';
+  if(t==='payout')return 'banknote';
+  return 'bell';
+}
+async function load(){
+  var u=null;
+  try{u=JSON.parse(sessionStorage.getItem('sentew_user')||localStorage.getItem('sentew_user'));}catch(e){}
+  var el=document.getElementById('list');
+  if(!u||!u.email){
+    el.innerHTML='<div class="empty"><i data-lucide="bell-off"></i><h3>Connecte-toi</h3><p>Connecte-toi pour voir tes notifications.</p></div>';
+    lucide.createIcons();return;
   }
-  if(/^livreur$/i.test(t)){
-    e.preventDefault(); location.href='chat.html?id=livreur-ousmane'; return;
-  }
-  if(/copier code/i.test(t)){
-    e.preventDefault();
-    if(navigator.clipboard) navigator.clipboard.writeText('RAMADAN30');
-    var old=b.innerHTML; b.innerHTML='✓ Copié !';
-    setTimeout(function(){ b.innerHTML=old; },2000); return;
-  }
-  if(/^voir$/i.test(t)){
-    e.preventDefault(); location.href='produits.html?c=mode'; return;
-  }
-  if(/répondre/i.test(t)){
-    e.preventDefault(); location.href='chat.html?id=aicha-fashion'; return;
-  }
-  if(/effacer tout/i.test(t)){
-    e.preventDefault();
-    if(confirm('🗑️ Effacer toutes les notifications ?')){
-      document.querySelectorAll('.notif, [class*="notif-card"], [class*="card"]').forEach(function(n){ n.remove(); });
+  try{
+    var r=await fetch(SUPA_URL+'/rest/v1/notifications?audience=eq.user&user_email=eq.'+encodeURIComponent(u.email)+'&order=created_at.desc&limit=50',{headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}});
+    var rows=await r.json()||[];
+    if(!rows.length){
+      el.innerHTML='<div class="empty"><i data-lucide="inbox"></i><h3>Aucune notification</h3><p>Les messages de l\'équipe SEN TEW apparaîtront ici.</p></div>';
+      lucide.createIcons();return;
     }
-    return;
+    el.innerHTML=rows.map(function(n){
+      return '<div class="nitem '+(n.is_read?'read':'unread')+'" data-id="'+n.id+'">'
+        +'<div class="ni"><i data-lucide="'+iconFor(n.type)+'"></i></div>'
+        +'<div class="nc"><b>'+esc(n.title)+'</b><p>'+esc(n.message)+'</p>'
+        +'<small>'+new Date(n.created_at).toLocaleString('fr-FR')+'</small></div>'
+        +'<div class="dot"></div></div>';
+    }).join('');
+    lucide.createIcons();
+    /* marquer lues au toucher */
+    document.querySelectorAll('.nitem.unread').forEach(function(it){
+      it.addEventListener('click',function(){
+        it.classList.remove('unread');it.classList.add('read');
+        fetch(SUPA_URL+'/rest/v1/notifications?id=eq.'+it.dataset.id,{method:'PATCH',headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'},body:JSON.stringify({is_read:true})});
+      });
+    });
+  }catch(e){
+    el.innerHTML='<div class="empty"><h3>Erreur réseau</h3><p>Vérifie ta connexion et recharge.</p></div>';
   }
-  if(/gérer préférences/i.test(t)){
-    e.preventDefault(); location.href='parametres.html'; return;
-  }
-});
-
-/* Onglets Toutes / Commandes / Promos : filtre actif */
-document.addEventListener('click', function(e){
-  var tab = e.target.closest('[class*="tab"], [class*="chip"], [class*="filter"]');
-  if(!tab) return;
-  var sib = tab.parentElement.children;
-  for(var i=0;i<sib.length;i++) sib[i].classList.remove('active');
-  tab.classList.add('active');
-});
-
-/* Curseur main sur tous les boutons */
-document.querySelectorAll('button, a').forEach(function(b){ b.style.cursor='pointer'; });
+}
+load();
 </script>
 </body>
 </html>
