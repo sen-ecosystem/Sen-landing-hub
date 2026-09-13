@@ -3,376 +3,272 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Devenir Vendeur - SEN TEW</title>
+<title>Devenir vendeur - SEN TEW</title>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="js/security-shield.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{overflow-x:hidden;max-width:100vw}
-body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:40px;color:#0a1f17}
-.hero{background:linear-gradient(160deg,#0a1f17,#0f6b4e);color:#fff;padding:30px 20px 64px;text-align:center}
-.hero img{width:130px;max-width:55%;margin:0 auto 8px;display:block;filter:drop-shadow(0 6px 18px rgba(0,0,0,.35))}
-.hero .logo-txt{font-size:24px;font-weight:900;letter-spacing:2px}
-.hero .logo-txt span{color:#d4a94e}
-.hero h1{font-size:20px;font-weight:900;margin-top:6px}
-.hero p{font-size:12px;opacity:.88;margin-top:6px;line-height:1.55}
-/* Avantages */
-.avantages{display:flex;gap:9px;padding:0 14px;margin-top:-40px}
-.av{flex:1;background:#fff;border-radius:15px;padding:13px 8px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.08)}
-.av .ai{width:38px;height:38px;border-radius:12px;background:#f0fdf4;color:#0f6b4e;display:flex;align-items:center;justify-content:center;margin:0 auto 7px}
-.av .ai i{width:18px;height:18px}
-.av b{font-size:11px;display:block}
-.av span{font-size:9px;color:#9aa5a0;display:block;margin-top:3px;line-height:1.35}
-/* Niveaux */
-.levels-title{margin:22px 14px 0;font-size:15px;font-weight:900;display:flex;align-items:center;gap:8px}
-.levels-title i{width:17px;height:17px;color:#0f6b4e}
-.level{margin:11px 14px 0;background:#fff;border-radius:17px;padding:16px;box-shadow:0 3px 10px rgba(0,0,0,.06);border:2px solid transparent}
-.level.t3{border-color:#d4a94e}
-.lv-head{display:flex;align-items:center;gap:11px}
-.lv-badge{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.lv-head b{font-size:15px;font-weight:900;display:flex;align-items:center;gap:6px}
-.lv-head .lv-sub{font-size:10.5px;color:#6b7280;display:block;margin-top:2px}
-.lv-comm{margin-left:auto;text-align:center;background:#f0fdf4;border-radius:11px;padding:7px 11px;flex-shrink:0}
-.lv-comm b{font-size:14px;color:#0f6b4e;display:block;font-weight:900}
-.lv-comm span{font-size:8.5px;color:#6b7280;font-weight:700}
-.lv-feats{margin-top:11px}
-.lv-feats div{display:flex;gap:7px;font-size:11.5px;color:#4b5563;padding:3.5px 0;line-height:1.45}
-.lv-feats div i{width:14px;height:14px;color:#059669;flex-shrink:0;margin-top:1px}
-.lv-req{margin-top:10px;background:#f9fafb;border-radius:11px;padding:10px 12px;font-size:10.5px;color:#6b7280;line-height:1.5}
-.lv-req b{color:#0a1f17;display:block;margin-bottom:2px;font-size:11px}
-/* Formulaire */
-.form{background:#fff;margin:20px 14px 0;border-radius:18px;padding:18px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
-.form h2{font-size:16px;font-weight:900;margin-bottom:4px}
-.form .fsub{font-size:11.5px;color:#6b7280;margin-bottom:16px}
-.fld{margin-bottom:13px}
-.fld label{font-size:11.5px;font-weight:800;color:#374151;display:block;margin-bottom:6px;letter-spacing:.2px}
-.fld label .opt{font-weight:600;color:#9aa5a0;font-size:10px}
-.inp{display:flex;align-items:center;gap:9px;border:1.5px solid #e5e7eb;border-radius:13px;padding:0 13px;background:#f9fafb;transition:all .2s}
-.inp:focus-within{border-color:#0f6b4e;background:#fff}
-.inp .ico{color:#9aa5a0;display:flex;align-items:center}
-.inp .ico i{width:16px;height:16px}
-.inp input,.inp select{flex:1;border:none;background:transparent;padding:14px 0;font-size:14px;outline:none;min-width:0;font-family:inherit}
-.hint{font-size:10px;color:#9aa5a0;margin-top:4px;line-height:1.45}
-/* Upload document */
-.doc-zone{border:2px dashed #d1d5db;border-radius:13px;padding:16px;text-align:center;cursor:pointer;background:#f9fafb;transition:all .2s}
-.doc-zone:active{border-color:#0f6b4e;background:#f0fdf4}
-.doc-zone .di{width:38px;height:38px;border-radius:11px;background:#f0fdf4;color:#0f6b4e;display:flex;align-items:center;justify-content:center;margin:0 auto 7px}
-.doc-zone .di i{width:18px;height:18px}
-.doc-zone b{font-size:12px;display:block}
-.doc-zone span{font-size:9.5px;color:#9aa5a0;display:block;margin-top:3px;line-height:1.4}
-.doc-zone.done{border-color:#0f6b4e;border-style:solid;background:#f0fdf4}
-/* Checkbox conditions */
-.check{display:flex;align-items:flex-start;gap:10px;background:#f0fdf4;border:1.5px solid #a7f3d0;border-radius:13px;padding:13px;margin-top:13px;cursor:pointer}
-.check .box{width:22px;height:22px;border-radius:7px;border:2px solid #0f6b4e;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;transition:all .2s}
-.check.on .box{background:#0f6b4e}
-.check span{font-size:11px;color:#065f46;font-weight:600;line-height:1.5}
-.btn{width:100%;padding:16px;border-radius:14px;border:none;background:linear-gradient(135deg,#0f6b4e,#10b981);color:#fff;font-size:15px;font-weight:900;cursor:pointer;margin-top:16px;box-shadow:0 8px 20px rgba(15,107,78,.3);display:flex;align-items:center;justify-content:center;gap:8px}
-.btn:disabled{opacity:.45;box-shadow:none}
-.btn i{width:17px;height:17px}
-.btn-line{background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e;box-shadow:none}
-.err{display:none;background:#fef2f2;border:1.5px solid #fecaca;color:#b91c1c;font-size:12px;font-weight:700;border-radius:12px;padding:11px 13px;margin-bottom:13px;line-height:1.5}
-.err.show{display:block}
-/* Succès */
-.success{display:none;background:#fff;margin:20px 14px 0;border-radius:18px;padding:30px 20px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.06)}
-.success.show{display:block}
-.success .si{width:64px;height:64px;border-radius:50%;background:#f0fdf4;color:#0f6b4e;display:flex;align-items:center;justify-content:center;margin:0 auto}
-.success .si i{width:30px;height:30px}
-.success h2{font-size:18px;font-weight:900;color:#0f6b4e;margin:12px 0 6px}
-.success p{font-size:12px;color:#6b7280;line-height:1.65}
-/* Astuce */
-.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:14px;font-size:11.5px;color:#92400e;cursor:pointer;line-height:1.55}
-/* Documents Xeweul */
-.xeweul-docs{background:#f5f3ff;border:1.5px solid #ddd6fe;border-radius:14px;padding:14px;margin-top:12px}
-.xeweul-docs h4{font-size:12px;font-weight:900;color:#6d28d9;display:flex;align-items:center;gap:6px;margin-bottom:10px}
-.xeweul-docs h4 i{width:15px;height:15px}
-.xd-row{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px dashed #e9d5ff;font-size:11.5px;color:#4c1d95}
-.xd-row:last-child{border:none}
-.xd-row .xi{width:30px;height:30px;border-radius:9px;background:#ede9fe;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.xd-row .xi i{width:14px;height:14px;color:#6d28d9}
-.xd-row b{flex:1;font-size:11.5px}
-.xd-row span{font-size:9.5px;color:#7c3aed;font-weight:700}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0a1f17;padding-bottom:40px}
+.topbar{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:50}
+.topbar img{height:32px}
+.topbar h1{font-size:14px;font-weight:900;color:#0f6b4e;flex:1}
+.topbar a{color:#9aa5a0;text-decoration:none;font-size:13px;font-weight:700}
+.wrap{max-width:520px;margin:0 auto;padding:14px}
+.steps{display:flex;gap:6px;margin:8px 0 18px}
+.stp{flex:1;text-align:center}
+.stp .bar{height:5px;border-radius:99px;background:#e5e7eb;margin-bottom:5px}
+.stp.on .bar{background:#0f6b4e}
+.stp.done .bar{background:#4ade80}
+.stp span{font-size:10px;font-weight:800;color:#9aa5a0}
+.stp.on span{color:#0f6b4e}
+.hero{background:linear-gradient(160deg,#0a1f17,#0f6b4e);border-radius:18px;color:#fff;padding:22px 18px;text-align:center;margin-bottom:14px}
+.hero h2{font-size:20px;font-weight:900;margin-bottom:6px}
+.hero p{font-size:12px;opacity:.9;line-height:1.55}
+.bene{background:#fff;border-radius:16px;padding:15px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.bene h3{font-size:13px;font-weight:900;margin-bottom:10px}
+.brow{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid #f3f4f6;font-size:12.5px;line-height:1.5}
+.brow:last-child{border:none}
+.brow .ic{width:34px;height:34px;border-radius:10px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.brow b{display:block;font-size:12.5px}
+.brow span{color:#6b7280;font-size:11px}
+.lvl{display:flex;gap:8px;margin-bottom:14px}
+.lvlc{flex:1;background:#fff;border-radius:14px;padding:12px 8px;text-align:center;border:2px solid #e5e7eb}
+.lvlc.best{border-color:#0f6b4e;background:#f0fdf4}
+.lvlc .ln{font-size:12px;font-weight:900}
+.lvlc .lp{font-size:10px;color:#6b7280;margin-top:3px;line-height:1.4}
+.lvlc .tag{display:inline-block;background:#0f6b4e;color:#fff;font-size:8px;font-weight:900;padding:2px 7px;border-radius:99px;margin-top:5px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:11.5px;font-weight:800;margin-bottom:5px;color:#374151}
+.field input,.field select{width:100%;padding:13px 14px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:14px;background:#fff;font-family:inherit}
+.field input:focus,.field select:focus{outline:none;border-color:#0f6b4e}
+.row2{display:flex;gap:8px}
+.row2 .field{flex:1}
+.tel{display:flex;gap:8px}
+.tel select{width:105px;padding:13px 8px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:13px;background:#fff}
+.tel input{flex:1;padding:13px 14px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:14px}
+.doc{background:#fff;border-radius:14px;padding:13px;margin-bottom:10px;border:1.5px dashed #d1d5db}
+.doc label{display:block;font-size:12px;font-weight:800;margin-bottom:3px}
+.doc small{color:#6b7280;font-size:10.5px;display:block;margin-bottom:8px}
+.doc input{width:100%;font-size:12px}
+.doc img{width:100%;max-height:150px;object-fit:cover;border-radius:10px;margin-top:8px;display:none}
+.xbloc{background:#faf5ff;border:1.5px solid #d8b4fe;border-radius:14px;padding:13px;margin:12px 0;display:none}
+.xbloc h4{font-size:12.5px;font-weight:900;color:#6b21a8;margin-bottom:4px}
+.xbloc p{font-size:11px;color:#7e22ce;margin-bottom:10px;line-height:1.5}
+.cond{display:flex;gap:9px;align-items:flex-start;background:#fff;border-radius:12px;padding:12px;font-size:11.5px;color:#374151;line-height:1.5;margin:12px 0}
+.cond input{width:18px;height:18px;flex-shrink:0;margin-top:1px}
+.btn{width:100%;padding:15px;border:none;border-radius:14px;background:#0f6b4e;color:#fff;font-size:14px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn:disabled{background:#9aa5a0;cursor:not-allowed}
+.btn2{width:100%;padding:13px;border:1.5px solid #e5e7eb;border-radius:14px;background:#fff;color:#374151;font-size:13px;font-weight:800;cursor:pointer;margin-top:8px}
+.err{display:none;background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;border-radius:12px;padding:11px 13px;font-size:12px;font-weight:700;margin-bottom:12px;line-height:1.5}
+.panel{display:none}
+.panel.on{display:block}
+.pending{text-align:center;padding:26px 18px}
+.pending .pi{width:76px;height:76px;border-radius:50%;background:#fffbeb;border:3px solid #f59e0b;display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 14px}
+.pending h2{font-size:18px;font-weight:900;margin-bottom:8px}
+.pending .pbox{background:#fff;border-radius:16px;padding:15px;text-align:left;font-size:12.5px;line-height:1.7;box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:14px}
+.pending .pbox b{color:#0f6b4e}
+.pending .warn{background:#fef2f2;border:1.5px solid #fecaca;color:#b91c1c;border-radius:12px;padding:11px 13px;font-size:12px;font-weight:800;line-height:1.55;margin-bottom:14px}
+.note{display:flex;gap:8px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:11px 12px;font-size:11px;color:#1e40af;line-height:1.55;margin-bottom:12px}
 </style>
 </head>
 <body>
-
-<div class="hero">
-  <img src="assets/Logo.png" alt="SEN TEW" onerror="this.outerHTML='<div class=logo-txt style=color:#fff>SEN <span>TEW</span></div>'">
-  <h1>Vends sur SEN TEW</h1>
-  <p>Ta boutique en ligne en 5 minutes.<br>Des milliers de clients à Dakar et dans toute la diaspora.</p>
+<div class="topbar">
+  <img src="assets/Logo.png" alt="SEN TEW" onerror="this.style.display='none'">
+  <h1>Devenir vendeur</h1>
+  <a href="index.html">✕</a>
 </div>
+<div class="wrap">
 
-<div class="avantages">
-  <div class="av"><div class="ai"><i data-lucide="percent"></i></div><b>Commission</b><span>dès 5% seulement</span></div>
-  <div class="av"><div class="ai"><i data-lucide="bike"></i></div><b>Livraison</b><span>nos livreurs gèrent</span></div>
-  <div class="av"><div class="ai"><i data-lucide="banknote"></i></div><b>Paiement</b><span>chaque semaine</span></div>
+  <div class="steps">
+    <div class="stp on" id="s1"><div class="bar"></div><span>1 · Avantages</span></div>
+    <div class="stp" id="s2"><div class="bar"></div><span>2 · Mes infos</span></div>
+    <div class="stp" id="s3"><div class="bar"></div><span>3 · Documents</span></div>
+  </div>
+
+  <div class="err" id="err"></div>
+
+  <!-- ═══ ÉTAPE 1 : AVANTAGES ═══ -->
+  <div class="panel on" id="step1">
+    <div class="hero">
+      <h2>Vends partout au Sénégal 🌍</h2>
+      <p>Rejoins la marketplace qui protège les vendeurs : paiement sécurisé, livraison gérée, reversement rapide.</p>
+    </div>
+    <div class="bene">
+      <h3>🎁 Tes avantages SEN TEW</h3>
+      <div class="brow"><div class="ic">💰</div><div><b>Commission la plus basse : 8% seulement</b><span>Tu gardes 92% de chaque vente (niveau Teranga)</span></div></div>
+      <div class="brow"><div class="ic">🛡️</div><div><b>Paiement 100% sécurisé</b><span>L'argent du client est bloqué jusqu'à la livraison — zéro impayé</span></div></div>
+      <div class="brow"><div class="ic">🛵</div><div><b>Livraison gérée pour toi</b><span>Livreurs vérifiés CNI + selfie, colis photographié au départ</span></div></div>
+      <div class="brow"><div class="ic">💸</div><div><b>Reversement sous 24-48h</b><span>Mobile Money ou virement bancaire, suivi dans ton espace</span></div></div>
+      <div class="brow"><div class="ic">📸</div><div><b>Photo IA Studio (abonnés)</b><span>Photos produits professionnelles générées par IA</span></div></div>
+      <div class="brow"><div class="ic">🔴</div><div><b>Boutique Live (niveaux supérieurs)</b><span>Vends en direct vidéo comme les grands e-commerces</span></div></div>
+    </div>
+    <div class="lvl">
+      <div class="lvlc best"><div class="ln">Teranga</div><div class="lp">Gratuit · 8% · Sans documents pro</div><span class="tag">DÉMARRAGE</span></div>
+      <div class="lvlc"><div class="ln">Jaay</div><div class="lp">Vendeur actif · avantages +</div></div>
+      <div class="lvlc"><div class="ln">Xeweul</div><div class="lp">Pro vérifié RCCM · badge bleu</div></div>
+    </div>
+    <button class="btn" onclick="goStep(2)">Commencer mon inscription →</button>
+  </div>
+
+  <!-- ═══ ÉTAPE 2 : DONNÉES ═══ -->
+  <div class="panel" id="step2">
+    <div class="field"><label>Nom complet *</label><input id="vNom" placeholder="Ex : Aïcha Diallo"></div>
+    <div class="field"><label>Email *</label><input id="vEmail" type="email" placeholder="exemple@mail.com"></div>
+    <div class="field"><label>Téléphone *</label>
+      <div class="tel">
+        <select id="vInd"><option value="+221">🇸🇳 +221</option><option value="+33">🇫🇷 +33</option><option value="+1">🇺🇸 +1</option><option value="+225">🇨🇮 +225</option><option value="+223">🇲🇱 +223</option><option value="+224">🇬🇳 +224</option><option value="+220">🇬🇲 +220</option><option value="+245">🇬🇼 +245</option><option value="+222">🇲🇷 +222</option><option value="+226">🇧🇫 +226</option></select>
+        <input id="vTel" type="tel" placeholder="77 000 00 00">
+      </div>
+    </div>
+    <div class="field"><label>Nom de la boutique *</label><input id="vShop" placeholder="Ex : Aïcha Couture"></div>
+    <div class="row2">
+      <div class="field"><label>Catégorie *</label>
+        <select id="vCat"><option value="">Choisir…</option><option>Mode &amp; Textile</option><option>Électronique</option><option>Beauté</option><option>Alimentation</option><option>Maison</option><option>Artisanat</option><option>Autre</option></select>
+      </div>
+      <div class="field"><label>Ville *</label><input id="vVille" placeholder="Ex : Dakar"></div>
+    </div>
+    <div class="field"><label>Mot de passe * (8 caractères min.)</label><input id="vPwd" type="password" placeholder="••••••••"></div>
+    <div class="field"><label>N° RCCM / NINEA <span style="color:#9aa5a0;font-weight:600">(facultatif → débloque Xeweul)</span></label><input id="vRccm" placeholder="Ex : SN.DKR.2026.A.1234"></div>
+    <button class="btn" onclick="checkStep2()">Continuer → Documents</button>
+    <button class="btn2" onclick="goStep(1)">← Retour</button>
+  </div>
+
+  <!-- ═══ ÉTAPE 3 : DOCUMENTS ═══ -->
+  <div class="panel" id="step3">
+    <div class="note">🛡️ <span><b>Documents conservés à vie</b> par l'administration SEN TEW, même après ton départ, pour répondre aux autorités en cas de problème majeur. Ils ne sont <b>jamais</b> visibles par les clients.</span></div>
+
+    <div class="doc"><label>🪪 CNI — RECTO *</label><small>Photo nette, recto de la carte d'identité</small><input type="file" id="dCniR" accept="image/*" onchange="pv(this,'pCniR')"><img id="pCniR"></div>
+    <div class="doc"><label>🪪 CNI — VERSO *</label><small>Photo nette, verso de la carte d'identité</small><input type="file" id="dCniV" accept="image/*" onchange="pv(this,'pCniV')"><img id="pCniV"></div>
+    <div class="doc"><label>🤳 Selfie avec ta CNI *</label><small>Ton visage + ta CNI visible à côté (vérification d'identité)</small><input type="file" id="dSelfie" accept="image/*" onchange="pv(this,'pSelfie')"><img id="pSelfie"></div>
+
+    <div class="xbloc" id="xbloc">
+      <h4>📜 Documents niveau Xeweul (RCCM renseigné)</h4>
+      <p>Pour obtenir le badge pro vérifié, ajoute ces preuves d'activité :</p>
+      <div class="doc"><label>🏪 Photo de ta boutique / atelier *</label><small>Devanture ou intérieur visible</small><input type="file" id="dBout" accept="image/*" onchange="pv(this,'pBout')"><img id="pBout"></div>
+      <div class="doc"><label>🧾 Facture / preuve d'activité n°1 *</label><small>Facture fournisseur, reçu d'achat de marchandise…</small><input type="file" id="dFact1" accept="image/*" onchange="pv(this,'pFact1')"><img id="pFact1"></div>
+      <div class="doc"><label>🧾 Facture / preuve d'activité n°2 *</label><small>Un second justificatif différent</small><input type="file" id="dFact2" accept="image/*" onchange="pv(this,'pFact2')"><img id="pFact2"></div>
+    </div>
+
+    <label class="cond"><input type="checkbox" id="vCond"><span>J'accepte les <b>conditions vendeur SEN TEW</b> : emballage soigné et colis photographié avant remise au livreur, respect des règles sanitaires pour l'alimentaire, produits conformes à la loi. Je comprends que mon compte ne sera actif <b>qu'après validation par l'équipe SEN TEW</b>.</span></label>
+
+    <button class="btn" id="sendBtn" onclick="sendVendor()">📨 Envoyer ma demande</button>
+    <button class="btn2" onclick="goStep(2)">← Retour</button>
+  </div>
+
+  <!-- ═══ ÉCRAN FINAL : EN ATTENTE (JAMAIS confirmé direct) ═══ -->
+  <div class="panel" id="stepOk">
+    <div class="pending">
+      <div class="pi">⏳</div>
+      <h2>Demande envoyée !</h2>
+      <div class="warn">🚫 Ta boutique n'est <u>PAS encore active</u>. Elle sera activée uniquement après validation par l'équipe SEN TEW.</div>
+      <div class="pbox">
+        📋 <b>Examen sous 24 à 48h</b> : nos équipes vérifient ta CNI (recto/verso), ton selfie et tes justificatifs.<br>
+        🔔 <b>Tu recevras une notification</b> dès que ta boutique est validée.<br>
+        📧 En cas de document illisible, nous te contacterons sur ton email.
+      </div>
+      <button class="btn" onclick="location.href='index.html'">Retour à l'accueil</button>
+    </div>
+  </div>
+
 </div>
-
-<!-- ═══ LES 3 NIVEAUX VENDEUR ═══ -->
-<div class="levels-title"><i data-lucide="trending-up"></i>Ton parcours vendeur — 3 niveaux</div>
-
-<!-- TERANGA -->
-<div class="level">
-  <div class="lv-head">
-    <div class="lv-badge" style="background:#fef3c7">🥉</div>
-    <div><b>Teranga</b><span class="lv-sub">Débutant — sans documents pro</span></div>
-    <div class="lv-comm"><b>8%</b><span>commission</span></div>
-  </div>
-  <div class="lv-feats">
-    <div><i data-lucide="check"></i>5 produits maximum</div>
-    <div><i data-lucide="check"></i>Reversement 7 jours après livraison</div>
-    <div><i data-lucide="check"></i>1 boost pub par semaine</div>
-  </div>
-  <div class="lv-req"><b>Pour démarrer :</b>ta CNI seule suffit. Tu vends dès aujourd'hui.</div>
-</div>
-
-<!-- JAAY -->
-<div class="level">
-  <div class="lv-head">
-    <div class="lv-badge" style="background:#e5e7eb">🥈</div>
-    <div><b>Jaay</b><span class="lv-sub">Confirmé — par tes résultats</span></div>
-    <div class="lv-comm"><b>6%</b><span>commission</span></div>
-  </div>
-  <div class="lv-feats">
-    <div><i data-lucide="check"></i>30 produits</div>
-    <div><i data-lucide="check"></i>Reversement en 48h</div>
-    <div><i data-lucide="check"></i>Tous les boosts + Photo IA (avec abonnement)</div>
-  </div>
-  <div class="lv-req"><b>Pour y arriver :</b>500 points vendeur (livraisons rapides, notes 5★, zéro litige). <b>Pas besoin de documents</b> — tes résultats parlent.</div>
-</div>
-
-<!-- XEWEUL -->
-<div class="level t3">
-  <div class="lv-head">
-    <div class="lv-badge" style="background:#ede9fe">🥇</div>
-    <div><b>Xeweul ✓</b><span class="lv-sub">Pro vérifié — le niveau maximum</span></div>
-    <div class="lv-comm"><b>5%</b><span>commission</span></div>
-  </div>
-  <div class="lv-feats">
-    <div><i data-lucide="check"></i>Produits illimités</div>
-    <div><i data-lucide="check"></i>Badge vert ✓ officiel (les clients achètent +40% en confiance)</div>
-    <div><i data-lucide="check"></i>Reversement chaque lundi</div>
-    <div><i data-lucide="check"></i>Top des résultats de recherche</div>
-  </div>
-  <div class="lv-req"><b>Pour y arriver :</b>RCCM ou NINEA + CNI. Le badge ✓ fait exploser tes ventes.</div>
-</div>
-
-<!-- ═══ FORMULAIRE ═══ -->
-<div class="form" id="formBox">
-  <h2>Ouvre ta boutique</h2>
-  <div class="fsub">Niveau Teranga (débutant) — validation admin sous 24h, tu reçois une réponse dans Messages.</div>
-
-  <div class="err" id="errBox"></div>
-
-  <div class="fld">
-    <label>NOM DE LA BOUTIQUE *</label>
-    <div class="inp"><span class="ico"><i data-lucide="store"></i></span>
-      <input id="vShop" placeholder="Ex : Aïcha Couture" maxlength="40">
-    </div>
-  </div>
-
-  <div class="fld">
-    <label>TON NOM COMPLET *</label>
-    <div class="inp"><span class="ico"><i data-lucide="user"></i></span>
-      <input id="vName" placeholder="Ex : Aïcha Diallo" autocomplete="name">
-    </div>
-  </div>
-
-  <div class="fld">
-    <label>TÉLÉPHONE (paiement mobile) *</label>
-    <div class="inp"><span class="ico"><i data-lucide="phone"></i></span>
-      <input id="vPhone" type="tel" inputmode="numeric" placeholder="77 123 45 67" autocomplete="tel">
-    </div>
-    <div class="hint">C'est sur ce numéro que tu reçois tes reversements chaque semaine.</div>
-  </div>
-
-  <div class="fld">
-    <label>CATÉGORIE PRINCIPALE *</label>
-    <div class="inp"><span class="ico"><i data-lucide="tag"></i></span>
-      <select id="vCat">
-        <option value="">Choisir…</option>
-        <option value="mode">Mode & Vêtements</option>
-        <option value="electronique">Électronique</option>
-        <option value="beaute">Beauté & Soins</option>
-        <option value="maison">Maison & Déco</option>
-        <option value="alimentation">Alimentation</option>
-        <option value="sport">Sport & Loisirs</option>
-        <option value="bebe">Bébé & Enfant</option>
-        <option value="auto">Auto & Moto</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="fld">
-    <label>QUARTIER / VILLE *</label>
-    <div class="inp"><span class="ico"><i data-lucide="map-pin"></i></span>
-      <input id="vCity" placeholder="Ex : Sacré-Cœur 3, Dakar">
-    </div>
-  </div>
-
-      <label>PHOTOS DE TA CNI * <span class="opt">(recto ET verso — comme les banques)</span></label>
-    <div class="doc-zone" id="cniZone" style="margin-bottom:9px">
-      <div class="di"><i data-lucide="id-card"></i></div>
-      <b>① CNI — RECTO</b>
-      <span>La face avec ta photo. Bien lisible, à plat, sans reflet.</span>
-    </div>
-    <input type="file" id="cniInput" accept="image/*" capture="environment" style="display:none">
-    <div class="doc-zone" id="cniZoneV">
-      <div class="di"><i data-lucide="id-card"></i></div>
-      <b>② CNI — VERSO</b>
-      <span>La face arrière (adresse, dates). Les deux faces sont obligatoires.</span>
-    </div>
-    <input type="file" id="cniInputV" accept="image/*" capture="environment" style="display:none">
-  </div>
-
-    <div class="fld">
-    <label>RCCM OU NINEA <span class="opt">(facultatif — débloque le niveau Xeweul ✓)</span></label>
-    <div class="inp"><span class="ico"><i data-lucide="file-check"></i></span>
-      <input id="vRccm" placeholder="Ex : SN.DKR.2026.A.1234 (si tu l'as)">
-    </div>
-    <div class="hint">Pas de RCCM ? Pas grave : tu démarres en Teranga et tu montes avec tes ventes.</div>
-  </div>
-
-  <!-- Documents Xeweul (si RCCM renseigné) -->
-  <div class="xeweul-docs" id="xeweulDocs" style="display:none">
-    <h4><i data-lucide="badge-check"></i>Documents pour le niveau Xeweul ✓</h4>
-    <div class="xd-row">
-      <div class="xi"><i data-lucide="file-text"></i></div>
-      <b>RCCM ou NINEA <span style="color:#e63946">*</span></b>
-      <span>requis</span>
-    </div>
-    <div class="xd-row">
-      <div class="xi"><i data-lucide="store"></i></div>
-      <b>Photo de ta boutique / atelier / stock <span style="color:#e63946">*</span></b>
-      <span>requis</span>
-    </div>
-    <div class="xd-row">
-      <div class="xi"><i data-lucide="receipt"></i></div>
-      <b>2 factures fournisseurs récentes <span style="color:#e63946">*</span></b>
-      <span>requis</span>
-    </div>
-    <div class="xd-row">
-      <div class="xi"><i data-lucide="scan-face"></i></div>
-      <b>Selfie avec ta CNI en main <span style="color:#e63946">*</span></b>
-      <span>requis</span>
-    </div>
-    <div class="hint" style="margin-top:9px">💡 Ces documents prouvent que ton activité est réelle. L'admin les vérifie sous 24h → badge ✓ + commission 5% + produits illimités. Ils sont conservés de façon sécurisée et ne sont jamais partagés.</div>
-  </div>
-
-  <div class="check" id="checkBox">
-    <div class="box" id="checkMark"></div>
-    <span>J'accepte les <b>conditions vendeur SEN TEW</b> : produits authentiques, préparation sous 24h, commission selon mon niveau, zéro contrefaçon (suspension immédiate).<br><br>
-    📦 <b>Emballage obligatoire</b> : chaque colis est proprement emballé, scellé, contenu non visible. Je photographie le colis avant de le remettre au livreur (preuve conservée par SEN TEW).<br><br>
-    🍎 <b>Produits alimentaires</b> : si je vends de l'alimentaire, je respecte les règles sanitaires — emballage alimentaire fermé, date de péremption visible, séparé des autres produits.</span>
-  </div>
-
-  <button class="btn" id="submitBtn" disabled><i data-lucide="rocket"></i>Ouvrir ma boutique</button>
-</div>
-
-<!-- SUCCÈS -->
-<div class="success" id="successBox">
-  <div class="si"><i data-lucide="check"></i></div>
-  <h2>Boutique créée !</h2>
-  <p>Ta demande est envoyée à l'administration.<br><br><b>Prochaines étapes :</b><br>1. L'admin vérifie ta CNI (sous 24h)<br>2. Tu es notifié dans Messages<br>3. Tu ajoutes tes 5 premiers produits et tu vends 🎉<br><br><b>Niveau Teranga</b> · 5 produits · commission 8%</p>
-  <button class="btn" onclick="window.location.href='vendeur.html'"><i data-lucide="store"></i>Aller à mon espace vendeur</button>
-</div>
-
-<div class="tip" onclick="alert('Comment monter de niveau vite\n\n🥉 → 🥈 Teranga vers Jaay (500 points) :\n• Livre dans les délais : +10 pts par commande\n• Note 5★ : +5 pts\n• Réponds aux clients en moins d\'1h : +2 pts\n• 1 mois sans litige : +50 pts\n\n🥈 → 🥇 Jaay vers Xeweul :\n• Ajoute ton RCCM ou NINEA dans ton espace\n\nⓘ Chaque niveau baisse ta commission et augmente ta visibilité = tu gagnes plus.')">ⓘ<span>Astuce : chaque niveau <b>baisse ta commission</b> et augmente ta visibilité. Clique pour la méthode pour monter vite.</span></div>
-
 <script>
 lucide.createIcons();
-
-/* Affiche les documents Xeweul quand RCCM est renseigné */
-document.getElementById('vRccm').addEventListener('input',function(){
-  var has=this.value.trim().length>=6;
-  document.getElementById('xeweulDocs').style.display=has?'block':'none';
-});
-
 var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
 var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
-function showErr(m){var b=document.getElementById('errBox');b.textContent=m;b.classList.remove('show');void b.offsetWidth;b.classList.add('show')}
-function esc(s){var d=document.createElement('div');d.textContent=String(s==null?'':s);return d.innerHTML}
 
-/* CNI recto + verso */
-var CNI_OK=false,CNI_VERSO_OK=false;
-function markDoc(zoneId,input,label){
-  document.getElementById(zoneId).onclick=function(){document.getElementById(input).click()};
-  document.getElementById(input).addEventListener('change',function(){
-    if(this.files.length){
-      var z=document.getElementById(zoneId);
-      z.classList.add('done');
-      z.innerHTML='<div class="di"><i data-lucide="check-circle"></i></div><b>'+label+' reçu ✓</b><span>'+this.files[0].name+'</span>';
-      lucide.createIcons();
-      if(input==='cniInput')CNI_OK=true;
-      if(input==='cniInputV')CNI_VERSO_OK=true;
-    }
+function err(m){var e=document.getElementById('err');e.textContent='⚠️ '+m;e.style.display=m?'block':'none';window.scrollTo(0,0);}
+function goStep(n){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on')});
+  document.getElementById('step'+n).classList.add('on');
+  [1,2,3].forEach(function(i){
+    var s=document.getElementById('s'+i);
+    s.classList.toggle('on',i===n);
+    s.classList.toggle('done',i<n);
   });
+  err('');window.scrollTo(0,0);
 }
-markDoc('cniZone','cniInput','CNI recto');
-markDoc('cniZoneV','cniInputV','CNI verso');
+function pv(inp,imgId){var f=inp.files[0];if(!f)return;var img=document.getElementById(imgId);img.src=URL.createObjectURL(f);img.style.display='block';}
 
-/* Conditions */
-var accepted=false;
-document.getElementById('checkBox').onclick=function(){
-  accepted=!accepted;
-  this.classList.toggle('on',accepted);
-  document.getElementById('checkMark').textContent=accepted?'✓':'';
-  document.getElementById('submitBtn').disabled=!accepted;
-};
+/* RCCM → bloc Xeweul */
+document.getElementById('vRccm').addEventListener('input',function(){
+  document.getElementById('xbloc').style.display=this.value.trim().length>=6?'block':'none';
+});
 
-/* Soumission */
-document.getElementById('submitBtn').onclick=function(){
-  var shop=document.getElementById('vShop').value.trim();
-  var name=document.getElementById('vName').value.trim();
-  var phone=document.getElementById('vPhone').value.replace(/[\s.\-]/g,'');
-  var cat=document.getElementById('vCat').value;
-  var city=document.getElementById('vCity').value.trim();
-  var rccm=document.getElementById('vRccm').value.trim();
+function checkStep2(){
+  var nom=v('vNom'),email=v('vEmail'),tel=v('vTel'),shop=v('vShop'),cat=v('vCat'),ville=v('vVille'),pwd=v('vPwd');
+  if(nom.length<3)return err('Nom complet requis.');
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))return err('Email invalide.');
+  if(tel.replace(/\D/g,'').length<8)return err('Numéro de téléphone invalide.');
+  if(shop.length<2)return err('Nom de boutique requis.');
+  if(!cat)return err('Choisis une catégorie.');
+  if(ville.length<2)return err('Ville requise.');
+  if(pwd.length<8)return err('Mot de passe : 8 caractères minimum.');
+  goStep(3);
+}
+function v(id){return (document.getElementById(id).value||'').trim();}
+function hasFile(id){var i=document.getElementById(id);return i.files&&i.files.length>0;}
 
-  if(shop.length<3){showErr('Nom de boutique trop court.');return}
-  if(name.length<3){showErr('Entre ton nom complet.');return}
-  if(!/^[0-9]{9}$/.test(phone)){showErr('Numéro invalide (9 chiffres, ex : 77 123 45 67).');return}
-  if(!cat){showErr('Choisis ta catégorie principale.');return}
-  if(city.length<3){showErr('Indique ton quartier / ta ville.');return}
-  if(!CNI_OK){showErr('Photo CNI recto obligatoire.');return}
-  if(!CNI_VERSO_OK){showErr('Photo CNI verso obligatoire aussi — les deux faces sont exigées.');return}
+async function sha256(m){
+  if(window.crypto&&crypto.subtle){try{var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(m));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0')}).join('')}catch(e){}}
+  function rr(a,b){return(a>>>b)|(a<<(32-b))}var h=[1779033703,3144134277,1013904242,2773480762,1359893119,2600822924,528734635,1541459225],k=[1116352408,1899447441,3049323471,3921009573,961987163,1508970993,2453635748,2870763221,3624381080,310598401,607225278,1426881987,1925078388,2162078206,2614888103,3248222580,3835390401,4022224774,264347078,604807628,770255983,1249150122,1555081692,1996064986,2554220882,2821834349,2952996808,3210313671,3336571891,3584528711,113926993,338241895,666307205,773529912,1294757372,1396182291,1695183700,1986661051,2177026350,2456956037,2730485921,2820302411,3259730800,3345764771,3516065817,3600352804,4094571909,275423344,430227734,506948616,659060556,883997877,958139571,1322822218,1537002063,1747873779,1955562222,2024104815,2227730452,2361852424,2428436474,2756734187,3204031479,3329325298];
+  var s=unescape(encodeURIComponent(m)),l=s.length,bits=l*8;s+=String.fromCharCode(128);while(s.length%64!==56)s+=String.fromCharCode(0);
+  for(var i=0;i<4;i++){var bl=(bits>>>(8*(3-i)))&255;s+=String.fromCharCode(bl);}
+  for(var c=0;c<s.length;c+=64){var w=[];for(var j=0;j<16;j++){w[j]=(s.charCodeAt(c+j*4)<<24)|(s.charCodeAt(c+j*4+1)<<16)|(s.charCodeAt(c+j*4+2)<<8)|s.charCodeAt(c+j*4+3);}
+  for(var t=16;t<64;t++){var s0=rr(w[t-15],7)^rr(w[t-15],18)^(w[t-15]>>>3),s1=rr(w[t-2],17)^rr(w[t-2],19)^(w[t-2]>>>10);w[t]=(w[t-16]+s0+w[t-7]+s1)|0;}
+  var a=h[0],b2=h[1],cc=h[2],d=h[3],e=h[4],f=h[5],g=h[6],hh=h[7];
+  for(t=0;t<64;t++){var S1=rr(e,6)^rr(e,11)^rr(e,25),ch=(e&f)^(~e&g),t1=(hh+S1+ch+k[t]+w[t])|0,S0=rr(a,2)^rr(a,13)^rr(a,22),mj=(a&b2)^(a&cc)^(b2&cc),t2=(S0+mj)|0;hh=g;g=f;f=e;e=(d+t1)|0;d=cc;cc=b2;b2=a;a=(t1+t2)|0;}
+  h[0]=(h[0]+a)|0;h[1]=(h[1]+b2)|0;h[2]=(h[2]+cc)|0;h[3]=(h[3]+d)|0;h[4]=(h[4]+e)|0;h[5]=(h[5]+f)|0;h[6]=(h[6]+g)|0;h[7]=(h[7]+hh)|0;}
+  return h.map(function(x){return(x>>>0).toString(16).padStart(8,'0')}).join('');
+}
 
-  var btn=this;btn.disabled=true;btn.innerHTML='Envoi en cours…';
+async function post(table,rows){
+  var r=await fetch(SUPA_URL+'/rest/v1/'+table,{method:'POST',headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(rows)});
+  return r.ok;
+}
 
-  var slug=shop.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+async function sendVendor(){
+  var rccm=v('vRccm'),isX=rccm.length>=6;
+  if(!hasFile('dCniR'))return err('Photo CNI recto obligatoire.');
+  if(!hasFile('dCniV'))return err('Photo CNI verso obligatoire.');
+  if(!hasFile('dSelfie'))return err('Selfie avec CNI obligatoire.');
+  if(isX&&(!hasFile('dBout')||!hasFile('dFact1')||!hasFile('dFact2')))return err('RCCM renseigné → photo boutique + 2 factures obligatoires pour Xeweul.');
+  if(!document.getElementById('vCond').checked)return err('Tu dois accepter les conditions vendeur.');
 
-  fetch(SUPA_URL+'/rest/v1/vendors',{
-    method:'POST',
-    headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
-    body:JSON.stringify({
-      shop_name:shop,slug:slug,
-      description:'Boutique '+shop+' — '+city,
-      category:cat,city:city,
-      rating:5.0,followers:0,total_sales:0,
-      is_verified:false,           /* Teranga : non vérifié au départ */
-      plan:'gratuit',
-      commission_rate:8.00,         /* niveau Teranga */
-      rccm_number:rccm||null
-    })
-  })
-  .then(function(r){
-    if(r.ok||r.status===201){
-      document.getElementById('formBox').style.display='none';
-      document.getElementById('successBox').classList.add('show');
-      lucide.createIcons();
-      window.scrollTo({top:0,behavior:'smooth'});
-    }else if(r.status===409){
-      showErr('Ce nom de boutique est déjà pris. Ajoute ton quartier (ex : "'+shop+' Sacré-Cœur").');
-      btn.disabled=false;btn.innerHTML='<i data-lucide="rocket"></i>Ouvrir ma boutique';lucide.createIcons();
-    }else{
-      showErr('Erreur d\'envoi ('+r.status+'). Réessaie.');
-      btn.disabled=false;btn.innerHTML='<i data-lucide="rocket"></i>Ouvrir ma boutique';lucide.createIcons();
+  var btn=document.getElementById('sendBtn');btn.disabled=true;btn.textContent='Envoi en cours…';
+  var email=v('vEmail');
+
+  try{
+    /* doublon ? */
+    var chk=await fetch(SUPA_URL+'/rest/v1/vendors?email=eq.'+encodeURIComponent(email)+'&select=id',{headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}});
+    var ex=await chk.json();
+    if(ex&&ex.length){btn.disabled=false;btn.textContent='📨 Envoyer ma demande';return err('Un compte vendeur existe déjà avec cet email.');}
+
+    var pwdHash=await sha256(v('vPwd'));
+    var okV=await post('vendors',{
+      full_name:v('vNom'),email:email,phone:v('vInd')+v('vTel').replace(/\s/g,''),
+      shop_name:v('vShop'),category:v('vCat'),city:v('vVille'),
+      rccm_number:rccm||null,level:'teranga',commission_rate:8.00,
+      status:'pending',is_verified:false,password_hash:pwdHash
+    });
+    if(!okV)throw new Error('vendors');
+
+    /* documents KYC — archivés à vie pour les autorités */
+    var docs=[['cni_recto','dCniR'],['cni_verso','dCniV'],['selfie_cni','dSelfie']];
+    if(isX){docs.push(['photo_boutique','dBout'],['facture_1','dFact1'],['facture_2','dFact2']);}
+    for(var i=0;i<docs.length;i++){
+      await post('kyc_documents',{user_email:email,user_type:'vendeur',doc_type:docs[i][0],file_name:document.getElementById(docs[i][1]).files[0].name,status:'pending'});
     }
-  })
-  .catch(function(){
-    showErr('Pas de connexion internet. Réessaie.');
-    btn.disabled=false;btn.innerHTML='<i data-lucide="rocket"></i>Ouvrir ma boutique';lucide.createIcons();
-  });
-};
+
+    /* 🔔 notification admin */
+    await post('notifications',{audience:'admin',user_email:email,type:'kyc_pending',title:'🆕 Nouveau vendeur en attente',message:v('vShop')+' ('+v('vNom')+') — '+(isX?'dossier Xeweul avec RCCM':'Teranga')+' — à valider dans Documents & Conformité.'});
+
+    err('');goStep('Ok');
+    document.getElementById('s3').classList.add('done');
+  }catch(e){
+    btn.disabled=false;btn.textContent='📨 Envoyer ma demande';
+    err('Erreur réseau. Réessaie.');
+  }
+}
 </script>
 </body>
 </html>
