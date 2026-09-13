@@ -3,368 +3,304 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Devenir Livreur - SEN TEW</title>
+<title>Devenir livreur - SEN TEW</title>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="js/security-shield.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{overflow-x:hidden;max-width:100vw}
-body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:40px;color:#0a1f17}
-.hero{background:linear-gradient(160deg,#0a1f17,#0f6b4e);color:#fff;padding:26px 18px 62px;text-align:center}
-.hero img{width:120px;max-width:50%;margin:0 auto 6px;display:block;filter:drop-shadow(0 6px 16px rgba(0,0,0,.35))}
-.hero h1{font-size:20px;font-weight:900;margin-top:4px}
-.hero p{font-size:12px;opacity:.88;margin-top:6px;line-height:1.55}
-.avantages{display:flex;gap:9px;padding:0 14px;margin-top:-38px}
-.av{flex:1;background:#fff;border-radius:15px;padding:13px 8px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.08)}
-.av .ai{width:36px;height:36px;border-radius:11px;background:#f0fdf4;color:#0f6b4e;display:flex;align-items:center;justify-content:center;margin:0 auto 6px}
-.av .ai i{width:17px;height:17px}
-.av b{font-size:11px;display:block}
-.av span{font-size:9px;color:#9aa5a0;display:block;margin-top:3px;line-height:1.35}
-/* Gains */
-.gains{background:#0a1f17;border-radius:16px;padding:16px;margin:14px;color:#fff}
-.gains h3{font-size:13.5px;font-weight:900;margin-bottom:11px;display:flex;align-items:center;gap:7px}
-.gains h3 i{width:16px;height:16px;color:#4ade80}
-.g-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px dashed rgba(255,255,255,.15);font-size:12.5px}
-.g-row:last-child{border:none}
-.g-row b{color:#4ade80}
-/* Formulaire */
-.form{background:#fff;margin:0 14px;border-radius:18px;padding:18px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
-.form h2{font-size:16px;font-weight:900;margin-bottom:4px}
-.form .fsub{font-size:11.5px;color:#6b7280;margin-bottom:16px;line-height:1.5}
-.step-tag{display:inline-block;font-size:9.5px;font-weight:900;letter-spacing:1px;color:#0f6b4e;background:#f0fdf4;padding:4px 11px;border-radius:9px;margin-bottom:14px}
-.fld{margin-bottom:13px}
-.fld label{font-size:11.5px;font-weight:800;color:#374151;display:block;margin-bottom:6px}
-.fld label .req{color:#e63946}
-.fld label .opt{font-weight:600;color:#9aa5a0;font-size:10px}
-.fld input,.fld select{width:100%;border:1.5px solid #e5e7eb;border-radius:12px;padding:13px 14px;font-size:14px;outline:none;background:#f9fafb;font-family:inherit;box-sizing:border-box;transition:border .2s}
-.fld input:focus,.fld select:focus{border-color:#0f6b4e;background:#fff}
-.hint{font-size:10px;color:#9aa5a0;margin-top:4px;line-height:1.45}
-/* Documents */
-.doc-zone{border:2px dashed #d1d5db;border-radius:13px;padding:15px;text-align:center;cursor:pointer;background:#f9fafb;transition:all .2s;margin-bottom:11px}
-.doc-zone:active{border-color:#0f6b4e;background:#f0fdf4}
-.doc-zone .di{width:38px;height:38px;border-radius:11px;background:#f0fdf4;color:#0f6b4e;display:flex;align-items:center;justify-content:center;margin:0 auto 6px}
-.doc-zone .di i{width:18px;height:18px}
-.doc-zone b{font-size:12px;display:block}
-.doc-zone span{font-size:9.5px;color:#9aa5a0;display:block;margin-top:3px;line-height:1.4}
-.doc-zone.done{border-color:#0f6b4e;border-style:solid;background:#f0fdf4}
-.doc-zone.done .di{background:#0f6b4e;color:#fff}
-.doc-note{font-size:10px;color:#6b7280;background:#f9fafb;border-radius:10px;padding:9px 11px;line-height:1.5;margin-bottom:13px}
-/* Conditions */
-.cond{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:13px;padding:13px;margin:13px 0;max-height:170px;overflow-y:auto;font-size:11px;color:#4b5563;line-height:1.6}
-.cond h4{font-size:11.5px;color:#0a1f17;margin:9px 0 3px}
-.cond h4:first-child{margin-top:0}
-.check{display:flex;align-items:flex-start;gap:10px;background:#f0fdf4;border:1.5px solid #a7f3d0;border-radius:13px;padding:13px;cursor:pointer}
-.check .box{width:22px;height:22px;border-radius:7px;border:2px solid #0f6b4e;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;transition:all .2s}
-.check.on .box{background:#0f6b4e}
-.check span{font-size:11px;color:#065f46;font-weight:600;line-height:1.5}
-.btn{width:100%;padding:16px;border-radius:14px;border:none;background:linear-gradient(135deg,#0f6b4e,#10b981);color:#fff;font-size:15px;font-weight:900;cursor:pointer;margin-top:14px;box-shadow:0 8px 20px rgba(15,107,78,.3);display:flex;align-items:center;justify-content:center;gap:8px}
-.btn:disabled{opacity:.45;box-shadow:none}
-.btn i{width:17px;height:17px}
-.btn-line{background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e;box-shadow:none}
-.err{display:none;background:#fef2f2;border:1.5px solid #fecaca;color:#b91c1c;font-size:12px;font-weight:700;border-radius:12px;padding:11px 13px;margin:0 14px 12px;line-height:1.5}
-.err.show{display:block}
-.success{display:none;background:#fff;margin:14px;border-radius:18px;padding:30px 20px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.06)}
-.success.show{display:block}
-.success .si{width:64px;height:64px;border-radius:50%;background:#f0fdf4;color:#0f6b4e;display:flex;align-items:center;justify-content:center;margin:0 auto}
-.success .si i{width:30px;height:30px}
-.success h2{font-size:18px;font-weight:900;color:#0f6b4e;margin:12px 0 6px}
-.success p{font-size:12px;color:#6b7280;line-height:1.65}
-.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:14px;font-size:11.5px;color:#92400e;cursor:pointer;line-height:1.55}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0a1f17;padding-bottom:40px}
+.topbar{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:50}
+.topbar img{height:32px}
+.topbar h1{font-size:14px;font-weight:900;color:#0f6b4e;flex:1}
+.topbar a{color:#9aa5a0;text-decoration:none;font-size:13px;font-weight:700}
+.wrap{max-width:520px;margin:0 auto;padding:14px}
+.steps{display:flex;gap:6px;margin:8px 0 18px}
+.stp{flex:1;text-align:center}
+.stp .bar{height:5px;border-radius:99px;background:#e5e7eb;margin-bottom:5px}
+.stp.on .bar{background:#0f6b4e}
+.stp.done .bar{background:#4ade80}
+.stp span{font-size:10px;font-weight:800;color:#9aa5a0}
+.stp.on span{color:#0f6b4e}
+.hero{background:linear-gradient(160deg,#0a1f17,#0f6b4e);border-radius:18px;color:#fff;padding:22px 18px;text-align:center;margin-bottom:14px}
+.hero h2{font-size:20px;font-weight:900;margin-bottom:6px}
+.hero p{font-size:12px;opacity:.9;line-height:1.55}
+.bene{background:#fff;border-radius:16px;padding:15px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.bene h3{font-size:13px;font-weight:900;margin-bottom:10px}
+.brow{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid #f3f4f6;font-size:12.5px;line-height:1.5}
+.brow:last-child{border:none}
+.brow .ic{width:34px;height:34px;border-radius:10px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.brow b{display:block;font-size:12.5px}
+.brow span{color:#6b7280;font-size:11px}
+.gain{background:#0a1f17;border-radius:16px;padding:15px;color:#fff;margin-bottom:14px}
+.gain h3{font-size:13px;font-weight:900;margin-bottom:10px;color:#4ade80}
+.grow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:12px}
+.grow:last-child{border:none}
+.grow b{font-size:13px;color:#4ade80}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:11.5px;font-weight:800;margin-bottom:5px;color:#374151}
+.field input,.field select{width:100%;padding:13px 14px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:14px;background:#fff;font-family:inherit}
+.field input:focus,.field select:focus{outline:none;border-color:#0f6b4e}
+.tel{display:flex;gap:8px}
+.tel select{width:105px;padding:13px 8px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:13px;background:#fff}
+.tel input{flex:1;padding:13px 14px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:14px}
+.doc{background:#fff;border-radius:14px;padding:13px;margin-bottom:10px;border:1.5px dashed #d1d5db}
+.doc label{display:block;font-size:12px;font-weight:800;margin-bottom:3px}
+.doc small{color:#6b7280;font-size:10.5px;display:block;margin-bottom:8px}
+.doc input{width:100%;font-size:12px}
+.doc img{width:100%;max-height:150px;object-fit:cover;border-radius:10px;margin-top:8px;display:none}
+.motoOnly{display:none}
+.cond{background:#fff;border-radius:14px;padding:13px;margin:12px 0}
+.cond h4{font-size:12.5px;font-weight:900;margin-bottom:9px}
+.crow{display:flex;gap:8px;align-items:flex-start;font-size:11.5px;color:#374151;line-height:1.5;padding:5px 0}
+.crow input{width:17px;height:17px;flex-shrink:0;margin-top:1px}
+.caccept{display:flex;gap:9px;align-items:flex-start;background:#fff;border-radius:12px;padding:12px;font-size:11.5px;color:#374151;line-height:1.5;margin:12px 0;border:1.5px solid #e5e7eb}
+.caccept input{width:18px;height:18px;flex-shrink:0;margin-top:1px}
+.btn{width:100%;padding:15px;border:none;border-radius:14px;background:#0f6b4e;color:#fff;font-size:14px;font-weight:900;cursor:pointer}
+.btn:disabled{background:#9aa5a0;cursor:not-allowed}
+.btn2{width:100%;padding:13px;border:1.5px solid #e5e7eb;border-radius:14px;background:#fff;color:#374151;font-size:13px;font-weight:800;cursor:pointer;margin-top:8px}
+.err{display:none;background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;border-radius:12px;padding:11px 13px;font-size:12px;font-weight:700;margin-bottom:12px;line-height:1.5}
+.panel{display:none}
+.panel.on{display:block}
+.pending{text-align:center;padding:26px 18px}
+.pending .pi{width:76px;height:76px;border-radius:50%;background:#fffbeb;border:3px solid #f59e0b;display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 14px}
+.pending h2{font-size:18px;font-weight:900;margin-bottom:8px}
+.pending .pbox{background:#fff;border-radius:16px;padding:15px;text-align:left;font-size:12.5px;line-height:1.7;box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:14px}
+.pending .pbox b{color:#0f6b4e}
+.pending .warn{background:#fef2f2;border:1.5px solid #fecaca;color:#b91c1c;border-radius:12px;padding:11px 13px;font-size:12px;font-weight:800;line-height:1.55;margin-bottom:14px}
+.note{display:flex;gap:8px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:11px 12px;font-size:11px;color:#1e40af;line-height:1.55;margin-bottom:12px}
 </style>
 </head>
 <body>
-
-<div class="hero">
-  <img src="assets/Logo.png" alt="SEN TEW" onerror="this.outerHTML='<div style=font-size:24px;font-weight:900;color:#fff>SEN <span style=color:#d4a94e>TEW</span></div>'">
-  <h1>Deviens Livreur Partenaire</h1>
-  <p>Gagne à ton rythme avec ta moto, ton vélo ou ta voiture.<br>Payé chaque lundi, directement sur ton paiement mobile.</p>
+<div class="topbar">
+  <img src="assets/Logo.png" alt="SEN TEW" onerror="this.style.display='none'">
+  <h1>Devenir livreur</h1>
+  <a href="index.html">✕</a>
 </div>
+<div class="wrap">
 
-<div class="avantages">
-  <div class="av"><div class="ai"><i data-lucide="banknote"></i></div><b>1 000 – 2 000 F</b><span>par livraison selon zone</span></div>
-  <div class="av"><div class="ai"><i data-lucide="calendar-check"></i></div><b>Chaque lundi</b><span>paiement automatique</span></div>
-  <div class="av"><div class="ai"><i data-lucide="clock"></i></div><b>100% libre</b><span>tu choisis tes horaires</span></div>
-</div>
-
-<div class="gains">
-  <h3><i data-lucide="wallet"></i>Combien tu gagnes</h3>
-  <div class="g-row"><span>Livraison Dakar centre</span><b>1 000 F</b></div>
-  <div class="g-row"><span>Livraison banlieue</span><b>1 500 F</b></div>
-  <div class="g-row"><span>Livraison région</span><b>2 000 F</b></div>
-  <div class="g-row"><span>Bonus : 20 livraisons / semaine</span><b>+ 3 000 F</b></div>
-  <div class="g-row"><span>Bonus : note 4.8+ maintenue 1 mois</span><b>+ 5 000 F</b></div>
-</div>
-
-<div class="err" id="errBox"></div>
-
-<div class="form" id="formBox">
-
-  <!-- ═══ ÉTAPE 1 : IDENTITÉ ═══ -->
-  <div class="step-tag">ÉTAPE 1/3 — TON IDENTITÉ</div>
-
-  <div class="fld">
-    <label>NOM COMPLET <span class="req">*</span></label>
-    <input id="fName" placeholder="Ex : Mamadou Diallo" autocapitalize="words" autocomplete="name">
-  </div>
-  <div class="fld">
-    <label>TÉLÉPHONE (paiement mobile) <span class="req">*</span></label>
-    <input id="fPhone" type="tel" inputmode="numeric" placeholder="77 123 45 67" autocomplete="tel">
-    <div class="hint">C'est sur ce numéro que tu reçois ta paye chaque lundi.</div>
-  </div>
-  <div class="fld">
-    <label>ZONE DE LIVRAISON <span class="req">*</span></label>
-       <select id="fZone">
-      <option value="">Choisir…</option>
-      <optgroup label="🇸🇳 Sénégal — actif">
-        <option>Dakar centre (Plateau, Médina, HLM)</option>
-        <option>Dakar Nord (Almadies, Ngor, Yoff, Ouakam)</option>
-        <option>Dakar Sud (Sacré-Cœur, Mermoz, Grand Dakar)</option>
-        <option>Banlieue (Parcelles, Pikine, Guédiawaye)</option>
-        <option>Thiès</option>
-        <option>Mbour / Petite Côte</option>
-        <option>Saint-Louis</option>
-        <option>Kaolack</option>
-        <option>Ziguinchor</option>
-        <option>Autre ville du Sénégal</option>
-      </optgroup>
-      <optgroup label="🌍 Bientôt — liste d'attente prioritaire">
-        <option>🇬🇲 Gambie — Banjul</option>
-        <option>🇬🇳 Guinée — Conakry</option>
-        <option>🇲🇱 Mali — Bamako</option>
-        <option>🇨🇮 Côte d'Ivoire — Abidjan</option>
-        <option>🇲🇷 Mauritanie — Nouakchott</option>
-        <option>🇧🇫 Burkina Faso — Ouagadougou</option>
-        <option>🇬🇼 Guinée-Bissau — Bissau</option>
-        <option>Autre pays d'Afrique</option>
-      </optgroup>
-    </select>
-    <div class="hint">Hors Sénégal : tu rejoins la <b>liste d'attente prioritaire</b> de ta ville — tu es contacté en premier à l'ouverture. SEN TEW grandit avec toi.</div>
+  <div class="steps">
+    <div class="stp on" id="s1"><div class="bar"></div><span>1 · Avantages</span></div>
+    <div class="stp" id="s2"><div class="bar"></div><span>2 · Mes infos</span></div>
+    <div class="stp" id="s3"><div class="bar"></div><span>3 · Documents</span></div>
   </div>
 
-  <!-- ═══ ÉTAPE 2 : VÉHICULE ═══ -->
-  <div class="step-tag">ÉTAPE 2/3 — TON VÉHICULE</div>
+  <div class="err" id="err"></div>
 
-  <div class="fld">
-    <label>TYPE DE VÉHICULE <span class="req">*</span></label>
-    <select id="fVehicle">
-      <option value="">Choisir…</option>
-      <option value="moto">Moto / Scooter</option>
-      <option value="velo">Vélo</option>
-      <option value="voiture">Voiture</option>
-      <option value="pied">Coursier piéton — livraison de proximité (Dakar centre)</option>
-
-    </select>
-  </div>
-
-  <!-- Champs conditionnels motorisé -->
-  <div id="motorFields" style="display:none">
-    <div class="fld">
-      <label>PLAQUE D'IMMATRICULATION <span class="req">*</span></label>
-      <input id="fPlate" placeholder="Ex : DK-4521-A" autocapitalize="characters">
-      <div class="hint">Affichée au client pendant le suivi — il reconnaît ton véhicule.</div>
+  <!-- ═══ ÉTAPE 1 : AVANTAGES ═══ -->
+  <div class="panel on" id="step1">
+    <div class="hero">
+      <h2>Livre et gagne chaque jour 🛵</h2>
+      <p>Rejoins le réseau de livraison SEN TEW : courses payées à la livraison, reversement rapide, sécurité garantie.</p>
     </div>
-    <div class="fld">
-      <label>MODÈLE DU VÉHICULE</label>
-      <input id="fModel" placeholder="Ex : Moto TVS 125 rouge">
+    <div class="gain">
+      <h3>💰 Tes gains par course</h3>
+      <div class="grow"><span>📦 Course standard (Dakar)</span><b>1 000 F</b></div>
+      <div class="grow"><span>🚀 Course express</span><b>1 500 F</b></div>
+      <div class="grow"><span>🏙️ Longue distance / banlieue</span><b>2 000 F</b></div>
+      <div class="grow"><span>⭐ Bonus 5 courses/jour</span><b>+500 F</b></div>
     </div>
+    <div class="bene">
+      <h3>🎁 Tes avantages livreur</h3>
+      <div class="brow"><div class="ic">💸</div><div><b>Reversement sous 24-48h</b><span>Mobile Money ou virement, suivi dans ton espace</span></div></div>
+      <div class="brow"><div class="ic">📍</div><div><b>GPS intégré</b><span>Navigation automatique vers le client, position partagée en direct</span></div></div>
+      <div class="brow"><div class="ic">🛡️</div><div><b>Tu es protégé</b><span>Le client ne paie qu'avec son code secret — zéro dispute d'argent</span></div></div>
+      <div class="brow"><div class="ic">🕐</div><div><b>Horaires libres</b><span>Tu te connectes quand tu veux, aucune obligation</span></div></div>
+      <div class="brow"><div class="ic">🆔</div><div><b>Profil vérifié</b><span>Ta photo, ton nom et ta plaque rassurent les clients</span></div></div>
+    </div>
+    <button class="btn" onclick="goStep(2)">Commencer mon inscription →</button>
+  </div>
+
+  <!-- ═══ ÉTAPE 2 : DONNÉES ═══ -->
+  <div class="panel" id="step2">
+    <div class="field"><label>Nom complet *</label><input id="lNom" placeholder="Ex : Moussa Ndiaye"></div>
+    <div class="field"><label>Email *</label><input id="lEmail" type="email" placeholder="exemple@mail.com"></div>
+    <div class="field"><label>Téléphone *</label>
+      <div class="tel">
+        <select id="lInd"><option value="+221">🇸🇳 +221</option><option value="+33">🇫🇷 +33</option><option value="+1">🇺🇸 +1</option><option value="+225">🇨🇮 +225</option><option value="+223">🇲🇱 +223</option><option value="+224">🇬🇳 +224</option><option value="+220">🇬🇲 +220</option><option value="+245">🇬🇼 +245</option><option value="+222">🇲🇷 +222</option><option value="+226">🇧🇫 +226</option></select>
+        <input id="lTel" type="tel" placeholder="77 000 00 00">
+      </div>
+    </div>
+    <div class="field"><label>Zone de livraison *</label>
+      <select id="lZone">
+        <optgroup label="🇸🇳 Sénégal — actif">
+          <option>Dakar centre</option><option>Dakar Nord</option><option>Dakar Sud</option><option>Banlieue (Pikine, Guédiawaye…)</option><option>Thiès</option><option>Mbour</option><option>Saint-Louis</option><option>Kaolack</option><option>Ziguinchor</option><option>Autre ville du Sénégal</option>
+        </optgroup>
+        <optgroup label="🌍 Bientôt — liste d'attente prioritaire">
+          <option>Gambie</option><option>Guinée</option><option>Mali</option><option>Côte d'Ivoire</option><option>Mauritanie</option><option>Burkina Faso</option><option>Guinée-Bissau</option><option>Autre pays d'Afrique</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="field"><label>Type de véhicule *</label>
+      <select id="lVeh" onchange="vehChange()">
+        <option value="">Choisir…</option>
+        <option value="moto">🏍️ Moto / Scooter</option>
+        <option value="velo">🚲 Vélo</option>
+        <option value="voiture">🚗 Voiture</option>
+        <option value="pied">🚶 Coursier piéton — livraison de proximité (Dakar centre)</option>
+      </select>
+    </div>
+    <div class="field motoOnly" id="fPlaque"><label>Plaque d'immatriculation *</label><input id="lPlaque" placeholder="Ex : DK-1234-AB" style="text-transform:uppercase"></div>
+    <div class="field motoOnly" id="fModele"><label>Modèle du véhicule *</label><input id="lModele" placeholder="Ex : Yamaha Crypton 110"></div>
+    <div class="field"><label>Mot de passe * (8 caractères min.)</label><input id="lPwd" type="password" placeholder="••••••••"></div>
+    <button class="btn" onclick="checkStep2()">Continuer → Documents</button>
+    <button class="btn2" onclick="goStep(1)">← Retour</button>
   </div>
 
   <!-- ═══ ÉTAPE 3 : DOCUMENTS ═══ -->
-   <div class="step-tag">ÉTAPE 3/3 — VÉRIFICATION D'IDENTITÉ</div>
+  <div class="panel" id="step3">
+    <div class="note">🛡️ <span><b>Documents conservés à vie</b> par l'administration SEN TEW, même après ton départ, pour répondre aux autorités en cas de problème majeur. Ils ne sont <b>jamais</b> visibles par les clients.</span></div>
 
-  <div class="doc-note">🛡️ <b>Pourquoi ces documents ?</b> Les clients te confient leurs colis et leurs adresses. La vérification protège tout le monde — et les livreurs vérifiés reçoivent <b>les courses en priorité</b>.</div>
+    <div class="doc"><label>🪪 CNI — RECTO *</label><small>Photo nette, recto de la carte d'identité</small><input type="file" id="dCniR" accept="image/*" onchange="pv(this,'pCniR')"><img id="pCniR"></div>
+    <div class="doc"><label>🪪 CNI — VERSO *</label><small>Photo nette, verso de la carte d'identité</small><input type="file" id="dCniV" accept="image/*" onchange="pv(this,'pCniV')"><img id="pCniV"></div>
+    <div class="doc"><label>🤳 Selfie avec ta CNI *</label><small>Ton visage + ta CNI visible à côté</small><input type="file" id="dSelfie" accept="image/*" onchange="pv(this,'pSelfie')"><img id="pSelfie"></div>
+    <div class="doc"><label>📸 Photo de profil livreur *</label><small>Visage net, fond clair — <b>visible par les clients pendant la livraison</b></small><input type="file" id="dProfil" accept="image/*" onchange="pv(this,'pProfil')"><img id="pProfil"></div>
 
-   <!-- CNI recto + verso -->
-  <div class="doc-zone" id="dz-cni" data-doc="CNI recto" style="margin-bottom:9px">
-    <div class="di"><i data-lucide="id-card"></i></div>
-    <b>CNI — RECTO <span class="req">*</span></b>
-    <span>La face avec ta photo. Lisible, à plat, sans reflet</span>
-  </div>
-  <input type="file" id="fi-cni" accept="image/*" capture="environment" style="display:none">
-  <div class="doc-zone" id="dz-cni_verso" data-doc="CNI verso">
-    <div class="di"><i data-lucide="id-card"></i></div>
-    <b>CNI — VERSO <span class="req">*</span></b>
-    <span>La face arrière. Les deux faces sont obligatoires (comme les banques)</span>
-  </div>
-  <input type="file" id="fi-cni_verso" accept="image/*" capture="environment" style="display:none">
+    <div class="doc motoOnly" id="dPermisB"><label>🪪 Permis de conduire *</label><small>Recto du permis (catégorie adaptée à ton véhicule)</small><input type="file" id="dPermis" accept="image/*" onchange="pv(this,'pPermis')"><img id="pPermis"></div>
+    <div class="doc motoOnly" id="dGriseB"><label>📄 Carte grise *</label><small>La plaque sur la carte grise doit correspondre à celle déclarée</small><input type="file" id="dGrise" accept="image/*" onchange="pv(this,'pGrise')"><img id="pGrise"></div>
+    <div class="doc motoOnly" id="dCasqueB"><label>🪖 Photo de ton casque *</label><small>Casque homologué, obligatoire pour les 2-roues</small><input type="file" id="dCasque" accept="image/*" onchange="pv(this,'pCasque')"><img id="pCasque"></div>
 
-  <!-- Selfie -->
-  <div class="doc-zone" id="dz-selfie" data-doc="Selfie">
-    <div class="di"><i data-lucide="scan-face"></i></div>
-    <b>Selfie de vérification <span class="req">*</span></b>
-    <span>Ton visage en ce moment — comparé à ta CNI (anti-usurpation)</span>
-  </div>
-  <input type="file" id="fi-selfie" accept="image/*" capture="user" style="display:none">
+    <div class="cond">
+      <h4>📜 Règles du livreur SEN TEW (à lire)</h4>
+      <div class="crow"><input type="checkbox" class="crule"><span>1. Je ne dois <b>jamais connaître le contenu du colis</b> — seulement le code de livraison et les coordonnées du client.</span></div>
+      <div class="crow"><input type="checkbox" class="crule"><span>2. Je <b>photographie le colis au retrait</b> chez le vendeur (preuve d'état) et je vérifie qu'il est bien emballé et couvert.</span></div>
+      <div class="crow"><input type="checkbox" class="crule"><span>3. Pour les <b>aliments</b> : sac isotherme propre, respect des règles sanitaires, livraison rapide.</span></div>
+      <div class="crow"><input type="checkbox" class="crule"><span>4. Je remets le colis <b>uniquement contre le code secret</b> du client — jamais sans.</span></div>
+      <div class="crow"><input type="checkbox" class="crule"><span>5. Ma <b>position GPS est partagée</b> pendant la livraison, et s'arrête automatiquement après.</span></div>
+      <div class="crow"><input type="checkbox" class="crule"><span>6. Je respecte le code de la route. Casque obligatoire en 2-roues.</span></div>
+    </div>
 
-  <!-- Casque -->
-  <div class="doc-zone" id="dz-casque" data-doc="Casque" style="display:none">
-    <div class="di"><i data-lucide="hard-hat"></i></div>
-    <b>Photo avec ton casque <span class="req">*</span></b>
-    <span>Obligatoire pour moto/scooter — ta sécurité d'abord</span>
-  </div>
-  <input type="file" id="fi-casque" accept="image/*" capture="environment" style="display:none">
+    <label class="caccept"><input type="checkbox" id="lCond"><span>J'ai lu et j'accepte les <b>conditions livreur SEN TEW</b>. Je comprends que mon compte ne sera actif <b>qu'après validation de mes documents par l'équipe SEN TEW</b>.</span></label>
 
-  <!-- Permis -->
-  <div class="doc-zone" id="dz-permis" data-doc="Permis" style="display:none">
-    <div class="di"><i data-lucide="id-card"></i></div>
-    <b>Permis de conduire <span class="req">*</span></b>
-    <span>Photo lisible du permis correspondant à ton véhicule</span>
-  </div>
-  <input type="file" id="fi-permis" accept="image/*" capture="environment" style="display:none">
-
-  <!-- Carte grise -->
-  <div class="doc-zone" id="dz-grise" data-doc="Carte grise" style="display:none">
-    <div class="di"><i data-lucide="file-text"></i></div>
-    <b>Carte grise <span class="req">*</span></b>
-    <span>Prouve que le véhicule est déclaré à ton nom</span>
-  </div>
-  <input type="file" id="fi-grise" accept="image/*" capture="environment" style="display:none">
-
-  <!-- Assurance (recommandée) -->
-  <div class="doc-zone" id="dz-assurance" data-doc="Assurance" style="display:none">
-    <div class="di"><i data-lucide="shield"></i></div>
-    <b>Assurance véhicule <span style="color:#b45309">(fortement recommandée)</span></b>
-    <span>En cas d'accident, tout est couvert. Sans elle, tu roules à tes risques.</span>
-  </div>
-  <input type="file" id="fi-assurance" accept="image/*" capture="environment" style="display:none">
-
-  <!-- Conditions -->
-  <div class="cond">
-    <h4>CONDITIONS DU LIVREUR PARTENAIRE SEN TEW</h4>
-    <b>1. Rôle.</b> Je récupère les colis chez les vendeurs (scan du code retrait) et les livre aux clients (le client saisit son code secret devant moi).<br><br>
-    <b>2. Rémunération.</b> 1 000 à 2 000 F par livraison selon la zone, versés chaque lundi par paiement mobile. Bonus : +3 000 F après 20 livraisons/semaine, +5 000 F/mois si note ≥ 4.8.<br><br>
-    <b>3. Mes engagements.</b> Livrer dans les délais · ne jamais ouvrir un colis · respecter les clients · GPS activé pendant chaque course · signaler tout problème immédiatement dans l'app.<br><br>
-    <b>4. Codes.</b> Le code de livraison est saisi UNIQUEMENT par le client, devant moi, colis en main. Toute fraude = suspension immédiate + course non payée.<br><br>
-    <b>5. Colis.</b> Je suis responsable du colis entre le scan de retrait et la livraison confirmée. Colis perdu par négligence = retenue sur mes gains.<br><br>
-    <b>5a. Confidentialité.</b> Je ne vois JAMAIS le contenu du colis — seulement le code tracking, l'adresse et le nom du client. Interdiction absolue d'ouvrir, de secouer, ou de deviner le contenu.<br><br>
-    <b>5b. Photo du colis.</b> Au retrait chez le vendeur, je photographie le colis scellé/emballé. Cette photo est conservée par SEN TEW comme preuve de l'état initial — elle protège le vendeur ET le livreur en cas de litige.<br><br>
-    <b>6. Sécurité routière.</b> Casque obligatoire à moto. Je roule prudemment : ma vie et celle des autres avant la vitesse.<br><br>
-    <b>7. Suspension.</b> Note < 4.0 après 20 courses, 3 signalements clients, ou fraude = suspension après examen par l'administration.<br><br>
-    <b>8. Indépendance.</b> Je suis partenaire indépendant : je choisis librement mes disponibilités, aucun horaire imposé.<br><br>
-    <b>9. Confidentialité.</b> Les coordonnées des clients sont strictement réservées à la livraison (loi sur les données personnelles).
+    <button class="btn" id="sendBtn" onclick="sendDriver()">📨 Envoyer ma candidature</button>
+    <button class="btn2" onclick="goStep(2)">← Retour</button>
   </div>
 
-  <div class="check" id="checkBox">
-    <div class="box" id="checkMark"></div>
-    <span>J'ai lu et j'accepte les <b>conditions du livreur partenaire</b>. Je confirme que mes informations et mes documents sont authentiques.</span>
+  <!-- ═══ ÉCRAN FINAL : EN ATTENTE (JAMAIS confirmé direct) ═══ -->
+  <div class="panel" id="stepOk">
+    <div class="pending">
+      <div class="pi">⏳</div>
+      <h2>Candidature envoyée !</h2>
+      <div class="warn">🚫 Ton compte livreur n'est <u>PAS encore actif</u>. Il sera activé uniquement après validation par l'équipe SEN TEW.</div>
+      <div class="pbox">
+        📋 <b>Examen sous 24 à 48h</b> : nos équipes vérifient ta CNI (recto/verso), ton selfie, ton permis et ta carte grise.<br>
+        🔔 <b>Tu recevras une notification</b> dès que ton compte est validé.<br>
+        📧 En cas de document illisible, nous te contacterons sur ton email.
+      </div>
+      <button class="btn" onclick="location.href='index.html'">Retour à l'accueil</button>
+    </div>
   </div>
 
-  <button class="btn" id="submitBtn" disabled><i data-lucide="send"></i>Envoyer ma candidature</button>
 </div>
-
-<!-- SUCCÈS -->
-<div class="success" id="successBox">
-  <div class="si"><i data-lucide="check"></i></div>
-  <h2>Candidature envoyée !</h2>
-  <p>L'administration vérifie tes documents sous <b>24h</b>.<br><br><b>Prochaines étapes :</b><br>1. Vérification CNI + selfie + documents véhicule<br>2. Appel de confirmation sur ton numéro<br>3. Tu te connectes sur <b>livreur.html</b> et tu prends ta première course 🛵<br><br>Ta plaque sera visible par les clients pendant le suivi — comme les grandes apps de livraison.</p>
-  <button class="btn" onclick="window.location.href='index.html'"><i data-lucide="home"></i>Retour à l'accueil</button>
-</div>
-
-<div class="tip" onclick="alert('Être accepté rapidement\n\n✓ Photos nettes : documents à plat, bien éclairés, lisibles\n✓ Selfie : visage dégagé, lumière du jour, sans lunettes de soleil\n✓ Numéro de paiement mobile actif (c\'est ta paye)\n✓ Réponds vite à l\'appel de vérification\n\nⓘ Les livreurs vérifiés complets (tous les documents) reçoivent les courses en priorité et gagnent ~30% de plus.')"><span>ⓘ</span><span>Astuce : les livreurs avec <b>tous leurs documents validés</b> reçoivent les courses en priorité. Clique pour être accepté du premier coup.</span></div>
-
 <script>
 lucide.createIcons();
 var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
 var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
-function showErr(m){var b=document.getElementById('errBox');b.textContent=m;b.classList.remove('show');void b.offsetWidth;b.classList.add('show');window.scrollTo({top:0,behavior:'smooth'})}
-function hideErr(){document.getElementById('errBox').classList.remove('show')}
 
-/* ===== Véhicule → documents conditionnels ===== */
-var DOCS={cni:false,cni_verso:false,selfie:false,casque:false,permis:false,grise:false,assurance:false};
-document.getElementById('fVehicle').addEventListener('change',function(){
-  var motor=(this.value==='moto'||this.value==='voiture');
-  ['casque','permis','grise','assurance'].forEach(function(d){
-    document.getElementById('dz-'+d).style.display=motor?'block':'none';
+function err(m){var e=document.getElementById('err');e.textContent='⚠️ '+m;e.style.display=m?'block':'none';window.scrollTo(0,0);}
+function goStep(n){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on')});
+  document.getElementById('step'+n).classList.add('on');
+  [1,2,3].forEach(function(i){
+    var s=document.getElementById('s'+i);
+    s.classList.toggle('on',i===n);
+    s.classList.toggle('done',i<n);
   });
-  /* Casque uniquement pour moto (pas voiture) */
-  document.getElementById('dz-casque').style.display=(this.value==='moto')?'block':'none';
-  document.getElementById('motorFields').style.display=motor?'block':'none';
-});
+  err('');window.scrollTo(0,0);
+}
+function pv(inp,imgId){var f=inp.files[0];if(!f)return;var img=document.getElementById(imgId);img.src=URL.createObjectURL(f);img.style.display='block';}
+function v(id){return (document.getElementById(id).value||'').trim();}
+function hasFile(id){var i=document.getElementById(id);return i.files&&i.files.length>0;}
+function isMoto(){var t=v('lVeh');return t==='moto'||t==='voiture';}
+function vehChange(){
+  var m=isMoto();
+  document.querySelectorAll('.motoOnly').forEach(function(el){el.style.display=m?'block':'none'});
+}
 
-/* ===== Upload documents (zones cliquables) ===== */
-[['cni'],['cni_verso'],['selfie'],['casque'],['permis'],['grise'],['assurance']].forEach(function(pair){
-  var key=pair[0];
-  var zone=document.getElementById('dz-'+key);
-  var input=document.getElementById('fi-'+key);
-  if(!zone||!input)return;
-  zone.onclick=function(){input.click()};
-  input.addEventListener('change',function(){
-    if(this.files.length){
-      DOCS[key]=true;
-      zone.classList.add('done');
-      var label=zone.dataset.doc;
-      zone.innerHTML='<div class="di"><i data-lucide="check-circle"></i></div><b>'+label+' reçu ✓</b><span>'+this.files[0].name+'</span>';
-      lucide.createIcons();
+function checkStep2(){
+  var nom=v('lNom'),email=v('lEmail'),tel=v('lTel'),zone=v('lZone'),veh=v('lVeh'),pwd=v('lPwd');
+  if(nom.length<3)return err('Nom complet requis.');
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))return err('Email invalide.');
+  if(tel.replace(/\D/g,'').length<8)return err('Numéro de téléphone invalide.');
+  if(!zone)return err('Choisis ta zone de livraison.');
+  if(!veh)return err('Choisis ton type de véhicule.');
+  if(isMoto()){
+    if(v('lPlaque').length<4)return err('Plaque d\'immatriculation requise pour moto/voiture.');
+    if(v('lModele').length<2)return err('Modèle du véhicule requis.');
+  }
+  if(pwd.length<8)return err('Mot de passe : 8 caractères minimum.');
+  goStep(3);
+}
+
+async function sha256(m){
+  if(window.crypto&&crypto.subtle){try{var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(m));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0')}).join('')}catch(e){}}
+  function rr(a,b){return(a>>>b)|(a<<(32-b))}var h=[1779033703,3144134277,1013904242,2773480762,1359893119,2600822924,528734635,1541459225],k=[1116352408,1899447441,3049323471,3921009573,961987163,1508970993,2453635748,2870763221,3624381080,310598401,607225278,1426881987,1925078388,2162078206,2614888103,3248222580,3835390401,4022224774,264347078,604807628,770255983,1249150122,1555081692,1996064986,2554220882,2821834349,2952996808,3210313671,3336571891,3584528711,113926993,338241895,666307205,773529912,1294757372,1396182291,1695183700,1986661051,2177026350,2456956037,2730485921,2820302411,3259730800,3345764771,3516065817,3600352804,4094571909,275423344,430227734,506948616,659060556,883997877,958139571,1322822218,1537002063,1747873779,1955562222,2024104815,2227730452,2361852424,2428436474,2756734187,3204031479,3329325298];
+  var s=unescape(encodeURIComponent(m)),l=s.length,bits=l*8;s+=String.fromCharCode(128);while(s.length%64!==56)s+=String.fromCharCode(0);
+  for(var i=0;i<4;i++){var bl=(bits>>>(8*(3-i)))&255;s+=String.fromCharCode(bl);}
+  for(var c=0;c<s.length;c+=64){var w=[];for(var j=0;j<16;j++){w[j]=(s.charCodeAt(c+j*4)<<24)|(s.charCodeAt(c+j*4+1)<<16)|(s.charCodeAt(c+j*4+2)<<8)|s.charCodeAt(c+j*4+3);}
+  for(var t=16;t<64;t++){var s0=rr(w[t-15],7)^rr(w[t-15],18)^(w[t-15]>>>3),s1=rr(w[t-2],17)^rr(w[t-2],19)^(w[t-2]>>>10);w[t]=(w[t-16]+s0+w[t-7]+s1)|0;}
+  var a=h[0],b2=h[1],cc=h[2],d=h[3],e=h[4],f=h[5],g=h[6],hh=h[7];
+  for(t=0;t<64;t++){var S1=rr(e,6)^rr(e,11)^rr(e,25),ch=(e&f)^(~e&g),t1=(hh+S1+ch+k[t]+w[t])|0,S0=rr(a,2)^rr(a,13)^rr(a,22),mj=(a&b2)^(a&cc)^(b2&cc),t2=(S0+mj)|0;hh=g;g=f;f=e;e=(d+t1)|0;d=cc;cc=b2;b2=a;a=(t1+t2)|0;}
+  h[0]=(h[0]+a)|0;h[1]=(h[1]+b2)|0;h[2]=(h[2]+cc)|0;h[3]=(h[3]+d)|0;h[4]=(h[4]+e)|0;h[5]=(h[5]+f)|0;h[6]=(h[6]+g)|0;h[7]=(h[7]+hh)|0;}
+  return h.map(function(x){return(x>>>0).toString(16).padStart(8,'0')}).join('');
+}
+
+async function post(table,rows){
+  var r=await fetch(SUPA_URL+'/rest/v1/'+table,{method:'POST',headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(rows)});
+  return r.ok;
+}
+
+async function sendDriver(){
+  if(!hasFile('dCniR'))return err('Photo CNI recto obligatoire.');
+  if(!hasFile('dCniV'))return err('Photo CNI verso obligatoire.');
+  if(!hasFile('dSelfie'))return err('Selfie avec CNI obligatoire.');
+  if(!hasFile('dProfil'))return err('Photo de profil livreur obligatoire (visible par les clients).');
+  if(isMoto()){
+    if(!hasFile('dPermis'))return err('Permis de conduire obligatoire pour moto/voiture.');
+    if(!hasFile('dGrise'))return err('Carte grise obligatoire pour moto/voiture.');
+    if(v('lVeh')==='moto'&&!hasFile('dCasque'))return err('Photo du casque obligatoire pour la moto.');
+  }
+  var rules=document.querySelectorAll('.crule'),allOk=true;
+  rules.forEach(function(c){if(!c.checked)allOk=false;});
+  if(!allOk)return err('Tu dois cocher les 6 règles du livreur.');
+  if(!document.getElementById('lCond').checked)return err('Tu dois accepter les conditions livreur.');
+
+  var btn=document.getElementById('sendBtn');btn.disabled=true;btn.textContent='Envoi en cours…';
+  var email=v('lEmail');
+
+  try{
+    /* doublon ? */
+    var chk=await fetch(SUPA_URL+'/rest/v1/drivers?email=eq.'+encodeURIComponent(email)+'&select=id',{headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}});
+    var ex=await chk.json();
+    if(ex&&ex.length){btn.disabled=false;btn.textContent='📨 Envoyer ma candidature';return err('Un compte livreur existe déjà avec cet email.');}
+
+    var pwdHash=await sha256(v('lPwd'));
+    var okD=await post('drivers',{
+      full_name:v('lNom'),email:email,phone:v('lInd')+v('lTel').replace(/\s/g,''),
+      zone:v('lZone'),vehicle_type:v('lVeh'),
+      plate:isMoto()?v('lPlaque').toUpperCase():null,
+      vehicle_model:isMoto()?v('lModele'):null,
+      status:'pending',is_active:false,rating:5.0,password_hash:pwdHash
+    });
+    if(!okD)throw new Error('drivers');
+
+    /* documents KYC — archivés à vie pour les autorités */
+    var docs=[['cni_recto','dCniR'],['cni_verso','dCniV'],['selfie_cni','dSelfie'],['photo_profil','dProfil']];
+    if(isMoto()){docs.push(['permis','dPermis'],['carte_grise','dGrise']);}
+    if(v('lVeh')==='moto'){docs.push(['casque','dCasque']);}
+    for(var i=0;i<docs.length;i++){
+      await post('kyc_documents',{user_email:email,user_type:'livreur',doc_type:docs[i][0],file_name:document.getElementById(docs[i][1]).files[0].name,status:'pending'});
     }
-  });
-});
 
-/* ===== Conditions ===== */
-var accepted=false;
-document.getElementById('checkBox').onclick=function(){
-  accepted=!accepted;
-  this.classList.toggle('on',accepted);
-  document.getElementById('checkMark').textContent=accepted?'✓':'';
-  document.getElementById('submitBtn').disabled=!accepted;
-};
+    /* 🔔 notification admin */
+    await post('notifications',{audience:'admin',user_email:email,type:'kyc_pending',title:'🆕 Nouveau livreur en attente',message:v('lNom')+' — '+v('lVeh')+' — '+v('lZone')+' — à valider dans Documents & Conformité.'});
 
-/* ===== Soumission ===== */
-document.getElementById('submitBtn').onclick=function(){
-  var name=document.getElementById('fName').value.trim();
-  var phone=document.getElementById('fPhone').value.replace(/[\s.\-]/g,'');
-  var zone=document.getElementById('fZone').value;
-  var vehicle=document.getElementById('fVehicle').value;
-  var plate=document.getElementById('fPlate').value.trim().toUpperCase();
-  var model=document.getElementById('fModel').value.trim();
-  var motor=(vehicle==='moto'||vehicle==='voiture');
-
-  if(name.length<3){showErr('Entre ton nom complet.');return}
-  if(!/^[0-9]{9}$/.test(phone)){showErr('Numéro invalide (9 chiffres, ex : 77 123 45 67).');return}
-  if(!zone){showErr('Choisis ta zone de livraison.');return}
-  if(!vehicle){showErr('Choisis ton type de véhicule.');return}
-  if(motor&&!plate){showErr('Plaque d\'immatriculation obligatoire (affichée au client).');return}
-  if(!DOCS.cni){showErr('Photo CNI recto obligatoire (étape 3).');return}
-  if(!DOCS.cni_verso){showErr('Photo CNI verso obligatoire aussi.');return}
-  if(!DOCS.selfie){showErr('Selfie de vérification obligatoire (comparé à ta CNI).');return}
-  if(motor&&!DOCS.permis){showErr('Photo du permis obligatoire pour véhicule motorisé.');return}
-  if(motor&&!DOCS.grise){showErr('Photo de la carte grise obligatoire.');return}
-  if(vehicle==='moto'&&!DOCS.casque){showErr('Photo avec casque obligatoire à moto — ta sécurité d\'abord.');return}
-
-  var btn=this;btn.disabled=true;btn.innerHTML='Envoi en cours…';
-
-  fetch(SUPA_URL+'/rest/v1/drivers',{
-    method:'POST',
-    headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
-    body:JSON.stringify({
-      full_name:name,
-      phone:'+221'+phone,
-      vehicle:vehicle,
-      vehicle_model:model||null,
-      plate:motor?plate:null,
-      zone:zone,
-      type:'collab',
-      company:'DOCS:cni_recto+cni_verso+selfie'+(DOCS.permis?'+permis':'')+(DOCS.grise?'+grise':'')+(DOCS.casque?'+casque':'')+(DOCS.assurance?'+assurance':''),
-      is_available:false,
-      rating:5.0,
-      total_deliveries:0
-    })
-  })
-  .then(function(r){
-    if(r.ok||r.status===201){
-      document.getElementById('formBox').style.display='none';
-      document.getElementById('successBox').classList.add('show');
-      lucide.createIcons();
-      window.scrollTo({top:0,behavior:'smooth'});
-    }else{
-      showErr('Erreur d\'envoi ('+r.status+'). Réessaie.');
-      btn.disabled=false;btn.innerHTML='<i data-lucide="send"></i>Envoyer ma candidature';lucide.createIcons();
-    }
-  })
-  .catch(function(){
-    showErr('Pas de connexion internet. Réessaie.');
-    btn.disabled=false;btn.innerHTML='<i data-lucide="send"></i>Envoyer ma candidature';lucide.createIcons();
-  });
-};
+    err('');goStep('Ok');
+    document.getElementById('s3').classList.add('done');
+  }catch(e){
+    btn.disabled=false;btn.textContent='📨 Envoyer ma candidature';
+    err('Erreur réseau. Réessaie.');
+  }
+}
 </script>
 </body>
 </html>
