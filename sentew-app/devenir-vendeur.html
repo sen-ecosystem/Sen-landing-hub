@@ -6,6 +6,21 @@
 <title>Devenir vendeur - SEN TEW</title>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="js/security-shield.js"></script>
+<script>
+/* NAVIGATION ÉTAPES — dans le HEAD : existe avant tout clic */
+function goStep(n){
+  var ps=document.querySelectorAll('.panel');
+  for(var i=0;i<ps.length;i++)ps[i].classList.remove('on');
+  var t=document.getElementById('step'+n);
+  if(t)t.classList.add('on');
+  for(var j=1;j<=3;j++){
+    var s=document.getElementById('s'+j);
+    if(s){s.classList.toggle('on',j===n);s.classList.toggle('done',j<n);}
+  }
+  var e=document.getElementById('err');if(e)e.style.display='none';
+  window.scrollTo(0,0);
+}
+</script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0a1f17;padding-bottom:40px}
@@ -15,7 +30,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0
 .topbar a{color:#9aa5a0;text-decoration:none;font-size:13px;font-weight:700}
 .wrap{max-width:520px;margin:0 auto;padding:14px}
 .steps{display:flex;gap:6px;margin:8px 0 18px}
-.stp{flex:1;text-align:center}
+.stp{flex:1;text-align:center;cursor:pointer}
 .stp .bar{height:5px;border-radius:99px;background:#e5e7eb;margin-bottom:5px}
 .stp.on .bar{background:#0f6b4e}
 .stp.done .bar{background:#4ade80}
@@ -83,31 +98,10 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0
 </div>
 <div class="wrap">
   <div class="steps">
-    <div class="stp on" id="s1"><div class="bar"></div><span>1 · Avantages</span></div>
-    <div class="stp" id="s2"><div class="bar"></div><span>2 · Mes infos</span></div>
-    <div class="stp" id="s3"><div class="bar"></div><span>3 · Documents</span></div>
+    <div class="stp on" id="s1" onclick="goStep(1)"><div class="bar"></div><span>1 · Avantages</span></div>
+    <div class="stp" id="s2" onclick="goStep(2)"><div class="bar"></div><span>2 · Mes infos</span></div>
+    <div class="stp" id="s3" onclick="goStep(3)"><div class="bar"></div><span>3 · Documents</span></div>
   </div>
-  <script>
-/* Navigation étapes V2 — handlers installés AU CHARGEMENT */
-window.goStep=function(n){
-  var ps=document.querySelectorAll('.panel');
-  for(var i=0;i<ps.length;i++)ps[i].classList.remove('on');
-  var t=document.getElementById('step'+n);
-  if(t)t.classList.add('on');
-  for(var j=1;j<=3;j++){
-    var s=document.getElementById('s'+j);
-    if(s){s.classList.toggle('on',j===n);s.classList.toggle('done',j<n);}
-  }
-  window.scrollTo(0,0);
-};
-/* Installation immédiate des clics (les éléments existent déjà, le script est après) */
-document.getElementById('s1').onclick=function(){window.goStep(1);};
-document.getElementById('s2').onclick=function(){window.goStep(2);};
-document.getElementById('s3').onclick=function(){window.goStep(3);};
-document.getElementById('s1').style.cursor='pointer';
-document.getElementById('s2').style.cursor='pointer';
-document.getElementById('s3').style.cursor='pointer';
-</script>
   <div class="err" id="err"></div>
 
   <div class="panel on" id="step1">
@@ -159,7 +153,7 @@ document.getElementById('s3').style.cursor='pointer';
       <div class="doc"><label>Facture / preuve d'activité n°1 *</label><small>Facture fournisseur, reçu d'achat…</small><input type="file" id="dFact1" accept="image/*" onchange="pv(this,'pFact1')"><img id="pFact1"></div>
       <div class="doc"><label>Facture / preuve d'activité n°2 *</label><small>Un second justificatif différent</small><input type="file" id="dFact2" accept="image/*" onchange="pv(this,'pFact2')"><img id="pFact2"></div>
     </div>
-    <label class="cond"><input type="checkbox" id="vCond"><span>J'accepte les <b>conditions vendeur SEN TEW</b> : emballage soigné et colis photographié avant remise au livreur, règles sanitaires pour l'alimentaire. Je comprends que mon compte ne sera actif <b>qu'après validation par l'équipe SEN TEW</b>.</span></label>
+    <label class="cond"><input type="checkbox" id="vCond"><span>J'accepte les <b>conditions vendeur SEN TEW</b> : emballage soigné et colis photographié avant remise au livreur, règles sanitaires pour l'alimentaire. Mon compte ne sera actif <b>qu'après validation par l'équipe SEN TEW</b>.</span></label>
     <button class="btn" id="sendBtn" onclick="sendVendor()">Envoyer ma demande</button>
     <button class="btn2" onclick="goStep(2)">← Retour</button>
   </div>
@@ -175,25 +169,6 @@ document.getElementById('s3').style.cursor='pointer';
   </div>
 </div>
 
-<script>
-/* NAVIGATION DES ÉTAPES — script séparé : fonctionne toujours */
-function goStep(n){
-  var ps=document.querySelectorAll('.panel');
-  for(var i=0;i<ps.length;i++)ps[i].classList.remove('on');
-  document.getElementById('step'+n).classList.add('on');
-  for(var j=1;j<=3;j++){
-    var s=document.getElementById('s'+j);
-    s.classList.toggle('on',j===n);
-    s.classList.toggle('done',j<n);
-  }
-  var e=document.getElementById('err');if(e)e.style.display='none';
-window.scrollTo(0,0);
-}
-document.getElementById('s1').onclick=function(){goStep(1);};
-document.getElementById('s2').onclick=function(){goStep(2);};
-document.getElementById('s3').onclick=function(){goStep(3);};
-}
-</script>
 <script>
 lucide.createIcons();
 var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
@@ -237,9 +212,10 @@ async function sendVendor(){
     var docs=[['cni_recto','dCniR'],['cni_verso','dCniV'],['selfie_cni','dSelfie']];
     if(isX){docs.push(['photo_boutique','dBout'],['facture_1','dFact1'],['facture_2','dFact2']);}
     for(var i=0;i<docs.length;i++){await post('kyc_documents',{user_email:email,user_type:'vendeur',doc_type:docs[i][0],file_name:document.getElementById(docs[i][1]).files[0].name,status:'pending'});}
-    await post('notifications',{audience:'admin',user_email:email,type:'kyc_pending',title:'Nouveau vendeur en attente',message:v('vShop')+' ('+v('vNom')+') — '+(isX?'dossier Xeweul avec RCCM':'Teranga')+' — à valider dans Documents.'});
+    await post('notifications',{audience:'admin',user_email:email,type:'kyc_pending',title:'Nouveau vendeur en attente',message:v('vShop')+' ('+v('vNom')+') — '+(isX?'dossier Xeweul avec RCCM':'Teranga')+' — à valider.'});
     document.getElementById('s3').classList.add('done');
     goStep('Ok');
+    lucide.createIcons();
   }catch(e){btn.disabled=false;btn.textContent='Envoyer ma demande';err('Erreur réseau. Réessaie.');}
 }
 </script>
