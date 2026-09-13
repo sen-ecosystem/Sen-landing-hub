@@ -5,238 +5,156 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Connexion - SEN TEW</title>
 <script src="https://unpkg.com/lucide@latest"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/security-shield.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{overflow-x:hidden;max-width:100vw}
-body{background:linear-gradient(160deg,#0a1f17 0%,#0f6b4e 55%,#14532d 100%);font-family:'Segoe UI',-apple-system,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 18px;color:#0a1f17}
-.brand{text-align:center;margin-bottom:22px}
-.brand img{width:170px;max-width:65%;filter:drop-shadow(0 8px 22px rgba(0,0,0,.4))}
-.brand .logo-txt{font-size:30px;font-weight:900;letter-spacing:3px;color:#fff}
-.brand .logo-txt span{color:#d4a94e}
-.brand p{color:#d4a94e;font-size:12px;font-weight:700;letter-spacing:.4px;margin-top:6px}
-.card{background:#fff;border-radius:22px;padding:26px 20px;width:100%;max-width:390px;box-shadow:0 24px 60px rgba(0,0,0,.35);animation:up .45s ease}
-@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-.card h2{font-size:18px;font-weight:900;text-align:center;margin-bottom:18px;color:#0f6b4e}
-.fld{margin-bottom:14px}
-.fld label{font-size:11.5px;font-weight:800;color:#374151;display:block;margin-bottom:6px;letter-spacing:.2px}
-.inp{display:flex;align-items:center;gap:9px;border:1.5px solid #e5e7eb;border-radius:13px;padding:0 13px;background:#f9fafb;transition:all .2s}
-.inp:focus-within{border-color:#0f6b4e;background:#fff;box-shadow:0 0 0 3px rgba(15,107,78,.08)}
-.inp .ico{color:#9aa5a0;display:flex;align-items:center}
-.inp .ico i{width:16px;height:16px}
-.inp input{flex:1;border:none;background:transparent;padding:14px 0;font-size:14px;outline:none;min-width:0}
-.inp select{border:none;background:transparent;font-size:14px;font-weight:800;color:#0f6b4e;outline:none;padding:14px 0;max-width:112px}
-.inp .sep-v{width:1.5px;height:22px;background:#e5e7eb;flex-shrink:0}
-.eye{background:none;border:none;cursor:pointer;color:#9aa5a0;display:flex;align-items:center;padding:4px}
-.eye i{width:16px;height:16px}
-.switch{text-align:right;margin-top:6px}
-.switch a{font-size:11px;color:#0f6b4e;font-weight:700;cursor:pointer}
-.forgot{text-align:right;margin:-6px 0 12px}
-.forgot a{font-size:11.5px;color:#0f6b4e;font-weight:700;text-decoration:none;cursor:pointer}
-.btn{width:100%;padding:16px;border-radius:14px;border:none;background:linear-gradient(135deg,#0f6b4e,#10b981);color:#fff;font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 8px 20px rgba(15,107,78,.3);display:flex;align-items:center;justify-content:center;gap:8px}
-.btn:disabled{opacity:.5}
-.btn i{width:17px;height:17px}
-.err{display:none;background:#fef2f2;border:1.5px solid #fecaca;color:#b91c1c;font-size:12px;font-weight:700;border-radius:12px;padding:11px 13px;margin-bottom:13px;line-height:1.5;animation:shake .3s}
-.err.show{display:block}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
-.sep{display:flex;align-items:center;gap:12px;margin:18px 0 14px;color:#9aa5a0;font-size:10.5px;font-weight:800;letter-spacing:.4px}
-.sep::before,.sep::after{content:'';flex:1;height:1px;background:#e5e7eb}
-.socials{display:flex;gap:9px}
-.soc{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 6px;border-radius:12px;border:1.5px solid #e5e7eb;background:#fff;font-size:12.5px;font-weight:800;cursor:pointer;transition:all .15s;color:#0a1f17}
-.soc:active{transform:scale(.97)}
-.soc svg{width:19px;height:19px;flex-shrink:0}
-.soc.fb{background:#1877F2;border-color:#1877F2;color:#fff}
-.soc.fb svg{fill:#fff}
-.soc.apple{background:#000;border-color:#000;color:#fff}
-.soc.apple svg{fill:#fff}
-.register-link{text-align:center;margin-top:18px;font-size:12.5px;color:#6b7280}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0a1f17;min-height:100vh}
+.topbar{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#fff;border-bottom:1px solid #e5e7eb}
+.topbar img{height:32px}
+.topbar h1{font-size:14px;font-weight:900;color:#0f6b4e;flex:1}
+.topbar a{color:#9aa5a0;text-decoration:none;font-size:13px;font-weight:700}
+.wrap{max-width:440px;margin:0 auto;padding:18px 16px 40px}
+.hero{background:linear-gradient(160deg,#0a1f17,#0f6b4e);border-radius:18px;color:#fff;padding:24px 18px;text-align:center;margin-bottom:16px}
+.hero img{height:44px;margin-bottom:10px}
+.hero h2{font-size:20px;font-weight:900;margin-bottom:5px}
+.hero p{font-size:12px;opacity:.9}
+.card{background:#fff;border-radius:18px;padding:18px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.mode{display:flex;background:#f3f4f6;border-radius:12px;padding:4px;margin-bottom:14px}
+.mode button{flex:1;padding:10px;border:none;border-radius:9px;font-size:12px;font-weight:800;cursor:pointer;background:transparent;color:#6b7280}
+.mode button.on{background:#fff;color:#0f6b4e;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:11.5px;font-weight:800;margin-bottom:5px;color:#374151}
+.field input{width:100%;padding:13px 14px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:14px;font-family:inherit}
+.field input:focus{outline:none;border-color:#0f6b4e}
+.tel{display:flex;gap:8px}
+.tel select{width:105px;padding:13px 8px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:13px;background:#fff}
+.tel input{flex:1;padding:13px 14px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:14px}
+.pwd-wrap{position:relative}
+.pwd-wrap input{padding-right:46px}
+.pwd-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#9aa5a0}
+.btn{width:100%;padding:15px;border:none;border-radius:14px;background:#0f6b4e;color:#fff;font-size:14px;font-weight:900;cursor:pointer}
+.btn:disabled{background:#9aa5a0}
+.divider{display:flex;align-items:center;gap:10px;margin:16px 0;font-size:10px;font-weight:800;color:#9aa5a0}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:#e5e7eb}
+.btn-google{width:100%;padding:13px;border:1.5px solid #e5e7eb;border-radius:12px;background:#fff;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;color:#1f2937}
+.err{display:none;background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;border-radius:12px;padding:11px 13px;font-size:12px;font-weight:700;margin-bottom:12px;line-height:1.5}
+.register-link{text-align:center;margin-top:16px;font-size:12.5px;color:#6b7280}
 .register-link a{color:#0f6b4e;font-weight:800;text-decoration:none}
-.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin-top:16px;font-size:11.5px;color:#92400e;cursor:pointer;line-height:1.55}
+.pro-links{display:flex;gap:9px;margin-top:14px}
+.pro-links a{flex:1;text-align:center;padding:11px 8px;border-radius:12px;font-size:11px;font-weight:800;text-decoration:none;border:1.5px solid #e5e7eb;color:#374151;background:#fff}
 </style>
 </head>
 <body>
-
-<div class="brand">
-  <img src="assets/Logo.png" alt="SEN TEW" onerror="this.outerHTML='<div class=logo-txt>SEN <span>TEW</span></div>'">
-  <p>Marketplace du Sénégal — Africa's marketplace, delivering value</p>
+<div class="topbar">
+  <img src="assets/Logo.png" alt="SEN TEW" onerror="this.style.display='none'">
+  <h1>Connexion</h1>
+  <a href="index.html">✕</a>
 </div>
-
-<div class="card">
-  <h2>Connexion</h2>
-
-  <div class="err" id="errBox"></div>
-
-  <!-- EMAIL (mode par défaut — modèle Amazon/Jumia) -->
-  <div class="fld">
-    <label id="idLabel">EMAIL</label>
-    <div class="inp" id="emailInp"><span class="ico"><i data-lucide="mail"></i></span>
-      <input id="fEmail" type="email" placeholder="exemple@email.com" autocapitalize="none" autocorrect="off" autocomplete="email">
-    </div>
-    <!-- TÉLÉPHONE (mode secondaire) -->
-    <div class="inp" id="phoneInp" style="display:none">
-      <select id="fCountry">
-        <option value="+221" selected>🇸🇳 +221</option>
-        <option value="+33">🇫🇷 +33</option>
-        <option value="+1">🇺🇸 +1</option>
-        <option value="+225">🇨🇮 +225</option>
-        <option value="+223">🇲🇱 +223</option>
-        <option value="+224">🇬🇳 +224</option>
-        <option value="+222">🇲🇷 +222</option>
-        <option value="+220">🇬🇲 +220</option>
-        <option value="+212">🇲🇦 +212</option>
-        <option value="+39">🇮🇹 +39</option>
-        <option value="+34">🇪🇸 +34</option>
-        <option value="+32">🇧🇪 +32</option>
-        <option value="+41">🇨🇭 +41</option>
-        <option value="+44">🇬🇧 +44</option>
-        <option value="+49">🇩🇪 +49</option>
-        <option value="+213">🇩🇿 +213</option>
-        <option value="+216">🇹🇳 +216</option>
-        <option value="+237">🇨🇲 +237</option>
-        <option value="+226">🇧🇫 +226</option>
-        <option value="+228">🇹🇬 +228</option>
-        <option value="+229">🇧🇯 +229</option>
-      </select>
-      <span class="sep-v"></span>
-      <input id="fPhone" type="tel" inputmode="numeric" placeholder="77 123 45 67" autocomplete="tel">
-    </div>
-    <div class="switch"><a id="switchMode" onclick="toggleMode()">📱 Utiliser mon numéro de téléphone</a></div>
+<div class="wrap">
+  <div class="err" id="err"></div>
+  <div class="hero">
+    <img src="assets/Logo.png" alt="" onerror="this.style.display='none'">
+    <h2>Bon retour ! 👋</h2>
+    <p>Connecte-toi pour commander et suivre tes livraisons.</p>
   </div>
-
-  <div class="fld">
-    <label>MOT DE PASSE</label>
-    <div class="inp"><span class="ico"><i data-lucide="lock"></i></span>
-      <input id="fPwd" type="password" placeholder="Ton mot de passe" autocomplete="current-password" autocapitalize="none" autocorrect="off">
-      <button class="eye" id="eyeBtn" type="button"><i data-lucide="eye"></i></button>
+  <div class="card">
+    <div class="mode">
+      <button id="mEmail" class="on" onclick="setMode('email')">📧 Email</button>
+      <button id="mPhone" onclick="setMode('phone')">📱 Téléphone</button>
     </div>
-  </div>
-
-  <div class="forgot"><a onclick="forgotPwd()">Mot de passe oublié ?</a></div>
-
-  <button class="btn" id="loginBtn"><i data-lucide="log-in"></i>Se connecter</button>
-
-  <div class="sep">OU CONTINUE AVEC</div>
-
-  <div class="socials">
-    <button class="soc google" onclick="oauthLogin('google')">
-      <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.5 6.1 29.5 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.5 6.1 29.5 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C36.9 40.2 44 35 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
-      Google
-    </button>
-    <button class="soc fb" onclick="oauthLogin('facebook')">
-      <svg viewBox="0 0 24 24"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.09 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.09 24 18.1 24 12.07z"/></svg>
-      Facebook
-    </button>
-    <button class="soc apple" onclick="oauthLogin('apple')">
-      <svg viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
-      Apple
+    <div class="field" id="fEmail"><label>Email</label><input id="lEmail" type="email" placeholder="exemple@mail.com" autocomplete="email"></div>
+    <div class="field" id="fPhone" style="display:none"><label>Téléphone</label>
+      <div class="tel">
+        <select id="lInd">
+          <option value="+221">🇸🇳 +221</option><option value="+33">🇫🇷 +33</option><option value="+1">🇺🇸 +1</option><option value="+44">🇬🇧 +44</option><option value="+225">🇨🇮 +225</option><option value="+223">🇲🇱 +223</option><option value="+224">🇬🇳 +224</option><option value="+220">🇬🇲 +220</option><option value="+245">🇬🇼 +245</option><option value="+222">🇲🇷 +222</option><option value="+226">🇧🇫 +226</option><option value="+32">🇧🇪 +32</option><option value="+41">🇨🇭 +41</option><option value="+34">🇪🇸 +34</option><option value="+39">🇮🇹 +39</option><option value="+212">🇲🇦 +212</option><option value="+216">🇹🇳 +216</option><option value="+237">🇨🇲 +237</option><option value="+228">🇹🇬 +228</option><option value="+229">🇧🇯 +229</option><option value="+227">🇳🇪 +227</option>
+        </select>
+        <input id="lTel" type="tel" placeholder="77 000 00 00">
+      </div>
+    </div>
+    <div class="field"><label>Mot de passe</label>
+      <div class="pwd-wrap">
+        <input id="lPwd" type="password" placeholder="••••••••" autocomplete="current-password">
+        <button type="button" class="pwd-eye" onclick="togglePwd()">👁️</button>
+      </div>
+    </div>
+    <button class="btn" id="loginBtn" onclick="doLogin()">Se connecter</button>
+    <div class="divider"><span>OU CONTINUE AVEC</span></div>
+    <button type="button" class="btn-google" onclick="googleLogin()">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.3 6.1 29.4 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.3 6.1 29.4 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C41 35.4 44 30.2 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
+      Continuer avec Google
     </button>
   </div>
-
-  <div class="register-link">Pas de compte ? <a href="register.html">S'inscrire gratuitement →</a></div>
-
-  <div class="tip" onclick="alert('Connexion sécurisée SEN TEW\n\n• Ton mot de passe est vérifié de façon cryptée\n• Un seul compte : achats, fidélité, livraisons sur tous tes appareils\n• Diaspora : email ou numéro international\n\nⓘ Pas d\'email ? Clique sur « Utiliser mon numéro de téléphone ».')"><span>ⓘ</span><span>Astuce : un seul compte pour <b>acheter, vendre et suivre tes livraisons</b>, partout dans le monde. Clique pour en savoir plus.</span></div>
+  <div class="pro-links">
+    <a href="devenir-vendeur.html">🏪 Vendre sur SEN TEW</a>
+    <a href="register-livreur.html">🛵 Devenir livreur</a>
+  </div>
+  <div class="register-link">Pas de compte ? <a href="register.html">S'inscrire →</a></div>
 </div>
-
 <script>
 lucide.createIcons();
 var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
 var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
-var sbClient=window.supabase?window.supabase.createClient(SUPA_URL,SUPA_KEY):null;
-
-function showErr(m){var b=document.getElementById('errBox');b.textContent=m;b.classList.remove('show');void b.offsetWidth;b.classList.add('show')}
-
-/* SHA-256 pur JS */
-function sha256(a){function rr(v,n){return(v>>>n)|(v<<(32-n))}var mw=Math.pow(2,32),res='';var words=[],bl=a.length*8;var h=sha256.h=sha256.h||[],k=sha256.k=sha256.k||[];var pc=k.length,comp={};for(var c=2;pc<64;c++){if(!comp[c]){for(var i=0;i<313;i+=c)comp[i]=c;h[pc]=(Math.pow(c,.5)*mw)|0;k[pc++]=(Math.pow(c,1/3)*mw)|0}}a+='\x80';while(a.length%64-56)a+='\x00';for(var i=0;i<a.length;i++){var j=a.charCodeAt(i);words[i>>2]|=j<<((3-i)%4)*8}words[words.length]=(bl/mw)|0;words[words.length]=bl;for(var j=0;j<words.length;){var w=words.slice(j,j+=16),oh=h;h=h.slice(0,8);for(var i=0;i<64;i++){var w15=w[i-15],w2=w[i-2];var x=h[0],e=h[4];var t1=h[7]+(rr(e,6)^rr(e,11)^rr(e,25))+((e&h[5])^((~e)&h[6]))+k[i]+(w[i]=(i<16)?w[i]:(w[i-16]+(rr(w15,7)^rr(w15,18)^(w15>>>3))+w[i-7]+(rr(w2,17)^rr(w2,19)^(w2>>>10)))|0);var t2=(rr(x,2)^rr(x,13)^rr(x,22))+((x&h[1])^(x&h[2])^(h[1]&h[2]));h=[(t1+t2)|0].concat(h);h[4]=(h[4]+t1)|0}for(var i=0;i<8;i++){h[i]=(h[i]+oh[i])|0}}for(var i=0;i<8;i++){for(var j=3;j+1;j--){var b=(h[i]>>(j*8))&255;res+=((b<16)?'0':'')+b.toString(16)}}return res}
-
-document.getElementById('eyeBtn').onclick=function(){
-  var p=document.getElementById('fPwd');
-  p.type=p.type==='password'?'text':'password';
-  this.innerHTML='<i data-lucide="'+(p.type==='password'?'eye':'eye-off')+'"></i>';
-  lucide.createIcons();
-};
-
-/* ===== Bascule email / téléphone (Option B) ===== */
 var MODE='email';
-function toggleMode(){
-  MODE=MODE==='email'?'phone':'email';
-  document.getElementById('emailInp').style.display=MODE==='email'?'flex':'none';
-  document.getElementById('phoneInp').style.display=MODE==='phone'?'flex':'none';
-  document.getElementById('idLabel').textContent=MODE==='email'?'EMAIL':'TÉLÉPHONE';
-  document.getElementById('switchMode').textContent=MODE==='email'?'📱 Utiliser mon numéro de téléphone':'✉️ Utiliser mon email';
+function v(id){return (document.getElementById(id).value||'').trim();}
+function err(m){var e=document.getElementById('err');e.textContent='⚠️ '+m;e.style.display=m?'block':'none';window.scrollTo(0,0);}
+function togglePwd(){var i=document.getElementById('lPwd');i.type=i.type==='password'?'text':'password';}
+function setMode(m){
+  MODE=m;
+  document.getElementById('mEmail').classList.toggle('on',m==='email');
+  document.getElementById('mPhone').classList.toggle('on',m==='phone');
+  document.getElementById('fEmail').style.display=m==='email'?'block':'none';
+  document.getElementById('fPhone').style.display=m==='phone'?'block':'none';
+  err('');
 }
-
-/* OAuth cliquable */
-function oauthLogin(provider){
-  if(!sbClient){showErr('Service en cours de chargement, réessaie.');return}
-  sbClient.auth.signInWithOAuth({
-    provider:provider,
-    options:{redirectTo:'https://sen-ecosystem.com/sentew-app/index.html'}
-  }).then(function(res){
-    if(res.error){
-      alert('Connexion '+provider.charAt(0).toUpperCase()+provider.slice(1)+' en cours d\'activation.\n\nElle sera disponible au lancement officiel. En attendant, connecte-toi avec ton email ci-dessus.');
-    }
-  }).catch(function(){
-    alert('Connexion '+provider+' bientôt disponible. Utilise ton email ci-dessus.');
-  });
+async function sha256(m){
+  if(window.crypto&&crypto.subtle){try{var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(m));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0')}).join('')}catch(e){}}
+  function rr(a,b){return(a>>>b)|(a<<(32-b))}var h=[1779033703,3144134277,1013904242,2773480762,1359893119,2600822924,528734635,1541459225],k=[1116352408,1899447441,3049323471,3921009573,961987163,1508970993,2453635748,2870763221,3624381080,310598401,607225278,1426881987,1925078388,2162078206,2614888103,3248222580,3835390401,4022224774,264347078,604807628,770255983,1249150122,1555081692,1996064986,2554220882,2821834349,2952996808,3210313671,3336571891,3584528711,113926993,338241895,666307205,773529912,1294757372,1396182291,1695183700,1986661051,2177026350,2456956037,2730485921,2820302411,3259730800,3345764771,3516065817,3600352804,4094571909,275423344,430227734,506948616,659060556,883997877,958139571,1322822218,1537002063,1747873779,1955562222,2024104815,2227730452,2361852424,2428436474,2756734187,3204031479,3329325298];
+  var s=unescape(encodeURIComponent(m)),l=s.length,bits=l*8;s+=String.fromCharCode(128);while(s.length%64!==56)s+=String.fromCharCode(0);
+  for(var i=0;i<4;i++){s+=String.fromCharCode((bits>>>(8*(3-i)))&255);}
+  for(var c=0;c<s.length;c+=64){var w=[];for(var j=0;j<16;j++){w[j]=(s.charCodeAt(c+j*4)<<24)|(s.charCodeAt(c+j*4+1)<<16)|(s.charCodeAt(c+j*4+2)<<8)|s.charCodeAt(c+j*4+3);}
+  for(var t=16;t<64;t++){var s0=rr(w[t-15],7)^rr(w[t-15],18)^(w[t-15]>>>3),s1=rr(w[t-2],17)^rr(w[t-2],19)^(w[t-2]>>>10);w[t]=(w[t-16]+s0+w[t-7]+s1)|0;}
+  var a=h[0],b2=h[1],cc=h[2],d=h[3],e=h[4],f=h[5],g=h[6],hh=h[7];
+  for(t=0;t<64;t++){var S1=rr(e,6)^rr(e,11)^rr(e,25),ch=(e&f)^(~e&g),t1=(hh+S1+ch+k[t]+w[t])|0,S0=rr(a,2)^rr(a,13)^rr(a,22),mj=(a&b2)^(a&cc)^(b2&cc),t2=(S0+mj)|0;hh=g;g=f;f=e;e=(d+t1)|0;d=cc;cc=b2;b2=a;a=(t1+t2)|0;}
+  h[0]=(h[0]+a)|0;h[1]=(h[1]+b2)|0;h[2]=(h[2]+cc)|0;h[3]=(h[3]+d)|0;h[4]=(h[4]+e)|0;h[5]=(h[5]+f)|0;h[6]=(h[6]+g)|0;h[7]=(h[7]+hh)|0;}
+  return h.map(function(x){return(x>>>0).toString(16).padStart(8,'0')}).join('');
 }
-
-function forgotPwd(){
-  alert('Mot de passe oublié ?\n\nContacte le support SEN TEW avec ton email ou ton numéro : un agent vérifiera ton identité et réinitialisera ton accès.\n\n(Au lancement : réinitialisation automatique par email.)');
+function googleLogin(){location.href=SUPA_URL+'/auth/v1/authorize?provider=google&redirect_to='+encodeURIComponent(location.origin+location.pathname.replace('login.html','index.html'));}
+async function findIn(table,field,value){
+  var r=await fetch(SUPA_URL+'/rest/v1/'+table+'?'+field+'=eq.'+encodeURIComponent(value)+'&select=*',{headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}});
+  var rows=await r.json();
+  return rows&&rows.length?rows[0]:null;
 }
-
-/* ═══ CONNEXION (vérification cryptée en base) ═══ */
-document.getElementById('loginBtn').onclick=function(){
-  var pwd=document.getElementById('fPwd').value;
-  if(!pwd){showErr('Entre ton mot de passe.');return}
-
-  var btn=this;btn.disabled=true;btn.innerHTML='Vérification…';
-  var hash=sha256(pwd);
-  var query='';
-
+async function doLogin(){
+  var pwd=v('lPwd');
+  if(pwd.length<1)return err('Entre ton mot de passe.');
+  var idValue,field;
   if(MODE==='email'){
-    var email=document.getElementById('fEmail').value.trim().toLowerCase();
-    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){showErr('Email invalide.');resetBtn(btn);return}
-    query='email=eq.'+encodeURIComponent(email);
+    idValue=v('lEmail').toLowerCase();field='email';
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(idValue))return err('Email invalide.');
   }else{
-    var country=document.getElementById('fCountry').value;
-    var phone=document.getElementById('fPhone').value.replace(/[\s.\-]/g,'').replace(/^0+/,'');
-    if(!/^[0-9]{6,14}$/.test(phone)){showErr('Numéro invalide.');resetBtn(btn);return}
-    query='phone=eq.'+encodeURIComponent(country+phone);
+    idValue=v('lInd')+v('lTel').replace(/\D/g,'');field='phone';
+    if(idValue.replace(/\D/g,'').length<10)return err('Numéro invalide.');
   }
-
-  fetch(SUPA_URL+'/rest/v1/users?'+query+'&select=*',{
-    headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}
-  })
-  .then(function(r){return r.json()})
-  .then(function(rows){
-    if(!rows||!rows.length){
-      showErr(MODE==='email'?'Aucun compte avec cet email. Crée ton compte gratuitement.':'Aucun compte avec ce numéro. Crée ton compte gratuitement.');
-      resetBtn(btn);return;
+  var btn=document.getElementById('loginBtn');btn.disabled=true;btn.textContent='Connexion…';
+  try{
+    var hash=await sha256(pwd);
+    var tables=[['users','client'],['vendors','vendeur'],['drivers','livreur']];
+    for(var i=0;i<tables.length;i++){
+      var u=await findIn(tables[i][0],field,idValue);
+      if(u){
+        if(u.password_hash!==hash){btn.disabled=false;btn.textContent='Se connecter';return err('Mot de passe incorrect.');}
+        if(u.status&&u.status==='pending'){btn.disabled=false;btn.textContent='Se connecter';return err('Ton compte est en cours de validation par l\'équipe SEN TEW (24-48h).');}
+        if(u.status&&(u.status==='suspended'||u.status==='archived')){btn.disabled=false;btn.textContent='Se connecter';return err('Compte suspendu. Contacte le support.');}
+        sessionStorage.setItem('sentew_user',JSON.stringify({id:u.id,email:u.email||'',full_name:u.full_name||u.shop_name||'',role:tables[i][1],ts:Date.now()}));
+        location.href=tables[i][1]==='vendeur'?'vendeur.html':(tables[i][1]==='livreur'?'livreur.html':'index.html');
+        return;
+      }
     }
-    var u=rows[0];
-    if(u.password_hash&&u.password_hash!==hash){
-      showErr('Mot de passe incorrect.');
-      resetBtn(btn);return;
-    }
-    localStorage.setItem('st_user',JSON.stringify({
-      id:u.id,name:u.full_name,email:u.email||'',phone:u.phone,role:u.role,points:u.loyalty_points||0
-    }));
-    try{localStorage.setItem('st_points',String(u.loyalty_points||0))}catch(e){}
-    window.location.href=(u.role==='vendeur')?'vendeur.html':(u.role==='livreur'?'livreur.html':'index.html');
-  })
-  .catch(function(){
-    showErr('Pas de connexion internet. Réessaie.');
-    resetBtn(btn);
-  });
-};
-function resetBtn(btn){btn.disabled=false;btn.innerHTML='<i data-lucide="log-in"></i>Se connecter';lucide.createIcons()}
-
-/* Déjà connecté → direct */
-(function(){try{
-  var u=JSON.parse(localStorage.getItem('st_user'));
-  if(u&&u.id){window.location.href=(u.role==='vendeur')?'vendeur.html':'index.html'}
-}catch(e){}})();
+    btn.disabled=false;btn.textContent='Se connecter';
+    err('Aucun compte trouvé. Vérifie tes informations ou inscris-toi.');
+  }catch(e){btn.disabled=false;btn.textContent='Se connecter';err('Erreur réseau. Réessaie.');}
+}
+document.getElementById('lPwd').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
 </script>
 </body>
 </html>
