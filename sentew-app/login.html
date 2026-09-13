@@ -10,7 +10,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0a1f17;min-height:100vh}
 .topbar{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#fff;border-bottom:1px solid #e5e7eb}
-.topbar img{height:32px}
+.topbar img{height:30px}
 .topbar h1{font-size:14px;font-weight:900;color:#0f6b4e;flex:1}
 .topbar a{color:#9aa5a0;text-decoration:none;font-size:13px;font-weight:700}
 .wrap{max-width:440px;margin:0 auto;padding:18px 16px 40px}
@@ -20,7 +20,8 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0
 .hero p{font-size:12px;opacity:.9}
 .card{background:#fff;border-radius:18px;padding:18px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
 .mode{display:flex;background:#f3f4f6;border-radius:12px;padding:4px;margin-bottom:14px}
-.mode button{flex:1;padding:10px;border:none;border-radius:9px;font-size:12px;font-weight:800;cursor:pointer;background:transparent;color:#6b7280}
+.mode button{flex:1;padding:10px;border:none;border-radius:9px;font-size:12px;font-weight:800;cursor:pointer;background:transparent;color:#6b7280;display:flex;align-items:center;justify-content:center;gap:6px}
+.mode button svg{width:14px;height:14px}
 .mode button.on{background:#fff;color:#0f6b4e;box-shadow:0 1px 4px rgba(0,0,0,.1)}
 .field{margin-bottom:12px}
 .field label{display:block;font-size:11.5px;font-weight:800;margin-bottom:5px;color:#374151}
@@ -31,7 +32,8 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0
 .tel input{flex:1;padding:13px 14px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:14px}
 .pwd-wrap{position:relative}
 .pwd-wrap input{padding-right:46px}
-.pwd-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#9aa5a0}
+.pwd-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#9aa5a0;display:flex;align-items:center}
+.pwd-eye svg{width:18px;height:18px}
 .btn{width:100%;padding:15px;border:none;border-radius:14px;background:#0f6b4e;color:#fff;font-size:14px;font-weight:900;cursor:pointer}
 .btn:disabled{background:#9aa5a0}
 .divider{display:flex;align-items:center;gap:10px;margin:16px 0;font-size:10px;font-weight:800;color:#9aa5a0}
@@ -41,7 +43,8 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0
 .register-link{text-align:center;margin-top:16px;font-size:12.5px;color:#6b7280}
 .register-link a{color:#0f6b4e;font-weight:800;text-decoration:none}
 .pro-links{display:flex;gap:9px;margin-top:14px}
-.pro-links a{flex:1;text-align:center;padding:11px 8px;border-radius:12px;font-size:11px;font-weight:800;text-decoration:none;border:1.5px solid #e5e7eb;color:#374151;background:#fff}
+.pro-links a{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 8px;border-radius:12px;font-size:11px;font-weight:800;text-decoration:none;border:1.5px solid #e5e7eb;color:#374151;background:#fff}
+.pro-links a svg{width:14px;height:14px;color:#0f6b4e}
 </style>
 </head>
 <body>
@@ -54,13 +57,13 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0
   <div class="err" id="err"></div>
   <div class="hero">
     <img src="assets/Logo.png" alt="" onerror="this.style.display='none'">
-    <h2>Bon retour ! 👋</h2>
+    <h2>Bon retour !</h2>
     <p>Connecte-toi pour commander et suivre tes livraisons.</p>
   </div>
   <div class="card">
     <div class="mode">
-      <button id="mEmail" class="on" onclick="setMode('email')">📧 Email</button>
-      <button id="mPhone" onclick="setMode('phone')">📱 Téléphone</button>
+      <button id="mEmail" class="on" onclick="setMode('email')"><i data-lucide="mail"></i> Email</button>
+      <button id="mPhone" onclick="setMode('phone')"><i data-lucide="smartphone"></i> Téléphone</button>
     </div>
     <div class="field" id="fEmail"><label>Email</label><input id="lEmail" type="email" placeholder="exemple@mail.com" autocomplete="email"></div>
     <div class="field" id="fPhone" style="display:none"><label>Téléphone</label>
@@ -74,7 +77,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0
     <div class="field"><label>Mot de passe</label>
       <div class="pwd-wrap">
         <input id="lPwd" type="password" placeholder="••••••••" autocomplete="current-password">
-        <button type="button" class="pwd-eye" onclick="togglePwd()">👁️</button>
+        <button type="button" class="pwd-eye" onclick="togglePwd()"><i data-lucide="eye"></i></button>
       </div>
     </div>
     <button class="btn" id="loginBtn" onclick="doLogin()">Se connecter</button>
@@ -85,8 +88,8 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0
     </button>
   </div>
   <div class="pro-links">
-    <a href="devenir-vendeur.html">🏪 Vendre sur SEN TEW</a>
-    <a href="register-livreur.html">🛵 Devenir livreur</a>
+    <a href="devenir-vendeur.html"><i data-lucide="store"></i> Vendre sur SEN TEW</a>
+    <a href="register-livreur.html"><i data-lucide="bike"></i> Devenir livreur</a>
   </div>
   <div class="register-link">Pas de compte ? <a href="register.html">S'inscrire →</a></div>
 </div>
@@ -96,7 +99,7 @@ var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
 var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
 var MODE='email';
 function v(id){return (document.getElementById(id).value||'').trim();}
-function err(m){var e=document.getElementById('err');e.textContent='⚠️ '+m;e.style.display=m?'block':'none';window.scrollTo(0,0);}
+function err(m){var e=document.getElementById('err');e.textContent='⚠ '+m;e.style.display=m?'block':'none';window.scrollTo(0,0);}
 function togglePwd(){var i=document.getElementById('lPwd');i.type=i.type==='password'?'text':'password';}
 function setMode(m){
   MODE=m;
@@ -106,18 +109,7 @@ function setMode(m){
   document.getElementById('fPhone').style.display=m==='phone'?'block':'none';
   err('');
 }
-async function sha256(m){
-  if(window.crypto&&crypto.subtle){try{var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(m));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0')}).join('')}catch(e){}}
-  function rr(a,b){return(a>>>b)|(a<<(32-b))}var h=[1779033703,3144134277,1013904242,2773480762,1359893119,2600822924,528734635,1541459225],k=[1116352408,1899447441,3049323471,3921009573,961987163,1508970993,2453635748,2870763221,3624381080,310598401,607225278,1426881987,1925078388,2162078206,2614888103,3248222580,3835390401,4022224774,264347078,604807628,770255983,1249150122,1555081692,1996064986,2554220882,2821834349,2952996808,3210313671,3336571891,3584528711,113926993,338241895,666307205,773529912,1294757372,1396182291,1695183700,1986661051,2177026350,2456956037,2730485921,2820302411,3259730800,3345764771,3516065817,3600352804,4094571909,275423344,430227734,506948616,659060556,883997877,958139571,1322822218,1537002063,1747873779,1955562222,2024104815,2227730452,2361852424,2428436474,2756734187,3204031479,3329325298];
-  var s=unescape(encodeURIComponent(m)),l=s.length,bits=l*8;s+=String.fromCharCode(128);while(s.length%64!==56)s+=String.fromCharCode(0);
-  for(var i=0;i<4;i++){s+=String.fromCharCode((bits>>>(8*(3-i)))&255);}
-  for(var c=0;c<s.length;c+=64){var w=[];for(var j=0;j<16;j++){w[j]=(s.charCodeAt(c+j*4)<<24)|(s.charCodeAt(c+j*4+1)<<16)|(s.charCodeAt(c+j*4+2)<<8)|s.charCodeAt(c+j*4+3);}
-  for(var t=16;t<64;t++){var s0=rr(w[t-15],7)^rr(w[t-15],18)^(w[t-15]>>>3),s1=rr(w[t-2],17)^rr(w[t-2],19)^(w[t-2]>>>10);w[t]=(w[t-16]+s0+w[t-7]+s1)|0;}
-  var a=h[0],b2=h[1],cc=h[2],d=h[3],e=h[4],f=h[5],g=h[6],hh=h[7];
-  for(t=0;t<64;t++){var S1=rr(e,6)^rr(e,11)^rr(e,25),ch=(e&f)^(~e&g),t1=(hh+S1+ch+k[t]+w[t])|0,S0=rr(a,2)^rr(a,13)^rr(a,22),mj=(a&b2)^(a&cc)^(b2&cc),t2=(S0+mj)|0;hh=g;g=f;f=e;e=(d+t1)|0;d=cc;cc=b2;b2=a;a=(t1+t2)|0;}
-  h[0]=(h[0]+a)|0;h[1]=(h[1]+b2)|0;h[2]=(h[2]+cc)|0;h[3]=(h[3]+d)|0;h[4]=(h[4]+e)|0;h[5]=(h[5]+f)|0;h[6]=(h[6]+g)|0;h[7]=(h[7]+hh)|0;}
-  return h.map(function(x){return(x>>>0).toString(16).padStart(8,'0')}).join('');
-}
+async function sha256(m){var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(m));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0');}).join('');}
 function googleLogin(){location.href=SUPA_URL+'/auth/v1/authorize?provider=google&redirect_to='+encodeURIComponent(location.origin+location.pathname.replace('login.html','index.html'));}
 async function findIn(table,field,value){
   var r=await fetch(SUPA_URL+'/rest/v1/'+table+'?'+field+'=eq.'+encodeURIComponent(value)+'&select=*',{headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}});
@@ -143,8 +135,8 @@ async function doLogin(){
       var u=await findIn(tables[i][0],field,idValue);
       if(u){
         if(u.password_hash!==hash){btn.disabled=false;btn.textContent='Se connecter';return err('Mot de passe incorrect.');}
-        if(u.status&&u.status==='pending'){btn.disabled=false;btn.textContent='Se connecter';return err('Ton compte est en cours de validation par l\'équipe SEN TEW (24-48h).');}
-        if(u.status&&(u.status==='suspended'||u.status==='archived')){btn.disabled=false;btn.textContent='Se connecter';return err('Compte suspendu. Contacte le support.');}
+        if(u.status==='pending'){btn.disabled=false;btn.textContent='Se connecter';return err('Ton compte est en cours de validation par l\'équipe SEN TEW (24-48h).');}
+        if(u.status==='suspended'||u.status==='archived'){btn.disabled=false;btn.textContent='Se connecter';return err('Compte suspendu. Contacte le support.');}
         sessionStorage.setItem('sentew_user',JSON.stringify({id:u.id,email:u.email||'',full_name:u.full_name||u.shop_name||'',role:tables[i][1],ts:Date.now()}));
         location.href=tables[i][1]==='vendeur'?'vendeur.html':(tables[i][1]==='livreur'?'livreur.html':'index.html');
         return;
