@@ -191,8 +191,11 @@ body{background:#eef2f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0
 
 <script>
 lucide.createIcons();
-var sess=sessionStorage.getItem('sentew_admin')||localStorage.getItem('sentew_admin');
-if(!sess)location.href='login-admin.html';
+var sess=sessionStorage.getItem('sentew_admin')||localStorage.getItem('sentew_admin')||sessionStorage.getItem('sentew_admin_session')||localStorage.getItem('sentew_admin_session')||sessionStorage.getItem('admin_session');
+if(!sess){
+  document.body.innerHTML='<div style="max-width:400px;margin:60px auto;text-align:center;font-family:sans-serif;background:#fff;padding:30px;border-radius:16px"><h2 style="margin-bottom:10px">Session admin requise</h2><p style="color:#6b7280;font-size:13px;margin-bottom:16px">Connecte-toi pour accéder au panneau.</p><a href="login-admin.html" style="display:inline-block;background:#0f6b4e;color:#fff;padding:13px 24px;border-radius:12px;text-decoration:none;font-weight:800">Se connecter →</a></div>';
+  throw new Error('stop');
+}
 function logout(){sessionStorage.removeItem('sentew_admin');localStorage.removeItem('sentew_admin');location.href='login-admin.html';}
 
 var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
