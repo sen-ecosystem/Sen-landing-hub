@@ -622,7 +622,27 @@ function exportCSV(){
 /* ═══ INIT ═══ */
 renderTpls();
 loadAll();
-setInterval(loadAll,45000); /* auto-rafraîchissement 45s — tu vois tout en temps réel */
+setInterval(silentRefresh,60000);
+async function silentRefresh(){
+  /* Mise à jour silencieuse : badges + compteurs uniquement, ZÉRO clignotement */
+  try{
+    var n=await api('notifications?audience=eq.admin&order=created_at.desc&limit=40');
+    var avant=DATA.notifs.length;
+    DATA.notifs=n;
+    var unread=n.filter(function(x){return !x.is_read}).length;
+    var b=document.getElementById('bellBadge');
+    b.style.display=unread?'flex':'none';b.textContent=unread>9?'9+':unread;
+    if(document.getElementById('npanel').classList.contains('on'))renderNotifs();
+    if(n.length!==avant)renderDash();
+    var pv=await api('vendors?status=eq.pending&select=id');
+    var pd=await api('drivers?status=eq.pending&select=id');
+    var nuV=document.getElementById('nuVend'),nuD=document.getElementById('nuDriv');
+    nuV.style.display=pv.length?'inline-block':'none';nuV.textContent=pv.length;
+    nuD.style.display=pd.length?'inline-block':'none';nuD.textContent=pd.length;
+    document.getElementById('kPendV').textContent=pv.length;
+    document.getElementById('kPendD').textContent=pd.length;
+  }catch(e){}
+}
 </script>
 </body>
 </html>
