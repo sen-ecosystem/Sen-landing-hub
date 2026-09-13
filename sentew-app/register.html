@@ -3,303 +3,171 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Créer un compte - SEN TEW</title>
+<title>Inscription - SEN TEW</title>
 <script src="https://unpkg.com/lucide@latest"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/security-shield.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{overflow-x:hidden;max-width:100vw}
-body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;min-height:100vh;color:#0a1f17}
-.hero{background:linear-gradient(160deg,#0a1f17,#0f6b4e);color:#fff;padding:30px 20px 70px;text-align:center}
-.hero img.logo{width:150px;max-width:60%;margin:0 auto 6px;display:block;filter:drop-shadow(0 6px 18px rgba(0,0,0,.35))}
-.hero .logo-txt{font-size:26px;font-weight:900;letter-spacing:2px;color:#fff}
-.hero .logo-txt span{color:#d4a94e}
-.hero p{font-size:12px;opacity:.85;margin-top:6px;line-height:1.55}
-.hero .bonus{display:inline-flex;align-items:center;gap:6px;background:#fbbf24;color:#0a1f17;font-size:11px;font-weight:900;padding:6px 14px;border-radius:20px;margin-top:12px}
-.card{background:#fff;margin:-46px 16px 0;border-radius:20px;padding:22px 18px;box-shadow:0 12px 32px rgba(0,0,0,.12);position:relative;z-index:2}
-.card h2{font-size:16px;font-weight:900;margin-bottom:4px;display:flex;align-items:center;gap:8px}
-.card .sub2{font-size:11.5px;color:#6b7280;margin-bottom:16px}
-.fld{margin-bottom:13px}
-.fld label{font-size:11.5px;font-weight:800;color:#374151;display:block;margin-bottom:6px;letter-spacing:.2px}
-.fld label .opt{font-weight:600;color:#9aa5a0;text-transform:none;font-size:10px}
-.inp{display:flex;align-items:center;gap:9px;border:1.5px solid #e5e7eb;border-radius:13px;padding:0 13px;background:#f9fafb;transition:all .2s}
-.inp:focus-within{border-color:#0f6b4e;background:#fff;box-shadow:0 0 0 3px rgba(15,107,78,.08)}
-.inp .ico{color:#9aa5a0;display:flex;align-items:center}
-.inp .ico i{width:16px;height:16px}
-.inp input{flex:1;border:none;background:transparent;padding:14px 0;font-size:14px;outline:none;min-width:0}
-.inp select{border:none;background:transparent;font-size:14px;font-weight:800;color:#0f6b4e;outline:none;padding:14px 0;max-width:118px}
-.inp .sep-v{width:1.5px;height:22px;background:#e5e7eb;flex-shrink:0}
-.eye{background:none;border:none;cursor:pointer;color:#9aa5a0;display:flex;align-items:center;padding:4px}
-.eye i{width:16px;height:16px}
-.hint{font-size:10px;color:#9aa5a0;margin-top:4px;line-height:1.45}
-.btn{width:100%;padding:16px;border-radius:14px;border:none;background:linear-gradient(135deg,#0f6b4e,#10b981);color:#fff;font-size:15px;font-weight:900;cursor:pointer;margin-top:8px;box-shadow:0 8px 20px rgba(15,107,78,.3);display:flex;align-items:center;justify-content:center;gap:8px}
-.btn:disabled{opacity:.5;box-shadow:none}
-.btn i{width:17px;height:17px}
-.err{display:none;background:#fef2f2;border:1.5px solid #fecaca;color:#b91c1c;font-size:12px;font-weight:700;border-radius:12px;padding:11px 13px;margin-bottom:13px;line-height:1.5;animation:shake .3s}
-.err.show{display:block}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
-.sep{display:flex;align-items:center;gap:12px;margin:20px 0 14px;color:#9aa5a0;font-size:10.5px;font-weight:800;letter-spacing:.4px}
-.sep::before,.sep::after{content:'';flex:1;height:1px;background:#e5e7eb}
-/* Connexion sociale cliquable */
-.socials{display:flex;gap:9px}
-.soc{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 6px;border-radius:12px;border:1.5px solid #e5e7eb;background:#fff;font-size:12.5px;font-weight:800;cursor:pointer;transition:all .15s;color:#0a1f17}
-.soc:active{transform:scale(.97)}
-.soc svg{width:19px;height:19px;flex-shrink:0}
-.soc.fb{background:#1877F2;border-color:#1877F2;color:#fff}
-.soc.fb svg{fill:#fff}
-.soc.apple{background:#000;border-color:#000;color:#fff}
-.soc.apple svg{fill:#fff}
-/* Boutons stores noirs */
-.stores{display:flex;gap:10px}
-.store-btn{flex:1;display:flex;align-items:center;gap:9px;background:#000;color:#fff;border-radius:12px;padding:10px 12px;text-decoration:none;cursor:pointer;transition:transform .15s}
-.store-btn:active{transform:scale(.97)}
-.store-btn .si svg{width:23px;height:23px;fill:#fff}
-.store-btn .st small{display:block;font-size:8.5px;font-weight:600;opacity:.8}
-.store-btn .st b{display:block;font-size:14px;font-weight:800}
-.login-link{text-align:center;margin-top:16px;font-size:12.5px;color:#6b7280}
-.login-link a{color:#0f6b4e;font-weight:800;text-decoration:none}
-/* Liens pro discrets (modèle Jumia) */
-.pro-links{display:flex;gap:9px;margin:14px 16px 0}
-.pro-link{flex:1;display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid #e5e7eb;border-radius:13px;padding:12px;text-decoration:none;color:#0a1f17;transition:all .15s}
-.pro-link:active{transform:scale(.97)}
-.pro-link .pi{width:34px;height:34px;border-radius:10px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;color:#0f6b4e;flex-shrink:0}
-.pro-link .pi i{width:17px;height:17px}
-.pro-link b{font-size:11.5px;display:block}
-.pro-link span{font-size:9.5px;color:#9aa5a0;display:block;margin-top:1px}
-.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:14px 16px 0;font-size:11.5px;color:#92400e;cursor:pointer;line-height:1.55}
-.success{display:none;background:#fff;margin:-46px 16px 0;border-radius:20px;padding:34px 22px;box-shadow:0 12px 32px rgba(0,0,0,.12);position:relative;z-index:2;text-align:center}
-.success.show{display:block}
-.success .si{width:70px;height:70px;border-radius:50%;background:#f0fdf4;display:flex;align-items:center;justify-content:center;margin:0 auto;color:#0f6b4e}
-.success .si i{width:34px;height:34px}
-.success h2{font-size:19px;font-weight:900;color:#0f6b4e;margin:14px 0 8px}
-.success p{font-size:12.5px;color:#6b7280;line-height:1.65}
-.foot{text-align:center;font-size:10px;color:#9aa5a0;margin:20px 0 30px;line-height:1.6}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0a1f17;min-height:100vh}
+.topbar{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#fff;border-bottom:1px solid #e5e7eb}
+.topbar img{height:32px}
+.topbar h1{font-size:14px;font-weight:900;color:#0f6b4e;flex:1}
+.topbar a{color:#9aa5a0;text-decoration:none;font-size:13px;font-weight:700}
+.wrap{max-width:440px;margin:0 auto;padding:18px 16px 40px}
+.hero{background:linear-gradient(160deg,#0a1f17,#0f6b4e);border-radius:18px;color:#fff;padding:24px 18px;text-align:center;margin-bottom:16px}
+.hero img{height:44px;margin-bottom:10px}
+.hero h2{font-size:20px;font-weight:900;margin-bottom:5px}
+.hero p{font-size:12px;opacity:.9}
+.hero .pts{display:inline-block;background:rgba(74,222,128,.2);border:1px solid #4ade80;color:#4ade80;font-size:11px;font-weight:900;padding:5px 13px;border-radius:99px;margin-top:10px}
+.card{background:#fff;border-radius:18px;padding:18px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:11.5px;font-weight:800;margin-bottom:5px;color:#374151}
+.field input{width:100%;padding:13px 14px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:14px;font-family:inherit}
+.field input:focus{outline:none;border-color:#0f6b4e}
+.tel{display:flex;gap:8px}
+.tel select{width:105px;padding:13px 8px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:13px;background:#fff}
+.tel input{flex:1;padding:13px 14px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:14px}
+.pwd-wrap{position:relative}
+.pwd-wrap input{padding-right:46px}
+.pwd-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#9aa5a0}
+.pwd-bar{height:5px;border-radius:99px;background:#e5e7eb;margin-top:6px;overflow:hidden}
+.pwd-bar i{display:block;height:100%;width:0;border-radius:99px;transition:all .3s}
+.pwd-txt{font-size:10px;font-weight:700;color:#9aa5a0;margin-top:3px}
+.cond{display:flex;gap:9px;align-items:flex-start;font-size:11.5px;color:#374151;line-height:1.5;margin:12px 0}
+.cond input{width:18px;height:18px;flex-shrink:0;margin-top:1px}
+.btn{width:100%;padding:15px;border:none;border-radius:14px;background:#0f6b4e;color:#fff;font-size:14px;font-weight:900;cursor:pointer}
+.btn:disabled{background:#9aa5a0}
+.divider{display:flex;align-items:center;gap:10px;margin:16px 0;font-size:10px;font-weight:800;color:#9aa5a0}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:#e5e7eb}
 .btn-google{width:100%;padding:13px;border:1.5px solid #e5e7eb;border-radius:12px;background:#fff;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;color:#1f2937}
 .btn-google:active{background:#f9fafb}
+.stores{display:flex;gap:9px;margin-top:12px}
+.store{flex:1;background:#0a1f17;color:#fff;border-radius:12px;padding:9px 10px;display:flex;align-items:center;gap:8px;text-decoration:none}
+.store .si{font-size:19px}
+.store small{display:block;font-size:7.5px;opacity:.75}
+.store b{font-size:11.5px}
+.err{display:none;background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;border-radius:12px;padding:11px 13px;font-size:12px;font-weight:700;margin-bottom:12px;line-height:1.5}
+.ok{display:none;text-align:center;padding:26px 18px}
+.ok .oi{width:76px;height:76px;border-radius:50%;background:#f0fdf4;border:3px solid #10b981;display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 14px}
+.ok h2{font-size:18px;font-weight:900;margin-bottom:8px}
+.ok p{font-size:12.5px;color:#374151;line-height:1.7;margin-bottom:16px}
+.pro-links{display:flex;gap:9px;margin-top:14px}
+.pro-links a{flex:1;text-align:center;padding:12px 8px;border-radius:12px;font-size:11px;font-weight:800;text-decoration:none;border:1.5px solid #e5e7eb;color:#374151;background:#fff}
+.pro-links a b{display:block;font-size:12.5px;color:#0f6b4e;margin-bottom:2px}
+.login-link{text-align:center;margin-top:16px;font-size:12.5px;color:#6b7280}
+.login-link a{color:#0f6b4e;font-weight:800;text-decoration:none}
 </style>
 </head>
 <body>
-
-<div class="hero">
-  <img class="logo" src="assets/Logo.png" alt="SEN TEW" onerror="this.outerHTML='<div class=logo-txt>SEN <span>TEW</span></div>'">
-  <p>Le marché du Sénégal dans ta poche.<br>Achète, vends, fais-toi livrer — où que tu sois dans le monde.</p>
-  <div class="bonus">100 points de bienvenue offerts</div>
+<div class="topbar">
+  <img src="assets/Logo.png" alt="SEN TEW" onerror="this.style.display='none'">
+  <h1>Créer un compte</h1>
+  <a href="index.html">✕</a>
 </div>
-
-<div class="card" id="formCard">
-  <h2><i data-lucide="user-plus" style="width:17px;height:17px;color:#0f6b4e"></i>Crée ton compte gratuit</h2>
-  <div class="sub2">30 secondes — et tes 100 points sont crédités.</div>
-
-  <div class="err" id="errBox"></div>
-
-  <div class="fld">
-    <label>EMAIL *</label>
-    <div class="inp"><span class="ico"><i data-lucide="mail"></i></span>
-      <input id="fEmail" type="email" placeholder="exemple@email.com" autocapitalize="none" autocorrect="off" autocomplete="email">
+<div class="wrap">
+  <div class="err" id="err"></div>
+  <div id="formZone">
+    <div class="hero">
+      <img src="assets/Logo.png" alt="" onerror="this.style.display='none'">
+      <h2>Bienvenue sur SEN TEW 🌍</h2>
+      <p>Achète et vends partout au Sénégal, en toute sécurité.</p>
+      <span class="pts">🎁 +100 points de bienvenue offerts</span>
     </div>
-  </div>
-
-  <div class="fld">
-    <label>NOM COMPLET *</label>
-    <div class="inp"><span class="ico"><i data-lucide="user"></i></span>
-      <input id="fName" placeholder="Ex : Aminata Ndiaye" autocapitalize="words" autocomplete="name">
+    <div class="card">
+      <div class="field"><label>Email *</label><input id="rEmail" type="email" placeholder="exemple@mail.com" autocomplete="email"></div>
+      <div class="field"><label>Nom complet *</label><input id="rNom" placeholder="Ex : Fatou Diop" autocomplete="name"></div>
+      <div class="field"><label>Téléphone *</label>
+        <div class="tel">
+          <select id="rInd">
+            <option value="+221">🇸🇳 +221</option><option value="+33">🇫🇷 +33</option><option value="+1">🇺🇸 +1</option><option value="+44">🇬🇧 +44</option><option value="+225">🇨🇮 +225</option><option value="+223">🇲🇱 +223</option><option value="+224">🇬🇳 +224</option><option value="+220">🇬🇲 +220</option><option value="+245">🇬🇼 +245</option><option value="+222">🇲🇷 +222</option><option value="+226">🇧🇫 +226</option><option value="+32">🇧🇪 +32</option><option value="+41">🇨🇭 +41</option><option value="+34">🇪🇸 +34</option><option value="+39">🇮🇹 +39</option><option value="+212">🇲🇦 +212</option><option value="+216">🇹🇳 +216</option><option value="+237">🇨🇲 +237</option><option value="+228">🇹🇬 +228</option><option value="+229">🇧🇯 +229</option><option value="+227">🇳🇪 +227</option>
+          </select>
+          <input id="rTel" type="tel" placeholder="77 000 00 00" autocomplete="tel-national">
+        </div>
+      </div>
+      <div class="field"><label>Mot de passe * (8 caractères min.)</label>
+        <div class="pwd-wrap">
+          <input id="rPwd" type="password" placeholder="••••••••" autocomplete="new-password" oninput="pwdStrength()">
+          <button type="button" class="pwd-eye" onclick="togglePwd()">👁️</button>
+        </div>
+        <div class="pwd-bar"><i id="pwdBar"></i></div>
+        <div class="pwd-txt" id="pwdTxt">Utilise lettres + chiffres pour un mot de passe fort</div>
+      </div>
+      <label class="cond"><input type="checkbox" id="rCond"><span>J'accepte les <b>conditions d'utilisation</b> et la <b>politique de confidentialité</b> de SEN TEW.</span></label>
+      <button class="btn" id="regBtn" onclick="doRegister()">Créer mon compte</button>
+      <div class="divider"><span>OU CONTINUE AVEC</span></div>
+      <button type="button" class="btn-google" onclick="googleLogin()">
+        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.3 6.1 29.4 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.3 6.1 29.4 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C41 35.4 44 30.2 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
+        Continuer avec Google
+      </button>
+      <div class="divider"><span>TÉLÉCHARGE L'APP</span></div>
+      <div class="stores">
+        <a class="store" href="#" onclick="alert('Application bientôt disponible sur l\'App Store !');return false"><span class="si"></span><span><small>Télécharger sur</small><b>App Store</b></span></a>
+        <a class="store" href="#" onclick="alert('Application bientôt disponible sur Google Play !');return false"><span class="si">▶️</span><span><small>Disponible sur</small><b>Google Play</b></span></a>
+      </div>
     </div>
-  </div>
-
-  <div class="fld">
-    <label>TÉLÉPHONE *</label>
-    <div class="inp">
-      <select id="fCountry">
-        <option value="+221" selected>🇸🇳 +221</option>
-        <option value="+33">🇫🇷 +33</option>
-        <option value="+1">🇺🇸 +1</option>
-        <option value="+225">🇨🇮 +225</option>
-        <option value="+223">🇲🇱 +223</option>
-        <option value="+224">🇬🇳 +224</option>
-        <option value="+222">🇲🇷 +222</option>
-        <option value="+220">🇬🇲 +220</option>
-        <option value="+212">🇲🇦 +212</option>
-        <option value="+39">🇮🇹 +39</option>
-        <option value="+34">🇪🇸 +34</option>
-        <option value="+32">🇧🇪 +32</option>
-        <option value="+41">🇨🇭 +41</option>
-        <option value="+44">🇬🇧 +44</option>
-        <option value="+49">🇩🇪 +49</option>
-        <option value="+351">🇵🇹 +351</option>
-        <option value="+213">🇩🇿 +213</option>
-        <option value="+216">🇹🇳 +216</option>
-        <option value="+237">🇨🇲 +237</option>
-        <option value="+241">🇬🇦 +241</option>
-        <option value="+242">🇨🇬 +242</option>
-        <option value="+226">🇧🇫 +226</option>
-        <option value="+227">🇳🇪 +227</option>
-        <option value="+228">🇹🇬 +228</option>
-        <option value="+229">🇧🇯 +229</option>
-      </select>
-      <span class="sep-v"></span>
-      <input id="fPhone" type="tel" inputmode="numeric" placeholder="77 123 45 67" autocomplete="tel">
+    <div class="pro-links">
+      <a href="devenir-vendeur.html"><b>🏪 Vendeur</b>Ouvre ta boutique</a>
+      <a href="register-livreur.html"><b>🛵 Livreur</b>Gagne avec tes courses</a>
     </div>
-    <div class="hint">Sert à la livraison et au paiement mobile. La diaspora choisit l'indicatif de son pays.</div>
+    <div class="login-link">Déjà un compte ? <a href="login.html">Se connecter →</a></div>
   </div>
-
-  <div class="fld">
-    <label>MOT DE PASSE *</label>
-    <div class="inp"><span class="ico"><i data-lucide="lock"></i></span>
-      <input id="fPwd" type="password" placeholder="6 caractères minimum" autocomplete="new-password" autocapitalize="none" autocorrect="off">
-      <button class="eye" id="eyeBtn" type="button"><i data-lucide="eye"></i></button>
-    </div>
-    <div class="hint" id="pwdHint">Au moins 6 caractères. Mélange lettres et chiffres.</div>
+  <div class="ok" id="okZone">
+    <div class="oi">🎉</div>
+    <h2>Compte créé !</h2>
+    <p>Bienvenue dans la famille SEN TEW.<br><b>+100 points</b> ont été crédités sur ton compte.<br>Tu peux maintenant commander en toute sécurité.</p>
+    <button class="btn" onclick="location.href='index.html'">Découvrir la boutique →</button>
   </div>
-
-  <button class="btn" id="submitBtn"><i data-lucide="check-circle"></i>Créer mon compte</button>
-
-  <div class="sep">OU CONTINUE AVEC</div>
-
-  
-  </div>
-
-  <div class="sep">OU TÉLÉCHARGE L'APPLICATION</div>
-
-  <div class="stores">
-    <a class="store-btn" onclick="storeSoon('App Store');return false">
-      <span class="si"><svg viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg></span>
-      <span class="st"><small>Télécharger sur</small><b>App Store</b></span>
-    </a>
-    <a class="store-btn" onclick="storeSoon('Google Play');return false">
-      <span class="si"><svg viewBox="0 0 512 512"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg></span>
-      <span class="st"><small>Disponible sur</small><b>Google Play</b></span>
-    </a>
-  <div class="divider"><span>OU CONTINUE AVEC</span></div>
-<button type="button" class="btn-google" id="googleBtn">
-  <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.3 6.1 29.4 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.3 6.1 29.4 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C41 35.4 44 30.2 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
-  Continuer avec Google
-</button>
-
-  <div class="login-link">Déjà un compte ? <a href="login.html">Se connecter →</a></div>
 </div>
-
-<!-- Liens pro discrets (modèle Jumia : séparés du grand public) -->
-<div class="pro-links">
-  <a class="pro-link" href="devenir-vendeur.html">
-    <span class="pi"><i data-lucide="store"></i></span>
-    <span><b>Devenir vendeur</b><span>Ouvre ta boutique</span></span>
-  </a>
-  <a class="pro-link" href="register-livreur.html">
-    <span class="pi"><i data-lucide="bike"></i></span>
-    <span><b>Devenir livreur</b><span>Gagne par course</span></span>
-  </a>
-</div>
-
-<div class="success" id="successCard">
-  <div class="si"><i data-lucide="party-popper"></i></div>
-  <h2>Bienvenue sur SEN TEW !</h2>
-  <p id="successMsg"></p>
-  <button class="btn" onclick="window.location.href='index.html'">Découvrir le marché →</button>
-</div>
-
-<div class="tip" onclick="alert('Programme de fidélité SEN TEW\n\n• 100 points offerts à l\'inscription\n• 1 F dépensé = 1 point gagné\n• Points échangeables contre des réductions dans le panier\n\nNiveaux : Teranga → Jaay → Xeweul')"><span>ⓘ</span><span>Astuce : ton inscription offre <b>100 points fidélité</b> utilisables dès ta première commande. Clique pour les niveaux.</span></div>
-
-<div class="foot">En créant un compte, tu acceptes les Conditions d'utilisation<br>et la Politique de confidentialité de SEN TEW.</div>
-
 <script>
 lucide.createIcons();
 var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
 var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
-var sbClient=window.supabase?window.supabase.createClient(SUPA_URL,SUPA_KEY):null;
-
-function esc(s){var d=document.createElement('div');d.textContent=String(s==null?'':s);return d.innerHTML}
-function showErr(m){var b=document.getElementById('errBox');b.textContent=m;b.classList.remove('show');void b.offsetWidth;b.classList.add('show');window.scrollTo({top:0,behavior:'smooth'})}
-
-/* SHA-256 pur JS */
-function sha256(a){function rr(v,n){return(v>>>n)|(v<<(32-n))}var mw=Math.pow(2,32),res='';var words=[],bl=a.length*8;var h=sha256.h=sha256.h||[],k=sha256.k=sha256.k||[];var pc=k.length,comp={};for(var c=2;pc<64;c++){if(!comp[c]){for(var i=0;i<313;i+=c)comp[i]=c;h[pc]=(Math.pow(c,.5)*mw)|0;k[pc++]=(Math.pow(c,1/3)*mw)|0}}a+='\x80';while(a.length%64-56)a+='\x00';for(var i=0;i<a.length;i++){var j=a.charCodeAt(i);words[i>>2]|=j<<((3-i)%4)*8}words[words.length]=(bl/mw)|0;words[words.length]=bl;for(var j=0;j<words.length;){var w=words.slice(j,j+=16),oh=h;h=h.slice(0,8);for(var i=0;i<64;i++){var w15=w[i-15],w2=w[i-2];var x=h[0],e=h[4];var t1=h[7]+(rr(e,6)^rr(e,11)^rr(e,25))+((e&h[5])^((~e)&h[6]))+k[i]+(w[i]=(i<16)?w[i]:(w[i-16]+(rr(w15,7)^rr(w15,18)^(w15>>>3))+w[i-7]+(rr(w2,17)^rr(w2,19)^(w2>>>10)))|0);var t2=(rr(x,2)^rr(x,13)^rr(x,22))+((x&h[1])^(x&h[2])^(h[1]&h[2]));h=[(t1+t2)|0].concat(h);h[4]=(h[4]+t1)|0}for(var i=0;i<8;i++){h[i]=(h[i]+oh[i])|0}}for(var i=0;i<8;i++){for(var j=3;j+1;j--){var b=(h[i]>>(j*8))&255;res+=((b<16)?'0':'')+b.toString(16)}}return res}
-
-/* Œil */
-document.getElementById('eyeBtn').onclick=function(){
-  var p=document.getElementById('fPwd');
-  p.type=p.type==='password'?'text':'password';
-  this.innerHTML='<i data-lucide="'+(p.type==='password'?'eye':'eye-off')+'"></i>';
-  lucide.createIcons();
-};
-
-/* Force du mot de passe */
-document.getElementById('fPwd').addEventListener('input',function(){
-  var v=this.value,h=document.getElementById('pwdHint');
-  if(!v){h.textContent='Au moins 6 caractères. Mélange lettres et chiffres.';h.style.color='#9aa5a0';return}
-  var s=(v.length>=6?1:0)+(v.length>=10?1:0)+(/[0-9]/.test(v)?1:0)+(/[^a-zA-Z0-9]/.test(v)?1:0);
-  var L=['Trop court (6 min)','Faible — ajoute des chiffres','Moyen — ajoute un symbole','Fort','Excellent'];
-  var C=['#b91c1c','#b45309','#b45309','#059669','#059669'];
-  h.textContent=L[s];h.style.color=C[s];
-});
-
-/* OAuth cliquable */
-function oauthLogin(provider){
-  if(!sbClient){showErr('Service en cours de chargement, réessaie.');return}
-  sbClient.auth.signInWithOAuth({
-    provider:provider,
-    options:{redirectTo:'https://sen-ecosystem.com/sentew-app/index.html'}
-  }).then(function(res){
-    if(res.error){
-      alert('Connexion '+provider.charAt(0).toUpperCase()+provider.slice(1)+' en cours d\'activation.\n\nElle sera disponible au lancement officiel. En attendant, inscris-toi avec ton email ci-dessus (30 secondes).');
-    }
-  }).catch(function(){
-    alert('Connexion '+provider+' bientôt disponible. Inscris-toi avec ton email ci-dessus.');
-  });
+function v(id){return (document.getElementById(id).value||'').trim();}
+function err(m){var e=document.getElementById('err');e.textContent='⚠️ '+m;e.style.display=m?'block':'none';window.scrollTo(0,0);}
+function togglePwd(){var i=document.getElementById('rPwd');i.type=i.type==='password'?'text':'password';}
+function pwdStrength(){
+  var p=v('rPwd'),bar=document.getElementById('pwdBar'),txt=document.getElementById('pwdTxt');
+  var s=0;if(p.length>=8)s++;if(/[A-Z]/.test(p))s++;if(/[0-9]/.test(p))s++;if(/[^A-Za-z0-9]/.test(p))s++;
+  var cfg=[['0%','#e5e7eb',''],['25%','#e63946','Faible 😟'],['50%','#f59e0b','Moyen 🙂'],['75%','#3b82f6','Bon 👍'],['100%','#10b981','Fort 💪']][s];
+  bar.style.width=cfg[0];bar.style.background=cfg[1];txt.textContent=cfg[2]||'Utilise lettres + chiffres pour un mot de passe fort';
 }
-
-function storeSoon(store){
-  alert(store+' — Bientôt disponible !\n\nL\'application SEN TEW arrive prochainement.\n\nEn attendant : ajoute ce site à ton écran d\'accueil (Partager → "Sur l\'écran d\'accueil") pour l\'utiliser comme une vraie app.');
+async function sha256(m){
+  if(window.crypto&&crypto.subtle){try{var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(m));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0')}).join('')}catch(e){}}
+  function rr(a,b){return(a>>>b)|(a<<(32-b))}var h=[1779033703,3144134277,1013904242,2773480762,1359893119,2600822924,528734635,1541459225],k=[1116352408,1899447441,3049323471,3921009573,961987163,1508970993,2453635748,2870763221,3624381080,310598401,607225278,1426881987,1925078388,2162078206,2614888103,3248222580,3835390401,4022224774,264347078,604807628,770255983,1249150122,1555081692,1996064986,2554220882,2821834349,2952996808,3210313671,3336571891,3584528711,113926993,338241895,666307205,773529912,1294757372,1396182291,1695183700,1986661051,2177026350,2456956037,2730485921,2820302411,3259730800,3345764771,3516065817,3600352804,4094571909,275423344,430227734,506948616,659060556,883997877,958139571,1322822218,1537002063,1747873779,1955562222,2024104815,2227730452,2361852424,2428436474,2756734187,3204031479,3329325298];
+  var s=unescape(encodeURIComponent(m)),l=s.length,bits=l*8;s+=String.fromCharCode(128);while(s.length%64!==56)s+=String.fromCharCode(0);
+  for(var i=0;i<4;i++){s+=String.fromCharCode((bits>>>(8*(3-i)))&255);}
+  for(var c=0;c<s.length;c+=64){var w=[];for(var j=0;j<16;j++){w[j]=(s.charCodeAt(c+j*4)<<24)|(s.charCodeAt(c+j*4+1)<<16)|(s.charCodeAt(c+j*4+2)<<8)|s.charCodeAt(c+j*4+3);}
+  for(var t=16;t<64;t++){var s0=rr(w[t-15],7)^rr(w[t-15],18)^(w[t-15]>>>3),s1=rr(w[t-2],17)^rr(w[t-2],19)^(w[t-2]>>>10);w[t]=(w[t-16]+s0+w[t-7]+s1)|0;}
+  var a=h[0],b2=h[1],cc=h[2],d=h[3],e=h[4],f=h[5],g=h[6],hh=h[7];
+  for(t=0;t<64;t++){var S1=rr(e,6)^rr(e,11)^rr(e,25),ch=(e&f)^(~e&g),t1=(hh+S1+ch+k[t]+w[t])|0,S0=rr(a,2)^rr(a,13)^rr(a,22),mj=(a&b2)^(a&cc)^(b2&cc),t2=(S0+mj)|0;hh=g;g=f;f=e;e=(d+t1)|0;d=cc;cc=b2;b2=a;a=(t1+t2)|0;}
+  h[0]=(h[0]+a)|0;h[1]=(h[1]+b2)|0;h[2]=(h[2]+cc)|0;h[3]=(h[3]+d)|0;h[4]=(h[4]+e)|0;h[5]=(h[5]+f)|0;h[6]=(h[6]+g)|0;h[7]=(h[7]+hh)|0;}
+  return h.map(function(x){return(x>>>0).toString(16).padStart(8,'0')}).join('');
 }
-
-/* ═══ INSCRIPTION CLIENT ═══ */
-document.getElementById('submitBtn').onclick=function(){
-  var email=document.getElementById('fEmail').value.trim().toLowerCase();
-  var name=document.getElementById('fName').value.trim();
-  var country=document.getElementById('fCountry').value;
-  var phone=document.getElementById('fPhone').value.replace(/[\s.\-]/g,'').replace(/^0+/,'');
-  var pwd=document.getElementById('fPwd').value;
-
-  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){showErr('Entre une adresse email valide.');return}
-  if(!name||name.length<3){showErr('Entre ton nom complet.');return}
-  if(!/^[0-9]{6,14}$/.test(phone)){showErr('Numéro invalide. Entre les chiffres sans l\'indicatif (ex : 77 123 45 67).');return}
-  if(pwd.length<6){showErr('Mot de passe trop court : 6 caractères minimum.');return}
-
-  var btn=this;btn.disabled=true;btn.innerHTML='Création en cours…';
-  var fullPhone=country+phone;
-
-  fetch(SUPA_URL+'/rest/v1/users',{
-    method:'POST',
-    headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=representation'},
-    body:JSON.stringify({
-      email:email,full_name:name,phone:fullPhone,password_hash:sha256(pwd),
-      role:'client',city:'Dakar',loyalty_points:100
-    })
-  })
-  .then(function(r){return r.json().then(function(j){return{ok:r.ok,status:r.status,data:j}})})
-  .then(function(res){
-    if(res.ok&&(res.data||[]).length){
-      var u=res.data[0];
-      localStorage.setItem('st_user',JSON.stringify({id:u.id,name:u.full_name,email:u.email,phone:u.phone,role:u.role,points:100}));
-      try{localStorage.setItem('st_points','100')}catch(e){}
-      document.getElementById('formCard').style.display='none';
-      document.getElementById('successMsg').innerHTML='Bienvenue <b>'+esc(u.full_name)+'</b> !<br><b>+100 points de bienvenue</b> crédités sur ta fidélité.';
-      document.getElementById('successCard').classList.add('show');
-      lucide.createIcons();
-      window.scrollTo({top:0,behavior:'smooth'});
-    }else if(res.status===409||(res.data&&res.data.code==='23505')){
-      showErr('Ce compte existe déjà. Clique sur « Se connecter ».');
-      resetBtn(btn);
-    }else{
-      showErr('Erreur lors de la création ('+res.status+'). Réessaie.');
-      resetBtn(btn);
-    }
-  })
-  .catch(function(){
-    showErr('Pas de connexion internet. Réessaie.');
-    resetBtn(btn);
-  });
-};
-function resetBtn(btn){btn.disabled=false;btn.innerHTML='<i data-lucide="check-circle"></i>Créer mon compte';lucide.createIcons()}
+function googleLogin(){location.href=SUPA_URL+'/auth/v1/authorize?provider=google&redirect_to='+encodeURIComponent(location.origin+location.pathname.replace('register.html','index.html'));}
+async function doRegister(){
+  var email=v('rEmail').toLowerCase(),nom=v('rNom'),tel=v('rTel').replace(/\D/g,''),pwd=v('rPwd');
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))return err('Email invalide.');
+  if(nom.length<3)return err('Nom complet requis.');
+  if(tel.length<8)return err('Numéro de téléphone invalide.');
+  if(pwd.length<8)return err('Mot de passe : 8 caractères minimum.');
+  if(!document.getElementById('rCond').checked)return err('Tu dois accepter les conditions.');
+  var btn=document.getElementById('regBtn');btn.disabled=true;btn.textContent='Création en cours…';
+  try{
+    var chk=await fetch(SUPA_URL+'/rest/v1/users?email=eq.'+encodeURIComponent(email)+'&select=id',{headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}});
+    var ex=await chk.json();
+    if(ex&&ex.length){btn.disabled=false;btn.textContent='Créer mon compte';return err('Un compte existe déjà avec cet email. Connecte-toi !');}
+    var hash=await sha256(pwd);
+    var r=await fetch(SUPA_URL+'/rest/v1/users',{method:'POST',headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json',Prefer:'return=representation'},body:JSON.stringify({email:email,full_name:nom,phone:v('rInd')+tel,password_hash:hash,role:'client',points:100,created_at:new Date().toISOString()})});
+    if(!r.ok)throw new Error('insert');
+    var rows=await r.json();
+    var u=rows&&rows[0]?rows[0]:{email:email,full_name:nom,role:'client'};
+    sessionStorage.setItem('sentew_user',JSON.stringify({id:u.id,email:email,full_name:nom,role:'client',ts:Date.now()}));
+    await fetch(SUPA_URL+'/rest/v1/notifications',{method:'POST',headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'},body:JSON.stringify({audience:'admin',user_email:email,type:'new_client',title:'🆕 Nouveau client inscrit',message:nom+' ('+email+') vient de créer un compte.'})}).catch(function(){});
+    err('');
+    document.getElementById('formZone').style.display='none';
+    document.getElementById('okZone').style.display='block';
+  }catch(e){btn.disabled=false;btn.textContent='Créer mon compte';err('Erreur réseau. Réessaie.');}
+}
 </script>
 </body>
 </html>
