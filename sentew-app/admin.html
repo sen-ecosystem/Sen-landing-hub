@@ -9,16 +9,15 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#eef2f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0a1f17;padding-bottom:80px}
-.topbar{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#0a1f17;position:sticky;top:0;z-index:800}
-.topbar img{height:30px}
+.topbar{display:flex;align-items:center;gap:8px;padding:12px 14px;background:#0a1f17;position:sticky;top:0;z-index:800}
+.topbar img{height:28px}
 .topbar h1{font-size:14px;font-weight:900;color:#fff;flex:1}
-.bell{position:relative;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.1);border:none;cursor:pointer;font-size:17px;color:#fff}
-.badge{position:absolute;top:-3px;right:-3px;background:#e63946;color:#fff;font-size:9px;font-weight:900;min-width:17px;height:17px;border-radius:99px;display:none;align-items:center;justify-content:center;padding:0 4px}
-.outb{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.1);border:none;color:#fff;cursor:pointer;font-size:15px}
-/* Panneau notifications */
+.tbtn{position:relative;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.12);border:none;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center}
+.tbtn svg{width:17px;height:17px}
+.bdg{position:absolute;top:-3px;right:-3px;background:#e63946;color:#fff;font-size:9px;font-weight:900;min-width:16px;height:16px;border-radius:99px;display:none;align-items:center;justify-content:center;padding:0 4px}
 .npanel{display:none;position:fixed;top:60px;right:10px;left:10px;max-width:440px;margin-left:auto;background:#fff;border-radius:16px;box-shadow:0 14px 44px rgba(0,0,0,.3);z-index:900;max-height:62vh;overflow-y:auto}
 .npanel.on{display:block}
-.npanel h4{padding:13px 15px 9px;font-size:13px;font-weight:900;border-bottom:1px solid #f3f4f6;display:flex;justify-content:space-between;align-items:center}
+.npanel h4{padding:12px 15px 9px;font-size:13px;font-weight:900;border-bottom:1px solid #f3f4f6;display:flex;justify-content:space-between;align-items:center}
 .npanel h4 button{border:none;background:#f3f4f6;border-radius:8px;padding:5px 10px;font-size:10px;font-weight:800;cursor:pointer}
 .nitem{display:flex;gap:10px;padding:11px 15px;border-bottom:1px solid #f3f4f6;cursor:pointer;font-size:12px;line-height:1.5}
 .nitem.unread{background:#f0fdf4}
@@ -26,47 +25,44 @@ body{background:#eef2f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0
 .nitem.read .nd{background:#e5e7eb}
 .nitem b{display:block;font-size:12px}
 .nitem small{color:#9aa5a0;font-size:10px}
-/* Onglets */
-.tabs{display:flex;background:#fff;border-bottom:1px solid #e5e7eb;overflow-x:auto;position:sticky;top:64px;z-index:700}
-.tab{flex:1;min-width:70px;padding:11px 6px;text-align:center;font-size:10.5px;font-weight:800;color:#9aa5a0;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+.tabs{display:flex;background:#fff;border-bottom:1px solid #e5e7eb;overflow-x:auto;position:sticky;top:62px;z-index:700}
+.tab{flex:1;min-width:68px;padding:10px 6px;text-align:center;font-size:10px;font-weight:800;color:#9aa5a0;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
 .tab.on{color:#0f6b4e;border-bottom-color:#0f6b4e}
-.tab .tn{font-size:15px;display:block;margin-bottom:2px}
-.tab .nub{background:#e63946;color:#fff;font-size:8.5px;font-weight:900;padding:1px 6px;border-radius:99px;margin-left:3px}
+.tab svg{width:16px;height:16px;display:block;margin:0 auto 2px}
+.nub{background:#e63946;color:#fff;font-size:8.5px;font-weight:900;padding:1px 6px;border-radius:99px;margin-left:3px}
 .panel{display:none;padding:14px}
 .panel.on{display:block}
-/* KPI */
 .kpis{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
 .kpi{background:#fff;border-radius:14px;padding:13px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
 .kpi .kv{font-size:19px;font-weight:900}
 .kpi .kl{font-size:10px;color:#6b7280;font-weight:700;margin-top:2px}
 .kpi.alert .kv{color:#e63946}
 .kpi.good .kv{color:#0f6b4e}
-/* Barre sélection */
 .selbar{display:none;align-items:center;gap:7px;background:#0a1f17;color:#fff;border-radius:12px;padding:9px 12px;margin-bottom:10px;font-size:11px;font-weight:700;flex-wrap:wrap}
 .selbar.on{display:flex}
 .selbar .cnt{background:#4ade80;color:#0a1f17;padding:2px 9px;border-radius:99px;font-weight:900}
-.sa{padding:7px 11px;border:none;border-radius:9px;font-size:10.5px;font-weight:800;cursor:pointer}
+.sa{padding:7px 11px;border:none;border-radius:9px;font-size:10.5px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+.sa svg{width:12px;height:12px}
 .sa-ok{background:#10b981;color:#fff}.sa-warn{background:#f59e0b;color:#fff}.sa-bad{background:#e63946;color:#fff}.sa-pin{background:#3b82f6;color:#fff}.sa-pay{background:#4ade80;color:#0a1f17}
 .chkall{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:800;color:#374151;padding:7px 2px;cursor:pointer}
 .chk{width:18px;height:18px;accent-color:#0f6b4e;flex-shrink:0;cursor:pointer}
-/* Recherche */
 .search{width:100%;padding:12px 14px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:13px;background:#fff;margin-bottom:10px;font-family:inherit}
-/* Cartes + swipe */
 .swp{position:relative;overflow:hidden;border-radius:14px;margin-bottom:9px}
 .swp-acts{position:absolute;top:0;right:0;bottom:0;display:flex}
 .swp-acts button{border:none;color:#fff;font-size:9.5px;font-weight:800;width:66px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
-.sw-ok{background:#10b981}.sw-msg{background:#3b82f6}.sw-pause{background:#f59e0b}.sw-del{background:#e63946}
+.swp-acts button svg{width:15px;height:15px}
+.sw-ok{background:#10b981}.sw-msg{background:#3b82f6}.sw-pause{background:#f59e0b}
 .card2{position:relative;background:#fff;border-radius:14px;padding:13px;box-shadow:0 2px 8px rgba(0,0,0,.04);display:flex;gap:10px;align-items:center;transition:transform .22s ease;z-index:2}
-.card2 .av{width:44px;height:44px;border-radius:12px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.card2 .av{width:44px;height:44px;border-radius:12px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.card2 .av svg{width:20px;height:20px;color:#0f6b4e}
 .card2 .ci{flex:1;min-width:0}
 .card2 .ci b{font-size:13px;display:block}
 .card2 .ci small{font-size:10.5px;color:#6b7280;display:block;margin-top:2px;line-height:1.4}
 .st{font-size:9px;font-weight:900;padding:3px 8px;border-radius:99px;flex-shrink:0}
 .st-ok{background:#d1fae5;color:#065f46}.st-pend{background:#fef3c7;color:#92400e}.st-susp{background:#fee2e2;color:#991b1b}.st-arch{background:#e5e7eb;color:#4b5563}
-.qrow{display:flex;gap:6px;margin-top:7px}
+.qrow{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap}
 .qb{padding:6px 10px;border-radius:8px;border:none;font-size:10px;font-weight:800;cursor:pointer}
 .qb-g{background:#d1fae5;color:#065f46}.qb-b{background:#dbeafe;color:#1e40af}.qb-o{background:#fef3c7;color:#92400e}
-/* Reversements */
 .paycard{background:#fff;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
 .paycard .ph{display:flex;align-items:center;gap:10px;margin-bottom:9px}
 .paycard .ph b{flex:1;font-size:13.5px}
@@ -74,8 +70,7 @@ body{background:#eef2f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0
 .payrow:last-child{border:none}
 .payrow b{font-size:13px;color:#0f6b4e}
 .payall{width:100%;padding:14px;border:none;border-radius:14px;background:#0f6b4e;color:#fff;font-size:13px;font-weight:900;cursor:pointer;margin-bottom:12px}
-.hist{font-size:11px;color:#6b7280;background:#fff;border-radius:12px;padding:11px 13px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
-/* Messages */
+.hist{font-size:11px;color:#6b7280;background:#fff;border-radius:12px;padding:11px 13px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .tpl{background:#fff;border-radius:14px;padding:13px;margin-bottom:9px;box-shadow:0 2px 8px rgba(0,0,0,.04);cursor:pointer;border:2px solid transparent}
 .tpl.sel{border-color:#0f6b4e}
 .tpl b{font-size:12.5px;display:block;margin-bottom:4px}
@@ -87,10 +82,10 @@ body{background:#eef2f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0
 .sendbtn{width:100%;padding:13px;border:none;border-radius:12px;background:#0f6b4e;color:#fff;font-size:13px;font-weight:900;cursor:pointer}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0a1f17;color:#fff;padding:12px 22px;border-radius:99px;font-size:12.5px;font-weight:800;z-index:999;display:none;box-shadow:0 8px 24px rgba(0,0,0,.3)}
 .sect{font-size:12px;font-weight:900;color:#374151;margin:14px 0 9px;display:flex;align-items:center;gap:6px}
-.empty{text-align:center;padding:34px 20px;color:#9aa5a0;font-size:12px;background:#fff;border-radius:14px}
+.empty{text-align:center;padding:30px 20px;color:#9aa5a0;font-size:12px;background:#fff;border-radius:14px}
 .quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
 .qact{background:#fff;border-radius:12px;padding:11px 6px;text-align:center;text-decoration:none;color:#0a1f17;font-size:9.5px;font-weight:800;box-shadow:0 2px 8px rgba(0,0,0,.04)}
-.qact .qi{font-size:17px;display:block;margin-bottom:4px}
+.qact svg{width:18px;height:18px;display:block;margin:0 auto 4px;color:#0f6b4e}
 </style>
 </head>
 <body>
@@ -98,104 +93,97 @@ body{background:#eef2f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0
 <div class="topbar">
   <img src="assets/Logo.png" alt="SEN TEW" onerror="this.style.display='none'">
   <h1>SEN TEW · Admin</h1>
-  <button class="bell" onclick="toggleNotif()">🔔<span class="badge" id="bellBadge">0</span></button>
-  <button class="outb" onclick="logout()" title="Déconnexion">⏻</button>
+  <button class="tbtn" onclick="loadAll(true)" title="Actualiser"><i data-lucide="refresh-cw"></i></button>
+  <button class="tbtn" onclick="toggleNotif()" title="Notifications"><i data-lucide="bell"></i><span class="bdg" id="bellBadge">0</span></button>
+  <button class="tbtn" onclick="logout()" title="Déconnexion"><i data-lucide="power"></i></button>
 </div>
 
 <div class="npanel" id="npanel">
-  <h4>🔔 Notifications <button onclick="markAllRead()">Tout marquer lu</button></h4>
+  <h4>Notifications <button onclick="markAllRead()">Tout marquer lu</button></h4>
   <div id="nlist"></div>
 </div>
 
 <div class="tabs">
-  <div class="tab on" data-t="dash" onclick="goTab('dash')"><span class="tn">📊</span>Pilotage</div>
-  <div class="tab" data-t="vend" onclick="goTab('vend')"><span class="tn">🏪</span>Vendeurs<span class="nub" id="nuVend" style="display:none">0</span></div>
-  <div class="tab" data-t="driv" onclick="goTab('driv')"><span class="tn">🛵</span>Livreurs<span class="nub" id="nuDriv" style="display:none">0</span></div>
-  <div class="tab" data-t="ord" onclick="goTab('ord')"><span class="tn">📦</span>Commandes</div>
-  <div class="tab" data-t="pay" onclick="goTab('pay')"><span class="tn">💸</span>Reversements<span class="nub" id="nuPay" style="display:none">0</span></div>
-  <div class="tab" data-t="msg" onclick="goTab('msg')"><span class="tn">💬</span>Messages</div>
+  <div class="tab on" data-t="dash" onclick="goTab('dash')"><i data-lucide="layout-dashboard"></i>Pilotage</div>
+  <div class="tab" data-t="vend" onclick="goTab('vend')"><i data-lucide="store"></i>Vendeurs<span class="nub" id="nuVend" style="display:none">0</span></div>
+  <div class="tab" data-t="driv" onclick="goTab('driv')"><i data-lucide="bike"></i>Livreurs<span class="nub" id="nuDriv" style="display:none">0</span></div>
+  <div class="tab" data-t="ord" onclick="goTab('ord')"><i data-lucide="package"></i>Commandes</div>
+  <div class="tab" data-t="pay" onclick="goTab('pay')"><i data-lucide="banknote"></i>Reversements<span class="nub" id="nuPay" style="display:none">0</span></div>
+  <div class="tab" data-t="msg" onclick="goTab('msg')"><i data-lucide="message-square"></i>Messages</div>
 </div>
 
-<!-- ═══════ PILOTAGE ═══════ -->
 <div class="panel on" id="p-dash">
   <div class="kpis">
-    <div class="kpi alert"><div class="kv" id="kPendV">–</div><div class="kl">🏪 Vendeurs à valider</div></div>
-    <div class="kpi alert"><div class="kv" id="kPendD">–</div><div class="kl">🛵 Livreurs à valider</div></div>
-    <div class="kpi"><div class="kv" id="kOrd">–</div><div class="kl">📦 Commandes aujourd'hui</div></div>
-    <div class="kpi good"><div class="kv" id="kCA">–</div><div class="kl">💰 CA total livré</div></div>
-    <div class="kpi alert"><div class="kv" id="kPay">–</div><div class="kl">💸 À reverser</div></div>
-    <div class="kpi"><div class="kv" id="kCom">–</div><div class="kl">🏦 Commissions SEN TEW</div></div>
+    <div class="kpi alert"><div class="kv" id="kPendV">–</div><div class="kl">Vendeurs à valider</div></div>
+    <div class="kpi alert"><div class="kv" id="kPendD">–</div><div class="kl">Livreurs à valider</div></div>
+    <div class="kpi"><div class="kv" id="kOrd">–</div><div class="kl">Commandes aujourd'hui</div></div>
+    <div class="kpi good"><div class="kv" id="kCA">–</div><div class="kl">CA total livré</div></div>
+    <div class="kpi alert"><div class="kv" id="kPay">–</div><div class="kl">À reverser</div></div>
+    <div class="kpi"><div class="kv" id="kCom">–</div><div class="kl">Commissions SEN TEW</div></div>
   </div>
-  <div class="sect">⚡ Actions rapides</div>
+  <div class="sect">Actions rapides</div>
   <div class="quick">
-    <a class="qact" href="admin-documents.html"><span class="qi">📄</span>Docu-<br>ments</a>
-    <a class="qact" href="#" onclick="goTab('pay');return false"><span class="qi">💸</span>Rever-<br>sements</a>
-    <a class="qact" href="#" onclick="goTab('msg');return false"><span class="qi">💬</span>Mes-<br>sages</a>
-    <a class="qact" href="#" onclick="exportCSV();return false"><span class="qi">📥</span>Export<br>CSV</a>
+    <a class="qact" href="admin-documents.html"><i data-lucide="folder-lock"></i>Docu-<br>ments</a>
+    <a class="qact" href="#" onclick="goTab('pay');return false"><i data-lucide="banknote"></i>Rever-<br>sements</a>
+    <a class="qact" href="#" onclick="goTab('msg');return false"><i data-lucide="message-square"></i>Mes-<br>sages</a>
+    <a class="qact" href="#" onclick="exportCSV();return false"><i data-lucide="download"></i>Export<br>CSV</a>
   </div>
-  <div class="sect">📋 Dernières demandes</div>
+  <div class="sect">Dernières demandes</div>
   <div id="recentList"></div>
 </div>
 
-<!-- ═══════ VENDEURS ═══════ -->
 <div class="panel" id="p-vend">
-  <input class="search" id="searchVend" placeholder="🔍 Rechercher une boutique, un nom, une ville…" oninput="renderVend()">
+  <input class="search" id="searchVend" placeholder="Rechercher une boutique, un nom, une ville…" oninput="renderVend()">
   <div class="selbar" id="selbar-vend">
     <span class="cnt" id="cnt-vend">0</span> sélectionné(s)
-    <button class="sa sa-ok" onclick="bulk('vend','activer')">✅ Activer</button>
-    <button class="sa sa-pin" onclick="bulk('vend','avant')">📌 En avant</button>
-    <button class="sa sa-warn" onclick="bulk('vend','suspendre')">⏸️ Suspendre</button>
-    <button class="sa sa-bad" onclick="bulk('vend','archiver')">🗄️ Archiver</button>
+    <button class="sa sa-ok" onclick="bulk('vend','activer')">✓ Activer</button>
+    <button class="sa sa-pin" onclick="bulk('vend','avant')">★ En avant</button>
+    <button class="sa sa-warn" onclick="bulk('vend','suspendre')">‖ Suspendre</button>
+    <button class="sa sa-bad" onclick="bulk('vend','archiver')">✕ Archiver</button>
   </div>
   <label class="chkall"><input type="checkbox" class="chk" onchange="toggleAll('vend',this.checked)"> Tout sélectionner</label>
   <div id="listVend"></div>
 </div>
 
-<!-- ═══════ LIVREURS ═══════ -->
 <div class="panel" id="p-driv">
-  <input class="search" id="searchDriv" placeholder="🔍 Rechercher un livreur, une zone, une plaque…" oninput="renderDriv()">
+  <input class="search" id="searchDriv" placeholder="Rechercher un livreur, une zone, une plaque…" oninput="renderDriv()">
   <div class="selbar" id="selbar-driv">
     <span class="cnt" id="cnt-driv">0</span> sélectionné(s)
-    <button class="sa sa-ok" onclick="bulk('driv','activer')">✅ Activer</button>
-    <button class="sa sa-warn" onclick="bulk('driv','suspendre')">⏸️ Suspendre</button>
-    <button class="sa sa-bad" onclick="bulk('driv','archiver')">🗄️ Archiver</button>
+    <button class="sa sa-ok" onclick="bulk('driv','activer')">✓ Activer</button>
+    <button class="sa sa-warn" onclick="bulk('driv','suspendre')">‖ Suspendre</button>
+    <button class="sa sa-bad" onclick="bulk('driv','archiver')">✕ Archiver</button>
   </div>
   <label class="chkall"><input type="checkbox" class="chk" onchange="toggleAll('driv',this.checked)"> Tout sélectionner</label>
   <div id="listDriv"></div>
 </div>
 
-<!-- ═══════ COMMANDES ═══════ -->
 <div class="panel" id="p-ord">
-  <input class="search" id="searchOrd" placeholder="🔍 Rechercher par code, client…" oninput="renderOrd()">
+  <input class="search" id="searchOrd" placeholder="Rechercher par code, client…" oninput="renderOrd()">
   <div id="listOrd"></div>
 </div>
 
-<!-- ═══════ REVERSEMENTS ═══════ -->
 <div class="panel" id="p-pay">
-  <div class="sect">🏪 Reversements vendeurs (ventes livrées non payées)</div>
-  <button class="payall" id="payAllVend" onclick="payAll('vend')">💸 TOUT PAYER LES VENDEURS</button>
+  <div class="sect">Reversements vendeurs (ventes livrées non payées)</div>
+  <button class="payall" onclick="payAll('vend')">TOUT PAYER LES VENDEURS</button>
   <div id="payVend"></div>
-  <div class="sect">🛵 Reversements livreurs (courses livrées non payées)</div>
-  <button class="payall" id="payAllDriv" onclick="payAll('driv')">💸 TOUT PAYER LES LIVREURS</button>
+  <div class="sect">Reversements livreurs (courses livrées non payées)</div>
+  <button class="payall" onclick="payAll('driv')">TOUT PAYER LES LIVREURS</button>
   <div id="payDriv"></div>
-  <div class="sect">📜 Historique des paiements</div>
+  <div class="sect">Historique des paiements</div>
   <div id="payHist"></div>
 </div>
 
-<!-- ═══════ MESSAGES ═══════ -->
 <div class="panel" id="p-msg">
   <div class="sendbox">
-    <div class="sect" style="margin-top:0">📤 Envoyer une notification</div>
-    <select id="msgTarget" onchange="tplFill()">
-      <option value="">— Choisir le destinataire —</option>
-    </select>
+    <div class="sect" style="margin-top:0">Envoyer une notification</div>
+    <select id="msgTarget"><option value="">— Choisir le destinataire —</option></select>
     <input id="msgTitle" placeholder="Titre du message">
     <textarea id="msgBody" placeholder="Message…"></textarea>
-    <button class="sendbtn" onclick="sendMsg()">📨 Envoyer la notification</button>
+    <button class="sendbtn" onclick="sendMsg()">Envoyer la notification</button>
   </div>
-  <div class="sect">⚡ Messages prêts à l'emploi (clique pour remplir)</div>
+  <div class="sect">Messages prêts à l'emploi (clique pour remplir)</div>
   <div id="tplList"></div>
-  <div class="sect">📣 Envois groupés en 1 clic</div>
+  <div class="sect">Envois groupés en 1 clic</div>
   <div id="bulkMsg"></div>
 </div>
 
@@ -203,9 +191,8 @@ body{background:#eef2f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0
 
 <script>
 lucide.createIcons();
-/* ═══ AUTH GUARD ═══ */
 var sess=sessionStorage.getItem('sentew_admin')||localStorage.getItem('sentew_admin');
-if(!sess){location.href='login-admin.html';}
+if(!sess)location.href='login-admin.html';
 function logout(){sessionStorage.removeItem('sentew_admin');localStorage.removeItem('sentew_admin');location.href='login-admin.html';}
 
 var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
@@ -213,19 +200,20 @@ var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
 var H={apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY};
 var HJ={apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'};
 function esc(s){var d=document.createElement('div');d.textContent=String(s==null?'':s);return d.innerHTML;}
-function fmt(n){return Math.round(n||0).toLocaleString('fr-FR')+' F'}
-function toast(m){var t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(function(){t.style.display='none'},2600);}
+function fmt(n){return Math.round(n||0).toLocaleString('fr-FR')+' F';}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(function(){t.style.display='none';},2600);}
 
 var DATA={vendors:[],drivers:[],orders:[],payouts:[],notifs:[]};
 var SEL={};
 
-async function api(path){var r=await fetch(SUPA_URL+'/rest/v1/'+path,{headers:H});try{return await r.json()||[];}catch(e){return[];}}
-async function patch(table,id,body){await fetch(SUPA_URL+'/rest/v1/'+table+'?id=eq.'+id,{method:'PATCH',headers:HJ,body:JSON.stringify(body)});}
-async function insert(table,body){var r=await fetch(SUPA_URL+'/rest/v1/'+table,{method:'POST',headers:HJ,body:JSON.stringify(body)});return r.ok;}
+async function api(p){var r=await fetch(SUPA_URL+'/rest/v1/'+p,{headers:H});try{return await r.json()||[];}catch(e){return[];}}
+async function patch(t,id,b){await fetch(SUPA_URL+'/rest/v1/'+t+'?id=eq.'+id,{method:'PATCH',headers:HJ,body:JSON.stringify(b)});}
+async function insert(t,b){var r=await fetch(SUPA_URL+'/rest/v1/'+t,{method:'POST',headers:HJ,body:JSON.stringify(b)});return r.ok;}
 async function notify(email,title,message){return insert('notifications',{audience:'user',user_email:email,type:'admin_msg',title:title,message:message});}
 
-/* ═══ CHARGEMENT ═══ */
-async function loadAll(){
+/* PAS de rechargement automatique — la page est STABLE. Bouton 🔄 pour actualiser. */
+async function loadAll(manual){
+  if(manual)toast('Actualisation…');
   var r=await Promise.all([
     api('vendors?select=*&order=created_at.desc'),
     api('drivers?select=*&order=created_at.desc'),
@@ -235,40 +223,37 @@ async function loadAll(){
   ]);
   DATA.vendors=r[0];DATA.drivers=r[1];DATA.orders=r[2];DATA.payouts=r[3];DATA.notifs=r[4];
   renderDash();renderVend();renderDriv();renderOrd();renderPay();renderNotifs();fillTargets();
+  if(manual)toast('Données à jour');
 }
 
-/* ═══ ONGLETS ═══ */
 function goTab(t){
-  document.querySelectorAll('.tab').forEach(function(x){x.classList.toggle('on',x.dataset.t===t)});
-  document.querySelectorAll('.panel').forEach(function(x){x.classList.toggle('on',x.id==='p-'+t)});
+  document.querySelectorAll('.tab').forEach(function(x){x.classList.toggle('on',x.dataset.t===t);});
+  document.querySelectorAll('.panel').forEach(function(x){x.classList.toggle('on',x.id==='p-'+t);});
   window.scrollTo(0,0);
 }
 
-/* ═══ PILOTAGE ═══ */
 function renderDash(){
-  var pendV=DATA.vendors.filter(function(v){return v.status==='pending'}).length;
-  var pendD=DATA.drivers.filter(function(d){return d.status==='pending'}).length;
+  var pendV=DATA.vendors.filter(function(v){return v.status==='pending';}).length;
+  var pendD=DATA.drivers.filter(function(d){return d.status==='pending';}).length;
   var today=new Date().toDateString();
-  var ordToday=DATA.orders.filter(function(o){return new Date(o.created_at).toDateString()===today}).length;
-  var delivered=DATA.orders.filter(function(o){return o.status==='delivered'});
-  var ca=delivered.reduce(function(s,o){return s+(o.total||0)},0);
+  var ordToday=DATA.orders.filter(function(o){return new Date(o.created_at).toDateString()===today;}).length;
+  var delivered=DATA.orders.filter(function(o){return o.status==='delivered';});
+  var ca=delivered.reduce(function(s,o){return s+(o.total||0);},0);
   var com=0;
   delivered.forEach(function(o){
-    var v=DATA.vendors.filter(function(x){return x.email===o.vendor_email||x.id===o.vendor_id})[0];
+    var v=DATA.vendors.filter(function(x){return x.email===o.vendor_email||x.id===o.vendor_id;})[0];
     com+=(o.total||0)*((v&&v.commission_rate!=null?v.commission_rate:8)/100);
   });
   var toPay=computePayouts();
-  var totalPay=toPay.vend.concat(toPay.driv).reduce(function(s,p){return s+p.amount},0);
+  var totalPay=toPay.vend.concat(toPay.driv).reduce(function(s,p){return s+p.amount;},0);
   document.getElementById('kPendV').textContent=pendV;
   document.getElementById('kPendD').textContent=pendD;
   document.getElementById('kOrd').textContent=ordToday;
   document.getElementById('kCA').textContent=fmt(ca);
   document.getElementById('kPay').textContent=fmt(totalPay);
   document.getElementById('kCom').textContent=fmt(com);
-  document.getElementById('nuVend').style.display=pendV?'inline-block':'none';
-  document.getElementById('nuVend').textContent=pendV;
-  document.getElementById('nuDriv').style.display=pendD?'inline-block':'none';
-  document.getElementById('nuDriv').textContent=pendD;
+  var nuV=document.getElementById('nuVend');nuV.style.display=pendV?'inline-block':'none';nuV.textContent=pendV;
+  var nuD=document.getElementById('nuDriv');nuD.style.display=pendD?'inline-block':'none';nuD.textContent=pendD;
   document.getElementById('nuPay').style.display=totalPay>0?'inline-block':'none';
   var recent=DATA.notifs.slice(0,5);
   document.getElementById('recentList').innerHTML=recent.length?recent.map(function(n){
@@ -276,9 +261,8 @@ function renderDash(){
   }).join(''):'<div class="empty">Aucune demande récente</div>';
 }
 
-/* ═══ NOTIFICATIONS ═══ */
 function renderNotifs(){
-  var unread=DATA.notifs.filter(function(n){return !n.is_read}).length;
+  var unread=DATA.notifs.filter(function(n){return !n.is_read;}).length;
   var b=document.getElementById('bellBadge');
   b.style.display=unread?'flex':'none';b.textContent=unread>9?'9+':unread;
   document.getElementById('nlist').innerHTML=DATA.notifs.length?DATA.notifs.map(function(n){
@@ -296,13 +280,12 @@ async function openNotif(id,type){
 }
 async function markAllRead(){
   for(var i=0;i<DATA.notifs.length;i++){if(!DATA.notifs[i].is_read)patch('notifications',DATA.notifs[i].id,{is_read:true});}
-  toast('✅ Tout marqué lu');setTimeout(loadAll,800);
+  toast('Tout marqué lu');setTimeout(loadAll,800);
 }
 
-/* ═══ SÉLECTION MULTIPLE ═══ */
 function toggleSel(ctx,id,on){
   if(on)SEL[ctx+':'+id]=true;else delete SEL[ctx+':'+id];
-  var n=Object.keys(SEL).filter(function(k){return k.indexOf(ctx+':')===0}).length;
+  var n=Object.keys(SEL).filter(function(k){return k.indexOf(ctx+':')===0;}).length;
   document.getElementById('selbar-'+ctx).classList.toggle('on',n>0);
   document.getElementById('cnt-'+ctx).textContent=n;
 }
@@ -310,9 +293,9 @@ function toggleAll(ctx,on){
   document.querySelectorAll('.chk-'+ctx).forEach(function(c){c.checked=on;toggleSel(ctx,c.dataset.id,on);});
 }
 async function bulk(ctx,action){
-  var ids=Object.keys(SEL).filter(function(k){return k.indexOf(ctx+':')===0}).map(function(k){return k.split(':')[1]});
+  var ids=Object.keys(SEL).filter(function(k){return k.indexOf(ctx+':')===0;}).map(function(k){return k.split(':')[1];});
   if(!ids.length)return;
-  var L={activer:'✅ Activer',avant:'📌 Mettre en avant',suspendre:'⏸️ Suspendre',archiver:'🗄️ Archiver'};
+  var L={activer:'Activer',avant:'Mettre en avant',suspendre:'Suspendre',archiver:'Archiver'};
   if(!confirm(L[action]+' → '+ids.length+' élément(s) ?'))return;
   var table=ctx==='vend'?'vendors':'drivers';
   var body={};
@@ -323,11 +306,11 @@ async function bulk(ctx,action){
   var items=(ctx==='vend'?DATA.vendors:DATA.drivers);
   for(var i=0;i<ids.length;i++){
     await patch(table,ids[i],body);
-    var it=items.filter(function(x){return String(x.id)===String(ids[i])})[0];
+    var it=items.filter(function(x){return String(x.id)===String(ids[i]);})[0];
     if(it&&it.email){
-      if(action==='activer')await notify(it.email,'🎉 Ton compte SEN TEW est ACTIF !','Bonne nouvelle ! Ton compte a été validé par notre équipe. Tu peux commencer dès maintenant. Bienvenue dans la famille SEN TEW !');
-      if(action==='suspendre')await notify(it.email,'⏸️ Compte suspendu temporairement','Ton compte a été suspendu. Contacte le support SEN TEW pour régulariser ta situation rapidement.');
-      if(action==='archiver')await notify(it.email,'🗄️ Compte archivé','Ton compte a été archivé par l\'administration SEN TEW. Contacte le support si tu penses qu\'il s\'agit d\'une erreur.');
+      if(action==='activer')await notify(it.email,'Ton compte SEN TEW est ACTIF !','Bonne nouvelle ! Ton compte a été validé par notre équipe. Tu peux commencer dès maintenant. Bienvenue dans la famille SEN TEW !');
+      if(action==='suspendre')await notify(it.email,'Compte suspendu temporairement','Ton compte a été suspendu. Contacte le support SEN TEW pour régulariser ta situation rapidement.');
+      if(action==='archiver')await notify(it.email,'Compte archivé','Ton compte a été archivé par l\'administration SEN TEW. Contacte le support si tu penses qu\'il s\'agit d\'une erreur.');
     }
   }
   Object.keys(SEL).forEach(function(k){if(k.indexOf(ctx+':')===0)delete SEL[k];});
@@ -335,13 +318,12 @@ async function bulk(ctx,action){
   loadAll();
 }
 
-/* ═══ SWIPE TACTILE ═══ */
 function makeSwipe(card,acts){
   var wrap=document.createElement('div');wrap.className='swp';
   var aw=document.createElement('div');aw.className='swp-acts';
   acts.forEach(function(a){
     var b=document.createElement('button');b.className=a.cls;
-    b.innerHTML='<span style="font-size:15px">'+a.ico+'</span>'+a.txt;
+    b.innerHTML='<i data-lucide="'+a.ico+'"></i>'+a.txt;
     b.onclick=function(){card.style.transform='translateX(0)';a.fn();};
     aw.appendChild(b);
   });
@@ -349,117 +331,108 @@ function makeSwipe(card,acts){
   wrap.appendChild(aw);wrap.appendChild(card);
   var sx=0,cx=0,mw=acts.length*66;
   card.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;cx=sx;},{passive:true});
-  card.addEventListener('touchmove',function(e){cx=e.touches[0].clientX;var dx=cx-sx;card.style.transform=(dx<0&&dx>-mw-20)?'translateX('+dx+'px)':(dx>0?'translateX(0)':card.style.transform);},{passive:true});
+  card.addEventListener('touchmove',function(e){cx=e.touches[0].clientX;var dx=cx-sx;if(dx<0&&dx>-mw-20)card.style.transform='translateX('+dx+'px)';else if(dx>0)card.style.transform='translateX(0)';},{passive:true});
   card.addEventListener('touchend',function(){card.style.transform=(cx-sx<-50)?'translateX(-'+mw+'px)':'translateX(0)';});
+  lucide.createIcons();
 }
 
-/* ═══ VENDEURS ═══ */
 function stBadge(st){
   return {active:'<span class="st st-ok">ACTIF</span>',pending:'<span class="st st-pend">EN ATTENTE</span>',suspended:'<span class="st st-susp">SUSPENDU</span>',archived:'<span class="st st-arch">ARCHIVÉ</span>'}[st]||'<span class="st st-pend">'+esc(st||'?')+'</span>';
 }
+
 function renderVend(){
   var q=(document.getElementById('searchVend').value||'').toLowerCase();
-  var rows=DATA.vendors.filter(function(v){
-    return !q||((v.shop_name||'')+' '+(v.full_name||'')+' '+(v.city||'')+' '+(v.email||'')).toLowerCase().indexOf(q)>-1;
-  });
+  var rows=DATA.vendors.filter(function(v){return !q||((v.shop_name||'')+' '+(v.full_name||'')+' '+(v.city||'')+' '+(v.email||'')).toLowerCase().indexOf(q)>-1;});
   var el=document.getElementById('listVend');
   if(!rows.length){el.innerHTML='<div class="empty">Aucun vendeur trouvé</div>';return;}
   el.innerHTML='';
   rows.forEach(function(v){
     var c=document.createElement('div');c.className='card2';
     c.innerHTML='<input type="checkbox" class="chk chk-vend" data-id="'+v.id+'">'
-      +'<div class="av">🏪</div><div class="ci"><b>'+esc(v.shop_name||v.full_name||'')+'</b>'
+      +'<div class="av"><i data-lucide="store"></i></div><div class="ci"><b>'+esc(v.shop_name||v.full_name||'')+'</b>'
       +'<small>'+esc(v.full_name||'')+' · '+esc(v.city||'')+' · '+esc(v.category||'')+'<br>'+(v.level||'teranga').toUpperCase()+' · Commission '+(v.commission_rate!=null?v.commission_rate:8)+'% · '+esc(v.email||'')+'</small>'
       +'<div class="qrow">'
-      +(v.status==='pending'?'<button class="qb qb-g" data-act="valider">✅ Valider</button>':'')
-      +'<button class="qb qb-b" data-act="msg">💬 Message</button>'
-      +(v.status!=='suspended'?'<button class="qb qb-o" data-act="susp">⏸️ Suspendre</button>':'')
+      +(v.status==='pending'?'<button class="qb qb-g" data-act="valider">✓ Valider</button>':'')
+      +'<button class="qb qb-b" data-act="msg">✉ Message</button>'
+      +(v.status!=='suspended'?'<button class="qb qb-o" data-act="susp">‖ Suspendre</button>':'')
       +'</div></div>'+stBadge(v.status);
     c.querySelector('.chk-vend').addEventListener('change',function(){toggleSel('vend',v.id,this.checked);});
     c.querySelectorAll('.qb').forEach(function(b){
       b.addEventListener('click',function(){
-        var a=b.dataset.act;
-        if(a==='valider')quickAction('vendors',v,'activer');
-        if(a==='susp')quickAction('vendors',v,'suspendre');
-        if(a==='msg'){goTab('msg');presetTarget(v.email);}
+        if(b.dataset.act==='valider')quickAction('vendors',v,'activer');
+        if(b.dataset.act==='susp')quickAction('vendors',v,'suspendre');
+        if(b.dataset.act==='msg'){goTab('msg');presetTarget(v.email);}
       });
     });
     el.appendChild(c);
     makeSwipe(c,[
-      {cls:'sw-ok',ico:'✅',txt:'Valider',fn:function(){quickAction('vendors',v,'activer');}},
-      {cls:'sw-msg',ico:'💬',txt:'Message',fn:function(){goTab('msg');presetTarget(v.email);}},
-      {cls:'sw-pause',ico:'⏸️',txt:'Susp.',fn:function(){quickAction('vendors',v,'suspendre');}}
+      {cls:'sw-ok',ico:'check',txt:'Valider',fn:function(){quickAction('vendors',v,'activer');}},
+      {cls:'sw-msg',ico:'mail',txt:'Message',fn:function(){goTab('msg');presetTarget(v.email);}},
+      {cls:'sw-pause',ico:'pause',txt:'Susp.',fn:function(){quickAction('vendors',v,'suspendre');}}
     ]);
   });
+  lucide.createIcons();
 }
 
-/* ═══ LIVREURS ═══ */
 function renderDriv(){
   var q=(document.getElementById('searchDriv').value||'').toLowerCase();
-  var rows=DATA.drivers.filter(function(d){
-    return !q||((d.full_name||'')+' '+(d.zone||'')+' '+(d.plate||'')+' '+(d.email||'')).toLowerCase().indexOf(q)>-1;
-  });
+  var rows=DATA.drivers.filter(function(d){return !q||((d.full_name||'')+' '+(d.zone||'')+' '+(d.plate||'')+' '+(d.email||'')).toLowerCase().indexOf(q)>-1;});
   var el=document.getElementById('listDriv');
   if(!rows.length){el.innerHTML='<div class="empty">Aucun livreur trouvé</div>';return;}
   el.innerHTML='';
   rows.forEach(function(d){
     var c=document.createElement('div');c.className='card2';
     c.innerHTML='<input type="checkbox" class="chk chk-driv" data-id="'+d.id+'">'
-      +'<div class="av">🛵</div><div class="ci"><b>'+esc(d.full_name||'')+'</b>'
+      +'<div class="av"><i data-lucide="bike"></i></div><div class="ci"><b>'+esc(d.full_name||'')+'</b>'
       +'<small>'+esc(d.vehicle_type||'')+(d.plate?' · '+esc(d.plate):'')+' · '+esc(d.zone||'')+'<br>'+esc(d.email||'')+'</small>'
       +'<div class="qrow">'
-      +(d.status==='pending'?'<button class="qb qb-g" data-act="valider">✅ Valider</button>':'')
-      +'<button class="qb qb-b" data-act="msg">💬 Message</button>'
-      +(d.status!=='suspended'?'<button class="qb qb-o" data-act="susp">⏸️ Suspendre</button>':'')
+      +(d.status==='pending'?'<button class="qb qb-g" data-act="valider">✓ Valider</button>':'')
+      +'<button class="qb qb-b" data-act="msg">✉ Message</button>'
+      +(d.status!=='suspended'?'<button class="qb qb-o" data-act="susp">‖ Suspendre</button>':'')
       +'</div></div>'+stBadge(d.status);
     c.querySelector('.chk-driv').addEventListener('change',function(){toggleSel('driv',d.id,this.checked);});
     c.querySelectorAll('.qb').forEach(function(b){
       b.addEventListener('click',function(){
-        var a=b.dataset.act;
-        if(a==='valider')quickAction('drivers',d,'activer');
-        if(a==='susp')quickAction('drivers',d,'suspendre');
-        if(a==='msg'){goTab('msg');presetTarget(d.email);}
+        if(b.dataset.act==='valider')quickAction('drivers',d,'activer');
+        if(b.dataset.act==='susp')quickAction('drivers',d,'suspendre');
+        if(b.dataset.act==='msg'){goTab('msg');presetTarget(d.email);}
       });
     });
     el.appendChild(c);
     makeSwipe(c,[
-      {cls:'sw-ok',ico:'✅',txt:'Valider',fn:function(){quickAction('drivers',d,'activer');}},
-      {cls:'sw-msg',ico:'💬',txt:'Message',fn:function(){goTab('msg');presetTarget(d.email);}},
-      {cls:'sw-pause',ico:'⏸️',txt:'Susp.',fn:function(){quickAction('drivers',d,'suspendre');}}
+      {cls:'sw-ok',ico:'check',txt:'Valider',fn:function(){quickAction('drivers',d,'activer');}},
+      {cls:'sw-msg',ico:'mail',txt:'Message',fn:function(){goTab('msg');presetTarget(d.email);}},
+      {cls:'sw-pause',ico:'pause',txt:'Susp.',fn:function(){quickAction('drivers',d,'suspendre');}}
     ]);
   });
+  lucide.createIcons();
 }
 
 async function quickAction(table,item,action){
-  var L={activer:'✅ Activer',suspendre:'⏸️ Suspendre'};
+  var L={activer:'Activer',suspendre:'Suspendre'};
   if(!confirm(L[action]+' : '+(item.shop_name||item.full_name)+' ?'))return;
   await patch(table,item.id,{status:action==='activer'?'active':'suspended'});
   if(item.email){
-    if(action==='activer')await notify(item.email,'🎉 Ton compte SEN TEW est ACTIF !','Bonne nouvelle ! Ton compte a été validé par notre équipe. Tu peux commencer dès maintenant. Bienvenue dans la famille SEN TEW !');
-    else await notify(item.email,'⏸️ Compte suspendu temporairement','Ton compte a été suspendu. Contacte le support SEN TEW pour régulariser ta situation rapidement.');
+    if(action==='activer')await notify(item.email,'Ton compte SEN TEW est ACTIF !','Bonne nouvelle ! Ton compte a été validé par notre équipe. Tu peux commencer dès maintenant. Bienvenue dans la famille SEN TEW !');
+    else await notify(item.email,'Compte suspendu temporairement','Ton compte a été suspendu. Contacte le support SEN TEW pour régulariser ta situation rapidement.');
   }
   toast(L[action]+' — notification envoyée');
   loadAll();
 }
 
-/* ═══ COMMANDES ═══ */
 function renderOrd(){
   var q=(document.getElementById('searchOrd').value||'').toLowerCase();
-  var rows=DATA.orders.filter(function(o){
-    return !q||((o.tracking_code||'')+' '+(o.client_name||'')+' '+(o.client_email||'')+' '+(o.status||'')).toLowerCase().indexOf(q)>-1;
-  });
+  var rows=DATA.orders.filter(function(o){return !q||((o.tracking_code||'')+' '+(o.client_name||'')+' '+(o.client_email||'')+' '+(o.status||'')).toLowerCase().indexOf(q)>-1;});
   var el=document.getElementById('listOrd');
   if(!rows.length){el.innerHTML='<div class="empty">Aucune commande</div>';return;}
-  var stMap={confirmed:['📥','Confirmée','st-pend'],preparing:['📦','Préparation','st-pend'],picked_up:['🛵','Récupérée','st-ok'],in_transit:['🛵','En livraison','st-ok'],delivered:['🎉','Livrée','st-ok'],cancelled:['❌','Annulée','st-susp']};
+  var stMap={confirmed:['Confirmée','st-pend'],preparing:['Préparation','st-pend'],picked_up:['Récupérée','st-ok'],in_transit:['En livraison','st-ok'],delivered:['Livrée','st-ok'],cancelled:['Annulée','st-susp']};
   el.innerHTML=rows.slice(0,50).map(function(o){
-    var s=stMap[o.status]||['📋',o.status,'st-pend'];
-    return '<div class="hist"><span><b>'+s[0]+' '+esc(o.tracking_code||o.id)+'</b><br>'+esc(o.client_name||o.client_email||'')+' · '+fmt(o.total)+'</span><span class="st '+s[2]+'">'+s[1].toUpperCase()+'</span></div>';
+    var s=stMap[o.status]||[o.status,'st-pend'];
+    return '<div class="hist"><span><b>'+esc(o.tracking_code||o.id)+'</b><br>'+esc(o.client_name||o.client_email||'')+' · '+fmt(o.total)+'</span><span class="st '+s[1]+'">'+s[0].toUpperCase()+'</span></div>';
   }).join('');
 }
 
-/* ═══ REVERSEMENTS — CALCUL AUTOMATIQUE ═══ */
 function computePayouts(){
-  /* Vendeurs : commandes livrées, payout_done ≠ true */
   var vendMap={};
   DATA.orders.forEach(function(o){
     if(o.status!=='delivered'||o.payout_done)return;
@@ -469,11 +442,10 @@ function computePayouts(){
   });
   var vend=Object.keys(vendMap).map(function(k){
     var m=vendMap[k];
-    var v=DATA.vendors.filter(function(x){return x.email===k||String(x.id)===String(k)})[0];
+    var v=DATA.vendors.filter(function(x){return x.email===k||String(x.id)===String(k);})[0];
     var rate=v&&v.commission_rate!=null?v.commission_rate:8;
     return {type:'vendeur',key:k,name:v?(v.shop_name||v.full_name):k,email:v?v.email:null,count:m.count,total:m.total,commission:m.total*rate/100,amount:m.total*(1-rate/100),ids:m.ids,method:v&&v.payout_method?v.payout_method:'Mobile Money'};
   });
-  /* Livreurs : courses livrées, driver_paid ≠ true */
   var drivMap={};
   DATA.orders.forEach(function(o){
     if(o.status!=='delivered'||o.driver_paid||!o.driver_id)return;
@@ -483,7 +455,7 @@ function computePayouts(){
   });
   var driv=Object.keys(drivMap).map(function(k){
     var m=drivMap[k];
-    var d=DATA.drivers.filter(function(x){return String(x.id)===k})[0];
+    var d=DATA.drivers.filter(function(x){return String(x.id)===k;})[0];
     return {type:'livreur',key:k,name:d?d.full_name:('Livreur '+k),email:d?d.email:null,count:m.count,total:m.total,amount:m.total,ids:m.ids,method:'Mobile Money'};
   });
   return {vend:vend,driv:driv};
@@ -491,24 +463,23 @@ function computePayouts(){
 
 function renderPay(){
   var p=computePayouts();
-  var elV=document.getElementById('payVend'),elD=document.getElementById('payDriv');
-  elV.innerHTML=p.vend.length?p.vend.map(function(x,i){
-    return '<div class="paycard"><div class="ph"><div class="av" style="width:40px;height:40px;border-radius:11px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:17px">🏪</div><b>'+esc(x.name)+'</b><span class="st st-pend">À PAYER</span></div>'
+  document.getElementById('payVend').innerHTML=p.vend.length?p.vend.map(function(x,i){
+    return '<div class="paycard"><div class="ph"><b>'+esc(x.name)+'</b><span class="st st-pend">À PAYER</span></div>'
       +'<div class="payrow"><span>Commandes livrées</span><span>'+x.count+'</span></div>'
       +'<div class="payrow"><span>Total des ventes</span><span>'+fmt(x.total)+'</span></div>'
       +'<div class="payrow"><span>Commission SEN TEW</span><span>-'+fmt(x.commission)+'</span></div>'
       +'<div class="payrow"><span><b>Net à reverser ('+esc(x.method)+')</b></span><b>'+fmt(x.amount)+'</b></div>'
-      +'<button class="sa sa-pay" style="width:100%;padding:11px;margin-top:9px;font-size:12px" onclick="payOne(\'vend\','+i+')">💸 Marquer payé + notifier</button></div>';
-  }).join(''):'<div class="empty">✅ Aucun reversement vendeur en attente</div>';
-  elD.innerHTML=p.driv.length?p.driv.map(function(x,i){
-    return '<div class="paycard"><div class="ph"><div class="av" style="width:40px;height:40px;border-radius:11px;background:#eff6ff;display:flex;align-items:center;justify-content:center;font-size:17px">🛵</div><b>'+esc(x.name)+'</b><span class="st st-pend">À PAYER</span></div>'
+      +'<button class="sa sa-pay" style="width:100%;padding:11px;margin-top:9px;font-size:12px;justify-content:center" onclick="payOne(\'vend\','+i+')">Marquer payé + notifier</button></div>';
+  }).join(''):'<div class="empty">Aucun reversement vendeur en attente</div>';
+  document.getElementById('payDriv').innerHTML=p.driv.length?p.driv.map(function(x,i){
+    return '<div class="paycard"><div class="ph"><b>'+esc(x.name)+'</b><span class="st st-pend">À PAYER</span></div>'
       +'<div class="payrow"><span>Courses livrées</span><span>'+x.count+'</span></div>'
       +'<div class="payrow"><span><b>Net à reverser ('+esc(x.method)+')</b></span><b>'+fmt(x.amount)+'</b></div>'
-      +'<button class="sa sa-pay" style="width:100%;padding:11px;margin-top:9px;font-size:12px" onclick="payOne(\'driv\','+i+')">💸 Marquer payé + notifier</button></div>';
-  }).join(''):'<div class="empty">✅ Aucun reversement livreur en attente</div>';
-  var hist=DATA.payouts.filter(function(x){return x.status==='paid'});
+      +'<button class="sa sa-pay" style="width:100%;padding:11px;margin-top:9px;font-size:12px;justify-content:center" onclick="payOne(\'driv\','+i+')">Marquer payé + notifier</button></div>';
+  }).join(''):'<div class="empty">Aucun reversement livreur en attente</div>';
+  var hist=DATA.payouts.filter(function(x){return x.status==='paid';});
   document.getElementById('payHist').innerHTML=hist.length?hist.map(function(x){
-    return '<div class="hist"><span><b>'+(x.recipient_type==='vendeur'?'🏪':'🛵')+' '+esc(x.recipient_name||'')+'</b><br>'+new Date(x.paid_at||x.created_at).toLocaleString('fr-FR')+'</span><b style="color:#0f6b4e">'+fmt(x.amount)+'</b></div>';
+    return '<div class="hist"><span><b>'+(x.recipient_type==='vendeur'?'Vendeur':'Livreur')+' · '+esc(x.recipient_name||'')+'</b><br>'+new Date(x.paid_at||x.created_at).toLocaleString('fr-FR')+'</span><b style="color:#0f6b4e">'+fmt(x.amount)+'</b></div>';
   }).join(''):'<div class="empty">Aucun paiement effectué</div>';
 }
 
@@ -516,53 +487,52 @@ async function payOne(which,idx){
   var p=computePayouts();
   var x=(which==='vend'?p.vend:p.driv)[idx];
   if(!x)return;
-  if(!confirm('💸 Payer '+fmt(x.amount)+' à '+x.name+' ?\n\nEffectue le virement/'+x.method+' puis confirme.'))return;
+  if(!confirm('Payer '+fmt(x.amount)+' à '+x.name+' ?\n\nEffectue le virement puis confirme.'))return;
   await insert('payouts',{recipient_type:x.type,recipient_email:x.email,recipient_name:x.name,amount:x.amount,method:x.method,status:'paid',paid_at:new Date().toISOString()});
   var col=which==='vend'?'payout_done':'driver_paid';
-  for(var i=0;i<x.ids.length;i++){await patch('orders',x.ids[i],(function(c,b){var o={};o[c]=b;return o;})(col,true));}
-  if(x.email)await notify(x.email,'💸 Reversement envoyé : '+fmt(x.amount),'Ton reversement de '+fmt(x.amount)+' vient d\'être envoyé via '+x.method+'. Arrivée prévue sous 24 à 48h selon l\'opérateur. Merci pour ta confiance ! 💚');
-  toast('✅ '+fmt(x.amount)+' payé à '+x.name+' — notification envoyée');
+  for(var i=0;i<x.ids.length;i++){var o={};o[col]=true;await patch('orders',x.ids[i],o);}
+  if(x.email)await notify(x.email,'Reversement envoyé : '+fmt(x.amount),'Ton reversement de '+fmt(x.amount)+' vient d\'être envoyé via '+x.method+'. Arrivée prévue sous 24 à 48h selon l\'opérateur. Merci pour ta confiance !');
+  toast(fmt(x.amount)+' payé à '+x.name);
   loadAll();
 }
 
 async function payAll(which){
   var p=computePayouts();
   var list=which==='vend'?p.vend:p.driv;
-  if(!list.length){toast('✅ Rien à payer');return;}
-  var total=list.reduce(function(s,x){return s+x.amount},0);
-  if(!confirm('💸 TOUT PAYER ('+(which==='vend'?'vendeurs':'livreurs')+') ?\n\n'+list.length+' bénéficiaires — Total : '+fmt(total)+'\n\nChaque bénéficiaire sera notifié automatiquement.'))return;
+  if(!list.length){toast('Rien à payer');return;}
+  var total=list.reduce(function(s,x){return s+x.amount;},0);
+  if(!confirm('TOUT PAYER ('+(which==='vend'?'vendeurs':'livreurs')+') ?\n\n'+list.length+' bénéficiaires — Total : '+fmt(total)))return;
   for(var i=0;i<list.length;i++){
     var x=list[i];
     await insert('payouts',{recipient_type:x.type,recipient_email:x.email,recipient_name:x.name,amount:x.amount,method:x.method,status:'paid',paid_at:new Date().toISOString()});
     var col=which==='vend'?'payout_done':'driver_paid';
     for(var j=0;j<x.ids.length;j++){var o={};o[col]=true;await patch('orders',x.ids[j],o);}
-    if(x.email)await notify(x.email,'💸 Reversement envoyé : '+fmt(x.amount),'Ton reversement de '+fmt(x.amount)+' vient d\'être envoyé via '+x.method+'. Arrivée prévue sous 24 à 48h selon l\'opérateur. Merci pour ta confiance ! 💚');
+    if(x.email)await notify(x.email,'Reversement envoyé : '+fmt(x.amount),'Ton reversement de '+fmt(x.amount)+' vient d\'être envoyé via '+x.method+'. Arrivée prévue sous 24 à 48h selon l\'opérateur. Merci pour ta confiance !');
   }
-  toast('✅ '+list.length+' paiements effectués — '+fmt(total));
+  toast(list.length+' paiements effectués — '+fmt(total));
   loadAll();
 }
 
-/* ═══ MESSAGES PRÊTS ═══ */
 var TPLS=[
- {tag:'VALIDATION',title:'🎉 Ton compte SEN TEW est ACTIF !',body:'Bonne nouvelle ! Ton compte a été validé par notre équipe. Tu peux commencer dès maintenant. Bienvenue dans la famille SEN TEW ! 💚'},
- {tag:'DOCUMENT',title:'📄 Document à renvoyer',body:'Ton document est illisible ou incomplet. Merci de renvoyer une photo nette (pour la CNI : recto ET verso) afin que nous puissions finaliser ta validation rapidement.'},
- {tag:'REVERSEMENT',title:'💸 Ton reversement arrive',body:'Ton reversement a été traité et envoyé. Arrivée prévue sous 24 à 48h selon l\'opérateur. Merci pour ta confiance ! 💚'},
- {tag:'SUSPENSION',title:'⏸️ Compte suspendu temporairement',body:'Ton compte a été suspendu temporairement suite à un manquement aux règles SEN TEW. Contacte le support pour régulariser ta situation rapidement.'},
- {tag:'EMBALLAGE',title:'📦 Rappel : emballage des colis',body:'Rappel important : emballe soigneusement chaque colis, couvre-le bien et photographie-le avant de le remettre au livreur. Cela te protège en cas de litige. Pour l\'alimentaire : respecte les règles sanitaires.'},
- {tag:'LITIGE',title:'⚠️ Litige en cours d\'examen',body:'Un litige a été ouvert sur l\'une de tes commandes. Notre équipe examine la situation et revient vers toi sous 24h. Aucune action n\'est requise de ta part pour le moment.'},
- {tag:'RELANCE',title:'⏰ Ta commande t\'attend',body:'Une commande est en attente de préparation dans ton espace. Prépare-la rapidement pour garder ta note élevée et débloquer plus d\'avantages ! 🚀'},
- {tag:'FÉLICITATIONS',title:'🏆 Bravo pour tes performances !',body:'Félicitations ! Tes excellentes performances (livraisons rapides, clients satisfaits) te font progresser. Continue comme ça ! 🌟'}
+ {tag:'VALIDATION',title:'Ton compte SEN TEW est ACTIF !',body:'Bonne nouvelle ! Ton compte a été validé par notre équipe. Tu peux commencer dès maintenant. Bienvenue dans la famille SEN TEW !'},
+ {tag:'DOCUMENT',title:'Document à renvoyer',body:'Ton document est illisible ou incomplet. Merci de renvoyer une photo nette (pour la CNI : recto ET verso) afin que nous puissions finaliser ta validation rapidement.'},
+ {tag:'REVERSEMENT',title:'Ton reversement arrive',body:'Ton reversement a été traité et envoyé. Arrivée prévue sous 24 à 48h selon l\'opérateur. Merci pour ta confiance !'},
+ {tag:'SUSPENSION',title:'Compte suspendu temporairement',body:'Ton compte a été suspendu temporairement suite à un manquement aux règles SEN TEW. Contacte le support pour régulariser ta situation rapidement.'},
+ {tag:'EMBALLAGE',title:'Rappel : emballage des colis',body:'Rappel important : emballe soigneusement chaque colis, couvre-le bien et photographie-le avant de le remettre au livreur. Pour l\'alimentaire : respecte les règles sanitaires.'},
+ {tag:'LITIGE',title:'Litige en cours d\'examen',body:'Un litige a été ouvert sur l\'une de tes commandes. Notre équipe examine la situation et revient vers toi sous 24h. Aucune action n\'est requise de ta part.'},
+ {tag:'RELANCE',title:'Ta commande t\'attend',body:'Une commande est en attente de préparation dans ton espace. Prépare-la rapidement pour garder ta note élevée !'},
+ {tag:'BRAVO',title:'Bravo pour tes performances !',body:'Félicitations ! Tes excellentes performances te font progresser. Continue comme ça !'}
 ];
 function renderTpls(){
   document.getElementById('tplList').innerHTML=TPLS.map(function(t,i){
     return '<div class="tpl" onclick="pickTpl('+i+',this)"><b>'+t.title+'</b><p>'+t.body+'</p><span class="tt">'+t.tag+'</span></div>';
   }).join('');
   document.getElementById('bulkMsg').innerHTML=
-    '<button class="sa sa-bad" style="padding:11px;font-size:11px;margin-right:7px;margin-bottom:8px" onclick="bulkNotify(\'pending\')">📄 Notifier TOUS les comptes en attente de documents</button>'
-   +'<button class="sa sa-o" style="padding:11px;font-size:11px;background:#f59e0b;color:#fff;margin-bottom:8px" onclick="bulkNotify(\'rappel\')">📦 Rappel emballage à TOUS les vendeurs actifs</button>';
+    '<button class="sa sa-bad" style="padding:11px;font-size:11px;margin:0 7px 8px 0" onclick="bulkNotify(\'pending\')">Notifier les comptes en attente de documents</button>'
+   +'<button class="sa sa-warn" style="padding:11px;font-size:11px;margin-bottom:8px" onclick="bulkNotify(\'rappel\')">Rappel emballage aux vendeurs actifs</button>';
 }
 function pickTpl(i,el){
-  document.querySelectorAll('.tpl').forEach(function(x){x.classList.remove('sel')});
+  document.querySelectorAll('.tpl').forEach(function(x){x.classList.remove('sel');});
   el.classList.add('sel');
   document.getElementById('msgTitle').value=TPLS[i].title;
   document.getElementById('msgBody').value=TPLS[i].body;
@@ -572,77 +542,53 @@ function fillTargets(){
   var sel=document.getElementById('msgTarget');
   var cur=sel.value;
   sel.innerHTML='<option value="">— Choisir le destinataire —</option>'
-    +DATA.vendors.map(function(v){return '<option value="'+esc(v.email||'')+'">🏪 '+esc(v.shop_name||v.full_name||'')+'</option>'}).join('')
-    +DATA.drivers.map(function(d){return '<option value="'+esc(d.email||'')+'">🛵 '+esc(d.full_name||'')+'</option>'}).join('');
+    +DATA.vendors.map(function(v){return '<option value="'+esc(v.email||'')+'">Boutique · '+esc(v.shop_name||v.full_name||'')+'</option>';}).join('')
+    +DATA.drivers.map(function(d){return '<option value="'+esc(d.email||'')+'">Livreur · '+esc(d.full_name||'')+'</option>';}).join('');
   if(cur)sel.value=cur;
 }
 function presetTarget(email){fillTargets();document.getElementById('msgTarget').value=email||'';}
-function tplFill(){}
 async function sendMsg(){
   var email=document.getElementById('msgTarget').value;
   var title=document.getElementById('msgTitle').value.trim();
   var body=document.getElementById('msgBody').value.trim();
-  if(!email)return toast('⚠️ Choisis un destinataire');
-  if(!title||!body)return toast('⚠️ Titre et message requis');
+  if(!email)return toast('Choisis un destinataire');
+  if(!title||!body)return toast('Titre et message requis');
   await notify(email,title,body);
-  toast('📨 Notification envoyée !');
+  toast('Notification envoyée !');
   document.getElementById('msgTitle').value='';document.getElementById('msgBody').value='';
-  document.querySelectorAll('.tpl').forEach(function(x){x.classList.remove('sel')});
+  document.querySelectorAll('.tpl').forEach(function(x){x.classList.remove('sel');});
 }
 async function bulkNotify(kind){
   if(kind==='pending'){
-    var pends=DATA.vendors.concat(DATA.drivers).filter(function(x){return x.status==='pending'&&x.email});
-    if(!pends.length)return toast('✅ Aucun compte en attente');
-    if(!confirm('Envoyer le rappel documents à '+pends.length+' compte(s) en attente ?'))return;
-    for(var i=0;i<pends.length;i++){await notify(pends[i].email,'⏳ Ta validation est en cours','Ton dossier est en cours d\'examen par l\'équipe SEN TEW (24-48h). Si un document est illisible, nous te contacterons. Merci pour ta patience ! 💚');}
-    toast('📨 '+pends.length+' notifications envoyées');
+    var pends=DATA.vendors.concat(DATA.drivers).filter(function(x){return x.status==='pending'&&x.email;});
+    if(!pends.length)return toast('Aucun compte en attente');
+    if(!confirm('Envoyer le rappel documents à '+pends.length+' compte(s) ?'))return;
+    for(var i=0;i<pends.length;i++){await notify(pends[i].email,'Ta validation est en cours','Ton dossier est en cours d\'examen par l\'équipe SEN TEW (24-48h). Si un document est illisible, nous te contacterons. Merci pour ta patience !');}
+    toast(pends.length+' notifications envoyées');
   }
   if(kind==='rappel'){
-    var acts=DATA.vendors.filter(function(x){return x.status==='active'&&x.email});
-    if(!acts.length)return toast('✅ Aucun vendeur actif');
-    if(!confirm('Envoyer le rappel emballage à '+acts.length+' vendeur(s) actif(s) ?'))return;
+    var acts=DATA.vendors.filter(function(x){return x.status==='active'&&x.email;});
+    if(!acts.length)return toast('Aucun vendeur actif');
+    if(!confirm('Envoyer le rappel emballage à '+acts.length+' vendeur(s) ?'))return;
     for(var j=0;j<acts.length;j++){await notify(acts[j].email,TPLS[4].title,TPLS[4].body);}
-    toast('📨 '+acts.length+' rappels envoyés');
+    toast(acts.length+' rappels envoyés');
   }
 }
 
-/* ═══ EXPORT CSV ═══ */
 function exportCSV(){
   var rows=[['Type','Nom','Email','Statut','Date']];
   DATA.vendors.forEach(function(v){rows.push(['Vendeur',v.shop_name||'',v.email||'',v.status||'',v.created_at||'']);});
   DATA.drivers.forEach(function(d){rows.push(['Livreur',d.full_name||'',d.email||'',d.status||'',d.created_at||'']);});
-  var csv=rows.map(function(r){return r.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"'}).join(';')}).join('\n');
+  var csv=rows.map(function(r){return r.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"';}).join(';');}).join('\n');
   var a=document.createElement('a');
   a.href='data:text/csv;charset=utf-8,\ufeff'+encodeURIComponent(csv);
   a.download='sentew_export_'+new Date().toISOString().slice(0,10)+'.csv';
   a.click();
-  toast('📥 Export CSV téléchargé');
+  toast('Export CSV téléchargé');
 }
 
-/* ═══ INIT ═══ */
 renderTpls();
 loadAll();
-setInterval(silentRefresh,60000);
-async function silentRefresh(){
-  /* Mise à jour silencieuse : badges + compteurs uniquement, ZÉRO clignotement */
-  try{
-    var n=await api('notifications?audience=eq.admin&order=created_at.desc&limit=40');
-    var avant=DATA.notifs.length;
-    DATA.notifs=n;
-    var unread=n.filter(function(x){return !x.is_read}).length;
-    var b=document.getElementById('bellBadge');
-    b.style.display=unread?'flex':'none';b.textContent=unread>9?'9+':unread;
-    if(document.getElementById('npanel').classList.contains('on'))renderNotifs();
-    if(n.length!==avant)renderDash();
-    var pv=await api('vendors?status=eq.pending&select=id');
-    var pd=await api('drivers?status=eq.pending&select=id');
-    var nuV=document.getElementById('nuVend'),nuD=document.getElementById('nuDriv');
-    nuV.style.display=pv.length?'inline-block':'none';nuV.textContent=pv.length;
-    nuD.style.display=pd.length?'inline-block':'none';nuD.textContent=pd.length;
-    document.getElementById('kPendV').textContent=pv.length;
-    document.getElementById('kPendD').textContent=pd.length;
-  }catch(e){}
-}
 </script>
 </body>
 </html>
