@@ -474,5 +474,27 @@ if (!key) {
 lucide.createIcons();
 </script>
 <script src="js/dark-mode.js"></script>
+  <nav class="bottom-nav" style="position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)">
+  <a href="index.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600"><i data-lucide="home" style="width:22px;height:22px"></i><span>Accueil</span></a>
+  <a href="categories.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600"><i data-lucide="layout-grid" style="width:22px;height:22px"></i><span>Catégories</span></a>
+  <a href="panier.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600"><i data-lucide="shopping-cart" style="width:22px;height:22px"></i><span>Panier</span></a>
+  <a href="notifications.html" style="position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600"><i data-lucide="bell" style="width:22px;height:22px"></i>Notifs<span id="notifDot" style="display:none;position:absolute;top:0;right:18%;background:#e63946;color:#fff;font-size:8px;font-weight:900;min-width:15px;height:15px;border-radius:99px;text-align:center;line-height:15px;padding:0 3px">0</span></a>
+  <a href="profil.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600"><i data-lucide="user" style="width:22px;height:22px"></i><span>Profil</span></a>
+</nav>
+<script>
+(function(){
+  var u=null;
+  try{u=JSON.parse(sessionStorage.getItem('sentew_user')||localStorage.getItem('sentew_user'));}catch(e){}
+  if(!u||!u.email)return;
+  fetch('https://tjqkruhwmjzgfvtouqza.supabase.co/rest/v1/notifications?audience=eq.user&user_email=eq.'+encodeURIComponent(u.email)+'&is_read=eq.false&select=id',{headers:{apikey:'sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j',Authorization:'Bearer sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j'}})
+  .then(function(r){return r.json();})
+  .then(function(rows){
+    var n=(rows||[]).length;
+    var d=document.getElementById('notifDot');
+    if(d&&n>0){d.textContent=n>9?'9+':n;d.style.display='block';}
+  }).catch(function(){});
+})();
+</script>
+
 </body>
 </html>
