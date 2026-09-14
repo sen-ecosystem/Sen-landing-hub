@@ -14,14 +14,12 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:40}
 .topbar h1{font-size:17px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
 .icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e;text-decoration:none;position:relative}
-/* Onglets */
 .tabs{display:flex;gap:8px;overflow-x:auto;padding:12px 14px;scrollbar-width:none;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:63px;z-index:39}
 .tabs::-webkit-scrollbar{display:none}
 .tab{flex-shrink:0;padding:8px 15px;border-radius:20px;border:1.5px solid #e5e7eb;background:#fff;font-size:12px;font-weight:700;color:#4b5563;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:5px}
 .tab.on{background:#0f6b4e;color:#fff;border-color:#0f6b4e}
 .tab .n{background:rgba(0,0,0,.12);font-size:9px;padding:1px 6px;border-radius:8px}
 .tab.on .n{background:rgba(255,255,255,.25)}
-/* Carte commande */
 .order{background:#fff;margin:12px 14px 0;border-radius:16px;padding:14px;box-shadow:0 2px 8px rgba(0,0,0,.05);animation:fadeIn .25s}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .o-top{display:flex;align-items:center;gap:8px;margin-bottom:4px}
@@ -40,7 +38,6 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .o-item b{color:#0a1f17}
 .o-total{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#6B7280}
 .o-total b{font-size:16px;font-weight:900;color:#0f6b4e}
-/* Progression 4 étapes */
 .progress{display:flex;align-items:flex-start;margin:12px 0 4px}
 .pstep{flex:1;text-align:center;position:relative}
 .pstep .dot{width:26px;height:26px;border-radius:50%;background:#e5e7eb;color:#9aa5a0;display:flex;align-items:center;justify-content:center;margin:0 auto;position:relative;z-index:2}
@@ -53,13 +50,11 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .pstep::before{content:'';position:absolute;top:13px;left:-50%;width:100%;height:2.5px;background:#e5e7eb;z-index:1}
 .pstep:first-child::before{display:none}
 .pstep.done::before{background:#0f6b4e}
-/* Code livraison masqué → révélé */
 .deliv-code{background:#0a1f17;border-radius:12px;padding:12px;margin:10px 0;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
 .deliv-code .dc-lab{font-size:10px;color:#9aa5a0;flex:1;line-height:1.4}
 .deliv-code .dc-lab b{color:#fff;display:block;font-size:11px;margin-bottom:2px}
 .deliv-code .dc-val{font-family:monospace;font-size:21px;font-weight:900;color:#4ade80;letter-spacing:5px;min-width:76px;text-align:center}
 .deliv-code .dc-eye{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.12);border:none;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
-/* Tranches */
 .inst-box{background:#f5f3ff;border:1px solid #ddd6fe;border-radius:12px;padding:11px 12px;margin:10px 0}
 .inst-box h4{font-size:11px;font-weight:800;color:#6d28d9;display:flex;align-items:center;gap:5px;margin-bottom:7px}
 .inst-line{display:flex;align-items:center;gap:8px;font-size:11.5px;color:#4c1d95;padding:4px 0}
@@ -70,20 +65,16 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .inst-line .ir-st{font-size:9px;font-weight:800;padding:2px 7px;border-radius:8px}
 .ir-st.paid{background:#d1fae5;color:#065f46}
 .ir-st.due{background:#fef3c7;color:#92400e}
-/* Actions */
 .o-actions{display:flex;gap:8px;margin-top:10px}
 .btn{flex:1;padding:11px;border-radius:11px;font-size:11.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;text-decoration:none;border:none;font-family:inherit}
 .btn-green{background:#0f6b4e;color:#fff}
 .btn-line{background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e}
 .btn-red{background:#fff;border:1.5px solid #fecaca;color:#e63946}
-/* Astuce ⓘ */
 .tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:12px 14px 0;font-size:12px;color:#92400e;cursor:pointer;line-height:1.5}
 .tip i{color:#b45309;flex-shrink:0;width:16px;height:16px;margin-top:1px}
-/* Vide */
 .empty{text-align:center;padding:60px 24px;color:#9aa5a0}
 .empty h3{color:#0a1f17;margin:12px 0 6px;font-size:16px}
 .empty a{display:inline-block;margin-top:14px;padding:12px 24px;background:#0f6b4e;color:#fff;border-radius:12px;text-decoration:none;font-weight:800;font-size:13px}
-/* Modale */
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
 .modal.show{display:flex}
 .m-box{background:#fff;border-radius:20px;padding:20px;width:100%;max-width:360px;text-align:left;max-height:80vh;overflow-y:auto}
@@ -93,7 +84,6 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .m-btns button{flex:1;padding:12px;border:none;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer}
 .b-green{background:#0f6b4e;color:#fff}
 .b-grey{background:#e5e7eb;color:#4b5563}
-/* Live indicator */
 .live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 1.4s infinite;margin-left:4px}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
 .bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600;min-height:44px;justify-content:center}
@@ -147,7 +137,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 <script>
 var CLIENT_ID = '99999999-9999-9999-9999-999999999999';
 var ORDERS = [], INSTS = {}, FILTER = 'all';
-var SHOWN = {}; // codes révélés (par id de commande)
+var SHOWN = {}; /* codes révélés (par id de commande) */
 
 var STEPS = [
   { key: 'confirmed',  label: 'Confirmée',  icon: 'check' },
@@ -169,7 +159,7 @@ function stepIndex(status){
   if (status === 'preparing' || status === 'picked_up') return 1;
   if (status === 'in_transit') return 2;
   if (status === 'delivered') return 3;
-  return -1; // cancelled
+  return -1; /* cancelled */
 }
 function showTip(){ document.getElementById('tipModal').classList.add('show'); }
 function setFilter(f, el){
@@ -182,7 +172,6 @@ function setFilter(f, el){
 function load(){
   supa('orders', 'select=*&client_id=eq.' + CLIENT_ID + '&order=created_at.desc').then(function(rows){
     ORDERS = rows || [];
-    // Charger les échéanciers des commandes en tranches
     var ids = ORDERS.map(function(o){ return o.id; });
     if (ids.length) {
       supa('installments', 'select=*&order_id=in.(' + ids.join(',') + ')&order=num.asc').then(function(rows2){
@@ -221,12 +210,10 @@ function render(){
     var isActive = idx >= 0 && idx < 3;
     var date = new Date(o.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) + ' · ' + new Date(o.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
 
-    // Articles
     var itemsHtml = (o.items || []).map(function(i){
       return '<div class="o-item"><span class="qi">' + i.qty + '</span><span><b>' + i.name + '</b>' + (i.vendor ? ' · <span style="color:#b8860b">' + i.vendor + '</span>' : '') + '</span><span style="margin-left:auto;font-weight:700;color:#0f6b4e">' + fmtPrix(i.price * i.qty) + ' F</span></div>';
     }).join('');
 
-    // Progression (pas pour les annulées)
     var progHtml = '';
     if (o.status !== 'cancelled') {
       progHtml = '<div class="progress">' + STEPS.map(function(s, i){
@@ -236,7 +223,6 @@ function render(){
       }).join('') + '</div>';
     }
 
-    // Code de livraison (masqué par défaut, révélé au clic)
     var codeHtml = '';
     if (isActive && o.delivery_code) {
       var shown = SHOWN[o.id];
@@ -247,7 +233,6 @@ function render(){
       '</div>';
     }
 
-    // Échéancier 2x/3x
     var instHtml = '';
     var insts = INSTS[o.id];
     if (insts && insts.length) {
@@ -262,7 +247,6 @@ function render(){
         }).join('') + '</div>';
     }
 
-    // Actions
     var actions = '';
     if (o.status !== 'cancelled' && o.status !== 'delivered') {
       actions += '<a class="btn btn-green" href="suivi-commande.html?t=' + (o.tracking_code || o.ref) + '"><i data-lucide="map-pin" style="width:13px"></i> Suivre</a>';
@@ -285,7 +269,7 @@ function render(){
   lucide.createIcons();
 }
 
-// Racheter : remet les articles dans le panier
+/* Racheter : remet les articles dans le panier */
 function reorder(orderId){
   var o = ORDERS.find(function(x){ return x.id === orderId; });
   if (!o || !o.items) return;
@@ -296,7 +280,7 @@ function reorder(orderId){
 }
 
 load();
-// Rafraîchissement auto toutes les 20 s (le livreur met à jour en direct)
+/* Rafraîchissement auto toutes les 20 s (le livreur met à jour en direct) */
 setInterval(load, 20000);
 
 function renderIcons(){ if (window.lucide) lucide.createIcons(); }
@@ -304,8 +288,9 @@ renderIcons();
 window.addEventListener('load', renderIcons);
 setTimeout(renderIcons, 600);
 cartBadge();
+</script>
 <script src="js/dark-mode.js"></script>
-  <script>
+<script>
 (function(){
   var u=null;
   try{u=JSON.parse(sessionStorage.getItem('sentew_user')||localStorage.getItem('sentew_user'));}catch(e){}
