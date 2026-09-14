@@ -43,7 +43,6 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .btn-grey{background:#e5e7eb;color:#6B7280}
 .btn-gps{background:#fff;border:1.5px solid #0f6b4e;color:#0f6b4e}
 .empty{text-align:center;padding:50px 20px;color:#9aa5a0;font-size:13px}
-/* Modale scanner / code */
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
 .modal.show{display:flex}
 .m-box{background:#fff;border-radius:20px;padding:20px;width:100%;max-width:360px;text-align:center}
@@ -55,7 +54,6 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .m-btns{display:flex;gap:8px;margin-top:12px}
 .m-btns .btn{flex:1}
 .m-err{color:#e63946;font-size:12px;font-weight:700;margin-top:8px;min-height:16px}
-/* Astuce ⓘ cliquable */
 .tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:10px 12px;margin:0 14px 12px;font-size:12px;color:#92400e;cursor:pointer}
 .tip i{color:#b45309;flex-shrink:0;width:16px;height:16px;margin-top:1px}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100}
@@ -91,7 +89,6 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 
 <div id="list"><div class="empty">Chargement…</div></div>
 
-<!-- Modale scanner / code -->
 <div class="modal" id="modal">
   <div class="m-box">
     <h3 id="mTitle">Scanner le colis</h3>
@@ -106,7 +103,6 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
   </div>
 </div>
 
-<!-- Modale astuces -->
 <div class="modal" id="tipModal">
   <div class="m-box" style="text-align:left">
     <h3>💡 Guide livreur SEN TEW</h3>
@@ -197,7 +193,7 @@ function render(){
   lucide.createIcons();
 }
 
-// ===== GPS du livreur =====
+/* ===== GPS du livreur ===== */
 function sendGPS(){
   if (!navigator.geolocation) return Promise.resolve(null);
   return new Promise(function(resolve){
@@ -243,7 +239,7 @@ function stopGpsSharing(){
   if(gpsWatch){navigator.geolocation.clearWatch(gpsWatch);gpsWatch=null}
 }
 
-// ===== Actions =====
+/* ===== Actions ===== */
 function accept(orderId){
   supaWrite('orders', 'PATCH', { driver_id: DRIVER_ID }, 'id=eq.' + orderId).then(function(){
     logEvent(orderId, 'confirmed', 'Course acceptée par Omar Ndiaye');
@@ -279,12 +275,11 @@ function startCamera(){
       { fps: 8, qrbox: 200 },
       function(text){ onScanned(text); },
       function(){}
-    ).catch(function(){ /* pas de caméra : saisie manuelle */ });
+    ).catch(function(){});
   } catch(e){}
 }
 
 function onScanned(text){
-  // Le QR vendeur contient le tracking_code ou le pickup_code
   if (SCAN_MODE === 'pickup' &&
       (text === SCAN_ORDER.tracking_code || text === SCAN_ORDER.pickup_code)) {
     doPickup();
@@ -339,8 +334,9 @@ function doDeliver(){
 
 load();
 lucide.createIcons();
+</script>
 <script src="js/dark-mode.js"></script>
-  <script>
+<script>
 (function(){
   var u=null;
   try{u=JSON.parse(sessionStorage.getItem('sentew_user')||localStorage.getItem('sentew_user'));}catch(e){}
