@@ -124,6 +124,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
   <a href="livreur.html" class="active"><i data-lucide="bike"></i><span>Courses</span></a>
   <a href="historique-livraisons.html"><i data-lucide="history"></i><span>Historique</span></a>
   <a href="portefeuille.html"><i data-lucide="wallet"></i><span>Gains</span></a>
+  <a href="notifications.html" style="position:relative"><i data-lucide="bell"></i>Notifs<span id="notifDot" style="display:none;position:absolute;top:2px;right:22%;background:#e63946;color:#fff;font-size:8px;font-weight:900;min-width:15px;height:15px;border-radius:99px;text-align:center;line-height:15px;padding:0 3px">0</span></a>
   <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
@@ -338,7 +339,20 @@ function doDeliver(){
 
 load();
 lucide.createIcons();
-</script>
 <script src="js/dark-mode.js"></script>
+  <script>
+(function(){
+  var u=null;
+  try{u=JSON.parse(sessionStorage.getItem('sentew_user')||localStorage.getItem('sentew_user'));}catch(e){}
+  if(!u||!u.email)return;
+  fetch('https://tjqkruhwmjzgfvtouqza.supabase.co/rest/v1/notifications?audience=eq.user&user_email=eq.'+encodeURIComponent(u.email)+'&is_read=eq.false&select=id',{headers:{apikey:'sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j',Authorization:'Bearer sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j'}})
+  .then(function(r){return r.json();})
+  .then(function(rows){
+    var n=(rows||[]).length;
+    var d=document.getElementById('notifDot');
+    if(d&&n>0){d.textContent=n>9?'9+':n;d.style.display='block';}
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>
