@@ -136,7 +136,10 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0
       <div class="field"><label>Ville *</label><input id="vVille" placeholder="Ex : Dakar"></div>
     </div>
     <div class="field"><label>Mot de passe * (8 caractères min.)</label><input id="vPwd" type="password" placeholder="••••••••"></div>
-    <div class="field"><label>N° RCCM / NINEA <span style="color:#9aa5a0;font-weight:600">(facultatif → débloque Xeweul)</span></label><input id="vRccm" placeholder="Ex : SN.DKR.2026.A.1234"></div>
+    <div class="field"><label>Pays d'immatriculation *</label>
+  <select id="vPays"><option value="SN">🇸🇳 Sénégal</option><option value="CI">🇨🇮 Côte d'Ivoire</option><option value="ML">🇲🇱 Mali</option><option value="GN">🇬🇳 Guinée</option><option value="GM">🇬🇲 Gambie</option><option value="GW">🇬🇼 Guinée-Bissau</option><option value="MR">🇲🇷 Mauritanie</option><option value="BF">🇧🇫 Burkina Faso</option><option value="NE">🇳🇪 Niger</option><option value="TG">🇹🇬 Togo</option><option value="BJ">🇧🇯 Bénin</option><option value="OTHER">🌍 Autre pays</option></select>
+</div>
+<div class="field"><label>N° RCCM / NINEA / registre de ton pays <span style="color:#9aa5a0;font-weight:600">(facultatif → débloque Xeweul)</span></label><input id="vRccm" placeholder="Ex : SN.DKR.2026.A.1234 ou équivalent"></div>
     <button class="btn" onclick="checkStep2()">Continuer → Documents</button>
     <button class="btn2" onclick="goStep(1)">← Retour</button>
   </div>
@@ -207,7 +210,7 @@ async function sendVendor(){
     var ex=await chk.json();
     if(ex&&ex.length){btn.disabled=false;btn.textContent='Envoyer ma demande';return err('Un compte vendeur existe déjà avec cet email.');}
     var pwdHash=await sha256(v('vPwd'));
-    var okV=await post('vendors',{full_name:v('vNom'),email:email,phone:v('vInd')+v('vTel').replace(/\s/g,''),shop_name:v('vShop'),category:v('vCat'),city:v('vVille'),rccm_number:rccm||null,level:'teranga',commission_rate:8.00,status:'pending',is_verified:false,password_hash:pwdHash});
+    var okV=await post('vendors',{full_name:v('vNom'),email:email,phone:v('vInd')+v('vTel').replace(/\s/g,''),shop_name:v('vShop'),category:v('vCat'),city:v('vVille'),rccm_number:rccm||null,country:document.getElementById('vPays').value,level:'teranga',commission_rate:8.00,status:'pending',is_verified:false,password_hash:pwdHash});
     if(!okV)throw 0;
     var docs=[['cni_recto','dCniR'],['cni_verso','dCniV'],['selfie_cni','dSelfie']];
     if(isX){docs.push(['photo_boutique','dBout'],['facture_1','dFact1'],['facture_2','dFact2']);}
