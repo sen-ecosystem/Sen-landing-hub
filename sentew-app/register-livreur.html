@@ -6,7 +6,8 @@
 <title>Devenir livreur - SEN TEW</title>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="js/security-shield.js"></script>
-  <script>
+<script>
+/* NAVIGATION ÉTAPES — dans le HEAD : existe avant tout clic */
 function goStep(n){
   var ps=document.querySelectorAll('.panel');
   for(var i=0;i<ps.length;i++)ps[i].classList.remove('on');
@@ -29,7 +30,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0
 .topbar a{color:#9aa5a0;text-decoration:none;font-size:13px;font-weight:700}
 .wrap{max-width:520px;margin:0 auto;padding:14px}
 .steps{display:flex;gap:6px;margin:8px 0 18px}
-.stp{flex:1;text-align:center}
+.stp{flex:1;text-align:center;cursor:pointer}
 .stp .bar{height:5px;border-radius:99px;background:#e5e7eb;margin-bottom:5px}
 .stp.on .bar{background:#0f6b4e}
 .stp.done .bar{background:#4ade80}
@@ -97,9 +98,9 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0
 </div>
 <div class="wrap">
   <div class="steps">
-<div class="stp on" id="s1" onclick="goStep(1)"><div class="bar"></div><span>1 · Avantages</span></div>
-<div class="stp" id="s2" onclick="goStep(2)"><div class="bar"></div><span>2 · Mes infos</span></div>
-<div class="stp" id="s3" onclick="goStep(3)"><div class="bar"></div><span>3 · Documents</span></div>
+    <div class="stp on" id="s1" onclick="goStep(1)"><div class="bar"></div><span>1 · Avantages</span></div>
+    <div class="stp" id="s2" onclick="goStep(2)"><div class="bar"></div><span>2 · Mes infos</span></div>
+    <div class="stp" id="s3" onclick="goStep(3)"><div class="bar"></div><span>3 · Documents</span></div>
   </div>
   <div class="err" id="err"></div>
 
@@ -145,8 +146,8 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0
         <option value="pied">Coursier piéton — livraison de proximité (Dakar centre)</option>
       </select>
     </div>
-    <div class="field motoOnly" id="fPlaque"><label>Plaque d'immatriculation *</label><input id="lPlaque" placeholder="Ex : DK-1234-AB" style="text-transform:uppercase"></div>
-    <div class="field motoOnly" id="fModele"><label>Modèle du véhicule *</label><input id="lModele" placeholder="Ex : Yamaha Crypton 110"></div>
+    <div class="field motoOnly"><label>Plaque d'immatriculation *</label><input id="lPlaque" placeholder="Ex : DK-1234-AB" style="text-transform:uppercase"></div>
+    <div class="field motoOnly"><label>Modèle du véhicule *</label><input id="lModele" placeholder="Ex : Yamaha Crypton 110"></div>
     <div class="field"><label>Mot de passe * (8 caractères min.)</label><input id="lPwd" type="password" placeholder="••••••••"></div>
     <button class="btn" onclick="checkStep2()">Continuer → Documents</button>
     <button class="btn2" onclick="goStep(1)">← Retour</button>
@@ -186,25 +187,6 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0
   </div>
 </div>
 
-<script>
-/* NAVIGATION DES ÉTAPES — script séparé : fonctionne toujours */
-function goStep(n){
-  var ps=document.querySelectorAll('.panel');
-  for(var i=0;i<ps.length;i++)ps[i].classList.remove('on');
-  document.getElementById('step'+n).classList.add('on');
-  for(var j=1;j<=3;j++){
-    var s=document.getElementById('s'+j);
-    s.classList.toggle('on',j===n);
-    s.classList.toggle('done',j<n);
-  }
-  var e=document.getElementById('err');if(e)e.style.display='none';
-  window.scrollTo(0,0);
-}
-document.getElementById('s1').onclick=function(){goStep(1);};
-document.getElementById('s2').onclick=function(){goStep(2);};
-document.getElementById('s3').onclick=function(){goStep(3);};
-}
-</script>
 <script>
 lucide.createIcons();
 var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
@@ -268,6 +250,7 @@ async function sendDriver(){
     await post('notifications',{audience:'admin',user_email:email,type:'kyc_pending',title:'Nouveau livreur en attente',message:v('lNom')+' — '+v('lVeh')+' — '+v('lZone')+' — à valider dans Documents.'});
     document.getElementById('s3').classList.add('done');
     goStep('Ok');
+    lucide.createIcons();
   }catch(e){btn.disabled=false;btn.textContent='Envoyer ma candidature';err('Erreur réseau. Réessaie.');}
 }
 </script>
