@@ -263,8 +263,16 @@ function backToLogin(){clearInterval(OTP.timerInt);$('panel2').style.display='no
 /* ══════════ INIT ══════════ */
 (function(){
   lucide.createIcons();
-  var s=sessionStorage.getItem('sentew_admin')||localStorage.getItem('sentew_admin');
-  if(s){location.href='admin.html';return;}
+    var s=sessionStorage.getItem('sentew_admin')||localStorage.getItem('sentew_admin');
+  if(s){
+    ok('Session admin active. Clique ci-dessous pour continuer.');
+    var c=document.createElement('button');
+    c.className='btn';c.style.marginTop='10px';
+    c.innerHTML='<i data-lucide="arrow-right"></i>Accéder au panneau admin';
+    c.onclick=function(){location.href='admin.html';};
+    $('panel1').appendChild(c);
+    lucide.createIcons();
+  }
   checkLock();
   $('admPwd').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
   $('admEmail').addEventListener('keydown',function(e){if(e.key==='Enter')$('admPwd').focus();});
