@@ -201,12 +201,13 @@ async function doLogin(){
   $('btnLogin').disabled=true;
   try{
     var r=await fetch(SUPA+'/rest/v1/admins?email=eq.'+encodeURIComponent(email)+'&select=*',{headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}});
-    var rows=await r.json();
-    if(!Array.isArray(rows)||rows.length===0){await registerFail('Email inconnu : '+email);if(!enforceLock())err('Identifiants incorrects.');return;}
+        var rows=await r.json();
+    if(!r.ok||!Array.isArray(rows)){err('ERREUR SERVEUR ('+r.status+') : la table admins est introuvable ou inaccessible. Revois le SQL.');return;}
+    if(rows.length===0){err('AUCUN COMPTE admin avec cet email dans la base. Vérifie l\'orthographe ou refais le SQL.');return;}
     var adm=rows[0];
     if(adm.is_active===false){err('Ce compte administrateur est désactivé.');return;}
     var h=await sha256(pwd);
-    if(h!==adm.password_hash){await registerFail('Mauvais mot de passe pour : '+email);if(!enforceLock())err('Identifiants incorrects.');return;}
+    if(h!==adm.password_hash){await registerFail('Mauvais mot de passe pour : '+email);if(!enforceLock())err('Mot de passe incorrect (email reconnu). Vérifie les majuscules/minuscules.');return;}
     var f=getFails();f.n=0;setFails(f);
     await send2FA();
   }catch(e){
