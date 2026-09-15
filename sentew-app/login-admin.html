@@ -123,11 +123,13 @@ function checkLock(){
   if(f.until&&Date.now()<f.until){
     var min=Math.ceil((f.until-Date.now())/60000);
     var lbl=min>=60?Math.floor(min/60)+' h '+(min%60)+' min':min+' min';
-    err('Compte verrouillé après plusieurs tentatives. Réessaie dans '+lbl+'.');
+    $('errTxt').textContent='Compte verrouillé après plusieurs tentatives. Réessaie dans '+lbl+'.';
+    $('errBox').classList.add('on');
     $('btnLogin').disabled=true;
     setTimeout(checkLock,30000);
     return false;
   }
+  if($('errTxt').textContent.indexOf('verrouillé')>-1)$('errBox').classList.remove('on');
   $('btnLogin').disabled=false;
   return true;
 }
