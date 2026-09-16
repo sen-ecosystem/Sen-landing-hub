@@ -216,7 +216,6 @@ async function send2FA(){
   }else{
     err('Échec d\'envoi email. Code de secours : '+OTP.code+' (visible car envoi impossible — à retirer en production)');
   }
-}
 function startTimer(){
   clearInterval(OTP.timerInt);
   OTP.timerInt=setInterval(function(){
