@@ -10,8 +10,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;background:linear-gradient(160deg,#04120c,#0a1f17 45%,#0f3d2e);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;color:#12312a}
-.card{background:#fff;border-radius:24px;width:100%;max-width:420px;padding:34px 28px;box-shadow:0 24px 60px rgba(0,0,0,.45);animation:up .4s ease}
-@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.card{background:#fff;border-radius:24px;width:100%;max-width:420px;padding:34px 28px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
 .logo{width:78px;height:78px;border-radius:22px;background:#fff;border:2px solid #0f6b4e;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;overflow:hidden;font-size:34px;font-weight:900;color:#0f6b4e}
 .logo img{width:100%;height:100%;object-fit:contain}
 h1{text-align:center;font-size:21px;font-weight:900;color:#0a1f17}
@@ -24,7 +23,6 @@ h1{text-align:center;font-size:21px;font-weight:900;color:#0a1f17}
 .inwrap>i{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:17px;height:17px;color:#8aa69c;pointer-events:none}
 .inwrap input{width:100%;padding:13px 46px 13px 40px;border:2px solid #e3ede8;border-radius:13px;font-size:14.5px;outline:none;transition:.15s;background:#fbfdfc}
 .inwrap input:focus{border-color:#0f6b4e;background:#fff}
-.inwrap input:disabled{background:#f0f3f2;color:#9db8af;cursor:not-allowed}
 .eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#8aa69c;width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:9px;z-index:2}
 .eye:active{background:#eef5f1}
 .eye i{width:18px;height:18px}
@@ -47,26 +45,23 @@ h1{text-align:center;font-size:21px;font-weight:900;color:#0a1f17}
 .foot{text-align:center;font-size:10.5px;color:#9db8af;margin-top:20px;display:flex;align-items:center;justify-content:center;gap:5px}
 .foot i{width:12px;height:12px}
 .hidden{display:none!important}
-
-/* ═══ ÉCRAN DE VERROUILLAGE TOTAL ═══ */
 #lockScreen{display:none;position:fixed;inset:0;background:linear-gradient(160deg,#1a0505,#3d0a0a 55%,#5c1010);z-index:9999;flex-direction:column;align-items:center;justify-content:center;padding:30px;text-align:center;color:#fff}
 #lockScreen.on{display:flex}
 .lock-ico{width:88px;height:88px;border-radius:26px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;margin-bottom:22px}
 .lock-ico i{width:42px;height:42px;color:#ffb3b3}
 #lockScreen h2{font-size:22px;font-weight:900;margin-bottom:10px}
 #lockScreen p{font-size:13.5px;color:#f0c9c9;line-height:1.65;max-width:340px}
-.lock-count{font-size:52px;font-weight:900;letter-spacing:2px;margin:26px 0 8px;font-variant-numeric:tabular-nums;color:#fff}
+.lock-count{font-size:52px;font-weight:900;letter-spacing:2px;margin:26px 0 8px;font-variant-numeric:tabular-nums}
 .lock-lbl{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#e8a0a0;font-weight:700}
 .lock-note{margin-top:26px;font-size:11.5px;color:#d98f8f;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:11px 16px;max-width:340px;line-height:1.6}
 </style>
 </head>
 <body>
 
-<!-- ═══ ÉCRAN DE VERROUILLAGE (plein écran, bloquant) ═══ -->
 <div id="lockScreen">
   <div class="lock-ico"><i data-lucide="shield-off"></i></div>
   <h2>Accès bloqué</h2>
-  <p>Trop de tentatives frauduleuses détectées. L'accès à cet espace est suspendu. L'administrateur a été notifié par email.</p>
+  <p>Trop de tentatives frauduleuses détectées. L'accès est suspendu. L'administrateur a été notifié par email.</p>
   <div class="lock-count" id="lockCount">--:--</div>
   <div class="lock-lbl">Temps restant avant nouvelle tentative</div>
   <div class="lock-note">Ce blocage est enregistré sur cet appareil. Fermer ou recharger la page ne l'annule pas.</div>
@@ -82,7 +77,6 @@ h1{text-align:center;font-size:21px;font-weight:900;color:#0a1f17}
   <div class="alert err" id="errBox"><i data-lucide="alert-triangle"></i><span id="errTxt"></span></div>
   <div class="alert ok" id="okBox"><i data-lucide="check-circle"></i><span id="okTxt"></span></div>
 
-  <!-- ═══ PANEL 1 : IDENTIFIANTS ═══ -->
   <div id="panel1">
     <div class="field">
       <label>Email administrateur</label>
@@ -91,13 +85,12 @@ h1{text-align:center;font-size:21px;font-weight:900;color:#0a1f17}
     <div class="field">
       <label>Mot de passe</label>
       <div class="inwrap"><i data-lucide="lock"></i><input type="password" id="admPwd" placeholder="••••••••" autocomplete="current-password">
-      <button class="eye" type="button" onclick="togglePwd()" aria-label="Afficher le mot de passe"><i data-lucide="eye" id="eyeIco"></i></button></div>
+      <button class="eye" type="button" onclick="togglePwd()" aria-label="Afficher"><i data-lucide="eye" id="eyeIco"></i></button></div>
     </div>
     <button class="btn" id="btnLogin" onclick="doLogin()"><i data-lucide="log-in"></i>Se connecter</button>
     <div class="links"><span style="color:#9db8af" id="tryInfo"></span><a href="support.html">Besoin d'aide ?</a></div>
   </div>
 
-  <!-- ═══ PANEL 2 : CODE 2FA ═══ -->
   <div id="panel2" class="hidden">
     <div class="alert ok on"><i data-lucide="mail-check"></i><span>Code envoyé sur <b>hello.senecosystem@gmail.com</b></span></div>
     <div class="timer" id="timer">Code valide encore 05:00</div>
@@ -110,7 +103,7 @@ h1{text-align:center;font-size:21px;font-weight:900;color:#0a1f17}
       <input class="otp-box" maxlength="1" inputmode="numeric">
     </div>
     <button class="btn" onclick="check2FA()"><i data-lucide="shield-check"></i>Valider le code</button>
-    <div class="links"><a onclick="backToLogin()">← Retour</a><a onclick="resendCode()">Renvoyer le code</a></div>
+    <div class="links"><a onclick="backToLogin()">← Retour</a><a onclick="send2FA()">Renvoyer le code</a></div>
   </div>
 
   <a class="back" href="index.html">← Retour à l'application</a>
@@ -121,14 +114,14 @@ h1{text-align:center;font-size:21px;font-weight:900;color:#0a1f17}
 /* ══════════ CONFIG ══════════ */
 var SUPA='https://tjqkruhwmjzgfvtouqza.supabase.co';
 var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
-var EMAILJS_PUBLIC_KEY='rky0OpQeK3KI6MwRU';
-var EMAILJS_SERVICE_ID='service_38ofak8';
-var EMAILJS_TEMPLATE_ID='template_dtblfiq';
-var ADMIN_NOTIFY_EMAIL='hello.senecosystem@gmail.com';
-var OTP_VALIDITY=5*60*1000;          /* 5 minutes */
-var LOCK_STEPS=[15,30,60,1440];      /* minutes : 15 → 30 → 1h → 24h */
+var EJ_PUB='rky0OpQeK3KI6MwRU';
+var EJ_SVC='service_38ofak8';
+var EJ_TPL='template_dtblfiq';
+var ADMIN_EMAIL='hello.senecosystem@gmail.com';
+var OTP_VALIDITY=5*60*1000;
+var LOCK_STEPS=[15,30,60,1440];
 
-emailjs.init(EMAILJS_PUBLIC_KEY);
+emailjs.init(EJ_PUB);
 
 /* ══════════ HELPERS ══════════ */
 function $(id){return document.getElementById(id);}
@@ -138,62 +131,36 @@ function clearAlerts(){$('errBox').classList.remove('on');$('okBox').classList.r
 async function sha256(t){var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0');}).join('');}
 function togglePwd(){var i=$('admPwd');var s=i.type==='password';i.type=s?'text':'password';$('eyeIco').setAttribute('data-lucide',s?'eye-off':'eye');lucide.createIcons();}
 
+/* ══════════ SESSION — UNE SEULE CLÉ : sentew_admin ══════════ */
+function saveSession(){var s=JSON.stringify({role:'admin',ts:Date.now()});sessionStorage.setItem('sentew_admin',s);localStorage.setItem('sentew_admin',s);}
+
 /* ══════════ VERROUILLAGE TOTAL PERSISTANT ══════════ */
 var lockInt=null;
-
 function getFails(){try{var f=JSON.parse(localStorage.getItem('st_admin_fails')||'{}');return{n:f.n||0,lockIdx:f.lockIdx||0,until:f.until||0};}catch(e){return{n:0,lockIdx:0,until:0};}}
 function setFails(o){localStorage.setItem('st_admin_fails',JSON.stringify(o));}
-
-function fmtLeft(ms){
-  var s=Math.max(0,Math.ceil(ms/1000));
-  var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;
-  if(h>0)return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(ss).padStart(2,'0');
-  return String(m).padStart(2,'0')+':'+String(ss).padStart(2,'0');
-}
-
-/* Bloque TOUT : écran plein, formulaire désactivé, aucun retour possible */
+function fmtLeft(ms){var s=Math.max(0,Math.ceil(ms/1000));var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;return h>0?String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(ss).padStart(2,'0'):String(m).padStart(2,'0')+':'+String(ss).padStart(2,'0');}
 function enforceLock(){
-  var f=getFails();
-  var left=f.until-Date.now();
+  var f=getFails();var left=f.until-Date.now();
   if(left>0){
     $('lockScreen').classList.add('on');
     $('lockCount').textContent=fmtLeft(left);
-    $('admEmail').disabled=true;$('admPwd').disabled=true;$('btnLogin').disabled=true;
     clearInterval(lockInt);
-    lockInt=setInterval(function(){
-      var l=getFails().until-Date.now();
-      if(l<=0){clearInterval(lockInt);releaseLock();return;}
-      $('lockCount').textContent=fmtLeft(l);
-    },1000);
+    lockInt=setInterval(function(){var l=getFails().until-Date.now();if(l<=0){clearInterval(lockInt);releaseLock();return;}$('lockCount').textContent=fmtLeft(l);},1000);
     return true;
   }
   return false;
 }
-
-function releaseLock(){
-  $('lockScreen').classList.remove('on');
-  $('admEmail').disabled=false;$('admPwd').disabled=false;$('btnLogin').disabled=false;
-  var f=getFails();f.until=0;f.n=0;setFails(f);
-}
-
-function checkLock(){return !enforceLock();}
+function releaseLock(){$('lockScreen').classList.remove('on');var f=getFails();f.until=0;f.n=0;setFails(f);}
 
 /* ══════════ EMAIL ══════════ */
 async function sendMail(msg,codeVal){
-  try{
-    await emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,{
-      code:codeVal||'-',
-      name:'SEN TEW Admin',
-      message:msg,
-      to_email:ADMIN_NOTIFY_EMAIL
-    });
-    return true;
-  }catch(e){console.log('EmailJS:',e);return false;}
+  try{await emailjs.send(EJ_SVC,EJ_TPL,{code:codeVal||'-',name:'SEN TEW Admin',message:msg,to_email:ADMIN_EMAIL});return true;}
+  catch(e){console.log('EmailJS:',e);return false;}
 }
 
 /* ══════════ ÉTAPE 1 : LOGIN ══════════ */
 async function doLogin(){
-  if(enforceLock())return;                 /* bloqué → rien ne passe */
+  if(enforceLock())return;
   clearAlerts();
   var email=$('admEmail').value.trim().toLowerCase();
   var pwd=$('admPwd').value;
@@ -201,36 +168,27 @@ async function doLogin(){
   $('btnLogin').disabled=true;
   try{
     var r=await fetch(SUPA+'/rest/v1/admins?email=eq.'+encodeURIComponent(email)+'&select=*',{headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}});
-        var rows=await r.json();
-    if(!r.ok||!Array.isArray(rows)){err('ERREUR SERVEUR ('+r.status+') : la table admins est introuvable ou inaccessible. Revois le SQL.');return;}
-    if(rows.length===0){err('AUCUN COMPTE admin avec cet email dans la base. Vérifie l\'orthographe ou refais le SQL.');return;}
+    var rows=await r.json();
+    if(!r.ok||!Array.isArray(rows)){err('ERREUR SERVEUR ('+r.status+') : table admins introuvable.');return;}
+    if(rows.length===0){err('AUCUN COMPTE admin avec cet email.');return;}
     var adm=rows[0];
     if(adm.is_active===false){err('Ce compte administrateur est désactivé.');return;}
     var h=await sha256(pwd);
-    if(h!==adm.password_hash){await registerFail('Mauvais mot de passe pour : '+email);if(!enforceLock())err('Mot de passe incorrect (email reconnu). Vérifie les majuscules/minuscules.');return;}
+    if(h!==adm.password_hash){await registerFail('Mauvais mot de passe : '+email);if(!enforceLock())err('Mot de passe incorrect (email reconnu).');return;}
     var f=getFails();f.n=0;setFails(f);
     await send2FA();
-  }catch(e){
-    err('Erreur de connexion au serveur. Vérifie ta connexion internet.');
-  }finally{
-    if(!enforceLock())$('btnLogin').disabled=false;
-  }
+  }catch(e){err('Erreur réseau. Vérifie ta connexion.');}
+  finally{if(!enforceLock())$('btnLogin').disabled=false;}
 }
 
 async function registerFail(reason){
   var f=getFails();f.n++;
-  if(f.n===2){
-    await sendMail('⚠️ ALERTE SÉCURITÉ : 2 tentatives échouées sur l\'espace admin SEN TEW. Détail : '+reason+'. Le '+new Date().toLocaleString('fr-FR')+'. Si ce n\'est pas vous, changez le mot de passe immédiatement.');
-  }
+  if(f.n===2){await sendMail('⚠️ ALERTE : 2 tentatives échouées admin SEN TEW. '+reason+'. Le '+new Date().toLocaleString('fr-FR'));}
   if(f.n>=3){
     var mins=LOCK_STEPS[Math.min(f.lockIdx,LOCK_STEPS.length-1)];
-    f.until=Date.now()+mins*60000;
-    f.lockIdx++;
-    f.n=0;
-    setFails(f);
-    await sendMail('🔒 VERROUILLAGE ADMIN : accès bloqué '+mins+' min après 3 échecs consécutifs. Détail : '+reason+'. Le '+new Date().toLocaleString('fr-FR')+'.');
-    enforceLock();
-    return;
+    f.until=Date.now()+mins*60000;f.lockIdx++;f.n=0;setFails(f);
+    await sendMail('🔒 VERROUILLAGE ADMIN '+mins+' min après 3 échecs. '+reason);
+    enforceLock();return;
   }
   setFails(f);
   var left=3-f.n;
@@ -242,9 +200,10 @@ var OTP={code:null,exp:0,timerInt:null};
 function genCode(){return String(Math.floor(100000+Math.random()*900000));}
 
 async function send2FA(){
+  clearAlerts();
   OTP.code=genCode();
   OTP.exp=Date.now()+OTP_VALIDITY;
-  await sendMail('Connexion admin SEN TEW le '+new Date().toLocaleString('fr-FR')+'. Si ce n\'est pas vous, ignorez ce message et sécurisez le compte.',OTP.code);
+  await sendMail('Connexion admin SEN TEW le '+new Date().toLocaleString('fr-FR'),OTP.code);
   $('panel1').classList.add('hidden');
   $('panel2').classList.remove('hidden');
   $('subTitle').textContent='Vérification en 2 étapes';
@@ -272,51 +231,32 @@ function check2FA(){
   if(Date.now()>OTP.exp){err('Code expiré. Clique « Renvoyer le code ».');return;}
   if(v===String(OTP.code)){
     clearInterval(OTP.timerInt);
-    var sess=JSON.stringify({email:'admin',ts:Date.now()});
-    sessionStorage.setItem('sentew_admin',sess);
-    localStorage.setItem('sentew_admin',sess);
-    sessionStorage.setItem('st_admin_session',JSON.stringify({exp:Date.now()+12*3600*1000}));
+    saveSession();
     location.href='admin.html';
   }else{
-    err('Code incorrect. Réessaie (il expire dans '+Math.max(1,Math.ceil((OTP.exp-Date.now())/60000))+' min).');
+    err('Code incorrect ('+Math.max(1,Math.ceil((OTP.exp-Date.now())/60000))+' min restantes).');
   }
 }
 
-function resendCode(){clearAlerts();send2FA();}
 function backToLogin(){clearInterval(OTP.timerInt);$('panel2').classList.add('hidden');$('panel1').classList.remove('hidden');$('subTitle').textContent='Connexion sécurisée';clearAlerts();}
 
 /* ══════════ OTP : SAISIE FLUIDE ══════════ */
 (function(){
   var boxes=document.querySelectorAll('.otp-box');
   boxes.forEach(function(b,i){
-    b.addEventListener('input',function(){
-      b.value=b.value.replace(/\D/g,'').slice(0,1);
-      if(b.value&&i<boxes.length-1)boxes[i+1].focus();
-    });
-    b.addEventListener('keydown',function(e){
-      if(e.key==='Backspace'&&!b.value&&i>0)boxes[i-1].focus();
-      if(e.key==='Enter')check2FA();
-    });
-    b.addEventListener('paste',function(e){
-      e.preventDefault();
-      var t=(e.clipboardData.getData('text')||'').replace(/\D/g,'').slice(0,6);
-      t.split('').forEach(function(c,j){if(boxes[j])boxes[j].value=c;});
-      if(t.length===6)check2FA();
-    });
+    b.addEventListener('input',function(){b.value=b.value.replace(/\D/g,'').slice(0,1);if(b.value&&i<boxes.length-1)boxes[i+1].focus();});
+    b.addEventListener('keydown',function(e){if(e.key==='Backspace'&&!b.value&&i>0)boxes[i-1].focus();if(e.key==='Enter')check2FA();});
+    b.addEventListener('paste',function(e){e.preventDefault();var t=(e.clipboardData.getData('text')||'').replace(/\D/g,'').slice(0,6);t.split('').forEach(function(c,j){if(boxes[j])boxes[j].value=c;});if(t.length===6)check2FA();});
   });
 })();
 
-/* ══════════ INIT ══════════ */
+/* ══════════ INIT — ZÉRO REDIRECTION AUTO (fini la boucle) ══════════ */
 (function(){
   lucide.createIcons();
-
-  /* 1) Verrouillage en cours ? → blocage immédiat, rien d'autre ne s'affiche */
   if(enforceLock())return;
-
-  /* 2) Session active ? → bouton manuel (pas de redirection auto = pas de boucle) */
   var s=sessionStorage.getItem('sentew_admin')||localStorage.getItem('sentew_admin');
   if(s){
-    ok('Session admin active. Clique ci-dessous pour continuer.');
+    ok('Session admin active.');
     var c=document.createElement('button');
     c.className='btn';
     c.innerHTML='<i data-lucide="arrow-right"></i>Accéder au panneau admin';
@@ -324,12 +264,9 @@ function backToLogin(){clearInterval(OTP.timerInt);$('panel2').classList.add('hi
     $('panel1').appendChild(c);
     lucide.createIcons();
   }
-
   $('admPwd').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
   $('admEmail').addEventListener('keydown',function(e){if(e.key==='Enter')$('admPwd').focus();});
 })();
-
-/* 3) Si l'utilisateur revient sur l'onglet pendant un blocage → re-vérifier */
 document.addEventListener('visibilitychange',function(){if(!document.hidden)enforceLock();});
 window.addEventListener('focus',enforceLock);
 </script>
