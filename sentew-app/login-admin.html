@@ -134,6 +134,11 @@ function togglePwd(){var i=$('admPwd');var s=i.type==='password';i.type=s?'text'
 /* ══════════ SESSION — UNE SEULE CLÉ : sentew_admin ══════════ */
 function saveSession(){var s=JSON.stringify({role:'admin',ts:Date.now()});sessionStorage.setItem('sentew_admin',s);localStorage.setItem('sentew_admin',s);}
 
+/* ══════════ OTP PERSISTANT (survit au rechargement de page) ══════════ */
+function saveOTP(code,exp){sessionStorage.setItem('adm_otp',JSON.stringify({code:code,exp:exp}));}
+function loadOTP(){try{var o=JSON.parse(sessionStorage.getItem('adm_otp')||'null');if(o&&o.code){OTP.code=String(o.code);OTP.exp=o.exp;return true;}}catch(e){}return false;}
+function clearOTP(){sessionStorage.removeItem('adm_otp');}
+
 /* ══════════ VERROUILLAGE TOTAL PERSISTANT ══════════ */
 var lockInt=null;
 function getFails(){try{var f=JSON.parse(localStorage.getItem('st_admin_fails')||'{}');return{n:f.n||0,lockIdx:f.lockIdx||0,until:f.until||0};}catch(e){return{n:0,lockIdx:0,until:0};}}
@@ -154,7 +159,7 @@ function releaseLock(){$('lockScreen').classList.remove('on');var f=getFails();f
 
 /* ══════════ EMAIL ══════════ */
 async function sendMail(msg,codeVal){
-  try{await emailjs.send(EJ_SVC,EJ_TPL,{code:codeVal||'-',name:'SEN TEW Admin',message:msg,to_email:ADMIN_EMAIL});return true;}
+  try{await emailjs.send(EJ_SVC,EJ_TPL,{code:String(codeVal||'-'),name:'SEN TEW Admin',message:msg,to_email:ADMIN_EMAIL});return true;}
   catch(e){console.log('EmailJS:',e);return false;}
 }
 
@@ -203,12 +208,17 @@ async function send2FA(){
   clearAlerts();
   OTP.code=genCode();
   OTP.exp=Date.now()+OTP_VALIDITY;
+  saveOTP(OTP.code,OTP.exp);
   await sendMail('Connexion admin SEN TEW le '+new Date().toLocaleString('fr-FR'),OTP.code);
+  showOTP();
+  document.querySelectorAll('.otp-box').forEach(function(b){b.value='';});
+  var first=document.querySelector('.otp-box');if(first)first.focus();
+}
+
+function showOTP(){
   $('panel1').classList.add('hidden');
   $('panel2').classList.remove('hidden');
   $('subTitle').textContent='Vérification en 2 étapes';
-  document.querySelectorAll('.otp-box').forEach(function(b){b.value='';});
-  var first=document.querySelector('.otp-box');if(first)first.focus();
   startTimer();
 }
 
@@ -228,9 +238,12 @@ function check2FA(){
   document.querySelectorAll('.otp-box').forEach(function(b){v+=(b.value||'').trim();});
   v=v.replace(/\D/g,'');
   if(v.length!==6){err('Saisis les 6 chiffres du code.');return;}
+  if(!OTP.code)loadOTP();
+  if(!OTP.code){err('Aucun code en cours. Clique « Renvoyer le code ».');return;}
   if(Date.now()>OTP.exp){err('Code expiré. Clique « Renvoyer le code ».');return;}
   if(v===String(OTP.code)){
     clearInterval(OTP.timerInt);
+    clearOTP();
     saveSession();
     location.href='admin.html';
   }else{
@@ -238,7 +251,7 @@ function check2FA(){
   }
 }
 
-function backToLogin(){clearInterval(OTP.timerInt);$('panel2').classList.add('hidden');$('panel1').classList.remove('hidden');$('subTitle').textContent='Connexion sécurisée';clearAlerts();}
+function backToLogin(){clearInterval(OTP.timerInt);clearOTP();$('panel2').classList.add('hidden');$('panel1').classList.remove('hidden');$('subTitle').textContent='Connexion sécurisée';clearAlerts();}
 
 /* ══════════ OTP : SAISIE FLUIDE ══════════ */
 (function(){
@@ -250,7 +263,7 @@ function backToLogin(){clearInterval(OTP.timerInt);$('panel2').classList.add('hi
   });
 })();
 
-/* ══════════ INIT — ZÉRO REDIRECTION AUTO (fini la boucle) ══════════ */
+/* ══════════ INIT — ZÉRO REDIRECTION AUTO ══════════ */
 (function(){
   lucide.createIcons();
   if(enforceLock())return;
@@ -263,7 +276,10 @@ function backToLogin(){clearInterval(OTP.timerInt);$('panel2').classList.add('hi
     c.onclick=function(){location.href='admin.html';};
     $('panel1').appendChild(c);
     lucide.createIcons();
+    return;
   }
+  /* Si un code 2FA valide existe déjà (page rechargée) → revenir direct à l'écran code */
+  if(loadOTP()&&Date.now()<OTP.exp){showOTP();}
   $('admPwd').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
   $('admEmail').addEventListener('keydown',function(e){if(e.key==='Enter')$('admPwd').focus();});
 })();
