@@ -203,15 +203,20 @@ async function send2FA(){
   clearAlerts();
   OTP.code=genCode();
   OTP.exp=Date.now()+OTP_VALIDITY;
-  await sendMail('Connexion admin SEN TEW le '+new Date().toLocaleString('fr-FR'),OTP.code);
+  ok('Envoi du code en cours…');
+  var sent=await sendMail('Connexion admin SEN TEW le '+new Date().toLocaleString('fr-FR'),OTP.code);
   $('panel1').classList.add('hidden');
   $('panel2').classList.remove('hidden');
   $('subTitle').textContent='Vérification en 2 étapes';
   document.querySelectorAll('.otp-box').forEach(function(b){b.value='';});
   var first=document.querySelector('.otp-box');if(first)first.focus();
   startTimer();
+  if(sent){
+    ok('Code envoyé sur hello.senecosystem@gmail.com (vérifie aussi les spams)');
+  }else{
+    err('Échec d\'envoi email. Code de secours : '+OTP.code+' (visible car envoi impossible — à retirer en production)');
+  }
 }
-
 function startTimer(){
   clearInterval(OTP.timerInt);
   OTP.timerInt=setInterval(function(){
