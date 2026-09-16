@@ -7,602 +7,257 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="js/security-shield.js"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:#eef2f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0a1f17;padding-bottom:80px}
-.topbar{display:flex;align-items:center;gap:8px;padding:12px 14px;background:#0a1f17;position:sticky;top:0;z-index:800}
-.topbar img{height:28px}
-.topbar h1{font-size:14px;font-weight:900;color:#fff;flex:1}
-.tbtn{position:relative;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.12);border:none;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center}
-.tbtn svg{width:17px;height:17px}
-.bdg{position:absolute;top:-3px;right:-3px;background:#e63946;color:#fff;font-size:9px;font-weight:900;min-width:16px;height:16px;border-radius:99px;display:none;align-items:center;justify-content:center;padding:0 4px}
-.npanel{display:none;position:fixed;top:60px;right:10px;left:10px;max-width:440px;margin-left:auto;background:#fff;border-radius:16px;box-shadow:0 14px 44px rgba(0,0,0,.3);z-index:900;max-height:62vh;overflow-y:auto}
-.npanel.on{display:block}
-.npanel h4{padding:12px 15px 9px;font-size:13px;font-weight:900;border-bottom:1px solid #f3f4f6;display:flex;justify-content:space-between;align-items:center}
-.npanel h4 button{border:none;background:#f3f4f6;border-radius:8px;padding:5px 10px;font-size:10px;font-weight:800;cursor:pointer}
-.nitem{display:flex;gap:10px;padding:11px 15px;border-bottom:1px solid #f3f4f6;cursor:pointer;font-size:12px;line-height:1.5}
-.nitem.unread{background:#f0fdf4}
-.nitem .nd{width:9px;height:9px;border-radius:50%;background:#10b981;flex-shrink:0;margin-top:5px}
-.nitem.read .nd{background:#e5e7eb}
-.nitem b{display:block;font-size:12px}
-.nitem small{color:#9aa5a0;font-size:10px}
-.tabs{display:flex;background:#fff;border-bottom:1px solid #e5e7eb;overflow-x:auto;position:sticky;top:62px;z-index:700}
-.tab{flex:1;min-width:68px;padding:10px 6px;text-align:center;font-size:10px;font-weight:800;color:#9aa5a0;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
-.tab.on{color:#0f6b4e;border-bottom-color:#0f6b4e}
-.tab svg{width:16px;height:16px;display:block;margin:0 auto 2px}
-.nub{background:#e63946;color:#fff;font-size:8.5px;font-weight:900;padding:1px 6px;border-radius:99px;margin-left:3px}
-.panel{display:none;padding:14px}
-.panel.on{display:block}
-.kpis{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
-.kpi{background:#fff;border-radius:14px;padding:13px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
-.kpi .kv{font-size:19px;font-weight:900}
-.kpi .kl{font-size:10px;color:#6b7280;font-weight:700;margin-top:2px}
-.kpi.alert .kv{color:#e63946}
-.kpi.good .kv{color:#0f6b4e}
-.selbar{display:none;align-items:center;gap:7px;background:#0a1f17;color:#fff;border-radius:12px;padding:9px 12px;margin-bottom:10px;font-size:11px;font-weight:700;flex-wrap:wrap}
-.selbar.on{display:flex}
-.selbar .cnt{background:#4ade80;color:#0a1f17;padding:2px 9px;border-radius:99px;font-weight:900}
-.sa{padding:7px 11px;border:none;border-radius:9px;font-size:10.5px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
-.sa svg{width:12px;height:12px}
-.sa-ok{background:#10b981;color:#fff}.sa-warn{background:#f59e0b;color:#fff}.sa-bad{background:#e63946;color:#fff}.sa-pin{background:#3b82f6;color:#fff}.sa-pay{background:#4ade80;color:#0a1f17}
-.chkall{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:800;color:#374151;padding:7px 2px;cursor:pointer}
-.chk{width:18px;height:18px;accent-color:#0f6b4e;flex-shrink:0;cursor:pointer}
-.search{width:100%;padding:12px 14px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:13px;background:#fff;margin-bottom:10px;font-family:inherit}
-.swp{position:relative;overflow:hidden;border-radius:14px;margin-bottom:9px}
-.swp-acts{position:absolute;top:0;right:0;bottom:0;display:flex}
-.swp-acts button{border:none;color:#fff;font-size:9.5px;font-weight:800;width:66px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
-.swp-acts button svg{width:15px;height:15px}
-.sw-ok{background:#10b981}.sw-msg{background:#3b82f6}.sw-pause{background:#f59e0b}
-.card2{position:relative;background:#fff;border-radius:14px;padding:13px;box-shadow:0 2px 8px rgba(0,0,0,.04);display:flex;gap:10px;align-items:center;transition:transform .22s ease;z-index:2}
-.card2 .av{width:44px;height:44px;border-radius:12px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.card2 .av svg{width:20px;height:20px;color:#0f6b4e}
-.card2 .ci{flex:1;min-width:0}
-.card2 .ci b{font-size:13px;display:block}
-.card2 .ci small{font-size:10.5px;color:#6b7280;display:block;margin-top:2px;line-height:1.4}
-.st{font-size:9px;font-weight:900;padding:3px 8px;border-radius:99px;flex-shrink:0}
-.st-ok{background:#d1fae5;color:#065f46}.st-pend{background:#fef3c7;color:#92400e}.st-susp{background:#fee2e2;color:#991b1b}.st-arch{background:#e5e7eb;color:#4b5563}
-.qrow{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap}
-.qb{padding:6px 10px;border-radius:8px;border:none;font-size:10px;font-weight:800;cursor:pointer}
-.qb-g{background:#d1fae5;color:#065f46}.qb-b{background:#dbeafe;color:#1e40af}.qb-o{background:#fef3c7;color:#92400e}
-.paycard{background:#fff;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
-.paycard .ph{display:flex;align-items:center;gap:10px;margin-bottom:9px}
-.paycard .ph b{flex:1;font-size:13.5px}
-.payrow{display:flex;justify-content:space-between;font-size:11.5px;color:#374151;padding:5px 0;border-bottom:1px dashed #f3f4f6}
-.payrow:last-child{border:none}
-.payrow b{font-size:13px;color:#0f6b4e}
-.payall{width:100%;padding:14px;border:none;border-radius:14px;background:#0f6b4e;color:#fff;font-size:13px;font-weight:900;cursor:pointer;margin-bottom:12px}
-.hist{font-size:11px;color:#6b7280;background:#fff;border-radius:12px;padding:11px 13px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:8px}
-.tpl{background:#fff;border-radius:14px;padding:13px;margin-bottom:9px;box-shadow:0 2px 8px rgba(0,0,0,.04);cursor:pointer;border:2px solid transparent}
-.tpl.sel{border-color:#0f6b4e}
-.tpl b{font-size:12.5px;display:block;margin-bottom:4px}
-.tpl p{font-size:11px;color:#6b7280;line-height:1.55}
-.tpl .tt{font-size:9px;font-weight:900;padding:2px 8px;border-radius:99px;background:#f0fdf4;color:#0f6b4e;display:inline-block;margin-top:6px}
-.sendbox{background:#fff;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
-.sendbox select,.sendbox input{width:100%;padding:11px 13px;border:1.5px solid #e5e7eb;border-radius:11px;font-size:12.5px;margin-bottom:9px;font-family:inherit;background:#fff}
-.sendbox textarea{width:100%;padding:11px 13px;border:1.5px solid #e5e7eb;border-radius:11px;font-size:12px;min-height:90px;font-family:inherit;resize:vertical;margin-bottom:9px}
-.sendbtn{width:100%;padding:13px;border:none;border-radius:12px;background:#0f6b4e;color:#fff;font-size:13px;font-weight:900;cursor:pointer}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0a1f17;color:#fff;padding:12px 22px;border-radius:99px;font-size:12.5px;font-weight:800;z-index:999;display:none;box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.sect{font-size:12px;font-weight:900;color:#374151;margin:14px 0 9px;display:flex;align-items:center;gap:6px}
-.empty{text-align:center;padding:30px 20px;color:#9aa5a0;font-size:12px;background:#fff;border-radius:14px}
-.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
-.qact{background:#fff;border-radius:12px;padding:11px 6px;text-align:center;text-decoration:none;color:#0a1f17;font-size:9.5px;font-weight:800;box-shadow:0 2px 8px rgba(0,0,0,.04)}
-.qact svg{width:18px;height:18px;display:block;margin:0 auto 4px;color:#0f6b4e}
-  /* Polish design */
-.kpi{border-left:4px solid #0f6b4e;transition:transform .15s}
-.kpi:active{transform:scale(.97)}
-.kpi.alert{border-left-color:#e63946}
-.kpi.good{border-left-color:#4ade80}
-.kpi .kv{font-size:22px;letter-spacing:-.5px}
-.tab{transition:color .15s}
-.card2:hover{box-shadow:0 4px 14px rgba(0,0,0,.08)}
-.payall{background:linear-gradient(120deg,#0a1f17,#0f6b4e);letter-spacing:.5px}
-.sect{font-size:12.5px;text-transform:uppercase;letter-spacing:.6px;color:#0f6b4e}
-.topbar{box-shadow:0 3px 14px rgba(0,0,0,.25)}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;background:#f4f7f5;color:#12312a;padding-bottom:80px}
+.topbar{background:linear-gradient(120deg,#0a1f17,#0f6b4e);color:#fff;padding:16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 3px 14px rgba(0,0,0,.25)}
+.topbar h1{font-size:17px;font-weight:900}
+.top-actions{display:flex;gap:8px}
+.icobtn{position:relative;background:rgba(255,255,255,.14);border:none;color:#fff;width:38px;height:38px;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.icobtn i{width:18px;height:18px}
+.nb{position:absolute;top:-4px;right:-4px;background:#e63946;color:#fff;font-size:9px;font-weight:900;min-width:16px;height:16px;border-radius:99px;display:none;align-items:center;justify-content:center;padding:0 4px}
+.nb.on{display:flex}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:12px 14px 4px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:9px 16px;border-radius:99px;border:2px solid #e3ede8;background:#fff;font-size:12.5px;font-weight:800;color:#5b7a70;cursor:pointer;position:relative}
+.tab.on{background:#0f6b4e;border-color:#0f6b4e;color:#fff}
+.wrap{max-width:900px;margin:0 auto;padding:14px}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+@media(min-width:640px){.kpis{grid-template-columns:repeat(4,1fr)}}
+.kpi{background:#fff;border-radius:16px;padding:14px;border-left:4px solid #0f6b4e;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.kpi .kv{font-size:20px;font-weight:900;letter-spacing:-.5px}
+.kpi .kl{font-size:10.5px;color:#5b7a70;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-top:2px}
+.kpi.warn{border-left-color:#e63946}
+.card2{background:#fff;border-radius:16px;padding:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.nm{font-size:14px;font-weight:800;color:#0a1f17}
+.meta{font-size:11.5px;color:#8aa69c;margin-top:2px}
+.pill{font-size:10px;font-weight:900;padding:4px 9px;border-radius:99px;text-transform:uppercase;letter-spacing:.4px;flex-shrink:0}
+.pill.pending{background:#fff4e0;color:#b07a1f}
+.pill.active,.pill.approved{background:#eafaf1;color:#0f6b4e}
+.pill.suspended{background:#fdecec;color:#c0392b}
+.pill.delivered{background:#eafaf1;color:#0f6b4e}
+.pill.in_delivery{background:#e8f0fe;color:#1a56c4}
+.actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.abtn{border:none;border-radius:10px;padding:8px 12px;font-size:11.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:5px}
+.abtn i{width:14px;height:14px}
+.abtn.ok{background:#0f6b4e;color:#fff}
+.abtn.warn{background:#fff4e0;color:#b07a1f}
+.abtn.danger{background:#fdecec;color:#c0392b}
+.abtn.plain{background:#f0f3f2;color:#12312a}
+.empty{text-align:center;color:#9db8af;font-size:13px;padding:30px 10px}
+.sect{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.6px;color:#0f6b4e;margin:16px 0 10px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0a1f17;color:#fff;padding:12px 20px;border-radius:99px;font-size:13px;font-weight:700;display:none;z-index:99;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.toast.on{display:block}
+.loading{text-align:center;padding:40px;color:#8aa69c;font-size:13px}
+.hidden{display:none!important}
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <img src="assets/Logo.png" alt="SEN TEW" onerror="this.style.display='none'">
-  <h1>SEN TEW · Admin</h1>
-  <button class="tbtn" onclick="loadAll(true)" title="Actualiser"><i data-lucide="refresh-cw"></i></button>
-  <button class="tbtn" onclick="toggleNotif()" title="Notifications"><i data-lucide="bell"></i><span class="bdg" id="bellBadge">0</span></button>
-  <button class="tbtn" onclick="logout()" title="Déconnexion"><i data-lucide="power"></i></button>
-</div>
-
-<div class="npanel" id="npanel">
-  <h4>Notifications <button onclick="markAllRead()">Tout marquer lu</button></h4>
-  <div id="nlist"></div>
-</div>
-
-<div class="tabs">
-  <div class="tab on" data-t="dash" onclick="goTab('dash')"><i data-lucide="layout-dashboard"></i>Pilotage</div>
-  <div class="tab" data-t="vend" onclick="goTab('vend')"><i data-lucide="store"></i>Vendeurs<span class="nub" id="nuVend" style="display:none">0</span></div>
-  <div class="tab" data-t="driv" onclick="goTab('driv')"><i data-lucide="bike"></i>Livreurs<span class="nub" id="nuDriv" style="display:none">0</span></div>
-  <div class="tab" data-t="ord" onclick="goTab('ord')"><i data-lucide="package"></i>Commandes</div>
-  <div class="tab" data-t="pay" onclick="goTab('pay')"><i data-lucide="banknote"></i>Reversements<span class="nub" id="nuPay" style="display:none">0</span></div>
-  <div class="tab" data-t="msg" onclick="goTab('msg')"><i data-lucide="message-square"></i>Messages</div>
-</div>
-
-<div class="panel on" id="p-dash">
-  <div class="kpis">
-    <div class="kpi alert"><div class="kv" id="kPendV">–</div><div class="kl">Vendeurs à valider</div></div>
-    <div class="kpi alert"><div class="kv" id="kPendD">–</div><div class="kl">Livreurs à valider</div></div>
-    <div class="kpi"><div class="kv" id="kOrd">–</div><div class="kl">Commandes aujourd'hui</div></div>
-    <div class="kpi good"><div class="kv" id="kCA">–</div><div class="kl">CA total livré</div></div>
-    <div class="kpi alert"><div class="kv" id="kPay">–</div><div class="kl">À reverser</div></div>
-    <div class="kpi"><div class="kv" id="kCom">–</div><div class="kl">Commissions SEN TEW</div></div>
+  <h1>🛡️ SEN TEW Admin</h1>
+  <div class="top-actions">
+    <button class="icobtn" onclick="silentRefresh()" title="Rafraîchir"><i data-lucide="refresh-cw"></i></button>
+    <button class="icobtn" onclick="logout()" title="Déconnexion"><i data-lucide="log-out"></i></button>
   </div>
-  <div class="sect">Actions rapides</div>
-  <div class="quick">
-    <a class="qact" href="admin-documents.html"><i data-lucide="folder-lock"></i>Docu-<br>ments</a>
-    <a class="qact" href="#" onclick="goTab('pay');return false"><i data-lucide="banknote"></i>Rever-<br>sements</a>
-    <a class="qact" href="#" onclick="goTab('msg');return false"><i data-lucide="message-square"></i>Mes-<br>sages</a>
-    <a class="qact" href="#" onclick="exportCSV();return false"><i data-lucide="download"></i>Export<br>CSV</a>
+</div>
+
+<div class="tabs" id="tabs">
+  <button class="tab on" data-t="pilotage" onclick="showTab('pilotage',this)">Pilotage</button>
+  <button class="tab" data-t="vendeurs" onclick="showTab('vendeurs',this)">Vendeurs <span class="nb" id="nbV"></span></button>
+  <button class="tab" data-t="livreurs" onclick="showTab('livreurs',this)">Livreurs <span class="nb" id="nbL"></span></button>
+  <button class="tab" data-t="commandes" onclick="showTab('commandes',this)">Commandes</button>
+  <button class="tab" data-t="notifs" onclick="showTab('notifs',this)">Notifications <span class="nb" id="nbN"></span></button>
+</div>
+
+<div class="wrap">
+  <div id="pilotage" class="panel">
+    <div class="kpis">
+      <div class="kpi"><div class="kv" id="kVendors">–</div><div class="kl">Vendeurs actifs</div></div>
+      <div class="kpi warn"><div class="kv" id="kPending">–</div><div class="kl">En attente validation</div></div>
+      <div class="kpi"><div class="kv" id="kOrders">–</div><div class="kl">Commandes</div></div>
+      <div class="kpi"><div class="kv" id="kCA">–</div><div class="kl">CA livré (FCFA)</div></div>
+    </div>
+    <div class="sect">À traiter en priorité</div>
+    <div id="priorityList"><div class="loading">Chargement…</div></div>
   </div>
-  <div class="sect">Dernières demandes</div>
-  <div id="recentList"></div>
-</div>
-
-<div class="panel" id="p-vend">
-  <input class="search" id="searchVend" placeholder="Rechercher une boutique, un nom, une ville…" oninput="renderVend()">
-  <div class="selbar" id="selbar-vend">
-    <span class="cnt" id="cnt-vend">0</span> sélectionné(s)
-    <button class="sa sa-ok" onclick="bulk('vend','activer')">✓ Activer</button>
-    <button class="sa sa-pin" onclick="bulk('vend','avant')">★ En avant</button>
-    <button class="sa sa-warn" onclick="bulk('vend','suspendre')">‖ Suspendre</button>
-    <button class="sa sa-bad" onclick="bulk('vend','archiver')">✕ Archiver</button>
-  </div>
-  <label class="chkall"><input type="checkbox" class="chk" onchange="toggleAll('vend',this.checked)"> Tout sélectionner</label>
-  <div id="listVend"></div>
-</div>
-
-<div class="panel" id="p-driv">
-  <input class="search" id="searchDriv" placeholder="Rechercher un livreur, une zone, une plaque…" oninput="renderDriv()">
-  <div class="selbar" id="selbar-driv">
-    <span class="cnt" id="cnt-driv">0</span> sélectionné(s)
-    <button class="sa sa-ok" onclick="bulk('driv','activer')">✓ Activer</button>
-    <button class="sa sa-warn" onclick="bulk('driv','suspendre')">‖ Suspendre</button>
-    <button class="sa sa-bad" onclick="bulk('driv','archiver')">✕ Archiver</button>
-  </div>
-  <label class="chkall"><input type="checkbox" class="chk" onchange="toggleAll('driv',this.checked)"> Tout sélectionner</label>
-  <div id="listDriv"></div>
-</div>
-
-<div class="panel" id="p-ord">
-  <input class="search" id="searchOrd" placeholder="Rechercher par code, client…" oninput="renderOrd()">
-  <div id="listOrd"></div>
-</div>
-
-<div class="panel" id="p-pay">
-  <div class="sect">Reversements vendeurs (ventes livrées non payées)</div>
-  <button class="payall" onclick="payAll('vend')">TOUT PAYER LES VENDEURS</button>
-  <div id="payVend"></div>
-  <div class="sect">Reversements livreurs (courses livrées non payées)</div>
-  <button class="payall" onclick="payAll('driv')">TOUT PAYER LES LIVREURS</button>
-  <div id="payDriv"></div>
-  <div class="sect">Historique des paiements</div>
-  <div id="payHist"></div>
-</div>
-
-<div class="panel" id="p-msg">
-  <div class="sendbox">
-    <div class="sect" style="margin-top:0">Envoyer une notification</div>
-    <select id="msgTarget"><option value="">— Choisir le destinataire —</option></select>
-    <input id="msgTitle" placeholder="Titre du message">
-    <textarea id="msgBody" placeholder="Message…"></textarea>
-    <button class="sendbtn" onclick="sendMsg()">Envoyer la notification</button>
-  </div>
-  <div class="sect">Messages prêts à l'emploi (clique pour remplir)</div>
-  <div id="tplList"></div>
-  <div class="sect">Envois groupés en 1 clic</div>
-  <div id="bulkMsg"></div>
+  <div id="vendeurs" class="panel hidden"><div class="loading">Chargement…</div></div>
+  <div id="livreurs" class="panel hidden"><div class="loading">Chargement…</div></div>
+  <div id="commandes" class="panel hidden"><div class="loading">Chargement…</div></div>
+  <div id="notifs" class="panel hidden"><div class="loading">Chargement…</div></div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-lucide.createIcons();
-var sess=sessionStorage.getItem('sentew_admin')||localStorage.getItem('sentew_admin')||sessionStorage.getItem('sentew_admin_session')||localStorage.getItem('sentew_admin_session')||sessionStorage.getItem('admin_session')||sessionStorage.getItem('st_admin_session')||localStorage.getItem('st_admin_session');
-if(!sess){
-  document.body.innerHTML='<div style="max-width:400px;margin:60px auto;text-align:center;font-family:sans-serif;background:#fff;padding:30px;border-radius:16px"><h2 style="margin-bottom:10px">Session admin requise</h2><p style="color:#6b7280;font-size:13px;margin-bottom:16px">Connecte-toi pour accéder au panneau.</p><a href="login-admin.html" style="display:inline-block;background:#0f6b4e;color:#fff;padding:13px 24px;border-radius:12px;text-decoration:none;font-weight:800">Se connecter →</a></div>';
-  throw new Error('stop');
-}
-function logout(){sessionStorage.removeItem('sentew_admin');localStorage.removeItem('sentew_admin');location.href='login-admin.html';}
-
-var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
+/* ══════════ CONFIG ══════════ */
+var SUPA='https://tjqkruhwmjzgfvtouqza.supabase.co';
 var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
-var H={apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY};
-var HJ={apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'};
-function esc(s){var d=document.createElement('div');d.textContent=String(s==null?'':s);return d.innerHTML;}
-function fmt(n){return Math.round(n||0).toLocaleString('fr-FR')+' F';}
-function toast(m){var t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(function(){t.style.display='none';},2600);}
+var H={apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'};
 
-var DATA={vendors:[],drivers:[],orders:[],payouts:[],notifs:[]};
-var SEL={};
+/* ══════════ GARDE DE SESSION — même clé que login-admin ══════════ */
+var sess=sessionStorage.getItem('sentew_admin')||localStorage.getItem('sentew_admin');
+if(!sess){location.replace('login-admin.html');}
 
-async function api(p){var r=await fetch(SUPA_URL+'/rest/v1/'+p,{headers:H});try{return await r.json()||[];}catch(e){return[];}}
-async function patch(t,id,b){await fetch(SUPA_URL+'/rest/v1/'+t+'?id=eq.'+id,{method:'PATCH',headers:HJ,body:JSON.stringify(b)});}
-async function insert(t,b){var r=await fetch(SUPA_URL+'/rest/v1/'+t,{method:'POST',headers:HJ,body:JSON.stringify(b)});return r.ok;}
-async function notify(email,title,message){return insert('notifications',{audience:'user',user_email:email,type:'admin_msg',title:title,message:message});}
+function logout(){sessionStorage.removeItem('sentew_admin');localStorage.removeItem('sentew_admin');location.replace('login-admin.html');}
 
-/* PAS de rechargement automatique — la page est STABLE. Bouton 🔄 pour actualiser. */
-async function loadAll(manual){
-  if(manual)toast('Actualisation…');
-  var r=await Promise.all([
-    api('vendors?select=*&order=created_at.desc'),
-    api('drivers?select=*&order=created_at.desc'),
-    api('orders?select=*&order=created_at.desc&limit=200'),
-    api('payouts?select=*&order=created_at.desc&limit=60'),
-    api('notifications?audience=eq.admin&order=created_at.desc&limit=40')
-  ]);
-  DATA.vendors=r[0];DATA.drivers=r[1];DATA.orders=r[2];DATA.payouts=r[3];DATA.notifs=r[4];
-  renderDash();renderVend();renderDriv();renderOrd();renderPay();renderNotifs();fillTargets();
-  if(manual)toast('Données à jour');
+/* ══════════ HELPERS ══════════ */
+function $(id){return document.getElementById(id);}
+function toast(m){var t=$('toast');t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on');},2500);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function fmtDate(d){if(!d)return'';try{return new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'short'})+' '+new Date(d).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}catch(e){return'';}}
+function fmtN(n){return (n||0).toLocaleString('fr-FR');}
+
+async function api(table,query,opts){
+  opts=opts||{};
+  var r=await fetch(SUPA+'/rest/v1/'+table+(query||''),Object.assign({headers:H},opts));
+  if(opts.method&&opts.method!=='GET')return r;
+  return r.json();
 }
 
-function goTab(t){
-  document.querySelectorAll('.tab').forEach(function(x){x.classList.toggle('on',x.dataset.t===t);});
-  document.querySelectorAll('.panel').forEach(function(x){x.classList.toggle('on',x.id==='p-'+t);});
-  window.scrollTo(0,0);
+/* ══════════ NAVIGATION ONGLETS ══════════ */
+function showTab(id,btn){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.add('hidden');});
+  $(id).classList.remove('hidden');
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});
+  if(btn)btn.classList.add('on');
+  if(id==='vendeurs')loadVendors();
+  if(id==='livreurs')loadDrivers();
+  if(id==='commandes')loadOrders();
+  if(id==='notifs')loadNotifs();
 }
 
-function renderDash(){
-  var pendV=DATA.vendors.filter(function(v){return v.status==='pending';}).length;
-  var pendD=DATA.drivers.filter(function(d){return d.status==='pending';}).length;
-  var today=new Date().toDateString();
-  var ordToday=DATA.orders.filter(function(o){return new Date(o.created_at).toDateString()===today;}).length;
-  var delivered=DATA.orders.filter(function(o){return o.status==='delivered';});
-  var ca=delivered.reduce(function(s,o){return s+(o.total||0);},0);
-  var com=0;
-  delivered.forEach(function(o){
-    var v=DATA.vendors.filter(function(x){return x.email===o.vendor_email||x.id===o.vendor_id;})[0];
-    com+=(o.total||0)*((v&&v.commission_rate!=null?v.commission_rate:8)/100);
-  });
-  var toPay=computePayouts();
-  var totalPay=toPay.vend.concat(toPay.driv).reduce(function(s,p){return s+p.amount;},0);
-  document.getElementById('kPendV').textContent=pendV;
-  document.getElementById('kPendD').textContent=pendD;
-  document.getElementById('kOrd').textContent=ordToday;
-  document.getElementById('kCA').textContent=fmt(ca);
-  document.getElementById('kPay').textContent=fmt(totalPay);
-  document.getElementById('kCom').textContent=fmt(com);
-  var nuV=document.getElementById('nuVend');nuV.style.display=pendV?'inline-block':'none';nuV.textContent=pendV;
-  var nuD=document.getElementById('nuDriv');nuD.style.display=pendD?'inline-block':'none';nuD.textContent=pendD;
-  document.getElementById('nuPay').style.display=totalPay>0?'inline-block':'none';
-  var recent=DATA.notifs.slice(0,5);
-  document.getElementById('recentList').innerHTML=recent.length?recent.map(function(n){
-    return '<div class="hist" onclick="openNotif(\''+n.id+'\',\''+(n.type||'')+'\')"><span><b>'+esc(n.title)+'</b><br>'+esc(n.message)+'</span><small>'+new Date(n.created_at).toLocaleDateString('fr-FR')+'</small></div>';
-  }).join(''):'<div class="empty">Aucune demande récente</div>';
-}
-
-function renderNotifs(){
-  var unread=DATA.notifs.filter(function(n){return !n.is_read;}).length;
-  var b=document.getElementById('bellBadge');
-  b.style.display=unread?'flex':'none';b.textContent=unread>9?'9+':unread;
-  document.getElementById('nlist').innerHTML=DATA.notifs.length?DATA.notifs.map(function(n){
-    return '<div class="nitem '+(n.is_read?'read':'unread')+'" onclick="openNotif(\''+n.id+'\',\''+(n.type||'')+'\')">'
-      +'<div class="nd"></div><div><b>'+esc(n.title)+'</b><div>'+esc(n.message)+'</div>'
-      +'<small>'+new Date(n.created_at).toLocaleString('fr-FR')+'</small></div></div>';
-  }).join(''):'<div class="empty">Aucune notification</div>';
-}
-function toggleNotif(){document.getElementById('npanel').classList.toggle('on');}
-async function openNotif(id,type){
-  patch('notifications',id,{is_read:true});
-  document.getElementById('npanel').classList.remove('on');
-  if(type==='kyc_pending'){location.href='admin-documents.html';return;}
-  loadAll();
-}
-async function markAllRead(){
-  for(var i=0;i<DATA.notifs.length;i++){if(!DATA.notifs[i].is_read)patch('notifications',DATA.notifs[i].id,{is_read:true});}
-  toast('Tout marqué lu');setTimeout(loadAll,800);
-}
-
-function toggleSel(ctx,id,on){
-  if(on)SEL[ctx+':'+id]=true;else delete SEL[ctx+':'+id];
-  var n=Object.keys(SEL).filter(function(k){return k.indexOf(ctx+':')===0;}).length;
-  document.getElementById('selbar-'+ctx).classList.toggle('on',n>0);
-  document.getElementById('cnt-'+ctx).textContent=n;
-}
-function toggleAll(ctx,on){
-  document.querySelectorAll('.chk-'+ctx).forEach(function(c){c.checked=on;toggleSel(ctx,c.dataset.id,on);});
-}
-async function bulk(ctx,action){
-  var ids=Object.keys(SEL).filter(function(k){return k.indexOf(ctx+':')===0;}).map(function(k){return k.split(':')[1];});
-  if(!ids.length)return;
-  var L={activer:'Activer',avant:'Mettre en avant',suspendre:'Suspendre',archiver:'Archiver'};
-  if(!confirm(L[action]+' → '+ids.length+' élément(s) ?'))return;
-  var table=ctx==='vend'?'vendors':'drivers';
-  var body={};
-  if(action==='activer')body={status:'active'};
-  if(action==='suspendre')body={status:'suspended'};
-  if(action==='archiver')body={status:'archived'};
-  if(action==='avant')body={is_featured:true};
-  var items=(ctx==='vend'?DATA.vendors:DATA.drivers);
-  for(var i=0;i<ids.length;i++){
-    await patch(table,ids[i],body);
-    var it=items.filter(function(x){return String(x.id)===String(ids[i]);})[0];
-    if(it&&it.email){
-      if(action==='activer')await notify(it.email,'Ton compte SEN TEW est ACTIF !','Bonne nouvelle ! Ton compte a été validé par notre équipe. Tu peux commencer dès maintenant. Bienvenue dans la famille SEN TEW !');
-      if(action==='suspendre')await notify(it.email,'Compte suspendu temporairement','Ton compte a été suspendu. Contacte le support SEN TEW pour régulariser ta situation rapidement.');
-      if(action==='archiver')await notify(it.email,'Compte archivé','Ton compte a été archivé par l\'administration SEN TEW. Contacte le support si tu penses qu\'il s\'agit d\'une erreur.');
-    }
-  }
-  Object.keys(SEL).forEach(function(k){if(k.indexOf(ctx+':')===0)delete SEL[k];});
-  toast(L[action]+' appliqué à '+ids.length+' élément(s)');
-  loadAll();
-}
-
-function makeSwipe(card,acts){
-  var wrap=document.createElement('div');wrap.className='swp';
-  var aw=document.createElement('div');aw.className='swp-acts';
-  acts.forEach(function(a){
-    var b=document.createElement('button');b.className=a.cls;
-    b.innerHTML='<i data-lucide="'+a.ico+'"></i>'+a.txt;
-    b.onclick=function(){card.style.transform='translateX(0)';a.fn();};
-    aw.appendChild(b);
-  });
-  card.parentNode.insertBefore(wrap,card);
-  wrap.appendChild(aw);wrap.appendChild(card);
-  var sx=0,cx=0,mw=acts.length*66;
-  card.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;cx=sx;},{passive:true});
-  card.addEventListener('touchmove',function(e){cx=e.touches[0].clientX;var dx=cx-sx;if(dx<0&&dx>-mw-20)card.style.transform='translateX('+dx+'px)';else if(dx>0)card.style.transform='translateX(0)';},{passive:true});
-  card.addEventListener('touchend',function(){card.style.transform=(cx-sx<-50)?'translateX(-'+mw+'px)':'translateX(0)';});
-  lucide.createIcons();
-}
-
-function stBadge(st){
-  return {active:'<span class="st st-ok">ACTIF</span>',pending:'<span class="st st-pend">EN ATTENTE</span>',suspended:'<span class="st st-susp">SUSPENDU</span>',archived:'<span class="st st-arch">ARCHIVÉ</span>'}[st]||'<span class="st st-pend">'+esc(st||'?')+'</span>';
-}
-
-function renderVend(){
-  var q=(document.getElementById('searchVend').value||'').toLowerCase();
-  var rows=DATA.vendors.filter(function(v){return !q||((v.shop_name||'')+' '+(v.full_name||'')+' '+(v.city||'')+' '+(v.email||'')).toLowerCase().indexOf(q)>-1;});
-  var el=document.getElementById('listVend');
-  if(!rows.length){el.innerHTML='<div class="empty">Aucun vendeur trouvé</div>';return;}
-  el.innerHTML='';
-  rows.forEach(function(v){
-    var c=document.createElement('div');c.className='card2';
-    c.innerHTML='<input type="checkbox" class="chk chk-vend" data-id="'+v.id+'">'
-      +'<div class="av"><i data-lucide="store"></i></div><div class="ci"><b>'+esc(v.shop_name||v.full_name||'')+'</b>'
-      +'<small>'+esc(v.full_name||'')+' · '+esc(v.city||'')+' · '+esc(v.category||'')+'<br>'+(v.level||'teranga').toUpperCase()+' · Commission '+(v.commission_rate!=null?v.commission_rate:8)+'% · '+esc(v.email||'')+'</small>'
-      +'<div class="qrow">'
-      +(v.status==='pending'?'<button class="qb qb-g" data-act="valider">✓ Valider</button>':'')
-      +'<button class="qb qb-b" data-act="msg">✉ Message</button>'
-      +(v.status!=='suspended'?'<button class="qb qb-o" data-act="susp">‖ Suspendre</button>':'')
-      +'</div></div>'+stBadge(v.status);
-    c.querySelector('.chk-vend').addEventListener('change',function(){toggleSel('vend',v.id,this.checked);});
-    c.querySelectorAll('.qb').forEach(function(b){
-      b.addEventListener('click',function(){
-        if(b.dataset.act==='valider')quickAction('vendors',v,'activer');
-        if(b.dataset.act==='susp')quickAction('vendors',v,'suspendre');
-        if(b.dataset.act==='msg'){goTab('msg');presetTarget(v.email);}
-      });
+/* ══════════ PILOTAGE (KPIs) ══════════ */
+async function loadPilotage(){
+  try{
+    var vendors=await api('vendors','?select=id,status');
+    var drivers=await api('drivers','?select=id,status');
+    var orders=await api('orders','?select=id,total,status');
+    vendors=Array.isArray(vendors)?vendors:[];
+    drivers=Array.isArray(drivers)?drivers:[];
+    orders=Array.isArray(orders)?orders:[];
+    var pendV=vendors.filter(function(v){return v.status==='pending';}).length;
+    var pendD=drivers.filter(function(d){return d.status==='pending';}).length;
+    var ca=orders.filter(function(o){return o.status==='delivered';}).reduce(function(s,o){return s+(o.total||0);},0);
+    $('kVendors').textContent=vendors.filter(function(v){return v.status==='active'||v.status==='approved';}).length;
+    $('kPending').textContent=pendV+pendD;
+    $('kOrders').textContent=orders.length;
+    $('kCA').textContent=fmtN(ca);
+    setBadge('nbV',pendV);setBadge('nbL',pendD);
+    /* priorités */
+    var html='';
+    vendors.filter(function(v){return v.status==='pending';}).forEach(function(v){
+      html+='<div class="card2"><div class="row"><div><div class="nm">🏬 Vendeur en attente</div><div class="meta">ID '+esc(v.id).slice(0,8)+'…</div></div><span class="pill pending">À valider</span></div></div>';
     });
-    el.appendChild(c);
-    makeSwipe(c,[
-      {cls:'sw-ok',ico:'check',txt:'Valider',fn:function(){quickAction('vendors',v,'activer');}},
-      {cls:'sw-msg',ico:'mail',txt:'Message',fn:function(){goTab('msg');presetTarget(v.email);}},
-      {cls:'sw-pause',ico:'pause',txt:'Susp.',fn:function(){quickAction('vendors',v,'suspendre');}}
-    ]);
-  });
-  lucide.createIcons();
-}
-
-function renderDriv(){
-  var q=(document.getElementById('searchDriv').value||'').toLowerCase();
-  var rows=DATA.drivers.filter(function(d){return !q||((d.full_name||'')+' '+(d.zone||'')+' '+(d.plate||'')+' '+(d.email||'')).toLowerCase().indexOf(q)>-1;});
-  var el=document.getElementById('listDriv');
-  if(!rows.length){el.innerHTML='<div class="empty">Aucun livreur trouvé</div>';return;}
-  el.innerHTML='';
-  rows.forEach(function(d){
-    var c=document.createElement('div');c.className='card2';
-    c.innerHTML='<input type="checkbox" class="chk chk-driv" data-id="'+d.id+'">'
-      +'<div class="av"><i data-lucide="bike"></i></div><div class="ci"><b>'+esc(d.full_name||'')+'</b>'
-      +'<small>'+esc(d.vehicle_type||'')+(d.plate?' · '+esc(d.plate):'')+' · '+esc(d.zone||'')+'<br>'+esc(d.email||'')+'</small>'
-      +'<div class="qrow">'
-      +(d.status==='pending'?'<button class="qb qb-g" data-act="valider">✓ Valider</button>':'')
-      +'<button class="qb qb-b" data-act="msg">✉ Message</button>'
-      +(d.status!=='suspended'?'<button class="qb qb-o" data-act="susp">‖ Suspendre</button>':'')
-      +'</div></div>'+stBadge(d.status);
-    c.querySelector('.chk-driv').addEventListener('change',function(){toggleSel('driv',d.id,this.checked);});
-    c.querySelectorAll('.qb').forEach(function(b){
-      b.addEventListener('click',function(){
-        if(b.dataset.act==='valider')quickAction('drivers',d,'activer');
-        if(b.dataset.act==='susp')quickAction('drivers',d,'suspendre');
-        if(b.dataset.act==='msg'){goTab('msg');presetTarget(d.email);}
-      });
+    drivers.filter(function(d){return d.status==='pending';}).forEach(function(d){
+      html+='<div class="card2"><div class="row"><div><div class="nm">🛵 Livreur en attente</div><div class="meta">ID '+esc(d.id).slice(0,8)+'…</div></div><span class="pill pending">À valider</span></div></div>';
     });
-    el.appendChild(c);
-    makeSwipe(c,[
-      {cls:'sw-ok',ico:'check',txt:'Valider',fn:function(){quickAction('drivers',d,'activer');}},
-      {cls:'sw-msg',ico:'mail',txt:'Message',fn:function(){goTab('msg');presetTarget(d.email);}},
-      {cls:'sw-pause',ico:'pause',txt:'Susp.',fn:function(){quickAction('drivers',d,'suspendre');}}
-    ]);
-  });
+    $('priorityList').innerHTML=html||'<div class="empty">✅ Aucune demande en attente. Tout est à jour !</div>';
+  }catch(e){$('priorityList').innerHTML='<div class="empty">Erreur de chargement.</div>';}
+}
+
+function setBadge(id,n){var b=$(id);if(!b)return;if(n>0){b.textContent=n;b.classList.add('on');}else{b.classList.remove('on');}}
+
+/* ══════════ VENDEURS ══════════ */
+async function loadVendors(){
+  var el=$('vendeurs');
+  el.innerHTML='<div class="loading">Chargement…</div>';
+  var rows=await api('vendors','?select=id,shop_name,full_name,email,phone,city,status,commission_rate,created_at&order=created_at.desc');
+  if(!Array.isArray(rows)||rows.length===0){el.innerHTML='<div class="empty">Aucun vendeur pour le moment.</div>';return;}
+  el.innerHTML=rows.map(function(v){
+    return '<div class="card2"><div class="row"><div><div class="nm">'+esc(v.shop_name||'Boutique')+'</div><div class="meta">'+esc(v.full_name||'')+' · '+esc(v.city||'')+' · '+esc(v.phone||'')+'<br>'+fmtDate(v.created_at)+' · commission '+(v.commission_rate||8)+'%</div></div><span class="pill '+esc(v.status||'pending')+'">'+esc(v.status||'pending')+'</span></div>'+
+    '<div class="actions">'+
+    (v.status==='pending'?'<button class="abtn ok" onclick="setStatus(\'vendors\',\''+v.id+'\',\'active\',\''+esc(v.email||'')+'\',\'vendeur\')"><i data-lucide="check"></i>Valider</button><button class="abtn danger" onclick="setStatus(\'vendors\',\''+v.id+'\',\'rejected\',\''+esc(v.email||'')+'\',\'vendeur\')"><i data-lucide="x"></i>Rejeter</button>':'')+
+    (v.status==='active'?'<button class="abtn warn" onclick="setStatus(\'vendors\',\''+v.id+'\',\'suspended\',\''+esc(v.email||'')+'\',\'vendeur\')"><i data-lucide="pause"></i>Suspendre</button>':'')+
+    (v.status==='suspended'?'<button class="abtn ok" onclick="setStatus(\'vendors\',\''+v.id+'\',\'active\',\''+esc(v.email||'')+'\',\'vendeur\')"><i data-lucide="play"></i>Réactiver</button>':'')+
+    '</div></div>';
+  }).join('');
   lucide.createIcons();
 }
 
-async function quickAction(table,item,action){
-  var L={activer:'Activer',suspendre:'Suspendre'};
-  if(!confirm(L[action]+' : '+(item.shop_name||item.full_name)+' ?'))return;
-  await patch(table,item.id,{status:action==='activer'?'active':'suspended'});
-  if(item.email){
-    if(action==='activer')await notify(item.email,'Ton compte SEN TEW est ACTIF !','Bonne nouvelle ! Ton compte a été validé par notre équipe. Tu peux commencer dès maintenant. Bienvenue dans la famille SEN TEW !');
-    else await notify(item.email,'Compte suspendu temporairement','Ton compte a été suspendu. Contacte le support SEN TEW pour régulariser ta situation rapidement.');
-  }
-  toast(L[action]+' — notification envoyée');
-  loadAll();
+/* ══════════ LIVREURS ══════════ */
+async function loadDrivers(){
+  var el=$('livreurs');
+  el.innerHTML='<div class="loading">Chargement…</div>';
+  var rows=await api('drivers','?select=id,full_name,email,phone,city,vehicle_type,status,created_at&order=created_at.desc');
+  if(!Array.isArray(rows)||rows.length===0){el.innerHTML='<div class="empty">Aucun livreur pour le moment.</div>';return;}
+  el.innerHTML=rows.map(function(d){
+    return '<div class="card2"><div class="row"><div><div class="nm">'+esc(d.full_name||'Livreur')+'</div><div class="meta">'+esc(d.vehicle_type||'')+' · '+esc(d.city||'')+' · '+esc(d.phone||'')+'<br>'+fmtDate(d.created_at)+'</div></div><span class="pill '+esc(d.status||'pending')+'">'+esc(d.status||'pending')+'</span></div>'+
+    '<div class="actions">'+
+    (d.status==='pending'?'<button class="abtn ok" onclick="setStatus(\'drivers\',\''+d.id+'\',\'active\',\''+esc(d.email||'')+'\',\'livreur\')"><i data-lucide="check"></i>Valider</button><button class="abtn danger" onclick="setStatus(\'drivers\',\''+d.id+'\',\'rejected\',\''+esc(d.email||'')+'\',\'livreur\')"><i data-lucide="x"></i>Rejeter</button>':'')+
+    (d.status==='active'?'<button class="abtn warn" onclick="setStatus(\'drivers\',\''+d.id+'\',\'suspended\',\''+esc(d.email||'')+'\',\'livreur\')"><i data-lucide="pause"></i>Suspendre</button>':'')+
+    (d.status==='suspended'?'<button class="abtn ok" onclick="setStatus(\'drivers\',\''+d.id+'\',\'active\',\''+esc(d.email||'')+'\',\'livreur\')"><i data-lucide="play"></i>Réactiver</button>':'')+
+    '</div></div>';
+  }).join('');
+  lucide.createIcons();
 }
 
-function renderOrd(){
-  var q=(document.getElementById('searchOrd').value||'').toLowerCase();
-  var rows=DATA.orders.filter(function(o){return !q||((o.tracking_code||'')+' '+(o.client_name||'')+' '+(o.client_email||'')+' '+(o.status||'')).toLowerCase().indexOf(q)>-1;});
-  var el=document.getElementById('listOrd');
-  if(!rows.length){el.innerHTML='<div class="empty">Aucune commande</div>';return;}
-  var stMap={confirmed:['Confirmée','st-pend'],preparing:['Préparation','st-pend'],picked_up:['Récupérée','st-ok'],in_transit:['En livraison','st-ok'],delivered:['Livrée','st-ok'],cancelled:['Annulée','st-susp']};
-  el.innerHTML=rows.slice(0,50).map(function(o){
-    var s=stMap[o.status]||[o.status,'st-pend'];
-    return '<div class="hist"><span><b>'+esc(o.tracking_code||o.id)+'</b><br>'+esc(o.client_name||o.client_email||'')+' · '+fmt(o.total)+'</span><span class="st '+s[1]+'">'+s[0].toUpperCase()+'</span></div>';
+/* ══════════ COMMANDES ══════════ */
+async function loadOrders(){
+  var el=$('commandes');
+  el.innerHTML='<div class="loading">Chargement…</div>';
+  var rows=await api('orders','?select=id,customer_email,total,status,created_at&order=created_at.desc&limit=50');
+  if(!Array.isArray(rows)||rows.length===0){el.innerHTML='<div class="empty">Aucune commande pour le moment.</div>';return;}
+  el.innerHTML=rows.map(function(o){
+    return '<div class="card2"><div class="row"><div><div class="nm">Commande #'+esc(String(o.id)).slice(0,8)+'</div><div class="meta">'+esc(o.customer_email||'')+' · '+fmtDate(o.created_at)+'</div></div><div style="text-align:right"><div class="nm">'+fmtN(o.total)+' F</div><span class="pill '+esc(o.status||'')+'">'+esc(o.status||'')+'</span></div></div></div>';
   }).join('');
 }
 
-function computePayouts(){
-  var vendMap={};
-  DATA.orders.forEach(function(o){
-    if(o.status!=='delivered'||o.payout_done)return;
-    var key=o.vendor_email||o.vendor_id||'inconnu';
-    if(!vendMap[key])vendMap[key]={key:key,count:0,total:0,ids:[]};
-    vendMap[key].count++;vendMap[key].total+=(o.total||0);vendMap[key].ids.push(o.id);
-  });
-  var vend=Object.keys(vendMap).map(function(k){
-    var m=vendMap[k];
-    var v=DATA.vendors.filter(function(x){return x.email===k||String(x.id)===String(k);})[0];
-    var rate=v&&v.commission_rate!=null?v.commission_rate:8;
-    return {type:'vendeur',key:k,name:v?(v.shop_name||v.full_name):k,email:v?v.email:null,count:m.count,total:m.total,commission:m.total*rate/100,amount:m.total*(1-rate/100),ids:m.ids,method:v&&v.payout_method?v.payout_method:'Mobile Money'};
-  });
-  var drivMap={};
-  DATA.orders.forEach(function(o){
-    if(o.status!=='delivered'||o.driver_paid||!o.driver_id)return;
-    var key=String(o.driver_id);
-    if(!drivMap[key])drivMap[key]={key:key,count:0,total:0,ids:[]};
-    drivMap[key].count++;drivMap[key].total+=(o.delivery_fee||1000);drivMap[key].ids.push(o.id);
-  });
-  var driv=Object.keys(drivMap).map(function(k){
-    var m=drivMap[k];
-    var d=DATA.drivers.filter(function(x){return String(x.id)===k;})[0];
-    return {type:'livreur',key:k,name:d?d.full_name:('Livreur '+k),email:d?d.email:null,count:m.count,total:m.total,amount:m.total,ids:m.ids,method:'Mobile Money'};
-  });
-  return {vend:vend,driv:driv};
-}
-
-function renderPay(){
-  var p=computePayouts();
-  document.getElementById('payVend').innerHTML=p.vend.length?p.vend.map(function(x,i){
-    return '<div class="paycard"><div class="ph"><b>'+esc(x.name)+'</b><span class="st st-pend">À PAYER</span></div>'
-      +'<div class="payrow"><span>Commandes livrées</span><span>'+x.count+'</span></div>'
-      +'<div class="payrow"><span>Total des ventes</span><span>'+fmt(x.total)+'</span></div>'
-      +'<div class="payrow"><span>Commission SEN TEW</span><span>-'+fmt(x.commission)+'</span></div>'
-      +'<div class="payrow"><span><b>Net à reverser ('+esc(x.method)+')</b></span><b>'+fmt(x.amount)+'</b></div>'
-      +'<button class="sa sa-pay" style="width:100%;padding:11px;margin-top:9px;font-size:12px;justify-content:center" onclick="payOne(\'vend\','+i+')">Marquer payé + notifier</button></div>';
-  }).join(''):'<div class="empty">Aucun reversement vendeur en attente</div>';
-  document.getElementById('payDriv').innerHTML=p.driv.length?p.driv.map(function(x,i){
-    return '<div class="paycard"><div class="ph"><b>'+esc(x.name)+'</b><span class="st st-pend">À PAYER</span></div>'
-      +'<div class="payrow"><span>Courses livrées</span><span>'+x.count+'</span></div>'
-      +'<div class="payrow"><span><b>Net à reverser ('+esc(x.method)+')</b></span><b>'+fmt(x.amount)+'</b></div>'
-      +'<button class="sa sa-pay" style="width:100%;padding:11px;margin-top:9px;font-size:12px;justify-content:center" onclick="payOne(\'driv\','+i+')">Marquer payé + notifier</button></div>';
-  }).join(''):'<div class="empty">Aucun reversement livreur en attente</div>';
-  var hist=DATA.payouts.filter(function(x){return x.status==='paid';});
-  document.getElementById('payHist').innerHTML=hist.length?hist.map(function(x){
-    return '<div class="hist"><span><b>'+(x.recipient_type==='vendeur'?'Vendeur':'Livreur')+' · '+esc(x.recipient_name||'')+'</b><br>'+new Date(x.paid_at||x.created_at).toLocaleString('fr-FR')+'</span><b style="color:#0f6b4e">'+fmt(x.amount)+'</b></div>';
-  }).join(''):'<div class="empty">Aucun paiement effectué</div>';
-}
-
-async function payOne(which,idx){
-  var p=computePayouts();
-  var x=(which==='vend'?p.vend:p.driv)[idx];
-  if(!x)return;
-  if(!confirm('Payer '+fmt(x.amount)+' à '+x.name+' ?\n\nEffectue le virement puis confirme.'))return;
-  await insert('payouts',{recipient_type:x.type,recipient_email:x.email,recipient_name:x.name,amount:x.amount,method:x.method,status:'paid',paid_at:new Date().toISOString()});
-  var col=which==='vend'?'payout_done':'driver_paid';
-  for(var i=0;i<x.ids.length;i++){var o={};o[col]=true;await patch('orders',x.ids[i],o);}
-  if(x.email)await notify(x.email,'Reversement envoyé : '+fmt(x.amount),'Ton reversement de '+fmt(x.amount)+' vient d\'être envoyé via '+x.method+'. Arrivée prévue sous 24 à 48h selon l\'opérateur. Merci pour ta confiance !');
-  toast(fmt(x.amount)+' payé à '+x.name);
-  loadAll();
-}
-
-async function payAll(which){
-  var p=computePayouts();
-  var list=which==='vend'?p.vend:p.driv;
-  if(!list.length){toast('Rien à payer');return;}
-  var total=list.reduce(function(s,x){return s+x.amount;},0);
-  if(!confirm('TOUT PAYER ('+(which==='vend'?'vendeurs':'livreurs')+') ?\n\n'+list.length+' bénéficiaires — Total : '+fmt(total)))return;
-  for(var i=0;i<list.length;i++){
-    var x=list[i];
-    await insert('payouts',{recipient_type:x.type,recipient_email:x.email,recipient_name:x.name,amount:x.amount,method:x.method,status:'paid',paid_at:new Date().toISOString()});
-    var col=which==='vend'?'payout_done':'driver_paid';
-    for(var j=0;j<x.ids.length;j++){var o={};o[col]=true;await patch('orders',x.ids[j],o);}
-    if(x.email)await notify(x.email,'Reversement envoyé : '+fmt(x.amount),'Ton reversement de '+fmt(x.amount)+' vient d\'être envoyé via '+x.method+'. Arrivée prévue sous 24 à 48h selon l\'opérateur. Merci pour ta confiance !');
-  }
-  toast(list.length+' paiements effectués — '+fmt(total));
-  loadAll();
-}
-
-var TPLS=[
- {tag:'VALIDATION',title:'Ton compte SEN TEW est ACTIF !',body:'Bonne nouvelle ! Ton compte a été validé par notre équipe. Tu peux commencer dès maintenant. Bienvenue dans la famille SEN TEW !'},
- {tag:'DOCUMENT',title:'Document à renvoyer',body:'Ton document est illisible ou incomplet. Merci de renvoyer une photo nette (pour la CNI : recto ET verso) afin que nous puissions finaliser ta validation rapidement.'},
- {tag:'REVERSEMENT',title:'Ton reversement arrive',body:'Ton reversement a été traité et envoyé. Arrivée prévue sous 24 à 48h selon l\'opérateur. Merci pour ta confiance !'},
- {tag:'SUSPENSION',title:'Compte suspendu temporairement',body:'Ton compte a été suspendu temporairement suite à un manquement aux règles SEN TEW. Contacte le support pour régulariser ta situation rapidement.'},
- {tag:'EMBALLAGE',title:'Rappel : emballage des colis',body:'Rappel important : emballe soigneusement chaque colis, couvre-le bien et photographie-le avant de le remettre au livreur. Pour l\'alimentaire : respecte les règles sanitaires.'},
- {tag:'LITIGE',title:'Litige en cours d\'examen',body:'Un litige a été ouvert sur l\'une de tes commandes. Notre équipe examine la situation et revient vers toi sous 24h. Aucune action n\'est requise de ta part.'},
- {tag:'RELANCE',title:'Ta commande t\'attend',body:'Une commande est en attente de préparation dans ton espace. Prépare-la rapidement pour garder ta note élevée !'},
- {tag:'BRAVO',title:'Bravo pour tes performances !',body:'Félicitations ! Tes excellentes performances te font progresser. Continue comme ça !'}
-];
-function renderTpls(){
-  document.getElementById('tplList').innerHTML=TPLS.map(function(t,i){
-    return '<div class="tpl" onclick="pickTpl('+i+',this)"><b>'+t.title+'</b><p>'+t.body+'</p><span class="tt">'+t.tag+'</span></div>';
+/* ══════════ NOTIFICATIONS ══════════ */
+async function loadNotifs(){
+  var el=$('notifs');
+  el.innerHTML='<div class="loading">Chargement…</div>';
+  var rows=await api('notifications','?audience=eq.admin&select=*&order=created_at.desc&limit=50');
+  if(!Array.isArray(rows)||rows.length===0){el.innerHTML='<div class="empty">Aucune notification.</div>';setBadge('nbN',0);return;}
+  var unread=rows.filter(function(n){return !n.is_read;}).length;
+  setBadge('nbN',unread);
+  el.innerHTML=rows.map(function(n){
+    return '<div class="card2" style="'+(n.is_read?'opacity:.65':'border-left:4px solid #0f6b4e')+'"><div class="nm">'+esc(n.title||'Notification')+'</div><div class="meta">'+esc(n.message||'')+'</div><div class="meta" style="margin-top:4px">'+fmtDate(n.created_at)+'</div>'+
+    (!n.is_read?'<div class="actions"><button class="abtn plain" onclick="markRead(\''+n.id+'\')"><i data-lucide="check"></i>Marquer lu</button></div>':'')+'</div>';
   }).join('');
-  document.getElementById('bulkMsg').innerHTML=
-    '<button class="sa sa-bad" style="padding:11px;font-size:11px;margin:0 7px 8px 0" onclick="bulkNotify(\'pending\')">Notifier les comptes en attente de documents</button>'
-   +'<button class="sa sa-warn" style="padding:11px;font-size:11px;margin-bottom:8px" onclick="bulkNotify(\'rappel\')">Rappel emballage aux vendeurs actifs</button>';
-}
-function pickTpl(i,el){
-  document.querySelectorAll('.tpl').forEach(function(x){x.classList.remove('sel');});
-  el.classList.add('sel');
-  document.getElementById('msgTitle').value=TPLS[i].title;
-  document.getElementById('msgBody').value=TPLS[i].body;
-  window.scrollTo(0,0);
-}
-function fillTargets(){
-  var sel=document.getElementById('msgTarget');
-  var cur=sel.value;
-  sel.innerHTML='<option value="">— Choisir le destinataire —</option>'
-    +DATA.vendors.map(function(v){return '<option value="'+esc(v.email||'')+'">Boutique · '+esc(v.shop_name||v.full_name||'')+'</option>';}).join('')
-    +DATA.drivers.map(function(d){return '<option value="'+esc(d.email||'')+'">Livreur · '+esc(d.full_name||'')+'</option>';}).join('');
-  if(cur)sel.value=cur;
-}
-function presetTarget(email){fillTargets();document.getElementById('msgTarget').value=email||'';}
-async function sendMsg(){
-  var email=document.getElementById('msgTarget').value;
-  var title=document.getElementById('msgTitle').value.trim();
-  var body=document.getElementById('msgBody').value.trim();
-  if(!email)return toast('Choisis un destinataire');
-  if(!title||!body)return toast('Titre et message requis');
-  await notify(email,title,body);
-  toast('Notification envoyée !');
-  document.getElementById('msgTitle').value='';document.getElementById('msgBody').value='';
-  document.querySelectorAll('.tpl').forEach(function(x){x.classList.remove('sel');});
-}
-async function bulkNotify(kind){
-  if(kind==='pending'){
-    var pends=DATA.vendors.concat(DATA.drivers).filter(function(x){return x.status==='pending'&&x.email;});
-    if(!pends.length)return toast('Aucun compte en attente');
-    if(!confirm('Envoyer le rappel documents à '+pends.length+' compte(s) ?'))return;
-    for(var i=0;i<pends.length;i++){await notify(pends[i].email,'Ta validation est en cours','Ton dossier est en cours d\'examen par l\'équipe SEN TEW (24-48h). Si un document est illisible, nous te contacterons. Merci pour ta patience !');}
-    toast(pends.length+' notifications envoyées');
-  }
-  if(kind==='rappel'){
-    var acts=DATA.vendors.filter(function(x){return x.status==='active'&&x.email;});
-    if(!acts.length)return toast('Aucun vendeur actif');
-    if(!confirm('Envoyer le rappel emballage à '+acts.length+' vendeur(s) ?'))return;
-    for(var j=0;j<acts.length;j++){await notify(acts[j].email,TPLS[4].title,TPLS[4].body);}
-    toast(acts.length+' rappels envoyés');
-  }
+  lucide.createIcons();
 }
 
-function exportCSV(){
-  var rows=[['Type','Nom','Email','Statut','Date']];
-  DATA.vendors.forEach(function(v){rows.push(['Vendeur',v.shop_name||'',v.email||'',v.status||'',v.created_at||'']);});
-  DATA.drivers.forEach(function(d){rows.push(['Livreur',d.full_name||'',d.email||'',d.status||'',d.created_at||'']);});
-  var csv=rows.map(function(r){return r.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"';}).join(';');}).join('\n');
-  var a=document.createElement('a');
-  a.href='data:text/csv;charset=utf-8,\ufeff'+encodeURIComponent(csv);
-  a.download='sentew_export_'+new Date().toISOString().slice(0,10)+'.csv';
-  a.click();
-  toast('Export CSV téléchargé');
+async function markRead(id){
+  await api('notifications','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({is_read:true})});
+  loadNotifs();
 }
 
-renderTpls();
-loadAll();
+/* ══════════ ACTIONS + NOTIFICATION AUTO ══════════ */
+async function setStatus(table,id,status,email,role){
+  await api(table,'?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:status})});
+  if(email&&status!=='pending'){
+    var msgs={
+      active:'Félicitations ! Votre compte '+role+' SEN TEW est maintenant actif. Vous pouvez commencer.',
+      suspended:'Votre compte '+role+' SEN TEW a été suspendu. Contactez le support pour plus d\'informations.',
+      rejected:'Votre demande '+role+' SEN TEW n\'a pas été retenue. Contactez le support pour plus de détails.'
+    };
+    try{
+      await api('notifications','',{method:'POST',body:JSON.stringify({audience:'user',user_email:email,type:'account',title:'Statut de votre compte',message:msgs[status]||'Mise à jour de votre compte.'})});
+    }catch(e){}
+  }
+  toast('Statut mis à jour ✅');
+  loadPilotage();
+  if(table==='vendors')loadVendors();else loadDrivers();
+}
+
+/* ══════════ RAFRAÎCHISSEMENT SILENCIEUX (pas de rechargement visible) ══════════ */
+async function silentRefresh(){
+  try{
+    var n=await api('notifications','?audience=eq.admin&is_read=eq.false&select=id');
+    setBadge('nbN',Array.isArray(n)?n.length:0);
+    var v=await api('vendors','?status=eq.pending&select=id');
+    setBadge('nbV',Array.isArray(v)?v.length:0);
+    var d=await api('drivers','?status=eq.pending&select=id');
+    setBadge('nbL',Array.isArray(d)?d.length:0);
+  }catch(e){}
+}
+
+/* ══════════ INIT ══════════ */
+lucide.createIcons();
+loadPilotage();
+silentRefresh();
+setInterval(silentRefresh,45000); /* badges seulement — la page ne recharge jamais */
 </script>
 </body>
 </html>
