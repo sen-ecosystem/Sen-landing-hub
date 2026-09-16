@@ -8,7 +8,7 @@
 <script src="js/security-shield.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;background:#f4f7f5;color:#12312a;padding-bottom:80px}
+body{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;background:#f4f7f5;color:#12312a;padding-bottom:110px}
 .topbar{background:linear-gradient(120deg,#0a1f17,#0f6b4e);color:#fff;padding:16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 3px 14px rgba(0,0,0,.25)}
 .topbar h1{font-size:17px;font-weight:900}
 .top-actions{display:flex;gap:8px}
@@ -16,9 +16,9 @@ body{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;background:#f4f7f5;c
 .icobtn i{width:18px;height:18px}
 .nb{position:absolute;top:-4px;right:-4px;background:#e63946;color:#fff;font-size:9px;font-weight:900;min-width:16px;height:16px;border-radius:99px;display:none;align-items:center;justify-content:center;padding:0 4px}
 .nb.on{display:flex}
-.tabs{display:flex;gap:8px;overflow-x:auto;padding:12px 14px 4px;scrollbar-width:none}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:12px 14px 4px;scrollbar-width:none;position:sticky;top:70px;background:#f4f7f5;z-index:40}
 .tabs::-webkit-scrollbar{display:none}
-.tab{flex-shrink:0;padding:9px 16px;border-radius:99px;border:2px solid #e3ede8;background:#fff;font-size:12.5px;font-weight:800;color:#5b7a70;cursor:pointer;position:relative}
+.tab{flex-shrink:0;padding:9px 15px;border-radius:99px;border:2px solid #e3ede8;background:#fff;font-size:12px;font-weight:800;color:#5b7a70;cursor:pointer;position:relative}
 .tab.on{background:#0f6b4e;border-color:#0f6b4e;color:#fff}
 .wrap{max-width:900px;margin:0 auto;padding:14px}
 .kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
@@ -27,16 +27,17 @@ body{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;background:#f4f7f5;c
 .kpi .kv{font-size:20px;font-weight:900;letter-spacing:-.5px}
 .kpi .kl{font-size:10.5px;color:#5b7a70;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-top:2px}
 .kpi.warn{border-left-color:#e63946}
+.kpi.money{border-left-color:#b07a1f}
 .card2{background:#fff;border-radius:16px;padding:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.card2.sel{outline:3px solid #0f6b4e}
 .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .nm{font-size:14px;font-weight:800;color:#0a1f17}
-.meta{font-size:11.5px;color:#8aa69c;margin-top:2px}
+.meta{font-size:11.5px;color:#8aa69c;margin-top:2px;line-height:1.5}
 .pill{font-size:10px;font-weight:900;padding:4px 9px;border-radius:99px;text-transform:uppercase;letter-spacing:.4px;flex-shrink:0}
 .pill.pending{background:#fff4e0;color:#b07a1f}
-.pill.active,.pill.approved{background:#eafaf1;color:#0f6b4e}
-.pill.suspended{background:#fdecec;color:#c0392b}
-.pill.delivered{background:#eafaf1;color:#0f6b4e}
-.pill.in_delivery{background:#e8f0fe;color:#1a56c4}
+.pill.active,.pill.approved,.pill.delivered,.pill.paid{background:#eafaf1;color:#0f6b4e}
+.pill.suspended,.pill.rejected{background:#fdecec;color:#c0392b}
+.pill.in_delivery,.pill.preparing{background:#e8f0fe;color:#1a56c4}
 .actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
 .abtn{border:none;border-radius:10px;padding:8px 12px;font-size:11.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:5px}
 .abtn i{width:14px;height:14px}
@@ -44,12 +45,58 @@ body{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;background:#f4f7f5;c
 .abtn.warn{background:#fff4e0;color:#b07a1f}
 .abtn.danger{background:#fdecec;color:#c0392b}
 .abtn.plain{background:#f0f3f2;color:#12312a}
+.abtn.blue{background:#e8f0fe;color:#1a56c4}
 .empty{text-align:center;color:#9db8af;font-size:13px;padding:30px 10px}
 .sect{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.6px;color:#0f6b4e;margin:16px 0 10px}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0a1f17;color:#fff;padding:12px 20px;border-radius:99px;font-size:13px;font-weight:700;display:none;z-index:99;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#0a1f17;color:#fff;padding:12px 20px;border-radius:99px;font-size:13px;font-weight:700;display:none;z-index:99;box-shadow:0 8px 24px rgba(0,0,0,.3);max-width:90%;text-align:center}
 .toast.on{display:block}
 .loading{text-align:center;padding:40px;color:#8aa69c;font-size:13px}
 .hidden{display:none!important}
+/* barre outils : recherche + filtres */
+.tools{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.search{display:flex;align-items:center;gap:8px;background:#fff;border:2px solid #e3ede8;border-radius:13px;padding:10px 13px}
+.search i{width:16px;height:16px;color:#8aa69c;flex-shrink:0}
+.search input{border:none;outline:none;flex:1;font-size:13.5px;background:none}
+.filters{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.fchip{flex-shrink:0;padding:7px 13px;border-radius:99px;border:1.5px solid #e3ede8;background:#fff;font-size:11.5px;font-weight:800;color:#5b7a70;cursor:pointer}
+.fchip.on{background:#0a1f17;color:#fff;border-color:#0a1f17}
+/* sélection multiple */
+.selbar{position:fixed;bottom:0;left:0;right:0;background:#0a1f17;color:#fff;padding:12px 14px;display:none;align-items:center;justify-content:space-between;gap:8px;z-index:60;box-shadow:0 -4px 20px rgba(0,0,0,.3)}
+.selbar.on{display:flex}
+.selbar .cnt{font-size:13px;font-weight:800}
+.selbar .acts{display:flex;gap:6px;flex-wrap:wrap}
+.selbar button{border:none;border-radius:10px;padding:8px 12px;font-size:11.5px;font-weight:800;cursor:pointer}
+.selbar .b-all{background:rgba(255,255,255,.15);color:#fff}
+.selbar .b-ok{background:#4ade80;color:#04120c}
+.selbar .b-warn{background:#fbbf24;color:#3a2800}
+.selbar .b-x{background:rgba(255,255,255,.15);color:#fff}
+.chk{width:22px;height:22px;border:2px solid #c9dcd3;border-radius:7px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#fff}
+.chk.on{background:#0f6b4e;border-color:#0f6b4e;color:#fff}
+.chk i{width:14px;height:14px}
+/* modale détail */
+.modal{position:fixed;inset:0;background:rgba(4,18,12,.6);z-index:80;display:none;align-items:flex-end;justify-content:center}
+.modal.on{display:flex}
+.sheet{background:#fff;border-radius:22px 22px 0 0;width:100%;max-width:640px;max-height:88vh;overflow-y:auto;padding:20px 18px 30px;animation:up .25s ease}
+@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.sheet h3{font-size:17px;font-weight:900;color:#0a1f17;margin-bottom:4px}
+.sheet .close{float:right;background:#f0f3f2;border:none;width:34px;height:34px;border-radius:10px;cursor:pointer;font-size:16px;font-weight:900;color:#5b7a70}
+.drow{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #f0f5f2;font-size:13px}
+.drow b{color:#0a1f17}
+.drow span{color:#5b7a70;text-align:right;word-break:break-all}
+.doc{display:flex;align-items:center;gap:10px;background:#f7faf8;border:1.5px solid #e3ede8;border-radius:12px;padding:11px 13px;margin-top:8px;font-size:13px;font-weight:700;color:#0f6b4e;text-decoration:none}
+.doc i{width:17px;height:17px;flex-shrink:0}
+/* messages prêts */
+.tpl{display:block;width:100%;text-align:left;background:#fff;border:2px solid #e3ede8;border-radius:14px;padding:13px 14px;margin-bottom:8px;cursor:pointer;font-size:13px;font-weight:700;color:#12312a}
+.tpl small{display:block;font-weight:500;color:#8aa69c;margin-top:3px;font-size:11.5px;line-height:1.5}
+.tpl:active{border-color:#0f6b4e}
+textarea,input.sin{width:100%;border:2px solid #e3ede8;border-radius:12px;padding:11px 13px;font-size:13.5px;font-family:inherit;outline:none;background:#fbfdfc}
+textarea:focus,input.sin:focus{border-color:#0f6b4e}
+textarea{min-height:90px;resize:vertical}
+label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 0 5px;text-transform:uppercase;letter-spacing:.5px}
+.bigbtn{width:100%;padding:14px;border:none;border-radius:13px;background:linear-gradient(120deg,#0a1f17,#0f6b4e);color:#fff;font-size:14px;font-weight:800;cursor:pointer;margin-top:12px;letter-spacing:.4px}
+.bigbtn.gold{background:linear-gradient(120deg,#7a5c10,#b07a1f)}
+.paycard{background:#fff;border-radius:16px;padding:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);border-left:4px solid #b07a1f}
 </style>
 </head>
 <body>
@@ -57,34 +104,55 @@ body{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;background:#f4f7f5;c
 <div class="topbar">
   <h1>🛡️ SEN TEW Admin</h1>
   <div class="top-actions">
-    <button class="icobtn" onclick="silentRefresh()" title="Rafraîchir"><i data-lucide="refresh-cw"></i></button>
+    <button class="icobtn" onclick="silentRefresh();toast('Actualisé ✅')" title="Rafraîchir"><i data-lucide="refresh-cw"></i></button>
     <button class="icobtn" onclick="logout()" title="Déconnexion"><i data-lucide="log-out"></i></button>
   </div>
 </div>
 
 <div class="tabs" id="tabs">
-  <button class="tab on" data-t="pilotage" onclick="showTab('pilotage',this)">Pilotage</button>
-  <button class="tab" data-t="vendeurs" onclick="showTab('vendeurs',this)">Vendeurs <span class="nb" id="nbV"></span></button>
-  <button class="tab" data-t="livreurs" onclick="showTab('livreurs',this)">Livreurs <span class="nb" id="nbL"></span></button>
-  <button class="tab" data-t="commandes" onclick="showTab('commandes',this)">Commandes</button>
-  <button class="tab" data-t="notifs" onclick="showTab('notifs',this)">Notifications <span class="nb" id="nbN"></span></button>
+  <button class="tab on" onclick="showTab('pilotage',this)">Pilotage</button>
+  <button class="tab" onclick="showTab('vendeurs',this)">Vendeurs<span class="nb" id="nbV"></span></button>
+  <button class="tab" onclick="showTab('livreurs',this)">Livreurs<span class="nb" id="nbL"></span></button>
+  <button class="tab" onclick="showTab('commandes',this)">Commandes</button>
+  <button class="tab" onclick="showTab('reversements',this)">Reversements</button>
+  <button class="tab" onclick="showTab('messages',this)">Messages</button>
+  <button class="tab" onclick="showTab('notifs',this)">Notifs<span class="nb" id="nbN"></span></button>
 </div>
 
 <div class="wrap">
   <div id="pilotage" class="panel">
     <div class="kpis">
       <div class="kpi"><div class="kv" id="kVendors">–</div><div class="kl">Vendeurs actifs</div></div>
-      <div class="kpi warn"><div class="kv" id="kPending">–</div><div class="kl">En attente validation</div></div>
+      <div class="kpi warn"><div class="kv" id="kPending">–</div><div class="kl">En attente</div></div>
       <div class="kpi"><div class="kv" id="kOrders">–</div><div class="kl">Commandes</div></div>
-      <div class="kpi"><div class="kv" id="kCA">–</div><div class="kl">CA livré (FCFA)</div></div>
+      <div class="kpi money"><div class="kv" id="kCA">–</div><div class="kl">CA livré (F)</div></div>
     </div>
     <div class="sect">À traiter en priorité</div>
     <div id="priorityList"><div class="loading">Chargement…</div></div>
+    <button class="bigbtn" onclick="exportCSV()">⬇️ Exporter les données (CSV)</button>
   </div>
-  <div id="vendeurs" class="panel hidden"><div class="loading">Chargement…</div></div>
-  <div id="livreurs" class="panel hidden"><div class="loading">Chargement…</div></div>
-  <div id="commandes" class="panel hidden"><div class="loading">Chargement…</div></div>
-  <div id="notifs" class="panel hidden"><div class="loading">Chargement…</div></div>
+  <div id="vendeurs" class="panel hidden"></div>
+  <div id="livreurs" class="panel hidden"></div>
+  <div id="commandes" class="panel hidden"></div>
+  <div id="reversements" class="panel hidden"></div>
+  <div id="messages" class="panel hidden"></div>
+  <div id="notifs" class="panel hidden"></div>
+</div>
+
+<!-- barre sélection multiple -->
+<div class="selbar" id="selbar">
+  <span class="cnt" id="selCnt">0 sélectionné</span>
+  <div class="acts">
+    <button class="b-all" onclick="selAll()">Tout</button>
+    <button class="b-ok" onclick="bulkSet('active')">✅ Valider</button>
+    <button class="b-warn" onclick="bulkSet('suspended')">⏸️ Suspendre</button>
+    <button class="b-x" onclick="selClear()">✖</button>
+  </div>
+</div>
+
+<!-- modale détail -->
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="sheet" id="sheet"></div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -95,169 +163,348 @@ var SUPA='https://tjqkruhwmjzgfvtouqza.supabase.co';
 var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
 var H={apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'};
 
-/* ══════════ GARDE DE SESSION — même clé que login-admin ══════════ */
+/* ══════════ GARDE DE SESSION ══════════ */
 var sess=sessionStorage.getItem('sentew_admin')||localStorage.getItem('sentew_admin');
 if(!sess){location.replace('login-admin.html');}
-
 function logout(){sessionStorage.removeItem('sentew_admin');localStorage.removeItem('sentew_admin');location.replace('login-admin.html');}
 
 /* ══════════ HELPERS ══════════ */
 function $(id){return document.getElementById(id);}
-function toast(m){var t=$('toast');t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on');},2500);}
+function toast(m){var t=$('toast');t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on');},2800);}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-function fmtDate(d){if(!d)return'';try{return new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'short'})+' '+new Date(d).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}catch(e){return'';}}
+function fmtDate(d){if(!d)return'';try{var x=new Date(d);return x.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'})+' '+x.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}catch(e){return'';}}
 function fmtN(n){return (n||0).toLocaleString('fr-FR');}
+async function api(table,query,opts){opts=opts||{};var r=await fetch(SUPA+'/rest/v1/'+table+(query||''),Object.assign({headers:H},opts));if(opts.method&&opts.method!=='GET')return r;var j=await r.json();return Array.isArray(j)?j:[];}
+function setBadge(id,n){var b=$(id);if(!b)return;if(n>0){b.textContent=n;b.classList.add('on');}else{b.classList.remove('on');}}
 
-async function api(table,query,opts){
-  opts=opts||{};
-  var r=await fetch(SUPA+'/rest/v1/'+table+(query||''),Object.assign({headers:H},opts));
-  if(opts.method&&opts.method!=='GET')return r;
-  return r.json();
-}
+/* ══════════ ÉTAT ══════════ */
+var DATA={vendors:[],drivers:[],orders:[]};
+var FILT={vendeurs:'all',livreurs:'all',commandes:'all'};
+var SRCH={vendeurs:'',livreurs:''};
+var SEL={list:[],table:null}; /* sélection multiple */
 
-/* ══════════ NAVIGATION ONGLETS ══════════ */
+/* ══════════ ONGLETS ══════════ */
 function showTab(id,btn){
+  selClear();
   document.querySelectorAll('.panel').forEach(function(p){p.classList.add('hidden');});
   $(id).classList.remove('hidden');
   document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});
   if(btn)btn.classList.add('on');
-  if(id==='vendeurs')loadVendors();
-  if(id==='livreurs')loadDrivers();
+  if(id==='vendeurs')renderVendors();
+  if(id==='livreurs')renderDrivers();
   if(id==='commandes')loadOrders();
+  if(id==='reversements')renderPayouts();
+  if(id==='messages')renderMessages();
   if(id==='notifs')loadNotifs();
 }
 
-/* ══════════ PILOTAGE (KPIs) ══════════ */
-async function loadPilotage(){
-  try{
-    var vendors=await api('vendors','?select=id,status');
-    var drivers=await api('drivers','?select=id,status');
-    var orders=await api('orders','?select=id,total,status');
-    vendors=Array.isArray(vendors)?vendors:[];
-    drivers=Array.isArray(drivers)?drivers:[];
-    orders=Array.isArray(orders)?orders:[];
-    var pendV=vendors.filter(function(v){return v.status==='pending';}).length;
-    var pendD=drivers.filter(function(d){return d.status==='pending';}).length;
-    var ca=orders.filter(function(o){return o.status==='delivered';}).reduce(function(s,o){return s+(o.total||0);},0);
-    $('kVendors').textContent=vendors.filter(function(v){return v.status==='active'||v.status==='approved';}).length;
-    $('kPending').textContent=pendV+pendD;
-    $('kOrders').textContent=orders.length;
-    $('kCA').textContent=fmtN(ca);
-    setBadge('nbV',pendV);setBadge('nbL',pendD);
-    /* priorités */
-    var html='';
-    vendors.filter(function(v){return v.status==='pending';}).forEach(function(v){
-      html+='<div class="card2"><div class="row"><div><div class="nm">🏬 Vendeur en attente</div><div class="meta">ID '+esc(v.id).slice(0,8)+'…</div></div><span class="pill pending">À valider</span></div></div>';
-    });
-    drivers.filter(function(d){return d.status==='pending';}).forEach(function(d){
-      html+='<div class="card2"><div class="row"><div><div class="nm">🛵 Livreur en attente</div><div class="meta">ID '+esc(d.id).slice(0,8)+'…</div></div><span class="pill pending">À valider</span></div></div>';
-    });
-    $('priorityList').innerHTML=html||'<div class="empty">✅ Aucune demande en attente. Tout est à jour !</div>';
-  }catch(e){$('priorityList').innerHTML='<div class="empty">Erreur de chargement.</div>';}
+/* ══════════ CHARGEMENT GLOBAL ══════════ */
+async function loadAll(){
+  DATA.vendors=await api('vendors','?select=*&order=created_at.desc');
+  DATA.drivers=await api('drivers','?select=*&order=created_at.desc');
+  DATA.orders=await api('orders','?select=*&order=created_at.desc&limit=200');
+  loadPilotage();
 }
 
-function setBadge(id,n){var b=$(id);if(!b)return;if(n>0){b.textContent=n;b.classList.add('on');}else{b.classList.remove('on');}}
+async function loadPilotage(){
+  var v=DATA.vendors,d=DATA.drivers,o=DATA.orders;
+  var pendV=v.filter(function(x){return x.status==='pending';}).length;
+  var pendD=d.filter(function(x){return x.status==='pending';}).length;
+  var ca=o.filter(function(x){return x.status==='delivered';}).reduce(function(s,x){return s+(x.total||0);},0);
+  $('kVendors').textContent=v.filter(function(x){return x.status==='active'||x.status==='approved';}).length;
+  $('kPending').textContent=pendV+pendD;
+  $('kOrders').textContent=o.length;
+  $('kCA').textContent=fmtN(ca);
+  setBadge('nbV',pendV);setBadge('nbL',pendD);
+  var html='';
+  v.filter(function(x){return x.status==='pending';}).forEach(function(x){html+='<div class="card2" style="cursor:pointer" onclick="openDetail(\'vendors\',\''+x.id+'\')"><div class="row"><div><div class="nm">🏬 '+esc(x.shop_name||x.full_name||'Vendeur')+'</div><div class="meta">'+esc(x.city||'')+' · '+fmtDate(x.created_at)+'</div></div><span class="pill pending">À valider</span></div></div>';});
+  d.filter(function(x){return x.status==='pending';}).forEach(function(x){html+='<div class="card2" style="cursor:pointer" onclick="openDetail(\'drivers\',\''+x.id+'\')"><div class="row"><div><div class="nm">🛵 '+esc(x.full_name||'Livreur')+'</div><div class="meta">'+esc(x.city||'')+' · '+fmtDate(x.created_at)+'</div></div><span class="pill pending">À valider</span></div></div>';});
+  $('priorityList').innerHTML=html||'<div class="empty">✅ Aucune demande en attente. Tout est à jour !</div>';
+}
+
+/* ══════════ FILTRES + RECHERCHE ══════════ */
+function toolsHtml(tab){
+  var filters=tab==='commandes'
+    ?[['all','Toutes'],['pending','Attente'],['preparing','Préparation'],['in_delivery','En livraison'],['delivered','Livrées'],['cancelled','Annulées']]
+    :[['all','Tous'],['pending','En attente'],['active','Actifs'],['suspended','Suspendus'],['rejected','Rejetés']];
+  var h='<div class="tools">';
+  if(tab!=='commandes')h+='<div class="search"><i data-lucide="search"></i><input placeholder="Rechercher nom, ville, téléphone…" oninput="SRCH[\''+tab+'\']=this.value.toLowerCase();'+(tab==='vendeurs'?'renderVendors':'renderDrivers')+'()"></div>';
+  h+='<div class="filters">'+filters.map(function(f){return '<button class="fchip'+(FILT[tab]===f[0]?' on':'')+'" onclick="setFilt(\''+tab+'\',\''+f[0]+'\')">'+f[1]+'</button>';}).join('')+'</div></div>';
+  return h;
+}
+function setFilt(tab,f){FILT[tab]=f;if(tab==='vendeurs')renderVendors();else if(tab==='livreurs')renderDrivers();else loadOrders();}
+function matchSrch(x){var q=(SRCH[CUR]||'');if(!q)return true;return [x.full_name,x.shop_name,x.email,x.phone,x.city].join(' ').toLowerCase().indexOf(q)>-1;}
 
 /* ══════════ VENDEURS ══════════ */
-async function loadVendors(){
+var CUR='vendeurs';
+function renderVendors(){
+  CUR='vendeurs';
   var el=$('vendeurs');
-  el.innerHTML='<div class="loading">Chargement…</div>';
-  var rows=await api('vendors','?select=id,shop_name,full_name,email,phone,city,status,commission_rate,created_at&order=created_at.desc');
-  if(!Array.isArray(rows)||rows.length===0){el.innerHTML='<div class="empty">Aucun vendeur pour le moment.</div>';return;}
-  el.innerHTML=rows.map(function(v){
-    return '<div class="card2"><div class="row"><div><div class="nm">'+esc(v.shop_name||'Boutique')+'</div><div class="meta">'+esc(v.full_name||'')+' · '+esc(v.city||'')+' · '+esc(v.phone||'')+'<br>'+fmtDate(v.created_at)+' · commission '+(v.commission_rate||8)+'%</div></div><span class="pill '+esc(v.status||'pending')+'">'+esc(v.status||'pending')+'</span></div>'+
-    '<div class="actions">'+
-    (v.status==='pending'?'<button class="abtn ok" onclick="setStatus(\'vendors\',\''+v.id+'\',\'active\',\''+esc(v.email||'')+'\',\'vendeur\')"><i data-lucide="check"></i>Valider</button><button class="abtn danger" onclick="setStatus(\'vendors\',\''+v.id+'\',\'rejected\',\''+esc(v.email||'')+'\',\'vendeur\')"><i data-lucide="x"></i>Rejeter</button>':'')+
-    (v.status==='active'?'<button class="abtn warn" onclick="setStatus(\'vendors\',\''+v.id+'\',\'suspended\',\''+esc(v.email||'')+'\',\'vendeur\')"><i data-lucide="pause"></i>Suspendre</button>':'')+
-    (v.status==='suspended'?'<button class="abtn ok" onclick="setStatus(\'vendors\',\''+v.id+'\',\'active\',\''+esc(v.email||'')+'\',\'vendeur\')"><i data-lucide="play"></i>Réactiver</button>':'')+
-    '</div></div>';
+  var rows=DATA.vendors.filter(function(x){return FILT.vendeurs==='all'||x.status===FILT.vendeurs||(FILT.vendeurs==='active'&&x.status==='approved');}).filter(matchSrch);
+  var h=toolsHtml('vendeurs');
+  if(!rows.length){el.innerHTML=h+'<div class="empty">Aucun vendeur dans ce filtre.</div>';lucide.createIcons();return;}
+  h+=rows.map(function(v){
+    var sel=SEL.list.indexOf(v.id)>-1;
+    return '<div class="card2'+(sel?' sel':'')+'"><div class="row">'+
+    '<div class="chk'+(sel?' on':'')+'" onclick="toggleSel(event,\'vendors\',\''+v.id+'\')">'+(sel?'<i data-lucide="check"></i>':'')+'</div>'+
+    '<div style="flex:1;cursor:pointer" onclick="openDetail(\'vendors\',\''+v.id+'\')"><div class="nm">'+esc(v.shop_name||'Boutique')+'</div><div class="meta">'+esc(v.full_name||'')+' · '+esc(v.city||'')+' · '+esc(v.phone||'')+'<br>'+fmtDate(v.created_at)+' · commission '+(v.commission_rate||8)+'%</div></div>'+
+    '<span class="pill '+esc(v.status||'pending')+'">'+esc(v.status||'pending')+'</span></div>'+
+    '<div class="actions">'+actionBtns('vendors',v)+'</div></div>';
+  }).join('');
+  el.innerHTML=h;
+  lucide.createIcons();
+  updateSelbar();
+}
+
+/* ══════════ LIVREURS (fix : select=* , plus de colonne manquante) ══════════ */
+function renderDrivers(){
+  CUR='livreurs';
+  var el=$('livreurs');
+  var rows=DATA.drivers.filter(function(x){return FILT.livreurs==='all'||x.status===FILT.livreurs;}).filter(matchSrch);
+  var h=toolsHtml('livreurs');
+  if(!rows.length){el.innerHTML=h+'<div class="empty">Aucun livreur dans ce filtre.</div>';lucide.createIcons();return;}
+  h+=rows.map(function(d){
+    var sel=SEL.list.indexOf(d.id)>-1;
+    return '<div class="card2'+(sel?' sel':'')+'"><div class="row">'+
+    '<div class="chk'+(sel?' on':'')+'" onclick="toggleSel(event,\'drivers\',\''+d.id+'\')">'+(sel?'<i data-lucide="check"></i>':'')+'</div>'+
+    '<div style="flex:1;cursor:pointer" onclick="openDetail(\'drivers\',\''+d.id+'\')"><div class="nm">'+esc(d.full_name||'Livreur')+'</div><div class="meta">'+esc(d.vehicle_type||d.vehicle||'')+' · '+esc(d.city||'')+' · '+esc(d.phone||'')+'<br>'+fmtDate(d.created_at)+'</div></div>'+
+    '<span class="pill '+esc(d.status||'pending')+'">'+esc(d.status||'pending')+'</span></div>'+
+    '<div class="actions">'+actionBtns('drivers',d)+'</div></div>';
+  }).join('');
+  el.innerHTML=h;
+  lucide.createIcons();
+  updateSelbar();
+}
+
+function actionBtns(table,x){
+  var e=esc(x.email||'');
+  var role=table==='vendors'?'vendeur':'livreur';
+  var b='<button class="abtn blue" onclick="openDetail(\''+table+'\',\''+x.id+'\')"><i data-lucide="eye"></i>Détails</button>';
+  if(x.status==='pending')b+='<button class="abtn ok" onclick="setStatus(\''+table+'\',\''+x.id+'\',\'active\',\''+e+'\',\''+role+'\')"><i data-lucide="check"></i>Valider</button><button class="abtn danger" onclick="setStatus(\''+table+'\',\''+x.id+'\',\'rejected\',\''+e+'\',\''+role+'\')"><i data-lucide="x"></i>Rejeter</button>';
+  if(x.status==='active'||x.status==='approved')b+='<button class="abtn warn" onclick="setStatus(\''+table+'\',\''+x.id+'\',\'suspended\',\''+e+'\',\''+role+'\')"><i data-lucide="pause"></i>Suspendre</button>';
+  if(x.status==='suspended')b+='<button class="abtn ok" onclick="setStatus(\''+table+'\',\''+x.id+'\',\'active\',\''+e+'\',\''+role+'\')"><i data-lucide="play"></i>Réactiver</button>';
+  if(x.status==='rejected')b+='<button class="abtn ok" onclick="setStatus(\''+table+'\',\''+x.id+'\',\'active\',\''+e+'\',\''+role+'\')"><i data-lucide="check"></i>Valider quand même</button>';
+  return b;
+}
+
+/* ══════════ DÉTAIL + DOCUMENTS KYC ══════════ */
+async function openDetail(table,id){
+  var x=(table==='vendors'?DATA.vendors:DATA.drivers).find(function(r){return String(r.id)===String(id);});
+  if(!x)return;
+  var role=table==='vendors'?'Vendeur':'Livreur';
+  var h='<button class="close" onclick="closeModal()">✕</button><h3>'+esc(x.shop_name||x.full_name||role)+'</h3><div class="meta">'+role+' · <span class="pill '+esc(x.status||'')+'">'+esc(x.status||'')+'</span></div><div style="margin-top:10px">';
+  var keys=Object.keys(x);
+  for(var i=0;i<keys.length;i++){
+    var k=keys[i],val=x[k];
+    if(val===null||val===''||k==='password_hash')continue;
+    if(k==='created_at'||k==='last_login'||k==='archived_at')val=fmtDate(val);
+    if(typeof val==='boolean')val=val?'Oui':'Non';
+    h+='<div class="drow"><b>'+esc(k)+'</b><span>'+esc(val)+'</span></div>';
+  }
+  h+='</div>';
+  /* documents KYC */
+  h+='<div class="sect">Documents d\u2019identité</div><div id="kycZone"><div class="loading">Recherche des documents…</div></div>';
+  h+='<div class="actions" style="margin-top:14px">'+actionBtns(table,x)+'</div>';
+  $('sheet').innerHTML=h;
+  $('modal').classList.add('on');
+  lucide.createIcons();
+  /* charge les documents */
+  var docs=await api('kyc_documents','?select=*&order=created_at.desc&limit=100');
+  docs=docs.filter(function(dc){return x.email&&(dc.user_email===x.email||dc.email===x.email||dc.vendor_email===x.email||dc.driver_email===x.email);});
+  var z=$('kycZone');
+  if(!z)return;
+  if(!docs.length){z.innerHTML='<div class="empty">Aucun document enregistré pour ce compte.</div>';return;}
+  z.innerHTML=docs.map(function(dc){
+    var url=dc.file_url||dc.url||dc.document_url||'#';
+    return '<a class="doc" href="'+esc(url)+'" target="_blank"><i data-lucide="file-text"></i>'+esc(dc.doc_type||dc.type||'Document')+'<span style="margin-left:auto;font-size:11px;color:#8aa69c">'+fmtDate(dc.created_at)+'</span></a>';
   }).join('');
   lucide.createIcons();
 }
+function closeModal(){$('modal').classList.remove('on');}
 
-/* ══════════ LIVREURS ══════════ */
-async function loadDrivers(){
-  var el=$('livreurs');
-  el.innerHTML='<div class="loading">Chargement…</div>';
-  var rows=await api('drivers','?select=id,full_name,email,phone,city,vehicle_type,status,created_at&order=created_at.desc');
-  if(!Array.isArray(rows)||rows.length===0){el.innerHTML='<div class="empty">Aucun livreur pour le moment.</div>';return;}
-  el.innerHTML=rows.map(function(d){
-    return '<div class="card2"><div class="row"><div><div class="nm">'+esc(d.full_name||'Livreur')+'</div><div class="meta">'+esc(d.vehicle_type||'')+' · '+esc(d.city||'')+' · '+esc(d.phone||'')+'<br>'+fmtDate(d.created_at)+'</div></div><span class="pill '+esc(d.status||'pending')+'">'+esc(d.status||'pending')+'</span></div>'+
-    '<div class="actions">'+
-    (d.status==='pending'?'<button class="abtn ok" onclick="setStatus(\'drivers\',\''+d.id+'\',\'active\',\''+esc(d.email||'')+'\',\'livreur\')"><i data-lucide="check"></i>Valider</button><button class="abtn danger" onclick="setStatus(\'drivers\',\''+d.id+'\',\'rejected\',\''+esc(d.email||'')+'\',\'livreur\')"><i data-lucide="x"></i>Rejeter</button>':'')+
-    (d.status==='active'?'<button class="abtn warn" onclick="setStatus(\'drivers\',\''+d.id+'\',\'suspended\',\''+esc(d.email||'')+'\',\'livreur\')"><i data-lucide="pause"></i>Suspendre</button>':'')+
-    (d.status==='suspended'?'<button class="abtn ok" onclick="setStatus(\'drivers\',\''+d.id+'\',\'active\',\''+esc(d.email||'')+'\',\'livreur\')"><i data-lucide="play"></i>Réactiver</button>':'')+
-    '</div></div>';
-  }).join('');
-  lucide.createIcons();
+/* ══════════ ACTIONS + NOTIFICATION AUTO ══════════ */
+var MSGS={
+  active:'Félicitations ! Votre compte {role} SEN TEW est maintenant actif. Vous pouvez commencer.',
+  suspended:'Votre compte {role} SEN TEW a été suspendu. Contactez le support pour plus d\u2019informations.',
+  rejected:'Votre demande {role} SEN TEW n\u2019a pas été retenue. Contactez le support pour plus de détails.'
+};
+async function notify(email,title,message){
+  if(!email)return;
+  try{await api('notifications','',{method:'POST',body:JSON.stringify({audience:'user',user_email:email,type:'account',title:title,message:message})});}catch(e){}
+}
+async function setStatus(table,id,status,email,role){
+  await api(table,'?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:status})});
+  if(status!=='pending')await notify(email,'Statut de votre compte',(MSGS[status]||'Mise à jour de votre compte.').replace('{role}',role));
+  toast('Statut mis à jour ✅');
+  closeModal();
+  await loadAll();
+  if(table==='vendors'&&!$('vendeurs').classList.contains('hidden'))renderVendors();
+  if(table==='drivers'&&!$('livreurs').classList.contains('hidden'))renderDrivers();
+}
+
+/* ══════════ SÉLECTION MULTIPLE + ACTIONS GROUPÉES ══════════ */
+function toggleSel(ev,table,id){
+  ev.stopPropagation();
+  var i=SEL.list.indexOf(id);
+  if(i>-1)SEL.list.splice(i,1);else SEL.list.push(id);
+  SEL.table=table;
+  if(CUR==='vendeurs')renderVendors();else renderDrivers();
+}
+function selAll(){
+  var rows=(CUR==='vendeurs'?DATA.vendors:DATA.drivers).filter(function(x){return (CUR==='vendeurs'?FILT.vendeurs:FILT.livreurs)==='all'||x.status===(CUR==='vendeurs'?FILT.vendeurs:FILT.livreurs);}).filter(matchSrch);
+  var allIds=rows.map(function(x){return x.id;});
+  var allIn=allIds.every(function(id){return SEL.list.indexOf(id)>-1;});
+  SEL.table=CUR==='vendeurs'?'vendors':'drivers';
+  SEL.list=allIn?[]:allIds;
+  if(CUR==='vendeurs')renderVendors();else renderDrivers();
+}
+function selClear(){SEL.list=[];SEL.table=null;updateSelbar();}
+function updateSelbar(){var b=$('selbar');if(SEL.list.length){b.classList.add('on');$('selCnt').textContent=SEL.list.length+' sélectionné'+(SEL.list.length>1?'s':'');}else{b.classList.remove('on');}}
+async function bulkSet(status){
+  if(!SEL.list.length)return;
+  if(!confirm(SEL.list.length+' compte(s) → '+status+' ?'))return;
+  var table=SEL.table;
+  var role=table==='vendors'?'vendeur':'livreur';
+  var src=table==='vendors'?DATA.vendors:DATA.drivers;
+  for(var i=0;i<SEL.list.length;i++){
+    var id=SEL.list[i];
+    await api(table,'?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:status})});
+    var x=src.find(function(r){return String(r.id)===String(id);});
+    if(x&&x.email)await notify(x.email,'Statut de votre compte',(MSGS[status]||'Mise à jour.').replace('{role}',role));
+  }
+  toast(SEL.list.length+' compte(s) mis à jour ✅');
+  selClear();
+  await loadAll();
+  if(CUR==='vendeurs')renderVendors();else renderDrivers();
 }
 
 /* ══════════ COMMANDES ══════════ */
-async function loadOrders(){
+function loadOrders(){
   var el=$('commandes');
-  el.innerHTML='<div class="loading">Chargement…</div>';
-  var rows=await api('orders','?select=id,customer_email,total,status,created_at&order=created_at.desc&limit=50');
-  if(!Array.isArray(rows)||rows.length===0){el.innerHTML='<div class="empty">Aucune commande pour le moment.</div>';return;}
-  el.innerHTML=rows.map(function(o){
-    return '<div class="card2"><div class="row"><div><div class="nm">Commande #'+esc(String(o.id)).slice(0,8)+'</div><div class="meta">'+esc(o.customer_email||'')+' · '+fmtDate(o.created_at)+'</div></div><div style="text-align:right"><div class="nm">'+fmtN(o.total)+' F</div><span class="pill '+esc(o.status||'')+'">'+esc(o.status||'')+'</span></div></div></div>';
+  var rows=DATA.orders.filter(function(o){return FILT.commandes==='all'||o.status===FILT.commandes;});
+  var h=toolsHtml('commandes');
+  if(!rows.length){el.innerHTML=h+'<div class="empty">Aucune commande dans ce filtre.</div>';lucide.createIcons();return;}
+  h+=rows.map(function(o){
+    return '<div class="card2"><div class="row"><div><div class="nm">Commande #'+esc(String(o.id)).slice(0,8)+'</div><div class="meta">'+esc(o.customer_email||o.user_email||'')+' · '+fmtDate(o.created_at)+'</div></div><div style="text-align:right"><div class="nm">'+fmtN(o.total)+' F</div><span class="pill '+esc(o.status||'')+'">'+esc(o.status||'')+'</span></div></div></div>';
   }).join('');
+  el.innerHTML=h;
+  lucide.createIcons();
 }
 
-/* ══════════ NOTIFICATIONS ══════════ */
+/* ══════════ REVERSEMENTS ══════════ */
+async function renderPayouts(){
+  var el=$('reversements');
+  el.innerHTML='<div class="loading">Chargement…</div>';
+  var payouts=await api('payouts','?select=*&order=created_at.desc&limit=50');
+  var COMMISSION=8;
+  /* calcul vendeurs : CA livré estimé par vendeur via pending_balance sinon 0 */
+  var vh=DATA.vendors.filter(function(v){return v.status==='active'||v.status==='approved';}).map(function(v){
+    var due=v.pending_balance||0;
+    return '<div class="paycard"><div class="row"><div><div class="nm">'+esc(v.shop_name||v.full_name||'Vendeur')+'</div><div class="meta">'+esc(v.email||'')+' · '+(v.payout_method||'Wave/OM')+'</div></div><div style="text-align:right"><div class="nm" style="color:#b07a1f">'+fmtN(due)+' F</div><div class="meta">à reverser</div></div></div>'+
+    (due>0?'<div class="actions"><button class="abtn ok" onclick="payNow(\'vendor\',\''+esc(v.email||'')+'\',\''+esc(v.shop_name||'')+'\','+due+',\''+v.id+'\')"><i data-lucide="banknote"></i>Marquer payé</button></div>':'<div class="meta" style="margin-top:8px">✅ Rien à reverser</div>')+'</div>';
+  }).join('');
+  var hist=payouts.map(function(p){
+    return '<div class="card2"><div class="row"><div><div class="nm">'+esc(p.recipient_name||p.recipient_email||'')+'</div><div class="meta">'+esc(p.recipient_type||'')+' · '+esc(p.method||'')+' · '+fmtDate(p.paid_at||p.created_at)+'</div></div><div style="text-align:right"><div class="nm">'+fmtN(p.amount)+' F</div><span class="pill '+(p.status==='paid'?'paid':'pending')+'">'+esc(p.status||'')+'</span></div></div></div>';
+  }).join('');
+  el.innerHTML='<div class="sect">Commission plateforme : '+COMMISSION+'% par vente</div>'+
+    '<div class="sect">À reverser aux vendeurs actifs</div>'+(vh||'<div class="empty">Aucun vendeur actif.</div>')+
+    '<div class="sect">Reversement manuel</div>'+
+    '<div class="card2"><label class="lb">Email bénéficiaire</label><input class="sin" id="pmEmail" placeholder="vendeur@exemple.com"><label class="lb">Nom</label><input class="sin" id="pmName" placeholder="Boutique X"><label class="lb">Montant (FCFA)</label><input class="sin" id="pmAmount" type="number" placeholder="50000"><label class="lb">Moyen</label><input class="sin" id="pmMethod" placeholder="Wave / OM / Free Money" value="Wave"><button class="bigbtn gold" onclick="payManual()">💸 Enregistrer le reversement</button></div>'+
+    '<div class="sect">Historique</div>'+(hist||'<div class="empty">Aucun reversement enregistré.</div>');
+  lucide.createIcons();
+}
+async function payNow(type,email,name,amount,refId){
+  if(!confirm('Marquer '+fmtN(amount)+' F comme payé à '+name+' ?'))return;
+  await api('payouts','',{method:'POST',body:JSON.stringify({recipient_type:type,recipient_email:email,recipient_name:name,amount:amount,method:'Wave/OM',status:'paid',paid_at:new Date().toISOString()})});
+  if(refId)await api('vendors','?id=eq.'+refId,{method:'PATCH',body:JSON.stringify({pending_balance:0})});
+  await notify(email,'Reversement effectué 💸','Votre reversement de '+fmtN(amount)+' FCFA a été effectué. Merci de votre confiance !');
+  toast('Reversement enregistré ✅');
+  await loadAll();renderPayouts();
+}
+async function payManual(){
+  var email=$('pmEmail').value.trim(),name=$('pmName').value.trim(),amount=parseFloat($('pmAmount').value)||0,method=$('pmMethod').value.trim()||'Wave';
+  if(!email||!amount){toast('Email et montant requis');return;}
+  await api('payouts','',{method:'POST',body:JSON.stringify({recipient_type:'manual',recipient_email:email,recipient_name:name,amount:amount,method:method,status:'paid',paid_at:new Date().toISOString()})});
+  await notify(email,'Reversement effectué 💸','Un reversement de '+fmtN(amount)+' FCFA vous a été envoyé via '+method+'.');
+  toast('Reversement enregistré ✅');
+  renderPayouts();
+}
+
+/* ══════════ MESSAGES PRÊTS ══════════ */
+var TPLS=[
+  {t:'✅ Compte validé',m:'Félicitations ! Votre compte SEN TEW a été validé par notre équipe. Vous pouvez commencer dès maintenant. Bienvenue !'},
+  {t:'📄 Documents incomplets',m:'Votre demande est presque terminée. Il nous manque certains documents (CNI recto/verso lisible, selfie). Merci de les renvoyer pour finaliser la validation.'},
+  {t:'⏸️ Compte suspendu',m:'Votre compte a été temporairement suspendu suite à un manquement à nos conditions. Contactez le support pour régulariser votre situation.'},
+  {t:'💸 Reversement envoyé',m:'Votre reversement a été effectué. Vérifiez votre compte Wave/Orange Money. Merci pour votre activité sur SEN TEW !'},
+  {t:'📦 Commande en retard',m:'Nous sommes désolés du retard de votre commande. Notre équipe fait le maximum pour vous livrer au plus vite. Merci de votre patience.'},
+  {t:'🎁 Code promo personnel',m:'Merci de votre fidélité ! Voici un code promo rien que pour vous : utilisez-le lors de votre prochaine commande sur SEN TEW.'},
+  {t:'⚠️ Rappel règles vendeur',m:'Rappel : les produits doivent être conformes aux descriptions et photos. Tout manquement répété peut entraîner la suspension de la boutique.'},
+  {t:'📞 Réponse support',m:'Nous avons bien reçu votre demande et nous la traitons. Notre équipe revient vers vous sous 24 h ouvrées. Merci de votre confiance.'}
+];
+function renderMessages(){
+  var el=$('messages');
+  el.innerHTML='<div class="sect">Envoyer un message prêt à l\u2019emploi</div>'+
+  '<div class="card2"><label class="lb">Destinataire (email)</label><input class="sin" id="msgTo" placeholder="client@exemple.com"><label class="lb">Message</label><textarea id="msgBody" placeholder="Choisis un modèle ci-dessous ou écris ton message…"></textarea><button class="bigbtn" onclick="sendMsg()">📨 Envoyer</button></div>'+
+  '<div class="sect">Modèles (cliquer pour remplir)</div>'+
+  TPLS.map(function(t,i){return '<button class="tpl" onclick="fillTpl('+i+')">'+t.t+'<small>'+esc(t.m)+'</small></button>';}).join('');
+  lucide.createIcons();
+}
+function fillTpl(i){$('msgBody').value=TPLS[i].m;toast('Modèle inséré ✍️');}
+async function sendMsg(){
+  var to=$('msgTo').value.trim(),body=$('msgBody').value.trim();
+  if(!to||!body){toast('Destinataire et message requis');return;}
+  await notify(to,'Message de SEN TEW',body);
+  $('msgTo').value='';$('msgBody').value='';
+  toast('Message envoyé ✅');
+}
+
+/* ══════════ NOTIFICATIONS ADMIN ══════════ */
 async function loadNotifs(){
   var el=$('notifs');
   el.innerHTML='<div class="loading">Chargement…</div>';
   var rows=await api('notifications','?audience=eq.admin&select=*&order=created_at.desc&limit=50');
-  if(!Array.isArray(rows)||rows.length===0){el.innerHTML='<div class="empty">Aucune notification.</div>';setBadge('nbN',0);return;}
   var unread=rows.filter(function(n){return !n.is_read;}).length;
   setBadge('nbN',unread);
+  if(!rows.length){el.innerHTML='<div class="empty">Aucune notification.</div>';return;}
   el.innerHTML=rows.map(function(n){
     return '<div class="card2" style="'+(n.is_read?'opacity:.65':'border-left:4px solid #0f6b4e')+'"><div class="nm">'+esc(n.title||'Notification')+'</div><div class="meta">'+esc(n.message||'')+'</div><div class="meta" style="margin-top:4px">'+fmtDate(n.created_at)+'</div>'+
     (!n.is_read?'<div class="actions"><button class="abtn plain" onclick="markRead(\''+n.id+'\')"><i data-lucide="check"></i>Marquer lu</button></div>':'')+'</div>';
   }).join('');
   lucide.createIcons();
 }
+async function markRead(id){await api('notifications','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({is_read:true})});loadNotifs();}
 
-async function markRead(id){
-  await api('notifications','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({is_read:true})});
-  loadNotifs();
+/* ══════════ EXPORT CSV ══════════ */
+function exportCSV(){
+  var rows=[['type','nom','email','ville','statut','date']];
+  DATA.vendors.forEach(function(v){rows.push(['vendeur',v.shop_name||v.full_name||'',v.email||'',v.city||'',v.status||'',v.created_at||'']);});
+  DATA.drivers.forEach(function(d){rows.push(['livreur',d.full_name||'',d.email||'',d.city||'',d.status||'',d.created_at||'']);});
+  DATA.orders.forEach(function(o){rows.push(['commande','#'+String(o.id).slice(0,8),o.customer_email||o.user_email||'','',o.status+' · '+(o.total||0)+'F',o.created_at||'']);});
+  var csv=rows.map(function(r){return r.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"';}).join(',');}).join('\n');
+  var a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,\ufeff'+encodeURIComponent(csv);
+  a.download='sentew-admin-'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+  toast('Export CSV téléchargé ⬇️');
 }
 
-/* ══════════ ACTIONS + NOTIFICATION AUTO ══════════ */
-async function setStatus(table,id,status,email,role){
-  await api(table,'?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:status})});
-  if(email&&status!=='pending'){
-    var msgs={
-      active:'Félicitations ! Votre compte '+role+' SEN TEW est maintenant actif. Vous pouvez commencer.',
-      suspended:'Votre compte '+role+' SEN TEW a été suspendu. Contactez le support pour plus d\'informations.',
-      rejected:'Votre demande '+role+' SEN TEW n\'a pas été retenue. Contactez le support pour plus de détails.'
-    };
-    try{
-      await api('notifications','',{method:'POST',body:JSON.stringify({audience:'user',user_email:email,type:'account',title:'Statut de votre compte',message:msgs[status]||'Mise à jour de votre compte.'})});
-    }catch(e){}
-  }
-  toast('Statut mis à jour ✅');
-  loadPilotage();
-  if(table==='vendors')loadVendors();else loadDrivers();
-}
-
-/* ══════════ RAFRAÎCHISSEMENT SILENCIEUX (pas de rechargement visible) ══════════ */
+/* ══════════ REFRESH SILENCIEUX (badges uniquement) ══════════ */
 async function silentRefresh(){
   try{
     var n=await api('notifications','?audience=eq.admin&is_read=eq.false&select=id');
-    setBadge('nbN',Array.isArray(n)?n.length:0);
+    setBadge('nbN',n.length);
     var v=await api('vendors','?status=eq.pending&select=id');
-    setBadge('nbV',Array.isArray(v)?v.length:0);
+    setBadge('nbV',v.length);
     var d=await api('drivers','?status=eq.pending&select=id');
-    setBadge('nbL',Array.isArray(d)?d.length:0);
+    setBadge('nbL',d.length);
   }catch(e){}
 }
 
 /* ══════════ INIT ══════════ */
 lucide.createIcons();
-loadPilotage();
+loadAll();
 silentRefresh();
-setInterval(silentRefresh,45000); /* badges seulement — la page ne recharge jamais */
+setInterval(silentRefresh,45000);
 </script>
 </body>
 </html>
