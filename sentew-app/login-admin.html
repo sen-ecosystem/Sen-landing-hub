@@ -159,8 +159,15 @@ function releaseLock(){$('lockScreen').classList.remove('on');var f=getFails();f
 
 /* ══════════ EMAIL ══════════ */
 async function sendMail(msg,codeVal){
-  try{await emailjs.send(EJ_SVC,EJ_TPL,{code:String(codeVal||'-'),name:'SEN TEW Admin',message:msg,to_email:ADMIN_EMAIL});return true;}
-  catch(e){console.log('EmailJS:',e);return false;}
+  try{
+    await emailjs.send(EJ_SVC,EJ_TPL,{code:String(codeVal||'-'),name:'SEN TEW Admin',message:msg,to_email:ADMIN_EMAIL});
+    return true;
+  }catch(e){
+    var m=(e&&(e.text||e.message))||String(e);
+    console.log('EmailJS erreur:',e);
+    err('Échec envoi email : '+m);
+    return false;
+  }
 }
 
 /* ══════════ ÉTAPE 1 : LOGIN ══════════ */
@@ -209,10 +216,11 @@ async function send2FA(){
   OTP.code=genCode();
   OTP.exp=Date.now()+OTP_VALIDITY;
   saveOTP(OTP.code,OTP.exp);
-  await sendMail('Connexion admin SEN TEW le '+new Date().toLocaleString('fr-FR'),OTP.code);
+  var sent=await sendMail('Connexion admin SEN TEW le '+new Date().toLocaleString('fr-FR'),OTP.code);
   showOTP();
   document.querySelectorAll('.otp-box').forEach(function(b){b.value='';});
   var first=document.querySelector('.otp-box');if(first)first.focus();
+  if(!sent){err('Email non envoyé. CODE DE SECOURS : '+OTP.code);}
 }
 
 function showOTP(){
