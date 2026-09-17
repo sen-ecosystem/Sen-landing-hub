@@ -8,6 +8,7 @@
 <script src="js/security-shield.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{overscroll-behavior:none}
 body{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;background:#f2f6f4;color:#12312a;padding-bottom:110px}
 .topbar{background:linear-gradient(120deg,#04120c,#0f6b4e);color:#fff;padding:16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 3px 16px rgba(0,0,0,.3)}
 .topbar h1{font-size:17px;font-weight:900;display:flex;align-items:center;gap:8px}
@@ -705,6 +706,26 @@ async function silentRefresh(){
     }
   }catch(e){}
 }
+
+  /* ══════════ SWIPE ENTRE ONGLETS ══════════ */
+(function(){
+var ORDER=['pano','pilotage','stats','vendeurs','livreurs','commandes','reversements','compta','salaires','messages','notifs'];
+var sx=0,sy=0;
+document.addEventListener('touchstart',function(e){if(e.touches.length!==1)return;sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
+document.addEventListener('touchend',function(e){
+  if(!sx)return;
+  var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;sx=0;
+  if(Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*1.5)return;
+  if(e.target.closest('.tabs,textarea,input,select,.modal,.chk,.selbar,.paymethods'))return;
+  var cur=-1,i;
+  for(i=0;i<ORDER.length;i++){if(!$(ORDER[i]).classList.contains('hidden')){cur=i;break;}}
+  var nxt=cur+(dx<0?1:-1);
+  if(nxt<0||nxt>=ORDER.length)return;
+  var tabs=document.querySelectorAll('.tab');
+  showTab(ORDER[nxt],tabs[nxt]);
+  if(tabs[nxt])tabs[nxt].scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
+},{passive:true});
+})();
 
 /* ══════════ INIT ══════════ */
 lucide.createIcons();
