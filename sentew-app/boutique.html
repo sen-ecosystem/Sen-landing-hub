@@ -129,13 +129,13 @@ async function init(){
     if (!prods.length) { grid.innerHTML = '<div class="empty">Aucun produit pour le moment.</div>'; return; }
     grid.innerHTML = prods.map(function(p){
       var img = (p.images && p.images[0]) ? p.images[0] : '';
-      var old = p.old_price ? '<span class="pold">' + fmt(p.old_price) + ' FCFA</span>' : '';
+      var old = p.old_price ? '<span class="pold">' + stPrice(p.old_price) + '</span>' : '';
       var link = 'produit.html?pid=' + p.id + (p.legacy_id ? '&id=' + p.legacy_id : '');
       return '<article class="pcard" onclick="location.href=\'' + link + '\'">' +
         '<img src="' + img + '" alt="">' +
         '<div class="pbody">' +
           '<div class="pname">' + p.name + '</div>' +
-          '<div><span class="pprice">' + fmt(p.price) + ' FCFA</span>' + old + '</div>' +
+          '<div><span class="pprice">' + stPrice(p.price) + '</span>' + old + '</div>' +
           '<div class="prate">⭐ ' + (p.rating||'—') + ' · ' + (p.sold_count||0) + ' vendus</div>' +
         '</div></article>';
     }).join('');
