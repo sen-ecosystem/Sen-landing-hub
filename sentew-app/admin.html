@@ -41,6 +41,7 @@ body{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;background:#f2f6f4;c
 .pill.active,.pill.approved,.pill.delivered,.pill.paid{background:#eafaf1;color:#0f6b4e}
 .pill.suspended,.pill.rejected,.pill.cancelled{background:#fdecec;color:#c0392b}
 .pill.in_delivery,.pill.preparing{background:#e8f0fe;color:#1a56c4}
+.pill.draft{background:#f0f3f2;color:#5b7a70}
 .actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
 .abtn{border:none;border-radius:10px;padding:8px 12px;font-size:11.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:5px;transition:.12s}
 .abtn:active{transform:scale(.96)}
@@ -98,7 +99,6 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
 .bigbtn{width:100%;padding:14px;border:none;border-radius:13px;background:linear-gradient(120deg,#0a1f17,#0f6b4e);color:#fff;font-size:14px;font-weight:800;cursor:pointer;margin-top:12px;letter-spacing:.4px}
 .bigbtn.gold{background:linear-gradient(120deg,#7a5c10,#b07a1f)}
 .paycard{background:#fff;border-radius:18px;padding:14px;margin-bottom:10px;box-shadow:0 2px 10px rgba(10,31,23,.06);border-left:4px solid #b07a1f}
-/* stats */
 .bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .bar-lbl{width:64px;font-size:11px;font-weight:800;color:#5b7a70;text-align:right;flex-shrink:0}
 .bar-track{flex:1;background:#eef4f1;border-radius:8px;height:22px;overflow:hidden}
@@ -111,6 +111,18 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
 .kpi-line{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f5f2;font-size:13.5px}
 .kpi-line b{font-weight:900}
 .pos{color:#0f6b4e}.neg{color:#c0392b}
+/* PANORAMIQUE */
+.live-dot{display:inline-block;width:9px;height:9px;border-radius:99px;background:#4ade80;margin-right:6px;animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+.feed{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 2px 10px rgba(10,31,23,.06)}
+.fitem{display:flex;gap:12px;padding:12px 14px;border-bottom:1px solid #f0f5f2;align-items:flex-start}
+.fitem:last-child{border-bottom:none}
+.fico{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.fico i{width:16px;height:16px}
+.fico.g{background:#eafaf1;color:#0f6b4e}.fico.b{background:#e8f0fe;color:#1a56c4}.fico.o{background:#fff4e0;color:#b07a1f}.fico.r{background:#fdecec;color:#c0392b}
+.ftxt{flex:1;font-size:13px;line-height:1.5}
+.ftxt b{color:#0a1f17}
+.ftime{font-size:10.5px;color:#9db8af;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -124,19 +136,22 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
 </div>
 
 <div class="tabs">
-  <button class="tab on" onclick="showTab('pilotage',this)">Pilotage</button>
+  <button class="tab on" onclick="showTab('pano',this)">Panoramique<span class="live-dot" style="margin-left:4px"></span></button>
+  <button class="tab" onclick="showTab('pilotage',this)">Pilotage</button>
   <button class="tab" onclick="showTab('stats',this)">Statistiques</button>
   <button class="tab" onclick="showTab('vendeurs',this)">Vendeurs<span class="nb" id="nbV"></span></button>
   <button class="tab" onclick="showTab('livreurs',this)">Livreurs<span class="nb" id="nbL"></span></button>
   <button class="tab" onclick="showTab('commandes',this)">Commandes</button>
   <button class="tab" onclick="showTab('reversements',this)">Reversements</button>
   <button class="tab" onclick="showTab('compta',this)">Comptabilité</button>
+  <button class="tab" onclick="showTab('salaires',this)">Salaires</button>
   <button class="tab" onclick="showTab('messages',this)">Messages</button>
   <button class="tab" onclick="showTab('notifs',this)">Notifs<span class="nb" id="nbN"></span></button>
 </div>
 
 <div class="wrap">
-  <div id="pilotage" class="panel">
+  <div id="pano" class="panel"></div>
+  <div id="pilotage" class="panel hidden">
     <div class="kpis">
       <div class="kpi"><div class="kv" id="kVendors">–</div><div class="kl">Vendeurs actifs</div></div>
       <div class="kpi warn"><div class="kv" id="kPending">–</div><div class="kl">En attente</div></div>
@@ -153,6 +168,7 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
   <div id="commandes" class="panel hidden"></div>
   <div id="reversements" class="panel hidden"></div>
   <div id="compta" class="panel hidden"></div>
+  <div id="salaires" class="panel hidden"></div>
   <div id="messages" class="panel hidden"></div>
   <div id="notifs" class="panel hidden"></div>
 </div>
@@ -185,6 +201,8 @@ var PAY_METHODS=[
   {id:'free',lbl:'🟣 Free Money',sub:'Mobile'},
   {id:'bank',lbl:'🏦 Virement bancaire',sub:'N° de compte requis'}
 ];
+/* BAREMES PAIE SN (part salariale) */
+var TAUX={ipres:5.6,css:7};
 
 /* ══════════ GARDE DE SESSION ══════════ */
 var sess=sessionStorage.getItem('sentew_admin')||localStorage.getItem('sentew_admin');
@@ -197,11 +215,13 @@ function toast(m){var t=$('toast');t.textContent=m;t.classList.add('on');setTime
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function fmtDate(d){if(!d)return'';try{var x=new Date(d);return x.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'})+' '+x.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}catch(e){return'';}}
 function fmtN(n){return Math.round(n||0).toLocaleString('fr-FR');}
+function timeAgo(d){if(!d)return'';var s=(Date.now()-new Date(d).getTime())/1000;if(s<60)return'à l\u2019instant';if(s<3600)return'il y a '+Math.floor(s/60)+' min';if(s<86400)return'il y a '+Math.floor(s/3600)+' h';return'il y a '+Math.floor(s/86400)+' j';}
 async function api(t,q,o){o=o||{};var r=await fetch(SUPA+'/rest/v1/'+t+(q||''),Object.assign({headers:H},o));if(o.method&&o.method!=='GET')return r;var j=await r.json();return Array.isArray(j)?j:[];}
 function setBadge(id,n){var b=$(id);if(!b)return;if(n>0){b.textContent=n;b.classList.add('on');}else{b.classList.remove('on');}}
+function dlCSV(name,rows){var csv=rows.map(function(r){return r.map(function(c){return '"'+String(c==null?'':c).replace(/"/g,'""')+'"';}).join(',');}).join('\n');var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,﻿'+encodeURIComponent(csv);a.download=name;a.click();}
 
 /* ══════════ ÉTAT ══════════ */
-var DATA={vendors:[],drivers:[],orders:[],expenses:[],payouts:[]};
+var DATA={vendors:[],drivers:[],orders:[],expenses:[],payouts:[],salaries:[],invoices:[],dels:[]};
 var FILT={vendeurs:'all',livreurs:'all',commandes:'all'};
 var SRCH={vendeurs:'',livreurs:''};
 var SEL={list:[],table:null};
@@ -215,12 +235,14 @@ function showTab(id,btn){
   $(id).classList.remove('hidden');
   document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});
   if(btn)btn.classList.add('on');
+  if(id==='pano')renderPano();
   if(id==='stats')renderStats();
   if(id==='vendeurs')renderVendors();
   if(id==='livreurs')renderDrivers();
   if(id==='commandes')renderOrders();
   if(id==='reversements')renderPayouts();
   if(id==='compta')renderCompta();
+  if(id==='salaires')renderSalaries();
   if(id==='messages')renderMessages();
   if(id==='notifs')loadNotifs();
 }
@@ -232,9 +254,51 @@ async function loadAll(){
   DATA.orders=await api('orders','?select=*&order=created_at.desc&limit=300');
   DATA.expenses=await api('expenses','?select=*&order=expense_date.desc&limit=100');
   DATA.payouts=await api('payouts','?select=*&order=created_at.desc&limit=50');
+  DATA.salaries=await api('salaries','?select=*&order=created_at.desc&limit=100');
+  DATA.invoices=await api('invoices','?select=*&order=created_at.desc&limit=100');
+  DATA.dels=await api('deletion_requests','?select=*&order=created_at.desc&limit=50');
   loadPilotage();
+  if(!$('pano').classList.contains('hidden'))renderPano();
 }
 
+/* ══════════ PANORAMIQUE — ACTIVITÉ TEMPS RÉEL ══════════ */
+function renderPano(){
+  var el=$('pano');
+  var today=new Date().toISOString().slice(0,10);
+  var oToday=DATA.orders.filter(function(o){return String(o.created_at||'').slice(0,10)===today;});
+  var caToday=oToday.reduce(function(s,o){return s+(o.total||0);},0);
+  var enCours=DATA.orders.filter(function(o){return o.status==='pending'||o.status==='preparing'||o.status==='in_delivery';}).length;
+  var vToday=DATA.vendors.filter(function(v){return String(v.created_at||'').slice(0,10)===today;}).length;
+  var dToday=DATA.drivers.filter(function(d){return String(d.created_at||'').slice(0,10)===today;}).length;
+  /* flux d'activité fusionné */
+  var feed=[];
+  DATA.orders.slice(0,12).forEach(function(o){feed.push({t:o.created_at,ico:'shopping-bag',cls:'b',txt:'<b>Commande #'+esc(String(o.id)).slice(0,8)+'</b> · '+fmtN(o.total)+' F · <span class="pill '+esc(o.status||'')+'">'+esc(o.status||'')+'</span> · '+esc(o.customer_email||o.user_email||'')});});
+  DATA.vendors.slice(0,6).forEach(function(v){feed.push({t:v.created_at,ico:'store',cls:'g',txt:'<b>'+esc(v.shop_name||v.full_name||'Vendeur')+'</b> a rejoint la plateforme · '+esc(v.city||'')});});
+  DATA.drivers.slice(0,6).forEach(function(d){feed.push({t:d.created_at,ico:'bike',cls:'o',txt:'<b>'+esc(d.full_name||'Livreur')+'</b> s\u2019est inscrit comme livreur · '+esc(d.city||d.zone||'')});});
+  DATA.dels.slice(0,6).forEach(function(x){feed.push({t:x.created_at,ico:'user-x',cls:'r',txt:'<b>'+esc(x.user_email||'')+'</b> demande la suppression de son compte'+(x.reason?' · motif : '+esc(x.reason):'')});});
+  feed.sort(function(a,b){return new Date(b.t)-new Date(a.t);});
+  var feedHtml=feed.slice(0,20).map(function(f){
+    return '<div class="fitem"><div class="fico '+f.cls+'"><i data-lucide="'+f.ico+'"></i></div><div class="ftxt">'+f.txt+'</div><div class="ftime">'+timeAgo(f.t)+'</div></div>';
+  }).join('')||'<div class="empty">Aucune activité pour le moment.</div>';
+  /* churn */
+  var reasons={};DATA.dels.forEach(function(x){var r=x.reason||'Sans motif';reasons[r]=(reasons[r]||0)+1;});
+  var churnHtml=Object.keys(reasons).map(function(r){return '<div class="kpi-line"><span>'+esc(r)+'</span><b>'+reasons[r]+'</b></div>';}).join('')||'<div class="empty">Aucune suppression de compte. Excellente rétention ! 🎉</div>';
+  el.innerHTML=
+   '<div class="sect"><span class="live-dot"></span>En direct — aujourd\u2019hui (actualisation auto 30 s)</div>'+
+   '<div class="kpis">'+
+   '<div class="kpi blue"><div class="kv">'+oToday.length+'</div><div class="kl">Commandes aujourd\u2019hui</div></div>'+
+   '<div class="kpi money"><div class="kv">'+fmtN(caToday)+'</div><div class="kl">CA aujourd\u2019hui (F)</div></div>'+
+   '<div class="kpi warn"><div class="kv">'+enCours+'</div><div class="kl">Commandes en cours</div></div>'+
+   '<div class="kpi"><div class="kv">'+(vToday+dToday)+'</div><div class="kl">Inscriptions jour</div></div>'+
+   '</div>'+
+   '<div class="sect"><i data-lucide="activity"></i>Flux d\u2019activité — clients · vendeurs · livreurs</div>'+
+   '<div class="feed">'+feedHtml+'</div>'+
+   '<div class="sect"><i data-lucide="user-x"></i>Analyse des suppressions de compte</div>'+
+   '<div class="card2">'+churnHtml+'</div>';
+  lucide.createIcons();
+}
+
+/* ══════════ PILOTAGE ══════════ */
 function loadPilotage(){
   var v=DATA.vendors,d=DATA.drivers,o=DATA.orders;
   var pendV=v.filter(function(x){return x.status==='pending';}).length;
@@ -248,8 +312,10 @@ function loadPilotage(){
   var html='';
   v.filter(function(x){return x.status==='pending';}).forEach(function(x){html+='<div class="card2" style="cursor:pointer" onclick="openDetail(\'vendors\',\''+x.id+'\')"><div class="row"><div><div class="nm">🏬 '+esc(x.shop_name||x.full_name||'Vendeur')+'</div><div class="meta">'+esc(x.city||'')+' · '+fmtDate(x.created_at)+'</div></div><span class="pill pending">À valider</span></div></div>';});
   d.filter(function(x){return x.status==='pending';}).forEach(function(x){html+='<div class="card2" style="cursor:pointer" onclick="openDetail(\'drivers\',\''+x.id+'\')"><div class="row"><div><div class="nm">🛵 '+esc(x.full_name||'Livreur')+'</div><div class="meta">'+esc(x.city||x.zone||'')+' · '+fmtDate(x.created_at)+'</div></div><span class="pill pending">À valider</span></div></div>';});
+  DATA.dels.filter(function(x){return x.status==='pending';}).forEach(function(x){html+='<div class="card2"><div class="row"><div><div class="nm">🗑️ '+esc(x.user_email||'')+'</div><div class="meta">Suppression de compte · '+(x.reason?esc(x.reason)+' · ':'')+fmtDate(x.created_at)+'</div></div><span class="pill rejected">Churn</span></div><div class="actions"><button class="abtn blue" onclick="setDel(\''+x.id+'\',\'contacted\')"><i data-lucide="phone"></i>Contacté</button><button class="abtn danger" onclick="setDel(\''+x.id+'\',\'deleted\')"><i data-lucide="trash-2"></i>Compte supprimé</button></div></div>';});
   $('priorityList').innerHTML=html||'<div class="empty">✅ Aucune demande en attente. Tout est à jour !</div>';
 }
+async function setDel(id,st){await api('deletion_requests','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:st})});toast('Demande mise à jour ✅');DATA.dels=await api('deletion_requests','?select=*&order=created_at.desc&limit=50');loadPilotage();}
 
 /* ══════════ STATISTIQUES ══════════ */
 function renderStats(){
@@ -259,16 +325,13 @@ function renderStats(){
   var ca=deliv.reduce(function(s,x){return s+(x.total||0);},0);
   var commission=ca*COMMISSION/100;
   var avg=deliv.length?ca/deliv.length:0;
-  /* CA sur 7 derniers jours */
   var days=[],i,d,key;
   for(i=6;i>=0;i--){d=new Date();d.setDate(d.getDate()-i);key=d.toISOString().slice(0,10);days.push({key:key,lbl:d.toLocaleDateString('fr-FR',{weekday:'short'}),val:0});}
   deliv.forEach(function(x){var k=String(x.created_at||'').slice(0,10);var dd=days.find(function(y){return y.key===k;});if(dd)dd.val+=(x.total||0);});
   var maxD=Math.max.apply(null,days.map(function(x){return x.val;}))||1;
   var bars=days.map(function(x){return '<div class="bar-row"><div class="bar-lbl">'+x.lbl+'</div><div class="bar-track"><div class="bar-fill" style="width:'+Math.max(3,Math.round(x.val/maxD*100))+'%"></div></div><div class="bar-val">'+fmtN(x.val)+' F</div></div>';}).join('');
-  /* répartition statuts */
   var st={};o.forEach(function(x){st[x.status]=(st[x.status]||0)+1;});
   var stHtml=Object.keys(st).map(function(k){return '<div class="kpi-line"><span>'+esc(k)+'</span><b>'+st[k]+'</b></div>';}).join('')||'<div class="empty">Aucune commande</div>';
-  /* top vendeurs par solde */
   var top=DATA.vendors.filter(function(v){return (v.pending_balance||0)>0;}).sort(function(a,b){return (b.pending_balance||0)-(a.pending_balance||0);}).slice(0,5);
   var topHtml=top.map(function(v,ix){return '<div class="kpi-line"><span>'+(ix+1)+'. '+esc(v.shop_name||v.full_name||'')+'</span><b>'+fmtN(v.pending_balance)+' F</b></div>';}).join('')||'<div class="empty">Aucun solde vendeur</div>';
   el.innerHTML=
@@ -421,7 +484,7 @@ function renderOrders(){
   $('commandes').innerHTML=h;lucide.createIcons();
 }
 
-/* ══════════ REVERSEMENTS (choix du moyen : Wave/OM/Free/Banque) ══════════ */
+/* ══════════ REVERSEMENTS ══════════ */
 function pmGrid(sel){
   return '<div class="paymethods">'+PAY_METHODS.map(function(m){return '<div class="pm'+(sel===m.id?' on':'')+'" onclick="PM_CHOICE=\''+m.id+'\';document.querySelectorAll(\'.pm\').forEach(function(p){p.classList.remove(\'on\')});this.classList.add(\'on\');document.getElementById(\'bankZone\').style.display=(\''+m.id+'\'===\'bank\')?\'block\':\'none\'">'+m.lbl+'<small>'+m.sub+'</small></div>';}).join('')+'</div>';
 }
@@ -457,27 +520,35 @@ async function payNow(vendorId,email,name,amount){
   toast('Reversement enregistré ✅');await loadAll();renderPayouts();
 }
 
-/* ══════════ COMPTABILITÉ ══════════ */
+/* ══════════ COMPTABILITÉ + FACTURES ══════════ */
 function renderCompta(){
   var el=$('compta');
   var ca=DATA.orders.filter(function(x){return x.status==='delivered';}).reduce(function(s,x){return s+(x.total||0);},0);
   var commissions=ca*COMMISSION/100;
   var expTotal=DATA.expenses.reduce(function(s,x){return s+(x.amount||0);},0);
-  var net=commissions-expTotal;
+  var invExp=DATA.invoices.filter(function(x){return x.type==='expense'&&x.status==='paid';}).reduce(function(s,x){return s+(x.amount||0);},0);
+  var salTotal=DATA.salaries.filter(function(x){return x.status==='paid';}).reduce(function(s,x){return s+(x.base_salary||0)+(x.bonuses||0)-(x.deductions||0);},0);
+  var net=commissions-expTotal-invExp-salTotal;
   var expHtml=DATA.expenses.map(function(x){
     return '<div class="kpi-line"><span>'+esc(x.label)+' <small style="color:#9db8af">'+esc(x.category||'')+' · '+fmtDate(x.expense_date)+'</small></span><b class="neg">−'+fmtN(x.amount)+' F</b></div>';
   }).join('')||'<div class="empty">Aucune dépense enregistrée.</div>';
+  var invHtml=DATA.invoices.map(function(x){
+    return '<div class="kpi-line"><span>🧾 '+esc(x.number||'')+' · '+esc(x.supplier||x.label||'')+' <small style="color:#9db8af">'+fmtDate(x.invoice_date)+'</small></span><span style="display:flex;gap:8px;align-items:center"><b class="'+(x.type==='sale'?'pos':'neg')+'">'+(x.type==='sale'?'+':'−')+fmtN(x.amount)+' F</b>'+(x.status!=='paid'?'<button class="abtn ok" style="padding:5px 9px;font-size:10.5px" onclick="payInvoice(\''+x.id+'\')">Payée</button>':'<span class="pill paid">payée</span>')+'</span></div>';
+  }).join('')||'<div class="empty">Aucune facture.</div>';
   el.innerHTML=
    '<div class="kpis">'+
    '<div class="kpi money"><div class="kv">'+fmtN(ca)+'</div><div class="kl">CA livré (F)</div></div>'+
    '<div class="kpi"><div class="kv">'+fmtN(commissions)+'</div><div class="kl">Commissions perçues</div></div>'+
-   '<div class="kpi warn"><div class="kv">'+fmtN(expTotal)+'</div><div class="kl">Dépenses</div></div>'+
+   '<div class="kpi warn"><div class="kv">'+fmtN(expTotal+invExp+salTotal)+'</div><div class="kl">Sorties (dép.+fact.+salaires)</div></div>'+
    '<div class="kpi blue"><div class="kv '+(net>=0?'pos':'neg')+'">'+fmtN(net)+'</div><div class="kl">Bénéfice net (F)</div></div>'+
    '</div>'+
    '<div class="sect"><i data-lucide="plus-circle"></i>Ajouter une dépense</div>'+
    '<div class="card2"><label class="lb">Libellé</label><input class="sin" id="exLabel" placeholder="Ex: Campagne pub Facebook"><label class="lb">Catégorie</label><select class="sin" id="exCat"><option value="marketing">Marketing</option><option value="livraison">Livraison / logistique</option><option value="tech">Technique / hébergement</option><option value="salaires">Salaires</option><option value="taxes">Taxes / fiscalité</option><option value="general">Autre</option></select><label class="lb">Montant (F)</label><input class="sin" id="exAmount" type="number" placeholder="25000"><button class="bigbtn" onclick="addExpense()">➕ Enregistrer la dépense</button></div>'+
    '<div class="sect"><i data-lucide="receipt"></i>Dépenses récentes</div><div class="card2">'+expHtml+'</div>'+
-   '<button class="bigbtn gold" onclick="exportCompta()">⬇️ Export comptable (CSV)</button>';
+   '<div class="sect"><i data-lucide="file-text"></i>Factures</div>'+
+   '<div class="card2"><label class="lb">N° facture</label><input class="sin" id="invNum" placeholder="FAC-2026-001"><label class="lb">Fournisseur / Client</label><input class="sin" id="invSup" placeholder="Ex: Hébergeur, imprimeur…"><label class="lb">Libellé</label><input class="sin" id="invLbl" placeholder="Objet de la facture"><label class="lb">Type</label><select class="sin" id="invType"><option value="expense">Dépense (sortie)</option><option value="sale">Vente (entrée)</option></select><label class="lb">Montant HT (F)</label><input class="sin" id="invAmt" type="number" placeholder="50000"><label class="lb">TVA (F, 0 si exonéré)</label><input class="sin" id="invTax" type="number" placeholder="0"><button class="bigbtn gold" onclick="addInvoice()">🧾 Enregistrer la facture</button></div>'+
+   '<div class="card2">'+invHtml+'</div>'+
+   '<button class="bigbtn gold" onclick="exportCompta()">⬇️ Export comptable (CSV Excel)</button>';
   lucide.createIcons();
 }
 async function addExpense(){
@@ -488,13 +559,88 @@ async function addExpense(){
   DATA.expenses=await api('expenses','?select=*&order=expense_date.desc&limit=100');
   renderCompta();
 }
+async function addInvoice(){
+  var n=$('invNum').value.trim(),s=$('invSup').value.trim(),l=$('invLbl').value.trim(),t=$('invType').value,a=parseFloat($('invAmt').value)||0,tax=parseFloat($('invTax').value)||0;
+  if(!n||!a){toast('N° de facture et montant requis');return;}
+  await api('invoices','',{method:'POST',body:JSON.stringify({number:n,supplier:s,label:l,type:t,amount:a,tax:tax})});
+  toast('Facture enregistrée ✅');
+  DATA.invoices=await api('invoices','?select=*&order=created_at.desc&limit=100');
+  renderCompta();
+}
+async function payInvoice(id){await api('invoices','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:'paid'})});toast('Facture soldée ✅');DATA.invoices=await api('invoices','?select=*&order=created_at.desc&limit=100');renderCompta();}
 function exportCompta(){
   var rows=[['date','type','libelle','montant_F']];
   DATA.orders.filter(function(x){return x.status==='delivered';}).forEach(function(o){rows.push([String(o.created_at||'').slice(0,10),'commission','Commande #'+String(o.id).slice(0,8),Math.round((o.total||0)*COMMISSION/100)]);});
   DATA.expenses.forEach(function(x){rows.push([x.expense_date,'depense-'+x.category,x.label,-(x.amount||0)]);});
-  var csv=rows.map(function(r){return r.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"';}).join(',');}).join('\n');
-  var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,\ufeff'+encodeURIComponent(csv);a.download='sentew-compta-'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+  DATA.invoices.forEach(function(x){rows.push([x.invoice_date,'facture-'+(x.type==='sale'?'vente':'depense'),x.number+' '+x.label,(x.type==='sale'?1:-1)*(x.amount||0)]);});
+  DATA.salaries.forEach(function(x){rows.push([x.period,'salaire',x.employee_name,-((x.base_salary||0)+(x.bonuses||0)-(x.deductions||0))]);});
+  dlCSV('sentew-compta-'+new Date().toISOString().slice(0,10)+'.csv',rows);
   toast('Export comptable téléchargé ⬇️');
+}
+
+/* ══════════ SALAIRES — BULLETINS NORMES SN ══════════ */
+function calcBulletin(base,bonus,ded){
+  var brut=(base||0)+(bonus||0);
+  var ipres=brut*TAUX.ipres/100;
+  var css=brut*TAUX.css/100;
+  /* IR SN simplifié (mensuel, barème progressif approximatif) */
+  var taxable=brut-ipres-css;
+  var ir=0;
+  if(taxable>50000)ir+=(Math.min(taxable,166667)-50000)*0.20;
+  if(taxable>166667)ir+=(Math.min(taxable,333333)-166667)*0.26;
+  if(taxable>333333)ir+=(Math.min(taxable,666667)-333333)*0.31;
+  if(taxable>666667)ir+=(taxable-666667)*0.37;
+  var net=brut-ipres-css-ir-(ded||0);
+  return{brut:brut,ipres:ipres,css:css,ir:ir,net:net};
+}
+function renderSalaries(){
+  var el=$('salaires');
+  var list=DATA.salaries.map(function(s){
+    var b=calcBulletin(s.base_salary,s.bonuses,s.deductions);
+    return '<div class="card2"><div class="row"><div><div class="nm">'+esc(s.employee_name)+'</div><div class="meta">'+esc(s.role||'')+' · '+esc(s.period||'')+' · net <b class="pos">'+fmtN(b.net)+' F</b></div></div><span class="pill '+esc(s.status)+'">'+esc(s.status)+'</span></div>'+
+    '<div class="actions"><button class="abtn blue" onclick="dlBulletin(\''+s.id+'\')"><i data-lucide="file-spreadsheet"></i>Bulletin Excel (CSV)</button>'+(s.status!=='paid'?'<button class="abtn ok" onclick="paySalary(\''+s.id+'\')"><i data-lucide="check"></i>Marquer payé</button>':'')+'</div></div>';
+  }).join('')||'<div class="empty">Aucun bulletin créé.</div>';
+  el.innerHTML=
+   '<div class="sect"><i data-lucide="plus-circle"></i>Nouveau bulletin de paie</div>'+
+   '<div class="card2"><label class="lb">Employé</label><input class="sin" id="salName" placeholder="Ex: Fatou Ndiaye"><label class="lb">Poste</label><input class="sin" id="salRole" placeholder="Ex: Support client"><label class="lb">Période</label><input class="sin" id="salPeriod" type="month" value="'+new Date().toISOString().slice(0,7)+'"><label class="lb">Salaire de base (F)</label><input class="sin" id="salBase" type="number" placeholder="150000" oninput="previewBulletin()"><label class="lb">Primes (F)</label><input class="sin" id="salBonus" type="number" placeholder="0" oninput="previewBulletin()"><label class="lb">Retenues diverses (F)</label><input class="sin" id="salDed" type="number" placeholder="0" oninput="previewBulletin()"><div id="salPreview"></div><button class="bigbtn" onclick="addSalary()">💼 Créer le bulletin</button></div>'+
+   '<div class="sect"><i data-lucide="briefcase"></i>Bulletins ('+DATA.salaries.length+')</div>'+list;
+  lucide.createIcons();
+}
+function previewBulletin(){
+  var base=parseFloat($('salBase').value)||0,bonus=parseFloat($('salBonus').value)||0,ded=parseFloat($('salDed').value)||0;
+  var z=$('salPreview');if(!base){z.innerHTML='';return;}
+  var b=calcBulletin(base,bonus,ded);
+  z.innerHTML='<div class="card2" style="background:#f7faf8;margin-top:10px">'+
+   '<div class="kpi-line"><span>Brut</span><b>'+fmtN(b.brut)+' F</b></div>'+
+   '<div class="kpi-line"><span>IPRES ('+TAUX.ipres+'%)</span><b class="neg">−'+fmtN(b.ipres)+' F</b></div>'+
+   '<div class="kpi-line"><span>CSS ('+TAUX.css+'%)</span><b class="neg">−'+fmtN(b.css)+' F</b></div>'+
+   '<div class="kpi-line"><span>IR (progressif)</span><b class="neg">−'+fmtN(b.ir)+' F</b></div>'+
+   '<div class="kpi-line" style="border:none"><span><b>NET À PAYER</b></span><b class="pos">'+fmtN(b.net)+' F</b></div></div>';
+}
+async function addSalary(){
+  var n=$('salName').value.trim(),r=$('salRole').value.trim(),p=$('salPeriod').value,base=parseFloat($('salBase').value)||0,bonus=parseFloat($('salBonus').value)||0,ded=parseFloat($('salDed').value)||0;
+  if(!n||!base){toast('Nom et salaire de base requis');return;}
+  await api('salaries','',{method:'POST',body:JSON.stringify({employee_name:n,role:r,period:p,base_salary:base,bonuses:bonus,deductions:ded})});
+  toast('Bulletin créé ✅');
+  DATA.salaries=await api('salaries','?select=*&order=created_at.desc&limit=100');
+  renderSalaries();
+}
+async function paySalary(id){await api('salaries','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:'paid'})});toast('Salaire marqué payé ✅');DATA.salaries=await api('salaries','?select=*&order=created_at.desc&limit=100');renderSalaries();}
+function dlBulletin(id){
+  var s=DATA.salaries.find(function(x){return String(x.id)===String(id);});if(!s)return;
+  var b=calcBulletin(s.base_salary,s.bonuses,s.deductions);
+  dlCSV('bulletin-'+s.employee_name.replace(/\s+/g,'-')+'-'+s.period+'.csv',[
+   ['BULLETIN DE PAIE - SEN TEW SUARL'],
+   ['Employe',s.employee_name],['Poste',s.role||''],['Periode',s.period],
+   [''],
+   ['RUBRIQUE','MONTANT (F)'],
+   ['Salaire de base',s.base_salary],['Primes',s.bonuses||0],['BRUT',b.brut],
+   ['IPRES retraite ('+TAUX.ipres+'%)',-b.ipres],['CSS maladie ('+TAUX.css+'%)',-b.css],['IR progressif',-b.ir],['Retenues diverses',-(s.deductions||0)],
+   [''],
+   ['NET A PAYER',b.net],
+   ['Statut',s.status]
+  ]);
+  toast('Bulletin téléchargé ⬇️');
 }
 
 /* ══════════ MESSAGES PRÊTS ══════════ */
@@ -542,25 +688,29 @@ function exportCSV(){
   DATA.vendors.forEach(function(v){rows.push(['vendeur',v.shop_name||v.full_name||'',v.email||'',v.city||'',v.status||'',v.created_at||'']);});
   DATA.drivers.forEach(function(d){rows.push(['livreur',d.full_name||'',d.email||'',d.city||d.zone||'',d.status||'',d.created_at||'']);});
   DATA.orders.forEach(function(o){rows.push(['commande','#'+String(o.id).slice(0,8),o.customer_email||o.user_email||'','',o.status+' · '+(o.total||0)+'F',o.created_at||'']);});
-  var csv=rows.map(function(r){return r.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"';}).join(',');}).join('\n');
-  var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,\ufeff'+encodeURIComponent(csv);a.download='sentew-admin-'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+  dlCSV('sentew-admin-'+new Date().toISOString().slice(0,10)+'.csv',rows);
   toast('Export CSV téléchargé ⬇️');
 }
 
-/* ══════════ REFRESH SILENCIEUX ══════════ */
+/* ══════════ REFRESH AUTO 30 s (panoramique + badges) ══════════ */
+var PANO_T=0;
 async function silentRefresh(){
   try{
     var n=await api('notifications','?audience=eq.admin&is_read=eq.false&select=id');setBadge('nbN',n.length);
     var v=await api('vendors','?status=eq.pending&select=id');setBadge('nbV',v.length);
     var d=await api('drivers','?status=eq.pending&select=id');setBadge('nbL',d.length);
+    if(!$('pano').classList.contains('hidden')){
+      PANO_T++;
+      if(PANO_T>=1){PANO_T=0;DATA.orders=await api('orders','?select=*&order=created_at.desc&limit=300');DATA.vendors=await api('vendors','?select=*&order=created_at.desc');DATA.drivers=await api('drivers','?select=*&order=created_at.desc');DATA.dels=await api('deletion_requests','?select=*&order=created_at.desc&limit=50');renderPano();}
+    }
   }catch(e){}
 }
 
 /* ══════════ INIT ══════════ */
 lucide.createIcons();
-loadAll();
+loadAll().then(function(){renderPano();});
 silentRefresh();
-setInterval(silentRefresh,45000);
+setInterval(silentRefresh,30000);
 </script>
 </body>
 </html>
