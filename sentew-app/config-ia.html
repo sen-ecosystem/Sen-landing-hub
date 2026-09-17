@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Réglages IA — SEN TEW</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;background:linear-gradient(160deg,#04120c,#0a1f17 45%,#0f3d2e);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;color:#12312a}
+.card{background:#fff;border-radius:24px;width:100%;max-width:420px;padding:30px 26px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.logo{width:64px;height:64px;border-radius:18px;background:#0f6b4e;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:30px}
+h1{text-align:center;font-size:19px;font-weight:900;color:#0a1f17}
+.sub{text-align:center;font-size:12.5px;color:#5b7a70;margin:6px 0 18px;line-height:1.55}
+label{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:12px 0 6px;text-transform:uppercase;letter-spacing:.5px}
+input{width:100%;padding:13px 14px;border:2px solid #e3ede8;border-radius:12px;font-size:14px;outline:none;background:#fbfdfc}
+input:focus{border-color:#0f6b4e}
+.btn{width:100%;padding:15px;border:none;border-radius:14px;background:linear-gradient(120deg,#0a1f17,#0f6b4e);color:#fff;font-size:15px;font-weight:800;cursor:pointer;margin-top:14px}
+.btn2{width:100%;padding:12px;border:2px solid #e3ede8;border-radius:14px;background:#fff;color:#5b7a70;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px}
+.msg{display:none;margin-top:14px;padding:12px 14px;border-radius:12px;font-size:13px;font-weight:700;text-align:center;line-height:1.5}
+.msg.ok{display:block;background:#eafaf1;border:1.5px solid #bfe8cf;color:#0f6b4e}
+.msg.err{display:block;background:#fdecec;border:1.5px solid #f5c6c6;color:#c0392b}
+.statut{margin-top:16px;padding:12px;border-radius:12px;background:#f7faf8;border:1.5px solid #e3ede8;font-size:12.5px;color:#5b7a70;text-align:center}
+.statut b{color:#0f6b4e}
+.back{display:block;text-align:center;margin-top:18px;font-size:12.5px;color:#5b7a70;text-decoration:none;font-weight:600}
+.note{font-size:11px;color:#9db8af;margin-top:14px;line-height:1.6;text-align:center}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">🤖</div>
+  <h1>Activer l'IA SEN TEW</h1>
+  <p class="sub">Colle ta clé Gemini une seule fois.<br>Elle reste enregistrée sur cet appareil, jamais dans le code public.</p>
+
+  <label>Clé API Gemini</label>
+  <input type="text" id="keyInput" placeholder="Colle ta clé ici (commence par AQ. ou AIza)" autocomplete="off">
+
+  <button class="btn" onclick="saveKey()">💾 Enregistrer la clé</button>
+  <button class="btn2" onclick="testKey()">🧪 Tester la connexion IA</button>
+  <button class="btn2" style="border-color:#f5c6c6;color:#c0392b" onclick="eraseKey()">🗑️ Effacer la clé de cet appareil</button>
+
+  <div class="msg" id="msg"></div>
+  <div class="statut" id="statut"></div>
+
+  <div class="note">🔒 La clé n'est stockée que dans ce navigateur.<br>Si tu changes de téléphone, refais cette étape.</div>
+  <a class="back" href="admin.html">← Retour à l'admin</a>
+</div>
+
+<script src="js/ai.js"></script>
+<script>
+function $(id){return document.getElementById(id);}
+function show(m,type){var b=$('msg');b.textContent=m;b.className='msg '+type;}
+function refresh(){
+  var has=(typeof stAiHasKey==='function')&&stAiHasKey();
+  $('statut').innerHTML=has
+    ?'État actuel : <b>✅ IA activée</b> — une clé est enregistrée sur cet appareil.'
+    :'État actuel : <b style="color:#c0392b">❌ Aucune clé</b> — l\u2019IA est inactive.';
+}
+function saveKey(){
+  var v=$('keyInput').value.trim();
+  if(v.length<20){show('Clé trop courte ou vide. Colle la clé complète.','err');return;}
+  stAiSetKey(v);
+  $('keyInput').value='';
+  show('✅ Clé enregistrée sur cet appareil. L\u2019IA est maintenant active !','ok');
+  refresh();
+}
+function eraseKey(){
+  localStorage.removeItem('st_gemini_key');
+  show('Clé effacée de cet appareil.','ok');
+  refresh();
+}
+async function testKey(){
+  if(!stAiHasKey()){show('Aucune clé enregistrée. Colle-la d\u2019abord.','err');return;}
+  show('🧪 Test en cours…','ok');
+  var r=await stAsk('Réponds uniquement : SEN TEW IA opérationnelle.');
+  if(r.indexOf('opérationnelle')>-1||r.indexOf('SEN TEW')>-1){show('✅ '+r,'ok');}
+  else{show('⚠️ Réponse reçue : '+r.slice(0,120),'err');}
+}
+refresh();
+</script>
+</body>
+</html>
