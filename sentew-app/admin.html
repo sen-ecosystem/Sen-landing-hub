@@ -6,6 +6,7 @@
 <title>Administration - SEN TEW</title>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="js/security-shield.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{overscroll-behavior:none}
@@ -534,7 +535,7 @@ function renderCompta(){
     return '<div class="kpi-line"><span>'+esc(x.label)+' <small style="color:#9db8af">'+esc(x.category||'')+' · '+fmtDate(x.expense_date)+'</small></span><b class="neg">−'+fmtN(x.amount)+' F</b></div>';
   }).join('')||'<div class="empty">Aucune dépense enregistrée.</div>';
   var invHtml=DATA.invoices.map(function(x){
-    return '<div class="kpi-line"><span>🧾 '+esc(x.number||'')+' · '+esc(x.supplier||x.label||'')+' <small style="color:#9db8af">'+fmtDate(x.invoice_date)+'</small></span><span style="display:flex;gap:8px;align-items:center"><b class="'+(x.type==='sale'?'pos':'neg')+'">'+(x.type==='sale'?'+':'−')+fmtN(x.amount)+' F</b>'+(x.status!=='paid'?'<button class="abtn ok" style="padding:5px 9px;font-size:10.5px" onclick="payInvoice(\''+x.id+'\')">Payée</button>':'<span class="pill paid">payée</span>')+'</span></div>';
+    return '<div class="kpi-line"><span>🧾 '+esc(x.number||'')+' · '+esc(x.supplier||x.label||'')+' <small style="color:#9db8af">'+fmtDate(x.invoice_date)+'</small></span><span style="display:flex;gap:8px;align-items:center"><b class="'+(x.type==='sale'?'pos':'neg')+'">'+(x.type==='sale'?'+':'−')+fmtN(x.amount)+' F</b>'+'<button class="abtn blue" style="padding:5px 9px;font-size:10.5px" onclick="dlInvoicePDF(\''+x.id+'\')">PDF</button><button class="abtn plain" style="padding:5px 9px;font-size:10.5px" onclick="dlInvoiceCSV(\''+x.id+'\')">CSV</button>'+(x.status!=='paid'?'<button class="abtn ok" style="padding:5px 9px;font-size:10.5px" onclick="payInvoice(\''+x.id+'\')">Payée</button>':'<button class="abtn warn" style="padding:5px 9px;font-size:10.5px" onclick="dlRecuPDF(\''+x.id+'\')">🧾 Reçu</button>')+'</span></div>';
   }).join('')||'<div class="empty">Aucune facture.</div>';
   el.innerHTML=
    '<div class="kpis">'+
@@ -579,6 +580,90 @@ function exportCompta(){
   toast('Export comptable téléchargé ⬇️');
 }
 
+  /* ══════ FACTURE : PDF / CSV / REÇU ══════ */
+function invLines(x){
+  var ttc=(x.amount||0)+(x.tax||0);
+  return{x:x,ttc:ttc};
+}
+function dlInvoiceCSV(id){
+  var f=DATA.invoices.find(function(v){return String(v.id)===String(id);});if(!f)return;
+  var ttc=(f.amount||0)+(f.tax||0);
+  dlCSV('facture-'+(f.number||id)+'.csv',[
+   ['FACTURE - SEN TEW SUARL'],
+   ['N°',f.number||''],['Date',f.invoice_date||''],['Type',f.type==='sale'?'Vente (entrée)':'Dépense (sortie)'],
+   ['Fournisseur / Client',f.supplier||''],['Objet',f.label||''],
+   [''],
+   ['Montant HT (F)',f.amount||0],['TVA (F)',f.tax||0],['TOTAL TTC (F)',ttc],
+   ['Statut',f.status||'']
+  ]);
+  toast('Facture CSV téléchargée ⬇️');
+}
+function dlInvoicePDF(id){
+  var f=DATA.invoices.find(function(v){return String(v.id)===String(id);});if(!f)return;
+  if(!window.jspdf){toast('Chargement du module PDF…');return;}
+  var ttc=(f.amount||0)+(f.tax||0);
+  var doc=new window.jspdf.jsPDF();
+  var DARK=[10,31,23],GREEN=[15,107,78],LIGHT=[242,246,244],GREY=[91,122,112];
+  function fmt(n){return Math.round(n).toLocaleString('fr-FR')+' F';}
+  doc.setFillColor.apply(doc,DARK);doc.rect(0,0,210,34,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,15);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Dakar, Senegal - hello.senecosystem@gmail.com',15,21);
+  doc.setTextColor(74,222,128);doc.setFontSize(13);doc.setFont('helvetica','bold');doc.text('FACTURE',195,15,{align:'right'});
+  doc.setFillColor.apply(doc,GREEN);doc.rect(0,34,210,2,'F');
+  doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);
+  doc.text('N° : '+(f.number||''),15,48);
+  doc.text('Date : '+(f.invoice_date||''),15,55);
+  doc.text('Type : '+(f.type==='sale'?'Vente (entrée)':'Dépense (sortie)'),15,62);
+  doc.text('Fournisseur / Client : '+(f.supplier||'-'),15,69);
+  var y=82;
+  doc.setFillColor.apply(doc,GREEN);doc.rect(15,y,180,8,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont('helvetica','bold');
+  doc.text('DESIGNATION',20,y+5.5);doc.text('MONTANT',190,y+5.5,{align:'right'});
+  y+=8;
+  doc.setTextColor.apply(doc,DARK);doc.setFont('helvetica','normal');doc.setFontSize(10);
+  doc.text(f.label||'Prestation',20,y+6);doc.text(fmt(f.amount||0)+' HT',190,y+6,{align:'right'});
+  y+=14;
+  doc.text('TVA',20,y+4);doc.text(fmt(f.tax||0),190,y+4,{align:'right'});
+  y+=10;
+  doc.setFillColor.apply(doc,DARK);doc.roundedRect(15,y,180,14,3,3,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(12);doc.setFont('helvetica','bold');doc.text('TOTAL TTC',20,y+9);
+  doc.setTextColor(74,222,128);doc.text(fmt(ttc),190,y+9,{align:'right'});
+  doc.setTextColor.apply(doc,GREY);doc.setFontSize(8);doc.setFont('helvetica','normal');
+  doc.text('Statut : '+(f.status||'pending'),15,y+26);
+  doc.text('Facture generee par SEN TEW - '+new Date().toLocaleDateString('fr-FR'),105,285,{align:'center'});
+  doc.save('facture-'+(f.number||id)+'.pdf');
+  toast('Facture PDF téléchargée ⬇️');
+}
+function dlRecuPDF(id){
+  var f=DATA.invoices.find(function(v){return String(v.id)===String(id);});if(!f)return;
+  if(f.status!=='paid'){toast('Le reçu est disponible une fois la facture payée');return;}
+  if(!window.jspdf){toast('Chargement du module PDF…');return;}
+  var ttc=(f.amount||0)+(f.tax||0);
+  var doc=new window.jspdf.jsPDF();
+  var DARK=[10,31,23],GREEN=[15,107,78],GREY=[91,122,112];
+  function fmt(n){return Math.round(n).toLocaleString('fr-FR')+' F';}
+  doc.setFillColor.apply(doc,GREEN);doc.rect(0,0,210,34,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,15);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Dakar, Senegal - hello.senecosystem@gmail.com',15,21);
+  doc.setFontSize(14);doc.setFont('helvetica','bold');doc.text('REÇU DE PAIEMENT',195,15,{align:'right'});
+  doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);doc.setFont('helvetica','normal');
+  doc.text('Reçu lié à la facture N° : '+(f.number||''),15,48);
+  doc.text('Date de paiement : '+new Date().toLocaleDateString('fr-FR'),15,55);
+  doc.text('Payé par / à : '+(f.supplier||'-'),15,62);
+  doc.text('Objet : '+(f.label||'-'),15,69);
+  doc.setFillColor.apply(doc,DARK);doc.roundedRect(15,80,180,18,3,3,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(12);doc.setFont('helvetica','bold');doc.text('MONTANT RÉGLÉ',20,91);
+  doc.setTextColor(74,222,128);doc.setFontSize(16);doc.text(fmt(ttc),190,91,{align:'right'});
+  doc.setTextColor.apply(doc,GREY);doc.setFontSize(9);doc.setFont('helvetica','normal');
+  doc.text('✓ Paiement confirmé et soldé',15,110);
+  doc.setDrawColor.apply(doc,GREY);doc.setLineWidth(0.5);
+  doc.line(115,135,180,135);
+  doc.text('Cachet et signature - SEN TEW SUARL',115,139);
+  doc.setFontSize(7);doc.text('Reçu genere par SEN TEW le '+new Date().toLocaleDateString('fr-FR'),105,285,{align:'center'});
+  doc.save('recu-'+(f.number||id)+'.pdf');
+  toast('Reçu téléchargé ⬇️');
+}
+
 /* ══════════ SALAIRES — BULLETINS NORMES SN ══════════ */
 function calcBulletin(base,bonus,ded){
   var brut=(base||0)+(bonus||0);
@@ -599,7 +684,7 @@ function renderSalaries(){
   var list=DATA.salaries.map(function(s){
     var b=calcBulletin(s.base_salary,s.bonuses,s.deductions);
     return '<div class="card2"><div class="row"><div><div class="nm">'+esc(s.employee_name)+'</div><div class="meta">'+esc(s.role||'')+' · '+esc(s.period||'')+' · net <b class="pos">'+fmtN(b.net)+' F</b></div></div><span class="pill '+esc(s.status)+'">'+esc(s.status)+'</span></div>'+
-    '<div class="actions"><button class="abtn blue" onclick="dlBulletin(\''+s.id+'\')"><i data-lucide="file-spreadsheet"></i>Bulletin Excel (CSV)</button>'+(s.status!=='paid'?'<button class="abtn ok" onclick="paySalary(\''+s.id+'\')"><i data-lucide="check"></i>Marquer payé</button>':'')+'</div></div>';
+    '<div class="actions"><button class="abtn blue" onclick="dlBulletin(\''+s.id+'\')"><i data-lucide="file-spreadsheet"></i>Excel (CSV)</button><button class="abtn ok" onclick="dlBulletinPDF(\''+s.id+'\')"><i data-lucide="file-text"></i>PDF</button>'+(s.status!=='paid'?'<button class="abtn ok" onclick="paySalary(\''+s.id+'\')"><i data-lucide="check"></i>Marquer payé</button>':'')+'</div></div>';
   }).join('')||'<div class="empty">Aucun bulletin créé.</div>';
   el.innerHTML=
    '<div class="sect"><i data-lucide="plus-circle"></i>Nouveau bulletin de paie</div>'+
@@ -642,6 +727,69 @@ function dlBulletin(id){
    ['Statut',s.status]
   ]);
   toast('Bulletin téléchargé ⬇️');
+}
+  function dlBulletinPDF(id){
+  var s=DATA.salaries.find(function(x){return String(x.id)===String(id);});if(!s)return;
+  if(!window.jspdf){toast('Chargement du module PDF…');return;}
+  var b=calcBulletin(s.base_salary,s.bonuses,s.deductions);
+  var doc=new window.jspdf.jsPDF();
+  var GREEN=[15,107,78],DARK=[10,31,23],LIGHT=[242,246,244],RED=[192,57,43],GREY=[91,122,112];
+  function fmt(n){return Math.round(n).toLocaleString('fr-FR').replace(/ /g,' ')+' F';}
+  /* Bandeau */
+  doc.setFillColor.apply(doc,DARK);doc.rect(0,0,210,38,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,16);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Marketplace panafricaine - Dakar, Senegal - hello.senecosystem@gmail.com',15,22);
+  doc.setTextColor(74,222,128);doc.setFontSize(12);doc.setFont('helvetica','bold');doc.text('BULLETIN DE PAIE',195,16,{align:'right'});
+  doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Periode : '+String(s.period||''),195,22,{align:'right'});
+  doc.setFillColor.apply(doc,GREEN);doc.rect(0,38,210,2,'F');
+  /* Bloc employé */
+  doc.setFillColor.apply(doc,LIGHT);doc.roundedRect(15,48,180,24,3,3,'F');
+  doc.setTextColor.apply(doc,GREY);doc.setFontSize(8);
+  doc.text('EMPLOYE',20,55);doc.text('POSTE',75,55);doc.text('PERIODE',135,55);
+  doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);doc.setFont('helvetica','bold');
+  doc.text(String(s.employee_name||''),20,62);doc.text(String(s.role||'-'),75,62);doc.text(String(s.period||''),135,62);
+  /* Tableau */
+  var y=84;
+  doc.setFontSize(11);doc.setFont('helvetica','bold');doc.text('DETAIL DE LA REMUNERATION',15,y);
+  y+=4;
+  doc.setFillColor.apply(doc,GREEN);doc.rect(15,y,180,8,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(9);
+  doc.text('RUBRIQUE',20,y+5.5);doc.text('BASE / TAUX',170,y+5.5,{align:'right'});doc.text('MONTANT',190,y+5.5,{align:'right'});
+  var rows=[
+    ['Salaire de base','30 jours',fmt(s.base_salary||0),false],
+    ['Primes et gratifications','-',fmt(s.bonuses||0),false],
+    ['SALAIRE BRUT','',fmt(b.brut),true],
+    ['Cotisation IPRES (retraite)','5,6 %','- '+fmt(b.ipres),false],
+    ['Cotisation CSS (maladie)','7 %','- '+fmt(b.css),false],
+    ['Impot sur le revenu (IR)','bareme prog.','- '+fmt(b.ir),false],
+    ['Retenues diverses','-','- '+fmt(s.deductions||0),false]
+  ];
+  y+=8;
+  rows.forEach(function(r,i){
+    if(i%2===0){doc.setFillColor.apply(doc,LIGHT);doc.rect(15,y-1.5,180,8,'F');}
+    var neg=r[2].indexOf('- ')===0;
+    doc.setTextColor.apply(doc,neg?RED:DARK);
+    doc.setFont('helvetica',r[3]?'bold':'normal');doc.setFontSize(9.5);
+    doc.text(r[0],20,y+4);
+    doc.setTextColor.apply(doc,GREY);doc.setFontSize(8.5);doc.text(r[1],170,y+4,{align:'right'});
+    doc.setTextColor.apply(doc,neg?RED:DARK);doc.setFontSize(9.5);doc.text(r[2],190,y+4,{align:'right'});
+    y+=8;
+  });
+  /* Net à payer */
+  y+=6;
+  doc.setFillColor.apply(doc,DARK);doc.roundedRect(15,y,180,16,3,3,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(13);doc.setFont('helvetica','bold');doc.text('NET A PAYER',20,y+10);
+  doc.setTextColor(74,222,128);doc.setFontSize(16);doc.text(fmt(b.net),190,y+10,{align:'right'});
+  /* Signatures */
+  y+=34;
+  doc.setDrawColor.apply(doc,GREY);doc.setLineWidth(0.5);
+  doc.line(20,y,85,y);doc.line(115,y,180,y);
+  doc.setTextColor.apply(doc,GREY);doc.setFontSize(8);
+  doc.text("Signature de l'employe",20,y+4);doc.text('Cachet et signature - SEN TEW SUARL',115,y+4);
+  /* Pied */
+  doc.setFontSize(7);doc.text('Document genere par la plateforme SEN TEW - Cotisations IPRES et CSS (part salariale) - '+(s.period||''),105,285,{align:'center'});
+  doc.save('bulletin-'+String(s.employee_name||'salarie').replace(/\s+/g,'-')+'-'+(s.period||'')+'.pdf');
+  toast('Bulletin PDF téléchargé ⬇️');
 }
 
 /* ══════════ MESSAGES PRÊTS ══════════ */
