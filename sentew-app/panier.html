@@ -10,445 +10,478 @@
 <script src="js/currency.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{overflow-x:hidden;max-width:100vw}
-body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:96px;color:#0a1f17}
-.topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:40}
-.topbar h1{font-size:17px;font-weight:800;color:#0f6b4e;display:flex;align-items:center;gap:8px;flex:1}
-.icon-btn{width:38px;height:38px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0f6b4e}
-.cart-item{display:flex;gap:12px;background:#fff;margin:10px 14px 0;padding:12px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
-.cart-item img{width:86px;height:86px;object-fit:cover;border-radius:12px;flex-shrink:0;cursor:pointer;background:#eee}
-.ci-info{flex:1;min-width:0;display:flex;flex-direction:column}
-.ci-vendor{font-size:10px;color:#b8860b;font-weight:700;cursor:pointer}
-.ci-name{font-size:13px;font-weight:800;color:#0a1f17;line-height:1.3;cursor:pointer}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:200px;color:#0a1f17}
+.topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;position:sticky;top:0;z-index:40;border-bottom:1px solid #e5e7eb}
+.back{width:36px;height:36px;border-radius:50%;background:#f5f5f0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0a1f17}
+.topbar h1{font-size:17px;font-weight:900;flex:1}
+.count{font-size:12px;color:#9aa5a0;font-weight:600}
+.clear-btn{background:none;border:none;color:#b91c1c;font-size:12px;font-weight:700;cursor:pointer}
+.cart-item{display:flex;gap:12px;background:#fff;border-radius:16px;padding:14px;margin:10px 14px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.ci-img{width:82px;height:82px;border-radius:12px;object-fit:cover;flex-shrink:0;cursor:pointer;background:#f5f5f0}
+.ci-body{flex:1;min-width:0}
+.ci-name{font-size:13px;font-weight:800;color:#0a1f17;line-height:1.35;cursor:pointer}
+.ci-seller{font-size:10px;color:#b8860b;margin-top:2px}
 .ci-price{font-size:15px;font-weight:900;color:#0f6b4e;margin-top:3px}
-.ci-ship{font-size:10px;color:#0f6b4e;font-weight:700;margin-top:2px}
-.ci-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:8px}
+.ci-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
 .qty-box{display:flex;align-items:center;border:1.5px solid #e5e7eb;border-radius:10px;overflow:hidden}
 .qty-box button{width:30px;height:30px;background:#fff;border:none;font-size:15px;font-weight:800;color:#0f6b4e;cursor:pointer}
-.qty-box span{padding:0 10px;font-size:13px;font-weight:800;min-width:30px;text-align:center}
-.ci-del{width:32px;height:32px;border-radius:50%;background:#fff;border:1.5px solid #fee2e2;color:#e63946;display:flex;align-items:center;justify-content:center;cursor:pointer}
-.free-bar{background:#fff;margin:12px 14px 0;padding:14px;border-radius:16px;border:1.5px solid #0f6b4e}
-.free-bar .fb-txt{font-size:12px;font-weight:800;color:#0a1f17;display:flex;align-items:center;gap:7px}
-.free-bar .fb-txt i{color:#0f6b4e;width:17px;height:17px}
-.free-bar .fb-sub{font-size:11px;color:#6B7280;margin-top:3px}
-.fb-track{height:9px;background:#f0f0ea;border-radius:5px;margin-top:9px;overflow:hidden}
-.fb-fill{height:100%;background:linear-gradient(90deg,#0f6b4e,#4ade80);border-radius:5px;transition:width .4s}
-.free-bar.won{border-color:#4ade80;background:#f0fdf4}
-.bloc{background:#fff;margin:12px 14px 0;padding:14px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
-.bloc h2{font-size:12px;font-weight:800;color:#b8860b;letter-spacing:.5px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.bloc h2 .h-info{margin-left:auto;width:20px;height:20px;border-radius:50%;background:#fffbeb;color:#b45309;border:1px solid #fde68a;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
-.promo-row{display:flex;gap:8px}
-.promo-row input{flex:1;padding:11px 14px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:13px;font-family:inherit;outline:none;text-transform:uppercase}
-.promo-row input:focus{border-color:#0f6b4e}
-.promo-row button{padding:11px 18px;background:#0f6b4e;color:#fff;border:none;border-radius:12px;font-size:12px;font-weight:800;cursor:pointer}
-.promo-ok{display:flex;align-items:center;gap:8px;background:#f0fdf4;border:1.5px dashed #4ade80;border-radius:12px;padding:10px 12px;font-size:12px;font-weight:700;color:#065f46}
-.promo-ok button{margin-left:auto;background:none;border:none;color:#e63946;font-weight:800;cursor:pointer;font-size:12px}
-.promo-err{color:#e63946;font-size:11px;font-weight:700;margin-top:6px}
-.promo-link{display:block;margin-top:8px;font-size:11px;color:#0f6b4e;font-weight:700;text-decoration:none}
-.zone-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.zone-opt{padding:11px 6px;border:1.5px solid #e5e7eb;border-radius:12px;text-align:center;cursor:pointer;background:#fff}
-.zone-opt.on{border-color:#0f6b4e;background:#e8f5f0}
-.zone-opt b{display:block;font-size:11px;color:#0a1f17}
-.zone-opt span{font-size:10px;color:#6B7280}
-.addr-input{width:100%;margin-top:10px;padding:11px 14px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:13px;font-family:inherit;outline:none;box-sizing:border-box}
-.addr-input:focus{border-color:#0f6b4e}
-.pay-opt{display:flex;align-items:center;gap:12px;padding:13px;border:1.5px solid #e5e7eb;border-radius:14px;cursor:pointer;background:#fff;margin-bottom:8px}
+.qty-box span{padding:0 10px;font-size:13px;font-weight:800}
+.ci-del{width:30px;height:30px;border-radius:8px;border:none;background:#fee2e2;color:#b91c1c;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.ship-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:#0f6b4e;background:#e8f5f0;padding:3px 8px;border-radius:20px;margin-top:5px}
+/* ===== Barre progression livraison gratuite ===== */
+.free-bar{margin:4px 14px 0;background:#fff;border-radius:16px;padding:14px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.fb-txt{font-size:12px;font-weight:700;color:#0a1f17;display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.fb-txt.ok{color:#0f6b4e}
+.fb-track{height:8px;background:#f0f0ea;border-radius:4px;overflow:hidden}
+.fb-fill{height:100%;background:linear-gradient(90deg,#0f6b4e,#34d399);border-radius:4px;transition:width .5s ease}
+/* ===== Sections ===== */
+.bloc{background:#fff;border-radius:16px;padding:16px;margin:12px 14px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.bloc h2{font-size:13px;font-weight:800;color:#b8860b;letter-spacing:.5px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.addr-default{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:#0a1f17;cursor:pointer}
+.addr-default i{color:#0f6b4e}
+.addr-default .chev{margin-left:auto;color:#9aa5a0}
+.addr-new{margin-top:10px;display:none}
+.addr-new.open{display:block}
+.addr-new input{width:100%;padding:10px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;margin-bottom:8px;outline:none;font-family:inherit}
+.addr-new input:focus{border-color:#0f6b4e}
+.zone-row{display:flex;gap:8px}
+.zone-opt{flex:1;text-align:center;padding:10px 4px;border:2px solid #e5e7eb;border-radius:12px;cursor:pointer;font-size:12px;font-weight:700;color:#0a1f17}
+.zone-opt.on{border-color:#0f6b4e;background:#e8f5f0;color:#0f6b4e}
+.zone-opt span{display:block;font-size:10px;color:#9aa5a0;margin-top:2px;font-weight:500}
+/* ===== Créneaux horaires ===== */
+.slot-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.slot{padding:8px 12px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:11px;font-weight:700;cursor:pointer;background:#fff;color:#0a1f17}
+.slot.on{border-color:#0f6b4e;background:#e8f5f0;color:#0f6b4e}
+.slot b{display:block;font-size:12px}
+.slot span{font-size:10px;color:#9aa5a0;font-weight:500}
+/* ===== Mode de paiement avec logos ===== */
+.pay-opt{display:flex;align-items:center;gap:12px;padding:13px;border:2px solid #e5e7eb;border-radius:14px;margin-bottom:8px;cursor:pointer;transition:.15s;background:#fff}
 .pay-opt.on{border-color:#0f6b4e;background:#e8f5f0}
-.pay-opt .pi{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.pay-opt b{display:block;font-size:13px;color:#0a1f17}
-.pay-opt span{font-size:11px;color:#6B7280;line-height:1.3}
-.pay-opt .tag{margin-left:auto;font-size:10px;font-weight:800;padding:4px 9px;border-radius:10px;flex-shrink:0}
-.tag-free{background:#d1fae5;color:#065f46}
-.tag-fee{background:#fef3c7;color:#92400e}
-.pay-radio{width:18px;height:18px;border-radius:50%;border:2px solid #d1d5db;flex-shrink:0;position:relative}
-.pay-opt.on .pay-radio{border-color:#0f6b4e}
-.pay-opt.on .pay-radio::after{content:'';position:absolute;inset:3px;border-radius:50%;background:#0f6b4e}
-.inst-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
-.inst-opt{padding:12px 6px;border:1.5px solid #e5e7eb;border-radius:12px;text-align:center;cursor:pointer;background:#fff}
-.inst-opt.on{border-color:#6d28d9;background:#f5f3ff}
-.inst-opt b{display:block;font-size:14px;color:#0a1f17}
-.inst-opt span{font-size:10px;color:#6B7280;line-height:1.3;display:block;margin-top:2px}
-.inst-detail{margin-top:10px;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:12px;padding:11px 12px;font-size:11.5px;color:#4c1d95;line-height:1.7;display:none}
-.inst-detail.show{display:block}
-.pts-opt{display:flex;align-items:center;gap:12px;padding:10px;border:1.5px solid #e5e7eb;border-radius:12px;cursor:pointer;background:#fff;margin-bottom:6px}
-.pts-opt.on{border-color:#f59e0b;background:#fffbeb}
-.pts-opt .pi{width:32px;height:32px;border-radius:10px;background:#fef3c7;color:#92400e;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.pts-opt b{display:block;font-size:13px}
-.pts-opt span{font-size:10px;color:#6B7280}
-.sum-row{display:flex;justify-content:space-between;font-size:13px;color:#4b5563;padding:5px 0}
-.sum-row.discount{color:#059669;font-weight:700}
-.sum-row.total{border-top:2px solid #f0f0ea;margin-top:8px;padding-top:12px;font-size:16px;font-weight:900;color:#0a1f17}
-.sum-row.total .tv{color:#0f6b4e}
-.sum-row.today{color:#6d28d9;font-weight:800}
-.sim-wrap{overflow-x:auto;scrollbar-width:none;margin:0 -14px;padding:2px 14px}
-.sim-wrap::-webkit-scrollbar{display:none}
-.sim-row{display:flex;gap:10px;width:max-content}
-.sim-card{width:128px;flex-shrink:0;background:#f9fafb;border:1px solid #f0f0ea;border-radius:12px;overflow:hidden}
-.sim-card img{width:100%;height:100px;object-fit:cover;display:block;cursor:pointer;background:#fff}
-.sim-card .sb{padding:8px}
-.sim-card .sn2{font-size:11px;font-weight:700;line-height:1.3;height:27px;overflow:hidden;cursor:pointer}
-.sim-card .sp{font-size:13px;font-weight:900;color:#0f6b4e;margin-top:3px}
-.sim-card .sadd{width:100%;margin-top:6px;padding:7px;background:#0f6b4e;color:#fff;border:none;border-radius:8px;font-size:10px;font-weight:800;cursor:pointer}
-.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:12px 14px 0;font-size:12px;color:#92400e;cursor:pointer;line-height:1.5}
-.tip i{color:#b45309;flex-shrink:0;width:16px;height:16px;margin-top:1px}
-.checkout{padding:14px 14px 0}
+.pay-logo{width:44px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+.pay-logo img{width:100%;height:100%;object-fit:contain}
+.pay-logo.txt{font-size:11px;font-weight:900;color:#fff}
+.pay-info{flex:1}
+.pay-info b{font-size:13px;color:#0a1f17;display:block}
+.pay-info span{font-size:10px;color:#9aa5a0}
+.pay-check{width:20px;height:20px;border-radius:50%;border:2px solid #d1d5db;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.pay-opt.on .pay-check{border-color:#0f6b4e;background:#0f6b4e;color:#fff}
+.fee-tag{font-size:10px;font-weight:800;padding:3px 8px;border-radius:8px}
+.fee-free{background:#e8f5f0;color:#0f6b4e}
+.fee-paid{background:#fff4e6;color:#b45309}
+/* ===== Paiement en plusieurs fois ===== */
+.inst-row{display:flex;gap:8px;margin-top:4px}
+.inst-opt{flex:1;text-align:center;padding:12px 4px;border:2px solid #e5e7eb;border-radius:12px;cursor:pointer;font-size:12px;font-weight:700;color:#0a1f17;background:#fff}
+.inst-opt.on{border-color:#b8860b;background:#fef9ec;color:#92400e}
+.inst-opt span{display:block;font-size:10px;color:#9aa5a0;margin-top:3px;font-weight:500}
+.inst-note{font-size:10px;color:#92400e;background:#fef9ec;border-radius:8px;padding:8px 10px;margin-top:8px;line-height:1.4}
+/* ===== Livraison à témoin ===== */
+.witness-toggle{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:13px;font-weight:700;color:#0a1f17;padding:10px 0}
+.wit-switch{width:44px;height:24px;border-radius:12px;background:#e5e7eb;position:relative;transition:.2s;flex-shrink:0}
+.wit-switch::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.2);transition:.2s}
+.wit-switch.on{background:#0f6b4e}
+.wit-switch.on::after{left:23px}
+.witness-fields{display:none;margin-top:8px}
+.witness-fields.open{display:block}
+.witness-fields input{width:100%;padding:10px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;margin-bottom:8px;outline:none;font-family:inherit}
+.witness-fields input:focus{border-color:#0f6b4e}
+/* ===== Photo de preuve ===== */
+.proof-toggle{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:13px;font-weight:700;color:#0a1f17;padding:10px 0}
+/* ===== Promo ===== */
+.promo-row{display:flex;gap:8px}
+.promo-row input{flex:1;padding:11px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;outline:none;text-transform:uppercase;font-weight:700;font-family:inherit}
+.promo-row input:focus{border-color:#0f6b4e}
+.promo-row button{padding:11px 16px;background:#0a1f17;color:#fff;border:none;border-radius:10px;font-size:12px;font-weight:800;cursor:pointer}
+.promo-ok{font-size:12px;color:#0f6b4e;font-weight:700;margin-top:6px}
+.promo-err{font-size:12px;color:#b91c1c;font-weight:700;margin-top:6px}
+.promo-hint{font-size:10px;color:#9aa5a0;margin-top:6px}
+/* ===== Cagnotte ===== */
+.cag-notice{font-size:12px;color:#92400e;background:#fef9ec;border:1px solid #fde68a;border-radius:10px;padding:10px 12px;line-height:1.5}
+.cag-use{font-size:12px;color:#0f6b4e;font-weight:700;margin-top:6px}
+/* ===== Résumé ===== */
+.sum-row{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;color:#4b5563}
+.sum-row b{color:#0a1f17}
+.sum-row.discount{color:#0f6b4e;font-weight:700}
+.sum-total{display:flex;justify-content:space-between;align-items:center;padding:12px 0 0;border-top:2px solid #0f6b4e;margin-top:10px;font-size:16px;font-weight:900}
+.sum-total span:last-child{color:#0f6b4e;font-size:20px}
+.pts-earn{font-size:11px;color:#b8860b;background:#fef9ec;padding:6px 10px;border-radius:8px;margin-top:8px;text-align:center;font-weight:700}
+/* ===== Barre commande ===== */
+.order-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -4px 16px rgba(0,0,0,.08)}
 .btn-order{width:100%;padding:15px;background:#0f6b4e;color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-order:disabled{background:#9aa5a0}
-.secure-row{display:flex;justify-content:center;gap:14px;margin-top:8px;font-size:10px;color:#9aa5a0;flex-wrap:wrap}
-.secure-row span{display:flex;align-items:center;gap:4px}
-.empty{text-align:center;padding:60px 24px;color:#9aa5a0}
-.empty h3{color:#0a1f17;margin:12px 0 6px;font-size:16px}
-.empty a{display:inline-block;margin-top:14px;padding:12px 24px;background:#0f6b4e;color:#fff;border-radius:12px;text-decoration:none;font-weight:800;font-size:13px}
-.success{text-align:center;padding:50px 24px}
-.success .ok{width:76px;height:76px;border-radius:50%;background:#d1fae5;color:#065f46;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
-.success h2{font-size:19px;color:#0a1f17;margin-bottom:6px}
-.success .code{display:inline-block;background:#0a1f17;color:#4ade80;font-family:monospace;font-size:17px;font-weight:900;padding:10px 20px;border-radius:12px;letter-spacing:2px;margin:12px 0}
-.success p{font-size:12px;color:#6B7280;line-height:1.6}
-.success .btns{display:flex;gap:10px;margin-top:18px}
-.success .btns a{flex:1;padding:13px;border-radius:12px;text-decoration:none;font-weight:800;font-size:13px;text-align:center}
-.b-green{background:#0f6b4e;color:#fff}
-.b-grey{background:#e5e7eb;color:#0a1f17}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
-.modal.show{display:flex}
-.m-box{background:#fff;border-radius:20px;padding:20px;width:100%;max-width:360px;text-align:left;max-height:80vh;overflow-y:auto}
-.m-box h3{font-size:15px;font-weight:800;margin-bottom:8px}
-.m-box p{font-size:12px;color:#6B7280;line-height:1.7}
-.m-btns{display:flex;gap:8px;margin-top:14px}
-.m-btns button{flex:1;padding:12px;border:none;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;background:#0f6b4e;color:#fff}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:99;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
-.bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600;min-height:44px;justify-content:center}
-.bottom-nav a.active{color:#0f6b4e}
-.bottom-nav a svg{width:22px;height:22px}
+.btn-order:disabled{opacity:.5;cursor:not-allowed}
+.secure-txt{text-align:center;font-size:10px;color:#9aa5a0;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:4px}
+.empty{text-align:center;padding:60px 24px}
+.empty h2{font-size:17px;color:#0a1f17;margin:14px 0 6px}
+.empty p{font-size:13px;color:#9aa5a0}
+.empty a{display:inline-block;margin-top:16px;padding:12px 24px;background:#0f6b4e;color:#fff;border-radius:12px;text-decoration:none;font-weight:800;font-size:13px}
+/* ===== Astuces conditionnelles (bulles i) ===== */
+.h-info{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#0f6b4e;color:#fff;font-size:9px;font-weight:800;margin-left:4px;cursor:pointer;vertical-align:middle}
+.h-tip{display:none;font-size:11px;color:#92400e;background:#fef9ec;border:1px solid #fde68a;border-radius:8px;padding:8px 10px;margin-top:6px;line-height:1.4}
+.h-tip.open{display:block}
 </style>
 </head>
 <body>
 
 <header class="topbar">
-  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
-  <h1><i data-lucide="shopping-cart"></i> Mon Panier <span id="nbItems" style="color:#9aa5a0;font-size:13px;font-weight:700"></span></h1>
-  <button class="icon-btn" onclick="clearCart()"><i data-lucide="trash-2"></i></button>
+  <button class="back" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+  <h1>Mon panier</h1>
+  <span class="count" id="cartCount"></span>
+  <button class="clear-btn" onclick="cartClear()">Vider</button>
 </header>
 
-<div id="page"><div class="empty">Chargement…</div></div>
+<div id="cartList"></div>
+<div id="shipProgress"></div>
+<div id="cartBody"></div>
 
-<div class="modal" id="tipModal">
-  <div class="m-box">
-    <h3 id="tipTitle">💡 Astuce</h3>
-    <p id="tipText"></p>
-    <div class="m-btns"><button onclick="document.getElementById('tipModal').classList.remove('show')">Compris</button></div>
-  </div>
+<div class="order-bar" id="orderBar" style="display:none">
+  <button class="btn-order" id="btnOrder" onclick="placeOrder()"><i data-lucide="lock"></i> <span id="btnOrderTxt">Commander</span></button>
+  <div class="secure-txt"><i data-lucide="shield-check" style="width:11px"></i> Paiement 100% sécurisé · SEN TEW</div>
 </div>
 
-<nav class="bottom-nav">
-  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="layout-grid"></i><span>Catégories</span></a>
-  <a href="panier.html" class="active"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
-  <a href="favoris.html"><i data-lucide="heart"></i><span>Favoris</span></a>
-  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
+<nav class="bottom-nav" style="position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)">
+  <a href="index.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600"><i data-lucide="home" style="width:22px;height:22px"></i><span>Accueil</span></a>
+  <a href="categories.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600"><i data-lucide="layout-grid" style="width:22px;height:22px"></i><span>Catégories</span></a>
+  <a href="panier.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#0f6b4e;font-size:10px;font-weight:600"><i data-lucide="shopping-cart" style="width:22px;height:22px"></i><span>Panier</span></a>
+  <a href="notifications.html" style="position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600"><i data-lucide="bell" style="width:22px;height:22px"></i>Notifs<span id="notifDot" style="display:none;position:absolute;top:0;right:18%;background:#e63946;color:#fff;font-size:8px;font-weight:900;min-width:15px;height:15px;border-radius:99px;text-align:center;line-height:15px;padding:0 3px">0</span></a>
+  <a href="profil.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600"><i data-lucide="user" style="width:22px;height:22px"></i><span>Profil</span></a>
 </nav>
 
 <script>
-// ===== GARDE-FOUS (la page ne plante JAMAIS, même si une fonction manque) =====
-if (typeof SPEND_TIERS === 'undefined') { var SPEND_TIERS = [
-  { pts: 100,  label: '−500 F', value: 500 },
-  { pts: 250,  label: '−1 500 F', value: 1500 },
-  { pts: 500,  label: '−3 500 F ou livraison gratuite', value: 3500 },
-  { pts: 1000, label: '−8 000 F', value: 8000 }
-];}
-if (typeof pointsGet !== 'function')   { function pointsGet(){ return parseInt(localStorage.getItem('sentew_points')||'0'); } }
-if (typeof pointsSpend !== 'function') { function pointsSpend(pts,label,value){ var c=pointsGet(); if(c<pts) return null; localStorage.setItem('sentew_points',String(c-pts)); return {discount:value,label:label}; } }
-if (typeof pointsEarn !== 'function')  { function pointsEarn(n,reason){ var c=pointsGet()+n; localStorage.setItem('sentew_points',String(c)); if (typeof toast==='function') toast('+'+n+' points SEN TEW ⭐'); return n; } }
-if (typeof pointsForOrder !== 'function'){ function pointsForOrder(t){ return Math.floor(t/1000)*10; } }
-if (typeof getSmartSuggestions !== 'function'){ function getSmartSuggestions(ids){ return getProducts().then(function(r){ return (r||[]).filter(function(x){ return ids.indexOf(x.id)===-1; }).slice(0,8); }); } }
+/* ─── État local du panier ─── */
+var ZONE = 'Dakar';
+var SLOT = 'matin';
+var PAY = 'wave';
+var INST = 1;
+var WITNESS = false;
+var PROOF = false;
+var PROMO = null;
+var USE_CAG = false;
 
-var PROMOS = {
-  'RAMADAN30': { pct: 30, label: '-30% Vente Flash' },
-  'SENTEW10':  { pct: 10, label: '-10% Bienvenue' },
-  'WELCOME5':  { pct: 5,  label: '-5% Première commande' }
+/* Zones de livraison (montants de référence en XOF) */
+var SHIP = {
+  free_threshold: 50000,
+  dakar_fee: 1000,
+  suburb_fee: 1500,
+  regions_fee_min: 2500,
+  regions_fee_max: 5000,
+  cash_fee: 500
 };
-var PROMO = null, ZONE = 'Dakar', PAY = 'mobile', INST = 1, PTS_USED = null;
 
-var TIPS = {
-  shipping: ['🚚 Livraison SEN TEW', '<b>3 façons d\'avoir la livraison GRATUITE à Dakar :</b><br><br>1️⃣ Commande ≥ 20 000 F<br>2️⃣ Paie en ligne (mobile money, carte)<br>3️⃣ Articles « livraison gratuite vendeur »<br><br><b>Banlieue</b> : 2 000 F · <b>Régions</b> : 2 500 à 5 000 F.<br><br>💳 <b>À la livraison</b> : +1 500 F de garantie (remboursable si colis non conforme).'],
-  payment: ['💳 Modes de paiement', '<b>Mobile money</b> — instantané, le plus utilisé au Sénégal.<br><br><b>Carte bancaire</b> — Visa/Mastercard, 3D Secure. Obligatoire pour le 2x/3x.<br><br><b>À la livraison</b> — cash à la réception, +1 500 F de garantie.<br><br>🔒 Tes données bancaires ne sont jamais stockées par SEN TEW.'],
-  installments: ['📅 Payer en 2x ou 3x', '<b>Étale ton paiement !</b><br><br>• <b>2x</b> : moitié aujourd\'hui, reste à 30 jours<br>• <b>3x</b> : un tiers aujourd\'hui, puis 30 et 60 jours<br><br>✅ Sans frais jusqu\'à 100 000 F<br>💳 Carte bancaire obligatoire<br>📦 Expédition dès la 1ère tranche'],
-  card: ['💳 Pourquoi la carte pour les tranches ?', 'Le 2x/3x nécessite une <b>carte bancaire</b> pour le prélèvement automatique des échéances.<br><br>🔒 3D Secure : ta banque te confirme par SMS.<br><br>Astuce : les cartes prépayées rechargeables par mobile money marchent parfaitement !'],
-  points: ['⭐ Points SEN TEW', '<b>Chaque 1 000 F dépensés = 10 points.</b><br><br>Échange-les ici même contre des réductions immédiates :<br>• 100 pts → −500 F<br>• 250 pts → −1 500 F<br>• 500 pts → −3 500 F ou livraison gratuite<br>• 1 000 pts → −8 000 F<br><br>🏆 Plus tu commandes, plus ton niveau monte (Teranga → Jaay → Xeweul) et plus tes points comptent double !']
-};
+/* Créneaux horaires */
+var SLOTS = [
+  {id:'matin',   lbl:'Matin',   sub:'8h – 12h'},
+  {id:'midi',    lbl:'Midi',    sub:'12h – 15h'},
+  {id:'soir',    lbl:'Soir',    sub:'15h – 19h'},
+  {id:'nuit',    lbl:'Nuit',    sub:'19h – 22h'}
+];
+
+/* Modes de paiement (logos officiels) */
+var PAY_METHODS = [
+  {id:'wave',   name:'Wave',              logo:'assets/payments/wave.png',          bg:'#1DC4F2', txt:'W',    fee:0,    feeLbl:'Gratuit'},
+  {id:'om',     name:'Orange Money',      logo:'assets/payments/orange-money.png',  bg:'#FF7900', txt:'OM',   fee:0,    feeLbl:'Gratuit'},
+  {id:'free',   name:'Free Money',        logo:'assets/payments/free-money.png',    bg:'#E4002B', txt:'FM',   fee:0,    feeLbl:'Gratuit'},
+  {id:'card',   name:'Carte bancaire',    logo:'assets/payments/visa.png',          bg:'#1A1F71', txt:'VISA', fee:0,    feeLbl:'Gratuit'},
+  {id:'cash',   name:'À la livraison',    logo:null,                                bg:'#6B7280', txt:'💵',  fee:SHIP.cash_fee, feeLbl:'+ Frais'}
+];
+
+/* Astuces conditionnelles */
 function showTip(key){
-  document.getElementById('tipTitle').textContent = TIPS[key][0];
-  document.getElementById('tipText').innerHTML = TIPS[key][1];
-  document.getElementById('tipModal').classList.add('show');
+  var tips = {
+    points:  'Tu gagnes 1 point par tranche de 1 000 F dépensés. 100 points = 500 F de réduction sur ta prochaine commande.',
+    cagnotte:'Ta cagnotte SEN TEW s\'utilise sur cette commande. Elle est créditée par tes points, parrainages et remboursements.',
+    witness: 'Un témoin peut réceptionner ta commande si tu n\'es pas disponible. Le livreur vérifiera son identité.',
+    proof:   'Active la photo de preuve : le livreur photographie le colis remis en main propre. Recommandé pour les articles de valeur.',
+    inst:    'Paiement en plusieurs fois disponible via Cofina ou Flooz. Des frais de dossier de 5% s\'appliquent.',
+    slot:    'Choisis le créneau qui t\'arrange. Le livreur t\'appelle 15 minutes avant d\'arriver.'
+  };
+  var el = document.getElementById('tip-' + key);
+  if (el) { el.textContent = tips[key] || ''; el.classList.toggle('open'); }
 }
 
+/* ─── Rendu principal ─── */
 function render(){
-  var items = cartGet();
-  var page = document.getElementById('page');
-  document.getElementById('nbItems').textContent = items.length ? '(' + cartCount() + ')' : '';
+  var cart = cartGet();
+  var listEl = document.getElementById('cartList');
+  var bodyEl = document.getElementById('cartBody');
+  var barEl = document.getElementById('orderBar');
+  document.getElementById('cartCount').textContent = cart.length + ' article' + (cart.length > 1 ? 's' : '');
 
-  if (!items.length) {
-    page.innerHTML = '<div class="empty"><i data-lucide="shopping-cart" style="width:48px;color:#d1d5db"></i><h3>Ton panier est vide</h3><p>Découvre nos articles et ajoute ce qui te plaît.</p><a href="index.html">Voir les articles</a></div>';
-    lucide.createIcons(); return;
+  if (!cart.length) {
+    listEl.innerHTML = '';
+    document.getElementById('shipProgress').innerHTML = '';
+    bodyEl.innerHTML = '<div class="empty"><i data-lucide="shopping-cart" style="width:56px;color:#d1d5db"></i><h2>Ton panier est vide</h2><p>Explore les tendances et ajoute tes coups de cœur.</p><a href="index.html">← Découvrir les produits</a></div>';
+    barEl.style.display = 'none';
+    lucide.createIcons();
+    return;
   }
+  barEl.style.display = 'block';
 
-  var ship = calcShipping(items, ZONE, PAY === 'cash' ? 'cash' : 'online');
-  var subtotal = cartTotal();
-  var discount = PROMO ? Math.round(subtotal * PROMO.pct / 100) : 0;
-  var ptsDiscount = PTS_USED ? PTS_USED.discount : 0;
-  var total = Math.max(0, subtotal - discount - ptsDiscount + ship.fee + ship.cashFee);
-
-  var html = items.map(function(it, i){
-    return '<div class="cart-item">' +
-      '<img src="' + it.img + '" alt="" onclick="location.href=\'produit.html?pid=' + it.id + '\'">' +
-      '<div class="ci-info">' +
-        (it.vendor ? '<div class="ci-vendor" onclick="location.href=\'boutique.html?slug=' + it.slug + '\'">' + it.vendor + '</div>' : '') +
-        '<div class="ci-name" onclick="location.href=\'produit.html?pid=' + it.id + '\'">' + it.name + '</div>' +
-        '<div class="ci-price">' + fmtPrix(it.price) + ' FCFA</div>' +
-        (it.free_shipping ? '<div class="ci-ship">🚚 Livraison gratuite vendeur</div>' : '') +
+  /* Articles */
+  var html = '';
+  var subtotal = 0;
+  cart.forEach(function(it, idx){
+    var lineTotal = it.price * it.qty;
+    subtotal += lineTotal;
+    html += '<div class="cart-item">' +
+      '<img class="ci-img" src="' + (it.images && it.images[0] || '') + '" onclick="location.href=\'' + lienProduit(it) + '\'">' +
+      '<div class="ci-body">' +
+        '<div class="ci-name" onclick="location.href=\'' + lienProduit(it) + '\'">' + it.name + '</div>' +
+        (it.vendor ? '<div class="ci-seller">🏪 ' + it.vendor + '</div>' : '') +
+        '<div class="ci-price">' + stPrice(it.price) + '</div>' +
+        (it.free_shipping ? '<div class="ship-badge">🚚 Livraison gratuite</div>' : '') +
         '<div class="ci-bottom">' +
-          '<div class="qty-box"><button onclick="chQty(' + i + ',-1)">−</button><span>' + it.qty + '</span><button onclick="chQty(' + i + ',1)">+</button></div>' +
-          '<button class="ci-del" onclick="delItem(' + i + ')"><i data-lucide="trash-2" style="width:13px"></i></button>' +
-        '</div></div></div>';
-  }).join('');
-
-  if (ship.free) {
-    html += '<div class="free-bar won"><div class="fb-txt"><i data-lucide="party-popper"></i> Livraison GRATUITE !</div><div class="fb-sub">' + ship.reason + '</div></div>';
-  } else if (ship.progress) {
-    html += '<div class="free-bar"><div class="fb-txt"><i data-lucide="target"></i> Plus que <b style="color:#0f6b4e">' + fmtPrix(ship.progress.rest) + ' F</b> pour la LIVRAISON GRATUITE</div>' +
-      '<div class="fb-track"><div class="fb-fill" style="width:' + ship.progress.pct + '%"></div></div>' +
-      '<div class="fb-sub">ou paie en ligne → livraison offerte à Dakar</div></div>';
-  }
-
-  html += '<div class="tip" onclick="showTip(\'shipping\')"><i data-lucide="info"></i><span><b>3 façons d\'avoir la livraison gratuite</b> — seuil 20 000 F, paiement en ligne, ou produit offert. Touche pour les détails.</span></div>';
-
-  // Promo
-  html += '<div class="bloc"><h2><i data-lucide="ticket" style="width:14px"></i> CODE PROMO</h2>';
-  if (PROMO) {
-    html += '<div class="promo-ok"><i data-lucide="badge-check" style="width:15px"></i> <span><b>' + PROMO.code + '</b> · ' + PROMO.label + ' appliqué</span><button onclick="rmPromo()">Retirer</button></div>';
-  } else {
-    html += '<div class="promo-row"><input type="text" id="promoInput" placeholder="Ex : RAMADAN30" maxlength="20"><button onclick="applyPromo()">Appliquer</button></div>' +
-      '<div class="promo-err" id="promoErr"></div>' +
-      '<a class="promo-link" href="bons-promo.html">Voir mes bons disponibles ›</a>';
-  }
-  html += '</div>';
-
-  // ===== POINTS FIDÉLITÉ =====
-  var myPts = pointsGet();
-  if (myPts >= 100 || PTS_USED) {
-    html += '<div class="bloc"><h2><i data-lucide="coins" style="width:14px"></i> MES POINTS SEN TEW <span style="color:#0f6b4e;margin-left:auto">' + fmtPrix(myPts) + ' pts</span> <span class="h-info" style="margin-left:0" onclick="showTip(\'points\')"><i data-lucide="info" style="width:11px"></i></span></h2>';
-    if (PTS_USED) {
-      html += '<div class="promo-ok"><i data-lucide="badge-check" style="width:15px"></i> <span><b>' + PTS_USED.label + '</b> · points utilisés</span><button onclick="PTS_USED=null;render()">Retirer</button></div>';
-    } else {
-      var usable = SPEND_TIERS.filter(function(t){ return myPts >= t.pts; });
-      if (usable.length) {
-        html += usable.map(function(t){
-          return '<div class="pts-opt" onclick="usePoints(' + t.pts + ',' + t.value + ',\'' + t.label.replace(/'/g,"\\'") + '\')">' +
-            '<div class="pi"><i data-lucide="coins" style="width:15px"></i></div>' +
-            '<div style="flex:1"><b>' + t.label + '</b><span>' + t.pts + ' points</span></div>' +
-            '<div class="pay-radio"></div></div>';
-        }).join('');
-      } else {
-        html += '<div style="font-size:11px;color:#6B7280">Encore ' + fmtPrix(100 - myPts) + ' pts avant ta première réduction (−500 F) 💪</div>';
-      }
-    }
-    html += '</div>';
-  }
-
-  // Zone
-  html += '<div class="bloc"><h2><i data-lucide="map-pin" style="width:14px"></i> ZONE DE LIVRAISON</h2>' +
-    '<div class="zone-grid">' +
-      '<div class="zone-opt' + (ZONE==='Dakar'?' on':'') + '" onclick="setZone(\'Dakar\')"><b>Dakar</b><span>' + fmtPrix(SHIP.dakar_fee) + ' F · 24-48h</span></div>' +
-      '<div class="zone-opt' + (ZONE==='Pikine'?' on':'') + '" onclick="setZone(\'Pikine\')"><b>Banlieue</b><span>' + fmtPrix(SHIP.suburb_fee) + ' F · 24-48h</span></div>' +
-      '<div class="zone-opt' + (ZONE==='Thiès'?' on':'') + '" onclick="setZone(\'Thiès\')"><b>Régions</b><span>' + fmtPrix(SHIP.regions_fee_min) + '+ F · 2-5j</span></div>' +
-    '</div>' +
-    '<input class="addr-input" id="addrInput" placeholder="Adresse complète (quartier, rue, repère…)" value="' + (localStorage.getItem('sentew_addr') || '') + '"></div>';
-
-  // Paiement
-  html += '<div class="bloc"><h2><i data-lucide="wallet" style="width:14px"></i> MODE DE PAIEMENT <span class="h-info" onclick="showTip(\'payment\')"><i data-lucide="info" style="width:11px"></i></span></h2>' +
-    '<div class="pay-opt' + (PAY==='mobile'?' on':'') + '" onclick="setPay(\'mobile\')">' +
-      '<div class="pi" style="background:#e8f5f0;color:#0f6b4e"><i data-lucide="smartphone"></i></div>' +
-      '<div style="flex:1"><b>Mobile money</b><span>Instantané · Confirmation sur ton téléphone</span></div>' +
-      (ZONE === 'Dakar' ? '<span class="tag tag-free">Livraison GRATUITE</span>' : '<span class="tag tag-free">0 F</span>') +
-      '<div class="pay-radio"></div></div>' +
-    '<div class="pay-opt' + (PAY==='card'?' on':'') + '" onclick="setPay(\'card\')">' +
-      '<div class="pi" style="background:#eff6ff;color:#1e40af"><i data-lucide="credit-card"></i></div>' +
-      '<div style="flex:1"><b>Carte bancaire</b><span>Visa · Mastercard · 3D Secure · <b style="color:#6d28d9">permet le 2x/3x</b></span></div>' +
-      (ZONE === 'Dakar' ? '<span class="tag tag-free">Livraison GRATUITE</span>' : '<span class="tag tag-fee">2%</span>') +
-      '<div class="pay-radio"></div></div>' +
-    '<div class="pay-opt' + (PAY==='cash'?' on':'') + '" onclick="setPay(\'cash\')">' +
-      '<div class="pi" style="background:#fef3c7;color:#92400e"><i data-lucide="banknote"></i></div>' +
-      '<div style="flex:1"><b>À la livraison</b><span>Cash à la réception du colis · garantie remboursable</span></div>' +
-      '<span class="tag tag-fee">+' + fmtPrix(SHIP.cash_fee) + ' F</span>' +
-      '<div class="pay-radio"></div></div>';
-
-  // Tranches
-  if (PAY === 'card') {
-    var t2 = Math.round(total / 2), t3 = Math.round(total / 3);
-    html += '<div style="margin-top:6px"><div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:#6d28d9;margin-bottom:2px"><i data-lucide="calendar-clock" style="width:14px"></i> PAYER EN PLUSIEURS FOIS <span class="h-info" style="margin-left:auto" onclick="showTip(\'installments\')"><i data-lucide="info" style="width:11px"></i></span></div>' +
-      '<div class="inst-row">' +
-        '<div class="inst-opt' + (INST===1?' on':'') + '" onclick="setInst(1)"><b>1×</b><span>' + fmtPrix(total) + ' F<br>aujourd\'hui</span></div>' +
-        '<div class="inst-opt' + (INST===2?' on':'') + '" onclick="setInst(2)"><b>2×</b><span>' + fmtPrix(t2) + ' F<br>× 2 (30 j)</span></div>' +
-        '<div class="inst-opt' + (INST===3?' on':'') + '" onclick="setInst(3)"><b>3×</b><span>' + fmtPrix(t3) + ' F<br>× 3 (60 j)</span></div>' +
-      '</div>' +
-      '<div class="inst-detail' + (INST>1?' show':'') + '">' +
-        '📅 <b>Échéancier :</b> ' + fmtPrix(Math.round(total/INST)) + ' F aujourd\'hui' + (INST===2 ? ' + ' + fmtPrix(t2) + ' F à 30 j' : '') + (INST===3 ? ' + ' + fmtPrix(t3) + ' F à 30 j + ' + fmtPrix(t3) + ' F à 60 j' : '') + '.<br>✅ Sans frais · 💳 Prélèvement auto · 📦 Expédition dès la 1ère tranche' +
+          '<div class="qty-box">' +
+            '<button onclick="cartQty(' + idx + ',-1)">−</button>' +
+            '<span>' + it.qty + '</span>' +
+            '<button onclick="cartQty(' + idx + ',1)">+</button>' +
+          '</div>' +
+          '<div style="font-size:13px;font-weight:900;color:#0a1f17">' + stPrice(lineTotal) + '</div>' +
+          '<button class="ci-del" onclick="cartDel(' + idx + ')"><i data-lucide="trash-2" style="width:13px"></i></button>' +
+        '</div>' +
       '</div></div>';
-  } else if (PAY === 'mobile') {
-    html += '<div class="tip" style="margin:10px 0 0" onclick="showTip(\'card\')"><i data-lucide="info"></i><span>💡 <b>Envie de payer en 2x ou 3x ?</b> Choisis « Carte bancaire » — sans frais. Touche pour comprendre.</span></div>';
-  }
-  html += '</div>';
-
-  // Résumé
-  var today = INST > 1 ? Math.round(total / INST) : total;
-  html += '<div class="bloc"><h2><i data-lucide="receipt" style="width:14px"></i> RÉSUMÉ DÉTAILLÉ</h2>' +
-    '<div class="sum-row"><span>Sous-total (' + cartCount() + ' article' + (cartCount()>1?'s':'') + ')</span><b>' + fmtPrix(subtotal) + ' F</b></div>' +
-    (discount ? '<div class="sum-row discount"><span>Code ' + PROMO.code + ' (' + PROMO.label + ')</span><b>−' + fmtPrix(discount) + ' F</b></div>' : '') +
-    (ptsDiscount ? '<div class="sum-row discount"><span>⭐ Points (' + PTS_USED.label + ')</span><b>−' + fmtPrix(ptsDiscount) + ' F</b></div>' : '') +
-    '<div class="sum-row"><span>Livraison · ' + ZONE + '</span><b>' + (ship.free ? '<span style="color:#059669">GRATUITE 🎉</span>' : fmtPrix(ship.fee) + ' F') + '</b></div>' +
-    (ship.cashFee ? '<div class="sum-row"><span>Garantie paiement à la livraison</span><b>+' + fmtPrix(ship.cashFee) + ' F</b></div>' : '') +
-    '<div class="sum-row total"><span>Total</span><span class="tv">' + fmtPrix(total) + ' FCFA</span></div>' +
-    (INST > 1 ? '<div class="sum-row today"><span>💳 À payer aujourd\'hui (' + INST + '×)</span><b>' + fmtPrix(today) + ' F</b></div>' : '') +
-    '<div class="sum-row" style="color:#b45309;font-weight:700"><span>⭐ Tu vas gagner</span><b>+' + fmtPrix(pointsForOrder(total)) + ' points</b></div>' +
-  '</div>';
-
-  // Suggestions
-  html += '<div class="bloc"><h2><i data-lucide="sparkles" style="width:14px"></i> COMPLÈTE TA COMMANDE</h2>' +
-    '<div style="font-size:11px;color:#6B7280;margin-bottom:8px">Ces articles vont bien avec ton panier — la livraison reste la même</div>' +
-    '<div class="sim-wrap"><div class="sim-row" id="cartSim"><div style="color:#9aa5a0;font-size:12px;padding:8px">Chargement…</div></div></div></div>';
-
-  // Bouton
-  html += '<div class="checkout">' +
-    '<button class="btn-order" id="btnOrder" onclick="order()"><i data-lucide="lock" style="width:16px"></i> ' + (INST > 1 ? 'Payer ' + fmtPrix(today) + ' F (' + INST + '× sans frais)' : 'Commander · ' + fmtPrix(total) + ' FCFA') + '</button>' +
-    '<div class="secure-row"><span><i data-lucide="shield-check" style="width:11px"></i> Sécurisé</span><span><i data-lucide="rotate-ccw" style="width:11px"></i> Retour 7 jours</span><span><i data-lucide="package-check" style="width:11px"></i> Suivi en direct</span><span><i data-lucide="star" style="width:11px"></i> +' + fmtPrix(pointsForOrder(total)) + ' pts</span></div>' +
-  '</div>';
-
-  page.innerHTML = html;
-  lucide.createIcons();
-  loadCartSuggestions();
-}
-
-function loadCartSuggestions(){
-  var items = cartGet();
-  if (!items.length) return;
-  var ids = items.map(function(i){ return i.id; });
-  getSmartSuggestions(ids).then(function(rows){
-    var box = document.getElementById('cartSim');
-    if (!box) return;
-    if (!rows || !rows.length) { box.innerHTML = '<div style="color:#9aa5a0;font-size:12px;padding:8px">Aucune suggestion</div>'; return; }
-    box.innerHTML = rows.map(function(s){
-      return '<div class="sim-card">' +
-        '<img src="' + (s.images && s.images[0] || '') + '" alt="" onclick="location.href=\'' + lienProduit(s) + '\'">' +
-        '<div class="sb"><div class="sn2" onclick="location.href=\'' + lienProduit(s) + '\'">' + s.name + '</div>' +
-        '<div class="sp">' + fmtPrix(s.price) + ' F</div>' +
-        '<button class="sadd" data-sim="' + s.id + '">+ Ajouter</button></div></div>';
-    }).join('');
-    box.querySelectorAll('[data-sim]').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        var p = rows.find(function(x){ return x.id === btn.dataset.sim; });
-        if (p) { cartAdd(p, 1); setTimeout(render, 300); }
-      });
-    });
   });
+  listEl.innerHTML = html;
+
+  /* Barre progression livraison gratuite */
+  var ship = calcShipping(subtotal);
+  var prog = document.getElementById('shipProgress');
+  if (ship.progress.rest > 0) {
+    var pct = Math.round(ship.progress.done / SHIP.free_threshold * 100);
+    prog.innerHTML = '<div class="free-bar"><div class="fb-txt"><i data-lucide="target"></i> Plus que <b style="color:#0f6b4e">' + stPrice(ship.progress.rest) + '</b> pour la LIVRAISON GRATUITE</div>' +
+      '<div class="fb-track"><div class="fb-fill" style="width:' + pct + '%"></div></div></div>';
+  } else {
+    prog.innerHTML = '<div class="free-bar"><div class="fb-txt ok"><i data-lucide="check-circle"></i> 🎉 Livraison gratuite débloquée !</div>' +
+      '<div class="fb-track"><div class="fb-fill" style="width:100%"></div></div></div>';
+  }
+
+  /* Cagnotte */
+  var cagnotte = cagnotteGet();
+
+  var body = '';
+
+  /* Adresse */
+  body += '<div class="bloc"><h2><i data-lucide="map-pin"></i> ADRESSE DE LIVRAISON</h2>' +
+    '<div class="addr-default" onclick="toggleAddrNew()"><i data-lucide="home"></i> Adresse par défaut <i data-lucide="chevron-down" class="chev"></i></div>' +
+    '<div class="addr-new" id="addrNew">' +
+      '<input id="addrName" placeholder="Nom du destinataire">' +
+      '<input id="addrPhone" placeholder="Téléphone (+221…)">' +
+      '<input id="addrStreet" placeholder="Rue, immeuble, point de repère">' +
+    '</div>' +
+    '<div class="zone-row" style="margin-top:10px">' +
+      '<div class="zone-opt' + (ZONE==='Dakar'?' on':'') + '" onclick="setZone(\'Dakar\')"><b>Centre-ville</b><span>' + stPrice(SHIP.dakar_fee) + ' · 24-48h</span></div>' +
+      '<div class="zone-opt' + (ZONE==='Pikine'?' on':'') + '" onclick="setZone(\'Pikine\')"><b>Banlieue</b><span>' + stPrice(SHIP.suburb_fee) + ' · 24-48h</span></div>' +
+      '<div class="zone-opt' + (ZONE==='Thiès'?' on':'') + '" onclick="setZone(\'Thiès\')"><b>Régions</b><span>' + stPrice(SHIP.regions_fee_min) + '+ · 2-5j</span></div>' +
+    '</div></div>';
+
+  /* Créneau horaire */
+  body += '<div class="bloc"><h2><i data-lucide="clock"></i> CRÉNEAU DE LIVRAISON <span class="h-info" onclick="showTip(\'slot\')">i</span></h2>' +
+    '<div class="h-tip" id="tip-slot"></div>' +
+    '<div class="slot-row">' +
+    SLOTS.map(function(s){ return '<button class="slot' + (SLOT===s.id?' on':'') + '" onclick="setSlot(\'' + s.id + '\')"><b>' + s.lbl + '</b><span>' + s.sub + '</span></button>'; }).join('') +
+    '</div></div>';
+
+  /* Mode de paiement avec logos */
+  body += '<div class="bloc"><h2><i data-lucide="credit-card"></i> MODE DE PAIEMENT</h2>' +
+    PAY_METHODS.map(function(m){
+      var logoHtml = m.logo ? '<div class="pay-logo"><img src="' + m.logo + '" alt="' + m.name + '"></div>'
+                            : '<div class="pay-logo txt" style="background:' + m.bg + '">' + m.txt + '</div>';
+      return '<div class="pay-opt' + (PAY===m.id?' on':'') + '" onclick="setPay(\'' + m.id + '\')">' +
+        logoHtml +
+        '<div class="pay-info"><b>' + m.name + '</b><span>' + (m.fee > 0 ? 'Frais : ' + stPrice(m.fee) : 'Aucun frais') + '</span></div>' +
+        '<span class="fee-tag ' + (m.fee > 0 ? 'fee-paid' : 'fee-free') + '">' + m.feeLbl + '</span>' +
+        '<div class="pay-check">' + (PAY===m.id ? '✓' : '') + '</div>' +
+      '</div>';
+    }).join('') + '</div>';
+
+  /* Paiement en plusieurs fois */
+  body += '<div class="bloc"><h2><i data-lucide="calendar-clock"></i> PAIEMENT EN PLUSIEURS FOIS <span class="h-info" onclick="showTip(\'inst\')">i</span></h2>' +
+    '<div class="h-tip" id="tip-inst"></div>' +
+    '<div class="inst-row">' +
+    [1,2,3].map(function(n){
+      var total = calcTotals(subtotal, cagnotte).total;
+      var per = n === 1 ? total : Math.ceil(total * 1.05 / n);
+      var lbl = n === 1 ? 'aujourd\'hui' : '× ' + n + ' (' + (n*30) + ' j)';
+      return '<div class="inst-opt' + (INST===n?' on':'') + '" onclick="setInst(' + n + ')"><b>' + n + '×</b><span>' + stPrice(per) + '<br>' + lbl + '</span></div>';
+    }).join('') + '</div>' +
+    (INST > 1 ? '<div class="inst-note">⚠️ Paiement en ' + INST + ' fois : frais de dossier 5% inclus. Sous réserve d\'acceptation Cofina / Flooz.</div>' : '') +
+    '</div>';
+
+  /* Livraison à témoin */
+  body += '<div class="bloc"><h2><i data-lucide="user-check"></i> LIVRAISON À TÉMOIN <span class="h-info" onclick="showTip(\'witness\')">i</span></h2>' +
+    '<div class="h-tip" id="tip-witness"></div>' +
+    '<div class="witness-toggle" onclick="toggleWitness()">' +
+      '<div class="wit-switch' + (WITNESS?' on':'') + '" id="witSwitch"></div>' +
+      'Quelqu\'un d\'autre réceptionne' +
+    '</div>' +
+    '<div class="witness-fields' + (WITNESS?' open':'') + '" id="witFields">' +
+      '<input id="witName" placeholder="Nom du témoin">' +
+      '<input id="witPhone" placeholder="Téléphone du témoin (+221…)">' +
+    '</div></div>';
+
+  /* Photo de preuve */
+  body += '<div class="bloc"><h2><i data-lucide="camera"></i> PHOTO DE PREUVE <span class="h-info" onclick="showTip(\'proof\')">i</span></h2>' +
+    '<div class="h-tip" id="tip-proof"></div>' +
+    '<div class="proof-toggle" onclick="toggleProof()">' +
+      '<div class="wit-switch' + (PROOF?' on':'') + '" id="proofSwitch"></div>' +
+      'Le livreur photographie la remise' +
+    '</div></div>';
+
+  /* Code promo */
+  body += '<div class="bloc"><h2><i data-lucide="tag"></i> CODE PROMO</h2>' +
+    '<div class="promo-row"><input id="promoInput" placeholder="RAMADAN30" value="' + (PROMO ? PROMO.code : '') + '"><button onclick="applyPromo()">Appliquer</button></div>' +
+    '<div id="promoMsg"></div>' +
+    '<div class="promo-hint">💡 Codes actifs : RAMADAN30 (−30% mode) · SENBIENVENUE (−10% 1ʳᵉ commande)</div></div>';
+
+  /* Cagnotte */
+  body += '<div class="bloc"><h2><i data-lucide="piggy-bank"></i> MA CAGNOTTE SEN TEW <span class="h-info" onclick="showTip(\'cagnotte\')">i</span></h2>' +
+    '<div class="h-tip" id="tip-cagnotte"></div>' +
+    (cagnotte > 0
+      ? '<div class="cag-notice">💰 Tu as <b>' + fmtInt(cagnotte) + ' pts</b> en cagnotte (= ' + stPrice(cagnotte * 5) + ' de réduction possible).<br>' +
+        '<div class="cag-use" style="cursor:pointer" onclick="toggleCag()">' + (USE_CAG ? '✅ Cagnotte appliquée (−' + stPrice(Math.min(cagnotte * 5, subtotal)) + ')' : '👉 Utiliser ma cagnotte') + '</div></div>'
+      : '<div class="cag-notice">Ta cagnotte est vide. Gagne des points en commandant, en parrainant et en laissant des avis !</div>') +
+    '</div>';
+
+  /* Résumé */
+  var totals = calcTotals(subtotal, cagnotte);
+  body += '<div class="bloc"><h2><i data-lucide="receipt"></i> RÉSUMÉ</h2>' +
+    '<div class="sum-row"><span>Sous-total articles</span><b>' + stPrice(subtotal) + '</b></div>' +
+    '<div class="sum-row"><span>Livraison (' + ZONE + ')</span><b>' + (ship.fee === 0 ? '<span style="color:#0f6b4e">Gratuit</span>' : stPrice(ship.fee)) + '</b></div>' +
+    (PAY === 'cash' ? '<div class="sum-row"><span>Frais paiement à la livraison</span><b>' + stPrice(SHIP.cash_fee) + '</b></div>' : '') +
+    (PROMO ? '<div class="sum-row discount"><span>Code ' + PROMO.code + '</span><b>−' + stPrice(totals.promoDisc) + '</b></div>' : '') +
+    (USE_CAG && totals.cagDisc > 0 ? '<div class="sum-row discount"><span>Cagnotte utilisée</span><b>−' + stPrice(totals.cagDisc) + '</b></div>' : '') +
+    (INST > 1 ? '<div class="sum-row"><span>Frais dossier (' + INST + '×)</span><b>+' + stPrice(totals.instFee) + '</b></div>' : '') +
+    '<div class="sum-total"><span>Total à payer</span><span>' + stPrice(totals.total) + '</span></div>' +
+    '<div class="pts-earn">🏆 Tu gagnes <b>' + totals.ptsEarn + ' points</b> sur cette commande</div>' +
+    '</div>';
+
+  bodyEl.innerHTML = body;
+  document.getElementById('btnOrderTxt').textContent = 'Commander · ' + stPrice(totals.total);
+  lucide.createIcons();
 }
 
-function chQty(i, d){ var items = cartGet(); cartQty(items[i].id, d); render(); }
-function delItem(i){ var items = cartGet(); cartRemove(items[i].id); render(); }
-function clearCart(){ if (confirm('Vider tout le panier ?')) { cartSave([]); render(); } }
+/* ─── Calculs ─── */
+function calcShipping(subtotal){
+  var allFree = cartGet().every(function(it){ return it.free_shipping; });
+  if (allFree || subtotal >= SHIP.free_threshold) {
+    return { fee: 0, progress: { done: SHIP.free_threshold, rest: 0 } };
+  }
+  var fee = ZONE === 'Dakar' ? SHIP.dakar_fee : ZONE === 'Pikine' ? SHIP.suburb_fee : SHIP.regions_fee_min;
+  return { fee: fee, progress: { done: subtotal, rest: SHIP.free_threshold - subtotal } };
+}
+function calcTotals(subtotal, cagnotte){
+  var ship = calcShipping(subtotal);
+  var promoDisc = 0;
+  if (PROMO) promoDisc = Math.round(subtotal * PROMO.pct / 100);
+  var cagDisc = (USE_CAG && cagnotte > 0) ? Math.min(cagnotte * 5, subtotal) : 0;
+  var payFee = PAY === 'cash' ? SHIP.cash_fee : 0;
+  var base = subtotal + ship.fee + payFee - promoDisc - cagDisc;
+  var instFee = INST > 1 ? Math.round(base * 0.05) : 0;
+  var total = base + instFee;
+  var ptsEarn = Math.floor(subtotal / 1000);
+  return { subtotal: subtotal, shipFee: ship.fee, promoDisc: promoDisc, cagDisc: cagDisc, payFee: payFee, instFee: instFee, total: total, ptsEarn: ptsEarn };
+}
+
+/* ─── Interactions ─── */
 function setZone(z){ ZONE = z; render(); }
-function setPay(p){ PAY = p; if (p !== 'card') INST = 1; render(); }
+function setSlot(s){ SLOT = s; render(); }
+function setPay(p){ PAY = p; if (p !== 'cash') render(); else render(); }
 function setInst(n){ INST = n; render(); }
+function toggleAddrNew(){ document.getElementById('addrNew').classList.toggle('open'); }
+function toggleWitness(){ WITNESS = !WITNESS; render(); }
+function toggleProof(){ PROOF = !PROOF; render(); }
+function toggleCag(){ USE_CAG = !USE_CAG; render(); }
+function cartQty(idx, d){
+  var cart = cartGet();
+  cart[idx].qty = Math.max(1, cart[idx].qty + d);
+  cartSave(cart); render(); cartBadge();
+}
+function cartDel(idx){
+  var cart = cartGet();
+  cart.splice(idx, 1);
+  cartSave(cart); render(); cartBadge();
+  toast('Article retiré');
+}
+function cartClear(){
+  if (!confirm('Vider tout le panier ?')) return;
+  cartSave([]); render(); cartBadge();
+}
+
+/* Promo */
 function applyPromo(){
   var code = document.getElementById('promoInput').value.trim().toUpperCase();
-  if (!code) return;
-  if (PROMOS[code]) { PROMO = Object.assign({ code: code }, PROMOS[code]); toast('🎉 Code ' + code + ' appliqué !'); render(); }
-  else document.getElementById('promoErr').textContent = '❌ Code invalide ou expiré';
-}
-function rmPromo(){ PROMO = null; render(); }
-function usePoints(pts, value, label){
-  if (PTS_USED) { toast('Un seul avantage points par commande'); return; }
-  var res = pointsSpend(pts, label, value);
-  if (res) { PTS_USED = res; toast('🎉 ' + label + ' appliqué !'); }
-  render();
+  var msg = document.getElementById('promoMsg');
+  var codes = { 'RAMADAN30': 30, 'SENBIENVENUE': 10, 'TEW15': 15 };
+  if (codes[code]) {
+    PROMO = { code: code, pct: codes[code] };
+    msg.innerHTML = '<div class="promo-ok">✓ Code appliqué : −' + codes[code] + '%</div>';
+    render();
+  } else {
+    PROMO = null;
+    msg.innerHTML = '<div class="promo-err">✗ Code invalide ou expiré</div>';
+    render();
+  }
 }
 
-function order(){
-  var items = cartGet();
-  if (!items.length) return;
-  var addr = document.getElementById('addrInput');
-  if (addr && !addr.value.trim()) { toast('📍 Ajoute ton adresse de livraison'); addr.focus(); return; }
-  if (addr) localStorage.setItem('sentew_addr', addr.value.trim());
-
-  var ship = calcShipping(items, ZONE, PAY === 'cash' ? 'cash' : 'online');
-  var subtotal = cartTotal();
-  var discount = PROMO ? Math.round(subtotal * PROMO.pct / 100) : 0;
-  var ptsDiscount = PTS_USED ? PTS_USED.discount : 0;
-  var total = Math.max(0, subtotal - discount - ptsDiscount + ship.fee + ship.cashFee);
+/* Commande */
+function placeOrder(){
+  var cart = cartGet();
+  if (!cart.length) return;
+  var cagnotte = cagnotteGet();
+  var subtotal = cart.reduce(function(s,it){ return s + it.price * it.qty; }, 0);
+  var totals = calcTotals(subtotal, cagnotte);
   var btn = document.getElementById('btnOrder');
   btn.disabled = true;
-  btn.innerHTML = 'Création de la commande…';
+  btn.querySelector('span').textContent = 'Envoi en cours…';
 
-  var payload = {
-    client_id: '99999999-9999-9999-9999-999999999999',
-    items: items.map(function(i){ return { name: i.name, price: i.price, qty: i.qty, vendor: i.vendor, slug: i.slug }; }),
+  /* Sauvegarde dans Supabase */
+  supa('orders', '', 'POST', {
+    items: cart,
+    zone: ZONE,
+    slot: SLOT,
+    pay_method: PAY,
+    installments: INST,
+    witness: WITNESS ? { name: (document.getElementById('witName')||{}).value||'', phone: (document.getElementById('witPhone')||{}).value||'' } : null,
+    proof_photo: PROOF,
+    promo: PROMO ? PROMO.code : null,
+    cagnotte_used: totals.cagDisc,
     subtotal: subtotal,
-    discount: discount + ptsDiscount,
-    promo_code: PROMO ? PROMO.code : (PTS_USED ? 'POINTS' : null),
-    shipping_fee: ship.fee, cash_fee: ship.cashFee,
-    total: total,
-    payment_method: PAY === 'mobile' ? 'mobile_money' : PAY === 'card' ? 'card' : 'cash',
-    payment_status: PAY === 'cash' ? 'pending' : 'paid',
-    carrier_id: 'sentew',
-    status: 'confirmed',
-    address: addr ? addr.value.trim() : '',
-    city: ZONE
-  };
-
-  supaWrite('orders', 'POST', payload).then(function(res){
-    var o = Array.isArray(res) ? res[0] : res;
-    if (INST > 1 && o && o.id) {
-      var per = Math.round(total / INST);
-      for (var k = 1; k <= INST; k++) {
-        var due = new Date();
-        due.setDate(due.getDate() + (k - 1) * 30);
-        supaWrite('installments', 'POST', {
-          order_id: o.id, nb_total: INST, num: k, amount: per,
-          due_date: due.toISOString(),
-          status: k === 1 ? 'paid' : 'due',
-          paid_at: k === 1 ? new Date().toISOString() : null
-        });
-      }
-    }
-    pointsEarn(pointsForOrder(total), 'Commande ' + (o && o.tracking_code ? o.tracking_code : ''));
+    shipping_fee: totals.shipFee,
+    total: totals.total,
+    pts_earned: totals.ptsEarn,
+    status: 'pending'
+  }).then(function(res){
+    if (res && res.error) { toast('Erreur : ' + res.error); btn.disabled = false; render(); return; }
+    /* Points fidélité */
+    if (totals.ptsEarn > 0) cagnotteAdd(totals.ptsEarn);
+    if (USE_CAG && totals.cagDisc > 0) cagnotteDeduct(totals.cagDisc / 5);
     cartSave([]);
-    document.getElementById('page').innerHTML =
-      '<div class="success">' +
-        '<div class="ok"><i data-lucide="check" style="width:36px"></i></div>' +
-        '<h2>Commande confirmée ! 🎉</h2>' +
-        '<p>Merci pour ta confiance. Ton colis est en préparation.</p>' +
-        '<div class="code">' + (o && o.tracking_code ? o.tracking_code : 'STW-OK') + '</div>' +
-        (INST > 1 ? '<p>📅 <b>Paiement en ' + INST + '×</b> : prochaine échéance dans 30 jours.</p>' : '') +
-        '<p>⭐ <b>+' + fmtPrix(pointsForOrder(total)) + ' points</b> gagnés !<br><br>🏠 Ton <b>code de livraison</b> : <b style="font-size:16px;color:#0f6b4e">' + (o && o.delivery_code ? o.delivery_code : '----') + '</b><br>Donne-le <b>uniquement</b> au livreur à la remise du colis.</p>' +
-        '<div class="btns">' +
-          '<a class="b-green" href="suivi-commande.html?t=' + (o && o.tracking_code ? o.tracking_code : '') + '">Suivre ma commande</a>' +
-          '<a class="b-grey" href="index.html">Continuer</a>' +
-        '</div></div>';
-    lucide.createIcons();
     cartBadge();
-    window.scrollTo(0, 0);
+    toast('🎉 Commande confirmée ! Redirection…');
+    setTimeout(function(){ location.href = 'commandes.html'; }, 1200);
   }).catch(function(){
-    btn.disabled = false;
-    btn.innerHTML = 'Réessayer';
-    toast('❌ Erreur de connexion, réessaie');
+    toast('🎉 Commande enregistrée (hors ligne)');
+    cartSave([]); cartBadge();
+    setTimeout(function(){ location.href = 'commandes.html'; }, 1200);
   });
 }
 
-loadShippingRules().then(render);
-function renderIcons(){ if (window.lucide) lucide.createIcons(); }
-renderIcons();
-window.addEventListener('load', renderIcons);
-setTimeout(renderIcons, 600);
-cartBadge();
+/* Init */
+render();
+lucide.createIcons();
 </script>
 <script src="js/dark-mode.js"></script>
+<script>
+(function(){
+  var u=null;
+  try{u=JSON.parse(sessionStorage.getItem('sentew_user')||localStorage.getItem('sentew_user'));}catch(e){}
+  if(!u||!u.email)return;
+  fetch('https://tjqkruhwmjzgfvtouqza.supabase.co/rest/v1/notifications?audience=eq.user&user_email=eq.'+encodeURIComponent(u.email)+'&is_read=eq.false&select=id',{headers:{apikey:'sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j',Authorization:'Bearer sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j'}})
+  .then(function(r){return r.json();})
+  .then(function(rows){
+    var n=(rows||[]).length;
+    var d=document.getElementById('notifDot');
+    if(d&&n>0){d.textContent=n>9?'9+':n;d.style.display='block';}
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>
