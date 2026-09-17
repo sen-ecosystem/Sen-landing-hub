@@ -6,6 +6,7 @@
 <title>Paramètres — SEN TEW</title>
 <link rel="stylesheet" href="css/app.css?v=50">
 <script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/currency.js"></script>
 </head>
 <body class="light-mode">
 
@@ -33,36 +34,38 @@
     <label style="padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer"><i data-lucide="mail" class="icon icon-md icon-vert"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Newsletter hebdo</span><input type="checkbox" style="width:auto;padding:0"></label>
   </div>
 
-<div class="section-title" style="display:flex;align-items:center;gap:8px;margin:20px 0 12px;padding:0 16px;">
-  <i data-lucide="shield" style="color:#d4a574;width:20px;height:20px;"></i>
-  <span style="color:#d4a574;font-weight:700;font-size:14px;letter-spacing:0.5px;">CONFIDENTIALITÉ & SÉCURITÉ</span>
-</div>
-
-<div class="card-menu" style="background:#fff;border-radius:12px;margin:0 16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
-  <a href="confidentialite-app.html" style="display:flex;align-items:center;gap:12px;padding:16px;text-decoration:none;color:#1a1a1a;border-bottom:1px solid #f0f0f0;">
-    <i data-lucide="lock" style="color:#0f6b4e;width:22px;height:22px;flex-shrink:0;"></i>
-    <span style="flex:1;font-weight:500;">Confidentialité & Sécurité</span>
-    <i data-lucide="chevron-right" style="color:#999;width:18px;height:18px;"></i>
-  </a>
-  <a href="mentions-legales.html" style="display:flex;align-items:center;gap:12px;padding:16px;text-decoration:none;color:#1a1a1a;">
-    <i data-lucide="file-text" style="color:#0f6b4e;width:22px;height:22px;flex-shrink:0;"></i>
-    <span style="flex:1;font-weight:500;">Documents légaux</span>
-    <i data-lucide="chevron-right" style="color:#999;width:18px;height:18px;"></i>
-  </a>
-</div>
+  <!-- Confidentialité & sécurité -->
+  <div class="section-title" style="display:flex;align-items:center;gap:8px;margin:20px 0 12px;padding:0;">
+    <i data-lucide="shield" style="color:#d4a574;width:20px;height:20px;"></i>
+    <span style="color:#d4a574;font-weight:700;font-size:14px;letter-spacing:0.5px;">CONFIDENTIALITÉ & SÉCURITÉ</span>
+  </div>
+  <div class="card-menu" style="background:#fff;border-radius:12px;margin-bottom:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+    <a href="confidentialite.html" style="display:flex;align-items:center;gap:12px;padding:16px;text-decoration:none;color:#1a1a1a;border-bottom:1px solid #f0f0f0;">
+      <i data-lucide="lock" style="color:#0f6b4e;width:22px;height:22px;flex-shrink:0;"></i>
+      <span style="flex:1;font-weight:500;">Confidentialité & Sécurité</span>
+      <i data-lucide="chevron-right" style="color:#999;width:18px;height:18px;"></i>
+    </a>
+    <a href="mentions-legales.html" style="display:flex;align-items:center;gap:12px;padding:16px;text-decoration:none;color:#1a1a1a;">
+      <i data-lucide="file-text" style="color:#0f6b4e;width:22px;height:22px;flex-shrink:0;"></i>
+      <span style="flex:1;font-weight:500;">Documents légaux</span>
+      <i data-lucide="chevron-right" style="color:#999;width:18px;height:18px;"></i>
+    </a>
+  </div>
 
   <!-- Langue & région -->
   <h2 class="section-title"><i data-lucide="globe" class="icon icon-sm icon-bleu"></i> LANGUE & RÉGION</h2>
   <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
     <label style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f5f5f0"><i data-lucide="languages" class="icon icon-md icon-vert"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Langue</span><select style="width:auto;padding:6px 10px;font-size:13px"><option>Français</option><option>English</option><option>Wolof</option></select></label>
-    <label style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f5f5f0"><i data-lucide="banknote" class="icon icon-md icon-or"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Devise</span><select style="width:auto;padding:6px 10px;font-size:13px"><option>FCFA</option><option>EUR</option><option>USD</option></select></label>
+    <label style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f5f5f0"><i data-lucide="banknote" class="icon icon-md icon-or"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Devise</span><select id="curSel" onchange="stSetCurrency(this.value)" style="width:auto;max-width:60%;padding:6px 10px;font-size:13px;border:1.5px solid #e3ede8;border-radius:10px;background:#fbfdfc;font-weight:700;color:#0f6b4e"></select></label>
     <label style="padding:14px 16px;display:flex;align-items:center;gap:12px"><i data-lucide="moon" class="icon icon-md" style="color:#4a5a52"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Mode sombre</span><input type="checkbox" data-theme-toggle style="width:auto;padding:0"></label>
   </div>
+  <div style="font-size:11px;color:#8aa69c;margin:-6px 4px 14px;line-height:1.5">💱 Devise détectée automatiquement via ton numéro de téléphone — modifiable ici à tout moment. Prix de référence en FCFA.</div>
 
-  <!-- Aide (ancre) -->
+  <!-- Aide -->
   <h2 class="section-title" id="aide"><i data-lucide="help-circle" class="icon icon-sm icon-bleu"></i> AIDE & SUPPORT</h2>
   <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
     <a href="support.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="headphones" class="icon icon-md icon-vert"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Support & FAQ</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
+    <a href="aide.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="message-circle-question" class="icon icon-md icon-or"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Centre d'aide</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
     <a href="a-propos.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;border-bottom:1px solid #f5f5f0"><i data-lucide="info" class="icon icon-md icon-bleu"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">À propos de SEN TEW</span><i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i></a>
     <a href="version.html" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none"><i data-lucide="git-commit-vertical" class="icon icon-md" style="color:#4a5a52"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Version de l'app</span><small style="color:#4a5a52">v1.0.50</small></a>
   </div>
@@ -83,7 +86,16 @@
 </nav>
 
 <script src="js/dark-mode.js?v=50"></script>
-<script>lucide.createIcons();</script>
-  <script src="js/buttons-audit.js?v=51"></script>
+<script src="js/buttons-audit.js?v=51"></script>
+<script>
+lucide.createIcons();
+/* Remplit le sélecteur de devises (attend le chargement des taux) */
+(function fillCur(){
+  var s=document.getElementById('curSel');
+  if(!s)return;
+  if(typeof stCurrencyOptions==='function'&&window.ST_FX&&ST_FX.ready){s.innerHTML=stCurrencyOptions();}
+  else setTimeout(fillCur,400);
+})();
+</script>
 </body>
 </html>
