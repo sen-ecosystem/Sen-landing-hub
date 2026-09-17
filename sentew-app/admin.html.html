@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Administration - SEN TEW</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/security-shield.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{overscroll-behavior:none}
+body{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;background:#f2f6f4;color:#12312a;padding-bottom:110px}
+.topbar{background:linear-gradient(120deg,#04120c,#0f6b4e);color:#fff;padding:16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 3px 16px rgba(0,0,0,.3)}
+.topbar h1{font-size:17px;font-weight:900;display:flex;align-items:center;gap:8px}
+.topbar h1 i{width:19px;height:19px}
+.top-actions{display:flex;gap:8px}
+.icobtn{position:relative;background:rgba(255,255,255,.14);border:none;color:#fff;width:38px;height:38px;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.icobtn i{width:18px;height:18px}
+.nb{position:absolute;top:-4px;right:-4px;background:#e63946;color:#fff;font-size:9px;font-weight:900;min-width:16px;height:16px;border-radius:99px;display:none;align-items:center;justify-content:center;padding:0 4px}
+.nb.on{display:flex}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:12px 14px 6px;scrollbar-width:none;position:sticky;top:70px;background:#f2f6f4;z-index:40}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:9px 15px;border-radius:99px;border:2px solid #e3ede8;background:#fff;font-size:12px;font-weight:800;color:#5b7a70;cursor:pointer;position:relative;transition:.15s}
+.tab.on{background:#0f6b4e;border-color:#0f6b4e;color:#fff;box-shadow:0 3px 10px rgba(15,107,78,.3)}
+.wrap{max-width:920px;margin:0 auto;padding:14px}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+@media(min-width:640px){.kpis{grid-template-columns:repeat(4,1fr)}}
+.kpi{background:#fff;border-radius:18px;padding:15px;border-left:4px solid #0f6b4e;box-shadow:0 2px 10px rgba(10,31,23,.06);transition:.15s}
+.kpi:active{transform:scale(.97)}
+.kpi .kv{font-size:21px;font-weight:900;letter-spacing:-.5px}
+.kpi .kl{font-size:10.5px;color:#5b7a70;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-top:2px}
+.kpi.warn{border-left-color:#e63946}
+.kpi.money{border-left-color:#b07a1f}
+.kpi.blue{border-left-color:#1a56c4}
+.card2{background:#fff;border-radius:18px;padding:14px;margin-bottom:10px;box-shadow:0 2px 10px rgba(10,31,23,.06)}
+.card2.sel{outline:3px solid #0f6b4e}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.nm{font-size:14px;font-weight:800;color:#0a1f17}
+.meta{font-size:11.5px;color:#8aa69c;margin-top:2px;line-height:1.5}
+.pill{font-size:10px;font-weight:900;padding:4px 9px;border-radius:99px;text-transform:uppercase;letter-spacing:.4px;flex-shrink:0}
+.pill.pending{background:#fff4e0;color:#b07a1f}
+.pill.active,.pill.approved,.pill.delivered,.pill.paid{background:#eafaf1;color:#0f6b4e}
+.pill.suspended,.pill.rejected,.pill.cancelled{background:#fdecec;color:#c0392b}
+.pill.in_delivery,.pill.preparing{background:#e8f0fe;color:#1a56c4}
+.pill.draft{background:#f0f3f2;color:#5b7a70}
+.actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.abtn{border:none;border-radius:10px;padding:8px 12px;font-size:11.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:5px;transition:.12s}
+.abtn:active{transform:scale(.96)}
+.abtn i{width:14px;height:14px}
+.abtn.ok{background:#0f6b4e;color:#fff}
+.abtn.warn{background:#fff4e0;color:#b07a1f}
+.abtn.danger{background:#fdecec;color:#c0392b}
+.abtn.plain{background:#f0f3f2;color:#12312a}
+.abtn.blue{background:#e8f0fe;color:#1a56c4}
+.empty{text-align:center;color:#9db8af;font-size:13px;padding:30px 10px}
+.sect{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.6px;color:#0f6b4e;margin:18px 0 10px;display:flex;align-items:center;gap:6px}
+.sect i{width:14px;height:14px}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#0a1f17;color:#fff;padding:12px 20px;border-radius:99px;font-size:13px;font-weight:700;display:none;z-index:99;box-shadow:0 8px 24px rgba(0,0,0,.3);max-width:90%;text-align:center}
+.toast.on{display:block}
+.loading{text-align:center;padding:40px;color:#8aa69c;font-size:13px}
+.hidden{display:none!important}
+.tools{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.search{display:flex;align-items:center;gap:8px;background:#fff;border:2px solid #e3ede8;border-radius:13px;padding:10px 13px}
+.search i{width:16px;height:16px;color:#8aa69c;flex-shrink:0}
+.search input{border:none;outline:none;flex:1;font-size:13.5px;background:none}
+.filters{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.fchip{flex-shrink:0;padding:7px 13px;border-radius:99px;border:1.5px solid #e3ede8;background:#fff;font-size:11.5px;font-weight:800;color:#5b7a70;cursor:pointer}
+.fchip.on{background:#0a1f17;color:#fff;border-color:#0a1f17}
+.selbar{position:fixed;bottom:0;left:0;right:0;background:#0a1f17;color:#fff;padding:12px 14px;display:none;align-items:center;justify-content:space-between;gap:8px;z-index:60;box-shadow:0 -4px 20px rgba(0,0,0,.3)}
+.selbar.on{display:flex}
+.selbar .cnt{font-size:13px;font-weight:800}
+.selbar .acts{display:flex;gap:6px;flex-wrap:wrap}
+.selbar button{border:none;border-radius:10px;padding:8px 12px;font-size:11.5px;font-weight:800;cursor:pointer}
+.selbar .b-all{background:rgba(255,255,255,.15);color:#fff}
+.selbar .b-ok{background:#4ade80;color:#04120c}
+.selbar .b-warn{background:#fbbf24;color:#3a2800}
+.selbar .b-x{background:rgba(255,255,255,.15);color:#fff}
+.chk{width:22px;height:22px;border:2px solid #c9dcd3;border-radius:7px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#fff}
+.chk.on{background:#0f6b4e;border-color:#0f6b4e;color:#fff}
+.chk i{width:14px;height:14px}
+.modal{position:fixed;inset:0;background:rgba(4,18,12,.6);z-index:80;display:none;align-items:flex-end;justify-content:center}
+.modal.on{display:flex}
+.sheet{background:#fff;border-radius:22px 22px 0 0;width:100%;max-width:640px;max-height:88vh;overflow-y:auto;padding:20px 18px 30px;animation:up .25s ease}
+@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.sheet h3{font-size:17px;font-weight:900;color:#0a1f17;margin-bottom:4px}
+.sheet .close{float:right;background:#f0f3f2;border:none;width:34px;height:34px;border-radius:10px;cursor:pointer;font-size:16px;font-weight:900;color:#5b7a70}
+.drow{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #f0f5f2;font-size:13px}
+.drow b{color:#0a1f17}
+.drow span{color:#5b7a70;text-align:right;word-break:break-all}
+.doc{display:flex;align-items:center;gap:10px;background:#f7faf8;border:1.5px solid #e3ede8;border-radius:12px;padding:11px 13px;margin-top:8px;font-size:13px;font-weight:700;color:#0f6b4e;text-decoration:none}
+.doc i{width:17px;height:17px;flex-shrink:0}
+.tpl{display:block;width:100%;text-align:left;background:#fff;border:2px solid #e3ede8;border-radius:14px;padding:13px 14px;margin-bottom:8px;cursor:pointer;font-size:13px;font-weight:700;color:#12312a}
+.tpl small{display:block;font-weight:500;color:#8aa69c;margin-top:3px;font-size:11.5px;line-height:1.5}
+.tpl:active{border-color:#0f6b4e}
+textarea,input.sin,select.sin{width:100%;border:2px solid #e3ede8;border-radius:12px;padding:11px 13px;font-size:13.5px;font-family:inherit;outline:none;background:#fbfdfc}
+textarea:focus,input.sin:focus,select.sin:focus{border-color:#0f6b4e}
+textarea{min-height:90px;resize:vertical}
+label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 0 5px;text-transform:uppercase;letter-spacing:.5px}
+.bigbtn{width:100%;padding:14px;border:none;border-radius:13px;background:linear-gradient(120deg,#0a1f17,#0f6b4e);color:#fff;font-size:14px;font-weight:800;cursor:pointer;margin-top:12px;letter-spacing:.4px}
+.bigbtn.gold{background:linear-gradient(120deg,#7a5c10,#b07a1f)}
+.paycard{background:#fff;border-radius:18px;padding:14px;margin-bottom:10px;box-shadow:0 2px 10px rgba(10,31,23,.06);border-left:4px solid #b07a1f}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.bar-lbl{width:64px;font-size:11px;font-weight:800;color:#5b7a70;text-align:right;flex-shrink:0}
+.bar-track{flex:1;background:#eef4f1;border-radius:8px;height:22px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,#0f6b4e,#3aa87e);border-radius:8px;min-width:3px;transition:width .5s ease}
+.bar-val{width:74px;font-size:11.5px;font-weight:800;color:#0a1f17;flex-shrink:0}
+.paymethods{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.pm{border:2px solid #e3ede8;border-radius:13px;padding:11px;text-align:center;cursor:pointer;font-size:12.5px;font-weight:800;color:#5b7a70;background:#fff;transition:.12s}
+.pm.on{border-color:#0f6b4e;background:#eafaf1;color:#0f6b4e}
+.pm small{display:block;font-weight:600;font-size:10.5px;margin-top:2px;color:#8aa69c}
+.kpi-line{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f5f2;font-size:13.5px}
+.kpi-line b{font-weight:900}
+.pos{color:#0f6b4e}.neg{color:#c0392b}
+/* PANORAMIQUE */
+.live-dot{display:inline-block;width:9px;height:9px;border-radius:99px;background:#4ade80;margin-right:6px;animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+.feed{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 2px 10px rgba(10,31,23,.06)}
+.fitem{display:flex;gap:12px;padding:12px 14px;border-bottom:1px solid #f0f5f2;align-items:flex-start}
+.fitem:last-child{border-bottom:none}
+.fico{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.fico i{width:16px;height:16px}
+.fico.g{background:#eafaf1;color:#0f6b4e}.fico.b{background:#e8f0fe;color:#1a56c4}.fico.o{background:#fff4e0;color:#b07a1f}.fico.r{background:#fdecec;color:#c0392b}
+.ftxt{flex:1;font-size:13px;line-height:1.5}
+.ftxt b{color:#0a1f17}
+.ftime{font-size:10.5px;color:#9db8af;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1><i data-lucide="shield"></i>SEN TEW Admin</h1>
+  <div class="top-actions">
+    <button class="icobtn" onclick="silentRefresh();toast('Actualisé ✅')"><i data-lucide="refresh-cw"></i></button>
+    <button class="icobtn" onclick="logout()"><i data-lucide="log-out"></i></button>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab on" onclick="showTab('pano',this)">Panoramique<span class="live-dot" style="margin-left:4px"></span></button>
+  <button class="tab" onclick="showTab('pilotage',this)">Pilotage</button>
+  <button class="tab" onclick="showTab('stats',this)">Statistiques</button>
+  <button class="tab" onclick="showTab('vendeurs',this)">Vendeurs<span class="nb" id="nbV"></span></button>
+  <button class="tab" onclick="showTab('livreurs',this)">Livreurs<span class="nb" id="nbL"></span></button>
+  <button class="tab" onclick="showTab('commandes',this)">Commandes</button>
+  <button class="tab" onclick="showTab('reversements',this)">Reversements</button>
+  <button class="tab" onclick="showTab('compta',this)">Comptabilité</button>
+  <button class="tab" onclick="showTab('salaires',this)">Salaires</button>
+  <button class="tab" onclick="showTab('budget',this)">Budget<span class="nb" id="nbB"></span></button>
+  <button class="tab" onclick="showTab('messages',this)">Messages</button>
+  <button class="tab" onclick="showTab('notifs',this)">Notifs<span class="nb" id="nbN"></span></button>
+</div>
+
+<div class="wrap">
+  <div id="pano" class="panel"></div>
+  <div id="pilotage" class="panel hidden">
+    <div class="kpis">
+      <div class="kpi"><div class="kv" id="kVendors">–</div><div class="kl">Vendeurs actifs</div></div>
+      <div class="kpi warn"><div class="kv" id="kPending">–</div><div class="kl">En attente</div></div>
+      <div class="kpi blue"><div class="kv" id="kOrders">–</div><div class="kl">Commandes</div></div>
+      <div class="kpi money"><div class="kv" id="kCA">–</div><div class="kl">CA livré (F)</div></div>
+    </div>
+    <div class="sect"><i data-lucide="zap"></i>À traiter en priorité</div>
+    <div id="priorityList"><div class="loading">Chargement…</div></div>
+    <button class="bigbtn" onclick="exportCSV()">⬇ï¸ Exporter les données (CSV)</button>
+  </div>
+  <div id="stats" class="panel hidden"></div>
+  <div id="vendeurs" class="panel hidden"></div>
+  <div id="livreurs" class="panel hidden"></div>
+  <div id="commandes" class="panel hidden"></div>
+  <div id="reversements" class="panel hidden"></div>
+  <div id="compta" class="panel hidden"></div>
+  <div id="salaires" class="panel hidden"></div>
+  <div id="budget" class="panel hidden"></div>
+  <div id="messages" class="panel hidden"></div>
+  <div id="notifs" class="panel hidden"></div>
+</div>
+
+<div class="selbar" id="selbar">
+  <span class="cnt" id="selCnt">0 sélectionné</span>
+  <div class="acts">
+    <button class="b-all" onclick="selAll()">Tout</button>
+    <button class="b-ok" onclick="bulkSet('active')">✅ Valider</button>
+    <button class="b-warn" onclick="bulkSet('suspended')">⏸️ Suspendre</button>
+    <button class="b-x" onclick="selClear()">✖</button>
+  </div>
+</div>
+
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* â•â•â•â•â•â•â•â•â•â• CONFIG â•â•â•â•â•â•â•â•â•â• */
+var SUPA='https://tjqkruhwmjzgfvtouqza.supabase.co';
+var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
+var H={apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'};
+var COMMISSION=8;
+var EJ_PUB='rky0OpQeK3KI6MwRU';
+var EJ_SVC='service_38ofak8';
+var EJ_TPL='template_dtblfiq';
+var PAY_METHODS=[
+  {id:'wave',lbl:'🌊 Wave',sub:'Mobile'},
+  {id:'orange',lbl:'🟠 Orange Money',sub:'Mobile'},
+  {id:'free',lbl:'🟣 Free Money',sub:'Mobile'},
+  {id:'bank',lbl:' Virement bancaire',sub:'N° de compte requis'}
+];
+/* BAREMES PAIE SN (part salariale) */
+var TAUX={ipres:5.6,css:7};
+
+/* â•â•â•â•â•â•â•â•â•â• GARDE DE SESSION â•â•â•â•â•â•â•â•â•â• */
+var sess=sessionStorage.getItem('sentew_admin')||localStorage.getItem('sentew_admin');
+if(!sess){location.replace('login-admin.html');}
+function logout(){sessionStorage.removeItem('sentew_admin');localStorage.removeItem('sentew_admin');location.replace('login-admin.html');}
+
+/* â•â•â•â•â•â•â•â•â•â• HELPERS â•â•â•â•â•â•â•â•â•â• */
+function $(id){return document.getElementById(id);}
+function toast(m){var t=$('toast');t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on');},2800);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function fmtDate(d){if(!d)return'';try{var x=new Date(d);return x.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'})+' '+x.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}catch(e){return'';}}
+function fmtN(n){return Math.round(n||0).toLocaleString('fr-FR');}
+function timeAgo(d){if(!d)return'';var s=(Date.now()-new Date(d).getTime())/1000;if(s<60)return'à l\u2019instant';if(s<3600)return'il y a '+Math.floor(s/60)+' min';if(s<86400)return'il y a '+Math.floor(s/3600)+' h';return'il y a '+Math.floor(s/86400)+' j';}
+async function api(t,q,o){o=o||{};var r=await fetch(SUPA+'/rest/v1/'+t+(q||''),Object.assign({headers:H},o));if(o.method&&o.method!=='GET')return r;var j=await r.json();return Array.isArray(j)?j:[];}
+function setBadge(id,n){var b=$(id);if(!b)return;if(n>0){b.textContent=n;b.classList.add('on');}else{b.classList.remove('on');}}
+function dlCSV(name,rows){var csv=rows.map(function(r){return r.map(function(c){return '"'+String(c==null?'':c).replace(/"/g,'""')+'"';}).join(',');}).join('\n');var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,﻿'+encodeURIComponent(csv);a.download=name;a.click();}
+
+/* â•â•â•â•â•â•â•â•â•â• ÉTAT â•â•â•â•â•â•â•â•â•â• */
+var DATA={vendors:[],drivers:[],orders:[],expenses:[],payouts:[],salaries:[],invoices:[],dels:[]};
+var FILT={vendeurs:'all',livreurs:'all',commandes:'all'};
+var SRCH={vendeurs:'',livreurs:''};
+var SEL={list:[],table:null};
+var CUR='vendeurs';
+var PM_CHOICE='wave';
+
+/* â•â•â•â•â•â•â•â•â•â• ONGLETS â•â•â•â•â•â•â•â•â•â• */
+function showTab(id,btn){
+  selClear();closeModal();
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.add('hidden');});
+  $(id).classList.remove('hidden');
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});
+  if(btn)btn.classList.add('on');
+  if(id==='pano')renderPano();
+  if(id==='stats')renderStats();
+  if(id==='vendeurs')renderVendors();
+  if(id==='livreurs')renderDrivers();
+  if(id==='commandes')renderOrders();
+  if(id==='reversements')renderPayouts();
+  if(id==='compta')renderCompta();
+  if(id==='salaires')renderSalaries();
+  if(id==='messages')renderMessages();
+  if(id==='notifs')loadNotifs();
+}
+
+/* â•â•â•â•â•â•â•â•â•â• CHARGEMENT â•â•â•â•â•â•â•â•â•â• */
+async function loadAll(){
+  DATA.vendors=await api('vendors','?select=*&order=created_at.desc');
+  DATA.drivers=await api('drivers','?select=*&order=created_at.desc');
+  DATA.orders=await api('orders','?select=*&order=created_at.desc&limit=300');
+  DATA.expenses=await api('expenses','?select=*&order=expense_date.desc&limit=100');
+  DATA.payouts=await api('payouts','?select=*&order=created_at.desc&limit=50');
+  DATA.salaries=await api('salaries','?select=*&order=created_at.desc&limit=100');
+  DATA.invoices=await api('invoices','?select=*&order=created_at.desc&limit=100');
+  DATA.dels=await api('deletion_requests','?select=*&order=created_at.desc&limit=50');
+  loadPilotage();
+  if(!$('pano').classList.contains('hidden'))renderPano();
+}
+
+/* â•â•â•â•â•â•â•â•â•â• PANORAMIQUE — ACTIVITÉ TEMPS RÉEL â•â•â•â•â•â•â•â•â•â• */
+function renderPano(){
+  var el=$('pano');
+  var today=new Date().toISOString().slice(0,10);
+  var oToday=DATA.orders.filter(function(o){return String(o.created_at||'').slice(0,10)===today;});
+  var caToday=oToday.reduce(function(s,o){return s+(o.total||0);},0);
+  var enCours=DATA.orders.filter(function(o){return o.status==='pending'||o.status==='preparing'||o.status==='in_delivery';}).length;
+  var vToday=DATA.vendors.filter(function(v){return String(v.created_at||'').slice(0,10)===today;}).length;
+  var dToday=DATA.drivers.filter(function(d){return String(d.created_at||'').slice(0,10)===today;}).length;
+  /* flux d'activité fusionné */
+  var feed=[];
+  DATA.orders.slice(0,12).forEach(function(o){feed.push({t:o.created_at,ico:'shopping-bag',cls:'b',txt:'<b>Commande #'+esc(String(o.id)).slice(0,8)+'</b> · '+fmtN(o.total)+' F · <span class="pill '+esc(o.status||'')+'">'+esc(o.status||'')+'</span> · '+esc(o.customer_email||o.user_email||'')});});
+  DATA.vendors.slice(0,6).forEach(function(v){feed.push({t:v.created_at,ico:'store',cls:'g',txt:'<b>'+esc(v.shop_name||v.full_name||'Vendeur')+'</b> a rejoint la plateforme · '+esc(v.city||'')});});
+  DATA.drivers.slice(0,6).forEach(function(d){feed.push({t:d.created_at,ico:'bike',cls:'o',txt:'<b>'+esc(d.full_name||'Livreur')+'</b> s\u2019est inscrit comme livreur · '+esc(d.city||d.zone||'')});});
+  DATA.dels.slice(0,6).forEach(function(x){feed.push({t:x.created_at,ico:'user-x',cls:'r',txt:'<b>'+esc(x.user_email||'')+'</b> demande la suppression de son compte'+(x.reason?' · motif : '+esc(x.reason):'')});});
+  feed.sort(function(a,b){return new Date(b.t)-new Date(a.t);});
+  var feedHtml=feed.slice(0,20).map(function(f){
+    return '<div class="fitem"><div class="fico '+f.cls+'"><i data-lucide="'+f.ico+'"></i></div><div class="ftxt">'+f.txt+'</div><div class="ftime">'+timeAgo(f.t)+'</div></div>';
+  }).join('')||'<div class="empty">Aucune activité pour le moment.</div>';
+  /* churn */
+  var reasons={};DATA.dels.forEach(function(x){var r=x.reason||'Sans motif';reasons[r]=(reasons[r]||0)+1;});
+  var churnHtml=Object.keys(reasons).map(function(r){return '<div class="kpi-line"><span>'+esc(r)+'</span><b>'+reasons[r]+'</b></div>';}).join('')||'<div class="empty">Aucune suppression de compte. Excellente rétention ! 🎉</div>';
+  el.innerHTML=
+   '<div class="sect"><span class="live-dot"></span>En direct — aujourd\u2019hui (actualisation auto 30 s)</div>'+
+   '<div class="kpis">'+
+   '<div class="kpi blue"><div class="kv">'+oToday.length+'</div><div class="kl">Commandes aujourd\u2019hui</div></div>'+
+   '<div class="kpi money"><div class="kv">'+fmtN(caToday)+'</div><div class="kl">CA aujourd\u2019hui (F)</div></div>'+
+   '<div class="kpi warn"><div class="kv">'+enCours+'</div><div class="kl">Commandes en cours</div></div>'+
+   '<div class="kpi"><div class="kv">'+(vToday+dToday)+'</div><div class="kl">Inscriptions jour</div></div>'+
+   '</div>'+
+   '<div class="sect"><i data-lucide="activity"></i>Flux d\u2019activité — clients · vendeurs · livreurs</div>'+
+   '<div class="feed">'+feedHtml+'</div>'+
+   '<div class="sect"><i data-lucide="user-x"></i>Analyse des suppressions de compte</div>'+
+   '<div class="card2">'+churnHtml+'</div>';
+  lucide.createIcons();
+}
+
+/* â•â•â•â•â•â•â•â•â•â• PILOTAGE â•â•â•â•â•â•â•â•â•â• */
+function loadPilotage(){
+  var v=DATA.vendors,d=DATA.drivers,o=DATA.orders;
+  var pendV=v.filter(function(x){return x.status==='pending';}).length;
+  var pendD=d.filter(function(x){return x.status==='pending';}).length;
+  var ca=o.filter(function(x){return x.status==='delivered';}).reduce(function(s,x){return s+(x.total||0);},0);
+  $('kVendors').textContent=v.filter(function(x){return x.status==='active'||x.status==='approved';}).length;
+  $('kPending').textContent=pendV+pendD;
+  $('kOrders').textContent=o.length;
+  $('kCA').textContent=fmtN(ca);
+  setBadge('nbV',pendV);setBadge('nbL',pendD);
+  var html='';
+  v.filter(function(x){return x.status==='pending';}).forEach(function(x){html+='<div class="card2" style="cursor:pointer" onclick="openDetail(\'vendors\',\''+x.id+'\')"><div class="row"><div><div class="nm"> '+esc(x.shop_name||x.full_name||'Vendeur')+'</div><div class="meta">'+esc(x.city||'')+' · '+fmtDate(x.created_at)+'</div></div><span class="pill pending">À valider</span></div></div>';});
+  d.filter(function(x){return x.status==='pending';}).forEach(function(x){html+='<div class="card2" style="cursor:pointer" onclick="openDetail(\'drivers\',\''+x.id+'\')"><div class="row"><div><div class="nm">🛵 '+esc(x.full_name||'Livreur')+'</div><div class="meta">'+esc(x.city||x.zone||'')+' · '+fmtDate(x.created_at)+'</div></div><span class="pill pending">À valider</span></div></div>';});
+  DATA.dels.filter(function(x){return x.status==='pending';}).forEach(function(x){html+='<div class="card2"><div class="row"><div><div class="nm">🗑ï¸ '+esc(x.user_email||'')+'</div><div class="meta">Suppression de compte · '+(x.reason?esc(x.reason)+' · ':'')+fmtDate(x.created_at)+'</div></div><span class="pill rejected">Churn</span></div><div class="actions"><button class="abtn blue" onclick="setDel(\''+x.id+'\',\'contacted\')"><i data-lucide="phone"></i>Contacté</button><button class="abtn danger" onclick="setDel(\''+x.id+'\',\'deleted\')"><i data-lucide="trash-2"></i>Compte supprimé</button></div></div>';});
+  $('priorityList').innerHTML=html||'<div class="empty">✅ Aucune demande en attente. Tout est à jour !</div>';
+}
+async function setDel(id,st){await api('deletion_requests','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:st})});toast('Demande mise à jour ✅');DATA.dels=await api('deletion_requests','?select=*&order=created_at.desc&limit=50');loadPilotage();}
+
+/* â•â•â•â•â•â•â•â•â•â• STATISTIQUES â•â•â•â•â•â•â•â•â•â• */
+function renderStats(){
+  var el=$('stats');
+  var o=DATA.orders;
+  var deliv=o.filter(function(x){return x.status==='delivered';});
+  var ca=deliv.reduce(function(s,x){return s+(x.total||0);},0);
+  var commission=ca*COMMISSION/100;
+  var avg=deliv.length?ca/deliv.length:0;
+  var days=[],i,d,key;
+  for(i=6;i>=0;i--){d=new Date();d.setDate(d.getDate()-i);key=d.toISOString().slice(0,10);days.push({key:key,lbl:d.toLocaleDateString('fr-FR',{weekday:'short'}),val:0});}
+  deliv.forEach(function(x){var k=String(x.created_at||'').slice(0,10);var dd=days.find(function(y){return y.key===k;});if(dd)dd.val+=(x.total||0);});
+  var maxD=Math.max.apply(null,days.map(function(x){return x.val;}))||1;
+  var bars=days.map(function(x){return '<div class="bar-row"><div class="bar-lbl">'+x.lbl+'</div><div class="bar-track"><div class="bar-fill" style="width:'+Math.max(3,Math.round(x.val/maxD*100))+'%"></div></div><div class="bar-val">'+fmtN(x.val)+' F</div></div>';}).join('');
+  var st={};o.forEach(function(x){st[x.status]=(st[x.status]||0)+1;});
+  var stHtml=Object.keys(st).map(function(k){return '<div class="kpi-line"><span>'+esc(k)+'</span><b>'+st[k]+'</b></div>';}).join('')||'<div class="empty">Aucune commande</div>';
+  var top=DATA.vendors.filter(function(v){return (v.pending_balance||0)>0;}).sort(function(a,b){return (b.pending_balance||0)-(a.pending_balance||0);}).slice(0,5);
+  var topHtml=top.map(function(v,ix){return '<div class="kpi-line"><span>'+(ix+1)+'. '+esc(v.shop_name||v.full_name||'')+'</span><b>'+fmtN(v.pending_balance)+' F</b></div>';}).join('')||'<div class="empty">Aucun solde vendeur</div>';
+  el.innerHTML=
+   '<div class="kpis">'+
+   '<div class="kpi money"><div class="kv">'+fmtN(ca)+'</div><div class="kl">CA livré total (F)</div></div>'+
+   '<div class="kpi"><div class="kv">'+fmtN(commission)+'</div><div class="kl">Commissions ('+COMMISSION+'%)</div></div>'+
+   '<div class="kpi blue"><div class="kv">'+deliv.length+'</div><div class="kl">Livrées</div></div>'+
+   '<div class="kpi"><div class="kv">'+fmtN(avg)+'</div><div class="kl">Panier moyen (F)</div></div>'+
+   '</div>'+
+   '<div class="sect"><i data-lucide="bar-chart-3"></i>CA des 7 derniers jours</div><div class="card2">'+bars+'</div>'+
+   '<div class="sect"><i data-lucide="pie-chart"></i>Commandes par statut</div><div class="card2">'+stHtml+'</div>'+
+   '<div class="sect"><i data-lucide="trophy"></i>Top vendeurs (solde à reverser)</div><div class="card2">'+topHtml+'</div>';
+  lucide.createIcons();
+}
+
+/* â•â•â•â•â•â•â•â•â•â• FILTRES + RECHERCHE â•â•â•â•â•â•â•â•â•â• */
+function toolsHtml(tab){
+  var filters=tab==='commandes'
+    ?[['all','Toutes'],['pending','Attente'],['preparing','Préparation'],['in_delivery','En livraison'],['delivered','Livrées'],['cancelled','Annulées']]
+    :[['all','Tous'],['pending','En attente'],['active','Actifs'],['suspended','Suspendus'],['rejected','Rejetés']];
+  var h='<div class="tools">';
+  if(tab!=='commandes')h+='<div class="search"><i data-lucide="search"></i><input placeholder="Rechercher nom, ville, téléphone…" oninput="SRCH[\''+tab+'\']=this.value.toLowerCase();'+(tab==='vendeurs'?'renderVendors':'renderDrivers')+'()"></div>';
+  h+='<div class="filters">'+filters.map(function(f){return '<button class="fchip'+(FILT[tab]===f[0]?' on':'')+'" onclick="setFilt(\''+tab+'\',\''+f[0]+'\')">'+f[1]+'</button>';}).join('')+'</div></div>';
+  return h;
+}
+function setFilt(t,f){FILT[t]=f;if(t==='vendeurs')renderVendors();else if(t==='livreurs')renderDrivers();else renderOrders();}
+function matchSrch(x){var q=(SRCH[CUR]||'');if(!q)return true;return [x.full_name,x.shop_name,x.email,x.phone,x.city,x.zone].join(' ').toLowerCase().indexOf(q)>-1;}
+
+/* â•â•â•â•â•â•â•â•â•â• VENDEURS â•â•â•â•â•â•â•â•â•â• */
+function renderVendors(){
+  CUR='vendeurs';
+  var rows=DATA.vendors.filter(function(x){return FILT.vendeurs==='all'||x.status===FILT.vendeurs||(FILT.vendeurs==='active'&&x.status==='approved');}).filter(matchSrch);
+  var h=toolsHtml('vendeurs');
+  if(!rows.length){$('vendeurs').innerHTML=h+'<div class="empty">Aucun vendeur dans ce filtre.</div>';lucide.createIcons();return;}
+  h+=rows.map(function(v){
+    var sel=SEL.list.indexOf(v.id)>-1;
+    return '<div class="card2'+(sel?' sel':'')+'"><div class="row">'+
+    '<div class="chk'+(sel?' on':'')+'" onclick="toggleSel(event,\'vendors\',\''+v.id+'\')">'+(sel?'<i data-lucide="check"></i>':'')+'</div>'+
+    '<div style="flex:1;cursor:pointer" onclick="openDetail(\'vendors\',\''+v.id+'\')"><div class="nm">'+esc(v.shop_name||'Boutique')+'</div><div class="meta">'+esc(v.full_name||'')+' · '+esc(v.city||'')+' · '+esc(v.phone||'')+'<br>'+fmtDate(v.created_at)+' · commission '+(v.commission_rate||COMMISSION)+'% · solde '+fmtN(v.pending_balance||0)+' F</div></div>'+
+    '<span class="pill '+esc(v.status||'pending')+'">'+esc(v.status||'pending')+'</span></div>'+
+    '<div class="actions">'+actionBtns('vendors',v)+'</div></div>';
+  }).join('');
+  $('vendeurs').innerHTML=h;lucide.createIcons();updateSelbar();
+}
+
+/* â•â•â•â•â•â•â•â•â•â• LIVREURS â•â•â•â•â•â•â•â•â•â• */
+function renderDrivers(){
+  CUR='livreurs';
+  var rows=DATA.drivers.filter(function(x){return FILT.livreurs==='all'||x.status===FILT.livreurs;}).filter(matchSrch);
+  var h=toolsHtml('livreurs');
+  if(!rows.length){$('livreurs').innerHTML=h+'<div class="empty">Aucun livreur dans ce filtre.</div>';lucide.createIcons();return;}
+  h+=rows.map(function(d){
+    var sel=SEL.list.indexOf(d.id)>-1;
+    return '<div class="card2'+(sel?' sel':'')+'"><div class="row">'+
+    '<div class="chk'+(sel?' on':'')+'" onclick="toggleSel(event,\'drivers\',\''+d.id+'\')">'+(sel?'<i data-lucide="check"></i>':'')+'</div>'+
+    '<div style="flex:1;cursor:pointer" onclick="openDetail(\'drivers\',\''+d.id+'\')"><div class="nm">'+esc(d.full_name||'Livreur')+'</div><div class="meta">'+esc(d.vehicle||d.vehicle_model||d.vehicle_type||'')+' · '+esc(d.city||d.zone||'')+' · '+esc(d.phone||'')+'<br>'+fmtDate(d.created_at)+' · '+fmtN(d.total_deliveries||0)+' courses</div></div>'+
+    '<span class="pill '+esc(d.status||'pending')+'">'+esc(d.status||'pending')+'</span></div>'+
+    '<div class="actions">'+actionBtns('drivers',d)+'</div></div>';
+  }).join('');
+  $('livreurs').innerHTML=h;lucide.createIcons();updateSelbar();
+}
+
+function actionBtns(table,x){
+  var e=esc(x.email||'');
+  var role=table==='vendors'?'vendeur':'livreur';
+  var b='<button class="abtn blue" onclick="openDetail(\''+table+'\',\''+x.id+'\')"><i data-lucide="eye"></i>Détails</button>';
+  if(x.status==='pending')b+='<button class="abtn ok" onclick="setStatus(\''+table+'\',\''+x.id+'\',\'active\',\''+e+'\',\''+role+'\')"><i data-lucide="check"></i>Valider</button><button class="abtn danger" onclick="setStatus(\''+table+'\',\''+x.id+'\',\'rejected\',\''+e+'\',\''+role+'\')"><i data-lucide="x"></i>Rejeter</button>';
+  if(x.status==='active'||x.status==='approved')b+='<button class="abtn warn" onclick="setStatus(\''+table+'\',\''+x.id+'\',\'suspended\',\''+e+'\',\''+role+'\')"><i data-lucide="pause"></i>Suspendre</button>';
+  if(x.status==='suspended')b+='<button class="abtn ok" onclick="setStatus(\''+table+'\',\''+x.id+'\',\'active\',\''+e+'\',\''+role+'\')"><i data-lucide="play"></i>Réactiver</button>';
+  if(x.status==='rejected')b+='<button class="abtn ok" onclick="setStatus(\''+table+'\',\''+x.id+'\',\'active\',\''+e+'\',\''+role+'\')"><i data-lucide="check"></i>Valider quand même</button>';
+  return b;
+}
+
+/* â•â•â•â•â•â•â•â•â•â• DÉTAIL + KYC â•â•â•â•â•â•â•â•â•â• */
+async function openDetail(table,id){
+  var x=(table==='vendors'?DATA.vendors:DATA.drivers).find(function(r){return String(r.id)===String(id);});
+  if(!x)return;
+  var role=table==='vendors'?'Vendeur':'Livreur';
+  var h='<button class="close" onclick="closeModal()">✕</button><h3>'+esc(x.shop_name||x.full_name||role)+'</h3><div class="meta">'+role+' · <span class="pill '+esc(x.status||'')+'">'+esc(x.status||'')+'</span></div><div style="margin-top:10px">';
+  var keys=Object.keys(x);
+  for(var i=0;i<keys.length;i++){
+    var k=keys[i],val=x[k];
+    if(val===null||val===''||k==='password_hash')continue;
+    if(/_at$/.test(k))val=fmtDate(val);
+    if(typeof val==='boolean')val=val?'Oui':'Non';
+    h+='<div class="drow"><b>'+esc(k)+'</b><span>'+esc(val)+'</span></div>';
+  }
+  h+='</div><div class="sect"><i data-lucide="file-check"></i>Documents d\u2019identité</div><div id="kycZone"><div class="loading">Recherche…</div></div>';
+  h+='<div class="actions" style="margin-top:14px">'+actionBtns(table,x)+'</div>';
+  $('sheet').innerHTML=h;$('modal').classList.add('on');lucide.createIcons();
+  var docs=await api('kyc_documents','?select=*&order=created_at.desc&limit=100');
+  docs=docs.filter(function(dc){return x.email&&(dc.user_email===x.email||dc.email===x.email||dc.vendor_email===x.email||dc.driver_email===x.email);});
+  var z=$('kycZone');if(!z)return;
+  if(!docs.length){z.innerHTML='<div class="empty">Aucun document enregistré pour ce compte.</div>';return;}
+  z.innerHTML=docs.map(function(dc){var url=dc.file_url||dc.url||dc.document_url||'#';return '<a class="doc" href="'+esc(url)+'" target="_blank"><i data-lucide="file-text"></i>'+esc(dc.doc_type||dc.type||'Document')+'<span style="margin-left:auto;font-size:11px;color:#8aa69c">'+fmtDate(dc.created_at)+'</span></a>';}).join('');
+  lucide.createIcons();
+}
+function closeModal(){$('modal').classList.remove('on');}
+
+/* â•â•â•â•â•â•â•â•â•â• ACTIONS + NOTIF AUTO â•â•â•â•â•â•â•â•â•â• */
+var MSGS={
+  active:'Félicitations ! Votre compte {role} SEN TEW est maintenant actif. Vous pouvez commencer.',
+  suspended:'Votre compte {role} SEN TEW a été suspendu. Contactez le support pour plus d\u2019informations.',
+  rejected:'Votre demande {role} SEN TEW n\u2019a pas été retenue. Contactez le support pour plus de détails.'
+};
+async function notify(email,title,message){if(!email)return;try{await api('notifications','',{method:'POST',body:JSON.stringify({audience:'user',user_email:email,type:'account',title:title,message:message})});}catch(e){}}
+async function setStatus(table,id,status,email,role){
+  await api(table,'?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:status})});
+  if(status!=='pending')await notify(email,'Statut de votre compte',(MSGS[status]||'Mise à jour de votre compte.').replace('{role}',role));
+  toast('Statut mis à jour ✅');closeModal();await loadAll();
+  if(table==='vendors'&&!$('vendeurs').classList.contains('hidden'))renderVendors();
+  if(table==='drivers'&&!$('livreurs').classList.contains('hidden'))renderDrivers();
+}
+
+/* â•â•â•â•â•â•â•â•â•â• SÉLECTION MULTIPLE â•â•â•â•â•â•â•â•â•â• */
+function toggleSel(ev,table,id){ev.stopPropagation();var i=SEL.list.indexOf(id);if(i>-1)SEL.list.splice(i,1);else SEL.list.push(id);SEL.table=table;if(CUR==='vendeurs')renderVendors();else renderDrivers();}
+function selAll(){
+  var f=CUR==='vendeurs'?FILT.vendeurs:FILT.livreurs;
+  var rows=(CUR==='vendeurs'?DATA.vendors:DATA.drivers).filter(function(x){return f==='all'||x.status===f;}).filter(matchSrch);
+  var ids=rows.map(function(x){return x.id;});
+  var allIn=ids.every(function(id){return SEL.list.indexOf(id)>-1;});
+  SEL.table=CUR==='vendeurs'?'vendors':'drivers';
+  SEL.list=allIn?[]:ids;
+  if(CUR==='vendeurs')renderVendors();else renderDrivers();
+}
+function selClear(){SEL.list=[];SEL.table=null;updateSelbar();}
+function updateSelbar(){var b=$('selbar');if(SEL.list.length){b.classList.add('on');$('selCnt').textContent=SEL.list.length+' sélectionné'+(SEL.list.length>1?'s':'');}else{b.classList.remove('on');}}
+async function bulkSet(status){
+  if(!SEL.list.length)return;
+  if(!confirm(SEL.list.length+' compte(s) → '+status+' ?'))return;
+  var table=SEL.table,role=table==='vendors'?'vendeur':'livreur',src=table==='vendors'?DATA.vendors:DATA.drivers;
+  for(var i=0;i<SEL.list.length;i++){
+    var id=SEL.list[i];
+    await api(table,'?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:status})});
+    var x=src.find(function(r){return String(r.id)===String(id);});
+    if(x&&x.email)await notify(x.email,'Statut de votre compte',(MSGS[status]||'Mise à jour.').replace('{role}',role));
+  }
+  toast(SEL.list.length+' compte(s) mis à jour ✅');selClear();await loadAll();
+  if(CUR==='vendeurs')renderVendors();else renderDrivers();
+}
+
+/* â•â•â•â•â•â•â•â•â•â• COMMANDES â•â•â•â•â•â•â•â•â•â• */
+function renderOrders(){
+  var rows=DATA.orders.filter(function(o){return FILT.commandes==='all'||o.status===FILT.commandes;});
+  var h=toolsHtml('commandes');
+  if(!rows.length){$('commandes').innerHTML=h+'<div class="empty">Aucune commande dans ce filtre.</div>';lucide.createIcons();return;}
+  h+=rows.map(function(o){
+    return '<div class="card2"><div class="row"><div><div class="nm">Commande #'+esc(String(o.id)).slice(0,8)+'</div><div class="meta">'+esc(o.customer_email||o.user_email||'')+' · '+fmtDate(o.created_at)+'</div></div><div style="text-align:right"><div class="nm">'+fmtN(o.total)+' F</div><span class="pill '+esc(o.status||'')+'">'+esc(o.status||'')+'</span></div></div></div>';
+  }).join('');
+  $('commandes').innerHTML=h;lucide.createIcons();
+}
+
+/* â•â•â•â•â•â•â•â•â•â• REVERSEMENTS â•â•â•â•â•â•â•â•â•â• */
+function pmGrid(sel){
+  return '<div class="paymethods">'+PAY_METHODS.map(function(m){return '<div class="pm'+(sel===m.id?' on':'')+'" onclick="PM_CHOICE=\''+m.id+'\';document.querySelectorAll(\'.pm\').forEach(function(p){p.classList.remove(\'on\')});this.classList.add(\'on\');document.getElementById(\'bankZone\').style.display=(\''+m.id+'\'===\'bank\')?\'block\':\'none\'">'+m.lbl+'<small>'+m.sub+'</small></div>';}).join('')+'</div>';
+}
+async function renderPayouts(){
+  var el=$('reversements');
+  el.innerHTML='<div class="loading">Chargement…</div>';
+  var vh=DATA.vendors.filter(function(v){return v.status==='active'||v.status==='approved';}).map(function(v){
+    var due=v.pending_balance||0;
+    return '<div class="paycard"><div class="row"><div><div class="nm">'+esc(v.shop_name||v.full_name||'Vendeur')+'</div><div class="meta">'+esc(v.email||'pas d\u2019email')+' · '+(v.payout_method||'à définir')+'</div></div><div style="text-align:right"><div class="nm" style="color:#b07a1f">'+fmtN(due)+' F</div><div class="meta">à reverser</div></div></div>'+
+    (due>0?'<label class="lb">Moyen de reversement</label>'+pmGrid('wave')+'<div id="bankZone" style="display:none"><label class="lb"> N° de compte / IBAN / RIB</label><input class="sin" id="bank_'+v.id+'" placeholder="SN08 XXXX XXXX XXXX"></div>'+
+    '<div class="actions"><button class="abtn ok" onclick="payNow(\''+v.id+'\',\''+esc(v.email||'')+'\',\''+esc(v.shop_name||v.full_name||'')+'\','+due+')"><i data-lucide="banknote"></i>Marquer payé '+fmtN(due)+' F</button></div>':'<div class="meta" style="margin-top:8px">✅ Rien à reverser</div>')+'</div>';
+  }).join('');
+  var hist=DATA.payouts.map(function(p){
+    return '<div class="card2"><div class="row"><div><div class="nm">'+esc(p.recipient_name||p.recipient_email||'')+'</div><div class="meta">'+esc(p.method||'')+' · '+fmtDate(p.paid_at||p.created_at)+'</div></div><div style="text-align:right"><div class="nm">'+fmtN(p.amount)+' F</div><span class="pill '+(p.status==='paid'?'paid':'pending')+'">'+esc(p.status||'')+'</span></div></div></div>';
+  }).join('');
+  el.innerHTML='<div class="sect"><i data-lucide="percent"></i>Commission plateforme : '+COMMISSION+'% par vente</div>'+
+    '<div class="sect"><i data-lucide="banknote"></i>À reverser aux vendeurs actifs</div>'+(vh||'<div class="empty">Aucun vendeur actif.</div>')+
+    '<div class="sect"><i data-lucide="history"></i>Historique</div>'+(hist||'<div class="empty">Aucun reversement enregistré.</div>');
+  lucide.createIcons();
+}
+async function payNow(vendorId,email,name,amount){
+  var mLbl=PAY_METHODS.find(function(m){return m.id===PM_CHOICE;}).lbl;
+  var bankInfo='';
+  if(PM_CHOICE==='bank'){
+    var bi=$('bank_'+vendorId);
+    bankInfo=bi?bi.value.trim():'';
+    if(!bankInfo){toast(' Saisis le n° de compte bancaire');return;}
+  }
+  if(!confirm('Payer '+fmtN(amount)+' F à '+name+' via '+mLbl+(bankInfo?' ('+bankInfo+')':'')+' ?'))return;
+  await api('payouts','',{method:'POST',body:JSON.stringify({recipient_type:'vendor',recipient_email:email,recipient_name:name,amount:amount,method:mLbl+(bankInfo?' · '+bankInfo:''),status:'paid',paid_at:new Date().toISOString()})});
+  await api('vendors','?id=eq.'+vendorId,{method:'PATCH',body:JSON.stringify({pending_balance:0})});
+  await notify(email,'Reversement effectué 💸','Votre reversement de '+fmtN(amount)+' FCFA a été effectué via '+mLbl+'. Merci de votre confiance !');
+  toast('Reversement enregistré ✅');await loadAll();renderPayouts();
+}
+
+/* â•â•â•â•â•â•â•â•â•â• COMPTABILITÉ + FACTURES â•â•â•â•â•â•â•â•â•â• */
+function renderCompta(){
+  var el=$('compta');
+  var ca=DATA.orders.filter(function(x){return x.status==='delivered';}).reduce(function(s,x){return s+(x.total||0);},0);
+  var commissions=ca*COMMISSION/100;
+  var expTotal=DATA.expenses.reduce(function(s,x){return s+(x.amount||0);},0);
+  var invExp=DATA.invoices.filter(function(x){return x.type==='expense'&&x.status==='paid';}).reduce(function(s,x){return s+(x.amount||0);},0);
+  var salTotal=DATA.salaries.filter(function(x){return x.status==='paid';}).reduce(function(s,x){return s+(x.base_salary||0)+(x.bonuses||0)-(x.deductions||0);},0);
+  var net=commissions-expTotal-invExp-salTotal;
+  var expHtml=DATA.expenses.map(function(x){
+    return '<div class="kpi-line"><span>'+esc(x.label)+' <small style="color:#9db8af">'+esc(x.category||'')+' · '+fmtDate(x.expense_date)+'</small></span><b class="neg">−'+fmtN(x.amount)+' F</b></div>';
+  }).join('')||'<div class="empty">Aucune dépense enregistrée.</div>';
+  var invHtml=DATA.invoices.map(function(x){
+    return '<div class="kpi-line"><span>🧾 '+esc(x.number||'')+' · '+esc(x.supplier||x.label||'')+' <small style="color:#9db8af">'+fmtDate(x.invoice_date)+'</small></span><span style="display:flex;gap:8px;align-items:center"><b class="'+(x.type==='sale'?'pos':'neg')+'">'+(x.type==='sale'?'+':'−')+fmtN(x.amount)+' F</b>'+'<button class="abtn blue" style="padding:5px 9px;font-size:10.5px" onclick="dlInvoicePDF(\''+x.id+'\')">PDF</button><button class="abtn plain" style="padding:5px 9px;font-size:10.5px" onclick="dlInvoiceCSV(\''+x.id+'\')">CSV</button>'+(x.status!=='paid'?'<button class="abtn ok" style="padding:5px 9px;font-size:10.5px" onclick="payInvoice(\''+x.id+'\')">Payée</button>':'<button class="abtn warn" style="padding:5px 9px;font-size:10.5px" onclick="dlRecuPDF(\''+x.id+'\')">🧾 Reçu</button>')+'</span></div>';
+  }).join('')||'<div class="empty">Aucune facture.</div>';
+  el.innerHTML=
+   '<div class="kpis">'+
+   '<div class="kpi money"><div class="kv">'+fmtN(ca)+'</div><div class="kl">CA livré (F)</div></div>'+
+   '<div class="kpi"><div class="kv">'+fmtN(commissions)+'</div><div class="kl">Commissions perçues</div></div>'+
+   '<div class="kpi warn"><div class="kv">'+fmtN(expTotal+invExp+salTotal)+'</div><div class="kl">Sorties (dép.+fact.+salaires)</div></div>'+
+   '<div class="kpi blue"><div class="kv '+(net>=0?'pos':'neg')+'">'+fmtN(net)+'</div><div class="kl">Bénéfice net (F)</div></div>'+
+   '</div>'+
+   '<div class="sect"><i data-lucide="plus-circle"></i>Ajouter une dépense</div>'+
+   '<div class="card2"><label class="lb">Libellé</label><input class="sin" id="exLabel" placeholder="Ex: Campagne pub Facebook"><label class="lb">Catégorie</label><select class="sin" id="exCat"><option value="marketing">Marketing</option><option value="livraison">Livraison / logistique</option><option value="tech">Technique / hébergement</option><option value="salaires">Salaires</option><option value="taxes">Taxes / fiscalité</option><option value="general">Autre</option></select><label class="lb">Montant (F)</label><input class="sin" id="exAmount" type="number" placeholder="25000"><button class="bigbtn" onclick="addExpense()">➕ Enregistrer la dépense</button></div>'+
+   '<div class="sect"><i data-lucide="receipt"></i>Dépenses récentes</div><div class="card2">'+expHtml+'</div>'+
+   '<div class="sect"><i data-lucide="file-text"></i>Factures</div>'+
+   '<div class="card2"><label class="lb">N° facture</label><input class="sin" id="invNum" placeholder="FAC-2026-001"><label class="lb">Fournisseur / Client</label><input class="sin" id="invSup" placeholder="Ex: Hébergeur, imprimeur…"><label class="lb">Libellé</label><input class="sin" id="invLbl" placeholder="Objet de la facture"><label class="lb">Type</label><select class="sin" id="invType"><option value="expense">Dépense (sortie)</option><option value="sale">Vente (entrée)</option></select><label class="lb">Montant HT (F)</label><input class="sin" id="invAmt" type="number" placeholder="50000"><label class="lb">TVA (F, 0 si exonéré)</label><input class="sin" id="invTax" type="number" placeholder="0"><button class="bigbtn gold" onclick="addInvoice()">🧾 Enregistrer la facture</button></div>'+
+   '<div class="card2">'+invHtml+'</div>'+
+   '<button class="bigbtn gold" onclick="exportCompta()">⬇ï¸ Export comptable (CSV Excel)</button>';
+  lucide.createIcons();
+}
+async function addExpense(){
+  var l=$('exLabel').value.trim(),c=$('exCat').value,a=parseFloat($('exAmount').value)||0;
+  if(!l||!a){toast('Libellé et montant requis');return;}
+  await api('expenses','',{method:'POST',body:JSON.stringify({label:l,category:c,amount:a})});
+  toast('Dépense enregistrée ✅');
+  DATA.expenses=await api('expenses','?select=*&order=expense_date.desc&limit=100');
+  renderCompta();
+}
+async function addInvoice(){
+  var n=$('invNum').value.trim(),s=$('invSup').value.trim(),l=$('invLbl').value.trim(),t=$('invType').value,a=parseFloat($('invAmt').value)||0,tax=parseFloat($('invTax').value)||0;
+  if(!n||!a){toast('N° de facture et montant requis');return;}
+  await api('invoices','',{method:'POST',body:JSON.stringify({number:n,supplier:s,label:l,type:t,amount:a,tax:tax})});
+  toast('Facture enregistrée ✅');
+  DATA.invoices=await api('invoices','?select=*&order=created_at.desc&limit=100');
+  renderCompta();
+}
+async function payInvoice(id){await api('invoices','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:'paid'})});toast('Facture soldée ✅');DATA.invoices=await api('invoices','?select=*&order=created_at.desc&limit=100');renderCompta();}
+function exportCompta(){
+  var rows=[['date','type','libelle','montant_F']];
+  DATA.orders.filter(function(x){return x.status==='delivered';}).forEach(function(o){rows.push([String(o.created_at||'').slice(0,10),'commission','Commande #'+String(o.id).slice(0,8),Math.round((o.total||0)*COMMISSION/100)]);});
+  DATA.expenses.forEach(function(x){rows.push([x.expense_date,'depense-'+x.category,x.label,-(x.amount||0)]);});
+  DATA.invoices.forEach(function(x){rows.push([x.invoice_date,'facture-'+(x.type==='sale'?'vente':'depense'),x.number+' '+x.label,(x.type==='sale'?1:-1)*(x.amount||0)]);});
+  DATA.salaries.forEach(function(x){rows.push([x.period,'salaire',x.employee_name,-((x.base_salary||0)+(x.bonuses||0)-(x.deductions||0))]);});
+  dlCSV('sentew-compta-'+new Date().toISOString().slice(0,10)+'.csv',rows);
+  toast('Export comptable téléchargé ⬇ï¸');
+}
+
+  /* â•â•â•â•â•â• FACTURE : PDF / CSV / REÇU â•â•â•â•â•â• */
+function invLines(x){
+  var ttc=(x.amount||0)+(x.tax||0);
+  return{x:x,ttc:ttc};
+}
+function dlInvoiceCSV(id){
+  var f=DATA.invoices.find(function(v){return String(v.id)===String(id);});if(!f)return;
+  var ttc=(f.amount||0)+(f.tax||0);
+  dlCSV('facture-'+(f.number||id)+'.csv',[
+   ['FACTURE - SEN TEW SUARL'],
+   ['N°',f.number||''],['Date',f.invoice_date||''],['Type',f.type==='sale'?'Vente (entrée)':'Dépense (sortie)'],
+   ['Fournisseur / Client',f.supplier||''],['Objet',f.label||''],
+   [''],
+   ['Montant HT (F)',f.amount||0],['TVA (F)',f.tax||0],['TOTAL TTC (F)',ttc],
+   ['Statut',f.status||'']
+  ]);
+  toast('Facture CSV téléchargée ⬇ï¸');
+}
+function dlInvoicePDF(id){
+  var f=DATA.invoices.find(function(v){return String(v.id)===String(id);});if(!f)return;
+  if(!window.jspdf){toast('Chargement du module PDF…');return;}
+  var ttc=(f.amount||0)+(f.tax||0);
+  var doc=new window.jspdf.jsPDF();
+  var DARK=[10,31,23],GREEN=[15,107,78],LIGHT=[242,246,244],GREY=[91,122,112];
+  function fmt(n){return Math.round(n).toLocaleString('fr-FR')+' F';}
+  doc.setFillColor.apply(doc,DARK);doc.rect(0,0,210,34,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,15);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Dakar, Senegal - hello.senecosystem@gmail.com',15,21);
+  doc.setTextColor(74,222,128);doc.setFontSize(13);doc.setFont('helvetica','bold');doc.text('FACTURE',195,15,{align:'right'});
+  doc.setFillColor.apply(doc,GREEN);doc.rect(0,34,210,2,'F');
+  doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);
+  doc.text('N° : '+(f.number||''),15,48);
+  doc.text('Date : '+(f.invoice_date||''),15,55);
+  doc.text('Type : '+(f.type==='sale'?'Vente (entrée)':'Dépense (sortie)'),15,62);
+  doc.text('Fournisseur / Client : '+(f.supplier||'-'),15,69);
+  var y=82;
+  doc.setFillColor.apply(doc,GREEN);doc.rect(15,y,180,8,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont('helvetica','bold');
+  doc.text('DESIGNATION',20,y+5.5);doc.text('MONTANT',190,y+5.5,{align:'right'});
+  y+=8;
+  doc.setTextColor.apply(doc,DARK);doc.setFont('helvetica','normal');doc.setFontSize(10);
+  doc.text(f.label||'Prestation',20,y+6);doc.text(fmt(f.amount||0)+' HT',190,y+6,{align:'right'});
+  y+=14;
+  doc.text('TVA',20,y+4);doc.text(fmt(f.tax||0),190,y+4,{align:'right'});
+  y+=10;
+  doc.setFillColor.apply(doc,DARK);doc.roundedRect(15,y,180,14,3,3,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(12);doc.setFont('helvetica','bold');doc.text('TOTAL TTC',20,y+9);
+  doc.setTextColor(74,222,128);doc.text(fmt(ttc),190,y+9,{align:'right'});
+  doc.setTextColor.apply(doc,GREY);doc.setFontSize(8);doc.setFont('helvetica','normal');
+  doc.text('Statut : '+(f.status||'pending'),15,y+26);
+  doc.text('Facture generee par SEN TEW - '+new Date().toLocaleDateString('fr-FR'),105,285,{align:'center'});
+  doc.save('facture-'+(f.number||id)+'.pdf');
+  toast('Facture PDF téléchargée ⬇ï¸');
+}
+function dlRecuPDF(id){
+  var f=DATA.invoices.find(function(v){return String(v.id)===String(id);});if(!f)return;
+  if(f.status!=='paid'){toast('Le reçu est disponible une fois la facture payée');return;}
+  if(!window.jspdf){toast('Chargement du module PDF…');return;}
+  var ttc=(f.amount||0)+(f.tax||0);
+  var doc=new window.jspdf.jsPDF();
+  var DARK=[10,31,23],GREEN=[15,107,78],GREY=[91,122,112];
+  function fmt(n){return Math.round(n).toLocaleString('fr-FR')+' F';}
+  doc.setFillColor.apply(doc,GREEN);doc.rect(0,0,210,34,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,15);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Dakar, Senegal - hello.senecosystem@gmail.com',15,21);
+  doc.setFontSize(14);doc.setFont('helvetica','bold');doc.text('REÇU DE PAIEMENT',195,15,{align:'right'});
+  doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);doc.setFont('helvetica','normal');
+  doc.text('Reçu lié à la facture N° : '+(f.number||''),15,48);
+  doc.text('Date de paiement : '+new Date().toLocaleDateString('fr-FR'),15,55);
+  doc.text('Payé par / à : '+(f.supplier||'-'),15,62);
+  doc.text('Objet : '+(f.label||'-'),15,69);
+  doc.setFillColor.apply(doc,DARK);doc.roundedRect(15,80,180,18,3,3,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(12);doc.setFont('helvetica','bold');doc.text('MONTANT RÉGLÉ',20,91);
+  doc.setTextColor(74,222,128);doc.setFontSize(16);doc.text(fmt(ttc),190,91,{align:'right'});
+  doc.setTextColor.apply(doc,GREY);doc.setFontSize(9);doc.setFont('helvetica','normal');
+  doc.text('✓ Paiement confirmé et soldé',15,110);
+  doc.setDrawColor.apply(doc,GREY);doc.setLineWidth(0.5);
+  doc.line(115,135,180,135);
+  doc.text('Cachet et signature - SEN TEW SUARL',115,139);
+  doc.setFontSize(7);doc.text('Reçu genere par SEN TEW le '+new Date().toLocaleDateString('fr-FR'),105,285,{align:'center'});
+  doc.save('recu-'+(f.number||id)+'.pdf');
+  toast('Reçu téléchargé ⬇ï¸');
+}
+
+/* â•â•â•â•â•â•â•â•â•â• SALAIRES — BULLETINS NORMES SN â•â•â•â•â•â•â•â•â•â• */
+function calcBulletin(base,bonus,ded){
+  var brut=(base||0)+(bonus||0);
+  var ipres=brut*TAUX.ipres/100;
+  var css=brut*TAUX.css/100;
+  /* IR SN simplifié (mensuel, barème progressif approximatif) */
+  var taxable=brut-ipres-css;
+  var ir=0;
+  if(taxable>50000)ir+=(Math.min(taxable,166667)-50000)*0.20;
+  if(taxable>166667)ir+=(Math.min(taxable,333333)-166667)*0.26;
+  if(taxable>333333)ir+=(Math.min(taxable,666667)-333333)*0.31;
+  if(taxable>666667)ir+=(taxable-666667)*0.37;
+  var net=brut-ipres-css-ir-(ded||0);
+  return{brut:brut,ipres:ipres,css:css,ir:ir,net:net};
+}
+function renderSalaries(){
+  var el=$('salaires');
+  var list=DATA.salaries.map(function(s){
+    var b=calcBulletin(s.base_salary,s.bonuses,s.deductions);
+    return '<div class="card2"><div class="row"><div><div class="nm">'+esc(s.employee_name)+'</div><div class="meta">'+esc(s.role||'')+' · '+esc(s.period||'')+' · net <b class="pos">'+fmtN(b.net)+' F</b></div></div><span class="pill '+esc(s.status)+'">'+esc(s.status)+'</span></div>'+
+    '<div class="actions"><button class="abtn blue" onclick="dlBulletin(\''+s.id+'\')"><i data-lucide="file-spreadsheet"></i>Excel (CSV)</button><button class="abtn ok" onclick="dlBulletinPDF(\''+s.id+'\')"><i data-lucide="file-text"></i>PDF</button>'+(s.status!=='paid'?'<button class="abtn ok" onclick="paySalary(\''+s.id+'\')"><i data-lucide="check"></i>Marquer payé</button>':'')+'</div></div>';
+  }).join('')||'<div class="empty">Aucun bulletin créé.</div>';
+  el.innerHTML=
+   '<div class="sect"><i data-lucide="plus-circle"></i>Nouveau bulletin de paie</div>'+
+   '<div class="card2"><label class="lb">Employé</label><input class="sin" id="salName" placeholder="Ex: Fatou Ndiaye"><label class="lb">Poste</label><input class="sin" id="salRole" placeholder="Ex: Support client"><label class="lb">Période</label><input class="sin" id="salPeriod" type="month" value="'+new Date().toISOString().slice(0,7)+'"><label class="lb">Salaire de base (F)</label><input class="sin" id="salBase" type="number" placeholder="150000" oninput="previewBulletin()"><label class="lb">Primes (F)</label><input class="sin" id="salBonus" type="number" placeholder="0" oninput="previewBulletin()"><label class="lb">Retenues diverses (F)</label><input class="sin" id="salDed" type="number" placeholder="0" oninput="previewBulletin()"><div id="salPreview"></div><button class="bigbtn" onclick="addSalary()">💼 Créer le bulletin</button></div>'+
+   '<div class="sect"><i data-lucide="briefcase"></i>Bulletins ('+DATA.salaries.length+')</div>'+list;
+  lucide.createIcons();
+}
+function previewBulletin(){
+  var base=parseFloat($('salBase').value)||0,bonus=parseFloat($('salBonus').value)||0,ded=parseFloat($('salDed').value)||0;
+  var z=$('salPreview');if(!base){z.innerHTML='';return;}
+  var b=calcBulletin(base,bonus,ded);
+  z.innerHTML='<div class="card2" style="background:#f7faf8;margin-top:10px">'+
+   '<div class="kpi-line"><span>Brut</span><b>'+fmtN(b.brut)+' F</b></div>'+
+   '<div class="kpi-line"><span>IPRES ('+TAUX.ipres+'%)</span><b class="neg">−'+fmtN(b.ipres)+' F</b></div>'+
+   '<div class="kpi-line"><span>CSS ('+TAUX.css+'%)</span><b class="neg">−'+fmtN(b.css)+' F</b></div>'+
+   '<div class="kpi-line"><span>IR (progressif)</span><b class="neg">−'+fmtN(b.ir)+' F</b></div>'+
+   '<div class="kpi-line" style="border:none"><span><b>NET À PAYER</b></span><b class="pos">'+fmtN(b.net)+' F</b></div></div>';
+}
+async function addSalary(){
+  var n=$('salName').value.trim(),r=$('salRole').value.trim(),p=$('salPeriod').value,base=parseFloat($('salBase').value)||0,bonus=parseFloat($('salBonus').value)||0,ded=parseFloat($('salDed').value)||0;
+  if(!n||!base){toast('Nom et salaire de base requis');return;}
+  await api('salaries','',{method:'POST',body:JSON.stringify({employee_name:n,role:r,period:p,base_salary:base,bonuses:bonus,deductions:ded})});
+  toast('Bulletin créé ✅');
+  DATA.salaries=await api('salaries','?select=*&order=created_at.desc&limit=100');
+  renderSalaries();
+}
+async function paySalary(id){await api('salaries','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:'paid'})});toast('Salaire marqué payé ✅');DATA.salaries=await api('salaries','?select=*&order=created_at.desc&limit=100');renderSalaries();}
+function dlBulletin(id){
+  var s=DATA.salaries.find(function(x){return String(x.id)===String(id);});if(!s)return;
+  var b=calcBulletin(s.base_salary,s.bonuses,s.deductions);
+  dlCSV('bulletin-'+s.employee_name.replace(/\s+/g,'-')+'-'+s.period+'.csv',[
+   ['BULLETIN DE PAIE - SEN TEW SUARL'],
+   ['Employe',s.employee_name],['Poste',s.role||''],['Periode',s.period],
+   [''],
+   ['RUBRIQUE','MONTANT (F)'],
+   ['Salaire de base',s.base_salary],['Primes',s.bonuses||0],['BRUT',b.brut],
+   ['IPRES retraite ('+TAUX.ipres+'%)',-b.ipres],['CSS maladie ('+TAUX.css+'%)',-b.css],['IR progressif',-b.ir],['Retenues diverses',-(s.deductions||0)],
+   [''],
+   ['NET A PAYER',b.net],
+   ['Statut',s.status]
+  ]);
+  toast('Bulletin téléchargé ⬇ï¸');
+}
+  function dlBulletinPDF(id){
+  var s=DATA.salaries.find(function(x){return String(x.id)===String(id);});if(!s)return;
+  if(!window.jspdf){toast('Chargement du module PDF…');return;}
+  var b=calcBulletin(s.base_salary,s.bonuses,s.deductions);
+  var doc=new window.jspdf.jsPDF();
+  var GREEN=[15,107,78],DARK=[10,31,23],LIGHT=[242,246,244],RED=[192,57,43],GREY=[91,122,112];
+  function fmt(n){return Math.round(n).toLocaleString('fr-FR')+' F';}
+  /* Bandeau */
+  doc.setFillColor.apply(doc,DARK);doc.rect(0,0,210,38,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,16);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Marketplace panafricaine - Dakar, Senegal - hello.senecosystem@gmail.com',15,22);
+  doc.setTextColor(74,222,128);doc.setFontSize(12);doc.setFont('helvetica','bold');doc.text('BULLETIN DE PAIE',195,16,{align:'right'});
+  doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Periode : '+String(s.period||''),195,22,{align:'right'});
+  doc.setFillColor.apply(doc,GREEN);doc.rect(0,38,210,2,'F');
+  /* Bloc employé */
+  doc.setFillColor.apply(doc,LIGHT);doc.roundedRect(15,48,180,24,3,3,'F');
+  doc.setTextColor.apply(doc,GREY);doc.setFontSize(8);
+  doc.text('EMPLOYE',20,55);doc.text('POSTE',75,55);doc.text('PERIODE',135,55);
+  doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);doc.setFont('helvetica','bold');
+  doc.text(String(s.employee_name||''),20,62);doc.text(String(s.role||'-'),75,62);doc.text(String(s.period||''),135,62);
+  /* Tableau */
+  var y=84;
+  doc.setFontSize(11);doc.setFont('helvetica','bold');doc.text('DETAIL DE LA REMUNERATION',15,y);
+  y+=4;
+  doc.setFillColor.apply(doc,GREEN);doc.rect(15,y,180,8,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(9);
+  doc.text('RUBRIQUE',20,y+5.5);doc.text('BASE / TAUX',170,y+5.5,{align:'right'});doc.text('MONTANT',190,y+5.5,{align:'right'});
+  var rows=[
+    ['Salaire de base','30 jours',fmt(s.base_salary||0),false],
+    ['Primes et gratifications','-',fmt(s.bonuses||0),false],
+    ['SALAIRE BRUT','',fmt(b.brut),true],
+    ['Cotisation IPRES (retraite)','5,6 %','- '+fmt(b.ipres),false],
+    ['Cotisation CSS (maladie)','7 %','- '+fmt(b.css),false],
+    ['Impot sur le revenu (IR)','bareme prog.','- '+fmt(b.ir),false],
+    ['Retenues diverses','-','- '+fmt(s.deductions||0),false]
+  ];
+  y+=8;
+  rows.forEach(function(r,i){
+    if(i%2===0){doc.setFillColor.apply(doc,LIGHT);doc.rect(15,y-1.5,180,8,'F');}
+    var neg=r[2].indexOf('- ')===0;
+    doc.setTextColor.apply(doc,neg?RED:DARK);
+    doc.setFont('helvetica',r[3]?'bold':'normal');doc.setFontSize(9.5);
+    doc.text(r[0],20,y+4);
+    doc.setTextColor.apply(doc,GREY);doc.setFontSize(8.5);doc.text(r[1],170,y+4,{align:'right'});
+    doc.setTextColor.apply(doc,neg?RED:DARK);doc.setFontSize(9.5);doc.text(r[2],190,y+4,{align:'right'});
+    y+=8;
+  });
+  /* Net à payer */
+  y+=6;
+  doc.setFillColor.apply(doc,DARK);doc.roundedRect(15,y,180,16,3,3,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(13);doc.setFont('helvetica','bold');doc.text('NET A PAYER',20,y+10);
+  doc.setTextColor(74,222,128);doc.setFontSize(16);doc.text(fmt(b.net),190,y+10,{align:'right'});
+  /* Signatures */
+  y+=34;
+  doc.setDrawColor.apply(doc,GREY);doc.setLineWidth(0.5);
+  doc.line(20,y,85,y);doc.line(115,y,180,y);
+  doc.setTextColor.apply(doc,GREY);doc.setFontSize(8);
+  doc.text("Signature de l'employe",20,y+4);doc.text('Cachet et signature - SEN TEW SUARL',115,y+4);
+  /* Pied */
+  doc.setFontSize(7);doc.text('Document genere par la plateforme SEN TEW - Cotisations IPRES et CSS (part salariale) - '+(s.period||''),105,285,{align:'center'});
+  doc.save('bulletin-'+String(s.employee_name||'salarie').replace(/\s+/g,'-')+'-'+(s.period||'')+'.pdf');
+  toast('Bulletin PDF téléchargé ⬇ï¸');
+}
+
+/* â•â•â•â•â•â•â•â•â•â• MESSAGES PRÊTS â•â•â•â•â•â•â•â•â•â• */
+var TPLS=[
+  {t:'✅ Compte validé',m:'Félicitations ! Votre compte SEN TEW a été validé par notre équipe. Vous pouvez commencer dès maintenant. Bienvenue !'},
+  {t:'📄 Documents incomplets',m:'Votre demande est presque terminée. Il nous manque certains documents (CNI recto/verso lisible, selfie). Merci de les renvoyer pour finaliser la validation.'},
+  {t:'⏸️ Compte suspendu',m:'Votre compte a été temporairement suspendu suite à un manquement à nos conditions. Contactez le support pour régulariser votre situation.'},
+  {t:'💸 Reversement envoyé',m:'Votre reversement a été effectué. Vérifiez votre compte Wave/Orange Money. Merci pour votre activité sur SEN TEW !'},
+  {t:'📦 Commande en retard',m:'Nous sommes désolés du retard de votre commande. Notre équipe fait le maximum pour vous livrer au plus vite. Merci de votre patience.'},
+  {t:'🎁 Code promo personnel',m:'Merci de votre fidélité ! Voici un code promo rien que pour vous : utilisez-le lors de votre prochaine commande sur SEN TEW.'},
+  {t:'⚠️ Rappel règles vendeur',m:'Rappel : les produits doivent être conformes aux descriptions et photos. Tout manquement répété peut entraîner la suspension de la boutique.'},
+  {t:'📞 Réponse support',m:'Nous avons bien reçu votre demande et nous la traitons. Notre équipe revient vers vous sous 24 h ouvrées. Merci de votre confiance.'}
+];
+function renderMessages(){
+  $('messages').innerHTML='<div class="sect"><i data-lucide="send"></i>Envoyer un message prêt à l\u2019emploi</div>'+
+  '<div class="card2"><label class="lb">Destinataire (email)</label><input class="sin" id="msgTo" placeholder="client@exemple.com"><label class="lb">Message</label><textarea id="msgBody" placeholder="Choisis un modèle ci-dessous ou écris ton message…"></textarea><button class="bigbtn" onclick="sendMsg()">📨 Envoyer</button></div>'+
+  '<div class="sect"><i data-lucide="layout-template"></i>Modèles (cliquer pour remplir)</div>'+
+  TPLS.map(function(t,i){return '<button class="tpl" onclick="fillTpl('+i+')">'+t.t+'<small>'+esc(t.m)+'</small></button>';}).join('');
+  lucide.createIcons();
+}
+function fillTpl(i){$('msgBody').value=TPLS[i].m;toast('Modèle inséré ✍️');}
+async function sendMsg(){
+  var to=$('msgTo').value.trim(),body=$('msgBody').value.trim();
+  if(!to||!body){toast('Destinataire et message requis');return;}
+  await notify(to,'Message de SEN TEW',body);
+  $('msgTo').value='';$('msgBody').value='';toast('Message envoyé ✅');
+}
+
+/* â•â•â•â•â•â•â•â•â•â• NOTIFS ADMIN â•â•â•â•â•â•â•â•â•â• */
+async function loadNotifs(){
+  var el=$('notifs');el.innerHTML='<div class="loading">Chargement…</div>';
+  var rows=await api('notifications','?audience=eq.admin&select=*&order=created_at.desc&limit=50');
+  setBadge('nbN',rows.filter(function(n){return !n.is_read;}).length);
+  if(!rows.length){el.innerHTML='<div class="empty">Aucune notification.</div>';return;}
+  el.innerHTML=rows.map(function(n){
+    return '<div class="card2" style="'+(n.is_read?'opacity:.65':'border-left:4px solid #0f6b4e')+'"><div class="nm">'+esc(n.title||'Notification')+'</div><div class="meta">'+esc(n.message||'')+'</div><div class="meta" style="margin-top:4px">'+fmtDate(n.created_at)+'</div>'+(!n.is_read?'<div class="actions"><button class="abtn plain" onclick="markRead(\''+n.id+'\')"><i data-lucide="check"></i>Marquer lu</button></div>':'')+'</div>';
+  }).join('');
+  lucide.createIcons();
+}
+async function markRead(id){await api('notifications','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({is_read:true})});loadNotifs();}
+
+/* â•â•â•â•â•â•â•â•â•â• EXPORT CSV â•â•â•â•â•â•â•â•â•â• */
+function exportCSV(){
+  var rows=[['type','nom','email','ville','statut','date']];
+  DATA.vendors.forEach(function(v){rows.push(['vendeur',v.shop_name||v.full_name||'',v.email||'',v.city||'',v.status||'',v.created_at||'']);});
+  DATA.drivers.forEach(function(d){rows.push(['livreur',d.full_name||'',d.email||'',d.city||d.zone||'',d.status||'',d.created_at||'']);});
+  DATA.orders.forEach(function(o){rows.push(['commande','#'+String(o.id).slice(0,8),o.customer_email||o.user_email||'','',o.status+' · '+(o.total||0)+'F',o.created_at||'']);});
+  dlCSV('sentew-admin-'+new Date().toISOString().slice(0,10)+'.csv',rows);
+  toast('Export CSV téléchargé ⬇ï¸');
+}
+
+/* â•â•â•â•â•â•â•â•â•â• REFRESH AUTO 30 s (panoramique + badges) â•â•â•â•â•â•â•â•â•â• */
+var PANO_T=0;
+async function silentRefresh(){
+  try{
+    var n=await api('notifications','?audience=eq.admin&is_read=eq.false&select=id');setBadge('nbN',n.length);
+    var v=await api('vendors','?status=eq.pending&select=id');setBadge('nbV',v.length);
+    var d=await api('drivers','?status=eq.pending&select=id');setBadge('nbL',d.length);
+    if(!$('pano').classList.contains('hidden')){
+      PANO_T++;
+      if(PANO_T>=1){PANO_T=0;DATA.orders=await api('orders','?select=*&order=created_at.desc&limit=300');DATA.vendors=await api('vendors','?select=*&order=created_at.desc');DATA.drivers=await api('drivers','?select=*&order=created_at.desc');DATA.dels=await api('deletion_requests','?select=*&order=created_at.desc&limit=50');renderPano();}
+    }
+  }catch(e){}
+}
+
+  /* â•â•â•â•â•â•â•â•â•â• SWIPE ENTRE ONGLETS â•â•â•â•â•â•â•â•â•â• */
+(function(){
+var ORDER=['pano','pilotage','stats','vendeurs','livreurs','commandes','reversements','compta','salaires','messages','notifs'];
+var sx=0,sy=0;
+document.addEventListener('touchstart',function(e){if(e.touches.length!==1)return;sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
+document.addEventListener('touchend',function(e){
+  if(!sx)return;
+  var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;sx=0;
+  if(Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*1.5)return;
+  if(e.target.closest('.tabs,textarea,input,select,.modal,.chk,.selbar,.paymethods'))return;
+  var cur=-1,i;
+  for(i=0;i<ORDER.length;i++){if(!$(ORDER[i]).classList.contains('hidden')){cur=i;break;}}
+  var nxt=cur+(dx<0?1:-1);
+  if(nxt<0||nxt>=ORDER.length)return;
+  var tabs=document.querySelectorAll('.tab');
+  showTab(ORDER[nxt],tabs[nxt]);
+  if(tabs[nxt])tabs[nxt].scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
+},{passive:true});
+})();
+
+
+/* â•â•â•â•â•â•â•â•â•â• DOCS PRO V2 : signature direction + emails + reçus + avoirs â•â•â•â•â•â•â•â•â•â• */
+var LAST_SAL_EMAIL={};
+try{if(window.emailjs&&typeof EJ_PUB!=='undefined'){emailjs.init(EJ_PUB);}}catch(e){}
+function sendDocEmail(to,subject,msg){
+  if(!to||String(to).indexOf('@')<0||!window.emailjs)return;
+  try{emailjs.send(EJ_SVC,EJ_TPL,{code:'-',name:'SEN TEW Administration',message:subject+'\n\n'+msg,to_email:to}).catch(function(e){console.log('email echec',e);});}catch(e){console.log('email:',e);}
+}
+function pdfSignDir(doc,y){
+  if(!y||y>250){doc.addPage();y=40;}
+  doc.setDrawColor(190,200,195);doc.setLineWidth(0.4);
+  doc.line(20,y,85,y);doc.line(120,y,185,y);
+  doc.setFontSize(8);doc.setTextColor(91,122,112);doc.setFont('helvetica','normal');
+  doc.text('Le beneficiaire',20,y+4);
+  doc.setFont('helvetica','bold');doc.text('LA DIRECTION - SEN TEW SUARL',120,y+4);
+  doc.setDrawColor(15,107,78);doc.setLineWidth(0.7);doc.circle(152,y-13,9);
+  doc.setTextColor(15,107,78);doc.setFontSize(5.5);doc.setFont('helvetica','bold');
+  doc.text('SEN TEW',152,y-15,{align:'center'});doc.text('DIRECTION',152,y-11.5,{align:'center'});
+  doc.setTextColor(91,122,112);doc.setFontSize(7.5);doc.setFont('helvetica','normal');
+  doc.text('Fait a Dakar, le '+new Date().toLocaleDateString('fr-FR'),120,y+9);
+}
+function dlBulletinPDF(id){
+  var s=DATA.salaries.find(function(x){return String(x.id)===String(id);});if(!s)return;
+  if(!window.jspdf){toast('Chargement du module PDF…');return;}
+  var b=calcBulletin(s.base_salary,s.bonuses,s.deductions);
+  var doc=new window.jspdf.jsPDF();
+  var GREEN=[15,107,78],DARK=[10,31,23],LIGHT=[242,246,244],RED=[192,57,43],GREY=[91,122,112];
+  function fmt(n){return Math.round(n).toLocaleString('fr-FR')+' F';}
+  doc.setFillColor.apply(doc,DARK);doc.rect(0,0,210,38,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,16);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Marketplace panafricaine - Dakar, Senegal - hello.senecosystem@gmail.com',15,22);
+  doc.setTextColor(74,222,128);doc.setFontSize(12);doc.setFont('helvetica','bold');doc.text('BULLETIN DE PAIE',195,16,{align:'right'});
+  doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Periode : '+String(s.period||''),195,22,{align:'right'});
+  doc.setFillColor.apply(doc,GREEN);doc.rect(0,38,210,2,'F');
+  doc.setFillColor.apply(doc,LIGHT);doc.roundedRect(15,48,180,24,3,3,'F');
+  doc.setTextColor.apply(doc,GREY);doc.setFontSize(8);
+  doc.text('EMPLOYE',20,55);doc.text('POSTE',75,55);doc.text('PERIODE',135,55);
+  doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);doc.setFont('helvetica','bold');
+  doc.text(String(s.employee_name||''),20,62);doc.text(String(s.role||'-'),75,62);doc.text(String(s.period||''),135,62);
+  var y=84;
+  doc.setFontSize(11);doc.setFont('helvetica','bold');doc.text('DETAIL DE LA REMUNERATION',15,y);
+  y+=4;
+  doc.setFillColor.apply(doc,GREEN);doc.rect(15,y,180,8,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(9);
+  doc.text('RUBRIQUE',20,y+5.5);doc.text('BASE / TAUX',170,y+5.5,{align:'right'});doc.text('MONTANT',190,y+5.5,{align:'right'});
+  var rows=[
+    ['Salaire de base','30 jours',fmt(s.base_salary||0),false],
+    ['Primes et gratifications','-',fmt(s.bonuses||0),false],
+    ['SALAIRE BRUT','',fmt(b.brut),true],
+    ['Cotisation IPRES (retraite)','5,6 %','- '+fmt(b.ipres),false],
+    ['Cotisation CSS (maladie)','7 %','- '+fmt(b.css),false],
+    ['Impot sur le revenu (IR)','bareme prog.','- '+fmt(b.ir),false],
+    ['Retenues diverses','-','- '+fmt(s.deductions||0),false]
+  ];
+  y+=8;
+  rows.forEach(function(r,i){
+    if(i%2===0){doc.setFillColor.apply(doc,LIGHT);doc.rect(15,y-1.5,180,8,'F');}
+    var neg=r[2].indexOf('- ')===0;
+    doc.setTextColor.apply(doc,neg?RED:DARK);
+    doc.setFont('helvetica',r[3]?'bold':'normal');doc.setFontSize(9.5);
+    doc.text(r[0],20,y+4);
+    doc.setTextColor.apply(doc,GREY);doc.setFontSize(8.5);doc.text(r[1],170,y+4,{align:'right'});
+    doc.setTextColor.apply(doc,neg?RED:DARK);doc.setFontSize(9.5);doc.text(r[2],190,y+4,{align:'right'});
+    y+=8;
+  });
+  y+=6;
+  doc.setFillColor.apply(doc,DARK);doc.roundedRect(15,y,180,16,3,3,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(13);doc.setFont('helvetica','bold');doc.text('NET A PAYER',20,y+10);
+  doc.setTextColor(74,222,128);doc.setFontSize(16);doc.text(fmt(b.net),190,y+10,{align:'right'});
+  pdfSignDir(doc,y+32);
+  doc.setTextColor.apply(doc,GREY);doc.setFontSize(7);doc.setFont('helvetica','normal');
+  doc.text('Document genere par SEN TEW - Cotisations IPRES et CSS (part salariale) - '+(s.period||''),105,290,{align:'center'});
+  doc.save('bulletin-'+String(s.employee_name||'salarie').replace(/\s+/g,'-')+'-'+(s.period||'')+'.pdf');
+  sendDocEmail(s.email||LAST_SAL_EMAIL[id]||'','Votre bulletin de paie '+(s.period||''),'Bonjour '+s.employee_name+',\n\nVotre bulletin de paie de la periode '+(s.period||'')+' est disponible.\nNet a payer : '+fmt(b.net)+' FCFA.\nLe PDF signe par la direction vous est remis par l\u2019administration.\n\nSEN TEW SUARL');
+  toast('Bulletin PDF téléchargé ⬇ï¸');
+}
+function dlInvoicePDF(id){
+  var f=DATA.invoices.find(function(v){return String(v.id)===String(id);});if(!f)return;
+  if(!window.jspdf){toast('Chargement du module PDF…');return;}
+  var ttc=(f.amount||0)+(f.tax||0);
+  var doc=new window.jspdf.jsPDF();
+  var DARK=[10,31,23],GREEN=[15,107,78],GREY=[91,122,112];
+  function fmt(n){return Math.round(n).toLocaleString('fr-FR')+' F';}
+  doc.setFillColor.apply(doc,DARK);doc.rect(0,0,210,34,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,15);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Dakar, Senegal - hello.senecosystem@gmail.com',15,21);
+  doc.setTextColor(74,222,128);doc.setFontSize(13);doc.setFont('helvetica','bold');doc.text('FACTURE',195,15,{align:'right'});
+  doc.setFillColor.apply(doc,GREEN);doc.rect(0,34,210,2,'F');
+  doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);
+  doc.text('N° : '+(f.number||''),15,48);
+  doc.text('Date : '+(f.invoice_date||''),15,55);
+  doc.text('Type : '+(f.type==='sale'?'Vente (entrée)':'Dépense (sortie)'),15,62);
+  doc.text('Fournisseur / Client : '+(f.supplier||'-'),15,69);
+  var y=82;
+  doc.setFillColor.apply(doc,GREEN);doc.rect(15,y,180,8,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont('helvetica','bold');
+  doc.text('DESIGNATION',20,y+5.5);doc.text('MONTANT',190,y+5.5,{align:'right'});
+  y+=8;
+  doc.setTextColor.apply(doc,DARK);doc.setFont('helvetica','normal');doc.setFontSize(10);
+  doc.text(f.label||'Prestation',20,y+6);doc.text(fmt(f.amount||0)+' HT',190,y+6,{align:'right'});
+  y+=14;
+  doc.text('TVA',20,y+4);doc.text(fmt(f.tax||0),190,y+4,{align:'right'});
+  y+=10;
+  doc.setFillColor.apply(doc,DARK);doc.roundedRect(15,y,180,14,3,3,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(12);doc.setFont('helvetica','bold');doc.text('TOTAL TTC',20,y+9);
+  doc.setTextColor(74,222,128);doc.text(fmt(ttc),190,y+9,{align:'right'});
+  pdfSignDir(doc,y+34);
+  doc.setTextColor.apply(doc,GREY);doc.setFontSize(7);doc.setFont('helvetica','normal');
+  doc.text('Statut : '+(f.status||'pending')+' · Facture generee par SEN TEW le '+new Date().toLocaleDateString('fr-FR'),105,290,{align:'center'});
+  doc.save('facture-'+(f.number||id)+'.pdf');
+  toast('Facture PDF téléchargée ⬇ï¸');
+}
+function dlRecuPDF(id){
+  var f=DATA.invoices.find(function(v){return String(v.id)===String(id);});if(!f)return;
+  if(f.status!=='paid'){toast('Le reçu est disponible une fois la facture payée');return;}
+  if(!window.jspdf){toast('Chargement du module PDF…');return;}
+  var ttc=(f.amount||0)+(f.tax||0);
+  var doc=new window.jspdf.jsPDF();
+  var DARK=[10,31,23],GREEN=[15,107,78],GREY=[91,122,112];
+  function fmt(n){return Math.round(n).toLocaleString('fr-FR')+' F';}
+  doc.setFillColor.apply(doc,GREEN);doc.rect(0,0,210,34,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,15);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Dakar, Senegal - hello.senecosystem@gmail.com',15,21);
+  doc.setFontSize(14);doc.setFont('helvetica','bold');doc.text('RECU DE PAIEMENT',195,15,{align:'right'});
+  doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);doc.setFont('helvetica','normal');
+  doc.text('Reçu lié à la facture N° : '+(f.number||''),15,48);
+  doc.text('Date de paiement : '+new Date().toLocaleDateString('fr-FR'),15,55);
+  doc.text('Payé par / à : '+(f.supplier||'-'),15,62);
+  doc.text('Objet : '+(f.label||'-'),15,69);
+  doc.setFillColor.apply(doc,DARK);doc.roundedRect(15,80,180,18,3,3,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(12);doc.setFont('helvetica','bold');doc.text('MONTANT RÉGLÉ',20,91);
+  doc.setTextColor(74,222,128);doc.setFontSize(16);doc.text(fmt(ttc),190,91,{align:'right'});
+  doc.setTextColor.apply(doc,GREEN);doc.setFontSize(9);doc.setFont('helvetica','bold');
+  doc.text('✓ Paiement confirmé et soldé',15,110);
+  pdfSignDir(doc,125);
+  doc.setFontSize(7);doc.setFont('helvetica','normal');doc.setTextColor.apply(doc,GREY);
+  doc.text('Reçu genere par SEN TEW le '+new Date().toLocaleDateString('fr-FR'),105,285,{align:'center'});
+  doc.save('recu-'+(f.number||id)+'.pdf');
+  sendDocEmail(f.supplier||'','Reçu de paiement - Facture '+(f.number||''),'SEN TEW SUARL a réglé la facture '+(f.number||'')+' d\u2019un montant de '+fmt(ttc)+' FCFA.\nLe reçu PDF signé par la direction fait foi de paiement.');
+  toast('Reçu téléchargé ⬇ï¸');
+}
+function dlPayoutRecuPDF(id){
+  var p=DATA.payouts.find(function(v){return String(v.id)===String(id);});if(!p)return;
+  if(!window.jspdf){toast('Chargement du module PDF…');return;}
+  var doc=new window.jspdf.jsPDF();
+  var DARK=[10,31,23],GREEN=[15,107,78],GREY=[91,122,112];
+  function fmt(n){return Math.round(n).toLocaleString('fr-FR')+' F';}
+  var role=p.recipient_type==='driver'?'LIVREUR':'VENDEUR';
+  doc.setFillColor.apply(doc,GREEN);doc.rect(0,0,210,34,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,15);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Dakar, Senegal - hello.senecosystem@gmail.com',15,21);
+  doc.setFontSize(13);doc.setFont('helvetica','bold');doc.text('RECU DE REVERSEMENT',195,15,{align:'right'});
+  doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);doc.setFont('helvetica','normal');
+  doc.text('Bénéficiaire : '+(p.recipient_name||p.recipient_email||'-'),15,48);
+  doc.text('Qualité : '+role,15,55);
+  doc.text('Moyen de paiement : '+(p.method||'-'),15,62);
+  doc.text('Date de versement : '+fmtDate(p.paid_at||p.created_at),15,69);
+  doc.setFillColor.apply(doc,DARK);doc.roundedRect(15,80,180,18,3,3,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(12);doc.setFont('helvetica','bold');doc.text('MONTANT VERSÉ',20,91);
+  doc.setTextColor(74,222,128);doc.setFontSize(16);doc.text(fmt(p.amount||0),190,91,{align:'right'});
+  doc.setTextColor.apply(doc,GREEN);doc.setFontSize(9);doc.setFont('helvetica','bold');
+  doc.text('✓ Versement confirmé — ce document tient lieu de preuve de paiement',15,112);
+  pdfSignDir(doc,130);
+  doc.setFontSize(7);doc.setFont('helvetica','normal');doc.setTextColor.apply(doc,GREY);
+  doc.text('Reçu genere par SEN TEW le '+new Date().toLocaleDateString('fr-FR'),105,285,{align:'center'});
+  doc.save('recu-reversement-'+String(p.recipient_name||id).replace(/\s+/g,'-')+'.pdf');
+  toast('Reçu reversement téléchargé ⬇ï¸');
+}
+function resendPayoutEmail(id){
+  var p=DATA.payouts.find(function(v){return String(v.id)===String(id);});if(!p)return;
+  sendDocEmail(p.recipient_email,'Votre reçu de reversement SEN TEW','Rappel : reversement de '+fmtN(p.amount)+' FCFA via '+(p.method||'')+' le '+fmtDate(p.paid_at||p.created_at)+'.\nLe reçu PDF signé par la direction est disponible sur demande.');
+  toast('Email renvoyé 📧');
+}
+function dlAvoirPDF(o){
+  if(!window.jspdf){toast('Chargement du module PDF…');return;}
+  var doc=new window.jspdf.jsPDF();
+  var DARK=[10,31,23],RED=[192,57,43],GREY=[91,122,112];
+  function fmt(n){return Math.round(n).toLocaleString('fr-FR')+' F';}
+  doc.setFillColor.apply(doc,DARK);doc.rect(0,0,210,34,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,15);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Dakar, Senegal - hello.senecosystem@gmail.com',15,21);
+  doc.setTextColor(255,120,120);doc.setFontSize(13);doc.setFont('helvetica','bold');doc.text('AVOIR / REMBOURSEMENT',195,15,{align:'right'});
+  doc.setFillColor.apply(doc,RED);doc.rect(0,34,210,2,'F');
+  doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);doc.setFont('helvetica','normal');
+  doc.text('Client : '+(o.customer_email||o.user_email||'-'),15,48);
+  doc.text('Commande N° : #'+String(o.id).slice(0,8),15,55);
+  doc.text('Date de la commande : '+fmtDate(o.created_at),15,62);
+  doc.text('Date du remboursement : '+new Date().toLocaleDateString('fr-FR'),15,69);
+  doc.setFillColor.apply(doc,RED);doc.roundedRect(15,80,180,18,3,3,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(12);doc.setFont('helvetica','bold');doc.text('MONTANT REMBOURSÉ',20,91);
+  doc.setFontSize(16);doc.text('- '+fmt(o.total||0),190,91,{align:'right'});
+  doc.setTextColor.apply(doc,GREY);doc.setFontSize(9);doc.setFont('helvetica','normal');
+  doc.text('Cet avoir annule la vente correspondante. Le montant est restitué au client sous 48 h.',15,112);
+  pdfSignDir(doc,130);
+  doc.setFontSize(7);doc.text('Avoir genere par SEN TEW le '+new Date().toLocaleDateString('fr-FR'),105,285,{align:'center'});
+  doc.save('avoir-commande-'+String(o.id).slice(0,8)+'.pdf');
+}
+async function orderRefund(id){
+  var o=DATA.orders.find(function(x){return String(x.id)===String(id);});if(!o)return;
+  if(!confirm('Rembourser la commande #'+String(id).slice(0,8)+' de '+fmtN(o.total)+' F ?\nLe client sera notifié et un avoir PDF sera généré.'))return;
+  await api('orders','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:'refunded'})});
+  var mail=o.customer_email||o.user_email||'';
+  await notify(mail,'Remboursement effectué ↩ï¸','Votre commande #'+String(id).slice(0,8)+' a été remboursée ('+fmtN(o.total)+' FCFA). Le montant vous revient sous 48 h.');
+  sendDocEmail(mail,'Votre avoir de remboursement SEN TEW','Commande #'+String(id).slice(0,8)+' remboursée : '+fmtN(o.total)+' FCFA.\nL\u2019avoir PDF signé par la direction fait office de justificatif.');
+  dlAvoirPDF(o);
+  toast('Commande remboursée ✅ avoir généré');
+  await loadAll();renderOrders();
+}
+function driverPayoutHtml(){
+  var act=DATA.drivers.filter(function(d){return d.status==='active'||d.status==='approved';});
+  if(!act.length)return '<div class="empty">Aucun livreur actif.</div>';
+  return act.map(function(d){
+    return '<div class="paycard" style="border-left-color:#1a56c4"><div class="row"><div><div class="nm">🛵 '+esc(d.full_name||'Livreur')+'</div><div class="meta">'+esc(d.phone||'')+' · '+fmtN(d.total_deliveries||0)+' courses · '+esc(d.city||d.zone||'')+'</div></div></div>'+
+    '<label class="lb">Montant à payer (F)</label><input class="sin" type="number" id="drvamt_'+d.id+'" placeholder="Ex: 15000">'+
+    '<label class="lb">Moyen de paiement</label>'+pmGrid('wave')+
+    '<div class="actions"><button class="abtn ok" onclick="payDriver(\''+d.id+'\')"><i data-lucide="banknote"></i>Payer + reçu + email</button></div></div>';
+  }).join('');
+}
+async function payDriver(id){
+  var d=DATA.drivers.find(function(x){return String(x.id)===String(id);});if(!d)return;
+  var amt=parseFloat(($('drvamt_'+id)||{}).value)||0;
+  if(!amt){toast('Saisis le montant à payer');return;}
+  var mLbl=PAY_METHODS.find(function(m){return m.id===PM_CHOICE;}).lbl;
+  if(!confirm('Payer '+fmtN(amt)+' F à '+(d.full_name||'ce livreur')+' via '+mLbl+' ?'))return;
+  await api('payouts','',{method:'POST',body:JSON.stringify({recipient_type:'driver',recipient_email:d.email||'',recipient_name:d.full_name||'Livreur',amount:amt,method:mLbl,status:'paid',paid_at:new Date().toISOString()})});
+  await notify(d.email,'Paiement de vos courses 💸','Votre paiement de '+fmtN(amt)+' FCFA a été effectué via '+mLbl+'. Merci pour vos livraisons !');
+  sendDocEmail(d.email,'Votre reçu de paiement SEN TEW','Montant versé : '+fmtN(amt)+' FCFA via '+mLbl+'.\nLe reçu PDF signé par la direction fait foi de paiement.');
+  toast('Livreur payé ✅');
+  DATA.payouts=await api('payouts','?select=*&order=created_at.desc&limit=50');
+  renderPayouts();
+}
+async function payNow(vendorId,email,name,amount){
+  var mLbl=PAY_METHODS.find(function(m){return m.id===PM_CHOICE;}).lbl;
+  var bankInfo='';
+  if(PM_CHOICE==='bank'){
+    var bi=$('bank_'+vendorId);
+    bankInfo=bi?bi.value.trim():'';
+    if(!bankInfo){toast(' Saisis le n° de compte bancaire');return;}
+  }
+  if(!confirm('Payer '+fmtN(amount)+' F à '+name+' via '+mLbl+(bankInfo?' ('+bankInfo+')':'')+' ?'))return;
+  await api('payouts','',{method:'POST',body:JSON.stringify({recipient_type:'vendor',recipient_email:email,recipient_name:name,amount:amount,method:mLbl+(bankInfo?' · '+bankInfo:''),status:'paid',paid_at:new Date().toISOString()})});
+  await api('vendors','?id=eq.'+vendorId,{method:'PATCH',body:JSON.stringify({pending_balance:0})});
+  await notify(email,'Reversement effectué 💸','Votre reversement de '+fmtN(amount)+' FCFA a été effectué via '+mLbl+'. Merci de votre confiance !');
+  sendDocEmail(email,'Votre reçu de reversement SEN TEW','Reversement de '+fmtN(amount)+' FCFA effectué via '+mLbl+(bankInfo?' ('+bankInfo+')':'')+'.\nLe reçu PDF signé par la direction fait foi de paiement.');
+  toast('Reversement enregistré ✅');await loadAll();renderPayouts();
+}
+async function paySalary(id){
+  await api('salaries','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:'paid'})});
+  var s=DATA.salaries.find(function(x){return String(x.id)===String(id);});
+  if(s){var b=calcBulletin(s.base_salary,s.bonuses,s.deductions);
+    sendDocEmail(s.email||LAST_SAL_EMAIL[id]||'','Votre salaire a été versé 💼','Bonjour '+s.employee_name+',\n\nVotre salaire net de '+fmtN(b.net)+' FCFA ('+(s.period||'')+') a été versé.\nVotre bulletin PDF signé par la direction vous est remis par l\u2019administration.\n\nSEN TEW SUARL');}
+  toast('Salaire marqué payé ✅');DATA.salaries=await api('salaries','?select=*&order=created_at.desc&limit=100');renderSalaries();
+}
+async function payInvoice(id){
+  await api('invoices','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:'paid'})});
+  var f=DATA.invoices.find(function(v){return String(v.id)===String(id);});
+  if(f&&f.supplier&&String(f.supplier).indexOf('@')>-1){var ttc=(f.amount||0)+(f.tax||0);
+    sendDocEmail(f.supplier,'Reçu de paiement - Facture '+(f.number||''),'SEN TEW SUARL a réglé votre facture '+(f.number||'')+' d\u2019un montant de '+fmtN(ttc)+' FCFA.\nLe reçu PDF signé par la direction fait foi de paiement.');}
+  toast('Facture soldée ✅');DATA.invoices=await api('invoices','?select=*&order=created_at.desc&limit=100');renderCompta();
+}
+async function addSalary(){
+  var n=$('salName').value.trim(),r=$('salRole').value.trim(),p=$('salPeriod').value,base=parseFloat($('salBase').value)||0,bonus=parseFloat($('salBonus').value)||0,ded=parseFloat($('salDed').value)||0;
+  var em=($('salEmail')?$('salEmail').value.trim():'');
+  if(!n||!base){toast('Nom et salaire de base requis');return;}
+  var body={employee_name:n,role:r,period:p,base_salary:base,bonuses:bonus,deductions:ded};
+  if(em)body.email=em;
+  var resp=await api('salaries','',{method:'POST',body:JSON.stringify(body)});
+  if(resp&&!resp.ok&&body.email){delete body.email;resp=await api('salaries','',{method:'POST',body:JSON.stringify(body)});}
+  toast('Bulletin créé ✅');
+  DATA.salaries=await api('salaries','?select=*&order=created_at.desc&limit=100');
+  var created=DATA.salaries.find(function(x){return x.employee_name===n&&x.period===p;});
+  if(created&&em)LAST_SAL_EMAIL[created.id]=em;
+  renderSalaries();
+}
+function exportComptaPDF(){
+  if(!window.jspdf){toast('Chargement du module PDF…');return;}
+  var doc=new window.jspdf.jsPDF();
+  var DARK=[10,31,23],GREEN=[15,107,78],LIGHT=[242,246,244],GREY=[91,122,112],RED=[192,57,43];
+  function fmt(n){return Math.round(n).toLocaleString('fr-FR')+' F';}
+  var lines=[];
+  DATA.orders.filter(function(x){return x.status==='delivered';}).forEach(function(o){lines.push({d:String(o.created_at||'').slice(0,10),t:'Commission vente',l:'Commande #'+String(o.id).slice(0,8),m:Math.round((o.total||0)*COMMISSION/100)});});
+  DATA.orders.filter(function(x){return x.status==='refunded';}).forEach(function(o){lines.push({d:String(o.created_at||'').slice(0,10),t:'Remboursement client',l:'Avoir #'+String(o.id).slice(0,8),m:-(o.total||0)});});
+  DATA.expenses.forEach(function(x){lines.push({d:String(x.expense_date||'').slice(0,10),t:'Dépense ('+(x.category||'')+')',l:x.label,m:-(x.amount||0)});});
+  DATA.invoices.forEach(function(x){var ttc=(x.amount||0)+(x.tax||0);lines.push({d:String(x.invoice_date||'').slice(0,10),t:'Facture '+(x.type==='sale'?'vente':'dépense'),l:(x.number||'')+' '+(x.label||''),m:(x.type==='sale'?ttc:-ttc)});});
+  DATA.salaries.forEach(function(x){var b=calcBulletin(x.base_salary,x.bonuses,x.deductions);lines.push({d:String(x.period||''),t:'Salaire',l:x.employee_name,m:-Math.round(b.brut)});});
+  lines.sort(function(a,b){return a.d<b.d?-1:1;});
+  var totIn=lines.filter(function(x){return x.m>0;}).reduce(function(s,x){return s+x.m;},0);
+  var totOut=lines.filter(function(x){return x.m<0;}).reduce(function(s,x){return s-x.m;},0);
+  var net=totIn-totOut;
+  doc.setFillColor.apply(doc,DARK);doc.rect(0,0,210,34,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(18);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,14);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Grand livre comptable - export global',15,20);
+  doc.setTextColor(74,222,128);doc.setFontSize(11);doc.setFont('helvetica','bold');doc.text('RAPPORT COMPTABLE',195,14,{align:'right'});
+  doc.setTextColor(255,255,255);doc.setFontSize(8);doc.text('Généré le '+new Date().toLocaleDateString('fr-FR'),195,20,{align:'right'});
+  doc.setFillColor.apply(doc,GREEN);doc.rect(0,34,210,2,'F');
+  var y=44;
+  doc.setFillColor.apply(doc,GREEN);doc.rect(15,y,180,8,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(8.5);doc.setFont('helvetica','bold');
+  doc.text('DATE',17,y+5.5);doc.text('TYPE',38,y+5.5);doc.text('LIBELLÉ',85,y+5.5);doc.text('MONTANT',193,y+5.5,{align:'right'});
+  y+=8;
+  doc.setFont('helvetica','normal');
+  lines.forEach(function(x,i){
+    if(y>265){doc.addPage();y=20;}
+    if(i%2===0){doc.setFillColor.apply(doc,LIGHT);doc.rect(15,y-1.5,180,7.5,'F');}
+    doc.setTextColor.apply(doc,GREY);doc.setFontSize(7.5);doc.text(String(x.d),17,y+4);
+    doc.setTextColor.apply(doc,DARK);doc.setFontSize(8);doc.text(String(x.t).slice(0,26),38,y+4);
+    doc.text(String(x.l).slice(0,42),85,y+4);
+    doc.setTextColor.apply(doc,x.m>=0?GREEN:RED);doc.setFont('helvetica','bold');doc.setFontSize(8);
+    doc.text((x.m>=0?'+':'-')+fmt(Math.abs(x.m)),193,y+4,{align:'right'});
+    doc.setFont('helvetica','normal');
+    y+=7.5;
+  });
+  y+=6;
+  doc.setFillColor.apply(doc,LIGHT);doc.roundedRect(15,y,180,26,3,3,'F');
+  doc.setTextColor.apply(doc,DARK);doc.setFontSize(10);
+  doc.text('Total entrées',20,y+8);doc.setTextColor.apply(doc,GREEN);doc.setFont('helvetica','bold');doc.text('+'+fmt(totIn),193,y+8,{align:'right'});
+  doc.setFont('helvetica','normal');doc.setTextColor.apply(doc,DARK);doc.text('Total sorties',20,y+15);doc.setTextColor.apply(doc,RED);doc.setFont('helvetica','bold');doc.text('-'+fmt(totOut),193,y+15,{align:'right'});
+  y+=32;
+  doc.setFillColor.apply(doc,DARK);doc.roundedRect(15,y,180,16,3,3,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(12);doc.setFont('helvetica','bold');doc.text('BÉNÉFICE NET',20,y+10);
+  doc.setTextColor(net>=0?74:255,net>=0?222:150,net>=0?128:150);doc.setFontSize(14);doc.text((net>=0?'+':'-')+fmt(Math.abs(net)),193,y+10,{align:'right'});
+  pdfSignDir(doc,y+30);
+  doc.setTextColor.apply(doc,GREY);doc.setFontSize(7);doc.setFont('helvetica','normal');
+  doc.text('Commission plateforme : '+COMMISSION+'% · Document généré automatiquement par SEN TEW · '+lines.length+' écritures',105,290,{align:'center'});
+  doc.save('sentew-comptabilite-'+new Date().toISOString().slice(0,10)+'.pdf');
+  toast('Rapport comptable PDF téléchargé ⬇ï¸');
+}
+
+
+/* â•â•â•â•â•â•â•â•â•â• V2.5 — REVERSEMENTS COMPLETS (vendeurs + livreurs + reçus + emails) â•â•â•â•â•â•â•â•â•â• */
+function renderPayouts(){
+  var el=$('reversements');
+  var vh=DATA.vendors.filter(function(v){return v.status==='active'||v.status==='approved';}).map(function(v){
+    var due=v.pending_balance||0;
+    return '<div class="paycard"><div class="row"><div><div class="nm">'+esc(v.shop_name||v.full_name||'Vendeur')+'</div><div class="meta">'+esc(v.email||'pas d\u2019email')+' · '+(v.payout_method||'à définir')+'</div></div><div style="text-align:right"><div class="nm" style="color:#b07a1f">'+fmtN(due)+' F</div><div class="meta">à reverser</div></div></div>'+
+    (due>0?'<label class="lb">Moyen de reversement</label>'+pmGrid('wave')+'<div id="bankZone" style="display:none"><label class="lb"> N° de compte / IBAN / RIB</label><input class="sin" id="bank_'+v.id+'" placeholder="SN08 XXXX XXXX XXXX"></div>'+
+    '<div class="actions"><button class="abtn ok" onclick="payNow(\''+v.id+'\',\''+esc(v.email||'')+'\',\''+esc(v.shop_name||v.full_name||'')+'\','+due+')"><i data-lucide="banknote"></i>Marquer payé '+fmtN(due)+' F</button></div>':'<div class="meta" style="margin-top:8px">✅ Rien à reverser</div>')+'</div>';
+  }).join('');
+  var hist=DATA.payouts.map(function(p){
+    return '<div class="card2"><div class="row"><div><div class="nm">'+esc(p.recipient_name||p.recipient_email||'')+'</div><div class="meta">'+(p.recipient_type==='driver'?'🛵 Livreur':' Vendeur')+' · '+esc(p.method||'')+' · '+fmtDate(p.paid_at||p.created_at)+'</div></div><div style="text-align:right"><div class="nm">'+fmtN(p.amount)+' F</div><span class="pill '+(p.status==='paid'?'paid':'pending')+'">'+esc(p.status||'')+'</span></div></div>'+
+    (p.status==='paid'?'<div class="actions"><button class="abtn warn" onclick="dlPayoutRecuPDF(\''+p.id+'\')"><i data-lucide="receipt"></i>Reçu PDF</button><button class="abtn blue" onclick="resendPayoutEmail(\''+p.id+'\')"><i data-lucide="mail"></i>Renvoyer email</button></div>':'')+'</div>';
+  }).join('');
+  el.innerHTML='<div class="sect"><i data-lucide="percent"></i>Commission plateforme : '+COMMISSION+'% par vente</div>'+
+    '<div class="sect"><i data-lucide="banknote"></i>À reverser aux vendeurs actifs</div>'+(vh||'<div class="empty">Aucun vendeur actif.</div>')+
+    '<div class="sect"><i data-lucide="bike"></i>Payer les livreurs</div>'+driverPayoutHtml()+
+    '<div class="sect"><i data-lucide="history"></i>Historique — avec reçus</div>'+(hist||'<div class="empty">Aucun reversement enregistré.</div>');
+  lucide.createIcons();
+}
+
+
+/* â•â•â•â•â•â•â•â•â•â• V3 — BUDGET + ÉCHÉANCES â•â•â•â•â•â•â•â•â•â• */
+var BUDGET_CATS=[['marketing','📣 Marketing'],['livraison','🚚 Livraison / logistique'],['tech','💻 Technique / hébergement'],['salaires','💼 Salaires'],['taxes','🏛️ Taxes / fiscalité'],['fournisseurs','📦 Fournisseurs'],['general','“ Autre']];
+function catLabel(c){var f=BUDGET_CATS.find(function(x){return x[0]===c;});return f?f[1]:('“ '+c);}
+function echeanceAlert(e){
+  var today=new Date().toISOString().slice(0,10);
+  if(e.status==='paid')return{cls:'paid',lbl:'payée'};
+  if(e.due_date<today)return{cls:'cancelled',lbl:'EN RETARD'};
+  var d7=new Date();d7.setDate(d7.getDate()+7);
+  if(e.due_date<=d7.toISOString().slice(0,10))return{cls:'pending',lbl:'bientôt'};
+  return{cls:'in_delivery',lbl:'à venir'};
+}
+async function renderBudget(){
+  var el=$('budget');
+  el.innerHTML='<div class="loading">Chargement…</div>';
+  try{DATA.echeances=await api('echeances','?select=*&order=due_date.asc&limit=200');}catch(e){DATA.echeances=DATA.echeances||[];}
+  try{DATA.budgets=await api('budgets','?select=*');}catch(e){DATA.budgets=DATA.budgets||[];}
+  var month=new Date().toISOString().slice(0,7);
+  var spent={};
+  (DATA.expenses||[]).forEach(function(x){var m=String(x.expense_date||x.created_at||'').slice(0,7);if(m===month)spent[x.category||'general']=(spent[x.category||'general']||0)+(x.amount||0);});
+  (DATA.invoices||[]).filter(function(x){return x.type==='expense'&&x.status==='paid';}).forEach(function(x){var m=String(x.invoice_date||x.created_at||'').slice(0,7);if(m===month)spent['fournisseurs']=(spent['fournisseurs']||0)+(x.amount||0)+(x.tax||0);});
+  var totBudget=DATA.budgets.reduce(function(s,b){return s+(b.monthly_limit||0);},0);
+  var totSpent=Object.keys(spent).reduce(function(s,k){return s+spent[k];},0);
+  var rows=BUDGET_CATS.map(function(c){
+    var lim=(DATA.budgets.find(function(b){return b.category===c[0];})||{}).monthly_limit||0;
+    var use=spent[c[0]]||0;
+    var pct=lim>0?Math.min(100,Math.round(use/lim*100)):0;
+    var color=lim===0?'#c9dcd3':(pct>=100?'#c0392b':(pct>=75?'#b07a1f':'#0f6b4e'));
+    return '<div class="card2" style="padding:12px 14px"><div class="row"><div class="nm" style="font-size:13px">'+c[1]+'</div><div class="meta">'+(lim>0?fmtN(use)+' / '+fmtN(lim)+' F ('+pct+'%)':'pas de limite')+'</div></div>'+
+    '<div class="bar-track" style="margin-top:8px;height:12px"><div class="bar-fill" style="width:'+Math.max(2,pct)+'%;background:'+color+'"></div></div>'+
+    '<div class="actions" style="margin-top:8px"><button class="abtn plain" onclick="setBudget(\''+c[0]+'\','+lim+')"><i data-lucide="pencil"></i>'+(lim>0?'Modifier la limite':'Définir une limite')+'</button>'+(lim>0?'<button class="abtn danger" onclick="delBudget(\''+c[0]+'\')"><i data-lucide="trash-2"></i></button>':'')+'</div></div>';
+  }).join('');
+  var ech=DATA.echeances.map(function(e){
+    var al=echeanceAlert(e);
+    return '<div class="card2"><div class="row"><div><div class="nm">'+esc(e.label)+'</div><div class="meta">'+catLabel(e.category||'general')+' · échéance '+esc(e.due_date||'')+(e.recurring&&e.recurring!=='none'?' · 🔁 '+esc(e.recurring):'')+'</div></div><div style="text-align:right"><div class="nm">'+fmtN(e.amount)+' F</div><span class="pill '+al.cls+'">'+al.lbl+'</span></div></div>'+
+    '<div class="actions">'+(e.status!=='paid'?'<button class="abtn ok" onclick="payEcheance(\''+e.id+'\')"><i data-lucide="check"></i>Payée → dépense auto</button>':'')+'<button class="abtn danger" onclick="delEcheance(\''+e.id+'\')"><i data-lucide="trash-2"></i>Supprimer</button></div></div>';
+  }).join('')||'<div class="empty">Aucune échéance. Ajoute tes factures récurrentes, loyers, taxes…</div>';
+  var today=new Date().toISOString().slice(0,10);
+  var late=DATA.echeances.filter(function(e){return e.status!=='paid'&&e.due_date<today;});
+  setBadge('nbB',late.length);
+  el.innerHTML=
+   '<div class="kpis">'+
+   '<div class="kpi blue"><div class="kv">'+fmtN(totBudget)+'</div><div class="kl">Budget mensuel (F)</div></div>'+
+   '<div class="kpi warn"><div class="kv">'+fmtN(totSpent)+'</div><div class="kl">Dépensé ce mois</div></div>'+
+   '<div class="kpi"><div class="kv '+(totBudget-totSpent>=0?'pos':'neg')+'">'+fmtN(totBudget-totSpent)+'</div><div class="kl">Reste disponible</div></div>'+
+   '<div class="kpi'+(late.length?' warn':'')+'"><div class="kv">'+late.length+'</div><div class="kl">Échéances en retard</div></div>'+
+   '</div>'+
+   (late.length?'<div class="card2" style="border-left:4px solid #c0392b"><b style="color:#c0392b">⚠️ '+late.length+' échéance(s) en retard :</b><div class="meta">'+late.map(function(e){return esc(e.label)+' ('+fmtN(e.amount)+' F, '+esc(e.due_date)+')';}).join(' · ')+'</div></div>':'')+
+   '<div class="sect"><i data-lucide="piggy-bank"></i>Budgets mensuels par catégorie</div>'+rows+
+   '<div class="sect"><i data-lucide="calendar-clock"></i>Échéances</div>'+
+   '<div class="card2"><label class="lb">Libellé</label><input class="sin" id="echLabel" placeholder="Ex: Loyer bureau, Facture internet, TVA à payer…"><label class="lb">Catégorie</label><select class="sin" id="echCat">'+BUDGET_CATS.map(function(c){return '<option value="'+c[0]+'">'+c[1]+'</option>';}).join('')+'</select><label class="lb">Montant (F)</label><input class="sin" id="echAmount" type="number" placeholder="50000"><label class="lb">Date d\u2019échéance</label><input class="sin" id="echDate" type="date"><label class="lb">Récurrence</label><select class="sin" id="echRec"><option value="none">Une seule fois</option><option value="mensuelle">Mensuelle 🔁</option><option value="annuelle">Annuelle 🔁</option></select><button class="bigbtn" onclick="addEcheance()">📅 Ajouter l\u2019échéance</button></div>'+
+   ech+
+   '<button class="bigbtn gold" onclick="exportBudgetCSV()">⬇ï¸ Export budget + échéances (CSV)</button>';
+  lucide.createIcons();
+}
+async function setBudget(cat,current){
+  var v=prompt('Limite mensuelle pour '+catLabel(cat)+' (F) :',current||'');
+  if(v===null)return;
+  var amt=parseFloat(v)||0;
+  var ex=DATA.budgets.find(function(b){return b.category===cat;});
+  if(ex)await api('budgets','?id=eq.'+ex.id,{method:'PATCH',body:JSON.stringify({monthly_limit:amt})});
+  else await api('budgets','',{method:'POST',body:JSON.stringify({category:cat,monthly_limit:amt})});
+  toast('Budget enregistré ✅');renderBudget();
+}
+async function delBudget(cat){
+  if(!confirm('Supprimer la limite '+catLabel(cat)+' ?'))return;
+  await api('budgets','?category=eq.'+cat,{method:'DELETE'});
+  toast('Limite supprimée');renderBudget();
+}
+async function addEcheance(){
+  var l=$('echLabel').value.trim(),c=$('echCat').value,a=parseFloat($('echAmount').value)||0,d=$('echDate').value,r=$('echRec').value;
+  if(!l||!a||!d){toast('Libellé, montant et date requis');return;}
+  await api('echeances','',{method:'POST',body:JSON.stringify({label:l,category:c,amount:a,due_date:d,recurring:r})});
+  toast('Échéance ajoutée ✅');renderBudget();
+}
+async function payEcheance(id){
+  var e=DATA.echeances.find(function(x){return String(x.id)===String(id);});if(!e)return;
+  if(!confirm('Marquer « '+e.label+' » payée ('+fmtN(e.amount)+' F) ?\n→ une dépense sera créée automatiquement en comptabilité.'))return;
+  await api('echeances','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:'paid'})});
+  await api('expenses','',{method:'POST',body:JSON.stringify({label:e.label,category:e.category||'general',amount:e.amount,expense_date:new Date().toISOString().slice(0,10)})});
+  if(e.recurring==='mensuelle'||e.recurring==='annuelle'){
+    var d=new Date(e.due_date);
+    if(e.recurring==='mensuelle')d.setMonth(d.getMonth()+1);else d.setFullYear(d.getFullYear()+1);
+    await api('echeances','',{method:'POST',body:JSON.stringify({label:e.label,category:e.category,amount:e.amount,due_date:d.toISOString().slice(0,10),recurring:e.recurring})});
+    toast('Payée ✅ + prochaine échéance créée ('+d.toISOString().slice(0,10)+')');
+  }else{toast('Payée ✅ dépense créée en compta');}
+  DATA.expenses=await api('expenses','?select=*&order=expense_date.desc&limit=100');
+  renderBudget();
+}
+async function delEcheance(id){
+  if(!confirm('Supprimer cette échéance ?'))return;
+  await api('echeances','?id=eq.'+id,{method:'DELETE'});
+  toast('Échéance supprimée');renderBudget();
+}
+function exportBudgetCSV(){
+  var rows=[['type','libelle','categorie','montant_F','date','statut']];
+  (DATA.budgets||[]).forEach(function(b){rows.push(['budget-mensuel',catLabel(b.category),b.category,b.monthly_limit,'','actif']);});
+  (DATA.echeances||[]).forEach(function(e){rows.push(['echeance',e.label,e.category,e.amount,e.due_date,e.status+(e.recurring&&e.recurring!=='none'?' · '+e.recurring:'')]);});
+  dlCSV('sentew-budget-'+new Date().toISOString().slice(0,10)+'.csv',rows);
+  toast('Export budget téléchargé ⬇ï¸');
+}
+async function updateBudgetBadge(){
+  try{
+    var today=new Date().toISOString().slice(0,10);
+    var e=await api('echeances','?status=eq.pending&due_date=lt.'+today+'&select=id');
+    setBadge('nbB',e.length);
+  }catch(e){}
+}
+/* showTab V3 (ajoute budget) */
+function showTab(id,btn){
+  selClear();closeModal();
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.add('hidden');});
+  $(id).classList.remove('hidden');
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});
+  if(btn)btn.classList.add('on');
+  if(id==='pano')renderPano();
+  if(id==='stats')renderStats();
+  if(id==='vendeurs')renderVendors();
+  if(id==='livreurs')renderDrivers();
+  if(id==='commandes')renderOrders();
+  if(id==='reversements')renderPayouts();
+  if(id==='compta')renderCompta();
+  if(id==='salaires')renderSalaries();
+  if(id==='budget')renderBudget();
+  if(id==='messages')renderMessages();
+  if(id==='notifs')loadNotifs();
+}
+updateBudgetBadge();
+setInterval(updateBudgetBadge,60000);
+
+/* â•â•â•â•â•â•â•â•â•â• INIT â•â•â•â•â•â•â•â•â•â• */
+lucide.createIcons();
+loadAll().then(function(){renderPano();});
+silentRefresh();
+setInterval(silentRefresh,30000);
+</script>
+</body>
+</html>
