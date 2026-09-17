@@ -213,5 +213,46 @@ lucide.createIcons();
 <script>
 (function(){var u=null;try{u=JSON.parse(sessionStorage.getItem('sentew_user')||localStorage.getItem('sentew_user'));}catch(e){}if(!u||!u.email)return;fetch('https://tjqkruhwmjzgfvtouqza.supabase.co/rest/v1/notifications?audience=eq.user&user_email=eq.'+encodeURIComponent(u.email)+'&is_read=eq.false&select=id',{headers:{apikey:'sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j',Authorization:'Bearer sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j'}}).then(function(r){return r.json();}).then(function(rows){var n=(rows||[]).length,d=document.getElementById('notifDot');if(d&&n>0){d.textContent=n>9?'9+':n;d.style.display='block';}}).catch(function(){});})();
 </script>
+  <!-- ═══ PRODUITS SIMILAIRES + PANIER VIDE ENRICHI (style Amazon/SHEIN) ═══ -->
+<section id="simSec" style="display:none;margin:18px 0 100px;padding:0 4px">
+  <h2 style="font-size:17px;font-weight:800;color:#0a1f17;margin-bottom:12px;display:flex;align-items:center;gap:8px">
+    <i data-lucide="sparkles" style="width:18px;height:18px;color:#0f6b4e"></i>Ça peut t'intéresser
+  </h2>
+  <div id="simRow" style="display:flex;overflow-x:auto;gap:12px;padding-bottom:8px;-webkit-overflow-scrolling:touch"></div>
+</section>
+<style>
+.sim-card{flex:0 0 140px;background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;text-decoration:none;color:#0a1f17;box-shadow:0 2px 8px rgba(15,107,78,.05)}
+.sim-card img{width:100%;height:120px;object-fit:cover}
+.sim-card .n{font-size:12px;font-weight:600;padding:8px 10px 2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px}
+.sim-card .p{font-size:14px;font-weight:900;color:#0f6b4e;padding:0 10px 8px}
+.sim-card .o{font-size:11px;color:#9db8af;text-decoration:line-through;padding:0 10px 10px}
+</style>
+<script>
+async function loadSimilar(){
+  try{
+    var cart=(typeof cartGet==='function')?cartGet():[];
+    var ids=cart.map(function(i){return i.id||i.product_id;});
+    var cats=cart.map(function(i){return i.category;}).filter(Boolean);
+    var rows=null;
+    if(typeof getProducts==='function'){rows=await getProducts();}
+    else if(typeof supa==='function'){rows=await supa('products?is_active=eq.true&limit=30&order=sales.desc');}
+    rows=(rows||[]).filter(function(p){return ids.indexOf(p.id)<0;});
+    if(cats.length){var same=rows.filter(function(p){return cats.indexOf(p.category)>=0;});if(same.length>=4)rows=same.concat(rows);}
+    rows=rows.slice(0,10);
+    if(!rows.length)return;
+    document.getElementById('simSec').style.display='block';
+    document.getElementById('simRow').innerHTML=rows.map(function(p){
+      var href=(typeof lienProduit==='function')?lienProduit(p):('produit.html?id='+p.id);
+      var img=p.image||p.image_url||p.photo||'assets/placeholder.png';
+      var pr=(typeof stPrice==='function')?stPrice(p.price):((typeof fmtPrix==='function'?fmtPrix(p.price):p.price)+' FCFA');
+      var old=p.old_price?('<div class="o">'+((typeof stPrice==='function')?stPrice(p.old_price):fmtPrix(p.old_price)+' FCFA')+'</div>'):'';
+      return '<a class="sim-card" href="'+href+'"><img src="'+img+'" loading="lazy" alt=""><div class="n">'+(p.name||'')+'</div><div class="p">'+pr+'</div>'+old+'</a>';
+    }).join('');
+    lucide.createIcons();
+  }catch(e){console.log('similar:',e);}
+}
+loadSimilar();
+</script>
+
 </body>
 </html>
