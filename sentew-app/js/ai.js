@@ -1,23 +1,34 @@
 /* ══════════════════════════════════════════════
-   SEN TEW — AI.JS v1.0
-   Cerveau IA gratuit (Gemini) : recherche intelligente,
-   assistant shopping, support, photo IA vendeur.
-   ⚠️ Colle ta clé Gemini (aistudio.google.com) ci-dessous.
+   SEN TEW — AI.JS v1.1 (SÉCURISÉ)
+   La clé Gemini N'EST PAS dans ce fichier.
+   Elle est stockée sur l'appareil (localStorage),
+   saisie une seule fois par l'admin.
    ══════════════════════════════════════════════ */
 var ST_AI = {
-  KEY: 'COLLE_TA_CLE_GEMINI_ICI',
   MODEL: 'gemini-2.0-flash',
-  CTX: '',                 // catalogue produits (chargé une fois)
+  CTX: '',
   ready: false
 };
 
-/* ── Appel Gemini (gratuit, navigateur) ── */
+/* La clé est lue depuis l'appareil, jamais depuis le code */
+function stAiKey(){
+  return localStorage.getItem('st_gemini_key') || '';
+}
+function stAiSetKey(k){
+  localStorage.setItem('st_gemini_key', String(k||'').trim());
+}
+function stAiHasKey(){
+  var k = stAiKey();
+  return k.length > 20;
+}
+
+/* ── Appel Gemini ── */
 async function stAsk(prompt){
-  if(!ST_AI.KEY || ST_AI.KEY.indexOf('AIza')!==0){
-    return '⚙️ IA en cours d\u2019activation — l\u2019administrateur doit ajouter la clé Gemini dans js/ai.js.';
+  if(!stAiHasKey()){
+    return '⚙️ IA non activée sur cet appareil. L\u2019administrateur doit saisir la clé Gemini (une seule fois) via stAiSetKey().';
   }
   try{
-    var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+ST_AI.MODEL+':generateContent?key='+ST_AI.KEY,{
+    var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+ST_AI.MODEL+':generateContent?key='+stAiKey(),{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
@@ -33,7 +44,7 @@ async function stAsk(prompt){
   }
 }
 
-/* ── Charge le catalogue une fois (pour que l'IA connaisse les produits) ── */
+/* ── Charge le catalogue une fois ── */
 async function stAiInit(){
   if(ST_AI.ready) return;
   try{
@@ -45,9 +56,7 @@ async function stAiInit(){
   }catch(e){ ST_AI.ready = true; }
 }
 
-/* ═══ 1. RECHERCHE INTELLIGENTE — comprend le langage naturel ═══
-   stAiSearch("un boubou élégant pas cher pour un mariage")
-   → renvoie {category, maxPrice, keywords[]} à appliquer aux résultats */
+/* ═══ 1. RECHERCHE INTELLIGENTE ═══ */
 async function stAiSearch(userQuery){
   var raw = await stAsk(
     'Tu es le moteur de recherche de SEN TEW, marketplace sénégalaise. '+
@@ -61,7 +70,7 @@ async function stAiSearch(userQuery){
   }catch(e){ return {keywords:[userQuery],category:'',maxPrice:null}; }
 }
 
-/* ═══ 2. ASSISTANT SHOPPING — conseille et guide ═══ */
+/* ═══ 2. ASSISTANT SHOPPING « Nio Far » ═══ */
 async function stAiChat(question){
   return stAsk(
     'Tu es « Nio Far », l\u2019assistant shopping de SEN TEW (marketplace sénégalaise). '+
@@ -70,7 +79,7 @@ async function stAiChat(question){
   );
 }
 
-/* ═══ 3. SUPPORT CLIENT — réponses automatiques ═══ */
+/* ═══ 3. SUPPORT CLIENT ═══ */
 async function stAiSupport(probleme){
   return stAsk(
     'Tu es le support SEN TEW. Règles : livraison 24-48h (ville) / 2-5j (régions), '+
@@ -79,17 +88,16 @@ async function stAiSupport(probleme){
   );
 }
 
-/* ═══ 4. PHOTO IA VENDEUR — analyse la photo → fiche produit ═══
-   stAiPhoto(fichierImage) → {name, category, description, price} */
+/* ═══ 4. PHOTO IA VENDEUR ═══ */
 async function stAiPhoto(file){
-  if(!ST_AI.KEY || ST_AI.KEY.indexOf('AIza')!==0) return null;
+  if(!stAiHasKey()) return null;
   var b64 = await new Promise(function(res){
     var fr = new FileReader();
     fr.onload = function(){ res(String(fr.result).split(',')[1]); };
     fr.readAsDataURL(file);
   });
   try{
-    var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+ST_AI.MODEL+':generateContent?key='+ST_AI.KEY,{
+    var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+ST_AI.MODEL+':generateContent?key='+stAiKey(),{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
@@ -107,8 +115,7 @@ async function stAiPhoto(file){
   }catch(e){ return null; }
 }
 
-/* ═══ 5. TRADUCTION COMMENTAIRES (MyMemory gratuit, sans clé) ═══
-   stTranslate("Jërëjëf, bu baax la", "fr") → texte traduit */
+/* ═══ 5. TRADUCTION COMMENTAIRES (MyMemory gratuit, sans clé) ═══ */
 async function stTranslate(text, targetLang){
   targetLang = targetLang || 'fr';
   try{
@@ -119,5 +126,4 @@ async function stTranslate(text, targetLang){
   }catch(e){ return text; }
 }
 
-/* démarrage silencieux */
 stAiInit();
