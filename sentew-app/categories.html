@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Catégories - SEN TEW</title>
 <script src="js/security-shield.js"></script>
+<script src="js/currency.js"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="js/supabase.js"></script>
 <style>
@@ -145,6 +146,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
       <span style="color:#9aa5a0">—</span>
       <input type="number" id="pMax" placeholder="Max" min="0">
     </div>
+    <div style="font-size:10px;color:#9aa5a0;margin-top:5px">Montants en FCFA (devise de référence) — l'affichage des prix reste dans ta devise.</div>
   </div>
   <div class="f-group">
     <h4>Note minimum</h4>
@@ -355,8 +357,8 @@ function render(list){
         (p.vendors ? '<a class="pseller" href="' + lienBoutique(p.vendors) + '">' + p.vendors.shop_name + ' <i data-lucide="badge-check" style="width:12px"></i></a>' : '') +
         '<div class="pname" onclick="location.href=\'' + lienProduit(p) + '\'">' + p.name + '</div>' +
         '<div class="prate">⭐ ' + (p.rating||'—') + ' · ' + (p.review_count||0) + ' avis</div>' +
-        '<div><span class="pprice">' + fmtPrix(p.price) + ' FCFA</span>' +
-        (p.old_price ? '<span class="pold">' + fmtPrix(p.old_price) + '</span>' : '') + '</div>' +
+        '<div><span class="pprice">' + stPrice(p.price) + '</span>' +
+        (p.old_price ? '<span class="pold">' + stPrice(p.old_price) + '</span>' : '') + '</div>' +
         '<div class="pmeta"><i data-lucide="package" style="width:11px"></i> ' + (p.sold_count||0) + ' vendus' + (p.free_shipping ? ' · <i data-lucide="truck" style="width:11px"></i> Gratuit' : '') + '</div>' +
         '<button class="btn-add" data-add="' + p.id + '"><i data-lucide="shopping-cart" style="width:13px"></i> Ajouter</button>' +
       '</div></div>';
