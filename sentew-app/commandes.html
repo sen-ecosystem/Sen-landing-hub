@@ -212,7 +212,7 @@ function render(){
     var date = new Date(o.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) + ' · ' + new Date(o.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
 
     var itemsHtml = (o.items || []).map(function(i){
-      return '<div class="o-item"><span class="qi">' + i.qty + '</span><span><b>' + i.name + '</b>' + (i.vendor ? ' · <span style="color:#b8860b">' + i.vendor + '</span>' : '') + '</span><span style="margin-left:auto;font-weight:700;color:#0f6b4e">' + fmtPrix(i.price * i.qty) + ' F</span></div>';
+      return '<div class="o-item"><span class="qi">' + i.qty + '</span><span><b>' + i.name + '</b>' + (i.vendor ? ' · <span style="color:#b8860b">' + i.vendor + '</span>' : '') + '</span><span style="margin-left:auto;font-weight:700;color:#0f6b4e">' + stPrice(i.price * i.qty) + '</span></div>';
     }).join('');
 
     var progHtml = '';
@@ -244,7 +244,7 @@ function render(){
           return '<div class="inst-line"><span class="ir-dot ' + (paid ? 'ir-paid' : 'ir-due') + '"></span>' +
             '<span>Tranche ' + r.num + '/' + r.nb_total + ' · ' + d + '</span>' +
             '<span class="ir-st ' + (paid ? 'paid' : 'due') + '">' + (paid ? 'Payée ✓' : 'À venir') + '</span>' +
-            '<span class="ir-amt">' + fmtPrix(r.amount) + ' F</span></div>';
+            '<span class="ir-amt">' + stPrice(r.amount) + '</span></div>';
         }).join('') + '</div>';
     }
 
@@ -260,10 +260,10 @@ function render(){
 
     return '<div class="order">' +
       '<div class="o-top"><span class="o-code">' + (o.tracking_code || o.ref) + '</span><span class="o-status ' + st[0] + '">' + st[1] + (isActive ? '<span class="live-dot"></span>' : '') + '</span></div>' +
-      '<div class="o-date">' + date + ' · ' + (o.city || 'Dakar') + '</div>' +
+      '<div class="o-date">' + date + (o.city ? ' · ' + o.city : '') + '</div>' +
       '<div class="o-items">' + itemsHtml + '</div>' +
       progHtml + codeHtml + instHtml +
-      '<div class="o-total"><span>' + (o.payment_method === 'cash' ? '💵 À la livraison' : o.payment_method === 'card' ? '💳 Carte' : '📱 Mobile money') + (o.payment_status === 'paid' ? ' · payé ✓' : '') + '</span><b>' + fmtPrix(o.total) + ' FCFA</b></div>' +
+      '<div class="o-total"><span>' + (o.payment_method === 'cash' ? '💵 À la livraison' : o.payment_method === 'card' ? '💳 Carte' : '📱 Mobile money') + (o.payment_status === 'paid' ? ' · payé ✓' : '') + '</span><b>' + stPrice(o.total) + '</b></div>' +
       '<div class="o-actions">' + actions + '</div>' +
     '</div>';
   }).join('');
