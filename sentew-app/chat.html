@@ -6,6 +6,8 @@
 <title>Chat - SEN TEW</title>
 <script src="js/security-shield.js"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/ai.js"></script>
+<script src="js/translate-live.js"></script>
 <script src="js/supabase.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -148,15 +150,22 @@ function renderMsgs(){
   var body = document.getElementById('chatBody');
   var msgs = threadGet();
   var lastDay = '';
-  body.innerHTML = msgs.map(function(m){
+  body.innerHTML = msgs.map(function(m, idx){
     var day = new Date(m.at).toLocaleDateString('fr-FR', { day:'numeric', month:'long' });
     var sep = '';
     if (day !== lastDay) { lastDay = day; sep = '<div class="msg-day">' + day + '</div>'; }
     var time = new Date(m.at).toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
+    var safeText = m.text.replace(/</g,'&lt;');
+    var trSlot = (m.from !== 'me') ? ('<span class="st-msg-slot" data-idx="'+idx+'"></span>') : '';
     return sep + '<div class="msg ' + (m.from === 'me' ? 'me' : 'them') + '">' +
-      m.text.replace(/</g,'&lt;') + '<span class="mt">' + time + (m.from === 'me' ? ' ✓✓' : '') + '</span></div>';
+      '<span class="st-msg-text" data-idx="'+idx+'">' + safeText + '</span>' + trSlot +
+      '<span class="mt">' + time + (m.from === 'me' ? ' ✓✓' : '') + '</span></div>';
   }).join('');
   body.scrollTop = body.scrollHeight;
+  document.querySelectorAll('.st-msg-slot').forEach(function(slot){
+    var el = document.querySelector('.st-msg-text[data-idx="'+slot.dataset.idx+'"]');
+    if(el) stTrAttachButton(el, {container: slot});
+  });
   // Marquer comme lus
   var all = threadGet();
   all.forEach(function(m){ m.read = true; });
