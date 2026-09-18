@@ -528,8 +528,7 @@ async function addExpense(){
 async function addInvoice(){
   var n=$('invNum').value.trim(),s=$('invSup').value.trim(),l=$('invLbl').value.trim(),t=$('invType').value,a=parseFloat($('invAmt').value)||0,tax=parseFloat($('invTax').value)||0;
   if(!n||!a){toast('N° de facture et montant requis');return;}
-  var resp=await api('invoices','',{method:'POST',body:JSON.stringify({number:n,supplier:s,label:l,type:t,amount:a,tax:tax,invoice_date:new Date().toISOString().slice(0,10),status:'pending'})});
-  if(resp&&resp.ok===false){var errTxt='';try{errTxt=await resp.text();}catch(e){}toast('❌ Erreur: '+(errTxt||resp.status));console.error('addInvoice failed',resp.status,errTxt);return;}
+  await api('invoices','',{method:'POST',body:JSON.stringify({number:n,supplier:s,label:l,type:t,amount:a,tax:tax})});
   toast('Facture enregistrée ✅');
   DATA.invoices=await api('invoices','?select=*&order=created_at.desc&limit=100');
   renderCompta();
