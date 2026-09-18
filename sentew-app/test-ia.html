@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Test IA — SEN TEW</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;background:#0a1f17;min-height:100vh;padding:24px 16px;color:#e8f5ee}
+h1{font-size:19px;font-weight:900;text-align:center;margin-bottom:6px}
+p.sub{text-align:center;font-size:12px;color:#8fb8a8;margin-bottom:20px}
+button{width:100%;padding:15px;border:none;border-radius:14px;background:#0f6b4e;color:#fff;font-size:15px;font-weight:800;cursor:pointer;margin-bottom:10px}
+button.b2{background:#1a56c4}
+button.b3{background:#b07a1f}
+.out{background:#04120c;border:1.5px solid #1d4a3a;border-radius:14px;padding:16px;font-size:12px;font-family:Menlo,monospace;white-space:pre-wrap;word-break:break-word;line-height:1.6;max-height:50vh;overflow-y:auto;color:#bfe8cf;margin-top:8px}
+.good{color:#4ade80;font-weight:800}
+.bad{color:#ff8f8f;font-weight:800}
+.lbl{font-size:11px;font-weight:800;color:#5b7a70;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 6px}
+a{color:#4ade80}
+</style>
+</head>
+<body>
+<h1>🔬 Diagnostic IA</h1>
+<p class="sub">Teste la clé Gemini et trouve le bon modèle.<br>L'erreur exacte de Google s'affiche en bas.</p>
+
+<button class="b2" onclick="testModels()">1️⃣ Tester les modèles un par un</button>
+<button class="b3" onclick="listModels()">2️⃣ Lister les modèles dispos pour ma clé</button>
+<button onclick="testRaw()">3️⃣ Test brut (affiche la réponse Google complète)</button>
+
+<div class="lbl">Résultat</div>
+<div class="out" id="out">Clique un bouton pour lancer un test…</div>
+
+<script>
+var KEY = localStorage.getItem('st_gemini_key')||'';
+var OUT = document.getElementById('out');
+function log(m){ OUT.textContent += '\n' + m; OUT.scrollTop = OUT.scrollHeight; }
+function reset(m){ OUT.textContent = m; }
+
+if(!KEY){ reset('❌ AUCUNE CLÉ — retourne sur config-ia.html et colle ta clé d\u2019abord.'); }
+else{ reset('Clé détectée : ' + KEY.slice(0,10) + '… (' + KEY.length + ' caractères)\n'); }
+
+var MODELS = ['gemini-2.0-flash','gemini-2.0-flash-lite','gemini-1.5-flash','gemini-1.5-flash-latest','gemini-1.5-pro','gemini-pro'];
+
+async function callModel(model){
+  var url='https://generativelanguage.googleapis.com/v1beta/models/'+model+':generateContent?key='+KEY;
+  var r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({contents:[{parts:[{text:'Dis juste : OK'}]}],generationConfig:{maxOutputTokens:20}})});
+  var j=await r.json();
+  if(!r.ok){ return {ok:false, err:(j.error && j.error.message)?j.error.message:('HTTP '+r.status), code:(j.error&&j.error.code)||r.status}; }
+  var t=j.candidates&&j.candidates[0]&&j.candidates[0].content&&j.candidates[0].content.parts&&j.candidates[0].content.parts[0]&&j.candidates[0].content.parts[0].text;
+  return {ok:true, text:t||'(vide)'};
+}
+
+async function testModels(){
+  reset('🔬 Test des modèles…\n');
+  for(var i=0;i<MODELS.length;i++){
+    var m=MODELS[i];
+    log('⏳ '+m+' …');
+    try{
+      var r=await callModel(m);
+      if(r.ok) log('✅ '+m+' → FONCTIONNE (réponse: '+r.text.trim()+')');
+      else log('❌ '+m+' → '+r.code+' : '+r.err.slice(0,120));
+    }catch(e){ log('❌ '+m+' → réseau : '+e.message); }
+  }
+  log('\n👉 Retiens le 1er modèle avec ✅ et dis-le-moi.');
+}
+
+async function listModels(){
+  reset('📋 Liste des modèles autorisés pour ta clé…\n');
+  try{
+    var r=await fetch('https://generativelanguage.googleapis.com/v1beta/models?key='+KEY);
+    var j=await r.json();
+    if(!r.ok){ log('❌ '+(j.error?j.error.message:('HTTP '+r.status))); return; }
+    var names=(j.models||[]).filter(function(m){return (m.supportedGenerationMethods||[]).indexOf('generateContent')>-1;}).map(function(m){return m.name.replace('models/','');});
+    log('✅ Modèles utilisables :\n\n'+names.join('\n'));
+    log('\n👉 Donne-moi cette liste.');
+  }catch(e){ log('❌ réseau : '+e.message); }
+}
+
+async function testRaw(){
+  reset('🧪 Test brut sur gemini-2.0-flash…\n');
+  try{
+    var url='https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+KEY;
+    var r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({contents:[{parts:[{text:'Dis juste : OK'}]}],generationConfig:{maxOutputTokens:20}})});
+    var txt=await r.text();
+    log('HTTP '+r.status+'\n\n'+txt.slice(0,1500));
+    log('\n👉 Envoie-moi une capture de ce résultat.');
+  }catch(e){ log('❌ réseau : '+e.message); }
+}
+</script>
+</body>
+</html>
