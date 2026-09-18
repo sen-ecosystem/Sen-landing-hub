@@ -22,8 +22,12 @@ function stAiHasKey(){
   return k.length > 20;
 }
 
-/* ── Appel Gemini ── */
-async function stAsk(prompt){
+/* Petite pause utilitaire pour le retry */
+function stSleep(ms){ return new Promise(function(res){ setTimeout(res, ms); }); }
+
+/* ── Appel Gemini (avec retry automatique si Google est surchargé) ── */
+async function stAsk(prompt, _attempt){
+  _attempt = _attempt || 1;
   if(!stAiHasKey()){
     return '⚙️ IA non activée sur cet appareil. L\u2019administrateur doit saisir la clé Gemini (une seule fois) via stAiSetKey().';
   }
@@ -38,16 +42,27 @@ async function stAsk(prompt){
     });
     var j = await r.json();
     var t = j && j.candidates && j.candidates[0] && j.candidates[0].content && j.candidates[0].content.parts && j.candidates[0].content.parts[0] && j.candidates[0].content.parts[0].text;
-if(!t && j && j.candidates && j.candidates[0] && j.candidates[0].finishReason==='MAX_TOKENS'){
-  return '⚠️ Réponse coupée (quota tokens). Réessaie avec une question plus courte.';
-}
-if(!t && j && j.error){
-  return '❌ Erreur Google : '+(j.error.message||'inconnue');
-}
-return t || 'Je n\u2019ai pas trouvé de réponse, réessaie autrement.';
+
+    /* Modèle surchargé (503 / "high demand") → on réessaie automatiquement */
+    var errMsg = (j && j.error && j.error.message) || '';
+    var isOverloaded = r.status===503 || /overload|high demand|unavailable/i.test(errMsg);
+    if(!t && isOverloaded && _attempt < 3){
+      await stSleep(_attempt * 1200); /* 1.2s puis 2.4s avant de réessayer */
+      return stAsk(prompt, _attempt + 1);
+    }
+    if(!t && isOverloaded){
+      return '⏳ Nio Far est très demandé en ce moment. Réessaie dans une minute, ça devrait passer 🙏';
+    }
+    if(!t && j && j.candidates && j.candidates[0] && j.candidates[0].finishReason==='MAX_TOKENS'){
+      return '⚠️ Réponse coupée (quota tokens). Réessaie avec une question plus courte.';
+    }
+    if(!t && j && j.error){
+      return '❌ Erreur Google : '+(j.error.message||'inconnue');
+    }
+    return t || 'Je n\u2019ai pas trouvé de réponse, réessaie autrement.';
   }catch(e){
     return '❌ Erreur technique : '+(e && e.message ? e.message : 'inconnue')+'. Réessaie dans quelques secondes.';
-}
+  }
 }
 
 /* ── Charge le catalogue une fois ── */
