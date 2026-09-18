@@ -5,7 +5,7 @@
    saisie une seule fois par l'admin.
    ══════════════════════════════════════════════ */
 var ST_AI = {
-  MODEL: 'gemini-2.0-flash',
+  MODEL: 'gemini-3.6-flash',
   CTX: '',
   ready: false
 };
