@@ -1,75 +1,50 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Assistant IA - SEN TEW</title>
-  <link rel="stylesheet" href="css/app.css?v=52">
-  <script src="https://unpkg.com/lucide@latest"></script>
- <script src="js/ai.js"></script>
-  <style>
-    body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 140px; }
-    .topbar { background: linear-gradient(135deg, #6b46c1, #4c1d95); color: #fff; padding: 16px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 10; }
-    .topbar h1 { color: #fff; font-size: 16px; margin: 0; flex: 1; }
-    .topbar .status { color: #d1fae5; font-size: 11px; }
-    .icon-btn { background: rgba(255,255,255,0.2); border: none; cursor: pointer; padding: 8px; color: #fff; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
-    .ia-avatar { width: 40px; height: 40px; background: rgba(255,255,255,0.25); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid rgba(255,255,255,0.4); }
-    .ia-avatar i { color: #fff; }
-
-    /* WELCOME HERO */
-    .welcome {
-      background: linear-gradient(135deg, #6b46c1, #4c1d95);
-      color: #fff;
-      padding: 24px 20px;
-      text-align: center;
-      margin-bottom: 16px;
-    }
-    .welcome h2 { color: #fff !important; margin: 0 0 8px; font-size: 20px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-    .welcome p { color: rgba(255,255,255,0.95) !important; margin: 0; font-size: 13px; }
-
-    /* QUESTIONS RAPIDES */
-    .section-title { color: #d4a574; font-size: 12px; font-weight: 700; padding: 0 20px; margin: 16px 0 8px; letter-spacing: 1px; display: flex; align-items: center; gap: 6px; }
-    .quick-questions { background: #fff; margin: 0 16px 16px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-    .qq-row { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid #f0f0f0; cursor: pointer; text-decoration: none; color: #1a1a1a; }
-    .qq-row:last-child { border-bottom: none; }
-    .qq-row i:first-child { width: 22px; height: 22px; flex-shrink: 0; }
-    .qq-row span { flex: 1; font-weight: 500; font-size: 14px; }
-    .qq-row i:last-child { color: #999; width: 18px; height: 18px; }
-
-    /* CONVERSATION */
-    .conversation { padding: 0 16px; }
-    .bubble { display: flex; gap: 8px; margin-bottom: 12px; align-items: flex-end; }
-    .bubble.user { justify-content: flex-end; }
-    .bubble .bubble-avatar { width: 32px; height: 32px; background: #6b46c1; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .bubble .bubble-avatar i { color: #fff; width: 16px; height: 16px; }
-    .bubble.user .bubble-avatar { background: #0f6b4e; }
-    .bubble-content { background: #fff; padding: 10px 14px; border-radius: 16px; max-width: 75%; font-size: 13px; color: #1a1a1a; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-    .bubble.user .bubble-content { background: #0f6b4e; color: #fff; }
-    .bubble-time { font-size: 10px; color: #999; margin-top: 4px; }
-
-    /* INPUT FIXE */
-    .input-bar {
-      position: fixed;
-      bottom: 60px;
-      left: 0; right: 0;
-      background: #fff;
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border-top: 1px solid #e5e7eb;
-      box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
-    }
-    .input-plus { background: #f5f5f0; border: none; padding: 8px; border-radius: 50%; cursor: pointer; color: #0f6b4e; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
-    .input-field { flex: 1; padding: 10px 16px; border: 1.5px solid #e5e7eb; border-radius: 20px; font-size: 14px; box-sizing: border-box; background: #fff; }
-    .btn-send { background: linear-gradient(135deg, #6b46c1, #4c1d95); border: none; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(107,70,193,0.4); }
-    .btn-send i { color: #fff; width: 20px; height: 20px; }
-
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #e5e7eb; z-index: 5; }
-    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #666; font-size: 11px; }
-    .bottom-nav a.active { color: #0f6b4e; }
-    .bottom-nav a i { width: 22px; height: 22px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Nio Far — Assistant IA SEN TEW</title>
+<link rel="stylesheet" href="css/app.css?v=52">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/supabase.js"></script>
+<script src="js/ai.js"></script>
+<style>
+body{background:#f5f5f0;margin:0;font-family:-apple-system,sans-serif;padding-bottom:150px}
+.topbar{background:linear-gradient(135deg,#6b46c1,#4c1d95);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
+.topbar h1{color:#fff;font-size:16px;margin:0;flex:1}
+.status{font-size:11px;color:#d1fae5}
+.icon-btn{background:rgba(255,255,255,.2);border:none;cursor:pointer;padding:8px;color:#fff;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center}
+.ia-avatar{width:40px;height:40px;background:rgba(255,255,255,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,.4)}
+.ia-avatar i{color:#fff}
+.section-title{color:#b07a1f;font-size:11.5px;font-weight:800;padding:0 18px;margin:16px 0 8px;letter-spacing:1px;display:flex;align-items:center;gap:6px;text-transform:uppercase}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 16px 10px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;background:#fff;border:1.5px solid #e5e7eb;border-radius:99px;padding:8px 13px;font-size:12px;font-weight:700;color:#4b5563;cursor:pointer;transition:.15s}
+.chip:active{border-color:#6b46c1;color:#6b46c1;background:#f3efff}
+.conversation{padding:4px 16px}
+.bubble{display:flex;gap:8px;margin-bottom:12px;align-items:flex-end}
+.bubble.user{justify-content:flex-end}
+.bubble-avatar{width:30px;height:30px;background:#6b46c1;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.bubble-avatar i{color:#fff;width:15px;height:15px}
+.bubble.user .bubble-avatar{background:#0f6b4e}
+.bubble-content{background:#fff;padding:10px 14px;border-radius:16px;border-bottom-left-radius:4px;max-width:78%;font-size:13.5px;color:#1a1a1a;box-shadow:0 2px 6px rgba(0,0,0,.05);line-height:1.55}
+.bubble.user .bubble-content{background:#0f6b4e;color:#fff;border-radius:16px;border-bottom-right-radius:4px}
+.bubble-time{font-size:9.5px;color:#9ca3af;margin-top:3px}
+.typing{display:inline-flex;gap:4px;padding:4px 0}
+.typing span{width:7px;height:7px;border-radius:99px;background:#6b46c1;animation:tp 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes tp{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
+.input-bar{position:fixed;bottom:64px;left:0;right:0;background:#fff;padding:12px 16px;display:flex;align-items:center;gap:8px;border-top:1px solid #e5e7eb;box-shadow:0 -2px 8px rgba(0,0,0,.05)}
+.input-field{flex:1;padding:11px 16px;border:1.5px solid #e5e7eb;border-radius:22px;font-size:14px;outline:none;background:#fff}
+.input-field:focus{border-color:#6b46c1}
+.btn-send{background:linear-gradient(135deg,#6b46c1,#4c1d95);border:none;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 12px rgba(107,70,193,.4);flex-shrink:0}
+.btn-send i{color:#fff;width:19px;height:19px}
+.btn-send:disabled{opacity:.5}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0;border-top:1px solid #e5e7eb;z-index:5}
+.bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#666;font-size:11px}
+.bottom-nav a.active{color:#0f6b4e}
+.bottom-nav a i{width:22px;height:22px}
+</style>
 </head>
 <body class="light-mode">
 
@@ -77,117 +52,93 @@
   <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
   <div class="ia-avatar"><i data-lucide="bot"></i></div>
   <div style="flex:1">
-    <h1>Assistant IA SEN TEW</h1>
-    <div class="status">● En ligne · Répond instantanément</div>
+    <h1>Nio Far · Assistant IA</h1>
+    <div class="status" id="statusLine">● En ligne · connaît tout le catalogue</div>
   </div>
-  <button class="icon-btn" onclick="alert('⋮ Options')"><i data-lucide="more-vertical"></i></button>
+  <button class="icon-btn" onclick="clearChat()"><i data-lucide="trash-2"></i></button>
 </header>
 
-<!-- WELCOME -->
-<div class="welcome">
-  <h2>Bonjour Karim ! 👋</h2>
-  <p>Comment puis-je vous aider aujourd'hui ?</p>
+<div class="section-title"><i data-lucide="sparkles" style="width:14px;height:14px"></i> Essaie une question</div>
+<div class="chips">
+  <div class="chip" onclick="ask('Je cherche un boubou élégant pour un mariage')">👗 Boubou mariage</div>
+  <div class="chip" onclick="ask('C\u2019est quoi les délais de livraison ?')">🚚 Livraison</div>
+  <div class="chip" onclick="ask('Quels sont les codes promo actifs ?')">🏷️ Codes promo</div>
+  <div class="chip" onclick="ask('Un cadeau pour ma mère, moins de 20000 F')">🎁 Idée cadeau</div>
+  <div class="chip" onclick="ask('Comment devenir vendeur sur SEN TEW ?')">🏬 Vendre</div>
+  <div class="chip" onclick="ask('Un smartphone pas cher avec une bonne photo')">📱 Téléphone</div>
 </div>
 
-<!-- QUESTIONS RAPIDES -->
-<div class="section-title"><i data-lucide="sparkles" style="width:14px;height:14px"></i> QUESTIONS RAPIDES</div>
-<div class="quick-questions">
-  <a href="suivi-commande.html" class="qq-row">
-    <i data-lucide="truck" style="color:#0f6b4e"></i>
-    <span>Où est ma commande ?</span>
-    <i data-lucide="chevron-right"></i>
-  </a>
-  <a href="remboursement.html" class="qq-row">
-    <i data-lucide="rotate-ccw" style="color:#dc2626"></i>
-    <span>Comment obtenir un remboursement ?</span>
-    <i data-lucide="chevron-right"></i>
-  </a>
-  <a href="#" onclick="alert('WELCOME20, RAMADAN30, FREESHIP')" class="qq-row">
-    <i data-lucide="tag" style="color:#d4a574"></i>
-    <span>Codes promo actifs ?</span>
-    <i data-lucide="chevron-right"></i>
-  </a>
-  <a href="portefeuille.html" class="qq-row">
-    <i data-lucide="wallet" style="color:#d4a574"></i>
-    <span>Comment retirer mon solde Wave ?</span>
-    <i data-lucide="chevron-right"></i>
-  </a>
-  <a href="devenir-vendeur.html" class="qq-row">
-    <i data-lucide="store" style="color:#0f6b4e"></i>
-    <span>Comment devenir vendeur ?</span>
-    <i data-lucide="chevron-right"></i>
-  </a>
-</div>
+<div class="section-title"><i data-lucide="message-circle" style="width:14px;height:14px"></i> Conversation</div>
+<div class="conversation" id="chat"></div>
 
-<!-- CONVERSATION DEMO -->
-<div class="section-title"><i data-lucide="message-circle" style="width:14px;height:14px"></i> CONVERSATION</div>
-<div class="conversation" id="chat">
-  <div class="bubble">
-    <div class="bubble-avatar"><i data-lucide="bot"></i></div>
-    <div>
-      <div class="bubble-content">Bonjour Karim ! Je suis l'Assistant IA SEN TEW. Que puis-je faire pour vous aujourd'hui ?</div>
-      <div class="bubble-time">14:30</div>
-    </div>
-  </div>
-</div>
-
-<!-- INPUT BAR -->
 <div class="input-bar">
-  <button class="input-plus" onclick="alert('📎 Joindre fichier/photo')"><i data-lucide="plus"></i></button>
-  <input type="text" class="input-field" id="msgInput" placeholder="Posez votre question...">
-  <button class="btn-send" onclick="sendIA()"><i data-lucide="send"></i></button>
+  <input type="text" class="input-field" id="msgInput" placeholder="Pose ta question à Nio Far…" autocomplete="off">
+  <button class="btn-send" id="sendBtn" onclick="sendIA()"><i data-lucide="send"></i></button>
 </div>
 
 <nav class="bottom-nav">
   <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
-  <a href="categories.html"><i data-lucide="grid"></i><span>Catégories</span></a>
+  <a href="categories.html"><i data-lucide="layout-grid"></i><span>Catégories</span></a>
+  <a href="recherche-ia.html"><i data-lucide="search"></i><span>Recherche</span></a>
   <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
-  <a href="messages.html" class="active"><i data-lucide="message-circle"></i><span>Messages</span></a>
   <a href="profil.html"><i data-lucide="user"></i><span>Compte</span></a>
 </nav>
 
 <script>
-  lucide.createIcons();
-  function sendMessage() {
-    const input = document.getElementById('msgInput');
-    const msg = input.value.trim();
-    if (!msg) return;
-    const chat = document.getElementById('chat');
-    chat.insertAdjacentHTML('beforeend',
-      `<div class="bubble user"><div><div class="bubble-content">${msg}</div><div class="bubble-time" style="text-align:right">Maintenant</div></div><div class="bubble-avatar" style="background:#0f6b4e"><i data-lucide="user"></i></div></div>`
-    );
-    input.value = '';
-    setTimeout(() => {
-      chat.insertAdjacentHTML('beforeend',
-        `<div class="bubble"><div class="bubble-avatar"><i data-lucide="bot"></i></div><div><div class="bubble-content">Je traite votre demande... Un moment ✨</div><div class="bubble-time">Maintenant</div></div></div>`
-      );
-      lucide.createIcons();
-      window.scrollTo(0, document.body.scrollHeight);
-    }, 500);
-    lucide.createIcons();
-    window.scrollTo(0, document.body.scrollHeight);
-  }
-  document.getElementById('msgInput').addEventListener('keypress', e => {
-    if (e.key === 'Enter') sendMessage();
-  });
-  async function sendIA(){
-  var inp=document.getElementById('msgInput');
+lucide.createIcons();
+var chat=document.getElementById('chat');
+var inp=document.getElementById('msgInput');
+var sendBtn=document.getElementById('sendBtn');
+
+function now(){var d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+
+function bubble(html,me){
+  var b=document.createElement('div');b.className='bubble'+(me?' user':'');
+  b.innerHTML=(me?'':'<div class="bubble-avatar"><i data-lucide="bot"></i></div>')+
+    '<div><div class="bubble-content">'+html+'</div><div class="bubble-time"'+(me?' style="text-align:right"':'')+'>'+now()+'</div></div>'+
+    (me?'<div class="bubble-avatar"><i data-lucide="user"></i></div>':'');
+  chat.appendChild(b);lucide.createIcons();
+  window.scrollTo(0,document.body.scrollHeight);
+  return b;
+}
+function typingBubble(){
+  return bubble('<span class="typing"><span></span><span></span><span></span></span>',false);
+}
+
+function greet(){
+  var name=localStorage.getItem('st_user_name')||'';
+  bubble('Salaam'+(name?' '+esc(name):'')+' ! 👋 Je suis <b>Nio Far</b>, ton assistant SEN TEW. Je connais tout le catalogue, les promos, la livraison, les vendeurs… Demande-moi ce que tu veux !',false);
+}
+function clearChat(){chat.innerHTML='';greet();}
+
+function ask(q){inp.value=q;sendIA();}
+
+async function sendIA(){
   var txt=(inp.value||'').trim();
   if(!txt)return;
-  var chat=document.getElementById('chat');
-  function bubble(html,me){
-    var d=document.createElement('div');
-    d.style.cssText='max-width:82%;padding:11px 14px;border-radius:16px;margin:6px 0;font-size:14px;line-height:1.5;'+
-      (me?'margin-left:auto;background:#0f6b4e;color:#fff;border-bottom-right-radius:4px'
-         :'margin-right:auto;background:#f0f3f2;color:#0a1f17;border-bottom-left-radius:4px');
-    d.innerHTML=html;chat.appendChild(d);chat.scrollTop=chat.scrollHeight;return d;
+  bubble(esc(txt),true);
+  inp.value='';sendBtn.disabled=true;
+  var w=typingBubble();
+  try{
+    var rep=await stAiChat(txt);
+    w.querySelector('.bubble-content').innerHTML=esc(rep).replace(/\n/g,'<br>');
+  }catch(e){
+    w.querySelector('.bubble-content').innerHTML='❌ Petit souci de connexion. Réessaie !';
   }
-  bubble(txt.replace(/</g,'&lt;'),true);
-  inp.value='';
-  var wait=bubble('⏳ <i>Nio Far réfléchit…</i>',false);
-  var rep=await stAiChat(txt);
-  wait.innerHTML=rep.replace(/</g,'&lt;').replace(/\n/g,'<br>');
-  chat.scrollTop=chat.scrollHeight;
+  sendBtn.disabled=false;
+  window.scrollTo(0,document.body.scrollHeight);
+  inp.focus();
+}
+
+inp.addEventListener('keypress',function(e){if(e.key==='Enter')sendIA();});
+
+/* état IA */
+if(typeof stAiHasKey==='function'&&!stAiHasKey()){
+  document.getElementById('statusLine').textContent='⚠️ IA non activée sur cet appareil';
+  bubble('⚙️ L\u2019IA n\u2019est pas encore activée sur cet appareil. Va sur <a href="config-ia.html" style="color:#6b46c1;font-weight:700">config-ia.html</a> pour coller la clé Gemini (une seule fois).',false);
+}else{
+  greet();
 }
 </script>
 </body>
