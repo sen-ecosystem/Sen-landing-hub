@@ -36,6 +36,7 @@ async function stAsk(prompt){
         generationConfig:{maxOutputTokens:1500,temperature:0.6,thinkingConfig:{thinkingLevel:'LOW'}}
       })
     });
+    var j = await r.json();
     var t = j && j.candidates && j.candidates[0] && j.candidates[0].content && j.candidates[0].content.parts && j.candidates[0].content.parts[0] && j.candidates[0].content.parts[0].text;
 if(!t && j && j.candidates && j.candidates[0] && j.candidates[0].finishReason==='MAX_TOKENS'){
   return '⚠️ Réponse coupée (quota tokens). Réessaie avec une question plus courte.';
