@@ -9,7 +9,9 @@
 <script src="js/supabase.js"></script>
 <script src="js/ai.js"></script>
 <style>
-body{background:#f5f5f0;margin:0;font-family:-apple-system,sans-serif;padding-bottom:150px}
+/* FORCE LE SCROLL — neutralise tout blocage de app.css */
+html,body{overflow:auto!important;height:auto!important;position:static!important}
+body{background:#f5f5f0;margin:0;font-family:-apple-system,sans-serif;padding-bottom:150px;-webkit-overflow-scrolling:touch}
 .topbar{background:linear-gradient(135deg,#6b46c1,#4c1d95);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
 .topbar h1{color:#fff;font-size:16px;margin:0;flex:1}
 .status{font-size:11px;color:#d1fae5}
@@ -19,7 +21,7 @@ body{background:#f5f5f0;margin:0;font-family:-apple-system,sans-serif;padding-bo
 .section-title{color:#b07a1f;font-size:11.5px;font-weight:800;padding:0 18px;margin:16px 0 8px;letter-spacing:1px;display:flex;align-items:center;gap:6px;text-transform:uppercase}
 .chips{display:flex;gap:8px;overflow-x:auto;padding:2px 16px 10px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
-.chip{flex-shrink:0;background:#fff;border:1.5px solid #e5e7eb;border-radius:99px;padding:8px 13px;font-size:12px;font-weight:700;color:#4b5563;cursor:pointer;transition:.15s}
+.chip{flex-shrink:0;background:#fff;border:1.5px solid #e5e7eb;border-radius:99px;padding:8px 13px;font-size:12px;font-weight:700;color:#4b5563;cursor:pointer}
 .chip:active{border-color:#6b46c1;color:#6b46c1;background:#f3efff}
 .conversation{padding:4px 16px}
 .bubble{display:flex;gap:8px;margin-bottom:12px;align-items:flex-end}
@@ -61,7 +63,7 @@ body{background:#f5f5f0;margin:0;font-family:-apple-system,sans-serif;padding-bo
 <div class="section-title"><i data-lucide="sparkles" style="width:14px;height:14px"></i> Essaie une question</div>
 <div class="chips">
   <div class="chip" onclick="ask('Je cherche un boubou élégant pour un mariage')">👗 Boubou mariage</div>
-  <div class="chip" onclick="ask('C\u2019est quoi les délais de livraison ?')">🚚 Livraison</div>
+  <div class="chip" onclick="ask('Quels sont les délais de livraison ?')">🚚 Livraison</div>
   <div class="chip" onclick="ask('Quels sont les codes promo actifs ?')">🏷️ Codes promo</div>
   <div class="chip" onclick="ask('Un cadeau pour ma mère, moins de 20000 F')">🎁 Idée cadeau</div>
   <div class="chip" onclick="ask('Comment devenir vendeur sur SEN TEW ?')">🏬 Vendre</div>
@@ -92,6 +94,7 @@ var sendBtn=document.getElementById('sendBtn');
 
 function now(){var d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+function scrollDown(){var b=document.body;window.scrollTo(0,Math.max(b.scrollHeight,document.documentElement.scrollHeight));}
 
 function bubble(html,me){
   var b=document.createElement('div');b.className='bubble'+(me?' user':'');
@@ -99,7 +102,7 @@ function bubble(html,me){
     '<div><div class="bubble-content">'+html+'</div><div class="bubble-time"'+(me?' style="text-align:right"':'')+'>'+now()+'</div></div>'+
     (me?'<div class="bubble-avatar"><i data-lucide="user"></i></div>':'');
   chat.appendChild(b);lucide.createIcons();
-  window.scrollTo(0,document.body.scrollHeight);
+  scrollDown();
   return b;
 }
 function typingBubble(){
@@ -111,8 +114,15 @@ function greet(){
   bubble('Salaam'+(name?' '+esc(name):'')+' ! 👋 Je suis <b>Nio Far</b>, ton assistant SEN TEW. Je connais tout le catalogue, les promos, la livraison, les vendeurs… Demande-moi ce que tu veux !',false);
 }
 function clearChat(){chat.innerHTML='';greet();}
-
 function ask(q){inp.value=q;sendIA();}
+
+/* appel IA avec MINUTEUR 25 s : plus jamais de page figée */
+function withTimeout(p,ms){
+  return Promise.race([
+    p,
+    new Promise(function(_,rej){setTimeout(function(){rej(new Error('timeout'));},ms);})
+  ]);
+}
 
 async function sendIA(){
   var txt=(inp.value||'').trim();
@@ -121,19 +131,25 @@ async function sendIA(){
   inp.value='';sendBtn.disabled=true;
   var w=typingBubble();
   try{
-    var rep=await stAiChat(txt);
+    if(typeof stAiChat!=='function'){throw new Error('ai.js absent');}
+    var rep=await withTimeout(stAiChat(txt),25000);
     w.querySelector('.bubble-content').innerHTML=esc(rep).replace(/\n/g,'<br>');
   }catch(e){
-    w.querySelector('.bubble-content').innerHTML='❌ Petit souci de connexion. Réessaie !';
+    var m=(e&&e.message==='timeout')
+      ?'⏱️ Nio Far met trop de temps à répondre. Vérifie ta connexion et réessaie.'
+      :(e&&e.message==='ai.js absent')
+        ?'⚙️ Le moteur IA (js/ai.js) n\u2019est pas chargé sur cette page.'
+        :'❌ Petit souci de connexion. Réessaie !';
+    w.querySelector('.bubble-content').innerHTML=m;
   }
   sendBtn.disabled=false;
-  window.scrollTo(0,document.body.scrollHeight);
+  scrollDown();
   inp.focus();
 }
 
 inp.addEventListener('keypress',function(e){if(e.key==='Enter')sendIA();});
 
-/* état IA */
+/* état IA au chargement */
 if(typeof stAiHasKey==='function'&&!stAiHasKey()){
   document.getElementById('statusLine').textContent='⚠️ IA non activée sur cet appareil';
   bubble('⚙️ L\u2019IA n\u2019est pas encore activée sur cet appareil. Va sur <a href="config-ia.html" style="color:#6b46c1;font-weight:700">config-ia.html</a> pour coller la clé Gemini (une seule fois).',false);
