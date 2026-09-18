@@ -6,6 +6,7 @@
   <title>Assistant IA - SEN TEW</title>
   <link rel="stylesheet" href="css/app.css?v=52">
   <script src="https://unpkg.com/lucide@latest"></script>
+ <script src="js/ai.js"></script>
   <style>
     body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 140px; }
     .topbar { background: linear-gradient(135deg, #6b46c1, #4c1d95); color: #fff; padding: 16px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 10; }
@@ -134,7 +135,7 @@
 <div class="input-bar">
   <button class="input-plus" onclick="alert('📎 Joindre fichier/photo')"><i data-lucide="plus"></i></button>
   <input type="text" class="input-field" id="msgInput" placeholder="Posez votre question...">
-  <button class="btn-send" onclick="sendMessage()"><i data-lucide="send"></i></button>
+  <button class="btn-send" onclick="sendIA()"><i data-lucide="send"></i></button>
 </div>
 
 <nav class="bottom-nav">
@@ -169,6 +170,25 @@
   document.getElementById('msgInput').addEventListener('keypress', e => {
     if (e.key === 'Enter') sendMessage();
   });
+  async function sendIA(){
+  var inp=document.getElementById('msgInput');
+  var txt=(inp.value||'').trim();
+  if(!txt)return;
+  var chat=document.getElementById('chat');
+  function bubble(html,me){
+    var d=document.createElement('div');
+    d.style.cssText='max-width:82%;padding:11px 14px;border-radius:16px;margin:6px 0;font-size:14px;line-height:1.5;'+
+      (me?'margin-left:auto;background:#0f6b4e;color:#fff;border-bottom-right-radius:4px'
+         :'margin-right:auto;background:#f0f3f2;color:#0a1f17;border-bottom-left-radius:4px');
+    d.innerHTML=html;chat.appendChild(d);chat.scrollTop=chat.scrollHeight;return d;
+  }
+  bubble(txt.replace(/</g,'&lt;'),true);
+  inp.value='';
+  var wait=bubble('⏳ <i>Nio Far réfléchit…</i>',false);
+  var rep=await stAiChat(txt);
+  wait.innerHTML=rep.replace(/</g,'&lt;').replace(/\n/g,'<br>');
+  chat.scrollTop=chat.scrollHeight;
+}
 </script>
 </body>
 </html>
