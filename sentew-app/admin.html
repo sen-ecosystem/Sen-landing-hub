@@ -167,7 +167,7 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
     </div>
     <div class="sect"><i data-lucide="zap"></i>À traiter en priorité</div>
     <div id="priorityList"><div class="loading">Chargement…</div></div>
-    <button class="bigbtn" onclick="exportCSV()">⬇ï¸ Exporter les données (CSV)</button>
+    <button class="bigbtn" onclick="exportCSV()">⬇️ Exporter les données (CSV)</button>
   </div>
   <div id="stats" class="panel hidden"></div>
   <div id="vendeurs" class="panel hidden"></div>
@@ -227,7 +227,7 @@ function $(id){return document.getElementById(id);}
 function toast(m){var t=$('toast');t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on');},2800);}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function fmtDate(d){if(!d)return'';try{var x=new Date(d);return x.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'})+' '+x.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}catch(e){return'';}}
-function fmtN(n){return Math.round(n||0).toLocaleString('fr-FR');}
+function fmtN(n){return Math.round(n||0).toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ');}
 function timeAgo(d){if(!d)return'';var s=(Date.now()-new Date(d).getTime())/1000;if(s<60)return'à l\u2019instant';if(s<3600)return'il y a '+Math.floor(s/60)+' min';if(s<86400)return'il y a '+Math.floor(s/3600)+' h';return'il y a '+Math.floor(s/86400)+' j';}
 async function api(t,q,o){o=o||{};var r=await fetch(SUPA+'/rest/v1/'+t+(q||''),Object.assign({headers:H},o));if(o.method&&o.method!=='GET')return r;var j=await r.json();return Array.isArray(j)?j:[];}
 function setBadge(id,n){var b=$(id);if(!b)return;if(n>0){b.textContent=n;b.classList.add('on');}else{b.classList.remove('on');}}
@@ -309,7 +309,7 @@ function loadPilotage(){
   var html='';
   v.filter(function(x){return x.status==='pending';}).forEach(function(x){html+='<div class="card2" style="cursor:pointer" onclick="openDetail(\'vendors\',\''+x.id+'\')"><div class="row"><div><div class="nm"> '+esc(x.shop_name||x.full_name||'Vendeur')+'</div><div class="meta">'+esc(x.city||'')+' · '+fmtDate(x.created_at)+'</div></div><span class="pill pending">À valider</span></div></div>';});
   d.filter(function(x){return x.status==='pending';}).forEach(function(x){html+='<div class="card2" style="cursor:pointer" onclick="openDetail(\'drivers\',\''+x.id+'\')"><div class="row"><div><div class="nm">🛵 '+esc(x.full_name||'Livreur')+'</div><div class="meta">'+esc(x.city||x.zone||'')+' · '+fmtDate(x.created_at)+'</div></div><span class="pill pending">À valider</span></div></div>';});
-  DATA.dels.filter(function(x){return x.status==='pending';}).forEach(function(x){html+='<div class="card2"><div class="row"><div><div class="nm">🗑ï¸ '+esc(x.user_email||'')+'</div><div class="meta">Suppression de compte · '+(x.reason?esc(x.reason)+' · ':'')+fmtDate(x.created_at)+'</div></div><span class="pill rejected">Churn</span></div><div class="actions"><button class="abtn blue" onclick="setDel(\''+x.id+'\',\'contacted\')"><i data-lucide="phone"></i>Contacté</button><button class="abtn danger" onclick="setDel(\''+x.id+'\',\'deleted\')"><i data-lucide="trash-2"></i>Compte supprimé</button></div></div>';});
+  DATA.dels.filter(function(x){return x.status==='pending';}).forEach(function(x){html+='<div class="card2"><div class="row"><div><div class="nm">🗑️ '+esc(x.user_email||'')+'</div><div class="meta">Suppression de compte · '+(x.reason?esc(x.reason)+' · ':'')+fmtDate(x.created_at)+'</div></div><span class="pill rejected">Churn</span></div><div class="actions"><button class="abtn blue" onclick="setDel(\''+x.id+'\',\'contacted\')"><i data-lucide="phone"></i>Contacté</button><button class="abtn danger" onclick="setDel(\''+x.id+'\',\'deleted\')"><i data-lucide="trash-2"></i>Compte supprimé</button></div></div>';});
   $('priorityList').innerHTML=html||'<div class="empty">✅ Aucune demande en attente. Tout est à jour !</div>';
 }
 async function setDel(id,st){await api('deletion_requests','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:st})});toast('Demande mise à jour ✅');DATA.dels=await api('deletion_requests','?select=*&order=created_at.desc&limit=50');loadPilotage();}
@@ -514,7 +514,7 @@ function renderCompta(){
    '<div class="sect"><i data-lucide="file-text"></i>Factures</div>'+
    '<div class="card2"><label class="lb">N° facture</label><input class="sin" id="invNum" placeholder="FAC-2026-001"><label class="lb">Fournisseur / Client</label><input class="sin" id="invSup" placeholder="Ex: Hébergeur, imprimeur…"><label class="lb">Libellé</label><input class="sin" id="invLbl" placeholder="Objet de la facture"><label class="lb">Type</label><select class="sin" id="invType"><option value="expense">Dépense (sortie)</option><option value="sale">Vente (entrée)</option></select><label class="lb">Montant HT (F)</label><input class="sin" id="invAmt" type="number" placeholder="50000"><label class="lb">TVA (F, 0 si exonéré)</label><input class="sin" id="invTax" type="number" placeholder="0"><button class="bigbtn gold" onclick="addInvoice()">🧾 Enregistrer la facture</button></div>'+
    '<div class="card2">'+invHtml+'</div>'+
-   '<button class="bigbtn gold" onclick="exportCompta()">⬇ï¸ Export comptable (CSV Excel)</button>';
+   '<button class="bigbtn gold" onclick="exportCompta()">⬇️ Export comptable (CSV Excel)</button>';
   lucide.createIcons();
 }
 async function addExpense(){
@@ -528,7 +528,8 @@ async function addExpense(){
 async function addInvoice(){
   var n=$('invNum').value.trim(),s=$('invSup').value.trim(),l=$('invLbl').value.trim(),t=$('invType').value,a=parseFloat($('invAmt').value)||0,tax=parseFloat($('invTax').value)||0;
   if(!n||!a){toast('N° de facture et montant requis');return;}
-  await api('invoices','',{method:'POST',body:JSON.stringify({number:n,supplier:s,label:l,type:t,amount:a,tax:tax})});
+  var resp=await api('invoices','',{method:'POST',body:JSON.stringify({number:n,supplier:s,label:l,type:t,amount:a,tax:tax,invoice_date:new Date().toISOString().slice(0,10),status:'pending'})});
+  if(resp&&resp.ok===false){var errTxt='';try{errTxt=await resp.text();}catch(e){}toast('❌ Erreur: '+(errTxt||resp.status));console.error('addInvoice failed',resp.status,errTxt);return;}
   toast('Facture enregistrée ✅');
   DATA.invoices=await api('invoices','?select=*&order=created_at.desc&limit=100');
   renderCompta();
@@ -540,7 +541,7 @@ function exportCompta(){
   DATA.invoices.forEach(function(x){rows.push([x.invoice_date,'facture-'+(x.type==='sale'?'vente':'depense'),x.number+' '+x.label,(x.type==='sale'?1:-1)*(x.amount||0)]);});
   DATA.salaries.forEach(function(x){rows.push([x.period,'salaire',x.employee_name,-((x.base_salary||0)+(x.bonuses||0)-(x.deductions||0))]);});
   dlCSV('sentew-compta-'+new Date().toISOString().slice(0,10)+'.csv',rows);
-  toast('Export comptable téléchargé ⬇ï¸');
+  toast('Export comptable téléchargé ⬇️');
 }
 
   /* â•â•â•â•â•â• FACTURE : PDF / CSV / REÇU â•â•â•â•â•â• */
@@ -559,7 +560,7 @@ function dlInvoiceCSV(id){
    ['Montant HT (F)',f.amount||0],['TVA (F)',f.tax||0],['TOTAL TTC (F)',ttc],
    ['Statut',f.status||'']
   ]);
-  toast('Facture CSV téléchargée ⬇ï¸');
+  toast('Facture CSV téléchargée ⬇️');
 }
 
 /* â•â•â•â•â•â•â•â•â•â• SALAIRES — BULLETINS NORMES SN â•â•â•â•â•â•â•â•â•â• */
@@ -767,7 +768,7 @@ function exportCSV(){
   DATA.drivers.forEach(function(d){rows.push(['livreur',d.full_name||'',d.email||'',d.city||d.zone||'',d.status||'',d.created_at||'']);});
   DATA.orders.forEach(function(o){rows.push(['commande','#'+String(o.id).slice(0,8),o.customer_email||o.user_email||'','',o.status+' · '+(o.total||0)+'F',o.created_at||'']);});
   dlCSV('sentew-admin-'+new Date().toISOString().slice(0,10)+'.csv',rows);
-  toast('Export CSV téléchargé ⬇ï¸');
+  toast('Export CSV téléchargé ⬇️');
 }
 
 /* â•â•â•â•â•â•â•â•â•â• REFRESH AUTO 30 s (panoramique + badges) â•â•â•â•â•â•â•â•â•â• */
@@ -860,7 +861,7 @@ function dlInvoicePDF(id){
   doc.setTextColor.apply(doc,GREY);doc.setFontSize(7);doc.setFont('helvetica','normal');
   doc.text('Statut : '+(f.status||'pending')+' · Facture generee par SEN TEW le '+new Date().toLocaleDateString('fr-FR'),105,290,{align:'center'});
   doc.save('facture-'+(f.number||id)+'.pdf');
-  toast('Facture PDF téléchargée ⬇ï¸');
+  toast('Facture PDF téléchargée ⬇️');
 }
 function dlRecuPDF(id){
   var f=DATA.invoices.find(function(v){return String(v.id)===String(id);});if(!f)return;
@@ -889,7 +890,7 @@ function dlRecuPDF(id){
   doc.text('Reçu genere par SEN TEW le '+new Date().toLocaleDateString('fr-FR'),105,285,{align:'center'});
   doc.save('recu-'+(f.number||id)+'.pdf');
   sendDocEmail(f.supplier||'','Reçu de paiement - Facture '+(f.number||''),'SEN TEW SUARL a réglé la facture '+(f.number||'')+' d\u2019un montant de '+fmt(ttc)+' FCFA.\nLe reçu PDF signé par la direction fait foi de paiement.');
-  toast('Reçu téléchargé ⬇ï¸');
+  toast('Reçu téléchargé ⬇️');
 }
 function dlPayoutRecuPDF(id){
   var p=DATA.payouts.find(function(v){return String(v.id)===String(id);});if(!p)return;
@@ -916,7 +917,7 @@ function dlPayoutRecuPDF(id){
   doc.setFontSize(7);doc.setFont('helvetica','normal');doc.setTextColor.apply(doc,GREY);
   doc.text('Reçu genere par SEN TEW le '+new Date().toLocaleDateString('fr-FR'),105,285,{align:'center'});
   doc.save('recu-reversement-'+String(p.recipient_name||id).replace(/\s+/g,'-')+'.pdf');
-  toast('Reçu reversement téléchargé ⬇ï¸');
+  toast('Reçu reversement téléchargé ⬇️');
 }
 function resendPayoutEmail(id){
   var p=DATA.payouts.find(function(v){return String(v.id)===String(id);});if(!p)return;
@@ -952,7 +953,7 @@ async function orderRefund(id){
   if(!confirm('Rembourser la commande #'+String(id).slice(0,8)+' de '+fmtN(o.total)+' F ?\nLe client sera notifié et un avoir PDF sera généré.'))return;
   await api('orders','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:'refunded'})});
   var mail=o.customer_email||o.user_email||'';
-  await notify(mail,'Remboursement effectué ↩ï¸','Votre commande #'+String(id).slice(0,8)+' a été remboursée ('+fmtN(o.total)+' FCFA). Le montant vous revient sous 48 h.');
+  await notify(mail,'Remboursement effectué ↩️','Votre commande #'+String(id).slice(0,8)+' a été remboursée ('+fmtN(o.total)+' FCFA). Le montant vous revient sous 48 h.');
   sendDocEmail(mail,'Votre avoir de remboursement SEN TEW','Commande #'+String(id).slice(0,8)+' remboursée : '+fmtN(o.total)+' FCFA.\nL\u2019avoir PDF signé par la direction fait office de justificatif.');
   dlAvoirPDF(o);
   toast('Commande remboursée ✅ avoir généré');
@@ -1056,7 +1057,7 @@ function exportComptaPDF(){
   doc.setTextColor.apply(doc,GREY);doc.setFontSize(7);doc.setFont('helvetica','normal');
   doc.text('Commission plateforme : '+COMMISSION+'% · Document généré automatiquement par SEN TEW · '+lines.length+' écritures',105,290,{align:'center'});
   doc.save('sentew-comptabilite-'+new Date().toISOString().slice(0,10)+'.pdf');
-  toast('Rapport comptable PDF téléchargé ⬇ï¸');
+  toast('Rapport comptable PDF téléchargé ⬇️');
 }
 
 
@@ -1132,7 +1133,7 @@ async function renderBudget(){
    '<div class="sect"><i data-lucide="calendar-clock"></i>Échéances</div>'+
    '<div class="card2"><label class="lb">Libellé</label><input class="sin" id="echLabel" placeholder="Ex: Loyer bureau, Facture internet, TVA à payer…"><label class="lb">Catégorie</label><select class="sin" id="echCat">'+BUDGET_CATS.map(function(c){return '<option value="'+c[0]+'">'+c[1]+'</option>';}).join('')+'</select><label class="lb">Montant (F)</label><input class="sin" id="echAmount" type="number" placeholder="50000"><label class="lb">Date d\u2019échéance</label><input class="sin" id="echDate" type="date"><label class="lb">Récurrence</label><select class="sin" id="echRec"><option value="none">Une seule fois</option><option value="mensuelle">Mensuelle 🔁</option><option value="annuelle">Annuelle 🔁</option></select><button class="bigbtn" onclick="addEcheance()">📅 Ajouter l\u2019échéance</button></div>'+
    ech+
-   '<button class="bigbtn gold" onclick="exportBudgetCSV()">⬇ï¸ Export budget + échéances (CSV)</button>';
+   '<button class="bigbtn gold" onclick="exportBudgetCSV()">⬇️ Export budget + échéances (CSV)</button>';
   lucide.createIcons();
 }
 async function setBudget(cat,current){
@@ -1179,7 +1180,7 @@ function exportBudgetCSV(){
   (DATA.budgets||[]).forEach(function(b){rows.push(['budget-mensuel',catLabel(b.category),b.category,b.monthly_limit,'','actif']);});
   (DATA.echeances||[]).forEach(function(e){rows.push(['echeance',e.label,e.category,e.amount,e.due_date,e.status+(e.recurring&&e.recurring!=='none'?' · '+e.recurring:'')]);});
   dlCSV('sentew-budget-'+new Date().toISOString().slice(0,10)+'.csv',rows);
-  toast('Export budget téléchargé ⬇ï¸');
+  toast('Export budget téléchargé ⬇️');
 }
 async function updateBudgetBadge(){
   try{
