@@ -6,6 +6,7 @@
 <title>Administration - SEN TEW</title>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="js/security-shield.js"></script>
+<script src="js/payroll-engine.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
@@ -148,6 +149,8 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
   <button class="tab" onclick="showTab('reversements',this)">Reversements</button>
   <button class="tab" onclick="showTab('compta',this)">Comptabilité</button>
   <button class="tab" onclick="showTab('salaires',this)">Salaires</button>
+  <button class="tab" onclick="showTab('photosia',this)">Photos IA</button>
+  <button class="tab" onclick="showTab('pays',this)">Pays</button>
   <button class="tab" onclick="showTab('budget',this)">Budget<span class="nb" id="nbB"></span></button>
   <button class="tab" onclick="showTab('messages',this)">Messages</button>
   <button class="tab" onclick="showTab('notifs',this)">Notifs<span class="nb" id="nbN"></span></button>
@@ -173,6 +176,8 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
   <div id="reversements" class="panel hidden"></div>
   <div id="compta" class="panel hidden"></div>
   <div id="salaires" class="panel hidden"></div>
+  <div id="photosia" class="panel hidden"></div>
+  <div id="pays" class="panel hidden"></div>
   <div id="budget" class="panel hidden"></div>
   <div id="messages" class="panel hidden"></div>
   <div id="notifs" class="panel hidden"></div>
@@ -229,7 +234,7 @@ function setBadge(id,n){var b=$(id);if(!b)return;if(n>0){b.textContent=n;b.class
 function dlCSV(name,rows){var csv=rows.map(function(r){return r.map(function(c){return '"'+String(c==null?'':c).replace(/"/g,'""')+'"';}).join(',');}).join('\n');var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,﻿'+encodeURIComponent(csv);a.download=name;a.click();}
 
 /* â•â•â•â•â•â•â•â•â•â• ÉTAT â•â•â•â•â•â•â•â•â•â• */
-var DATA={vendors:[],drivers:[],orders:[],expenses:[],payouts:[],salaries:[],invoices:[],dels:[]};
+var DATA={vendors:[],drivers:[],orders:[],expenses:[],payouts:[],salaries:[],invoices:[],dels:[],photosIA:[],aiUsage:[]};
 var FILT={vendeurs:'all',livreurs:'all',commandes:'all'};
 var SRCH={vendeurs:'',livreurs:''};
 var SEL={list:[],table:null};
@@ -237,23 +242,6 @@ var CUR='vendeurs';
 var PM_CHOICE='wave';
 
 /* â•â•â•â•â•â•â•â•â•â• ONGLETS â•â•â•â•â•â•â•â•â•â• */
-function showTab(id,btn){
-  selClear();closeModal();
-  document.querySelectorAll('.panel').forEach(function(p){p.classList.add('hidden');});
-  $(id).classList.remove('hidden');
-  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});
-  if(btn)btn.classList.add('on');
-  if(id==='pano')renderPano();
-  if(id==='stats')renderStats();
-  if(id==='vendeurs')renderVendors();
-  if(id==='livreurs')renderDrivers();
-  if(id==='commandes')renderOrders();
-  if(id==='reversements')renderPayouts();
-  if(id==='compta')renderCompta();
-  if(id==='salaires')renderSalaries();
-  if(id==='messages')renderMessages();
-  if(id==='notifs')loadNotifs();
-}
 
 /* â•â•â•â•â•â•â•â•â•â• CHARGEMENT â•â•â•â•â•â•â•â•â•â• */
 async function loadAll(){
@@ -265,6 +253,7 @@ async function loadAll(){
   DATA.salaries=await api('salaries','?select=*&order=created_at.desc&limit=100');
   DATA.invoices=await api('invoices','?select=*&order=created_at.desc&limit=100');
   DATA.dels=await api('deletion_requests','?select=*&order=created_at.desc&limit=50');
+  await loadPhotosIA();
   loadPilotage();
   if(!$('pano').classList.contains('hidden'))renderPano();
 }
@@ -496,37 +485,6 @@ function renderOrders(){
 function pmGrid(sel){
   return '<div class="paymethods">'+PAY_METHODS.map(function(m){return '<div class="pm'+(sel===m.id?' on':'')+'" onclick="PM_CHOICE=\''+m.id+'\';document.querySelectorAll(\'.pm\').forEach(function(p){p.classList.remove(\'on\')});this.classList.add(\'on\');document.getElementById(\'bankZone\').style.display=(\''+m.id+'\'===\'bank\')?\'block\':\'none\'">'+m.lbl+'<small>'+m.sub+'</small></div>';}).join('')+'</div>';
 }
-async function renderPayouts(){
-  var el=$('reversements');
-  el.innerHTML='<div class="loading">Chargement…</div>';
-  var vh=DATA.vendors.filter(function(v){return v.status==='active'||v.status==='approved';}).map(function(v){
-    var due=v.pending_balance||0;
-    return '<div class="paycard"><div class="row"><div><div class="nm">'+esc(v.shop_name||v.full_name||'Vendeur')+'</div><div class="meta">'+esc(v.email||'pas d\u2019email')+' · '+(v.payout_method||'à définir')+'</div></div><div style="text-align:right"><div class="nm" style="color:#b07a1f">'+fmtN(due)+' F</div><div class="meta">à reverser</div></div></div>'+
-    (due>0?'<label class="lb">Moyen de reversement</label>'+pmGrid('wave')+'<div id="bankZone" style="display:none"><label class="lb"> N° de compte / IBAN / RIB</label><input class="sin" id="bank_'+v.id+'" placeholder="SN08 XXXX XXXX XXXX"></div>'+
-    '<div class="actions"><button class="abtn ok" onclick="payNow(\''+v.id+'\',\''+esc(v.email||'')+'\',\''+esc(v.shop_name||v.full_name||'')+'\','+due+')"><i data-lucide="banknote"></i>Marquer payé '+fmtN(due)+' F</button></div>':'<div class="meta" style="margin-top:8px">✅ Rien à reverser</div>')+'</div>';
-  }).join('');
-  var hist=DATA.payouts.map(function(p){
-    return '<div class="card2"><div class="row"><div><div class="nm">'+esc(p.recipient_name||p.recipient_email||'')+'</div><div class="meta">'+esc(p.method||'')+' · '+fmtDate(p.paid_at||p.created_at)+'</div></div><div style="text-align:right"><div class="nm">'+fmtN(p.amount)+' F</div><span class="pill '+(p.status==='paid'?'paid':'pending')+'">'+esc(p.status||'')+'</span></div></div></div>';
-  }).join('');
-  el.innerHTML='<div class="sect"><i data-lucide="percent"></i>Commission plateforme : '+COMMISSION+'% par vente</div>'+
-    '<div class="sect"><i data-lucide="banknote"></i>À reverser aux vendeurs actifs</div>'+(vh||'<div class="empty">Aucun vendeur actif.</div>')+
-    '<div class="sect"><i data-lucide="history"></i>Historique</div>'+(hist||'<div class="empty">Aucun reversement enregistré.</div>');
-  lucide.createIcons();
-}
-async function payNow(vendorId,email,name,amount){
-  var mLbl=PAY_METHODS.find(function(m){return m.id===PM_CHOICE;}).lbl;
-  var bankInfo='';
-  if(PM_CHOICE==='bank'){
-    var bi=$('bank_'+vendorId);
-    bankInfo=bi?bi.value.trim():'';
-    if(!bankInfo){toast(' Saisis le n° de compte bancaire');return;}
-  }
-  if(!confirm('Payer '+fmtN(amount)+' F à '+name+' via '+mLbl+(bankInfo?' ('+bankInfo+')':'')+' ?'))return;
-  await api('payouts','',{method:'POST',body:JSON.stringify({recipient_type:'vendor',recipient_email:email,recipient_name:name,amount:amount,method:mLbl+(bankInfo?' · '+bankInfo:''),status:'paid',paid_at:new Date().toISOString()})});
-  await api('vendors','?id=eq.'+vendorId,{method:'PATCH',body:JSON.stringify({pending_balance:0})});
-  await notify(email,'Reversement effectué 💸','Votre reversement de '+fmtN(amount)+' FCFA a été effectué via '+mLbl+'. Merci de votre confiance !');
-  toast('Reversement enregistré ✅');await loadAll();renderPayouts();
-}
 
 /* â•â•â•â•â•â•â•â•â•â• COMPTABILITÉ + FACTURES â•â•â•â•â•â•â•â•â•â• */
 function renderCompta(){
@@ -575,7 +533,6 @@ async function addInvoice(){
   DATA.invoices=await api('invoices','?select=*&order=created_at.desc&limit=100');
   renderCompta();
 }
-async function payInvoice(id){await api('invoices','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:'paid'})});toast('Facture soldée ✅');DATA.invoices=await api('invoices','?select=*&order=created_at.desc&limit=100');renderCompta();}
 function exportCompta(){
   var rows=[['date','type','libelle','montant_F']];
   DATA.orders.filter(function(x){return x.status==='delivered';}).forEach(function(o){rows.push([String(o.created_at||'').slice(0,10),'commission','Commande #'+String(o.id).slice(0,8),Math.round((o.total||0)*COMMISSION/100)]);});
@@ -604,157 +561,114 @@ function dlInvoiceCSV(id){
   ]);
   toast('Facture CSV téléchargée ⬇ï¸');
 }
-function dlInvoicePDF(id){
-  var f=DATA.invoices.find(function(v){return String(v.id)===String(id);});if(!f)return;
-  if(!window.jspdf){toast('Chargement du module PDF…');return;}
-  var ttc=(f.amount||0)+(f.tax||0);
-  var doc=new window.jspdf.jsPDF();
-  var DARK=[10,31,23],GREEN=[15,107,78],LIGHT=[242,246,244],GREY=[91,122,112];
-  function fmt(n){return Math.round(n).toLocaleString('fr-FR')+' F';}
-  doc.setFillColor.apply(doc,DARK);doc.rect(0,0,210,34,'F');
-  doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,15);
-  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Dakar, Senegal - hello.senecosystem@gmail.com',15,21);
-  doc.setTextColor(74,222,128);doc.setFontSize(13);doc.setFont('helvetica','bold');doc.text('FACTURE',195,15,{align:'right'});
-  doc.setFillColor.apply(doc,GREEN);doc.rect(0,34,210,2,'F');
-  doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);
-  doc.text('N° : '+(f.number||''),15,48);
-  doc.text('Date : '+(f.invoice_date||''),15,55);
-  doc.text('Type : '+(f.type==='sale'?'Vente (entrée)':'Dépense (sortie)'),15,62);
-  doc.text('Fournisseur / Client : '+(f.supplier||'-'),15,69);
-  var y=82;
-  doc.setFillColor.apply(doc,GREEN);doc.rect(15,y,180,8,'F');
-  doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont('helvetica','bold');
-  doc.text('DESIGNATION',20,y+5.5);doc.text('MONTANT',190,y+5.5,{align:'right'});
-  y+=8;
-  doc.setTextColor.apply(doc,DARK);doc.setFont('helvetica','normal');doc.setFontSize(10);
-  doc.text(f.label||'Prestation',20,y+6);doc.text(fmt(f.amount||0)+' HT',190,y+6,{align:'right'});
-  y+=14;
-  doc.text('TVA',20,y+4);doc.text(fmt(f.tax||0),190,y+4,{align:'right'});
-  y+=10;
-  doc.setFillColor.apply(doc,DARK);doc.roundedRect(15,y,180,14,3,3,'F');
-  doc.setTextColor(255,255,255);doc.setFontSize(12);doc.setFont('helvetica','bold');doc.text('TOTAL TTC',20,y+9);
-  doc.setTextColor(74,222,128);doc.text(fmt(ttc),190,y+9,{align:'right'});
-  doc.setTextColor.apply(doc,GREY);doc.setFontSize(8);doc.setFont('helvetica','normal');
-  doc.text('Statut : '+(f.status||'pending'),15,y+26);
-  doc.text('Facture generee par SEN TEW - '+new Date().toLocaleDateString('fr-FR'),105,285,{align:'center'});
-  doc.save('facture-'+(f.number||id)+'.pdf');
-  toast('Facture PDF téléchargée ⬇ï¸');
-}
-function dlRecuPDF(id){
-  var f=DATA.invoices.find(function(v){return String(v.id)===String(id);});if(!f)return;
-  if(f.status!=='paid'){toast('Le reçu est disponible une fois la facture payée');return;}
-  if(!window.jspdf){toast('Chargement du module PDF…');return;}
-  var ttc=(f.amount||0)+(f.tax||0);
-  var doc=new window.jspdf.jsPDF();
-  var DARK=[10,31,23],GREEN=[15,107,78],GREY=[91,122,112];
-  function fmt(n){return Math.round(n).toLocaleString('fr-FR')+' F';}
-  doc.setFillColor.apply(doc,GREEN);doc.rect(0,0,210,34,'F');
-  doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,15);
-  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Dakar, Senegal - hello.senecosystem@gmail.com',15,21);
-  doc.setFontSize(14);doc.setFont('helvetica','bold');doc.text('REÇU DE PAIEMENT',195,15,{align:'right'});
-  doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);doc.setFont('helvetica','normal');
-  doc.text('Reçu lié à la facture N° : '+(f.number||''),15,48);
-  doc.text('Date de paiement : '+new Date().toLocaleDateString('fr-FR'),15,55);
-  doc.text('Payé par / à : '+(f.supplier||'-'),15,62);
-  doc.text('Objet : '+(f.label||'-'),15,69);
-  doc.setFillColor.apply(doc,DARK);doc.roundedRect(15,80,180,18,3,3,'F');
-  doc.setTextColor(255,255,255);doc.setFontSize(12);doc.setFont('helvetica','bold');doc.text('MONTANT RÉGLÉ',20,91);
-  doc.setTextColor(74,222,128);doc.setFontSize(16);doc.text(fmt(ttc),190,91,{align:'right'});
-  doc.setTextColor.apply(doc,GREY);doc.setFontSize(9);doc.setFont('helvetica','normal');
-  doc.text('✓ Paiement confirmé et soldé',15,110);
-  doc.setDrawColor.apply(doc,GREY);doc.setLineWidth(0.5);
-  doc.line(115,135,180,135);
-  doc.text('Cachet et signature - SEN TEW SUARL',115,139);
-  doc.setFontSize(7);doc.text('Reçu genere par SEN TEW le '+new Date().toLocaleDateString('fr-FR'),105,285,{align:'center'});
-  doc.save('recu-'+(f.number||id)+'.pdf');
-  toast('Reçu téléchargé ⬇ï¸');
-}
 
 /* â•â•â•â•â•â•â•â•â•â• SALAIRES — BULLETINS NORMES SN â•â•â•â•â•â•â•â•â•â• */
-function calcBulletin(base,bonus,ded){
-  var brut=(base||0)+(bonus||0);
-  var ipres=brut*TAUX.ipres/100;
-  var css=brut*TAUX.css/100;
-  /* IR SN simplifié (mensuel, barème progressif approximatif) */
-  var taxable=brut-ipres-css;
-  var ir=0;
-  if(taxable>50000)ir+=(Math.min(taxable,166667)-50000)*0.20;
-  if(taxable>166667)ir+=(Math.min(taxable,333333)-166667)*0.26;
-  if(taxable>333333)ir+=(Math.min(taxable,666667)-333333)*0.31;
-  if(taxable>666667)ir+=(taxable-666667)*0.37;
-  var net=brut-ipres-css-ir-(ded||0);
-  return{brut:brut,ipres:ipres,css:css,ir:ir,net:net};
+/* ═══════════════ SALAIRES — BULLETINS PANAFRICAINS (moteur multi-pays) ═══════════════ */
+async function ensurePayrollReady(){
+  if(!window.PAYROLL || !PAYROLL.ready){ try{ await payrollInit(); }catch(e){} }
 }
+
 function renderSalaries(){
-  var el=$('salaires');
-  var list=DATA.salaries.map(function(s){
-    var b=calcBulletin(s.base_salary,s.bonuses,s.deductions);
-    return '<div class="card2"><div class="row"><div><div class="nm">'+esc(s.employee_name)+'</div><div class="meta">'+esc(s.role||'')+' · '+esc(s.period||'')+' · net <b class="pos">'+fmtN(b.net)+' F</b></div></div><span class="pill '+esc(s.status)+'">'+esc(s.status)+'</span></div>'+
-    '<div class="actions"><button class="abtn blue" onclick="dlBulletin(\''+s.id+'\')"><i data-lucide="file-spreadsheet"></i>Excel (CSV)</button><button class="abtn ok" onclick="dlBulletinPDF(\''+s.id+'\')"><i data-lucide="file-text"></i>PDF</button>'+(s.status!=='paid'?'<button class="abtn ok" onclick="paySalary(\''+s.id+'\')"><i data-lucide="check"></i>Marquer payé</button>':'')+'</div></div>';
-  }).join('')||'<div class="empty">Aucun bulletin créé.</div>';
-  el.innerHTML=
-   '<div class="sect"><i data-lucide="plus-circle"></i>Nouveau bulletin de paie</div>'+
-   '<div class="card2"><label class="lb">Employé</label><input class="sin" id="salName" placeholder="Ex: Fatou Ndiaye"><label class="lb">Poste</label><input class="sin" id="salRole" placeholder="Ex: Support client"><label class="lb">Période</label><input class="sin" id="salPeriod" type="month" value="'+new Date().toISOString().slice(0,7)+'"><label class="lb">Salaire de base (F)</label><input class="sin" id="salBase" type="number" placeholder="150000" oninput="previewBulletin()"><label class="lb">Primes (F)</label><input class="sin" id="salBonus" type="number" placeholder="0" oninput="previewBulletin()"><label class="lb">Retenues diverses (F)</label><input class="sin" id="salDed" type="number" placeholder="0" oninput="previewBulletin()"><div id="salPreview"></div><button class="bigbtn" onclick="addSalary()">💼 Créer le bulletin</button></div>'+
-   '<div class="sect"><i data-lucide="briefcase"></i>Bulletins ('+DATA.salaries.length+')</div>'+list;
-  lucide.createIcons();
+  ensurePayrollReady().then(function(){
+    var el=$('salaires');
+    var list=DATA.salaries.map(function(s){
+      var b=calcBulletinPan(s.country||'SN', s.base_salary, s.bonuses, s.deductions);
+      return '<div class="card2"><div class="row"><div><div class="nm">'+esc(s.employee_name)+'</div><div class="meta">'+esc(s.role||'')+' · '+esc(s.period||'')+' · '+esc(b.country)+' · net <b class="pos">'+fmtN(b.net)+' '+esc(b.currency)+'</b></div></div><span class="pill '+esc(s.status)+'">'+esc(s.status)+'</span></div>'+
+      '<div class="actions"><button class="abtn blue" onclick="dlBulletin(\''+s.id+'\')"><i data-lucide="file-spreadsheet"></i>Excel (CSV)</button><button class="abtn ok" onclick="dlBulletinPDF(\''+s.id+'\')"><i data-lucide="file-text"></i>PDF</button>'+(s.status!=='paid'?'<button class="abtn ok" onclick="paySalary(\''+s.id+'\')"><i data-lucide="check"></i>Marquer payé</button>':'')+'</div></div>';
+    }).join('')||'<div class="empty">Aucun bulletin créé.</div>';
+    el.innerHTML=
+     '<div class="sect"><i data-lucide="plus-circle"></i>Nouveau bulletin de paie</div>'+
+     '<div class="card2"><label class="lb">Pays</label><select class="sin" id="salCountry" onchange="previewBulletin()">'+payrollCountryOptions('SN')+'</select>'+
+     '<label class="lb">Employé</label><input class="sin" id="salName" placeholder="Ex: Fatou Ndiaye"><label class="lb">Poste</label><input class="sin" id="salRole" placeholder="Ex: Support client"><label class="lb">Email (optionnel, pour notification)</label><input class="sin" id="salEmail" type="email" placeholder="employe@exemple.com"><label class="lb">Période</label><input class="sin" id="salPeriod" type="month" value="'+new Date().toISOString().slice(0,7)+'"><label class="lb">Salaire de base</label><input class="sin" id="salBase" type="number" placeholder="150000" oninput="previewBulletin()"><label class="lb">Primes</label><input class="sin" id="salBonus" type="number" placeholder="0" oninput="previewBulletin()"><label class="lb">Retenues diverses</label><input class="sin" id="salDed" type="number" placeholder="0" oninput="previewBulletin()"><div id="salPreview"></div><button class="bigbtn" onclick="addSalary()">💼 Créer le bulletin</button></div>'+
+     '<div class="sect"><i data-lucide="briefcase"></i>Bulletins ('+DATA.salaries.length+')</div>'+list;
+    lucide.createIcons();
+  });
 }
+
 function previewBulletin(){
+  var countryEl=$('salCountry'); if(!countryEl)return;
+  var country=countryEl.value;
   var base=parseFloat($('salBase').value)||0,bonus=parseFloat($('salBonus').value)||0,ded=parseFloat($('salDed').value)||0;
   var z=$('salPreview');if(!base){z.innerHTML='';return;}
-  var b=calcBulletin(base,bonus,ded);
+  var b=calcBulletinPan(country, base,bonus,ded);
+  var warnLine = b.fiable ? '' : '<div class="meta" style="color:#b07a1f;margin-bottom:6px">⚠️ Taux estimatifs pour '+esc(b.country)+' — à faire valider par un comptable local avant usage officiel.</div>';
+  var otherHtml = (b.otherLines||[]).map(function(o){return '<div class="kpi-line"><span>'+esc(o.name)+' (patronal)</span><b class="neg">−'+fmtN(o.amount)+' '+esc(b.currency)+'</b></div>';}).join('');
   z.innerHTML='<div class="card2" style="background:#f7faf8;margin-top:10px">'+
-   '<div class="kpi-line"><span>Brut</span><b>'+fmtN(b.brut)+' F</b></div>'+
-   '<div class="kpi-line"><span>IPRES ('+TAUX.ipres+'%)</span><b class="neg">−'+fmtN(b.ipres)+' F</b></div>'+
-   '<div class="kpi-line"><span>CSS ('+TAUX.css+'%)</span><b class="neg">−'+fmtN(b.css)+' F</b></div>'+
-   '<div class="kpi-line"><span>IR (progressif)</span><b class="neg">−'+fmtN(b.ir)+' F</b></div>'+
-   '<div class="kpi-line" style="border:none"><span><b>NET À PAYER</b></span><b class="pos">'+fmtN(b.net)+' F</b></div></div>';
+   warnLine+
+   '<div class="kpi-line"><span>Brut</span><b>'+fmtN(b.brut)+' '+esc(b.currency)+'</b></div>'+
+   '<div class="kpi-line"><span>'+esc(b.pension_name)+' (salarié)</span><b class="neg">−'+fmtN(b.pensionEmp)+' '+esc(b.currency)+'</b></div>'+
+   (b.trimf?'<div class="kpi-line"><span>TRIMF</span><b class="neg">−'+fmtN(b.trimf)+' '+esc(b.currency)+'</b></div>':'')+
+   '<div class="kpi-line"><span>Impôt sur le revenu (progressif)</span><b class="neg">−'+fmtN(b.ir)+' '+esc(b.currency)+'</b></div>'+
+   '<div class="kpi-line" style="border:none"><span><b>NET À PAYER</b></span><b class="pos">'+fmtN(b.net)+' '+esc(b.currency)+'</b></div>'+
+   '<div class="sect" style="margin:12px 0 4px;font-size:10.5px">Charges patronales (coût employeur)</div>'+
+   '<div class="kpi-line"><span>'+esc(b.pension_name)+' (employeur)</span><b class="neg">−'+fmtN(b.pensionPatr)+' '+esc(b.currency)+'</b></div>'+
+   '<div class="kpi-line"><span>'+esc(b.family_name)+'</span><b class="neg">−'+fmtN(b.familyPatr)+' '+esc(b.currency)+'</b></div>'+
+   '<div class="kpi-line"><span>'+esc(b.at_mp_name)+'</span><b class="neg">−'+fmtN(b.atmpPatr)+' '+esc(b.currency)+'</b></div>'+
+   otherHtml+
+   '<div class="kpi-line" style="border:none"><span><b>Coût total employeur</b></span><b>'+fmtN(b.coutEmployeur)+' '+esc(b.currency)+'</b></div></div>';
 }
 async function addSalary(){
+  var country=$('salCountry').value;
   var n=$('salName').value.trim(),r=$('salRole').value.trim(),p=$('salPeriod').value,base=parseFloat($('salBase').value)||0,bonus=parseFloat($('salBonus').value)||0,ded=parseFloat($('salDed').value)||0;
+  var em=($('salEmail')?$('salEmail').value.trim():'');
   if(!n||!base){toast('Nom et salaire de base requis');return;}
-  await api('salaries','',{method:'POST',body:JSON.stringify({employee_name:n,role:r,period:p,base_salary:base,bonuses:bonus,deductions:ded})});
+  var body={employee_name:n,role:r,period:p,base_salary:base,bonuses:bonus,deductions:ded,country:country};
+  if(em)body.email=em;
+  var resp=await api('salaries','',{method:'POST',body:JSON.stringify(body)});
+  if(resp&&!resp.ok&&body.email){delete body.email;resp=await api('salaries','',{method:'POST',body:JSON.stringify(body)});}
   toast('Bulletin créé ✅');
   DATA.salaries=await api('salaries','?select=*&order=created_at.desc&limit=100');
+  var created=DATA.salaries.find(function(x){return x.employee_name===n&&x.period===p;});
+  if(created&&em)LAST_SAL_EMAIL[created.id]=em;
   renderSalaries();
 }
-async function paySalary(id){await api('salaries','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:'paid'})});toast('Salaire marqué payé ✅');DATA.salaries=await api('salaries','?select=*&order=created_at.desc&limit=100');renderSalaries();}
+async function paySalary(id){
+  await api('salaries','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:'paid'})});
+  var s=DATA.salaries.find(function(x){return String(x.id)===String(id);});
+  if(s){var b=calcBulletinPan(s.country||'SN', s.base_salary,s.bonuses,s.deductions);
+    sendDocEmail(s.email||LAST_SAL_EMAIL[id]||'','Votre salaire a été versé 💼','Bonjour '+s.employee_name+',\n\nVotre salaire net de '+fmtN(b.net)+' '+b.currency+' ('+(s.period||'')+') a été versé.\nVotre bulletin PDF signé par la direction vous est remis par l\u2019administration.\n\nSEN TEW SUARL');}
+  toast('Salaire marqué payé ✅');DATA.salaries=await api('salaries','?select=*&order=created_at.desc&limit=100');renderSalaries();
+}
 function dlBulletin(id){
   var s=DATA.salaries.find(function(x){return String(x.id)===String(id);});if(!s)return;
-  var b=calcBulletin(s.base_salary,s.bonuses,s.deductions);
-  dlCSV('bulletin-'+s.employee_name.replace(/\s+/g,'-')+'-'+s.period+'.csv',[
+  var b=calcBulletinPan(s.country||'SN', s.base_salary,s.bonuses,s.deductions);
+  var rows=[
    ['BULLETIN DE PAIE - SEN TEW SUARL'],
+   ['Pays',b.country],
    ['Employe',s.employee_name],['Poste',s.role||''],['Periode',s.period],
    [''],
-   ['RUBRIQUE','MONTANT (F)'],
+   ['RUBRIQUE','MONTANT ('+b.currency+')'],
    ['Salaire de base',s.base_salary],['Primes',s.bonuses||0],['BRUT',b.brut],
-   ['IPRES retraite ('+TAUX.ipres+'%)',-b.ipres],['CSS maladie ('+TAUX.css+'%)',-b.css],['IR progressif',-b.ir],['Retenues diverses',-(s.deductions||0)],
-   [''],
-   ['NET A PAYER',b.net],
-   ['Statut',s.status]
-  ]);
-  toast('Bulletin téléchargé ⬇ï¸');
+   [b.pension_name+' salarie',-b.pensionEmp]
+  ];
+  if(b.trimf) rows.push(['TRIMF',-b.trimf]);
+  rows.push(['Impot sur le revenu',-b.ir],['Retenues diverses',-(s.deductions||0)],[''],['NET A PAYER',b.net],[''],
+   ['--- Charges patronales (info) ---'],
+   [b.pension_name+' employeur',-b.pensionPatr],[b.family_name,-b.familyPatr],[b.at_mp_name,-b.atmpPatr]);
+  (b.otherLines||[]).forEach(function(o){rows.push([o.name,-o.amount]);});
+  rows.push(['Cout total employeur',b.coutEmployeur],['Statut',s.status]);
+  if(!b.fiable) rows.push(['','⚠️ Taux estimatifs, a faire valider par un comptable local']);
+  dlCSV('bulletin-'+s.employee_name.replace(/\s+/g,'-')+'-'+s.period+'.csv', rows);
+  toast('Bulletin téléchargé ⬇ï¸');
 }
-  function dlBulletinPDF(id){
+function dlBulletinPDF(id){
   var s=DATA.salaries.find(function(x){return String(x.id)===String(id);});if(!s)return;
   if(!window.jspdf){toast('Chargement du module PDF…');return;}
-  var b=calcBulletin(s.base_salary,s.bonuses,s.deductions);
+  var b=calcBulletinPan(s.country||'SN', s.base_salary,s.bonuses,s.deductions);
   var doc=new window.jspdf.jsPDF();
   var GREEN=[15,107,78],DARK=[10,31,23],LIGHT=[242,246,244],RED=[192,57,43],GREY=[91,122,112];
-  function fmt(n){return Math.round(n).toLocaleString('fr-FR')+' F';}
-  /* Bandeau */
+  function fmt(n){return Math.round(n).toLocaleString('fr-FR')+' '+b.currency;}
   doc.setFillColor.apply(doc,DARK);doc.rect(0,0,210,38,'F');
   doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,16);
-  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Marketplace panafricaine - Dakar, Senegal - hello.senecosystem@gmail.com',15,22);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Marketplace panafricaine - '+b.country+' - hello.senecosystem@gmail.com',15,22);
   doc.setTextColor(74,222,128);doc.setFontSize(12);doc.setFont('helvetica','bold');doc.text('BULLETIN DE PAIE',195,16,{align:'right'});
   doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Periode : '+String(s.period||''),195,22,{align:'right'});
   doc.setFillColor.apply(doc,GREEN);doc.rect(0,38,210,2,'F');
-  /* Bloc employé */
   doc.setFillColor.apply(doc,LIGHT);doc.roundedRect(15,48,180,24,3,3,'F');
   doc.setTextColor.apply(doc,GREY);doc.setFontSize(8);
-  doc.text('EMPLOYE',20,55);doc.text('POSTE',75,55);doc.text('PERIODE',135,55);
+  doc.text('EMPLOYE',20,55);doc.text('POSTE',75,55);doc.text('PAYS / PERIODE',135,55);
   doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);doc.setFont('helvetica','bold');
-  doc.text(String(s.employee_name||''),20,62);doc.text(String(s.role||'-'),75,62);doc.text(String(s.period||''),135,62);
-  /* Tableau */
+  doc.text(String(s.employee_name||''),20,62);doc.text(String(s.role||'-'),75,62);doc.text(b.country+' - '+String(s.period||''),135,62);
   var y=84;
   doc.setFontSize(11);doc.setFont('helvetica','bold');doc.text('DETAIL DE LA REMUNERATION',15,y);
   y+=4;
@@ -762,14 +676,14 @@ function dlBulletin(id){
   doc.setTextColor(255,255,255);doc.setFontSize(9);
   doc.text('RUBRIQUE',20,y+5.5);doc.text('BASE / TAUX',170,y+5.5,{align:'right'});doc.text('MONTANT',190,y+5.5,{align:'right'});
   var rows=[
-    ['Salaire de base','30 jours',fmt(s.base_salary||0),false],
+    ['Salaire de base','',fmt(s.base_salary||0),false],
     ['Primes et gratifications','-',fmt(s.bonuses||0),false],
     ['SALAIRE BRUT','',fmt(b.brut),true],
-    ['Cotisation IPRES (retraite)','5,6 %','- '+fmt(b.ipres),false],
-    ['Cotisation CSS (maladie)','7 %','- '+fmt(b.css),false],
-    ['Impot sur le revenu (IR)','bareme prog.','- '+fmt(b.ir),false],
-    ['Retenues diverses','-','- '+fmt(s.deductions||0),false]
+    [b.pension_name+' (salarie)','-','- '+fmt(b.pensionEmp),false]
   ];
+  if(b.trimf) rows.push(['TRIMF','forfait','- '+fmt(b.trimf),false]);
+  rows.push(['Impot sur le revenu','bareme prog.','- '+fmt(b.ir),false]);
+  rows.push(['Retenues diverses','-','- '+fmt(s.deductions||0),false]);
   y+=8;
   rows.forEach(function(r,i){
     if(i%2===0){doc.setFillColor.apply(doc,LIGHT);doc.rect(15,y-1.5,180,8,'F');}
@@ -781,22 +695,31 @@ function dlBulletin(id){
     doc.setTextColor.apply(doc,neg?RED:DARK);doc.setFontSize(9.5);doc.text(r[2],190,y+4,{align:'right'});
     y+=8;
   });
-  /* Net à payer */
   y+=6;
   doc.setFillColor.apply(doc,DARK);doc.roundedRect(15,y,180,16,3,3,'F');
   doc.setTextColor(255,255,255);doc.setFontSize(13);doc.setFont('helvetica','bold');doc.text('NET A PAYER',20,y+10);
   doc.setTextColor(74,222,128);doc.setFontSize(16);doc.text(fmt(b.net),190,y+10,{align:'right'});
-  /* Signatures */
-  y+=34;
-  doc.setDrawColor.apply(doc,GREY);doc.setLineWidth(0.5);
-  doc.line(20,y,85,y);doc.line(115,y,180,y);
-  doc.setTextColor.apply(doc,GREY);doc.setFontSize(8);
-  doc.text("Signature de l'employe",20,y+4);doc.text('Cachet et signature - SEN TEW SUARL',115,y+4);
-  /* Pied */
-  doc.setFontSize(7);doc.text('Document genere par la plateforme SEN TEW - Cotisations IPRES et CSS (part salariale) - '+(s.period||''),105,285,{align:'center'});
+  y+=24;
+  if(!b.fiable){
+    doc.setTextColor.apply(doc,RED);doc.setFontSize(7.5);doc.setFont('helvetica','italic');
+    doc.text('⚠️ Taux estimatifs pour '+b.country+' — a faire valider par un comptable local avant usage officiel.',20,y);
+    y+=8;
+  }
+  pdfSignDir(doc,y+8);
+  doc.setTextColor.apply(doc,GREY);doc.setFontSize(7);doc.setFont('helvetica','normal');
+  doc.text('Document genere par SEN TEW - '+b.pension_name+'/'+b.family_name+' (part salariale) - '+(s.period||''),105,290,{align:'center'});
   doc.save('bulletin-'+String(s.employee_name||'salarie').replace(/\s+/g,'-')+'-'+(s.period||'')+'.pdf');
-  toast('Bulletin PDF téléchargé ⬇ï¸');
+  sendDocEmail(s.email||LAST_SAL_EMAIL[id]||'','Votre bulletin de paie '+(s.period||''),'Bonjour '+s.employee_name+',\n\nVotre bulletin de paie de la periode '+(s.period||'')+' est disponible.\nNet a payer : '+fmt(b.net)+'.\nLe PDF signe par la direction vous est remis par l\u2019administration.\n\nSEN TEW SUARL');
+  toast('Bulletin PDF téléchargé ⬇ï¸');
 }
+
+
+
+
+
+
+
+  
 
 /* â•â•â•â•â•â•â•â•â•â• MESSAGES PRÊTS â•â•â•â•â•â•â•â•â•â• */
 var TPLS=[
@@ -902,61 +825,7 @@ function pdfSignDir(doc,y){
   doc.setTextColor(91,122,112);doc.setFontSize(7.5);doc.setFont('helvetica','normal');
   doc.text('Fait a Dakar, le '+new Date().toLocaleDateString('fr-FR'),120,y+9);
 }
-function dlBulletinPDF(id){
-  var s=DATA.salaries.find(function(x){return String(x.id)===String(id);});if(!s)return;
-  if(!window.jspdf){toast('Chargement du module PDF…');return;}
-  var b=calcBulletin(s.base_salary,s.bonuses,s.deductions);
-  var doc=new window.jspdf.jsPDF();
-  var GREEN=[15,107,78],DARK=[10,31,23],LIGHT=[242,246,244],RED=[192,57,43],GREY=[91,122,112];
-  function fmt(n){return Math.round(n).toLocaleString('fr-FR')+' F';}
-  doc.setFillColor.apply(doc,DARK);doc.rect(0,0,210,38,'F');
-  doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,16);
-  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Marketplace panafricaine - Dakar, Senegal - hello.senecosystem@gmail.com',15,22);
-  doc.setTextColor(74,222,128);doc.setFontSize(12);doc.setFont('helvetica','bold');doc.text('BULLETIN DE PAIE',195,16,{align:'right'});
-  doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Periode : '+String(s.period||''),195,22,{align:'right'});
-  doc.setFillColor.apply(doc,GREEN);doc.rect(0,38,210,2,'F');
-  doc.setFillColor.apply(doc,LIGHT);doc.roundedRect(15,48,180,24,3,3,'F');
-  doc.setTextColor.apply(doc,GREY);doc.setFontSize(8);
-  doc.text('EMPLOYE',20,55);doc.text('POSTE',75,55);doc.text('PERIODE',135,55);
-  doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);doc.setFont('helvetica','bold');
-  doc.text(String(s.employee_name||''),20,62);doc.text(String(s.role||'-'),75,62);doc.text(String(s.period||''),135,62);
-  var y=84;
-  doc.setFontSize(11);doc.setFont('helvetica','bold');doc.text('DETAIL DE LA REMUNERATION',15,y);
-  y+=4;
-  doc.setFillColor.apply(doc,GREEN);doc.rect(15,y,180,8,'F');
-  doc.setTextColor(255,255,255);doc.setFontSize(9);
-  doc.text('RUBRIQUE',20,y+5.5);doc.text('BASE / TAUX',170,y+5.5,{align:'right'});doc.text('MONTANT',190,y+5.5,{align:'right'});
-  var rows=[
-    ['Salaire de base','30 jours',fmt(s.base_salary||0),false],
-    ['Primes et gratifications','-',fmt(s.bonuses||0),false],
-    ['SALAIRE BRUT','',fmt(b.brut),true],
-    ['Cotisation IPRES (retraite)','5,6 %','- '+fmt(b.ipres),false],
-    ['Cotisation CSS (maladie)','7 %','- '+fmt(b.css),false],
-    ['Impot sur le revenu (IR)','bareme prog.','- '+fmt(b.ir),false],
-    ['Retenues diverses','-','- '+fmt(s.deductions||0),false]
-  ];
-  y+=8;
-  rows.forEach(function(r,i){
-    if(i%2===0){doc.setFillColor.apply(doc,LIGHT);doc.rect(15,y-1.5,180,8,'F');}
-    var neg=r[2].indexOf('- ')===0;
-    doc.setTextColor.apply(doc,neg?RED:DARK);
-    doc.setFont('helvetica',r[3]?'bold':'normal');doc.setFontSize(9.5);
-    doc.text(r[0],20,y+4);
-    doc.setTextColor.apply(doc,GREY);doc.setFontSize(8.5);doc.text(r[1],170,y+4,{align:'right'});
-    doc.setTextColor.apply(doc,neg?RED:DARK);doc.setFontSize(9.5);doc.text(r[2],190,y+4,{align:'right'});
-    y+=8;
-  });
-  y+=6;
-  doc.setFillColor.apply(doc,DARK);doc.roundedRect(15,y,180,16,3,3,'F');
-  doc.setTextColor(255,255,255);doc.setFontSize(13);doc.setFont('helvetica','bold');doc.text('NET A PAYER',20,y+10);
-  doc.setTextColor(74,222,128);doc.setFontSize(16);doc.text(fmt(b.net),190,y+10,{align:'right'});
-  pdfSignDir(doc,y+32);
-  doc.setTextColor.apply(doc,GREY);doc.setFontSize(7);doc.setFont('helvetica','normal');
-  doc.text('Document genere par SEN TEW - Cotisations IPRES et CSS (part salariale) - '+(s.period||''),105,290,{align:'center'});
-  doc.save('bulletin-'+String(s.employee_name||'salarie').replace(/\s+/g,'-')+'-'+(s.period||'')+'.pdf');
-  sendDocEmail(s.email||LAST_SAL_EMAIL[id]||'','Votre bulletin de paie '+(s.period||''),'Bonjour '+s.employee_name+',\n\nVotre bulletin de paie de la periode '+(s.period||'')+' est disponible.\nNet a payer : '+fmt(b.net)+' FCFA.\nLe PDF signe par la direction vous est remis par l\u2019administration.\n\nSEN TEW SUARL');
-  toast('Bulletin PDF téléchargé ⬇ï¸');
-}
+
 function dlInvoicePDF(id){
   var f=DATA.invoices.find(function(v){return String(v.id)===String(id);});if(!f)return;
   if(!window.jspdf){toast('Chargement du module PDF…');return;}
@@ -1127,13 +996,7 @@ async function payNow(vendorId,email,name,amount){
   sendDocEmail(email,'Votre reçu de reversement SEN TEW','Reversement de '+fmtN(amount)+' FCFA effectué via '+mLbl+(bankInfo?' ('+bankInfo+')':'')+'.\nLe reçu PDF signé par la direction fait foi de paiement.');
   toast('Reversement enregistré ✅');await loadAll();renderPayouts();
 }
-async function paySalary(id){
-  await api('salaries','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:'paid'})});
-  var s=DATA.salaries.find(function(x){return String(x.id)===String(id);});
-  if(s){var b=calcBulletin(s.base_salary,s.bonuses,s.deductions);
-    sendDocEmail(s.email||LAST_SAL_EMAIL[id]||'','Votre salaire a été versé 💼','Bonjour '+s.employee_name+',\n\nVotre salaire net de '+fmtN(b.net)+' FCFA ('+(s.period||'')+') a été versé.\nVotre bulletin PDF signé par la direction vous est remis par l\u2019administration.\n\nSEN TEW SUARL');}
-  toast('Salaire marqué payé ✅');DATA.salaries=await api('salaries','?select=*&order=created_at.desc&limit=100');renderSalaries();
-}
+
 async function payInvoice(id){
   await api('invoices','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:'paid'})});
   var f=DATA.invoices.find(function(v){return String(v.id)===String(id);});
@@ -1141,20 +1004,7 @@ async function payInvoice(id){
     sendDocEmail(f.supplier,'Reçu de paiement - Facture '+(f.number||''),'SEN TEW SUARL a réglé votre facture '+(f.number||'')+' d\u2019un montant de '+fmtN(ttc)+' FCFA.\nLe reçu PDF signé par la direction fait foi de paiement.');}
   toast('Facture soldée ✅');DATA.invoices=await api('invoices','?select=*&order=created_at.desc&limit=100');renderCompta();
 }
-async function addSalary(){
-  var n=$('salName').value.trim(),r=$('salRole').value.trim(),p=$('salPeriod').value,base=parseFloat($('salBase').value)||0,bonus=parseFloat($('salBonus').value)||0,ded=parseFloat($('salDed').value)||0;
-  var em=($('salEmail')?$('salEmail').value.trim():'');
-  if(!n||!base){toast('Nom et salaire de base requis');return;}
-  var body={employee_name:n,role:r,period:p,base_salary:base,bonuses:bonus,deductions:ded};
-  if(em)body.email=em;
-  var resp=await api('salaries','',{method:'POST',body:JSON.stringify(body)});
-  if(resp&&!resp.ok&&body.email){delete body.email;resp=await api('salaries','',{method:'POST',body:JSON.stringify(body)});}
-  toast('Bulletin créé ✅');
-  DATA.salaries=await api('salaries','?select=*&order=created_at.desc&limit=100');
-  var created=DATA.salaries.find(function(x){return x.employee_name===n&&x.period===p;});
-  if(created&&em)LAST_SAL_EMAIL[created.id]=em;
-  renderSalaries();
-}
+
 function exportComptaPDF(){
   if(!window.jspdf){toast('Chargement du module PDF…');return;}
   var doc=new window.jspdf.jsPDF();
@@ -1165,7 +1015,7 @@ function exportComptaPDF(){
   DATA.orders.filter(function(x){return x.status==='refunded';}).forEach(function(o){lines.push({d:String(o.created_at||'').slice(0,10),t:'Remboursement client',l:'Avoir #'+String(o.id).slice(0,8),m:-(o.total||0)});});
   DATA.expenses.forEach(function(x){lines.push({d:String(x.expense_date||'').slice(0,10),t:'Dépense ('+(x.category||'')+')',l:x.label,m:-(x.amount||0)});});
   DATA.invoices.forEach(function(x){var ttc=(x.amount||0)+(x.tax||0);lines.push({d:String(x.invoice_date||'').slice(0,10),t:'Facture '+(x.type==='sale'?'vente':'dépense'),l:(x.number||'')+' '+(x.label||''),m:(x.type==='sale'?ttc:-ttc)});});
-  DATA.salaries.forEach(function(x){var b=calcBulletin(x.base_salary,x.bonuses,x.deductions);lines.push({d:String(x.period||''),t:'Salaire',l:x.employee_name,m:-Math.round(b.brut)});});
+  DATA.salaries.forEach(function(x){var b=calcBulletinPan(x.country||'SN',x.base_salary,x.bonuses,x.deductions);lines.push({d:String(x.period||''),t:'Salaire',l:x.employee_name,m:-Math.round(b.brut)});});
   lines.sort(function(a,b){return a.d<b.d?-1:1;});
   var totIn=lines.filter(function(x){return x.m>0;}).reduce(function(s,x){return s+x.m;},0);
   var totOut=lines.filter(function(x){return x.m<0;}).reduce(function(s,x){return s-x.m;},0);
@@ -1353,6 +1203,8 @@ function showTab(id,btn){
   if(id==='reversements')renderPayouts();
   if(id==='compta')renderCompta();
   if(id==='salaires')renderSalaries();
+  if(id==='photosia'){loadPhotosIA().then(renderPhotosIA);}
+  if(id==='pays')renderPays();
   if(id==='budget')renderBudget();
   if(id==='messages')renderMessages();
   if(id==='notifs')loadNotifs();
@@ -1361,6 +1213,127 @@ updateBudgetBadge();
 setInterval(updateBudgetBadge,60000);
 
 /* â•â•â•â•â•â•â•â•â•â• INIT â•â•â•â•â•â•â•â•â•â• */
+
+/* ══════════════════ PHOTOS IA — galerie avant/après + quotas vendeurs ══════════════════ */
+DATA.photosIA = DATA.photosIA || [];
+DATA.aiUsage = DATA.aiUsage || [];
+
+async function loadPhotosIA(){
+  try{ DATA.photosIA = await api('product_photo_ia','?select=*&order=created_at.desc&limit=60'); }catch(e){ DATA.photosIA=[]; }
+  try{ DATA.aiUsage  = await api('ai_photo_usage','?select=*'); }catch(e){ DATA.aiUsage=[]; }
+}
+
+var AI_PLAN_QUOTAS = {gratuit:0, silver:10, gold:50, platinum:-1};
+
+function renderPhotosIA(){
+  CUR='photosia';
+  var el=$('photosia');
+  var month = new Date().toISOString().slice(0,7);
+
+  /* --- Bloc quotas par vendeur --- */
+  var byVendor = {};
+  DATA.aiUsage.filter(function(u){return u.month===month;}).forEach(function(u){ byVendor[u.vendor_id] = u.count||0; });
+  var vendorRows = DATA.vendors.map(function(v){
+    var plan = v.plan || 'gratuit';
+    var quota = AI_PLAN_QUOTAS[plan]!==undefined ? AI_PLAN_QUOTAS[plan] : 0;
+    var used = byVendor[v.id] || 0;
+    var pct = quota>0 ? Math.min(100, Math.round(used*100/quota)) : (quota===-1?0:100);
+    var barColor = quota===0 ? '#c0392b' : (pct>85 ? '#b07a1f' : '#0f6b4e');
+    return '<div class="card2"><div class="row"><div style="flex:1"><div class="nm">'+esc(v.shop_name||v.full_name||'Vendeur')+'</div>'+
+      '<div class="meta">Plan '+esc(plan)+' · '+(quota===-1?(used+' photos utilisées (illimité)'):(used+' / '+quota+' photos ce mois'))+'</div>'+
+      (quota>0?'<div style="height:6px;background:#f0f3f2;border-radius:4px;margin-top:6px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:'+barColor+'"></div></div>':'')+
+      '</div><span class="pill '+(quota===0?'rejected':(pct>85?'pending':'active'))+'">'+(quota===0?'IA verrouillée':(quota===-1?'Illimité':pct+'%'))+'</span></div></div>';
+  }).join('') || '<div class="empty">Aucun vendeur.</div>';
+
+  /* --- Galerie comparative avant/après --- */
+  var galleryRows = DATA.photosIA.map(function(p){
+    var v = DATA.vendors.find(function(x){return String(x.id)===String(p.vendor_id);});
+    return '<div class="card2"><div class="meta" style="margin-bottom:8px"><b>'+esc(p.product_name||'Produit')+'</b> · '+esc((v&&(v.shop_name||v.full_name))||'Vendeur inconnu')+' · '+fmtDate(p.created_at)+'</div>'+
+      '<div style="display:flex;gap:8px">'+
+        '<div style="flex:1;text-align:center"><img src="'+esc(p.before_url||'')+'" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;border:2px solid #e5e7eb" loading="lazy"><div style="font-size:9.5px;color:#9db8af;margin-top:3px;font-weight:800">AVANT</div></div>'+
+        '<div style="flex:1;text-align:center"><img src="'+esc(p.after_url||'')+'" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;border:2px solid #8b5cf6" loading="lazy"><div style="font-size:9.5px;color:#8b5cf6;margin-top:3px;font-weight:800">APRÈS (IA)</div></div>'+
+      '</div></div>';
+  }).join('') || '<div class="empty">Aucune transformation photo IA pour le moment.</div>';
+
+  el.innerHTML =
+    '<div class="sect"><i data-lucide="gauge"></i>Quotas Photo IA par vendeur ('+new Date().toLocaleDateString('fr-FR',{month:'long',year:'numeric'})+')</div>'+
+    vendorRows+
+    '<div class="sect"><i data-lucide="images"></i>Galerie comparative Avant / Après ('+DATA.photosIA.length+')</div>'+
+    galleryRows;
+  lucide.createIcons();
+}
+
+
+/* ══════════════════ PAYS — configuration des taux de paie panafricains ══════════════════ */
+async function ensurePayroll(){
+  if(!window.PAYROLL || !PAYROLL.ready){ try{ await payrollInit(); }catch(e){} }
+}
+
+function renderPays(){
+  CUR='pays';
+  var el=$('pays');
+  ensurePayroll().then(function(){
+    var codes = Object.keys(PAYROLL.configs);
+    var rows = codes.map(function(code){
+      var c = PAYROLL.configs[code];
+      var badge = c.fiable ? '<span class="pill active">Taux vérifiés</span>' : '<span class="pill pending">⚠️ À valider localement</span>';
+      return '<div class="card2"><div class="row"><div style="flex:1"><div class="nm">'+esc(c.name)+' <span style="font-weight:400;color:#9db8af;font-size:11px">('+esc(c.currency)+')</span></div>'+
+        '<div class="meta">'+esc(c.pension_name)+' '+c.pension_employee+'%/'+c.pension_employer+'% · '+esc(c.family_name)+' '+c.family_employer+'% · IR '+(c.ir_brackets.length)+' tranches</div></div>'+badge+'</div>'+
+        '<div class="actions"><button class="abtn blue" onclick="openPaysEdit(\''+code+'\')"><i data-lucide="pencil"></i>Modifier les taux</button></div></div>';
+    }).join('');
+    el.innerHTML = '<div class="sect"><i data-lucide="globe"></i>Configuration des cotisations sociales par pays</div>'+
+      '<div class="card2" style="background:#fffbeb;border:1.5px solid #fde68a"><div style="font-size:12px;color:#92400e;line-height:1.6">ℹ️ SEN TEW est panafricain : chaque pays a ses propres taux de retraite, prestations familiales et barème d\'impôt. Le Sénégal est vérifié avec des sources officielles. Les autres pays sont pré-remplis avec des estimations — <b>fais-les valider par un comptable local</b> avant de générer des bulletins officiels dans ce pays.</div></div>'+
+      rows;
+    lucide.createIcons();
+  });
+}
+
+function openPaysEdit(code){
+  var c = PAYROLL.configs[code];
+  var otherLines = (c.other_employer||[]).map(function(o,i){
+    return o.name+' : '+(o.flat!=null?('forfait '+o.flat+' F'):(o.rate+'%'));
+  }).join(' | ') || 'aucune';
+  var h='<button class="close" onclick="closeModal()">✕</button><h3>'+esc(c.name)+'</h3><div class="meta">Devise : '+esc(c.currency)+'</div>'+
+   '<div style="margin-top:14px">'+
+   '<label class="lb">Nom du régime retraite</label><input class="sin" id="pcPensionName" value="'+esc(c.pension_name)+'">'+
+   '<div style="display:flex;gap:8px"><div style="flex:1"><label class="lb">Taux salarié (%)</label><input class="sin" id="pcPensionEmp" type="number" step="0.1" value="'+c.pension_employee+'"></div><div style="flex:1"><label class="lb">Taux employeur (%)</label><input class="sin" id="pcPensionPatr" type="number" step="0.1" value="'+c.pension_employer+'"></div></div>'+
+   '<label class="lb">Plafond mensuel cotisable (0 = pas de plafond)</label><input class="sin" id="pcPensionCeil" type="number" value="'+(c.pension_ceiling||0)+'">'+
+   '<label class="lb">Nom prestations familiales</label><input class="sin" id="pcFamilyName" value="'+esc(c.family_name)+'">'+
+   '<label class="lb">Taux employeur prestations familiales (%)</label><input class="sin" id="pcFamilyPatr" type="number" step="0.1" value="'+c.family_employer+'">'+
+   '<label class="lb">Nom accident du travail</label><input class="sin" id="pcAtmpName" value="'+esc(c.at_mp_name)+'">'+
+   '<label class="lb">Taux employeur accident du travail (%)</label><input class="sin" id="pcAtmpPatr" type="number" step="0.1" value="'+c.at_mp_employer+'">'+
+   '<label class="lb">Autres charges patronales (actuel : '+esc(otherLines)+')</label>'+
+   '<div class="meta" style="margin-bottom:8px">Format libre non éditable ici pour l\'instant — contacte le support pour ajouter une ligne personnalisée (ex. CFCE, CMU forfait).</div>'+
+   '<label class="lb">TRIMF / taxe fixe additionnelle activée ?</label><select class="sin" id="pcTrimf"><option value="1"'+(c.trimf?' selected':'')+'>Oui</option><option value="0"'+(!c.trimf?' selected':'')+'>Non</option></select>'+
+   '<label class="lb">Barème IR (JSON [[min,max,taux%],...], max=null pour infini)</label><textarea class="sin" id="pcIR" style="min-height:70px">'+esc(JSON.stringify(c.ir_brackets))+'</textarea>'+
+   '<label class="lb">Notes / source</label><textarea class="sin" id="pcNotes" style="min-height:50px">'+esc(c.notes||'')+'</textarea>'+
+   '<button class="bigbtn" onclick="savePaysEdit(\''+code+'\')">💾 Enregistrer ce pays</button>'+
+   '</div>';
+  $('sheet').innerHTML=h;$('modal').classList.add('on');
+  lucide.createIcons();
+}
+
+async function savePaysEdit(code){
+  var c = PAYROLL.configs[code];
+  try{
+    c.pension_name = $('pcPensionName').value.trim();
+    c.pension_employee = parseFloat($('pcPensionEmp').value)||0;
+    c.pension_employer = parseFloat($('pcPensionPatr').value)||0;
+    c.pension_ceiling = parseFloat($('pcPensionCeil').value)||0;
+    c.family_name = $('pcFamilyName').value.trim();
+    c.family_employer = parseFloat($('pcFamilyPatr').value)||0;
+    c.at_mp_name = $('pcAtmpName').value.trim();
+    c.at_mp_employer = parseFloat($('pcAtmpPatr').value)||0;
+    c.trimf = $('pcTrimf').value==='1';
+    c.ir_brackets = JSON.parse($('pcIR').value);
+    c.notes = $('pcNotes').value.trim();
+  }catch(e){ toast('⚠️ Format du barème IR invalide (vérifie le JSON).'); return; }
+  var ok = await payrollSaveConfig(code, c);
+  toast(ok?'Taux '+c.name+' enregistrés ✅':'⚠️ Sauvegarde locale seulement (table payroll_configs absente sur Supabase)');
+  closeModal();
+  renderPays();
+}
+
 lucide.createIcons();
 loadAll().then(function(){renderPano();});
 silentRefresh();
