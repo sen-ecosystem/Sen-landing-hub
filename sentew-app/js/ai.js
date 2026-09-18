@@ -109,7 +109,7 @@ async function stAiSupport(probleme){
   );
 }
 
-/* ═══ 4. PHOTO IA VENDEUR ═══ */
+/* ═══ 4. PHOTO IA VENDEUR (avec contexte des prix réels du catalogue SEN TEW) ═══ */
 async function stAiPhoto(file){
   if(!stAiHasKey()) return null;
   var b64 = await new Promise(function(res){
@@ -117,13 +117,46 @@ async function stAiPhoto(file){
     fr.onload = function(){ res(String(fr.result).split(',')[1]); };
     fr.readAsDataURL(file);
   });
+
+  /* S'assure que le catalogue est chargé pour donner un contexte de prix réel */
+  if(!ST_AI.ready){ try{ await stAiInit(); }catch(e){} }
+
+  /* Calcule les fourchettes de prix moyennes par catégorie à partir du catalogue réel */
+  var priceContext = '';
+  try{
+    if(ST_AI.CTX){
+      var byCat = {};
+      ST_AI.CTX.split('\n').forEach(function(line){
+        var parts = line.split('|');
+        if(parts.length>=3){
+          var price = parseInt((parts[1]||'').replace(/[^0-9]/g,''),10);
+          var cat = (parts[2]||'').trim();
+          if(cat && price>0){
+            if(!byCat[cat]) byCat[cat]=[];
+            byCat[cat].push(price);
+          }
+        }
+      });
+      var lines = [];
+      Object.keys(byCat).forEach(function(cat){
+        var arr = byCat[cat];
+        var min = Math.min.apply(null, arr), max = Math.max.apply(null, arr);
+        var avg = Math.round(arr.reduce(function(a,b){return a+b;},0)/arr.length);
+        lines.push('- '+cat+' : entre '+min+' et '+max+' FCFA (moyenne '+avg+' FCFA, sur '+arr.length+' produit(s))');
+      });
+      if(lines.length){
+        priceContext = 'VOICI LES PRIX RÉELLEMENT PRATIQUÉS SUR SEN TEW PAR CATÉGORIE (utilise-les comme référence pour ta suggestion de prix, reste cohérent avec ce marché) :\n'+lines.join('\n')+'\n\n';
+      }
+    }
+  }catch(e){}
+
   try{
     var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+ST_AI.MODEL+':generateContent?key='+stAiKey(),{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         contents:[{parts:[
-          {text:'Tu es l\u2019assistant vendeur de SEN TEW (marketplace sénégalaise). Analyse cette photo de produit et réponds UNIQUEMENT en JSON strict : {"name":"nom commercial court","category":"une de : Mode, Électronique, Beauté, Maison, Alimentation, Artisanat, Autre","description":"description vendeuse de 2 phrases en français","price":prix_suggéré_en_FCFA_nombre}.'},
+          {text:priceContext+'Tu es l\u2019assistant vendeur de SEN TEW (marketplace sénégalaise). Analyse cette photo de produit et réponds UNIQUEMENT en JSON strict : {"name":"nom commercial court","category":"une de : Mode, Électronique, Beauté, Maison, Alimentation, Artisanat, Autre","description":"description vendeuse de 2 phrases en français","price":prix_suggéré_en_FCFA_nombre}. Le prix suggéré doit être cohérent avec les prix déjà pratiqués sur SEN TEW dans la même catégorie (voir ci-dessus), sauf si le produit semble visiblement haut de gamme ou premium.'},
           {inline_data:{mime_type:file.type||'image/jpeg',data:b64}}
         ]}],
         generationConfig:{maxOutputTokens:1200,temperature:0.4,thinkingConfig:{thinkingLevel:'LOW'}}
