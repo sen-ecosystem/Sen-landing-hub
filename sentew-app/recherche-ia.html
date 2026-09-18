@@ -6,6 +6,8 @@
 <title>Recherche IA — SEN TEW</title>
 <link rel="stylesheet" href="css/app.css?v=50">
 <script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/supabase.js"></script>
+<script src="js/ai.js"></script>
 </head>
 <body class="light-mode">
 
@@ -18,10 +20,48 @@
 <main style="padding:16px;padding-bottom:100px">
 
   <div style="background:#fff;border-radius:12px;padding:8px;display:flex;align-items:center;gap:6px;box-shadow:0 2px 8px rgba(15,107,78,0.08);margin-bottom:16px">
-    <input type="text" placeholder="Cherche un produit, une marque..." style="border:none;outline:none;padding:8px;flex:1;font-size:14px;background:transparent">
-    <button style="width:38px;height:38px;background:linear-gradient(135deg,#a855f7,#7c3aed);border-radius:8px;display:flex;align-items:center;justify-content:center"><i data-lucide="mic" class="icon icon-sm icon-blanc"></i></button>
-    <button style="width:38px;height:38px;background:linear-gradient(135deg,#3b82f6,#2563eb);border-radius:8px;display:flex;align-items:center;justify-content:center"><i data-lucide="camera" class="icon icon-sm icon-blanc"></i></button>
-    <button style="width:38px;height:38px;background:linear-gradient(135deg,#0f6b4e,#0a4d38);border-radius:8px;display:flex;align-items:center;justify-content:center"><i data-lucide="search" class="icon icon-sm icon-blanc"></i></button>
+    <input type="text" id="searchInput" placeholder="Cherche un produit, une marque..." onkeydown="if(event.key==='Enter')smartSearch()" style="border:none;outline:none;padding:8px;flex:1;font-size:14px;background:transparent">
+    <button id="micBtn" onclick="voiceSearch()" style="width:38px;height:38px;background:linear-gradient(135deg,#a855f7,#7c3aed);border-radius:8px;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer"><i data-lucide="mic" class="icon icon-sm icon-blanc"></i></button>
+    <button id="camBtn" onclick="document.getElementById('photoSearchInput').click()" style="width:38px;height:38px;background:linear-gradient(135deg,#3b82f6,#2563eb);border-radius:8px;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer"><i data-lucide="camera" class="icon icon-sm icon-blanc"></i></button>
+    <input type="file" id="photoSearchInput" accept="image/*" style="display:none" onchange="photoSearch(this.files[0])">
+    <button onclick="smartSearch()" style="width:38px;height:38px;background:linear-gradient(135deg,#0f6b4e,#0a4d38);border-radius:8px;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer"><i data-lucide="search" class="icon icon-sm icon-blanc"></i></button>
+  </div>
+
+  <!-- FILTRES -->
+  <div id="filterBar" style="display:none;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:10px">
+    <select id="fCat" onchange="applyFilters()" style="flex-shrink:0;border:1.5px solid #e5e7eb;border-radius:20px;padding:7px 12px;font-size:12px;font-weight:700;color:#374151;background:#fff">
+      <option value="">Toutes catégories</option>
+      <option value="mode">Mode</option>
+      <option value="electronique">Électronique</option>
+      <option value="beaute">Beauté</option>
+      <option value="maison">Maison</option>
+      <option value="alimentation">Alimentation</option>
+      <option value="sport">Sport</option>
+      <option value="bebe">Bébé</option>
+      <option value="auto">Auto</option>
+    </select>
+    <select id="fSort" onchange="applyFilters()" style="flex-shrink:0;border:1.5px solid #e5e7eb;border-radius:20px;padding:7px 12px;font-size:12px;font-weight:700;color:#374151;background:#fff">
+      <option value="pertinence">Pertinence</option>
+      <option value="prix_asc">Prix croissant</option>
+      <option value="prix_desc">Prix décroissant</option>
+      <option value="recent">Plus récent</option>
+      <option value="ventes">Meilleures ventes</option>
+    </select>
+    <select id="fPrice" onchange="applyFilters()" style="flex-shrink:0;border:1.5px solid #e5e7eb;border-radius:20px;padding:7px 12px;font-size:12px;font-weight:700;color:#374151;background:#fff">
+      <option value="">Tous les prix</option>
+      <option value="0-5000">Moins de 5 000 F</option>
+      <option value="5000-20000">5 000 - 20 000 F</option>
+      <option value="20000-50000">20 000 - 50 000 F</option>
+      <option value="50000-999999999">Plus de 50 000 F</option>
+    </select>
+  </div>
+
+  <div id="resultsWrap" style="display:none;margin-bottom:20px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <h2 class="section-title" style="margin:0" id="resultsCount">RÉSULTATS</h2>
+      <button onclick="closeResults()" style="background:transparent;color:#4a5a52;font-weight:700;font-size:12px;display:flex;align-items:center;gap:4px"><i data-lucide="x" class="icon icon-sm"></i> Fermer</button>
+    </div>
+    <div id="resultsGrid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px"></div>
   </div>
 
   <!-- 3 modes IA -->
@@ -46,47 +86,23 @@
   <!-- Tendances -->
   <h2 class="section-title"><i data-lucide="flame" class="icon icon-sm icon-rouge"></i> RECHERCHES TENDANCE</h2>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px">
-    <div class="trend-badge" style="padding:10px;border-radius:20px;text-align:center;font-size:12px;font-weight:700"><span style="color:#ef4444;font-weight:900">1.</span> boubou wax</div>
-    <div class="trend-badge" style="padding:10px;border-radius:20px;text-align:center;font-size:12px;font-weight:700"><span style="color:#ef4444;font-weight:900">2.</span> iPhone 15</div>
-    <div class="trend-badge" style="padding:10px;border-radius:20px;text-align:center;font-size:12px;font-weight:700"><span style="color:#ef4444;font-weight:900">3.</span> robe mariage</div>
-    <div class="trend-badge" style="padding:10px;border-radius:20px;text-align:center;font-size:12px;font-weight:700"><span style="color:#ef4444;font-weight:900">4.</span> AirPods Pro</div>
-    <div class="trend-badge" style="padding:10px;border-radius:20px;text-align:center;font-size:12px;font-weight:700"><span style="color:#ef4444;font-weight:900">5.</span> sac cuir</div>
-    <div class="trend-badge" style="padding:10px;border-radius:20px;text-align:center;font-size:12px;font-weight:700"><span style="color:#ef4444;font-weight:900">6.</span> kit beauté</div>
-    <div class="trend-badge" style="padding:10px;border-radius:20px;text-align:center;font-size:12px;font-weight:700"><span style="color:#ef4444;font-weight:900">7.</span> sandales</div>
-    <div class="trend-badge" style="padding:10px;border-radius:20px;text-align:center;font-size:12px;font-weight:700"><span style="color:#ef4444;font-weight:900">8.</span> bijoux or</div>
+    <div class="trend-badge" onclick="runTrend('boubou wax')" style="padding:10px;border-radius:20px;text-align:center;font-size:12px;font-weight:700;cursor:pointer"><span style="color:#ef4444;font-weight:900">1.</span> boubou wax</div>
+    <div class="trend-badge" onclick="runTrend('iPhone 15')" style="padding:10px;border-radius:20px;text-align:center;font-size:12px;font-weight:700;cursor:pointer"><span style="color:#ef4444;font-weight:900">2.</span> iPhone 15</div>
+    <div class="trend-badge" onclick="runTrend('robe mariage')" style="padding:10px;border-radius:20px;text-align:center;font-size:12px;font-weight:700;cursor:pointer"><span style="color:#ef4444;font-weight:900">3.</span> robe mariage</div>
+    <div class="trend-badge" onclick="runTrend('AirPods Pro')" style="padding:10px;border-radius:20px;text-align:center;font-size:12px;font-weight:700;cursor:pointer"><span style="color:#ef4444;font-weight:900">4.</span> AirPods Pro</div>
+    <div class="trend-badge" onclick="runTrend('sac cuir')" style="padding:10px;border-radius:20px;text-align:center;font-size:12px;font-weight:700;cursor:pointer"><span style="color:#ef4444;font-weight:900">5.</span> sac cuir</div>
+    <div class="trend-badge" onclick="runTrend('kit beauté')" style="padding:10px;border-radius:20px;text-align:center;font-size:12px;font-weight:700;cursor:pointer"><span style="color:#ef4444;font-weight:900">6.</span> kit beauté</div>
+    <div class="trend-badge" onclick="runTrend('sandales')" style="padding:10px;border-radius:20px;text-align:center;font-size:12px;font-weight:700;cursor:pointer"><span style="color:#ef4444;font-weight:900">7.</span> sandales</div>
+    <div class="trend-badge" onclick="runTrend('bijoux or')" style="padding:10px;border-radius:20px;text-align:center;font-size:12px;font-weight:700;cursor:pointer"><span style="color:#ef4444;font-weight:900">8.</span> bijoux or</div>
   </div>
 
   <!-- Historique -->
+  <div id="histSection">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
     <h2 class="section-title" style="margin:0"><i data-lucide="clock" class="icon icon-sm" style="color:#4a5a52"></i> HISTORIQUE</h2>
-    <button style="background:transparent;color:#ef4444;font-weight:700;display:flex;align-items:center;gap:4px"><i data-lucide="trash-2" class="icon icon-sm icon-rouge"></i> Effacer</button>
+    <button onclick="clearHistory()" style="background:transparent;color:#ef4444;font-weight:700;display:flex;align-items:center;gap:4px;border:none;cursor:pointer"><i data-lucide="trash-2" class="icon icon-sm icon-rouge"></i> Effacer</button>
   </div>
-
-  <div class="history-item" style="display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;margin-bottom:10px">
-    <div style="width:36px;height:36px;background:rgba(15,107,78,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="type" class="icon icon-sm icon-vert"></i></div>
-    <div style="flex:1">
-      <strong style="display:block;font-size:14px;color:#0a1f17">Boubou traditionnel brodé</strong>
-      <small style="color:#4a5a52;font-size:11px"><i data-lucide="clock" style="width:10px;height:10px;display:inline"></i> Il y a 5 min · 24 résultats</small>
-    </div>
-    <button style="background:transparent"><i data-lucide="x" class="icon icon-sm" style="color:#4a5a52"></i></button>
-  </div>
-
-  <div class="history-item" style="display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;margin-bottom:10px">
-    <div style="width:36px;height:36px;background:rgba(168,85,247,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="mic" class="icon icon-sm" style="color:#a855f7"></i></div>
-    <div style="flex:1">
-      <strong style="display:block;font-size:14px;color:#0a1f17">"iPhone 15 Pro Max"</strong>
-      <small style="color:#4a5a52;font-size:11px"><i data-lucide="clock" style="width:10px;height:10px;display:inline"></i> Il y a 2h · Vocale · 8 résultats</small>
-    </div>
-    <button style="background:transparent"><i data-lucide="x" class="icon icon-sm" style="color:#4a5a52"></i></button>
-  </div>
-
-  <div class="history-item" style="display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;margin-bottom:10px">
-    <div style="width:36px;height:36px;background:rgba(59,130,246,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="camera" class="icon icon-sm" style="color:#3b82f6"></i></div>
-    <div style="flex:1">
-      <strong style="display:block;font-size:14px;color:#0a1f17">Sac cuir Peul (par photo)</strong>
-      <small style="color:#4a5a52;font-size:11px"><i data-lucide="clock" style="width:10px;height:10px;display:inline"></i> Hier · Photo · 16 résultats</small>
-    </div>
-    <button style="background:transparent"><i data-lucide="x" class="icon icon-sm" style="color:#4a5a52"></i></button>
+  <div id="histList"><!-- rempli dynamiquement par JS --></div>
   </div>
 
 </main>
@@ -100,7 +116,219 @@
 </nav>
 
 <script src="js/dark-mode.js?v=50"></script>
-<script>lucide.createIcons();</script>
+<script>
+lucide.createIcons();
+
+/* ===== Historique de recherche (localStorage) ===== */
+function histGet(){ try{ return JSON.parse(localStorage.getItem('sentew_search_history')||'[]'); }catch(e){ return []; } }
+function histAdd(query, mode, count){
+  var h = histGet();
+  h = h.filter(function(x){ return x.query.toLowerCase() !== query.toLowerCase(); });
+  h.unshift({query:query, mode:mode||'texte', count:count||0, at:Date.now()});
+  localStorage.setItem('sentew_search_history', JSON.stringify(h.slice(0,10)));
+  renderHistory();
+}
+function histRemove(idx){
+  var h = histGet(); h.splice(idx,1);
+  localStorage.setItem('sentew_search_history', JSON.stringify(h));
+  renderHistory();
+}
+function clearHistory(){
+  if(!confirm('Effacer tout ton historique de recherche ?')) return;
+  localStorage.removeItem('sentew_search_history');
+  renderHistory();
+}
+function timeAgo(ts){
+  var d = Math.floor((Date.now()-ts)/1000);
+  if(d<60) return "à l'instant";
+  if(d<3600) return 'Il y a '+Math.floor(d/60)+' min';
+  if(d<86400) return 'Il y a '+Math.floor(d/3600)+'h';
+  return 'Hier';
+}
+var MODE_ICON = {texte:'type', vocale:'mic', photo:'camera'};
+var MODE_COLOR = {texte:'rgba(15,107,78,0.12)', vocale:'rgba(168,85,247,0.12)', photo:'rgba(59,130,246,0.12)'};
+var MODE_ICOLOR = {texte:'#0f6b4e', vocale:'#a855f7', photo:'#3b82f6'};
+function renderHistory(){
+  var h = histGet();
+  var z = document.getElementById('histList');
+  var sec = document.getElementById('histSection');
+  if(!h.length){ sec.style.display='none'; return; }
+  sec.style.display='block';
+  z.innerHTML = h.map(function(it,i){
+    return '<div class="history-item" style="display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;margin-bottom:10px;cursor:pointer" onclick="rerunHistory('+i+')">'+
+      '<div style="width:36px;height:36px;background:'+MODE_COLOR[it.mode]+';border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="'+MODE_ICON[it.mode]+'" class="icon icon-sm" style="color:'+MODE_ICOLOR[it.mode]+'"></i></div>'+
+      '<div style="flex:1"><strong style="display:block;font-size:14px;color:#0a1f17">'+it.query.replace(/</g,'&lt;')+'</strong>'+
+      '<small style="color:#4a5a52;font-size:11px">'+timeAgo(it.at)+' · '+(it.mode==='vocale'?'Vocale':it.mode==='photo'?'Photo':'')+(it.mode!=='texte'?' · ':'')+it.count+' résultat(s)</small></div>'+
+      '<button onclick="event.stopPropagation();histRemove('+i+')" style="background:transparent;border:none;cursor:pointer"><i data-lucide="x" class="icon icon-sm" style="color:#4a5a52"></i></button>'+
+    '</div>';
+  }).join('');
+  lucide.createIcons();
+}
+function rerunHistory(i){
+  var h = histGet();
+  var it = h[i];
+  if(!it) return;
+  document.getElementById('searchInput').value = it.query;
+  smartSearch();
+}
+renderHistory();
+
+/* ===== Rendu d'une carte produit ===== */
+function renderProductCard(p){
+  var href = (typeof lienProduit==='function') ? lienProduit(p) : ('produit.html?id='+p.id);
+  var img = (p.images&&p.images[0]) || p.image || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400';
+  var prix = (typeof fmtPrix==='function') ? fmtPrix(p.price)+' F' : (p.price+' F');
+  var old = p.old_price ? '<div style="font-size:11px;color:#9aa5a0;text-decoration:line-through">'+((typeof fmtPrix==='function')?fmtPrix(p.old_price):p.old_price)+' F</div>' : '';
+  return '<a href="'+href+'" style="display:block;background:#fff;border-radius:14px;overflow:hidden;text-decoration:none;color:#0a1f17;box-shadow:0 2px 8px rgba(15,107,78,0.08)">'+
+    '<img src="'+img+'" style="width:100%;height:120px;object-fit:cover" loading="lazy">'+
+    '<div style="padding:9px 10px"><div style="font-size:12.5px;font-weight:700;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:32px">'+(p.name||'')+'</div>'+
+    '<div style="font-size:14px;font-weight:900;color:#0f6b4e;margin-top:4px">'+prix+'</div>'+old+'</div></a>';
+}
+
+/* ===== ÉTAT COURANT DE RECHERCHE (pour les filtres) ===== */
+var CURRENT_RESULTS = [];
+var CURRENT_QUERY = '';
+
+function closeResults(){
+  document.getElementById('resultsWrap').style.display='none';
+  document.getElementById('filterBar').style.display='none';
+}
+
+function applyFilters(){
+  var cat = document.getElementById('fCat').value;
+  var sort = document.getElementById('fSort').value;
+  var priceRange = document.getElementById('fPrice').value;
+  var rows = CURRENT_RESULTS.slice();
+
+  if(cat) rows = rows.filter(function(p){ return (p.category||'').toLowerCase()===cat; });
+  if(priceRange){
+    var parts = priceRange.split('-'); var lo=parseInt(parts[0]), hi=parseInt(parts[1]);
+    rows = rows.filter(function(p){ return (p.price||0)>=lo && (p.price||0)<=hi; });
+  }
+  if(sort==='prix_asc') rows.sort(function(a,b){ return (a.price||0)-(b.price||0); });
+  else if(sort==='prix_desc') rows.sort(function(a,b){ return (b.price||0)-(a.price||0); });
+  else if(sort==='recent') rows.sort(function(a,b){ return new Date(b.created_at||0)-new Date(a.created_at||0); });
+  else if(sort==='ventes') rows.sort(function(a,b){ return (b.sold_count||0)-(a.sold_count||0); });
+
+  paintResults(rows);
+}
+
+function paintResults(rows){
+  var grid = document.getElementById('resultsGrid');
+  document.getElementById('resultsCount').textContent = rows.length+' RÉSULTAT'+(rows.length>1?'S':'');
+  grid.innerHTML = rows.length ? rows.map(renderProductCard).join('') :
+    '<div style="grid-column:1/-1;text-align:center;color:#9aa5a0;font-size:13px;padding:30px 10px">Aucun résultat pour « '+CURRENT_QUERY.replace(/</g,'&lt;')+' ». Essaie d\u2019autres mots-clés.</div>';
+}
+
+/* ===== 1. RECHERCHE TEXTE (IA) ===== */
+async function smartSearch(){
+  var q = (document.getElementById('searchInput').value||'').trim();
+  if(!q) return;
+  CURRENT_QUERY = q;
+  document.getElementById('resultsWrap').style.display='block';
+  document.getElementById('filterBar').style.display='flex';
+  document.getElementById('resultsCount').textContent = 'RECHERCHE EN COURS…';
+  document.getElementById('resultsGrid').innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#9aa5a0;font-size:13px;padding:30px 10px">🔎 Nio Far analyse « '+q.replace(/</g,'&lt;')+' »…</div>';
+  window.scrollTo({top:0,behavior:'smooth'});
+
+  var parsed = {keywords:[q], category:'', maxPrice:null};
+  try{
+    if(typeof stAiSearch==='function') parsed = await stAiSearch(q);
+  }catch(e){}
+
+  var rows = (typeof supa==='function') ? await supa('products','is_active=eq.true&limit=100&select=*') : [];
+  rows = rows || [];
+  var kws = ((parsed.keywords&&parsed.keywords.length) ? parsed.keywords : [q]).join(' ').toLowerCase().split(' ').filter(Boolean);
+
+  var res = rows.filter(function(p){
+    var txt = ((p.name||'')+' '+(p.category||'')+' '+(p.description||'')).toLowerCase();
+    var ok = kws.some(function(w){ return txt.indexOf(w)>-1; });
+    if(parsed.maxPrice) ok = ok && (p.price||0) <= parsed.maxPrice;
+    if(parsed.category) ok = ok && (String(p.category||'').toLowerCase().indexOf(parsed.category.toLowerCase())>-1 || txt.indexOf(parsed.category.toLowerCase())>-1);
+    return ok;
+  });
+
+  /* repli : si l'IA n'a rien trouvé, recherche simple texte brut */
+  if(!res.length){
+    var raw = q.toLowerCase();
+    res = rows.filter(function(p){
+      return ((p.name||'')+' '+(p.category||'')+' '+(p.description||'')).toLowerCase().indexOf(raw)>-1;
+    });
+  }
+
+  CURRENT_RESULTS = res;
+  document.getElementById('fCat').value=''; document.getElementById('fSort').value='pertinence'; document.getElementById('fPrice').value='';
+  paintResults(res);
+  histAdd(q, 'texte', res.length);
+}
+
+function runTrend(term){
+  document.getElementById('searchInput').value = term;
+  smartSearch();
+}
+
+/* ===== 2. RECHERCHE VOCALE ===== */
+function voiceSearch(){
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){
+    alert('🎙️ La recherche vocale n\u2019est pas supportée par ce navigateur. Utilise Safari ou Chrome à jour.');
+    return;
+  }
+  var rec = new SR();
+  rec.lang = 'fr-FR';
+  rec.interimResults = false;
+  var btn = document.getElementById('micBtn');
+  btn.style.background = 'linear-gradient(135deg,#ef4444,#b91c1c)';
+  rec.onresult = function(e){
+    var txt = e.results[0][0].transcript;
+    document.getElementById('searchInput').value = txt;
+    btn.style.background = 'linear-gradient(135deg,#a855f7,#7c3aed)';
+    smartSearchVoice(txt);
+  };
+  rec.onerror = function(){ btn.style.background = 'linear-gradient(135deg,#a855f7,#7c3aed)'; alert('❌ Je n\u2019ai pas bien entendu, réessaie.'); };
+  rec.onend = function(){ btn.style.background = 'linear-gradient(135deg,#a855f7,#7c3aed)'; };
+  rec.start();
+}
+async function smartSearchVoice(txt){
+  await smartSearch();
+  /* corrige le type d'historique en 'vocale' */
+  var h = histGet();
+  if(h.length && h[0].query===txt){ h[0].mode='vocale'; localStorage.setItem('sentew_search_history', JSON.stringify(h)); renderHistory(); }
+}
+
+/* ===== 3. RECHERCHE PAR PHOTO (IA) ===== */
+async function photoSearch(file){
+  if(!file) return;
+  document.getElementById('resultsWrap').style.display='block';
+  document.getElementById('filterBar').style.display='flex';
+  document.getElementById('resultsCount').textContent = 'ANALYSE DE LA PHOTO…';
+  document.getElementById('resultsGrid').innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#9aa5a0;font-size:13px;padding:30px 10px">📷 Nio Far regarde ta photo…</div>';
+  window.scrollTo({top:0,behavior:'smooth'});
+
+  if(typeof stAiPhoto!=='function' || (typeof stAiHasKey==='function' && !stAiHasKey())){
+    document.getElementById('resultsGrid').innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#9aa5a0;font-size:13px;padding:30px 10px">⚙️ IA non activée sur cet appareil. Va sur <a href="config-ia.html" style="color:#0f6b4e;font-weight:700">config-ia.html</a>.</div>';
+    return;
+  }
+  var info = await stAiPhoto(file);
+  var q = info ? [info.name, info.category].filter(Boolean).join(' ') : '';
+  if(!q){
+    document.getElementById('resultsGrid').innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#9aa5a0;font-size:13px;padding:30px 10px">Impossible d\u2019identifier cette photo, réessaie avec une image plus nette.</div>';
+    return;
+  }
+  document.getElementById('searchInput').value = q;
+  CURRENT_QUERY = q;
+  var rows = (typeof supa==='function') ? await supa('products','is_active=eq.true&limit=100&select=*') : [];
+  rows = rows || [];
+  var kws = q.toLowerCase().split(' ').filter(Boolean);
+  var res = rows.filter(function(p){
+    var txt = ((p.name||'')+' '+(p.category||'')+' '+(p.description||'')).toLowerCase();
+    return kws.some(function(w){ return txt.indexOf(w)>-1; });
+  });
+  CURRENT_RESULTS = res;
+  paintResults(res);
+  histAdd(q, 'photo', res.length);
+}
+</script>
   <script src="js/buttons-audit.js?v=51"></script>
 </body>
 </html>
