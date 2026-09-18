@@ -33,7 +33,7 @@ async function stAsk(prompt){
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         contents:[{parts:[{text:(ST_AI.CTX?('CONTEXTE CATALOGUE SEN TEW :\n'+ST_AI.CTX+'\n\n'):'')+prompt}]}],
-        generationConfig:{maxOutputTokens:1500,temperature:0.6,thinkingConfig:{thinkingLevel:'low'}}
+        generationConfig:{maxOutputTokens:1500,temperature:0.6,thinkingConfig:{thinkingLevel:'LOW'}}
       })
     });
     var t = j && j.candidates && j.candidates[0] && j.candidates[0].content && j.candidates[0].content.parts && j.candidates[0].content.parts[0] && j.candidates[0].content.parts[0].text;
@@ -45,8 +45,8 @@ if(!t && j && j.error){
 }
 return t || 'Je n\u2019ai pas trouvé de réponse, réessaie autrement.';
   }catch(e){
-    return '❌ IA indisponible pour le moment. Vérifie ta connexion.';
-  }
+    return '❌ Erreur technique : '+(e && e.message ? e.message : 'inconnue')+'. Réessaie dans quelques secondes.';
+}
 }
 
 /* ── Charge le catalogue une fois ── */
@@ -110,7 +110,7 @@ async function stAiPhoto(file){
           {text:'Tu es l\u2019assistant vendeur de SEN TEW (marketplace sénégalaise). Analyse cette photo de produit et réponds UNIQUEMENT en JSON strict : {"name":"nom commercial court","category":"une de : Mode, Électronique, Beauté, Maison, Alimentation, Artisanat, Autre","description":"description vendeuse de 2 phrases en français","price":prix_suggéré_en_FCFA_nombre}.'},
           {inline_data:{mime_type:file.type||'image/jpeg',data:b64}}
         ]}],
-        generationConfig:{maxOutputTokens:1200,temperature:0.4,thinkingConfig:{thinkingLevel:'low'}}
+        generationConfig:{maxOutputTokens:1200,temperature:0.4,thinkingConfig:{thinkingLevel:'LOW'}}
       })
     });
     var j = await r.json();
