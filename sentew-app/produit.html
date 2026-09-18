@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Produit - SEN TEW</title>
 <script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/ai.js"></script>
+<script src="js/translate-live.js"></script>
 <script src="js/security-shield.js"></script>
 <script src="js/supabase.js"></script>
 <script src="js/currency.js"></script>
@@ -462,8 +464,12 @@ function render(p){
   renderRateBars(p);
   document.getElementById('avisLink').href = 'avis.html?pid=' + p.id;
   document.getElementById('avisList').innerHTML =
-    '<div class="avis-item"><div class="ah"><span class="av">A</span> Awa D. <span class="verified">✓ Achat vérifié</span><span style="color:#f59e0b;margin-left:auto">'+starsHTML(5)+'</span></div><div class="at">Très bonne qualité, conforme à la description. Livraison rapide.</div><div class="ad">Il y a 3 jours</div></div>' +
-    '<div class="avis-item"><div class="ah"><span class="av">M</span> Modou S. <span class="verified">✓ Achat vérifié</span><span style="color:#f59e0b;margin-left:auto">'+starsHTML(Math.max(1,(p.rating||5)-0.2))+'</span></div><div class="at">Je recommande, vendeur sérieux et réactif.</div><div class="ad">Il y a 1 semaine</div></div>';
+    '<div class="avis-item"><div class="ah"><span class="av">A</span> Awa D. <span class="verified">✓ Achat vérifié</span><span style="color:#f59e0b;margin-left:auto">'+starsHTML(5)+'</span></div><div class="at st-review-text" data-idx="0">Très bonne qualité, conforme à la description. Livraison rapide.</div><div class="st-tr-slot" data-idx="0"></div><div class="ad">Il y a 3 jours</div></div>' +
+    '<div class="avis-item"><div class="ah"><span class="av">M</span> Modou S. <span class="verified">✓ Achat vérifié</span><span style="color:#f59e0b;margin-left:auto">'+starsHTML(Math.max(1,(p.rating||5)-0.2))+'</span></div><div class="at st-review-text" data-idx="1">Je recommande, vendeur sérieux et réactif.</div><div class="st-tr-slot" data-idx="1"></div><div class="ad">Il y a 1 semaine</div></div>';
+  document.querySelectorAll('#avisList .st-review-text').forEach(function(el){
+    var slot = document.querySelector('#avisList .st-tr-slot[data-idx="'+el.dataset.idx+'"]');
+    if(slot) stTrAttachButton(el, {container: slot});
+  });
 
   document.getElementById('btnFav').classList.toggle('on', favHas(p.id));
   document.getElementById('buyBar').style.display = 'flex';
