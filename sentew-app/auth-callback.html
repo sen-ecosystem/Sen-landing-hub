@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Connexion Google - SEN TEW</title>
+<script src="js/security-shield.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;color:#0a1f17;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.box{max-width:360px;text-align:center;padding:30px}
+.spin{width:46px;height:46px;border:4px solid #e5e7eb;border-top-color:#0f6b4e;border-radius:50%;margin:0 auto 18px;animation:sp 0.8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+h2{font-size:16px;font-weight:900;margin-bottom:8px;color:#0f6b4e}
+p{font-size:13px;color:#6b7280;line-height:1.6}
+.err{display:none;background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;border-radius:12px;padding:14px;font-size:13px;font-weight:700;margin-top:14px;line-height:1.5}
+.btn{display:inline-block;margin-top:16px;padding:12px 22px;border-radius:12px;background:#0f6b4e;color:#fff;font-weight:800;font-size:13px;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="spin" id="spinner"></div>
+  <h2 id="ttl">Connexion en cours…</h2>
+  <p id="sub">Merci de patienter quelques secondes.</p>
+  <div class="err" id="err"></div>
+  <a class="btn" id="retryBtn" href="login.html" style="display:none">Retour à la connexion</a>
+</div>
+<script>
+var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
+var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
+var H={apikey:SUPA_KEY, Authorization:'Bearer '+SUPA_KEY, 'Content-Type':'application/json'};
+
+function showErr(msg){
+  document.getElementById('spinner').style.display='none';
+  document.getElementById('ttl').textContent='Connexion impossible';
+  document.getElementById('sub').textContent='';
+  var e=document.getElementById('err'); e.textContent='⚠ '+msg; e.style.display='block';
+  document.getElementById('retryBtn').style.display='inline-block';
+}
+
+async function sha256(m){var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(m));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0');}).join('');}
+
+async function findByEmail(table, email){
+  var r = await fetch(SUPA_URL+'/rest/v1/'+table+'?email=eq.'+encodeURIComponent(email)+'&select=*', {headers:H});
+  var j = await r.json();
+  return (j && j.length) ? j[0] : null;
+}
+
+function goSession(u, role){
+  sessionStorage.setItem('sentew_user', JSON.stringify({id:u.id, email:u.email||'', full_name:u.full_name||u.shop_name||'', role:role, ts:Date.now()}));
+}
+
+async function run(){
+  var params = new URLSearchParams(location.search);
+  var role = params.get('role') || 'generic'; // 'generic' | 'vendor'
+  var hash = new URLSearchParams(location.hash.replace(/^#/, ''));
+  var access_token = hash.get('access_token');
+  var err_desc = hash.get('error_description') || params.get('error_description');
+
+  if(err_desc){ return showErr(decodeURIComponent(err_desc).replace(/\+/g,' ')); }
+  if(!access_token){ return showErr('Jeton Google introuvable. Réessaie la connexion.'); }
+
+  var profile;
+  try{
+    var r = await fetch(SUPA_URL+'/auth/v1/user', {headers:{apikey:SUPA_KEY, Authorization:'Bearer '+access_token}});
+    profile = await r.json();
+  }catch(e){ return showErr('Impossible de vérifier ton compte Google. Réessaie.'); }
+
+  if(!profile || !profile.email){ return showErr('Aucun email Google trouvé sur ce compte.'); }
+
+  var email = String(profile.email).toLowerCase();
+  var meta = profile.user_metadata || {};
+  var fullName = meta.full_name || meta.name || (email.split('@')[0]);
+  var googleId = profile.id || '';
+
+  try{
+    if(role === 'vendor'){
+      var v = await findByEmail('vendors', email);
+      if(v){
+        if(v.status==='pending'){ return showErr('Ton compte vendeur est en cours de validation par l\u2019équipe SEN TEW (24-48h).'); }
+        if(v.status==='suspended' || v.status==='archived'){ return showErr('Compte vendeur suspendu. Contacte le support.'); }
+        goSession(v, 'vendeur');
+        document.getElementById('ttl').textContent='Bienvenue '+ (v.shop_name||fullName)+' !';
+        document.getElementById('sub').textContent='Redirection vers ta boutique…';
+        setTimeout(function(){location.href='vendeur.html';}, 700);
+        return;
+      }
+      // pas encore vendeur -> préremplir l'inscription vendeur (étape infos) et laisser terminer le KYC
+      sessionStorage.setItem('sentew_g_prefill', JSON.stringify({name:fullName, email:email, google_id:googleId}));
+      document.getElementById('ttl').textContent='Compte Google vérifié ✅';
+      document.getElementById('sub').textContent='Finalise ton inscription vendeur (infos boutique + documents).';
+      setTimeout(function(){location.href='devenir-vendeur.html?g=1';}, 800);
+      return;
+    }
+
+    // role generic : cherche dans vendors puis users (clients) puis drivers
+    var vend = await findByEmail('vendors', email);
+    if(vend){
+      if(vend.status==='pending'){ return showErr('Ton compte vendeur est en cours de validation par l\u2019équipe SEN TEW (24-48h).'); }
+      if(vend.status==='suspended' || vend.status==='archived'){ return showErr('Compte vendeur suspendu. Contacte le support.'); }
+      goSession(vend, 'vendeur');
+      document.getElementById('sub').textContent='Redirection vers ta boutique…';
+      setTimeout(function(){location.href='vendeur.html';}, 700);
+      return;
+    }
+    var drv = await findByEmail('drivers', email);
+    if(drv){
+      if(drv.status==='pending'){ return showErr('Ton compte livreur est en cours de validation par l\u2019équipe SEN TEW (24-48h).'); }
+      if(drv.status==='suspended' || drv.status==='archived'){ return showErr('Compte livreur suspendu. Contacte le support.'); }
+      goSession(drv, 'livreur');
+      document.getElementById('sub').textContent='Redirection…';
+      setTimeout(function(){location.href='livreur.html';}, 700);
+      return;
+    }
+    var usr = await findByEmail('users', email);
+    if(usr){
+      if(usr.status==='suspended' || usr.status==='archived'){ return showErr('Compte suspendu. Contacte le support.'); }
+      goSession(usr, 'client');
+      document.getElementById('sub').textContent='Redirection vers l\u2019accueil…';
+      setTimeout(function(){location.href='index.html';}, 700);
+      return;
+    }
+
+    // Aucun compte trouvé -> création automatique d'un compte client (l'email Google est déjà vérifié par Google)
+    var ph = await sha256('google:'+googleId+':'+Date.now());
+    var rc = await fetch(SUPA_URL+'/rest/v1/users', {method:'POST', headers:Object.assign({},H,{Prefer:'return=representation'}), body: JSON.stringify({email:email, full_name:fullName, phone:'', password_hash:ph, role:'client', points:100, auth_provider:'google', google_id:googleId, created_at:new Date().toISOString()})});
+    if(!rc.ok){ throw new Error('insert_failed'); }
+    var rows = await rc.json();
+    var nu = (rows && rows[0]) ? rows[0] : {email:email, full_name:fullName};
+    goSession(nu, 'client');
+    fetch(SUPA_URL+'/rest/v1/notifications', {method:'POST', headers:H, body:JSON.stringify({audience:'admin', user_email:email, type:'new_client', title:'Nouveau client inscrit (Google)', message:fullName+' ('+email+') vient de créer un compte via Google.'})}).catch(function(){});
+    document.getElementById('ttl').textContent='Bienvenue '+fullName+' !';
+    document.getElementById('sub').textContent='+100 points offerts 🎁 — Redirection…';
+    setTimeout(function(){location.href='index.html';}, 900);
+  }catch(e){
+    showErr('Erreur réseau pendant la connexion Google. Réessaie.');
+  }
+}
+run();
+</script>
+</body>
+</html>
