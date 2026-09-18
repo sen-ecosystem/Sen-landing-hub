@@ -5,7 +5,7 @@
    saisie une seule fois par l'admin.
    ══════════════════════════════════════════════ */
 var ST_AI = {
-  MODEL: 'gemini-2.5-flash',
+  MODEL: 'gemini-3.6-flash',
   CTX: '',
   ready: false
 };
@@ -33,13 +33,12 @@ async function stAsk(prompt){
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         contents:[{parts:[{text:(ST_AI.CTX?('CONTEXTE CATALOGUE SEN TEW :\n'+ST_AI.CTX+'\n\n'):'')+prompt}]}],
-        generationConfig:{maxOutputTokens:800,temperature:0.6,thinkingConfig:{thinkingBudget:0}}
+        generationConfig:{maxOutputTokens:1500,temperature:0.6,thinkingConfig:{thinkingLevel:'low'}}
       })
     });
-    var j = await r.json();
     var t = j && j.candidates && j.candidates[0] && j.candidates[0].content && j.candidates[0].content.parts && j.candidates[0].content.parts[0] && j.candidates[0].content.parts[0].text;
 if(!t && j && j.candidates && j.candidates[0] && j.candidates[0].finishReason==='MAX_TOKENS'){
-  return '⚠️ Réponse coupée (quota tokens). Réessaie, la question était peut-être trop longue.';
+  return '⚠️ Réponse coupée (quota tokens). Réessaie avec une question plus courte.';
 }
 if(!t && j && j.error){
   return '❌ Erreur Google : '+(j.error.message||'inconnue');
@@ -111,7 +110,7 @@ async function stAiPhoto(file){
           {text:'Tu es l\u2019assistant vendeur de SEN TEW (marketplace sénégalaise). Analyse cette photo de produit et réponds UNIQUEMENT en JSON strict : {"name":"nom commercial court","category":"une de : Mode, Électronique, Beauté, Maison, Alimentation, Artisanat, Autre","description":"description vendeuse de 2 phrases en français","price":prix_suggéré_en_FCFA_nombre}.'},
           {inline_data:{mime_type:file.type||'image/jpeg',data:b64}}
         ]}],
-        generationConfig:{maxOutputTokens:600,temperature:0.4,thinkingConfig:{thinkingBudget:0}}
+        generationConfig:{maxOutputTokens:1200,temperature:0.4,thinkingConfig:{thinkingLevel:'low'}}
       })
     });
     var j = await r.json();
