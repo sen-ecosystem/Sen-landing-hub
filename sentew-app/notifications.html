@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Notifications - SEN TEW</title>
 <script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/ai.js"></script>
+<script src="js/translate-live.js"></script>
 <script src="js/security-shield.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -83,14 +85,18 @@ async function load(){
       el.innerHTML='<div class="empty"><i data-lucide="inbox"></i><h3>Aucune notification</h3><p>Les messages de l\'équipe SEN TEW apparaîtront ici.</p></div>';
       lucide.createIcons();return;
     }
-    el.innerHTML=rows.map(function(n){
+    el.innerHTML=rows.map(function(n,idx){
       return '<div class="nitem '+(n.is_read?'read':'unread')+'" data-id="'+n.id+'">'
         +'<div class="ni"><i data-lucide="'+iconFor(n.type)+'"></i></div>'
-        +'<div class="nc"><b>'+esc(n.title)+'</b><p>'+esc(n.message)+'</p>'
+        +'<div class="nc"><b>'+esc(n.title)+'</b><p class="st-notif-text" data-idx="'+idx+'">'+esc(n.message)+'</p><span class="st-notif-slot" data-idx="'+idx+'"></span>'
         +'<small>'+new Date(n.created_at).toLocaleString('fr-FR')+'</small></div>'
         +'<div class="dot"></div></div>';
     }).join('');
     lucide.createIcons();
+    document.querySelectorAll('.st-notif-slot').forEach(function(slot){
+      var el2 = document.querySelector('.st-notif-text[data-idx="'+slot.dataset.idx+'"]');
+      if(el2) stTrAttachButton(el2, {container: slot});
+    });
     /* marquer lues au toucher */
     document.querySelectorAll('.nitem.unread').forEach(function(it){
       it.addEventListener('click',function(){
