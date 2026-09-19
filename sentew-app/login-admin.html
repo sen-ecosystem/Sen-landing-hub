@@ -170,7 +170,7 @@ async function sendMail(msg,codeVal){
   }
 }
 
-/* ══════════ ÉTAPE 1 : LOGIN ══════════ */
+/* ══════════ ÉTAPE 1 : LOGIN (sécurisé — vérification du mot de passe faite côté serveur via RPC admin_login) ══════════ */
 async function doLogin(){
   if(enforceLock())return;
   clearAlerts();
@@ -179,14 +179,12 @@ async function doLogin(){
   if(!email||!pwd){err('Email et mot de passe requis.');return;}
   $('btnLogin').disabled=true;
   try{
-    var r=await fetch(SUPA+'/rest/v1/admins?email=eq.'+encodeURIComponent(email)+'&select=*',{headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}});
-    var rows=await r.json();
-    if(!r.ok||!Array.isArray(rows)){err('ERREUR SERVEUR ('+r.status+') : table admins introuvable.');return;}
-    if(rows.length===0){err('AUCUN COMPTE admin avec cet email.');return;}
-    var adm=rows[0];
-    if(adm.is_active===false){err('Ce compte administrateur est désactivé.');return;}
     var h=await sha256(pwd);
-    if(h!==adm.password_hash){await registerFail('Mauvais mot de passe : '+email);if(!enforceLock())err('Mot de passe incorrect (email reconnu).');return;}
+    var r=await fetch(SUPA+'/rest/v1/rpc/admin_login',{method:'POST',headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'},body:JSON.stringify({p_email:email,p_password_hash:h})});
+    var rows=await r.json();
+    if(!r.ok||!Array.isArray(rows)){err('ERREUR SERVEUR ('+r.status+') : fonction admin_login indisponible.');return;}
+    if(rows.length===0){await registerFail('Échec connexion admin : '+email);if(!enforceLock())err('Email ou mot de passe incorrect.');return;}
+    var adm=rows[0];
     var f=getFails();f.n=0;setFails(f);
     await send2FA();
   }catch(e){err('Erreur réseau. Vérifie ta connexion.');}
