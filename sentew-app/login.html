@@ -116,6 +116,16 @@ async function findIn(table,field,value){
   var rows=await r.json();
   return rows&&rows.length?rows[0]:null;
 }
+/* ══════════ Connexion clients (table users) — sécurisée via RPC (email: user_login / téléphone: user_login_phone).
+   La vérification du mot de passe se fait désormais côté serveur : password_hash n'est plus jamais lu par le navigateur. ══════════ */
+async function loginAsClient(field,idValue,hash){
+  var fn=field==='email'?'user_login':'user_login_phone';
+  var body=field==='email'?{p_email:idValue,p_password_hash:hash}:{p_phone:idValue,p_password_hash:hash};
+  var r=await fetch(SUPA_URL+'/rest/v1/rpc/'+fn,{method:'POST',headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'},body:JSON.stringify(body)});
+  var rows=await r.json();
+  if(r.ok&&Array.isArray(rows)&&rows.length)return rows[0];
+  return null;
+}
 async function doLogin(){
   var pwd=v('lPwd');
   if(pwd.length<1)return err('Entre ton mot de passe.');
@@ -130,15 +140,25 @@ async function doLogin(){
   var btn=document.getElementById('loginBtn');btn.disabled=true;btn.textContent='Connexion…';
   try{
     var hash=await sha256(pwd);
-    var tables=[['users','client'],['vendors','vendeur'],['drivers','livreur']];
+
+    /* 1) Clients (table users) : vérification sécurisée côté serveur */
+    var u=await loginAsClient(field,idValue,hash);
+    if(u){
+      sessionStorage.setItem('sentew_user',JSON.stringify({id:u.id,email:u.email||'',full_name:u.full_name||u.shop_name||'',role:'client',ts:Date.now()}));
+      location.href='index.html';
+      return;
+    }
+
+    /* 2) Vendeurs / Livreurs : recherche directe (à sécuriser prochainement comme la table users) */
+    var tables=[['vendors','vendeur'],['drivers','livreur']];
     for(var i=0;i<tables.length;i++){
-      var u=await findIn(tables[i][0],field,idValue);
-      if(u){
-        if(u.password_hash!==hash){btn.disabled=false;btn.textContent='Se connecter';return err('Mot de passe incorrect.');}
-        if(u.status==='pending'){btn.disabled=false;btn.textContent='Se connecter';return err('Ton compte est en cours de validation par l\'équipe SEN TEW (24-48h).');}
-        if(u.status==='suspended'||u.status==='archived'){btn.disabled=false;btn.textContent='Se connecter';return err('Compte suspendu. Contacte le support.');}
-        sessionStorage.setItem('sentew_user',JSON.stringify({id:u.id,email:u.email||'',full_name:u.full_name||u.shop_name||'',role:tables[i][1],ts:Date.now()}));
-        location.href=tables[i][1]==='vendeur'?'vendeur.html':(tables[i][1]==='livreur'?'livreur.html':'index.html');
+      var uu=await findIn(tables[i][0],field,idValue);
+      if(uu){
+        if(uu.password_hash!==hash){btn.disabled=false;btn.textContent='Se connecter';return err('Mot de passe incorrect.');}
+        if(uu.status==='pending'){btn.disabled=false;btn.textContent='Se connecter';return err('Ton compte est en cours de validation par l\'équipe SEN TEW (24-48h).');}
+        if(uu.status==='suspended'||uu.status==='archived'){btn.disabled=false;btn.textContent='Se connecter';return err('Compte suspendu. Contacte le support.');}
+        sessionStorage.setItem('sentew_user',JSON.stringify({id:uu.id,email:uu.email||'',full_name:uu.full_name||uu.shop_name||'',role:tables[i][1],ts:Date.now()}));
+        location.href=tables[i][1]==='vendeur'?'vendeur.html':'livreur.html';
         return;
       }
     }
