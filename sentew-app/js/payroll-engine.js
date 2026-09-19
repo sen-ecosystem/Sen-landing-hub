@@ -63,10 +63,12 @@ var DEFAULT_COUNTRY_CONFIGS = {
   }
 };
 
+var _PAYROLL_SUPA = (typeof SUPA !== 'undefined') ? SUPA : (typeof SUPA_URL !== 'undefined' ? SUPA_URL : '');
+
 async function payrollInit(){
   PAYROLL.configs = JSON.parse(JSON.stringify(DEFAULT_COUNTRY_CONFIGS));
   try{
-    var r = await fetch(SUPA_URL+'/rest/v1/payroll_configs?select=*', {headers:{apikey:SUPA_KEY, Authorization:'Bearer '+SUPA_KEY}});
+    var r = await fetch(_PAYROLL_SUPA+'/rest/v1/payroll_configs?select=*', {headers:{apikey:SUPA_KEY, Authorization:'Bearer '+SUPA_KEY}});
     if(r.ok){
       var rows = await r.json();
       if(Array.isArray(rows) && rows.length){
@@ -81,7 +83,7 @@ async function payrollInit(){
 async function payrollSaveConfig(code, cfg){
   cfg.code = code;
   try{
-    await fetch(SUPA_URL+'/rest/v1/payroll_configs', {
+    await fetch(_PAYROLL_SUPA+'/rest/v1/payroll_configs', {
       method:'POST',
       headers:{apikey:SUPA_KEY, Authorization:'Bearer '+SUPA_KEY, 'Content-Type':'application/json', 'Prefer':'resolution=merge-duplicates,return=minimal'},
       body: JSON.stringify({code:code, name:cfg.name, currency:cfg.currency, config_json:cfg})
