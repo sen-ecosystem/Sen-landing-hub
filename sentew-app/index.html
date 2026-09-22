@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SEN TEW - Marketplace panafricaine</title>
+<title>SEN TEW - Marketplace du Sénégal</title>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="js/supabase.js"></script>
 <script src="js/security-shield.js"></script>
@@ -25,16 +25,6 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .promo-dots{position:absolute;bottom:6px;left:0;right:0;display:flex;justify-content:center;gap:5px}
 .promo-dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4)}
 .promo-dots i.on{background:#fff}
-/* ===== 🔥 NOUVEAU : Countdown flash ===== */
-.flash-bar{margin:10px 16px 0;background:linear-gradient(120deg,#1a0505,#7a1010);border-radius:14px;padding:11px 14px;display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;box-shadow:0 3px 12px rgba(230,57,70,.25)}
-.flash-bar .fi{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;animation:pulse 1.6s infinite}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-.flash-bar .ft{flex:1}
-.flash-bar .ft b{font-size:12.5px;display:block}
-.flash-bar .ft span{font-size:10px;opacity:.85}
-.flash-timer{display:flex;gap:4px;align-items:center}
-.flash-timer .tb{background:#fff;color:#7a1010;font-size:15px;font-weight:900;min-width:32px;padding:5px 4px;border-radius:8px;text-align:center;font-variant-numeric:tabular-nums}
-.flash-timer .ts{font-weight:900;color:#ffb3b3}
 /* ===== Sections ===== */
 .section-head{display:flex;align-items:center;justify-content:space-between;padding:18px 16px 10px}
 .section-head h2{font-size:13px;font-weight:800;color:#b8860b;letter-spacing:.5px;display:flex;align-items:center;gap:6px}
@@ -49,28 +39,15 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .live-item span{font-size:11px;font-weight:700;color:#0a1f17;max-width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 /* ===== Catégories ===== */
 .cats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:4px 16px}
-.cat{background:#fff;border-radius:16px;padding:16px 6px;text-align:center;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.05);transition:.15s}
-.cat:active{transform:scale(.95)}
+.cat{background:#fff;border-radius:16px;padding:16px 6px;text-align:center;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.05)}
 .cat .ci{width:44px;height:44px;border-radius:14px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center}
 .cat span{font-size:11px;font-weight:700;color:#0a1f17}
-/* ===== 📍 NOUVEAU : aimés près de toi (scroll horizontal) ===== */
-.local-row{display:flex;gap:10px;overflow-x:auto;padding:4px 16px;scrollbar-width:none}
-.local-row::-webkit-scrollbar{display:none}
-.local-card{flex-shrink:0;width:130px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);text-decoration:none;transition:.15s}
-.local-card:active{transform:scale(.96)}
-.local-card img{width:100%;height:100px;object-fit:cover;display:block;background:#fff}
-.local-card .lb{padding:7px 9px 9px}
-.local-card .ln{font-size:11px;font-weight:800;color:#0a1f17;line-height:1.25;height:28px;overflow:hidden}
-.local-card .lp{font-size:13px;font-weight:900;color:#0f6b4e;margin-top:3px}
-.local-card .ls{font-size:9.5px;color:#9aa5a0;margin-top:2px;display:flex;align-items:center;gap:3px}
 /* ===== Grille produits ===== */
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:4px 12px;align-items:start}
 .pcard{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);position:relative;animation:fadeIn .3s}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .pcard .pimg{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;cursor:pointer;background:#fff}
 .badge-promo{position:absolute;top:8px;left:8px;background:#e63946;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:8px;z-index:2}
-.badge-hot{position:absolute;left:8px;background:#ff7b00;color:#fff;font-size:9px;font-weight:900;padding:3px 8px;border-radius:8px;z-index:2;letter-spacing:.4px}
-.badge-new{position:absolute;left:8px;background:#1a56c4;color:#fff;font-size:9px;font-weight:900;padding:3px 8px;border-radius:8px;z-index:2;letter-spacing:.4px}
 .btn-fav{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;background:#fff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.12);z-index:2;color:#9aa5a0}
 .btn-fav.on{color:#e63946}
 .btn-fav.on svg{fill:#e63946}
@@ -82,8 +59,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .pprice{font-size:16px;font-weight:900;color:#0f6b4e}
 .pold{font-size:11px;color:#9aa5a0;text-decoration:line-through;margin-left:6px}
 .pmeta{font-size:10px;color:#9aa5a0;margin-top:3px;display:flex;align-items:center;gap:5px}
-.btn-add{width:100%;margin-top:8px;padding:9px;background:#0f6b4e;color:#fff;border:none;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:.12s}
-.btn-add:active{transform:scale(.97);background:#0a5c42}
+.btn-add{width:100%;margin-top:8px;padding:9px;background:#0f6b4e;color:#fff;border:none;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px}
 /* ===== Pub FLASH pleine largeur (tous les 6 produits) ===== */
 .flash-ad{grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:16px;border-radius:16px;color:#fff;text-decoration:none;animation:adGlow 2s infinite}
 @keyframes adGlow{0%,100%{box-shadow:0 4px 14px rgba(0,0,0,.15)}50%{box-shadow:0 4px 22px rgba(230,57,70,.45)}}
@@ -107,6 +83,12 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .bottom-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600;position:relative;min-height:44px}
 .bottom-nav a.active{color:#0f6b4e}
 .bottom-nav a svg{width:22px;height:22px}
+
+body.dark-mode,body[data-theme='dark']{--bg:#0e1512;--card:#17221d;--ink:#e8f2ee;--muted:#8fa89f;background:#0e1512;color:#e8f2ee}
+body.dark-mode .card,body.dark-mode .promo-banner,body.dark-mode header.topbar,body.dark-mode nav.bottomnav,body.dark-mode .cat,body.dark-mode input,body.dark-mode select,body.dark-mode button.icon{background:#17221d!important;color:#e8f2ee;border-color:#26372f}
+body.dark-mode a,body.dark-mode h1,body.dark-mode h2,body.dark-mode h3,body.dark-mode .nm{color:#e8f2ee}
+body.dark-mode .meta,body.dark-mode small{color:#8fa89f}
+
 </style>
 </head>
 <body>
@@ -118,15 +100,8 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
   <button class="icon" data-theme-toggle aria-label="Mode sombre"><i data-lucide="moon"></i></button>
 </header>
 
-<!-- Bannière promo défilante -->
+<!-- Bannière promo défilante (fixe) -->
 <div class="promo-banner" id="promoBanner"></div>
-
-<!-- ⏱️ NOUVEAU : Vente flash avec vrai compte à rebours -->
-<a class="flash-bar" href="categories.html?c=mode" id="flashBar">
-  <div class="fi"><i data-lucide="zap"></i></div>
-  <div class="ft"><b>VENTE FLASH −30% sur la mode</b><span>L'offre se termine dans :</span></div>
-  <div class="flash-timer"><span class="tb" id="fh">00</span><span class="ts">:</span><span class="tb" id="fm">00</span><span class="ts">:</span><span class="tb" id="fs">00</span></div>
-</a>
 
 <!-- Boutiques en live -->
 <div class="section-head">
@@ -144,14 +119,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
   <a class="cat" href="categories.html?c=maison"><div class="ci" style="background:#fef3c7;color:#b45309"><i data-lucide="home"></i></div><span>Maison</span></a>
 </div>
 
-<!-- 📍 NOUVEAU : Les plus aimés près de toi -->
-<div class="section-head" id="localHead" style="display:none">
-  <h2><i data-lucide="map-pin" style="width:15px;color:#e63946"></i> <span id="localTitle">LES PLUS AIMÉS PRÈS DE TOI</span></h2>
-  <a href="categories.html">Voir tout ›</a>
-</div>
-<div class="local-row" id="localRow" style="display:none"></div>
-
-<!-- Tendances -->
+<!-- Tendances (produits réels Supabase) -->
 <div class="section-head">
   <h2><i data-lucide="flame" style="width:15px;color:#e63946"></i> TENDANCES</h2>
   <a href="produits.html">Voir tout ›</a>
@@ -179,7 +147,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 </nav>
 
 <script>
-// ===== Bannière promo (3 slides défilantes) =====
+// ===== Bannière promo (3 slides défilantes, fixes) =====
 var PROMOS = [
   {bg:'linear-gradient(135deg,#0f6b4e,#0a4d38)', icon:'tag',    t:'Code RAMADAN30 · -30%',       s:"Jusqu'à ce soir",       go:"J'EN PROFITE", href:'produits.html'},
   {bg:'linear-gradient(135deg,#e63946,#ff7b00)', icon:'zap',    t:'VENTE FLASH',                  s:'-30% sur la mode',      go:'VOIR',        href:'categories.html?c=mode'},
@@ -207,27 +175,6 @@ function renderPromo(){
 renderPromo();
 setInterval(function(){ curPromo = (curPromo+1) % PROMOS.length; renderPromo(); }, 4000);
 
-// ===== ⏱️ Countdown flash (vrai, fin ce soir 23h59 — se relance chaque jour) =====
-(function(){
-  function nextEnd(){var d=new Date();d.setHours(23,59,59,0);if(d.getTime()<Date.now())d.setDate(d.getDate()+1);return d.getTime();}
-  var end=nextEnd();
-  setInterval(function(){
-    var left=end-Date.now();
-    if(left<=0){end=nextEnd();left=end-Date.now();}
-    var h=Math.floor(left/3600000),m=Math.floor((left%3600000)/60000),s=Math.floor((left%60000)/1000);
-    var e=document.getElementById('fh');
-    if(e){e.textContent=String(h).padStart(2,'0');document.getElementById('fm').textContent=String(m).padStart(2,'0');document.getElementById('fs').textContent=String(s).padStart(2,'0');}
-  },1000);
-})();
-
-// ===== 📍 Ville de l'utilisateur (depuis son profil) =====
-function myCity(){
-  try{
-    var u=JSON.parse(sessionStorage.getItem('sentew_user')||localStorage.getItem('sentew_user')||'{}');
-    return u.city||u.ville||'Dakar';
-  }catch(e){return 'Dakar';}
-}
-
 // ===== Boutiques en live (réelles) =====
 getVendors().then(function(vendors){
   var row = document.getElementById('liveRow');
@@ -239,50 +186,24 @@ getVendors().then(function(vendors){
   }).join('');
 });
 
-// ===== Tendances + badges HOT/NEW + 📍 section locale + pub tous les 6 =====
+// ===== Tendances (produits réels) + pub tous les 6 =====
 getProducts().then(function(prods){
   var grid = document.getElementById('grid');
   if (!prods || !prods.length) { grid.innerHTML = '<div class="empty">Aucun produit disponible</div>'; return; }
-
-  /* 📍 Section « Les plus aimés près de toi » : top vendus, ville détectée */
-  var city=myCity();
-  var topSold=prods.slice().sort(function(a,b){return (b.sold_count||0)-(a.sold_count||0);}).slice(0,8);
-  if(topSold.length){
-    document.getElementById('localTitle').textContent='LES PLUS AIMÉS À '+city.toUpperCase();
-    document.getElementById('localHead').style.display='flex';
-    var lr=document.getElementById('localRow');
-    lr.style.display='flex';
-    lr.innerHTML=topSold.map(function(p){
-      return '<a class="local-card" href="'+lienProduit(p)+'">'+
-        '<img src="'+(p.images&&p.images[0]||'')+'" alt="">'+
-        '<div class="lb"><div class="ln">'+p.name+'</div>'+
-        '<div class="lp">'+stPrice(p.price)+'</div>'+
-        '<div class="ls"><i data-lucide="shopping-bag" style="width:10px"></i>'+(p.sold_count||0)+' vendus · ⭐ '+(p.rating||'—')+'</div></div></a>';
-    }).join('');
-  }
-
   var html = '', adIdx = 0;
-  var now=Date.now(), threeDays=3*24*3600*1000;
   prods.forEach(function(p, i){
     var promo = p.old_price ? Math.round((1 - p.price/p.old_price)*100) : 0;
     var isFav = favHas(p.id);
-    /* 🔥 badges HOT (beaucoup vendus) et NEW (créé il y a < 3 jours) */
-    var isHot=(p.sold_count||0)>=50;
-    var isNew=p.created_at&&(now-new Date(p.created_at).getTime())<threeDays;
-    var badge2='';
-    if(isHot)badge2='<span class="badge-hot" style="top:'+(promo?'34px':'8px')+'">🔥 HOT</span>';
-    else if(isNew)badge2='<span class="badge-new" style="top:'+(promo?'34px':'8px')+'">✨ NEW</span>';
     html += '<div class="pcard">' +
       (promo ? '<span class="badge-promo">-' + promo + '%</span>' : '') +
-      badge2 +
       '<button class="btn-fav' + (isFav?' on':'') + '" data-pid="' + p.id + '"><i data-lucide="heart" style="width:16px"></i></button>' +
       '<img class="pimg" src="' + (p.images && p.images[0] || '') + '" alt="" onclick="location.href=\'' + lienProduit(p) + '\'">' +
       '<div class="pbody">' +
         (p.vendors ? '<a class="pseller" href="' + lienBoutique(p.vendors) + '">' + p.vendors.shop_name + ' <i data-lucide="badge-check" style="width:12px"></i></a>' : '') +
         '<div class="pname" onclick="location.href=\'' + lienProduit(p) + '\'">' + p.name + '</div>' +
         '<div class="prate">⭐ ' + (p.rating||'—') + ' · ' + (p.review_count||0) + ' avis</div>' +
-        '<div><span class="pprice">' + stPrice(p.price) + '</span>' +
-        (p.old_price ? '<span class="pold">' + stPrice(p.old_price) + '</span>' : '') + '</div>' +
+        '<div><span class="pprice">' + fmtPrix(p.price) + ' FCFA</span>' +
+        (p.old_price ? '<span class="pold">' + fmtPrix(p.old_price) + '</span>' : '') + '</div>' +
         '<div class="pmeta"><i data-lucide="package" style="width:11px"></i> ' + (p.sold_count||0) + ' vendus' + (p.free_shipping ? ' · <i data-lucide="truck" style="width:11px"></i> Gratuit' : '') + '</div>' +
         '<button class="btn-add" data-add="' + p.id + '"><i data-lucide="shopping-cart" style="width:13px"></i> Ajouter</button>' +
       '</div></div>';
@@ -297,12 +218,14 @@ getProducts().then(function(prods){
   grid.innerHTML = html;
   lucide.createIcons();
 
+  // Favoris
   grid.querySelectorAll('.btn-fav').forEach(function(btn){
     btn.addEventListener('click', function(){
       var p = prods.find(function(x){ return x.id === btn.dataset.pid; });
       if (p) { var on = favToggle(p); btn.classList.toggle('on', on); }
     });
   });
+  // Ajouter au panier
   grid.querySelectorAll('[data-add]').forEach(function(btn){
     btn.addEventListener('click', function(){
       var p = prods.find(function(x){ return x.id === btn.dataset.add; });
@@ -321,7 +244,7 @@ function cookies(choice){
   toast(choice === 'accept' ? '✓ Cookies acceptés' : '✓ Cookies refusés');
 }
 
-// Icônes : appel robuste
+// Icônes : appel robuste (règle le menu du bas cassé)
 function renderIcons(){ if (window.lucide) lucide.createIcons(); }
 renderIcons();
 window.addEventListener('load', renderIcons);
@@ -341,6 +264,14 @@ cartBadge();
     var d=document.getElementById('notifDot');
     if(d&&n>0){d.textContent=n>9?'9+':n;d.style.display='block';}
   }).catch(function(){});
+})();
+</script>
+<script>
+(function(){
+  var KEY='sentew-theme';
+  function apply(t){var d=t==='dark';document.body.classList.toggle('dark-mode',d);document.body.setAttribute('data-theme',t);var m=document.querySelector('meta[name="theme-color"]');if(!m){m=document.createElement('meta');m.name='theme-color';document.head.appendChild(m);}m.content=d?'#0a1f17':'#ffffff';}
+  apply(localStorage.getItem(KEY)||'light');
+  document.addEventListener('click',function(e){var b=e.target.closest('[data-theme-toggle]');if(!b)return;var t=document.body.classList.contains('dark-mode')?'light':'dark';apply(t);try{localStorage.setItem(KEY,t);}catch(x){}});
 })();
 </script>
 </body>
