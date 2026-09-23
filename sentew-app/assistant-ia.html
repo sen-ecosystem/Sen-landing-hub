@@ -9,7 +9,6 @@
 <script src="js/supabase.js"></script>
 <script src="js/ai.js"></script>
 <style>
-/* FORCE LE SCROLL — neutralise tout blocage de app.css */
 html,body{overflow:auto!important;height:auto!important;position:static!important}
 body{background:#f5f5f0;margin:0;font-family:-apple-system,sans-serif;padding-bottom:150px;-webkit-overflow-scrolling:touch}
 .topbar{background:linear-gradient(135deg,#6b46c1,#4c1d95);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
@@ -101,62 +100,64 @@ function bubble(html,me){
   b.innerHTML=(me?'':'<div class="bubble-avatar"><i data-lucide="bot"></i></div>')+
     '<div><div class="bubble-content">'+html+'</div><div class="bubble-time"'+(me?' style="text-align:right"':'')+'>'+now()+'</div></div>'+
     (me?'<div class="bubble-avatar"><i data-lucide="user"></i></div>':'');
-  chat.appendChild(b);lucide.createIcons();
+  chat.appendChild(b);
+  lucide.createIcons();
   scrollDown();
-  return b;
-}
-function typingBubble(){
-  return bubble('<span class="typing"><span></span><span></span><span></span></span>',false);
 }
 
-function greet(){
-  var name=localStorage.getItem('st_user_name')||'';
-  bubble('Salaam'+(name?' '+esc(name):'')+' ! 👋 Je suis <b>Nio Far</b>, ton assistant SEN TEW. Je connais tout le catalogue, les promos, la livraison, les vendeurs… Demande-moi ce que tu veux !',false);
+/* ── RESTAURATION HISTORIQUE (nouveau) ── */
+function loadHistory(){
+  if(typeof stChatLoad !== 'function') return;
+  var hist = stChatLoad();
+  hist.forEach(function(msg){
+    if(msg.who === 'client') bubble(esc(msg.text), true);
+    else if(msg.who === 'niofar') bubble(esc(msg.text), false);
+  });
 }
-function clearChat(){chat.innerHTML='';greet();}
-function ask(q){inp.value=q;sendIA();}
 
-/* appel IA avec MINUTEUR 25 s : plus jamais de page figée */
-function withTimeout(p,ms){
-  return Promise.race([
-    p,
-    new Promise(function(_,rej){setTimeout(function(){rej(new Error('timeout'));},ms);})
-  ]);
+function clearChat(){
+  if(typeof stChatClear === 'function') stChatClear();
+  chat.innerHTML = '';
+}
+
+async function ask(q){
+  inp.value = q;
+  sendIA();
 }
 
 async function sendIA(){
-  var txt=(inp.value||'').trim();
-  if(!txt)return;
-  bubble(esc(txt),true);
-  inp.value='';sendBtn.disabled=true;
-  var w=typingBubble();
+  var q = inp.value.trim();
+  if(!q) return;
+  inp.value = '';
+  sendBtn.disabled = true;
+  
+  bubble(esc(q), true);
+  bubble('<div class="typing"><span></span><span></span><span></span></div>', false);
+  
   try{
-    if(typeof stAiChat!=='function'){throw new Error('ai.js absent');}
-    var rep=await withTimeout(stAiChat(txt),25000);
-    w.querySelector('.bubble-content').innerHTML=esc(rep).replace(/\n/g,'<br>');
+    if(typeof stAiChat === 'function'){
+      var rep = await stAiChat(q);
+      chat.removeChild(chat.lastChild);
+      bubble(esc(rep), false);
+    } else {
+      chat.removeChild(chat.lastChild);
+      bubble('🔧 Assistant en cours d\'activation...', false);
+    }
   }catch(e){
-    var m=(e&&e.message==='timeout')
-      ?'⏱️ Nio Far met trop de temps à répondre. Vérifie ta connexion et réessaie.'
-      :(e&&e.message==='ai.js absent')
-        ?'⚙️ Le moteur IA (js/ai.js) n\u2019est pas chargé sur cette page.'
-        :'❌ Petit souci de connexion. Réessaie !';
-    w.querySelector('.bubble-content').innerHTML=m;
+    chat.removeChild(chat.lastChild);
+    bubble('❌ Erreur : '+e.message, false);
   }
-  sendBtn.disabled=false;
-  scrollDown();
+  
+  sendBtn.disabled = false;
   inp.focus();
 }
 
 inp.addEventListener('keypress',function(e){if(e.key==='Enter')sendIA();});
 
-/* état IA au chargement */
-if(typeof stAiHasKey==='function'&&!stAiHasKey()){
-  document.getElementById('statusLine').textContent='⚠️ IA non activée sur cet appareil';
-  bubble('⚙️ L\u2019IA n\u2019est pas encore activée sur cet appareil. Va sur <a href="config-ia.html" style="color:#6b46c1;font-weight:700">config-ia.html</a> pour coller la clé Gemini (une seule fois).',false);
-}else{
-  greet();
-}
+/* ── CHARGEMENT INITIAL ── */
+document.addEventListener('DOMContentLoaded', function(){
+  loadHistory(); /* Restaure l'historique au démarrage */
+});
 </script>
-  <script src="js/i18n.js"></script>
 </body>
 </html>
