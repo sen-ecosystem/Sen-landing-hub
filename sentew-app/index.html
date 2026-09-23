@@ -10,6 +10,18 @@
 <script src="js/currency.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
+/* ===== Splash screen (logo au lancement) ===== */
+#splash{position:fixed;inset:0;z-index:9999;background:linear-gradient(160deg,#0a1f17 0%,#0f6b4e 55%,#0a1f17 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s ease;}
+#splash.hide{opacity:0;pointer-events:none}
+#splash .sp-leaf{font-size:44px;animation:spPop .9s cubic-bezier(.34,1.56,.64,1) both}
+#splash .sp-name{margin-top:10px;font-size:34px;font-weight:900;letter-spacing:3px;color:#fff;animation:spPop .9s .15s cubic-bezier(.34,1.56,.64,1) both}
+#splash .sp-name b{color:#e8c468}
+#splash .sp-tag{margin-top:8px;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.75);animation:spFade 1s .5s both}
+#splash .sp-bar{margin-top:26px;width:120px;height:3px;border-radius:3px;background:rgba(255,255,255,.15);overflow:hidden;animation:spFade 1s .5s both}
+#splash .sp-bar i{display:block;height:100%;width:40%;border-radius:3px;background:#e8c468;animation:spLoad 1.4s ease-in-out infinite}
+@keyframes spPop{0%{opacity:0;transform:scale(.6)}100%{opacity:1;transform:scale(1)}}
+@keyframes spFade{0%{opacity:0}100%{opacity:1}}
+@keyframes spLoad{0%{transform:translateX(-120%)}100%{transform:translateX(320%)}}
 body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:86px;color:#0a1f17}
 .topbar{display:flex;align-items:center;gap:14px;padding:14px 16px;background:#fff;position:sticky;top:0;z-index:40;border-bottom:1px solid #e5e7eb}
 .logo{font-size:19px;font-weight:900;color:#0f6b4e;display:flex;align-items:center;gap:6px;text-decoration:none;flex:1}
@@ -99,6 +111,7 @@ body.dark-mode .meta,body.dark-mode small{color:#8fa89f}
 </style>
 </head>
 <body>
+<div id="splash" aria-hidden="true"><div class="sp-leaf">🌿</div><div class="sp-name">SEN<b>TEW</b></div><div class="sp-tag">Marketplace Panafricaine</div><div class="sp-bar"><i></i></div></div>
 
 <header class="topbar">
   <a class="logo" href="index.html"><i data-lucide="globe"></i> SEN TEW</a>
@@ -281,5 +294,6 @@ cartBadge();
   document.addEventListener('click',function(e){var b=e.target.closest('[data-theme-toggle]');if(!b)return;var t=document.body.classList.contains('dark-mode')?'light':'dark';apply(t);try{localStorage.setItem(KEY,t);}catch(x){}});
 })();
 </script>
+<script>(function(){function hideSplash(){var s=document.getElementById("splash");if(!s)return;s.classList.add("hide");setTimeout(function(){s.remove();},700);}if(document.readyState==="complete"){setTimeout(hideSplash,1200);}else{window.addEventListener("load",function(){setTimeout(hideSplash,1200);});setTimeout(hideSplash,3500);}})();</script>
 </body>
 </html>
