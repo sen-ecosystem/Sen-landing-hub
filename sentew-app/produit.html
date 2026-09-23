@@ -5,14 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Produit - SEN TEW</title>
 <script src="https://unpkg.com/lucide@latest"></script>
-<script src="js/ai.js"></script>
-<script src="js/translate-live.js"></script>
 <script src="js/security-shield.js"></script>
 <script src="js/supabase.js"></script>
 <script src="js/currency.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:96px;color:#0a1f17}
+body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-bottom:160px;color:#0a1f17}
 .gallery{position:relative;background:#fff}
 .g-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
 .g-track::-webkit-scrollbar{display:none}
@@ -58,6 +56,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .seller-card .sn{font-size:15px;font-weight:800;color:#0a1f17;display:flex;align-items:center;gap:5px}
 .seller-card .sm{font-size:11px;color:#6B7280;margin-top:2px}
 .seller-card .go{margin-left:auto;color:#0f6b4e;font-size:12px;font-weight:800}
+/* ===== SECTIONS AVEC APERÇU VISIBLE (toujours ouvertes, "Lire plus") ===== */
 .acc{background:#fff;margin-bottom:8px}
 .acc-head{display:flex;align-items:center;gap:8px;padding:14px 16px 8px}
 .acc-head h2{font-size:13px;font-weight:800;color:#b8860b;letter-spacing:.5px;display:flex;align-items:center;gap:6px;flex:1}
@@ -115,21 +114,13 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .sim-card .sb{padding:8px}
 .sim-card .sn2{font-size:11px;font-weight:700;line-height:1.3;height:28px;overflow:hidden}
 .sim-card .sp{font-size:13px;font-weight:900;color:#0f6b4e;margin-top:3px}
-.buy-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;gap:10px;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -4px 16px rgba(0,0,0,.08)}
+.buy-bar{position:fixed;bottom:calc(64px + env(safe-area-inset-bottom));left:0;right:0;background:#fff;display:flex;gap:10px;padding:12px 16px;border-top:1px solid #e5e7eb;z-index:101;box-shadow:0 -4px 16px rgba(0,0,0,.08)}
 .buy-bar .bb-cart{flex:1;padding:13px;background:#fff;color:#0f6b4e;border:2px solid #0f6b4e;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
 .buy-bar .bb-buy{flex:1;padding:13px;background:#0f6b4e;color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer}
 .buy-bar .bb-chat{width:48px;border-radius:12px;border:1.5px solid #e5e7eb;background:#fff;color:#0f6b4e;display:flex;align-items:center;justify-content:center;text-decoration:none}
 .empty-page{text-align:center;padding:80px 24px;color:#9aa5a0}
 .empty-page h2{font-size:17px;color:#0a1f17;margin:12px 0 6px}
 .empty-page a{display:inline-block;margin-top:14px;padding:11px 22px;background:#0f6b4e;color:#fff;border-radius:12px;text-decoration:none;font-weight:800;font-size:13px}
-.ptabs{position:sticky;top:0;z-index:45;display:flex;background:#fff;border-bottom:2px solid #eef4f1;box-shadow:0 2px 8px rgba(10,31,23,.05)}
-.ptabs a{flex:1;text-align:center;padding:13px 4px;font-size:13px;font-weight:800;color:#5b7a70;text-decoration:none;border-bottom:3px solid transparent;transition:.15s}
-.ptabs a.on{color:#0f6b4e;border-bottom-color:#0f6b4e}
-.qa-item{background:#fff;border-radius:14px;padding:12px 14px;margin-bottom:8px;box-shadow:0 1px 6px rgba(10,31,23,.05)}
-.qa-item .q{font-size:13px;font-weight:800;color:#0a1f17;display:flex;gap:7px}
-.qa-item .q i{width:15px;height:15px;color:#1a56c4;flex-shrink:0;margin-top:1px}
-.qa-item .a{font-size:12.5px;color:#5b7a70;margin-top:6px;padding-left:22px;line-height:1.55}
-.qa-item .a b{color:#0f6b4e}
 </style>
 </head>
 <body>
@@ -187,11 +178,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
     <span class="go">Voir la boutique ›</span>
   </a>
 
-  <div class="ptabs">
-  <a href="#accDesc" class="on" onclick="return pTab(this)">Détails</a>
-  <a href="#accSpecs" onclick="return pTab(this)">Explorer</a>
-  <a href="#accAvis" onclick="return pTab(this)">Avis <span id="tabAvisCnt"></span></a>
-</div>
+  <!-- ===== SECTIONS : contenu TOUJOURS visible en aperçu + bouton Lire plus ===== -->
 
   <div class="acc clipped" id="accDesc">
     <div class="acc-head"><h2><i data-lucide="file-text" style="width:15px"></i> DESCRIPTION</h2></div>
@@ -231,22 +218,11 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
   <div class="acc" id="accLiv">
     <div class="acc-head"><h2><i data-lucide="truck" style="width:15px"></i> LIVRAISON</h2></div>
     <div class="acc-body">
-      <div class="liv-row"><i data-lucide="truck" style="width:16px"></i> <span id="livVille">Livraison ville : 1 000 – 2 500 F · 24-48 h</span></div>
-      <div class="liv-row"><i data-lucide="map-pin" style="width:16px"></i> <span id="livReg">Autres régions : 2 500 – 5 000 F · 2-5 jours</span></div>
+      <div class="liv-row"><i data-lucide="truck" style="width:16px"></i> Livraison Dakar : 1 000 – 2 500 FCFA · 24-48 h</div>
+      <div class="liv-row"><i data-lucide="map-pin" style="width:16px"></i> Autres régions : 2 500 – 5 000 FCFA · 2-5 jours</div>
       <div class="liv-row"><i data-lucide="clock" style="width:16px"></i> Commande avant 16 h → expédition le jour même</div>
     </div>
   </div>
-
-  <div class="acc" id="accQA">
-  <div class="acc-head"><h2><i data-lucide="message-circle-question" style="width:15px"></i> QUESTIONS & RÉPONSES</h2><span class="cnt" id="qaCnt"></span></div>
-  <div class="acc-body">
-    <div id="qaList"><div class="loading">Chargement…</div></div>
-    <div style="display:flex;gap:8px;margin-top:10px">
-      <input id="qaInput" placeholder="Pose ta question sur ce produit…" style="flex:1;border:2px solid #e3ede8;border-radius:12px;padding:11px 13px;font-size:13px;outline:none">
-      <button onclick="askQA()" style="border:none;border-radius:12px;background:#0f6b4e;color:#fff;font-weight:800;padding:0 16px;cursor:pointer"><i data-lucide="send" style="width:16px;height:16px"></i></button>
-    </div>
-  </div>
-</div>
 
   <div class="acc clipped" id="accAvis">
     <div class="acc-head"><h2><i data-lucide="star" style="width:15px"></i> AVIS CLIENTS</h2><span class="cnt" id="avisCnt"></span></div>
@@ -285,6 +261,7 @@ var P = null, QTY = 1, SEL_COLOR = null, SEL_SIZE = null;
 var params = new URLSearchParams(location.search);
 var key = params.get('pid') || params.get('id');
 
+// "Lire plus" : déplie la section (le contenu est déjà visible en aperçu)
 function toggleAcc(id, btn){
   var el = document.getElementById(id);
   var nowOpen = el.classList.toggle('clipped') === false;
@@ -293,7 +270,6 @@ function toggleAcc(id, btn){
   lucide.createIcons();
 }
 function starsHTML(n){ var f=Math.round(n||0),s=''; for(var i=0;i<5;i++)s+=i<f?'★':'☆'; return s; }
-function fmtInt(n){ return Number(n||0).toLocaleString('fr-FR'); }
 
 function renderGallery(imgs){
   var t = document.getElementById('gTrack'), d = document.getElementById('gDots');
@@ -314,57 +290,6 @@ function renderRateBars(p){
   }).join('');
 }
 
-  function pTab(a){
-  document.querySelectorAll('.ptabs a').forEach(function(x){x.classList.remove('on');});
-  a.classList.add('on');
-  var id=a.getAttribute('href').slice(1);
-  var el=document.getElementById(id);
-  if(el){el.classList.remove('clipped');el.scrollIntoView({behavior:'smooth',block:'start'});}
-  return false;
-}
-
-  /* ═══ Q&R PRODUIT ═══ */
-var QA_PID=new URLSearchParams(location.search).get('id')||'';
-async function loadQA(){
-  try{
-    var r=await fetch(SUPA+'/rest/v1/support_tickets?category=eq.question_produit&order=created_at.desc&limit=20&select=*',{headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}});
-    var rows=await r.json();
-    rows=(Array.isArray(rows)?rows:[]).filter(function(q){return !QA_PID||String(q.order_id||'')===String(QA_PID);});
-    var z=document.getElementById('qaList');if(!z)return;
-    document.getElementById('qaCnt').textContent=rows.length?('('+rows.length+')'):'';
-    z.innerHTML=rows.length?rows.map(function(q){
-      return '<div class="qa-item"><div class="q"><i data-lucide="help-circle"></i>'+String(q.subject||q.message||'').replace(/[<>&"]/g,'')+'</div>'+(q.admin_reply?'<div class="a"><b>SEN TEW :</b> '+String(q.admin_reply).replace(/[<>&"]/g,'')+'</div>':'<div class="a" style="opacity:.6">En attente de réponse…</div>')+'</div>';
-    }).join(''):'<div style="text-align:center;color:#9db8af;font-size:13px;padding:16px">Aucune question pour l\u2019instant. Sois le premier ! 👋</div>';
-    lucide.createIcons();
-  }catch(e){}
-}
-async function askQA(){
-  var v=document.getElementById('qaInput').value.trim();
-  if(!v){return;}
-  try{
-    await fetch(SUPA+'/rest/v1/support_tickets',{method:'POST',headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY,'Content-Type':'application/json'},body:JSON.stringify({category:'question_produit',subject:v,message:v,order_id:QA_PID,user_email:(localStorage.getItem('st_user_email')||'anonyme'),user_name:'Client',status:'open'})});
-    document.getElementById('qaInput').value='';
-    if(typeof toast==='function')toast('Question envoyée ✅');loadQA();
-  }catch(e){}
-}
-loadQA();
-
-/* surligne l'onglet visible au scroll */
-window.addEventListener('scroll',function(){
-  var ids=['accDesc','accSpecs','accAvis'],cur=0;
-  ids.forEach(function(id,i){var el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<120)cur=i;});
-  document.querySelectorAll('.ptabs a').forEach(function(x,i){x.classList.toggle('on',i===cur);});
-},{passive:true});
-
-/* Frais de livraison affichés dans la devise active */
-function renderLivraison(){
-  var lv=document.getElementById('livVille'), rg=document.getElementById('livReg');
-  if(typeof stPrice==='function'){
-    if(lv)lv.textContent='Livraison ville : '+stPrice(1000)+' – '+stPrice(2500)+' · 24-48 h';
-    if(rg)rg.textContent='Autres régions : '+stPrice(2500)+' – '+stPrice(5000)+' · 2-5 jours';
-  }
-}
-
 function render(p){
   P = p;
   document.title = p.name + ' - SEN TEW';
@@ -372,10 +297,10 @@ function render(p){
   if (!imgs.length) imgs = [''];
   renderGallery(imgs);
 
-  document.getElementById('pPrice').textContent = stPrice(p.price);
+  document.getElementById('pPrice').textContent = fmtPrix(p.price) + ' FCFA';
   if (p.old_price) {
     var pct = Math.round((1 - p.price / p.old_price) * 100);
-    document.getElementById('pOld').textContent = stPrice(p.old_price);
+    document.getElementById('pOld').textContent = fmtPrix(p.old_price) + ' FCFA';
     document.getElementById('pOld').style.display = 'inline';
     document.getElementById('pPct').textContent = '-' + pct + '%';
     document.getElementById('pPct').style.display = 'inline-block';
@@ -424,12 +349,13 @@ function render(p){
   if (p.vendors) {
     document.getElementById('sName').textContent = p.vendors.shop_name;
     document.getElementById('sLogo').src = p.vendors.logo_url || '';
-    document.getElementById('sMeta').textContent = '⭐ ' + (p.vendors.rating || '—') + ' · ' + fmtInt(p.vendors.followers || 0) + ' abonnés';
+    document.getElementById('sMeta').textContent = '⭐ ' + (p.vendors.rating || '—') + ' · ' + fmtPrix(p.vendors.followers || 0) + ' abonnés';
     document.getElementById('sellerCard').href = lienBoutique(p.vendors);
     document.getElementById('bbChat').href = 'chat.html?v=' + p.vendors.slug;
   }
 
   document.getElementById('pDesc').textContent = p.description || 'Aucune description.';
+  // Description courte → pas besoin du bouton
   if ((p.description || '').length < 120) {
     document.getElementById('accDesc').classList.remove('clipped');
     document.querySelector('#accDesc .acc-more').style.display = 'none';
@@ -464,16 +390,11 @@ function render(p){
   renderRateBars(p);
   document.getElementById('avisLink').href = 'avis.html?pid=' + p.id;
   document.getElementById('avisList').innerHTML =
-    '<div class="avis-item"><div class="ah"><span class="av">A</span> Awa D. <span class="verified">✓ Achat vérifié</span><span style="color:#f59e0b;margin-left:auto">'+starsHTML(5)+'</span></div><div class="at st-review-text" data-idx="0">Très bonne qualité, conforme à la description. Livraison rapide.</div><div class="st-tr-slot" data-idx="0"></div><div class="ad">Il y a 3 jours</div></div>' +
-    '<div class="avis-item"><div class="ah"><span class="av">M</span> Modou S. <span class="verified">✓ Achat vérifié</span><span style="color:#f59e0b;margin-left:auto">'+starsHTML(Math.max(1,(p.rating||5)-0.2))+'</span></div><div class="at st-review-text" data-idx="1">Je recommande, vendeur sérieux et réactif.</div><div class="st-tr-slot" data-idx="1"></div><div class="ad">Il y a 1 semaine</div></div>';
-  document.querySelectorAll('#avisList .st-review-text').forEach(function(el){
-    var slot = document.querySelector('#avisList .st-tr-slot[data-idx="'+el.dataset.idx+'"]');
-    if(slot) stTrAttachButton(el, {container: slot});
-  });
+    '<div class="avis-item"><div class="ah"><span class="av">A</span> Awa D. <span class="verified">✓ Achat vérifié</span><span style="color:#f59e0b;margin-left:auto">'+starsHTML(5)+'</span></div><div class="at">Très bonne qualité, conforme à la description. Livraison rapide à Dakar.</div><div class="ad">Il y a 3 jours</div></div>' +
+    '<div class="avis-item"><div class="ah"><span class="av">M</span> Modou S. <span class="verified">✓ Achat vérifié</span><span style="color:#f59e0b;margin-left:auto">'+starsHTML(Math.max(1,(p.rating||5)-0.2))+'</span></div><div class="at">Je recommande, vendeur sérieux et réactif.</div><div class="ad">Il y a 1 semaine</div></div>';
 
   document.getElementById('btnFav').classList.toggle('on', favHas(p.id));
   document.getElementById('buyBar').style.display = 'flex';
-  renderLivraison();
   lucide.createIcons();
 }
 
@@ -501,14 +422,14 @@ function renderSimilaires(p){
         return '<div class="sim-card" onclick="location.href=\''+lienProduit(s)+'\'">' +
           '<img src="'+(s.images && s.images[0] || '')+'" alt="">' +
           '<div class="sb"><div class="sn2">'+s.name+'</div>' +
-          '<div class="sp">'+stPrice(s.price)+'</div></div></div>';
+          '<div class="sp">'+fmtPrix(s.price)+' FCFA</div></div></div>';
       }).join('');
     });
 }
 
 function shareP(){
   if (!P) return;
-  var txt = P.name + ' — ' + stPrice(P.price) + ' sur SEN TEW → ' + location.href;
+  var txt = P.name + ' — ' + fmtPrix(P.price) + ' FCFA sur SEN TEW → ' + location.href;
   if (navigator.share) navigator.share({title:P.name, text:txt}).catch(function(){});
   else if (navigator.clipboard) { navigator.clipboard.writeText(txt); toast('✓ Lien copié'); }
 }
