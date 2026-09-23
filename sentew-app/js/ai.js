@@ -22,7 +22,7 @@ function stChatLoad(){
 }
 function stChatSave(list){
   try{
-    if(list.length > 50) list = list.slice(list.length-50); /* garde les 50 derniers */
+    if(list.length > 50) list = list.slice(list.length-50);
     localStorage.setItem('st_niofar_history', JSON.stringify(list));
   }catch(e){}
 }
@@ -33,10 +33,9 @@ function stChatAdd(who, text){
 }
 function stChatClear(){ localStorage.removeItem('st_niofar_history'); }
 
-/* Petite pause utilitaire pour le retry */
 function stSleep(ms){ return new Promise(function(res){ setTimeout(res, ms); }); }
 
-/* ── Réponses locales de secours (fonctionnent même si Google est en panne) ── */
+/* ── Réponses locales instantanées (zéro quota Google) ── */
 function stLocalFallback(q){
   q = String(q||'').toLowerCase();
   if(/livraison|livrer|délai|delai/.test(q))
@@ -70,25 +69,20 @@ async function stAskModel(model, prompt){
 }
 
 async function stAsk(prompt){
-  if(!stAiHasKey()){
-    return '⚙️ Assistant en cours d’activation. Réessaie dans un instant.';
-  }
-  /* Réponse locale instantanée si la question est fréquente (économise le quota) */
+  if(!stAiHasKey()) return '⚙️ Assistant en cours d’activation. Réessaie dans un instant.';
   var local = stLocalFallback(prompt);
   if(local) return local;
-  /* Essaie chaque modèle jusqu'à trouver un disponible */
   for(var i=0;i<ST_AI.MODELS.length;i++){
     try{
       var res = await stAskModel(ST_AI.MODELS[i], prompt);
       if(res.text) return res.text;
-      if(res.saturated){ await stSleep(1200); continue; } /* modèle saturé → suivant */
-      if(res.error){ continue; } /* autre erreur → suivant */
+      if(res.saturated || res.error){ await stSleep(1200); continue; }
     }catch(e){ await stSleep(800); }
   }
   return '⏳ Nio Far est très demandé en ce moment. Réessaie dans une minute 🙏';
 }
 
-/* ── Charge le catalogue une fois (+ stats de prix par catégorie) ── */
+/* ── Charge le catalogue une fois ── */
 async function stAiInit(){
   if(ST_AI.ready) return;
   try{
@@ -111,7 +105,7 @@ async function stAiInit(){
       var min = Math.min.apply(null, arr);
       var max = Math.max.apply(null, arr);
       var avg = Math.round(arr.reduce(function(a,b){return a+b;},0) / arr.length);
-      stats.push(cat+' : '+min+'–'+max+' FCFA (moyenne '+avg+' FCFA, sur '+arr.length+' produit(s))');
+      stats.push(cat+' : '+min+'–'+max+' FCFA (moyenne '+avg+' FCFA)');
     });
     ST_AI.PRICE_STATS = stats.join('\n');
     ST_AI.ready = true;
@@ -132,7 +126,7 @@ async function stAiSearch(userQuery){
   }catch(e){ return {keywords:[userQuery],category:'',maxPrice:null}; }
 }
 
-/* ═══ 2. ASSISTANT SHOPPING « Nio Far » (avec mémoire) ═══ */
+/* ═══ 2. ASSISTANT « Nio Far » (avec mémoire) ═══ */
 async function stAiChat(question){
   stChatAdd('client', question);
   var rep = await stAsk(
@@ -163,7 +157,7 @@ async function stAiPhoto(file){
     fr.readAsDataURL(file);
   });
   var priceCtx = ST_AI.PRICE_STATS
-    ? ('\n\nFOURCHETTES DE PRIX RÉELLES SUR SEN TEW PAR CATÉGORIE (utilise-les pour un prix réaliste) :\n'+ST_AI.PRICE_STATS+'\n')
+    ? ('\n\nFOURCHETTES DE PRIX RÉELLES SUR SEN TEW PAR CATÉGORIE :\n'+ST_AI.PRICE_STATS+'\n')
     : '';
   for(var i=0;i<ST_AI.MODELS.length;i++){
     try{
