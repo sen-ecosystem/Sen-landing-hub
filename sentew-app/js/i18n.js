@@ -1,119 +1,149 @@
-// ===== SEN TEW - Traductions complètes 4 langues =====
+/* ══════════════════════════════════════════════════════════
+   SEN TEW — I18N.JS v1.0 — Traduction instantanée du site
+   FR (défaut) · EN · WO · AR · PT · ES
+   Bouton 🌐 flottant — instantané, gratuit, choix conservé
+   ══════════════════════════════════════════════════════════ */
+(function(){
+'use strict';
 
-const I18N = {
-  FR: {
-    // Navigation
-    home:'Accueil', categories:'Catégories', cart:'Panier',
-    messages:'Messages', profile:'Profil', notifications:'Notifications',
-    // Actions
-    search:'Rechercher un produit...', buy:'Acheter', buy_now:'Acheter maintenant',
-    add_cart:'Ajouter au panier', follow:'Suivre', following:'Suivi',
-    message:'Message', call:'Appeler', share:'Partager', edit:'Éditer',
-    delete:'Supprimer', save:'Enregistrer', cancel:'Annuler', confirm:'Confirmer',
-    // Product
-    live:'LIVE', products:'Produits', reviews:'Avis', trending:'Tendances',
-    new:'Nouveau', promo:'Promo', similar:'Produits similaires',
-    description:'Description', delivery:'Livraison', stock:'Stock',
-    price:'Prix', total:'Total', quantity:'Quantité', size:'Taille',
-    color:'Couleur', bundle:'Souvent achetés ensemble',
-    // Seller
-    seller:'Vendeur', shop:'Boutique', followers:'Abonnés', sales:'Ventes',
-    rating:'Note', verified:'SEN Verified',
-    // Payment
-    payment:'Paiement', pay_method:'Méthode de paiement',
-    wave:'Wave', orange:'Orange Money', free:'Free Money', wizall:'Wizall Money',
-    card:'Carte bancaire', cash:'À la livraison',
-    // Status
-    pending:'En attente', shipping:'En route', delivered:'Livré',
-    cancelled:'Annulé', refunded:'Remboursé',
-    // Messages
-    welcome:'Bienvenue sur SEN TEW', empty_cart:'Panier vide',
-    success:'Succès !', error:'Erreur', loading:'Chargement...'
-  },
-  WO: {
-    home:'Kër', categories:'Xéet yi', cart:'Panier',
-    messages:'Bataaxal', profile:'Sama Kër', notifications:'Xibaar yi',
-    search:'Wutu mbir...', buy:'Jënd', buy_now:'Jënd léegi',
-    add_cart:'Yokk ci panier', follow:'Toppatoo', following:'Toppatoo naa',
-    message:'Bind bataaxal', call:'Woote', share:'Séddoo', edit:'Soppi',
-    delete:'Farr', save:'Denc', cancel:'Bàyyi', confirm:'Dëggal',
-    live:'CI LOOL', products:'Mbir yi', reviews:'Xam-xam yi', trending:'Yëngu-yëngu',
-    new:'Bees', promo:'Wàññi', similar:'Yu dañuy mel',
-    description:'Kàddu wu bir', delivery:'Yóbbal', stock:'Denc',
-    price:'Njëg', total:'Lu tolluwaay', quantity:'Ñaata', size:'Rey',
-    color:'Melo', bundle:'Añs jënd',
-    seller:'Kilifa gu jaay', shop:'Bitiik', followers:'Ñi topp', sales:'Njënd',
-    rating:'Xayma', verified:'SEN Kalaame',
-    payment:'Fay', pay_method:'Ni ngay fay',
-    wave:'Wave', orange:'Orange Money', free:'Free Money', wizall:'Wizall',
-    card:'Kartu bank', cash:'Fay ci yóbbal',
-    pending:'Xool na', shipping:'Ci yoon', delivered:'Yóbbal na',
-    cancelled:'Farr na', refunded:'Delloo na',
-    welcome:'Dalal ak jamm ci SEN TEW', empty_cart:'Panier bi dafa neex',
-    success:'Baax na !', error:'Njuum', loading:'Xool na...'
-  },
-  EN: {
-    home:'Home', categories:'Categories', cart:'Cart',
-    messages:'Messages', profile:'Profile', notifications:'Notifications',
-    search:'Search products...', buy:'Buy', buy_now:'Buy Now',
-    add_cart:'Add to cart', follow:'Follow', following:'Following',
-    message:'Message', call:'Call', share:'Share', edit:'Edit',
-    delete:'Delete', save:'Save', cancel:'Cancel', confirm:'Confirm',
-    live:'LIVE', products:'Products', reviews:'Reviews', trending:'Trending',
-    new:'New', promo:'Sale', similar:'Similar products',
-    description:'Description', delivery:'Delivery', stock:'Stock',
-    price:'Price', total:'Total', quantity:'Quantity', size:'Size',
-    color:'Color', bundle:'Frequently bought together',
-    seller:'Seller', shop:'Shop', followers:'Followers', sales:'Sales',
-    rating:'Rating', verified:'SEN Verified',
-    payment:'Payment', pay_method:'Payment method',
-    wave:'Wave', orange:'Orange Money', free:'Free Money', wizall:'Wizall Money',
-    card:'Credit card', cash:'Cash on delivery',
-    pending:'Pending', shipping:'Shipping', delivered:'Delivered',
-    cancelled:'Cancelled', refunded:'Refunded',
-    welcome:'Welcome to SEN TEW', empty_cart:'Cart is empty',
-    success:'Success!', error:'Error', loading:'Loading...'
-  },
-  AR: {
-    home:'الرئيسية', categories:'الفئات', cart:'السلة',
-    messages:'الرسائل', profile:'الملف الشخصي', notifications:'الإشعارات',
-    search:'ابحث عن منتج...', buy:'شراء', buy_now:'اشتري الآن',
-    add_cart:'أضف للسلة', follow:'متابعة', following:'متابع',
-    message:'رسالة', call:'اتصال', share:'مشاركة', edit:'تعديل',
-    delete:'حذف', save:'حفظ', cancel:'إلغاء', confirm:'تأكيد',
-    live:'مباشر', products:'المنتجات', reviews:'التقييمات', trending:'الرائج',
-    new:'جديد', promo:'تخفيض', similar:'منتجات مماثلة',
-    description:'الوصف', delivery:'التوصيل', stock:'المخزون',
-    price:'السعر', total:'المجموع', quantity:'الكمية', size:'المقاس',
-    color:'اللون', bundle:'يشترى معًا في الغالب',
-    seller:'البائع', shop:'المتجر', followers:'المتابعون', sales:'المبيعات',
-    rating:'التقييم', verified:'موثق SEN',
-    payment:'الدفع', pay_method:'طريقة الدفع',
-    wave:'Wave', orange:'Orange Money', free:'Free Money', wizall:'Wizall',
-    card:'بطاقة ائتمانية', cash:'الدفع عند الاستلام',
-    pending:'قيد الانتظار', shipping:'قيد الشحن', delivered:'تم التوصيل',
-    cancelled:'ملغى', refunded:'مسترد',
-    welcome:'مرحبًا بك في SEN TEW', empty_cart:'السلة فارغة',
-    success:'نجح!', error:'خطأ', loading:'جار التحميل...'
+var LANGS = [
+  {code:'fr', label:'Français',  flag:'🇫🇷'},
+  {code:'en', label:'English',   flag:'🇬🇧'},
+  {code:'wo', label:'Wolof',     flag:'🇸🇳'},
+  {code:'ar', label:'العربية',    flag:'🇸🇦'},
+  {code:'pt', label:'Português', flag:'🇵🇹'},
+  {code:'es', label:'Español',   flag:'🇪🇸'}
+];
+
+var D = {
+  'Accueil':      {en:'Home',        wo:'Kër',        ar:'الرئيسية',      pt:'Início',        es:'Inicio'},
+  'Catégories':   {en:'Categories',  wo:'Xeet',       ar:'الفئات',        pt:'Categorias',    es:'Categorías'},
+  'Recherche':    {en:'Search',      wo:'Seet',       ar:'بحث',           pt:'Pesquisa',      es:'Buscar'},
+  'Panier':       {en:'Cart',        wo:'Kardo',      ar:'السلة',         pt:'Carrinho',      es:'Carrito'},
+  'Compte':       {en:'Account',     wo:'Kont',       ar:'الحساب',        pt:'Conta',         es:'Cuenta'},
+  'Favoris':      {en:'Favorites',   wo:'Bëgg-bëgg',  ar:'المفضلة',       pt:'Favoritos',     es:'Favoritos'},
+  'Profil':       {en:'Profile',     wo:'Kont',       ar:'الملف الشخصي',  pt:'Perfil',        es:'Perfil'},
+  'Notifications':{en:'Notifications',wo:'Xibaar',    ar:'الإشعارات',     pt:'Notificações',  es:'Notificaciones'},
+  'Acheter':      {en:'Buy now',     wo:'Jënd',       ar:'اشترِ الآن',    pt:'Comprar',       es:'Comprar'},
+  'Ajouter au panier':{en:'Add to cart',wo:'Yokk ci kardo',ar:'أضف إلى السلة',pt:'Adicionar ao carrinho',es:'Añadir al carrito'},
+  'Commander':    {en:'Order now',   wo:'Yoon',       ar:'اطلب الآن',     pt:'Encomendar',    es:'Pedir'},
+  'Voir tout':    {en:'See all',     wo:'Seet lépp',  ar:'عرض الكل',      pt:'Ver tudo',      es:'Ver todo'},
+  'Détails':      {en:'Details',     wo:'Xibaar',     ar:'التفاصيل',      pt:'Detalhes',      es:'Detalles'},
+  'Partager':     {en:'Share',       wo:'Séddoo',     ar:'مشاركة',        pt:'Partilhar',     es:'Compartir'},
+  'Envoyer':      {en:'Send',        wo:'Yónni',      ar:'إرسال',         pt:'Enviar',        es:'Enviar'},
+  'Continuer':    {en:'Continue',    wo:'Kontinuwe',  ar:'متابعة',        pt:'Continuar',     es:'Continuar'},
+  'Valider':      {en:'Confirm',     wo:'Dëggal',     ar:'تأكيد',         pt:'Confirmar',     es:'Confirmar'},
+  'Annuler':      {en:'Cancel',      wo:'Neen',       ar:'إلغاء',         pt:'Cancelar',      es:'Cancelar'},
+  'Retour':       {en:'Back',        wo:'Dellu',      ar:'رجوع',          pt:'Voltar',        es:'Volver'},
+  'Promotions':   {en:'Deals',       wo:'Ñakk ndar',  ar:'العروض',        pt:'Promoções',     es:'Ofertas'},
+  'Nouveautés':   {en:'New arrivals',wo:'Légumental', ar:'وصل حديثاً',    pt:'Novidades',     es:'Novedades'},
+  'Boutiques':    {en:'Shops',       wo:'Màndi',      ar:'المتاجر',       pt:'Lojas',         es:'Tiendas'},
+  'Vendeurs':     {en:'Vendors',     wo:'Jaaykat',    ar:'البائعون',      pt:'Vendedores',    es:'Vendedores'},
+  'Se connecter': {en:'Sign in',     wo:'Dugg',       ar:'تسجيل الدخول',  pt:'Entrar',        es:'Iniciar sesión'},
+  'S\u2019inscrire':{en:'Sign up',   wo:'Bindu',      ar:'إنشاء حساب',    pt:'Registar',      es:'Registrarse'},
+  'Déconnexion':  {en:'Sign out',    wo:'Génn',       ar:'تسجيل الخروج',  pt:'Sair',          es:'Cerrar sesión'},
+  'Mes commandes':{en:'My orders',   wo:'Sama yoon',  ar:'طلباتي',        pt:'Encomendas',    es:'Mis pedidos'},
+  'Mes adresses': {en:'My addresses',wo:'Sama kembar',ar:'عناويني',       pt:'Endereços',     es:'Direcciones'},
+  'Portefeuille': {en:'Wallet',      wo:'Sak',        ar:'المحفظة',       pt:'Carteira',      es:'Monedero'},
+  'Support':      {en:'Support',     wo:'Ndimbal',    ar:'الدعم',         pt:'Apoio',         es:'Soporte'},
+  'Paramètres':   {en:'Settings',    wo:'Tegu',       ar:'الإعدادات',     pt:'Definições',    es:'Ajustes'},
+  'Mode sombre':  {en:'Dark mode',   wo:'Lëndëm',     ar:'الوضع الداكن',  pt:'Modo escuro',   es:'Modo oscuro'},
+  'Total':        {en:'Total',       wo:'Lépp',       ar:'المجموع',       pt:'Total',         es:'Total'},
+  'Sous-total':   {en:'Subtotal',    wo:'Lépp bu gàtt',ar:'المجموع الفرعي',pt:'Subtotal',    es:'Subtotal'},
+  'Livraison':    {en:'Delivery',    wo:'Yónnee',     ar:'التوصيل',       pt:'Entrega',       es:'Entrega'},
+  'Paiement':     {en:'Payment',     wo:'Fay',        ar:'الدفع',         pt:'Pagamento',     es:'Pago'},
+  'Votre panier est vide':{en:'Your cart is empty',wo:'Sa kardo amul dara',ar:'سلتك فارغة',pt:'O carrinho está vazio',es:'Tu carrito está vacío'},
+  'Finaliser la commande':{en:'Checkout',wo:'Jeexal yoon',ar:'إتمام الطلب',pt:'Finalizar compra',es:'Finalizar compra'},
+  'Rechercher un produit…':{en:'Search for a product…',wo:'Seet beneen…',ar:'ابحث عن منتج…',pt:'Pesquisar produto…',es:'Buscar producto…'},
+  'Pose ta question à Nio Far…':{en:'Ask Nio Far…',wo:'Laaj Nio Far…',ar:'اسأل نيو فار…',pt:'Pergunta ao Nio Far…',es:'Pregunta a Nio Far…'},
+  'Livraison gratuite':{en:'Free delivery',wo:'Yónnee fenn fenn',ar:'توصيل مجاني',pt:'Entrega grátis',es:'Entrega gratis'},
+  'En stock':     {en:'In stock',    wo:'Am na',      ar:'متوفر',         pt:'Em stock',      es:'En stock'},
+  'Rupture de stock':{en:'Out of stock',wo:'Amul',    ar:'غير متوفر',     pt:'Esgotado',      es:'Agotado'}
+};
+
+var KEY = 'st_lang';
+function cur(){ return localStorage.getItem(KEY) || 'fr'; }
+
+function applyLang(lang){
+  if(lang === 'fr'){ localStorage.setItem(KEY,'fr'); location.reload(); return; }
+  document.documentElement.lang = lang;
+  document.documentElement.dir  = (lang === 'ar') ? 'rtl' : 'ltr';
+  var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+  var node;
+  while(node = walker.nextNode()){
+    var t = node.nodeValue.trim();
+    if(!t || t.length > 80) continue;
+    if(D[t] && D[t][lang]) node.nodeValue = node.nodeValue.replace(t, D[t][lang]);
   }
-};
+  var inputs = document.querySelectorAll('input[placeholder],textarea[placeholder]');
+  for(var i=0;i<inputs.length;i++){
+    var p = inputs[i].getAttribute('placeholder').trim();
+    if(D[p] && D[p][lang]) inputs[i].setAttribute('placeholder', D[p][lang]);
+  }
+  var lab = document.querySelectorAll('[aria-label]');
+  for(var j=0;j<lab.length;j++){
+    var a = lab[j].getAttribute('aria-label').trim();
+    if(D[a] && D[a][lang]) lab[j].setAttribute('aria-label', D[a][lang]);
+  }
+}
 
-// API globale
-window.T = function(key){
-  const idx = parseInt(localStorage.getItem('lang_idx')||'0');
-  const codes = ['FR','WO','EN','AR'];
-  return (I18N[codes[idx]]||I18N.FR)[key] || key;
-};
-
-window.applyI18n = function(){
-  document.querySelectorAll('[data-t]').forEach(el=>{
-    const key = el.getAttribute('data-t');
-    el.textContent = window.T(key);
+function buildUI(){
+  if(document.getElementById('i18nBtn')) return;
+  var st = document.createElement('style');
+  st.textContent =
+    '#i18nBtn{position:fixed;right:14px;bottom:150px;z-index:900;width:46px;height:46px;border-radius:50%;'+
+    'background:linear-gradient(135deg,#0f6b4e,#0a1f17);color:#fff;font-size:20px;border:none;cursor:pointer;'+
+    'box-shadow:0 4px 14px rgba(15,107,78,.4);display:flex;align-items:center;justify-content:center}'+
+    '#i18nMenu{position:fixed;right:14px;bottom:206px;z-index:901;background:#fff;border-radius:14px;'+
+    'box-shadow:0 8px 30px rgba(0,0,0,.18);overflow:hidden;display:none;min-width:170px}'+
+    '#i18nMenu.on{display:block}'+
+    '#i18nMenu button{display:flex;align-items:center;gap:10px;width:100%;padding:12px 16px;border:none;'+
+    'background:#fff;font-size:14px;font-weight:600;color:#12312a;cursor:pointer;text-align:left}'+
+    '#i18nMenu button:active{background:#f0f7f4}'+
+    '#i18nMenu button.on{background:#e6f4ee;color:#0f6b4e;font-weight:800}';
+  document.head.appendChild(st);
+  var btn = document.createElement('button');
+  btn.id = 'i18nBtn';
+  btn.setAttribute('aria-label','Langue / Language');
+  btn.textContent = '🌐';
+  document.body.appendChild(btn);
+  var menu = document.createElement('div');
+  menu.id = 'i18nMenu';
+  LANGS.forEach(function(L){
+    var b = document.createElement('button');
+    b.textContent = L.flag + ' ' + L.label;
+    if(L.code === cur()) b.className = 'on';
+    b.onclick = function(){
+      localStorage.setItem(KEY, L.code);
+      if(L.code === 'fr'){ location.reload(); }
+      else { applyLang(L.code);
+        var bs = menu.querySelectorAll('button');
+        for(var i=0;i<bs.length;i++) bs[i].className='';
+        b.className='on';
+        menu.classList.remove('on');
+      }
+    };
+    menu.appendChild(b);
   });
-  const idx = parseInt(localStorage.getItem('lang_idx')||'0');
-  document.documentElement.dir = idx===3 ? 'rtl' : 'ltr';
-};
+  document.body.appendChild(menu);
+  btn.onclick = function(){ menu.classList.toggle('on'); };
+  document.addEventListener('click', function(e){
+    if(!menu.contains(e.target) && e.target !== btn) menu.classList.remove('on');
+  });
+}
 
-document.addEventListener('DOMContentLoaded', ()=>{
-  if(window.applyI18n) window.applyI18n();
-});
+function boot(){
+  buildUI();
+  var l = cur();
+  if(l !== 'fr'){
+    applyLang(l);
+    if('MutationObserver' in window){
+      var mo = new MutationObserver(function(){ applyLang(l); });
+      mo.observe(document.body, {childList:true, subtree:true});
+    }
+  }
+}
+if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+else boot();
+
+})();
