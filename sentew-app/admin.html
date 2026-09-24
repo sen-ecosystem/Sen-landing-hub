@@ -229,7 +229,6 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
 
 <div class="toast" id="toast"></div>
 
-<script>
 /* â•â•â•â•â•â•â•â•â•â• CONFIG â•â•â•â•â•â•â•â•â•â• */
 var SUPA='https://tjqkruhwmjzgfvtouqza.supabase.co';
 var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
@@ -370,7 +369,44 @@ function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){retur
 function fmtDate(d){if(!d)return'';try{var x=new Date(d);return x.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'})+' '+x.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}catch(e){return'';}}
 function fmtN(n){return Math.round(n||0).toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ');}
 function timeAgo(d){if(!d)return'';var s=(Date.now()-new Date(d).getTime())/1000;if(s<60)return'à l\u2019instant';if(s<3600)return'il y a '+Math.floor(s/60)+' min';if(s<86400)return'il y a '+Math.floor(s/3600)+' h';return'il y a '+Math.floor(s/86400)+' j';}
-async function api(t,q,o){o=o||{};var r=await fetch(SUPA+'/rest/v1/'+t+(q||''),Object.assign({headers:H},o));if(o.method&&o.method!=='GET')return r;var j=await r.json();return Array.isArray(j)?j:[];}
+function adminToken(){try{var s=sessionStorage.getItem('sentew_admin')||localStorage.getItem('sentew_admin');var o=JSON.parse(s);return(o&&o.token)||'';}catch(e){return'';}}
+async function rpc(fn,args){args=args||{};args.p_token=adminToken();try{var r=await fetch(SUPA+'/rest/v1/rpc/'+fn,{method:'POST',headers:Object.assign({},H,{'Content-Type':'application/json'}),body:JSON.stringify(args)});var j=null;try{j=await r.json();}catch(e){}if(!r.ok)return{__err:(j&&(j.message||j.hint))||('HTTP '+r.status)};return j;}catch(e){return{__err:'Reseau: '+e.message};}}
+var RPC_READ={'expenses':'admin_list_expenses','invoices':'admin_list_invoices','salaries':'admin_list_salaries','payouts':'admin_list_payouts','budgets':'admin_list_budgets','echeances':'admin_list_echeances','notifications':'admin_list_notifications','deletion_requests':'admin_list_deletion_requests','kyc_documents':'admin_list_kyc_documents'};
+async function api(t,q,o){
+o=o||{};var m=(o.method||'GET').toUpperCase();
+function fail(x){toast('\u274c '+x);return{ok:false};}
+if(adminToken()){
+  var b={};if(o.body){try{b=JSON.parse(o.body);}catch(e){}}
+  var idm=(q||'').match(/id=eq\.([^&]+)/);var rid=idm?idm[1]:null;
+  var catm=(q||'').match(/category=eq\.([^&]+)/);var rcat=catm?decodeURIComponent(catm[1]):null;
+  if(RPC_READ[t]&&m==='GET'){var j=await rpc(RPC_READ[t],{});if(j&&j.__err){fail('Lecture '+t+' refusee: '+j.__err);return[];}return Array.isArray(j)?j:(j?[j]:[]);}
+  var r=null;
+  if(t==='expenses'&&m==='POST')r=await rpc('admin_add_expense',{p_label:b.label,p_category:b.category||'general',p_amount:b.amount||0,p_expense_date:b.expense_date||new Date().toISOString().slice(0,10),p_note:b.note||null});
+  else if(t==='invoices'&&m==='POST')r=await rpc('admin_add_invoice',{p_number:b.number||'',p_supplier:b.supplier||'',p_label:b.label||'',p_type:b.type||'vente',p_amount:b.amount||0,p_tax:b.tax||0,p_invoice_date:b.invoice_date||new Date().toISOString().slice(0,10)});
+  else if(t==='invoices'&&m==='PATCH'&&b.status==='paid')r=await rpc('admin_pay_invoice',{p_id:rid});
+  else if(t==='salaries'&&m==='POST')r=await rpc('admin_add_salary',{p_employee_name:b.employee_name||b.name||'',p_role:b.role||'',p_period:b.period||'',p_base_salary:b.base_salary||0,p_bonuses:b.bonuses||0,p_deductions:b.deductions||0,p_country:b.country||'SN',p_email:b.email||null});
+  else if(t==='salaries'&&m==='PATCH'&&b.status==='paid')r=await rpc('admin_pay_salary',{p_id:rid});
+  else if(t==='payouts'&&m==='POST'){var pool=(b.recipient_type==='driver'?DATA.drivers:DATA.vendors)||[];var rec=null;for(var pi=0;pi<pool.length;pi++){if((pool[pi].email||'')===(b.recipient_email||'')){rec=pool[pi];break;}}if(!rec)return fail('Destinataire introuvable (rechargez la page)');r=await rpc(b.recipient_type==='driver'?'admin_pay_driver':'admin_pay_vendor',b.recipient_type==='driver'?{p_driver_id:rec.id,p_amount:b.amount||0,p_method:b.method||'wave',p_iban_or_phone:null}:{p_vendor_id:rec.id,p_amount:b.amount||0,p_method:b.method||'wave',p_iban_or_phone:null});}
+  else if(t==='notifications'&&m==='POST')r=await rpc('admin_notify',{p_audience:b.audience||'user',p_user_email:b.user_email||'',p_type:b.type||'account',p_title:b.title||'',p_message:b.message||''});
+  else if(t==='notifications'&&m==='PATCH')r=await rpc('admin_mark_notif_read',{p_id:rid});
+  else if(t==='deletion_requests'&&m==='PATCH')r=await rpc('admin_set_status',{p_table:'deletion_requests',p_id:rid,p_status:b.status||'done'});
+  else if(t==='budgets'&&(m==='POST'||m==='PATCH'))r=await rpc('admin_set_budget',{p_category:b.category||rcat||'',p_monthly_limit:b.monthly_limit||0});
+  else if(t==='budgets'&&m==='DELETE')r=await rpc('admin_delete_budget',{p_category:rcat||''});
+  else if(t==='echeances'&&m==='POST')r=await rpc('admin_add_echeance',{p_label:b.label,p_category:b.category||'general',p_amount:b.amount||0,p_due_date:b.due_date,p_recurring:b.recurring||'none'});
+  else if(t==='echeances'&&m==='PATCH'&&b.status==='paid')r=await rpc('admin_pay_echeance',{p_id:rid});
+  else if(t==='echeances'&&m==='DELETE')r=await rpc('admin_delete_echeance',{p_id:rid});
+  else if((t==='vendors'||t==='drivers')&&m==='PATCH'){
+    if(b.status)r=await rpc('admin_set_status',{p_table:t,p_id:rid,p_status:b.status});
+    else if(b.country)r=await rpc('admin_set_country',{p_table:t,p_id:rid,p_country:b.country});
+    else return{ok:true};
+  }
+  else if(t==='orders'&&m==='PATCH'&&b.status==='refunded')r=await rpc('admin_refund_order',{p_order_id:rid});
+  if(r){if(r.__err){return fail('Enregistrement refuse: '+r.__err);}return{ok:true,data:r};}
+}
+var rr=await fetch(SUPA+'/rest/v1/'+t+(q||''),Object.assign({headers:H},o));
+if(o.method&&m!=='GET')return rr;
+var jj=await rr.json();return Array.isArray(jj)?jj:[];
+}
 function setBadge(id,n){var b=$(id);if(!b)return;if(n>0){b.textContent=n;b.classList.add('on');}else{b.classList.remove('on');}}
 function dlCSV(name,rows){var csv=rows.map(function(r){return r.map(function(c){return '"'+String(c==null?'':c).replace(/"/g,'""')+'"';}).join(',');}).join('\n');var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,﻿'+encodeURIComponent(csv);a.download=name;a.click();}
 
