@@ -13,7 +13,7 @@
 /* ===== Splash screen (logo au lancement) ===== */
 #splash{position:fixed;inset:0;z-index:9999;background:linear-gradient(160deg,#0a1f17 0%,#0f6b4e 55%,#0a1f17 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s ease;}
 #splash.hide{opacity:0;pointer-events:none}
-#splash .sp-leaf{font-size:44px;animation:spPop .9s cubic-bezier(.34,1.56,.64,1) both}
+#splash .sp-logo{width:120px;height:120px;object-fit:contain;animation:spPop .9s cubic-bezier(.34,1.56,.64,1) both;filter:drop-shadow(0 6px 20px rgba(232,196,104,.35));border-radius:24px}
 #splash .sp-name{margin-top:10px;font-size:34px;font-weight:900;letter-spacing:3px;color:#fff;animation:spPop .9s .15s cubic-bezier(.34,1.56,.64,1) both}
 #splash .sp-name b{color:#e8c468}
 #splash .sp-tag{margin-top:8px;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.75);animation:spFade 1s .5s both}
@@ -111,7 +111,7 @@ body.dark-mode .meta,body.dark-mode small{color:#8fa89f}
 </style>
 </head>
 <body>
-<div id="splash" aria-hidden="true"><div class="sp-leaf">🌿</div><div class="sp-name">SEN<b>TEW</b></div><div class="sp-tag">Marketplace Panafricaine</div><div class="sp-bar"><i></i></div></div>
+<div id="splash" aria-hidden="true"><img src="logo.png" alt="SEN TEW" class="sp-logo" onerror="this.outerHTML='<div style=\'font-size:64px\'>🌿</div>'"><div class="sp-name">SEN<b>TEW</b></div><div class="sp-tag">Marketplace Panafricaine</div><div class="sp-bar"><i></i></div></div>
 
 <header class="topbar">
   <a class="logo" href="index.html"><i data-lucide="globe"></i> SEN TEW</a>
@@ -295,6 +295,5 @@ cartBadge();
 })();
 </script>
 <script>(function(){function hideSplash(){var s=document.getElementById("splash");if(!s)return;s.classList.add("hide");setTimeout(function(){s.remove();},700);}if(document.readyState==="complete"){setTimeout(hideSplash,1200);}else{window.addEventListener("load",function(){setTimeout(hideSplash,1200);});setTimeout(hideSplash,3500);}})();</script>
- <script src="js/i18n.js"></script>
 </body>
 </html>
