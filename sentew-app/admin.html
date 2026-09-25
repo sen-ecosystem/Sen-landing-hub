@@ -4,7 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Administration - SEN TEW</title>
-<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://unpkg.com/lucide@latest">
+/* Anti swipe-back accidental (iOS) */
+document.addEventListener('touchstart',function(e){if(e.touches.length===1&&(e.touches[0].clientX<24||e.touches[0].clientX>window.innerWidth-24)){e.preventDefault();}},{passive:false});
+/* Unload guard while a form is dirty */
+window.__stDirty=false;
+document.addEventListener('input',function(e){if(e.target.closest&&e.target.closest('form,.sheet,#sheet'))window.__stDirty=true;},{passive:true});
+window.addEventListener('beforeunload',function(e){if(window.__stDirty){e.preventDefault();e.returnValue='';}});
+
+</script>
 <script src="js/security-shield.js"></script>
 <script src="js/payroll-engine.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -157,6 +165,19 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
 .selbar .b-csv{background:#1a56c4;color:#fff}
 .selbar .b-danger{background:#c0392b;color:#fff}
 .tools2{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+
+.gsbar{position:sticky;top:110px;z-index:39;background:#f2f6f4;padding:4px 14px 8px}
+.gscard{background:#fff;border-radius:14px;padding:12px 14px;margin:8px 14px;box-shadow:0 2px 8px rgba(10,31,23,.06);display:flex;gap:10px;align-items:center;cursor:pointer}
+.gscard .gico{width:36px;height:36px;border-radius:10px;background:#e8f5ef;color:#0f6b4e;display:flex;align-items:center;justify-content:center;flex:none}
+.gscard .gt{font-size:10px;font-weight:800;color:#0f6b4e;text-transform:uppercase;letter-spacing:.5px}
+.gscard .gn{font-size:14px;font-weight:800;color:#0a1f17}
+.gscard .gs{font-size:11px;color:#777}
+.gsd{background:#fff;border-radius:14px;padding:14px;margin:8px 14px;box-shadow:0 2px 8px rgba(10,31,23,.06)}
+.gsd h4{margin:0 0 8px;font-size:14px;color:#0f6b4e}
+.gsd .kv{display:flex;justify-content:space-between;gap:10px;font-size:12px;padding:5px 0;border-bottom:1px dashed #eee}
+.gsd .kv span{color:#777}.gsd .kv b{color:#0a1f17;text-align:right;word-break:break-all}
+.gsback{margin:10px 14px;display:inline-block}
+.gsempty{text-align:center;color:#999;font-size:13px;padding:30px 20px}
 </style>
 </head>
 <body>
@@ -185,6 +206,9 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
   <button class="tab" onclick="showTab('messages',this)">Messages</button>
   <button class="tab" onclick="showTab('notifs',this)">Notifs<span class="nb" id="nbN"></span></button>
 </div>
+<div class="gsbar"><div class="search"><i data-lucide="search"></i><input id="gsInput" placeholder="🔍 Recherche globale : nom, code, téléphone, email…" oninput="gsInput(this.value)"></div></div>
+<div id="gs" class="panel hidden"><div id="gsResults"></div></div>
+
 
 <div class="wrap">
   <div id="pano" class="panel"></div>
@@ -417,6 +441,10 @@ var FILT={vendeurs:'all',livreurs:'all',commandes:'all'};
 var SRCH={vendeurs:'',livreurs:'',commandes:'',reversements:'',budget:'',notifs:'',dels:''};
 var SEL={list:[],table:null};
 var CUR='vendeurs';
+var CUR=sessionStorage.getItem('st_admin_tab')||'vendeurs';
+function setCur(t){CUR=t;try{sessionStorage.setItem('st_admin_tab',t);}catch(e){}}
+document.addEventListener('visibilitychange',function(){if(!document.hidden&&typeof reloadData==='function'){reloadData();}});
+
 var PM_CHOICE='wave';
 
 /* â•â•â•â•â•â•â•â•â•â• ÉPINGLES (locales, par navigateur admin) â•â•â•â•â•â•â•â•â•â• */
@@ -625,7 +653,7 @@ function renderVendors(){
 
 /* â•â•â•â•â•â•â•â•â•â• LIVREURS â•â•â•â•â•â•â•â•â•â• */
 function renderDrivers(){
-  CUR='livreurs';
+  setCur('livreurs');
   var rows=DATA.drivers.filter(function(x){return FILT.livreurs==='all'||x.status===FILT.livreurs;}).filter(matchSrch);
   var h=toolsHtml('livreurs');
   if(!rows.length){$('livreurs').innerHTML=h+'<div class="empty">Aucun livreur dans ce filtre.</div>';lucide.createIcons();return;}
@@ -1062,25 +1090,97 @@ async function silentRefresh(){
   }catch(e){}
 }
 
-  /* â•â•â•â•â•â•â•â•â•â• SWIPE ENTRE ONGLETS â•â•â•â•â•â•â•â•â•â• */
-(function(){
-var ORDER=['pano','pilotage','stats','vendeurs','livreurs','commandes','reversements','compta','salaires','messages','notifs'];
-var sx=0,sy=0;
-document.addEventListener('touchstart',function(e){if(e.touches.length!==1)return;sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
-document.addEventListener('touchend',function(e){
-  if(!sx)return;
-  var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;sx=0;
-  if(Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*1.5)return;
-  if(e.target.closest('.tabs,textarea,input,select,.modal,.chk,.selbar,.paymethods'))return;
-  var cur=-1,i;
-  for(i=0;i<ORDER.length;i++){if(!$(ORDER[i]).classList.contains('hidden')){cur=i;break;}}
-  var nxt=cur+(dx<0?1:-1);
-  if(nxt<0||nxt>=ORDER.length)return;
-  var tabs=document.querySelectorAll('.tab');
-  showTab(ORDER[nxt],tabs[nxt]);
-  if(tabs[nxt])tabs[nxt].scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
-},{passive:true});
-})();
+  
+/* ==== RECHERCHE GLOBALE + DOSSIER 360 ==== */
+var GSQ='';
+function gsN(n){return (Number(n)||0).toLocaleString('fr-FR');}
+function gsInput(v){
+  GSQ=v;
+  if(v.trim().length>=2){
+    document.querySelectorAll('.panel').forEach(function(p){p.classList.add('hidden');});
+    $('gs').classList.remove('hidden');
+  }else{
+    $('gs').classList.add('hidden');
+    var t='pano';try{t=sessionStorage.getItem('st_admin_tab')||'pano';}catch(e){}
+    if($(t))showTab(t);
+  }
+  gsRender();
+}
+function gsMatch(x,q){
+  if(x==null)return false;
+  if(typeof x==='object'){var k;for(k in x){if(gsMatch(x[k],q))return true;}return false;}
+  return String(x).toLowerCase().indexOf(q)>-1;
+}
+function gsCollect(q){
+  var res=[];
+  function add(coll,type,ico,nameFn,subFn,kind){
+    (coll||[]).forEach(function(x){
+      if(gsMatch(x,q))res.push({type:type,ico:ico,name:nameFn(x),sub:subFn(x),obj:x,kind:kind});
+    });
+  }
+  add(DATA.vendors,'Vendeur','store',function(x){return x.shop_name||x.full_name||x.email||x.id;},function(x){return (x.email||'')+' \u00b7 '+(x.phone||'')+' \u00b7 '+(x.status||'');},'vendor');
+  add(DATA.drivers,'Livreur','bike',function(x){return x.full_name||x.email||x.id;},function(x){return (x.email||'')+' \u00b7 '+(x.phone||'')+' \u00b7 '+(x.zone||'');},'driver');
+  add(DATA.orders,'Commande','package',function(x){return x.id;},function(x){return gsN(x.total)+' F \u00b7 '+(x.status||'')+' \u00b7 '+(x.created_at||'').slice(0,10);},'order');
+  add(DATA.expenses,'D\u00e9pense','receipt',function(x){return x.label||x.id;},function(x){return gsN(x.amount)+' F \u00b7 '+(x.category||'');},'expense');
+  add(DATA.invoices,'Facture','file-text',function(x){return x.number||x.label||x.id;},function(x){return (x.supplier||'')+' \u00b7 '+gsN(x.amount)+' F \u00b7 '+(x.status||'');},'invoice');
+  add(DATA.salaries,'Salaire','wallet',function(x){return x.employee_name||x.id;},function(x){return (x.period||'')+' \u00b7 '+(x.status||'');},'salary');
+  add(DATA.payouts,'Reversement','banknote',function(x){return gsN(x.amount)+' F';},function(x){return (x.method||'')+' \u00b7 '+(x.status||'')+' \u00b7 '+(x.created_at||'').slice(0,10);},'payout');
+  add(DATA.dels,'Suppression','trash-2',function(x){return x.email||x.id;},function(x){return x.status||'';},'del');
+  return res;
+}
+function gsRender(){
+  var box=$('gsResults');if(!box)return;
+  var q=GSQ.trim().toLowerCase();
+  if(q.length<2){box.innerHTML='';return;}
+  var res=gsCollect(q);
+  if(!res.length){box.innerHTML='<div class="gsempty">Aucun dossier trouv\u00e9 pour \u00ab '+esc(GSQ)+' \u00bb</div>';return;}
+  var h='<div class="gsempty" style="padding:10px">'+res.length+' r\u00e9sultat(s) — touchez pour ouvrir le dossier complet</div>';
+  res.slice(0,100).forEach(function(r,i){
+    h+='<div class="gscard" onclick="gsOpen('+i+')"><div class="gico"><i data-lucide="'+r.ico+'"></i></div><div><div class="gt">'+r.type+'</div><div class="gn">'+esc(String(r.name))+'</div><div class="gs">'+esc(String(r.sub))+'</div></div></div>';
+  });
+  if(res.length>100)h+='<div class="gsempty">+ '+(res.length-100)+' autres — pr\u00e9cisez la recherche</div>';
+  box.innerHTML=h;
+  window.__gsRes=res;
+  if(window.lucide)lucide.createIcons();
+}
+function gsKV(label,val){if(val==null||val==='')return '';return '<div class="kv"><span>'+esc(label)+'</span><b>'+esc(String(val))+'</b></div>';}
+function gsOpen(i){
+  var r=window.__gsRes[i];if(!r)return;
+  var o=r.obj,box=$('gsResults');
+  var h='<button class="btn-outline gsback" onclick="gsRender()">\u2190 Retour aux r\u00e9sultats</button>';
+  h+='<div class="gsd"><h4>'+r.type+' — Dossier complet</h4>';
+  var k;for(k in o){if(o[k]!=null&&typeof o[k]!=='object')h+=gsKV(k,o[k]);}
+  h+='</div>';
+  /* tout ce que la personne a fait : liens crois\u00e9s email/t\u00e9l/id */
+  var keys=[o.email,o.phone,o.id,o.full_name,o.shop_name,o.employee_name].filter(Boolean);
+  function cross(coll,type,ico){
+    var hits=(coll||[]).filter(function(x){
+      return keys.some(function(key){return gsMatch(x,String(key).toLowerCase());}) && x!==o;
+    });
+    if(!hits.length)return '';
+    var s='<div class="gsd"><h4>'+type+' li\u00e9s ('+hits.length+')</h4>';
+    hits.slice(0,50).forEach(function(x){
+      var lbl=x.id||x.label||x.number||x.employee_name||x.email||'';
+      var extra=x.total?gsN(x.total)+' F':(x.amount?gsN(x.amount)+' F':(x.status||''));
+      s+='<div class="kv"><span>'+esc(String(lbl))+'</span><b>'+esc(String(extra))+'</b></div>';
+    });
+    return s+'</div>';
+  }
+  h+=cross(DATA.orders,'Commandes','package');
+  h+=cross(DATA.payouts,'Reversements','banknote');
+  h+=cross(DATA.invoices,'Factures','file-text');
+  h+=cross(DATA.expenses,'D\u00e9penses','receipt');
+  h+=cross(DATA.salaries,'Salaires','wallet');
+  h+=cross(DATA.dels,'Demandes de suppression','trash-2');
+  h+=cross(DATA.vendors,'Vendeurs','store');
+  h+=cross(DATA.drivers,'Livreurs','bike');
+  box.innerHTML=h;
+  if(window.lucide)lucide.createIcons();
+  window.scrollTo(0,0);
+}
+/* ==== FIN RECHERCHE GLOBALE ==== */
+
+/* swipe entre onglets DESACTIVE (trop sensible) */
 
 
 /* â•â•â•â•â•â•â•â•â•â• DOCS PRO V2 : signature direction + emails + reçus + avoirs â•â•â•â•â•â•â•â•â•â• */
@@ -1476,6 +1576,7 @@ async function updateBudgetBadge(){
 }
 /* showTab V3 (ajoute budget) */
 function showTab(id,btn){
+  try{sessionStorage.setItem('st_admin_tab',id);}catch(e){}
   selClear();closeModal();
   document.querySelectorAll('.panel').forEach(function(p){p.classList.add('hidden');});
   $(id).classList.remove('hidden');
@@ -1512,7 +1613,7 @@ async function loadPhotosIA(){
 var AI_PLAN_QUOTAS = {gratuit:0, silver:10, gold:50, platinum:-1};
 
 function renderPhotosIA(){
-  CUR='photosia';
+  setCur('photosia');
   var el=$('photosia');
   var month = new Date().toISOString().slice(0,7);
 
@@ -1556,7 +1657,7 @@ async function ensurePayroll(){
 }
 
 function renderPays(){
-  CUR='pays';
+  setCur('pays');
   var el=$('pays');
   ensurePayroll().then(function(){
     var codes = Object.keys(PAYROLL.configs);
@@ -1621,7 +1722,7 @@ async function savePaysEdit(code){
 }
 
 lucide.createIcons();
-loadAll().then(function(){renderPano();});
+loadAll().then(function(){var t='pano';try{t=sessionStorage.getItem('st_admin_tab')||'pano';}catch(e){}if(t&&t!=='pano'&&$(t)){var btn=null;document.querySelectorAll('.tab').forEach(function(b){var oc=b.getAttribute('onclick')||'';if(oc.indexOf("'"+t+"'")>-1)btn=b;});showTab(t,btn);}else{renderPano();}});
 silentRefresh();
 setInterval(silentRefresh,30000);
 </script>
