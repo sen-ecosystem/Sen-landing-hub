@@ -4,46 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Administration - SEN TEW</title>
-<script src="https://unpkg.com/lucide@latest">
-/* Anti swipe-back accidental (iOS) */
-document.addEventListener('touchstart',function(e){if(e.touches.length===1&&(e.touches[0].clientX<24||e.touches[0].clientX>window.innerWidth-24)){e.preventDefault();}},{passive:false});
-/* Unload guard while a form is dirty */
-window.__stDirty=false;
-document.addEventListener('input',function(e){if(e.target.closest&&e.target.closest('form,.sheet,#sheet'))window.__stDirty=true;},{passive:true});
-window.addEventListener('beforeunload',function(e){if(window.__stDirty){e.preventDefault();e.returnValue='';}});
-
-/* ══ PONT RPC SÉCURISÉ v2 (auto-complète les paramètres) ══ */
-function adminToken(){
-  try{var s=sessionStorage.getItem('sentew_admin')||localStorage.getItem('sentew_admin');
-       var o=JSON.parse(s);return (o&&o.token)||'';}catch(e){return '';}}
-/* signatures exactes des fonctions serveur */
-var RPC_PARAMS={'admin_list_expenses': ['p_token', 'p_limit'], 'admin_list_invoices': ['p_token', 'p_limit'], 'admin_list_salaries': ['p_token', 'p_limit'], 'admin_list_payouts': ['p_token', 'p_limit'], 'admin_list_budgets': ['p_token'], 'admin_list_echeances': ['p_token', 'p_limit'], 'admin_list_deletion_requests': ['p_token', 'p_limit'], 'admin_list_notifications': ['p_token', 'p_audience', 'p_limit'], 'admin_count_unread_notifs': ['p_token'], 'admin_list_kyc_documents': ['p_token', 'p_limit'], 'admin_set_status': ['p_token', 'p_table', 'p_id', 'p_status'], 'admin_notify': ['p_token', 'p_audience', 'p_user_email', 'p_type', 'p_title', 'p_message'], 'admin_mark_notif_read': ['p_token', 'p_id'], 'admin_refund_order': ['p_token', 'p_order_id'], 'admin_add_expense': ['p_token', 'p_label', 'p_category', 'p_amount', 'p_expense_date', 'p_note'], 'admin_delete_expense': ['p_token', 'p_id'], 'admin_add_invoice': ['p_token', 'p_number', 'p_supplier', 'p_label', 'p_type', 'p_amount', 'p_tax', 'p_invoice_date'], 'admin_pay_invoice': ['p_token', 'p_id'], 'admin_add_salary': ['p_token', 'p_employee_name', 'p_role', 'p_period', 'p_base_salary', 'p_bonuses', 'p_deductions', 'p_country', 'p_email'], 'admin_pay_salary': ['p_token', 'p_id'], 'admin_pay_vendor': ['p_token', 'p_vendor_id', 'p_amount', 'p_method', 'p_iban_or_phone'], 'admin_pay_driver': ['p_token', 'p_driver_id', 'p_amount', 'p_method', 'p_iban_or_phone'], 'admin_set_budget': ['p_token', 'p_category', 'p_monthly_limit'], 'admin_delete_budget': ['p_token', 'p_category'], 'admin_add_echeance': ['p_token', 'p_label', 'p_category', 'p_amount', 'p_due_date', 'p_recurring'], 'admin_pay_echeance': ['p_token', 'p_id'], 'admin_delete_echeance': ['p_token', 'p_id'], 'admin_set_deletion_status': ['p_token', 'p_id', 'p_status'], 'admin_kyc_decision': ['p_token', 'p_doc_id', 'p_status', 'p_rejection_reason', 'p_verified_by'], 'admin_kyc_decision_bulk': ['p_token', 'p_subject_type', 'p_subject_id', 'p_status', 'p_rejection_reason', 'p_verified_by'], 'admin_kyc_archive': ['p_token', 'p_subject_type', 'p_subject_id']};
-function rpc(fn,args){
-  args=args||{};args.p_token=adminToken();
-  /* auto-compléter les paramètres obligatoires manquants avec des valeurs sûres */
-  var need=RPC_PARAMS[fn]||[];
-  var today=new Date().toISOString().slice(0,10);
-  var defaults={p_limit:100,p_expense_date:today,p_invoice_date:today,p_note:'',p_audience:'all',p_user_email:null,p_type:'info',p_period:new Date().toISOString().slice(0,7),p_bonuses:0,p_deductions:0,p_country:'Sénégal',p_email:'',p_tax:0,p_category:'Divers',p_method:'wave',p_status:'paid'};
-  need.forEach(function(p){
-    if(p==='p_token')return;
-    if(args[p]===undefined||args[p]===null){ if(defaults[p]!==undefined)args[p]=defaults[p]; }
-  });
-  return fetch(SUPA+'/rest/v1/rpc/'+fn,{method:'POST',headers:Object.assign({},H,{'Content-Type':'application/json'}),body:JSON.stringify(args)})
-    .then(function(r){return r.json().catch(function(){return null;});})
-    .then(function(j){
-      if(j&&j.code){ console.error('RPC '+fn, j);
-        if(fn.indexOf('admin_list_')===0) return [];   /* lecture : jamais bloquante */
-        throw new Error(j.message||j.hint||'Erreur '+fn); /* ecriture : erreur visible */
-      }
-      if(j==null&&fn.indexOf('admin_list_')===0) return [];
-      return j;
-    }).catch(function(e){
-      if(fn.indexOf('admin_list_')===0){ console.error('RPC read '+fn,e); return []; }
-      throw e;
-    });
-}
-
-</script>
+<script src="https://unpkg.com/lucide@latest"></script>
 <script src="js/security-shield.js"></script>
 <script src="js/payroll-engine.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -285,6 +246,44 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
 <div class="toast" id="toast"></div>
 
 <script>
+/* Anti swipe-back accidental (iOS) */
+document.addEventListener('touchstart',function(e){if(e.touches.length===1&&(e.touches[0].clientX<24||e.touches[0].clientX>window.innerWidth-24)){e.preventDefault();}},{passive:false});
+/* Unload guard while a form is dirty */
+window.__stDirty=false;
+document.addEventListener('input',function(e){if(e.target.closest&&e.target.closest('form,.sheet,#sheet'))window.__stDirty=true;},{passive:true});
+window.addEventListener('beforeunload',function(e){if(window.__stDirty){e.preventDefault();e.returnValue='';}});
+
+/* ══ PONT RPC SÉCURISÉ v2 (auto-complète les paramètres) ══ */
+function adminToken(){
+  try{var s=sessionStorage.getItem('sentew_admin')||localStorage.getItem('sentew_admin');
+       var o=JSON.parse(s);return (o&&o.token)||'';}catch(e){return '';}}
+/* signatures exactes des fonctions serveur */
+var RPC_PARAMS={'admin_list_expenses': ['p_token', 'p_limit'], 'admin_list_invoices': ['p_token', 'p_limit'], 'admin_list_salaries': ['p_token', 'p_limit'], 'admin_list_payouts': ['p_token', 'p_limit'], 'admin_list_budgets': ['p_token'], 'admin_list_echeances': ['p_token', 'p_limit'], 'admin_list_deletion_requests': ['p_token', 'p_limit'], 'admin_list_notifications': ['p_token', 'p_audience', 'p_limit'], 'admin_count_unread_notifs': ['p_token'], 'admin_list_kyc_documents': ['p_token', 'p_limit'], 'admin_set_status': ['p_token', 'p_table', 'p_id', 'p_status'], 'admin_notify': ['p_token', 'p_audience', 'p_user_email', 'p_type', 'p_title', 'p_message'], 'admin_mark_notif_read': ['p_token', 'p_id'], 'admin_refund_order': ['p_token', 'p_order_id'], 'admin_add_expense': ['p_token', 'p_label', 'p_category', 'p_amount', 'p_expense_date', 'p_note'], 'admin_delete_expense': ['p_token', 'p_id'], 'admin_add_invoice': ['p_token', 'p_number', 'p_supplier', 'p_label', 'p_type', 'p_amount', 'p_tax', 'p_invoice_date'], 'admin_pay_invoice': ['p_token', 'p_id'], 'admin_add_salary': ['p_token', 'p_employee_name', 'p_role', 'p_period', 'p_base_salary', 'p_bonuses', 'p_deductions', 'p_country', 'p_email'], 'admin_pay_salary': ['p_token', 'p_id'], 'admin_pay_vendor': ['p_token', 'p_vendor_id', 'p_amount', 'p_method', 'p_iban_or_phone'], 'admin_pay_driver': ['p_token', 'p_driver_id', 'p_amount', 'p_method', 'p_iban_or_phone'], 'admin_set_budget': ['p_token', 'p_category', 'p_monthly_limit'], 'admin_delete_budget': ['p_token', 'p_category'], 'admin_add_echeance': ['p_token', 'p_label', 'p_category', 'p_amount', 'p_due_date', 'p_recurring'], 'admin_pay_echeance': ['p_token', 'p_id'], 'admin_delete_echeance': ['p_token', 'p_id'], 'admin_set_deletion_status': ['p_token', 'p_id', 'p_status'], 'admin_kyc_decision': ['p_token', 'p_doc_id', 'p_status', 'p_rejection_reason', 'p_verified_by'], 'admin_kyc_decision_bulk': ['p_token', 'p_subject_type', 'p_subject_id', 'p_status', 'p_rejection_reason', 'p_verified_by'], 'admin_kyc_archive': ['p_token', 'p_subject_type', 'p_subject_id']};
+function rpc(fn,args){
+  args=args||{};args.p_token=adminToken();
+  /* auto-compléter les paramètres obligatoires manquants avec des valeurs sûres */
+  var need=RPC_PARAMS[fn]||[];
+  var today=new Date().toISOString().slice(0,10);
+  var defaults={p_limit:100,p_expense_date:today,p_invoice_date:today,p_note:'',p_audience:'all',p_user_email:null,p_type:'info',p_period:new Date().toISOString().slice(0,7),p_bonuses:0,p_deductions:0,p_country:'Sénégal',p_email:'',p_tax:0,p_category:'Divers',p_method:'wave',p_status:'paid'};
+  need.forEach(function(p){
+    if(p==='p_token')return;
+    if(args[p]===undefined||args[p]===null){ if(defaults[p]!==undefined)args[p]=defaults[p]; }
+  });
+  return fetch(SUPA+'/rest/v1/rpc/'+fn,{method:'POST',headers:Object.assign({},H,{'Content-Type':'application/json'}),body:JSON.stringify(args)})
+    .then(function(r){return r.json().catch(function(){return null;});})
+    .then(function(j){
+      if(j&&j.code){ console.error('RPC '+fn, j);
+        if(fn.indexOf('admin_list_')===0) return [];   /* lecture : jamais bloquante */
+        throw new Error(j.message||j.hint||'Erreur '+fn); /* ecriture : erreur visible */
+      }
+      if(j==null&&fn.indexOf('admin_list_')===0) return [];
+      return j;
+    }).catch(function(e){
+      if(fn.indexOf('admin_list_')===0){ console.error('RPC read '+fn,e); return []; }
+      throw e;
+    });
+}
+
 /* â•â•â•â•â•â•â•â•â•â• CONFIG â•â•â•â•â•â•â•â•â•â• */
 var SUPA='https://tjqkruhwmjzgfvtouqza.supabase.co';
 var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
