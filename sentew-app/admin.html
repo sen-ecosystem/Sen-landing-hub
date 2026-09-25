@@ -548,11 +548,11 @@ async function loadAll(){
   DATA.vendors=await api('vendors','?select=*&order=created_at.desc');
   DATA.drivers=await api('drivers','?select=*&order=created_at.desc');
   DATA.orders=await api('orders','?select=*&order=created_at.desc&limit=300');
-  DATA.expenses=await api('expenses','?select=*&order=expense_date.desc&limit=100');
-  DATA.payouts=await api('payouts','?select=*&order=created_at.desc&limit=50');
-  DATA.salaries=await api('salaries','?select=*&order=created_at.desc&limit=100');
-  DATA.invoices=await api('invoices','?select=*&order=created_at.desc&limit=100');
-  DATA.dels=await api('deletion_requests','?select=*&order=created_at.desc&limit=50');
+  DATA.expenses=await rpc('admin_list_expenses',{p_limit:100})||[];
+  DATA.payouts=await rpc('admin_list_payouts',{p_limit:50})||[];
+  DATA.salaries=await rpc('admin_list_salaries',{p_limit:100})||[];
+  DATA.invoices=await rpc('admin_list_invoices',{p_limit:100})||[];
+  DATA.dels=await rpc('admin_list_deletion_requests',{p_limit:50})||[];
   await loadPhotosIA();
   loadPilotage();
   if(!$('pano').classList.contains('hidden'))renderPano();
@@ -612,7 +612,7 @@ function loadPilotage(){
   DATA.dels.filter(function(x){return x.status==='pending';}).forEach(function(x){html+='<div class="card2"><div class="row"><div><div class="nm">🗑️ '+esc(x.user_email||'')+'</div><div class="meta">Suppression de compte · '+(x.reason?esc(x.reason)+' · ':'')+fmtDate(x.created_at)+'</div></div><span class="pill rejected">Churn</span></div><div class="actions"><button class="abtn blue" onclick="setDel(\''+x.id+'\',\'contacted\')"><i data-lucide="phone"></i>Contacté</button><button class="abtn danger" onclick="setDel(\''+x.id+'\',\'deleted\')"><i data-lucide="trash-2"></i>Compte supprimé</button></div></div>';});
   $('priorityList').innerHTML=html||'<div class="empty">✅ Aucune demande en attente. Tout est à jour !</div>';
 }
-async function setDel(id,st){await api('deletion_requests','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:st})});toast('Demande mise à jour ✅');DATA.dels=await api('deletion_requests','?select=*&order=created_at.desc&limit=50');loadPilotage();}
+async function setDel(id,st){await rpc('admin_set_deletion_status',{p_id:id,p_status:st});toast('Demande mise à jour ✅');DATA.dels=await rpc('admin_list_deletion_requests',{p_limit:50})||[];loadPilotage();}
 
 /* â•â•â•â•â•â•â•â•â•â• STATISTIQUES â•â•â•â•â•â•â•â•â•â• */
 function renderStats(){
@@ -848,17 +848,17 @@ function renderCompta(){
 async function addExpense(){
   var l=$('exLabel').value.trim(),c=$('exCat').value,a=parseFloat($('exAmount').value)||0;
   if(!l||!a){toast('Libellé et montant requis');return;}
-  await api('expenses','',{method:'POST',body:JSON.stringify({label:l,category:c,amount:a})});
+  await rpc('admin_add_expense',{p_label:l,p_category:c,p_amount:a});
   toast('Dépense enregistrée ✅');
-  DATA.expenses=await api('expenses','?select=*&order=expense_date.desc&limit=100');
+  DATA.expenses=await rpc('admin_list_expenses',{p_limit:100})||[];
   renderCompta();
 }
 async function addInvoice(){
   var n=$('invNum').value.trim(),s=$('invSup').value.trim(),l=$('invLbl').value.trim(),t=$('invType').value,a=parseFloat($('invAmt').value)||0,tax=parseFloat($('invTax').value)||0;
   if(!n||!a){toast('N° de facture et montant requis');return;}
-  await api('invoices','',{method:'POST',body:JSON.stringify({number:n,supplier:s,label:l,type:t,amount:a,tax:tax})});
+  await rpc('admin_add_invoice',{p_number:n,p_supplier:s,p_label:l,p_type:t,p_amount:a,p_tax:tax});
   toast('Facture enregistrée ✅');
-  DATA.invoices=await api('invoices','?select=*&order=created_at.desc&limit=100');
+  DATA.invoices=await rpc('admin_list_invoices',{p_limit:100})||[];
   renderCompta();
 }
 function exportCompta(){
@@ -942,20 +942,19 @@ async function addSalary(){
   if(!n||!base){toast('Nom et salaire de base requis');return;}
   var body={employee_name:n,role:r,period:p,base_salary:base,bonuses:bonus,deductions:ded,country:country};
   if(em)body.email=em;
-  var resp=await api('salaries','',{method:'POST',body:JSON.stringify(body)});
-  if(resp&&!resp.ok&&body.email){delete body.email;resp=await api('salaries','',{method:'POST',body:JSON.stringify(body)});}
+  await rpc('admin_add_salary',{p_employee_name:n,p_role:r,p_period:p,p_base_salary:base,p_bonuses:bonus,p_deductions:ded,p_country:country,p_email:em||''});
   toast('Bulletin créé ✅');
-  DATA.salaries=await api('salaries','?select=*&order=created_at.desc&limit=100');
+  DATA.salaries=await rpc('admin_list_salaries',{p_limit:100})||[];
   var created=DATA.salaries.find(function(x){return x.employee_name===n&&x.period===p;});
   if(created&&em)LAST_SAL_EMAIL[created.id]=em;
   renderSalaries();
 }
 async function paySalary(id){
-  await api('salaries','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:'paid'})});
+  await rpc('admin_pay_salary',{p_id:id});
   var s=DATA.salaries.find(function(x){return String(x.id)===String(id);});
   if(s){var b=calcBulletinPan(s.country||'SN', s.base_salary,s.bonuses,s.deductions);
     sendDocEmail(s.email||LAST_SAL_EMAIL[id]||'','Votre salaire a été versé 💼','Bonjour '+s.employee_name+',\n\nVotre salaire net de '+fmtN(b.net)+' '+b.currency+' ('+(s.period||'')+') a été versé.\nVotre bulletin PDF signé par la direction vous est remis par l\u2019administration.\n\nSEN TEW SUARL');}
-  toast('Salaire marqué payé ✅');DATA.salaries=await api('salaries','?select=*&order=created_at.desc&limit=100');renderSalaries();
+  toast('Salaire marqué payé ✅');DATA.salaries=await rpc('admin_list_salaries',{p_limit:100})||[];renderSalaries();
 }
 function dlBulletin(id){
   var s=DATA.salaries.find(function(x){return String(x.id)===String(id);});if(!s)return;
@@ -1109,7 +1108,7 @@ async function silentRefresh(){
     var d=await api('drivers','?status=eq.pending&select=id');setBadge('nbL',d.length);
     if(!$('pano').classList.contains('hidden')){
       PANO_T++;
-      if(PANO_T>=1){PANO_T=0;DATA.orders=await api('orders','?select=*&order=created_at.desc&limit=300');DATA.vendors=await api('vendors','?select=*&order=created_at.desc');DATA.drivers=await api('drivers','?select=*&order=created_at.desc');DATA.dels=await api('deletion_requests','?select=*&order=created_at.desc&limit=50');renderPano();}
+      if(PANO_T>=1){PANO_T=0;DATA.orders=await api('orders','?select=*&order=created_at.desc&limit=300');DATA.vendors=await api('vendors','?select=*&order=created_at.desc');DATA.drivers=await api('drivers','?select=*&order=created_at.desc');DATA.dels=await rpc('admin_list_deletion_requests',{p_limit:50})||[];renderPano();}
     }
   }catch(e){}
 }
@@ -1376,7 +1375,7 @@ async function payDriver(id){
   if(!amt){toast('Saisis le montant à payer');return;}
   var mLbl=PAY_METHODS.find(function(m){return m.id===PM_CHOICE;}).lbl;
   if(!confirm('Payer '+fmtN(amt)+' F à '+(d.full_name||'ce livreur')+' via '+mLbl+' ?'))return;
-  await api('payouts','',{method:'POST',body:JSON.stringify({recipient_type:'driver',recipient_email:d.email||'',recipient_name:d.full_name||'Livreur',amount:amt,method:mLbl,status:'paid',paid_at:new Date().toISOString(),recipient_country:d.country||'SN'})});
+  await rpc('admin_pay_driver',{p_driver_id:d.id,p_amount:amt,p_method:mLbl,p_iban_or_phone:''});
   var lang=countryLang(d.country||'SN');
   var fl=fmtLocal(amt,d.country||'SN');
   var msg=lang==='en'?('Your payment of '+fl+' has been made via '+mLbl+'. Thank you for your deliveries!'):('Votre paiement de '+fl+' a été effectué via '+mLbl+'. Merci pour vos livraisons !');
@@ -1384,7 +1383,7 @@ async function payDriver(id){
   await notify(d.email,title,msg);
   sendDocEmail(d.email,lang==='en'?'Your payment receipt SEN TEW':'Votre reçu de paiement SEN TEW',lang==='en'?('Amount paid: '+fl+' via '+mLbl+'.\nThe PDF receipt signed by management serves as proof of payment.'):('Montant versé : '+fl+' via '+mLbl+'.\nLe reçu PDF signé par la direction fait foi de paiement.'));
   toast('Livreur payé ✅');
-  DATA.payouts=await api('payouts','?select=*&order=created_at.desc&limit=50');
+  DATA.payouts=await rpc('admin_list_payouts',{p_limit:50})||[];
   renderPayouts();
 }
 async function payNow(vendorId,email,name,amount,country){
@@ -1396,7 +1395,7 @@ async function payNow(vendorId,email,name,amount,country){
     if(!bankInfo){toast(' Saisis le n° de compte bancaire');return;}
   }
   if(!confirm('Payer '+fmtN(amount)+' F à '+name+' via '+mLbl+(bankInfo?' ('+bankInfo+')':'')+' ?'))return;
-  await api('payouts','',{method:'POST',body:JSON.stringify({recipient_type:'vendor',recipient_email:email,recipient_name:name,amount:amount,method:mLbl+(bankInfo?' · '+bankInfo:''),status:'paid',paid_at:new Date().toISOString(),recipient_country:country||'SN'})});
+  await rpc('admin_pay_vendor',{p_vendor_id:vendorId,p_amount:amount,p_method:mLbl,p_iban_or_phone:bankInfo||''});
   await api('vendors','?id=eq.'+vendorId,{method:'PATCH',body:JSON.stringify({pending_balance:0})});
   var lang=countryLang(country||'SN');
   var fl=fmtLocal(amount,country||'SN');
@@ -1408,11 +1407,11 @@ async function payNow(vendorId,email,name,amount,country){
 }
 
 async function payInvoice(id){
-  await api('invoices','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:'paid'})});
+  await rpc('admin_pay_invoice',{p_id:id});
   var f=DATA.invoices.find(function(v){return String(v.id)===String(id);});
   if(f&&f.supplier&&String(f.supplier).indexOf('@')>-1){var ttc=(f.amount||0)+(f.tax||0);
     sendDocEmail(f.supplier,'Reçu de paiement - Facture '+(f.number||''),'SEN TEW SUARL a réglé votre facture '+(f.number||'')+' d\u2019un montant de '+fmtN(ttc)+' FCFA.\nLe reçu PDF signé par la direction fait foi de paiement.');}
-  toast('Facture soldée ✅');DATA.invoices=await api('invoices','?select=*&order=created_at.desc&limit=100');renderCompta();
+  toast('Facture soldée ✅');DATA.invoices=await rpc('admin_list_invoices',{p_limit:100})||[];renderCompta();
 }
 
 function exportComptaPDF(){
@@ -1505,8 +1504,8 @@ function echeanceAlert(e){
 async function renderBudget(){
   var el=$('budget');
   el.innerHTML='<div class="loading">Chargement…</div>';
-  try{DATA.echeances=await api('echeances','?select=*&order=due_date.asc&limit=200');}catch(e){DATA.echeances=DATA.echeances||[];}
-  try{DATA.budgets=await api('budgets','?select=*');}catch(e){DATA.budgets=DATA.budgets||[];}
+  try{DATA.echeances=await rpc('admin_list_echeances',{p_limit:200})||[];}catch(e){DATA.echeances=DATA.echeances||[];}
+  try{DATA.budgets=await rpc('admin_list_budgets',{p_limit:100})||[];}catch(e){DATA.budgets=DATA.budgets||[];}
   var month=new Date().toISOString().slice(0,7);
   var spent={};
   (DATA.expenses||[]).forEach(function(x){var m=String(x.expense_date||x.created_at||'').slice(0,7);if(m===month)spent[x.category||'general']=(spent[x.category||'general']||0)+(x.amount||0);});
@@ -1550,38 +1549,37 @@ async function setBudget(cat,current){
   if(v===null)return;
   var amt=parseFloat(v)||0;
   var ex=DATA.budgets.find(function(b){return b.category===cat;});
-  if(ex)await api('budgets','?id=eq.'+ex.id,{method:'PATCH',body:JSON.stringify({monthly_limit:amt})});
-  else await api('budgets','',{method:'POST',body:JSON.stringify({category:cat,monthly_limit:amt})});
+  await rpc('admin_set_budget',{p_category:cat,p_monthly_limit:amt});
   toast('Budget enregistré ✅');renderBudget();
 }
 async function delBudget(cat){
   if(!confirm('Supprimer la limite '+catLabel(cat)+' ?'))return;
-  await api('budgets','?category=eq.'+cat,{method:'DELETE'});
+  await rpc('admin_delete_budget',{p_category:cat});
   toast('Limite supprimée');renderBudget();
 }
 async function addEcheance(){
   var l=$('echLabel').value.trim(),c=$('echCat').value,a=parseFloat($('echAmount').value)||0,d=$('echDate').value,r=$('echRec').value;
   if(!l||!a||!d){toast('Libellé, montant et date requis');return;}
-  await api('echeances','',{method:'POST',body:JSON.stringify({label:l,category:c,amount:a,due_date:d,recurring:r})});
+  await rpc('admin_add_echeance',{p_label:l,p_category:c,p_amount:a,p_due_date:d,p_recurring:r});
   toast('Échéance ajoutée ✅');renderBudget();
 }
 async function payEcheance(id){
   var e=DATA.echeances.find(function(x){return String(x.id)===String(id);});if(!e)return;
   if(!confirm('Marquer « '+e.label+' » payée ('+fmtN(e.amount)+' F) ?\n→ une dépense sera créée automatiquement en comptabilité.'))return;
-  await api('echeances','?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:'paid'})});
-  await api('expenses','',{method:'POST',body:JSON.stringify({label:e.label,category:e.category||'general',amount:e.amount,expense_date:new Date().toISOString().slice(0,10)})});
+  await rpc('admin_pay_echeance',{p_id:id});
+  await rpc('admin_add_expense',{p_label:e.label,p_category:e.category||'general',p_amount:e.amount});
   if(e.recurring==='mensuelle'||e.recurring==='annuelle'){
     var d=new Date(e.due_date);
     if(e.recurring==='mensuelle')d.setMonth(d.getMonth()+1);else d.setFullYear(d.getFullYear()+1);
-    await api('echeances','',{method:'POST',body:JSON.stringify({label:e.label,category:e.category,amount:e.amount,due_date:d.toISOString().slice(0,10),recurring:e.recurring})});
+    await rpc('admin_add_echeance',{p_label:e.label,p_category:e.category,p_amount:e.amount,p_due_date:d.toISOString().slice(0,10),p_recurring:e.recurring});
     toast('Payée ✅ + prochaine échéance créée ('+d.toISOString().slice(0,10)+')');
   }else{toast('Payée ✅ dépense créée en compta');}
-  DATA.expenses=await api('expenses','?select=*&order=expense_date.desc&limit=100');
+  DATA.expenses=await rpc('admin_list_expenses',{p_limit:100})||[];
   renderBudget();
 }
 async function delEcheance(id){
   if(!confirm('Supprimer cette échéance ?'))return;
-  await api('echeances','?id=eq.'+id,{method:'DELETE'});
+  await rpc('admin_delete_echeance',{p_id:id});
   toast('Échéance supprimée');renderBudget();
 }
 function exportBudgetCSV(){
