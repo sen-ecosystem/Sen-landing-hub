@@ -4,7 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Administration - SEN TEW</title>
-<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://unpkg.com/lucide@latest">
+/* AUTO-DIAGNOSTIC visible (une fois au chargement) */
+window.addEventListener('load',function(){setTimeout(async function(){
+  var bar=document.getElementById('diagBar');if(!bar)return;
+  try{
+    var r=await rpc('admin_list_salaries',{p_limit:100});
+    var n=Array.isArray(r)?r.length:-1;
+    bar.style.display='block';
+    bar.style.background='#e8f5ef';bar.style.color='#0f6b4e';
+    bar.textContent='✅ v6 active · RPC OK · '+n+' bulletin(s) lisible(s)';
+    setTimeout(function(){bar.style.display='none';},8000);
+  }catch(e){
+    bar.style.display='block';
+    bar.textContent='❌ v6 active mais RPC refuse : '+(e&&e.message?e.message:e)+' — reconnectez-vous';
+  }
+},1500);});
+
+</script>
 <script src="js/security-shield.js"></script>
 <script src="js/payroll-engine.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -175,7 +192,7 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
 <body>
 
 <div class="topbar">
-  <h1><i data-lucide="shield"></i>SEN TEW Admin</h1>
+  <h1><i data-lucide="shield"></i>SEN TEW Admin <span style="font-size:10px;background:#e8c468;color:#0a1f17;padding:2px 7px;border-radius:10px;vertical-align:middle">v6</span></h1>
   <div class="top-actions">
     <button class="icobtn" onclick="silentRefresh();toast('Actualisé ✅')"><i data-lucide="refresh-cw"></i></button>
     <button class="icobtn" onclick="logout()"><i data-lucide="log-out"></i></button>
@@ -200,6 +217,9 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
 </div>
 <div class="gsbar"><div class="search"><i data-lucide="search"></i><input id="gsInput" placeholder="🔍 Recherche globale : nom, code, téléphone, email…" oninput="gsInput(this.value)"></div></div>
 <div id="gs" class="panel hidden"><div id="gsResults"></div></div>
+
+<div id="diagBar" style="margin:4px 14px 0;font-size:11px;font-weight:700;padding:8px 12px;border-radius:10px;background:#fff8e6;color:#8a6100;display:none"></div>
+
 
 
 <div class="wrap">
