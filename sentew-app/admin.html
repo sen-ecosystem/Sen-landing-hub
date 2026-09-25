@@ -31,8 +31,15 @@ function rpc(fn,args){
   return fetch(SUPA+'/rest/v1/rpc/'+fn,{method:'POST',headers:Object.assign({},H,{'Content-Type':'application/json'}),body:JSON.stringify(args)})
     .then(function(r){return r.json().catch(function(){return null;});})
     .then(function(j){
-      if(j&&j.code){ console.error('RPC '+fn, j); throw new Error(j.message||j.hint||'Erreur '+fn); }
+      if(j&&j.code){ console.error('RPC '+fn, j);
+        if(fn.indexOf('admin_list_')===0) return [];   /* lecture : jamais bloquante */
+        throw new Error(j.message||j.hint||'Erreur '+fn); /* ecriture : erreur visible */
+      }
+      if(j==null&&fn.indexOf('admin_list_')===0) return [];
       return j;
+    }).catch(function(e){
+      if(fn.indexOf('admin_list_')===0){ console.error('RPC read '+fn,e); return []; }
+      throw e;
     });
 }
 
@@ -548,11 +555,11 @@ async function loadAll(){
   DATA.vendors=await api('vendors','?select=*&order=created_at.desc');
   DATA.drivers=await api('drivers','?select=*&order=created_at.desc');
   DATA.orders=await api('orders','?select=*&order=created_at.desc&limit=300');
-  DATA.expenses=await rpc('admin_list_expenses',{p_limit:100})||[];
-  DATA.payouts=await rpc('admin_list_payouts',{p_limit:50})||[];
-  DATA.salaries=await rpc('admin_list_salaries',{p_limit:100})||[];
-  DATA.invoices=await rpc('admin_list_invoices',{p_limit:100})||[];
-  DATA.dels=await rpc('admin_list_deletion_requests',{p_limit:50})||[];
+  try{DATA.expenses=await rpc('admin_list_expenses',{p_limit:100})||[];}catch(e){console.error(e);}
+  try{DATA.payouts=await rpc('admin_list_payouts',{p_limit:50})||[];}catch(e){console.error(e);}
+  try{DATA.salaries=await rpc('admin_list_salaries',{p_limit:100})||[];}catch(e){console.error(e);}
+  try{DATA.invoices=await rpc('admin_list_invoices',{p_limit:100})||[];}catch(e){console.error(e);}
+  try{DATA.dels=await rpc('admin_list_deletion_requests',{p_limit:50})||[];}catch(e){console.error(e);}
   await loadPhotosIA();
   loadPilotage();
   if(!$('pano').classList.contains('hidden'))renderPano();
