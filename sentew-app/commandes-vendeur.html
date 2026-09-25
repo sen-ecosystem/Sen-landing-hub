@@ -76,6 +76,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .bottom-nav a.active{color:#0f6b4e}
 .bottom-nav a svg{width:22px;height:22px}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
 
@@ -256,6 +257,33 @@ window.addEventListener('load', renderIcons);
 setTimeout(renderIcons, 600);
 </script>
 <script src="js/dark-mode.js"></script>
-   <script src="js/i18n.js"></script>
+
+<script>
+function printLabel(id,address,items,pickup){
+  var w=window.open('','_blank');
+  var h='<html><head><title>Etiquette '+id+'</title><style>'+
+  'body{font-family:Arial,sans-serif;margin:0;padding:18px;width:100mm}'+
+  '.lbl{border:2px solid #0f6b4e;border-radius:10px;padding:14px}'+
+  '.logo{font-size:17px;font-weight:900;color:#0f6b4e}'+
+  '.num{font-size:20px;font-weight:900;margin:8px 0;letter-spacing:1px}'+
+  '.row{font-size:12px;margin:4px 0;color:#333}'+
+  '.qr{text-align:center;margin:10px 0}'+
+  '.code{background:#f0f7f4;padding:8px;border-radius:6px;font-size:16px;font-weight:800;text-align:center;letter-spacing:2px}'+
+  '.foot{font-size:9px;color:#999;margin-top:10px;text-align:center}'+
+  '</style></head><body><div class="lbl">'+
+  '<div class="logo">SEN TEW SUARL</div>'+
+  '<div class="num">'+id+'</div>'+
+  '<div class="row">Adresse : '+(address||'')+'</div>'+
+  '<div class="row">Contenu : '+(items||'')+'</div>'+
+  '<div class="qr" id="qrc"></div>'+
+  '<div class="code">CODE RETRAIT : '+(pickup||'')+'</div>'+
+  '<div class="foot">RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - sen-ecosystem.com</div>'+
+  '</div>'+
+  '<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script>'+
+  '<script>new QRCode(document.getElementById("qrc"),{text:"SENTEW:"+id+":"+(pickup||""),width:110,height:110});setTimeout(function(){window.print();},700);<\/script>'+
+  '</body></html>';
+  w.document.write(h);w.document.close();
+}
+</script>
 </body>
 </html>
