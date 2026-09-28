@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Administration - SEN TEW</title>
-<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://unpkg.com/lucide@latest">
+</script>
 <script src="js/security-shield.js"></script>
 <script src="js/payroll-engine.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -175,7 +176,7 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
 <body>
 
 <div class="topbar">
-  <h1><i data-lucide="shield"></i>SEN TEW Admin</h1>
+  <h1><i data-lucide="shield"></i>SEN TEW Admin <span style="font-size:10px;background:#e8c468;color:#0a1f17;padding:2px 7px;border-radius:10px;vertical-align:middle">v6</span></h1>
   <div class="top-actions">
     <button class="icobtn" onclick="silentRefresh();toast('Actualisé ✅')"><i data-lucide="refresh-cw"></i></button>
     <button class="icobtn" onclick="logout()"><i data-lucide="log-out"></i></button>
@@ -200,6 +201,9 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
 </div>
 <div class="gsbar"><div class="search"><i data-lucide="search"></i><input id="gsInput" placeholder="🔍 Recherche globale : nom, code, téléphone, email…" oninput="gsInput(this.value)"></div></div>
 <div id="gs" class="panel hidden"><div id="gsResults"></div></div>
+
+<div id="diagBar" style="margin:4px 14px 0;font-size:11px;font-weight:700;padding:8px 12px;border-radius:10px;background:#fff8e6;color:#8a6100;display:none"></div>
+
 
 
 <div class="wrap">
@@ -246,6 +250,172 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
 <div class="toast" id="toast"></div>
 
 <script>
+
+/* ══ SYSTÈME FISCAL SEN TEW SUARL — automatique, filtrable, détaillé ══ */
+var FISCAL=[
+ {id:'tva',cat:'Mensuel',taxe:'TVA',action:'Déclaration + paiement',base:'Chiffre d\u2019affaires encaissé du mois',date:'MENSUEL:15',canal:'ETAX (dgid.sn/sentax) ou MAX IT (Orange)',note:'Avant le 15 du mois suivant. Déclarer d\u2019abord sur ETAX, payer ensuite avec la référence.',src:'Me Diouf 28/09/2026 + dgid.sn'},
+ {id:'brs',cat:'Mensuel',taxe:'BRS',action:'Déclaration + reversement',base:'Retenues à la source du mois',date:'MENSUEL:15',canal:'ETAX ou MAX IT',note:'Même échéance que la TVA. Même canal.',src:'Me Diouf 28/09/2026'},
+ {id:'celvl',cat:'Annuel',taxe:'CEL-VL',action:'Déclaration',base:'Valeur locative des locaux',date:'2027-01-31',canal:'Avis d\u2019imposition (paiement à réception) via ETAX/MAX IT',note:'Paiement UNIQUEMENT après réception de l\u2019avis d\u2019imposition.',src:'Me Diouf 28/09/2026'},
+ {id:'ir1',cat:'Annuel',taxe:'IR',action:'1er acompte',base:'Bénéfice N (estimation)',date:'2027-02-15',canal:'ETAX',note:'Impôt sur les revenus, 1er acompte.',src:'Me Diouf 28/09/2026'},
+ {id:'ir2',cat:'Annuel',taxe:'IR',action:'2e acompte + Déclaration des résultats',base:'Résultat N',date:'2027-04-30',canal:'ETAX',note:'Même date limite pour les 2 obligations.',src:'Me Diouf 28/09/2026'},
+ {id:'irsolde',cat:'Annuel',taxe:'IR',action:'Paiement du solde',base:'Solde IR après acomptes',date:'2027-06-15',canal:'ETAX',note:'Solde de l\u2019impôt sur les revenus.',src:'Me Diouf 28/09/2026'},
+ {id:'celva',cat:'Annuel',taxe:'CEL-VA',action:'Déclaration (30/04) + Paiement (31/07)',base:'Valeur ajoutée',date:'2027-07-31',canal:'Avis d\u2019imposition via ETAX/MAX IT',note:'Déclaration au 30 avril (avec IR), paiement au plus tard 31 juillet.',src:'Me Diouf 28/09/2026'}
+];
+var FISCAL_STATUT=['A venir','Déclaré','Payé','En retard'];
+function fiscalGetDone(){try{return JSON.parse(localStorage.getItem('st_fiscal_done')||'{}');}catch(e){return{};}}
+function fiscalSetDone(id,yr,st){var d=fiscalGetDone();d[id+'_'+yr]=st;try{localStorage.setItem('st_fiscal_done',JSON.stringify(d));}catch(e){}}
+function fiscalNext(f){
+  var now=new Date();
+  if(f.date.indexOf('MENSUEL:')===0){
+    var day=parseInt(f.date.split(':')[1],10);
+    var d=new Date(now.getFullYear(),now.getMonth(),day);
+    if(d<now)d=new Date(now.getFullYear(),now.getMonth()+1,day);
+    return d;
+  }
+  return new Date(f.date+'T23:59:59');
+}
+function fiscalStatus(f){
+  var now=new Date(),d=fiscalNext(f);
+  var yr=d.getFullYear(), key=f.id+'_'+(f.date.indexOf('MENSUEL:')===0?(d.getFullYear()+'-'+(d.getMonth()+1)):yr);
+  var done=fiscalGetDone()[key];
+  if(done)return {st:done,days:Math.ceil((d-now)/86400000),key:key};
+  var days=Math.ceil((d-now)/86400000);
+  return {st:days<0?'En retard':'A venir',days:days,key:key};
+}
+
+/* ══ REGISTRE FISCAL : historique permanent + exports PDF/CSV ══ */
+function fiscalLog(taxe,action,montant,periode){
+  try{
+    var log=JSON.parse(localStorage.getItem('st_fiscal_log')||'[]');
+    log.unshift({t:new Date().toISOString(),taxe:taxe,action:action,montant:montant||'',periode:periode||''});
+    localStorage.setItem('st_fiscal_log',JSON.stringify(log.slice(0,300)));
+  }catch(e){}
+}
+function fiscalExportCSV(){
+  var done=fiscalGetDone();
+  var rows=[['Taxe','Action','Categorie','Echeance','Statut','Jours restants','Canal de paiement','Source']];
+  FISCAL.forEach(function(f){
+    var s=fiscalStatus(f),d=fiscalNext(f);
+    var dateLbl=f.date.indexOf('MENSUEL:')===0?'Le 15 de chaque mois':d.toLocaleDateString('fr-FR');
+    rows.push([f.taxe,f.action,f.cat,dateLbl,s.st,s.days,f.canal,f.src]);
+  });
+  dlCSV('sentew-fiscalite-'+new Date().toISOString().slice(0,10)+'.csv',rows);
+  fiscalLog('EXPORT','CSV fiscalite telecharge','','');
+}
+function fiscalRegistreCSV(){
+  var log=JSON.parse(localStorage.getItem('st_fiscal_log')||'[]');
+  if(!log.length){toast('Registre vide — aucun paiement enregistre');return;}
+  var rows=[['Date','Taxe','Action','Montant','Periode']];
+  log.forEach(function(x){rows.push([new Date(x.t).toLocaleString('fr-FR'),x.taxe,x.action,x.montant,x.periode]);});
+  dlCSV('sentew-registre-fiscal-'+new Date().toISOString().slice(0,10)+'.csv',rows);
+}
+function fiscalPDF(){
+  if(!window.jspdf){toast('Chargement du module PDF…');return;}
+  var doc=new window.jspdf.jsPDF();
+  var W=210,M=14,y=0;
+  /* entete emeraude stamp SEN TEW */
+  doc.setFillColor(15,107,78);doc.rect(0,0,W,30,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(16);doc.setFont(undefined,'bold');
+  doc.text('SEN TEW SUARL — Etat fiscal',M,12);
+  doc.setFontSize(9);doc.setFont(undefined,'normal');
+  doc.text('RCCM SN.DKR.2026.B.35565  ·  NINEA 013373303  ·  Sacre Coeur 3, Villa 9947, Dakar',M,19);
+  doc.text('Document genere le '+new Date().toLocaleDateString('fr-FR')+' — Statut : non-demarrage en depot (Clic Droit Afrique)',M,24);
+  y=38;doc.setTextColor(20,20,20);
+  /* tableau des obligations */
+  doc.setFontSize(11);doc.setFont(undefined,'bold');doc.text('Obligations fiscales',M,y);y+=7;
+  FISCAL.forEach(function(f){
+    var s=fiscalStatus(f),d=fiscalNext(f);
+    var dateLbl=f.date.indexOf('MENSUEL:')===0?'Le 15 de chaque mois':d.toLocaleDateString('fr-FR');
+    if(y>265){doc.addPage();y=20;}
+    doc.setFontSize(10);doc.setFont(undefined,'bold');doc.text(f.taxe+' — '+f.action,M,y);y+=5;
+    doc.setFont(undefined,'normal');doc.setFontSize(8.5);
+    doc.text('Echeance : '+dateLbl+'   |   Statut : '+s.st+'   |   Canal : '+f.canal,M+2,y);y+=5;
+    doc.text('Base : '+f.base,M+2,y);y+=7;
+  });
+  /* registre historique */
+  var log=JSON.parse(localStorage.getItem('st_fiscal_log')||'[]');
+  if(y>240){doc.addPage();y=20;}
+  doc.setFontSize(11);doc.setFont(undefined,'bold');doc.text('Registre des paiements / evenements',M,y);y+=7;
+  doc.setFont(undefined,'normal');doc.setFontSize(8.5);
+  if(!log.length){doc.text('Aucun evenement enregistre pour le moment.',M+2,y);y+=5;}
+  log.slice(0,30).forEach(function(x){
+    if(y>280){doc.addPage();y=20;}
+    doc.text(new Date(x.t).toLocaleDateString('fr-FR')+'  ·  '+x.taxe+'  ·  '+x.action+(x.montant?'  ·  '+x.montant+' F':''),M+2,y);y+=5;
+  });
+  /* pied de page tampon */
+  var pages=doc.getNumberOfPages();
+  for(var i=1;i<=pages;i++){
+    doc.setPage(i);doc.setFontSize(7.5);doc.setTextColor(130,130,130);
+    doc.text('SEN TEW SUARL — RCCM SN.DKR.2026.B.35565 · NINEA 013373303 · contact@sen-ecosystem.com — Page '+i+'/'+pages,105,292,{align:'center'});
+  }
+  doc.save('sentew-etat-fiscal-'+new Date().toISOString().slice(0,10)+'.pdf');
+  fiscalLog('EXPORT','PDF etat fiscal telecharge','','');
+}
+
+var FISCAL_FILTRE='tous';
+function renderFiscal(){
+  var host=$('budget');if(!host)return;
+  var old=$('fiscalCal');if(old)old.remove();
+  var now=new Date();
+  var filtreBtns=['tous','Mensuel','Annuel','A venir','En retard','Payé'].map(function(c){
+    var on=FISCAL_FILTRE===c;
+    return '<button onclick="FISCAL_FILTRE=\''+c+'\';renderFiscal()" style="flex:none;padding:6px 12px;border-radius:14px;border:1.5px solid '+(on?'#0f6b4e':'#ddd')+';background:'+(on?'#0f6b4e':'#fff')+';color:'+(on?'#fff':'#555')+';font-size:11px;font-weight:700;cursor:pointer">'+c+'</button>';
+  }).join('');
+  var rows=FISCAL.map(function(f){
+    var s=fiscalStatus(f);
+    if(FISCAL_FILTRE!=='tous'){
+      if(FISCAL_FILTRE==='Mensuel'||FISCAL_FILTRE==='Annuel'){if(f.cat!==FISCAL_FILTRE)return '';}
+      else if(s.st!==FISCAL_FILTRE)return '';
+    }
+    var d=fiscalNext(f);
+    var days=s.days;
+    var color = s.st==='Payé'?'#0f6b4e':(s.st==='En retard'?'#c0392b':(days<=7?'#c0392b':(days<=30?'#b07a1f':'#0f6b4e')));
+    var bg = s.st==='Payé'?'#e8f5ef':(s.st==='En retard'?'#fdecec':(days<=7?'#fdecec':(days<=30?'#fff8e6':'#e8f5ef')));
+    var dateLbl=f.date.indexOf('MENSUEL:')===0?'Le 15 de chaque mois (prochain : '+d.toLocaleDateString('fr-FR',{day:'numeric',month:'short'})+')':d.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+    var badge=s.st==='Payé'?'\u2705 Payé':(s.st==='En retard'?'\ud83d\udea8 '+Math.abs(days)+' j de retard':(days<=7?'\u26a0\ufe0f '+days+' j':days+' j'));
+    return '<div style="background:#fff;border-radius:12px;padding:13px 14px;margin-bottom:8px;box-shadow:0 2px 8px rgba(10,31,23,.06);border-left:4px solid '+color+'">'+
+     '<div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start">'+
+     '<div style="flex:1"><div style="font-size:13px;font-weight:800;color:#0a1f17">'+f.taxe+' — '+f.action+'</div>'+
+     '<div style="font-size:11px;color:#0f6b4e;font-weight:700;margin-top:2px">'+dateLbl+'</div>'+
+     '<div style="font-size:11px;color:#777;margin-top:3px"><b>Base :</b> '+f.base+'</div>'+
+     '<div style="font-size:11px;color:#777"><b>Canal de paiement :</b> '+f.canal+'</div>'+
+     '<div style="font-size:10px;color:#999;margin-top:3px">'+f.note+'</div></div>'+
+     '<div style="flex:none;text-align:center"><div style="background:'+bg+';color:'+color+';font-size:11px;font-weight:800;padding:4px 10px;border-radius:12px;white-space:nowrap">'+badge+'</div>'+
+     '<button onclick="fiscalToggle(\''+s.key+'\',\''+(s.st==='Payé'?'A venir':'Payé')+'\')" style="margin-top:6px;font-size:10px;border:1px solid #ccc;background:#fff;border-radius:10px;padding:3px 8px;cursor:pointer">'+(s.st==='Payé'?'Annuler':'Marquer payé')+'</button></div></div></div>';
+  }).join('')||'<div style="text-align:center;color:#999;font-size:13px;padding:24px">Aucune échéance pour ce filtre.</div>';
+  var div=document.createElement('div');
+  div.id='fiscalCal';
+  div.innerHTML='<div class="sect" style="margin-top:14px">\ud83d\udcc5 Fiscalité SEN TEW SUARL — suivi automatique</div>'+
+   '<div style="background:#eef4ff;border-radius:10px;padding:10px 12px;font-size:11px;color:#345;margin-bottom:8px"><b>Statut :</b> non-démarrage d\u2019activité en dépôt (Clic Droit Afrique). Échéances actives dès le démarrage effectif. <b>Paiement :</b> ETAX (dgid.sn/sentax) ou MAX IT (Orange) — toujours rattaché à une déclaration/avis.</div>'+
+   '<div style="display:flex;gap:6px;overflow-x:auto;padding:4px 0 10px;scrollbar-width:none">'+filtreBtns+'</div>'+
+   '<div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">'+
+   '<button onclick="fiscalPDF()" style="flex:1;min-width:100px;padding:8px;border-radius:10px;border:none;background:#0f6b4e;color:#fff;font-size:11px;font-weight:800;cursor:pointer">\ud83d\udcc4 PDF tamponne</button>'+
+   '<button onclick="fiscalExportCSV()" style="flex:1;min-width:100px;padding:8px;border-radius:10px;border:1.5px solid #0f6b4e;background:#fff;color:#0f6b4e;font-size:11px;font-weight:800;cursor:pointer">\ud83d\udcca CSV echeances</button>'+
+   '<button onclick="fiscalRegistreCSV()" style="flex:1;min-width:100px;padding:8px;border-radius:10px;border:1.5px solid #b07a1f;background:#fff;color:#b07a1f;font-size:11px;font-weight:800;cursor:pointer">\ud83d\udcd2 CSV registre</button></div>'+rows;
+  host.insertBefore(div,host.firstChild);
+}
+function fiscalToggle(key,st){var d=fiscalGetDone();d[key]=st;try{localStorage.setItem('st_fiscal_done',JSON.stringify(d));}catch(e){}var f=FISCAL.find(function(x){return key.indexOf(x.id+'_')===0;});if(f)fiscalLog(f.taxe,st==='Paye'?'Paiement marque effectue':'Statut annule','',f.date);renderFiscal();}
+
+/* ══ DÉTECTEUR D'ERREURS VISIBLE (affiche TOUT blocage à l'écran) ══ */
+window.__diagMsgs=[];
+function __diag(t,ok){
+  window.__diagMsgs.push(t);
+  var b=document.getElementById('diagBar');
+  if(!b){b=document.createElement('div');b.id='diagBar';
+    (document.body||document.documentElement).appendChild(b);}
+  b.style.cssText='position:fixed;bottom:90px;left:10px;right:10px;z-index:99999;font-size:11px;font-weight:700;padding:10px 12px;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.25);'+(ok?'background:#e8f5ef;color:#0f6b4e':'background:#fdecec;color:#c0392b');
+  b.textContent=window.__diagMsgs.join('  |  ');
+}
+window.onerror=function(m,s,l){__diag('JS ERREUR: '+m+' (ligne '+l+')',false);return false;};
+window.addEventListener('unhandledrejection',function(e){__diag('PROMESSE: '+((e.reason&&e.reason.message)||e.reason),false);});
+window.addEventListener('load',function(){setTimeout(async function(){
+  try{
+    var r=await rpc('admin_list_salaries',{p_limit:100});
+    var n=Array.isArray(r)?r.length:-1;
+    __diag('v8 OK - RPC OK - '+n+' bulletin(s) lisible(s)',true);
+  }catch(e){__diag('v8 OK mais RPC refuse: '+((e&&e.message)||e)+' - reconnectez-vous',false);}
+},1500);});
+
 /* Anti swipe-back accidental (iOS) */
 document.addEventListener('touchstart',function(e){if(e.touches.length===1&&(e.touches[0].clientX<24||e.touches[0].clientX>window.innerWidth-24)){e.preventDefault();}},{passive:false});
 /* Unload guard while a form is dirty */
@@ -551,6 +721,7 @@ function initSwipes(root){
 
 /* â•â•â•â•â•â•â•â•â•â• CHARGEMENT â•â•â•â•â•â•â•â•â•â• */
 async function loadAll(){
+  DATA.expenses=DATA.expenses||[];DATA.payouts=DATA.payouts||[];DATA.salaries=DATA.salaries||[];DATA.invoices=DATA.invoices||[];DATA.dels=DATA.dels||[];
   DATA.vendors=await api('vendors','?select=*&order=created_at.desc');
   DATA.drivers=await api('drivers','?select=*&order=created_at.desc');
   DATA.orders=await api('orders','?select=*&order=created_at.desc&limit=300');
@@ -559,7 +730,7 @@ async function loadAll(){
   try{DATA.salaries=await rpc('admin_list_salaries',{p_limit:100})||[];}catch(e){console.error(e);}
   try{DATA.invoices=await rpc('admin_list_invoices',{p_limit:100})||[];}catch(e){console.error(e);}
   try{DATA.dels=await rpc('admin_list_deletion_requests',{p_limit:50})||[];}catch(e){console.error(e);}
-  await loadPhotosIA();
+  try{await loadPhotosIA();}catch(e){console.error('photosIA',e);}
   loadPilotage();
   if(!$('pano').classList.contains('hidden'))renderPano();
 }
@@ -1610,6 +1781,7 @@ function showTab(id,btn){
   $(id).classList.remove('hidden');
   document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});
   if(btn)btn.classList.add('on');
+  if(id==='budget')renderFiscal();
   if(id==='pano')renderPano();
   if(id==='stats')renderStats();
   if(id==='vendeurs')renderVendors();
@@ -1750,7 +1922,7 @@ async function savePaysEdit(code){
 }
 
 lucide.createIcons();
-loadAll().then(function(){var t='pano';try{t=sessionStorage.getItem('st_admin_tab')||'pano';}catch(e){}if(t&&t!=='pano'&&$(t)){var btn=null;document.querySelectorAll('.tab').forEach(function(b){var oc=b.getAttribute('onclick')||'';if(oc.indexOf("'"+t+"'")>-1)btn=b;});showTab(t,btn);}else{renderPano();}});
+loadAll().catch(function(e){__diag('loadAll: '+((e&&e.message)||e),false);}).then(function(){renderFiscal();var t='pano';try{t=sessionStorage.getItem('st_admin_tab')||'pano';}catch(e){}if(t&&t!=='pano'&&$(t)){var btn=null;document.querySelectorAll('.tab').forEach(function(b){var oc=b.getAttribute('onclick')||'';if(oc.indexOf("'"+t+"'")>-1)btn=b;});showTab(t,btn);}else{renderPano();}});
 silentRefresh();
 setInterval(silentRefresh,30000);
 </script>
