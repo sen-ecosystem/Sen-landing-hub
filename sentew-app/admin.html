@@ -176,7 +176,7 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
 <body>
 
 <div class="topbar">
-  <h1><i data-lucide="shield"></i>SEN TEW Admin <span style="font-size:10px;background:#e8c468;color:#0a1f17;padding:2px 7px;border-radius:10px;vertical-align:middle">v14</span></h1>
+  <h1><i data-lucide="shield"></i>SEN TEW Admin <span style="font-size:10px;background:#e8c468;color:#0a1f17;padding:2px 7px;border-radius:10px;vertical-align:middle">v16</span></h1>
   <div class="top-actions">
     <button class="icobtn" onclick="silentRefresh();toast('Actualisé ✅')"><i data-lucide="refresh-cw"></i></button>
     <button class="icobtn" onclick="logout()"><i data-lucide="log-out"></i></button>
@@ -607,7 +607,6 @@ if(adminToken()){
   var catm=(q||'').match(/category=eq\.([^&]+)/);var rcat=catm?decodeURIComponent(catm[1]):null;
   if(RPC_READ[t]&&m==='GET'){var j=await rpc(RPC_READ[t],{});if(j&&j.__err){fail('Lecture '+t+' refusee: '+j.__err);return[];}if(Array.isArray(j))return j;if(j&&j.data&&Array.isArray(j.data))return j.data;fail('Lecture '+t+': type inattendu '+(j===null?'null':typeof j));return[];}
   var r=null;
-  if(m==='GET'&&(t==='orders'||t==='vendors'||t==='drivers'||t==='deletion_requests'||t==='notifications')){var _d=await _api(t,q,m,b);if(!Array.isArray(_d)){fail('Lecture '+t+': reponse non-liste');return[];}return _d;}
   if(t==='expenses'&&m==='POST')r=await rpc('admin_add_expense',{p_label:b.label,p_category:b.category||'general',p_amount:b.amount||0,p_expense_date:b.expense_date||new Date().toISOString().slice(0,10),p_note:b.note||null});
   else if(t==='invoices'&&m==='POST')r=await rpc('admin_add_invoice',{p_number:b.number||'',p_supplier:b.supplier||'',p_label:b.label||'',p_type:b.type||'vente',p_amount:b.amount||0,p_tax:b.tax||0,p_invoice_date:b.invoice_date||new Date().toISOString().slice(0,10)});
   else if(t==='invoices'&&m==='PATCH'&&b.status==='paid')r=await rpc('admin_pay_invoice',{p_id:rid});
@@ -1169,7 +1168,7 @@ function dlBulletinPDF(id){
   function fmt(n){return Math.round(n).toLocaleString('fr-FR')+' '+b.currency;}
   doc.setFillColor.apply(doc,DARK);doc.rect(0,0,210,38,'F');
   doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,16);
-  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Marketplace panafricaine - '+b.country+' - hello.senecosystem@gmail.com',15,22);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - '+b.country+' - hello.senecosystem@gmail.com',15,22);
   doc.setTextColor(74,222,128);doc.setFontSize(12);doc.setFont('helvetica','bold');doc.text('BULLETIN DE PAIE',195,16,{align:'right'});
   doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Periode : '+String(s.period||''),195,22,{align:'right'});
   doc.setFillColor.apply(doc,GREEN);doc.rect(0,38,210,2,'F');
@@ -1216,7 +1215,7 @@ function dlBulletinPDF(id){
   }
   pdfSignDir(doc,y+8);
   doc.setTextColor.apply(doc,GREY);doc.setFontSize(7);doc.setFont('helvetica','normal');
-  doc.text('Document genere par SEN TEW - '+b.pension_name+'/'+b.family_name+' (part salariale) - '+(s.period||''),105,290,{align:'center'});
+  doc.text('SEN TEW SUARL - RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - Sacre Coeur 3, Villa 9947, Dakar',105,286,{align:'center'});doc.text('Document genere par SEN TEW - '+b.pension_name+'/'+b.family_name+' (part salariale) - '+(s.period||''),105,290,{align:'center'});
   doc.save('bulletin-'+String(s.employee_name||'salarie').replace(/\s+/g,'-')+'-'+(s.period||'')+'.pdf');
   sendDocEmail(s.email||LAST_SAL_EMAIL[id]||'','Votre bulletin de paie '+(s.period||''),'Bonjour '+s.employee_name+',\n\nVotre bulletin de paie de la periode '+(s.period||'')+' est disponible.\nNet a payer : '+fmt(b.net)+'.\nLe PDF signe par la direction vous est remis par l\u2019administration.\n\nSEN TEW SUARL');
   toast('Bulletin PDF téléchargé ⬇️');
@@ -1416,7 +1415,7 @@ function dlInvoicePDF(id){
   function fmt(n){return Math.round(n).toLocaleString('fr-FR')+' F';}
   doc.setFillColor.apply(doc,DARK);doc.rect(0,0,210,34,'F');
   doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,15);
-  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Dakar, Senegal - hello.senecosystem@gmail.com',15,21);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - Dakar, Senegal',15,21);doc.text('hello.senecosystem@gmail.com - sen-ecosystem.com',15,25);
   doc.setTextColor(74,222,128);doc.setFontSize(13);doc.setFont('helvetica','bold');doc.text('FACTURE',195,15,{align:'right'});
   doc.setFillColor.apply(doc,GREEN);doc.rect(0,34,210,2,'F');
   doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);
@@ -1439,7 +1438,7 @@ function dlInvoicePDF(id){
   doc.setTextColor(74,222,128);doc.text(fmt(ttc),190,y+9,{align:'right'});
   pdfSignDir(doc,y+34);
   doc.setTextColor.apply(doc,GREY);doc.setFontSize(7);doc.setFont('helvetica','normal');
-  doc.text('Statut : '+(f.status||'pending')+' · Facture generee par SEN TEW le '+new Date().toLocaleDateString('fr-FR'),105,290,{align:'center'});
+  doc.text('SEN TEW SUARL - RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - Sacre Coeur 3, Villa 9947, Dakar',105,286,{align:'center'});doc.text('Statut : '+(f.status||'pending')+' - Facture generee par SEN TEW le '+new Date().toLocaleDateString('fr-FR'),105,290,{align:'center'});
   doc.save('facture-'+(f.number||id)+'.pdf');
   toast('Facture PDF téléchargée ⬇️');
 }
@@ -1453,7 +1452,7 @@ function dlRecuPDF(id){
   function fmt(n){return Math.round(n).toLocaleString('fr-FR')+' F';}
   doc.setFillColor.apply(doc,GREEN);doc.rect(0,0,210,34,'F');
   doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,15);
-  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Dakar, Senegal - hello.senecosystem@gmail.com',15,21);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - Dakar, Senegal',15,21);doc.text('hello.senecosystem@gmail.com - sen-ecosystem.com',15,25);
   doc.setFontSize(14);doc.setFont('helvetica','bold');doc.text('RECU DE PAIEMENT',195,15,{align:'right'});
   doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);doc.setFont('helvetica','normal');
   doc.text('Reçu lié à la facture N° : '+(f.number||''),15,48);
@@ -1467,7 +1466,7 @@ function dlRecuPDF(id){
   doc.text('✓ Paiement confirmé et soldé',15,110);
   pdfSignDir(doc,125);
   doc.setFontSize(7);doc.setFont('helvetica','normal');doc.setTextColor.apply(doc,GREY);
-  doc.text('Reçu genere par SEN TEW le '+new Date().toLocaleDateString('fr-FR'),105,285,{align:'center'});
+  doc.text('SEN TEW SUARL - RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - Sacre Coeur 3, Villa 9947, Dakar',105,281,{align:'center'});doc.text('Recu genere par SEN TEW le '+new Date().toLocaleDateString('fr-FR'),105,285,{align:'center'});
   doc.save('recu-'+(f.number||id)+'.pdf');
   sendDocEmail(f.supplier||'','Reçu de paiement - Facture '+(f.number||''),'SEN TEW SUARL a réglé la facture '+(f.number||'')+' d\u2019un montant de '+fmt(ttc)+' FCFA.\nLe reçu PDF signé par la direction fait foi de paiement.');
   toast('Reçu téléchargé ⬇️');
@@ -1481,7 +1480,7 @@ function dlPayoutRecuPDF(id){
   var role=p.recipient_type==='driver'?'LIVREUR':'VENDEUR';
   doc.setFillColor.apply(doc,GREEN);doc.rect(0,0,210,34,'F');
   doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,15);
-  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Dakar, Senegal - hello.senecosystem@gmail.com',15,21);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - Dakar, Senegal',15,21);doc.text('hello.senecosystem@gmail.com - sen-ecosystem.com',15,25);
   doc.setFontSize(13);doc.setFont('helvetica','bold');doc.text('RECU DE REVERSEMENT',195,15,{align:'right'});
   doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);doc.setFont('helvetica','normal');
   doc.text('Bénéficiaire : '+(p.recipient_name||p.recipient_email||'-'),15,48);
@@ -1495,7 +1494,7 @@ function dlPayoutRecuPDF(id){
   doc.text('✓ Versement confirmé — ce document tient lieu de preuve de paiement',15,112);
   pdfSignDir(doc,130);
   doc.setFontSize(7);doc.setFont('helvetica','normal');doc.setTextColor.apply(doc,GREY);
-  doc.text('Reçu genere par SEN TEW le '+new Date().toLocaleDateString('fr-FR'),105,285,{align:'center'});
+  doc.text('SEN TEW SUARL - RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - Sacre Coeur 3, Villa 9947, Dakar',105,281,{align:'center'});doc.text('Recu genere par SEN TEW le '+new Date().toLocaleDateString('fr-FR'),105,285,{align:'center'});
   doc.save('recu-reversement-'+String(p.recipient_name||id).replace(/\s+/g,'-')+'.pdf');
   toast('Reçu reversement téléchargé ⬇️');
 }
@@ -1511,7 +1510,7 @@ function dlAvoirPDF(o){
   function fmt(n){return Math.round(n).toLocaleString('fr-FR')+' F';}
   doc.setFillColor.apply(doc,DARK);doc.rect(0,0,210,34,'F');
   doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,15);
-  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Dakar, Senegal - hello.senecosystem@gmail.com',15,21);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - Dakar, Senegal',15,21);doc.text('hello.senecosystem@gmail.com - sen-ecosystem.com',15,25);
   doc.setTextColor(255,120,120);doc.setFontSize(13);doc.setFont('helvetica','bold');doc.text('AVOIR / REMBOURSEMENT',195,15,{align:'right'});
   doc.setFillColor.apply(doc,RED);doc.rect(0,34,210,2,'F');
   doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);doc.setFont('helvetica','normal');
@@ -1525,7 +1524,7 @@ function dlAvoirPDF(o){
   doc.setTextColor.apply(doc,GREY);doc.setFontSize(9);doc.setFont('helvetica','normal');
   doc.text('Cet avoir annule la vente correspondante. Le montant est restitué au client sous 48 h.',15,112);
   pdfSignDir(doc,130);
-  doc.setFontSize(7);doc.text('Avoir genere par SEN TEW le '+new Date().toLocaleDateString('fr-FR'),105,285,{align:'center'});
+  doc.setFontSize(7);doc.text('SEN TEW SUARL - RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - Sacre Coeur 3, Villa 9947, Dakar',105,281,{align:'center'});doc.text('Avoir genere par SEN TEW le '+new Date().toLocaleDateString('fr-FR'),105,285,{align:'center'});
   doc.save('avoir-commande-'+String(o.id).slice(0,8)+'.pdf');
 }
 async function orderRefund(id){
@@ -1643,7 +1642,7 @@ function exportComptaPDF(){
   doc.setTextColor(net>=0?74:255,net>=0?222:150,net>=0?128:150);doc.setFontSize(14);doc.text((net>=0?'+':'-')+fmt(Math.abs(net)),193,y+10,{align:'right'});
   pdfSignDir(doc,y+30);
   doc.setTextColor.apply(doc,GREY);doc.setFontSize(7);doc.setFont('helvetica','normal');
-  doc.text('Commission plateforme : '+COMMISSION+'% · Document généré automatiquement par SEN TEW · '+lines.length+' écritures',105,290,{align:'center'});
+  doc.text('SEN TEW SUARL - RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - Sacre Coeur 3, Villa 9947, Dakar',105,286,{align:'center'});doc.text('Commission plateforme : '+COMMISSION+'% - Document genere automatiquement par SEN TEW - '+lines.length+' ecritures',105,290,{align:'center'});
   doc.save('sentew-comptabilite-'+new Date().toISOString().slice(0,10)+'.pdf');
   toast('Rapport comptable PDF téléchargé ⬇️');
 }
