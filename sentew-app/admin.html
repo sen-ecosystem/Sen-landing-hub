@@ -176,7 +176,7 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
 <body>
 
 <div class="topbar">
-  <h1><i data-lucide="shield"></i>SEN TEW Admin <span style="font-size:10px;background:#e8c468;color:#0a1f17;padding:2px 7px;border-radius:10px;vertical-align:middle">v12</span></h1>
+  <h1><i data-lucide="shield"></i>SEN TEW Admin <span style="font-size:10px;background:#e8c468;color:#0a1f17;padding:2px 7px;border-radius:10px;vertical-align:middle">v13</span></h1>
   <div class="top-actions">
     <button class="icobtn" onclick="silentRefresh();toast('Actualisé ✅')"><i data-lucide="refresh-cw"></i></button>
     <button class="icobtn" onclick="logout()"><i data-lucide="log-out"></i></button>
@@ -594,7 +594,7 @@ function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){retur
 function fmtDate(d){if(!d)return'';try{var x=new Date(d);return x.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'})+' '+x.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}catch(e){return'';}}
 function fmtN(n){return Math.round(n||0).toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ');}
 function timeAgo(d){if(!d)return'';var s=(Date.now()-new Date(d).getTime())/1000;if(s<60)return'à l\u2019instant';if(s<3600)return'il y a '+Math.floor(s/60)+' min';if(s<86400)return'il y a '+Math.floor(s/3600)+' h';return'il y a '+Math.floor(s/86400)+' j';}
-function adminToken(){try{var s=sessionStorage.getItem('sentew_admin')||localStorage.getItem('sentew_admin');var o=JSON.parse(s);return(o&&o.token)||'';}catch(e){return'';}}
+function adminToken(){var s='';try{s=sessionStorage.getItem('sentew_admin')||localStorage.getItem('sentew_admin')||'';}catch(e){}if(!s)return'';try{var o=JSON.parse(s);if(o&&o.token)return o.token;if(typeof o==='string')return o;}catch(e){}if(/^[0-9a-f-]{36}$/i.test(s))return s;return'';}
 function arr(x){return Array.isArray(x)?x:[];}
 async function rpc(fn,args){args=args||{};args.p_token=adminToken();try{var r=await fetch(SUPA+'/rest/v1/rpc/'+fn,{method:'POST',headers:Object.assign({},H,{'Content-Type':'application/json'}),body:JSON.stringify(args)});var j=null;try{j=await r.json();}catch(e){}if(!r.ok||(j&&!Array.isArray(j)&&typeof j==='object'&&(j.message||j.hint||j.code)))return{__err:fn+': '+((j&&(j.message||j.hint||j.code))||('HTTP '+r.status))};return j;}catch(e){return{__err:fn+' reseau: '+e.message};}}
 var RPC_READ={'expenses':'admin_list_expenses','invoices':'admin_list_invoices','salaries':'admin_list_salaries','payouts':'admin_list_payouts','budgets':'admin_list_budgets','echeances':'admin_list_echeances','notifications':'admin_list_notifications','deletion_requests':'admin_list_deletion_requests','kyc_documents':'admin_list_kyc_documents'};
@@ -605,7 +605,7 @@ if(adminToken()){
   var b={};if(o.body){try{b=JSON.parse(o.body);}catch(e){}}
   var idm=(q||'').match(/id=eq\.([^&]+)/);var rid=idm?idm[1]:null;
   var catm=(q||'').match(/category=eq\.([^&]+)/);var rcat=catm?decodeURIComponent(catm[1]):null;
-  if(RPC_READ[t]&&m==='GET'){var j=await rpc(RPC_READ[t],{});if(j&&j.__err){fail('Lecture '+t+' refusee: '+j.__err);return[];}return Array.isArray(j)?j:(j?[j]:[]);}
+  if(RPC_READ[t]&&m==='GET'){var j=await rpc(RPC_READ[t],{});if(j&&j.__err){fail('Lecture '+t+' refusee: '+j.__err);return[];}if(Array.isArray(j))return j;if(j&&j.data&&Array.isArray(j.data))return j.data;fail('Lecture '+t+': type inattendu '+(j===null?'null':typeof j));return[];}
   var r=null;
   if(m==='GET'&&(t==='orders'||t==='vendors'||t==='drivers'||t==='deletion_requests'||t==='notifications')){var _d=await _api(t,q,m,b);if(!Array.isArray(_d)){fail('Lecture '+t+': reponse non-liste');return[];}return _d;}
   if(t==='expenses'&&m==='POST')r=await rpc('admin_add_expense',{p_label:b.label,p_category:b.category||'general',p_amount:b.amount||0,p_expense_date:b.expense_date||new Date().toISOString().slice(0,10),p_note:b.note||null});
