@@ -176,7 +176,7 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
 <body>
 
 <div class="topbar">
-  <h1><i data-lucide="shield"></i>SEN TEW Admin <span style="font-size:10px;background:#e8c468;color:#0a1f17;padding:2px 7px;border-radius:10px;vertical-align:middle">v16</span></h1>
+  <h1><i data-lucide="shield"></i>SEN TEW Admin <span style="font-size:10px;background:#e8c468;color:#0a1f17;padding:2px 7px;border-radius:10px;vertical-align:middle">v17</span></h1>
   <div class="top-actions">
     <button class="icobtn" onclick="silentRefresh();toast('Actualisé ✅')"><i data-lucide="refresh-cw"></i></button>
     <button class="icobtn" onclick="logout()"><i data-lucide="log-out"></i></button>
@@ -399,12 +399,15 @@ function fiscalToggle(key,st){var d=fiscalGetDone();d[key]=st;try{localStorage.s
 /* ══ DÉTECTEUR D'ERREURS VISIBLE (affiche TOUT blocage à l'écran) ══ */
 window.__diagMsgs=[];
 function __diag(t,ok){
-  window.__diagMsgs.push(t);
+  if(ok){window.__diagMsgs=[];}else{window.__diagMsgs.push(t);}
   var b=document.getElementById('diagBar');
   if(!b){b=document.createElement('div');b.id='diagBar';
     (document.body||document.documentElement).appendChild(b);}
   b.style.cssText='position:fixed;bottom:90px;left:10px;right:10px;z-index:99999;font-size:11px;font-weight:700;padding:10px 12px;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.25);'+(ok?'background:#e8f5ef;color:#0f6b4e':'background:#fdecec;color:#c0392b');
+  if(ok&&!window.__diagMsgs.length){b.style.display='none';return;}
+  b.style.display='block';
   b.textContent=window.__diagMsgs.join('  |  ');
+  if(ok){setTimeout(function(){b.style.display='none';},6000);}
 }
 window.onerror=function(m,s,l){__diag('JS ERREUR: '+m+' (ligne '+l+')',false);return false;};
 window.addEventListener('unhandledrejection',function(e){__diag('PROMESSE: '+((e.reason&&e.reason.message)||e.reason),false);});
