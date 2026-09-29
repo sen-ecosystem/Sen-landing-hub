@@ -176,7 +176,7 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
 <body>
 
 <div class="topbar">
-  <h1><i data-lucide="shield"></i>SEN TEW Admin <span style="font-size:10px;background:#e8c468;color:#0a1f17;padding:2px 7px;border-radius:10px;vertical-align:middle">v13</span></h1>
+  <h1><i data-lucide="shield"></i>SEN TEW Admin <span style="font-size:10px;background:#e8c468;color:#0a1f17;padding:2px 7px;border-radius:10px;vertical-align:middle">v14</span></h1>
   <div class="top-actions">
     <button class="icobtn" onclick="silentRefresh();toast('Actualisé ✅')"><i data-lucide="refresh-cw"></i></button>
     <button class="icobtn" onclick="logout()"><i data-lucide="log-out"></i></button>
@@ -594,7 +594,7 @@ function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){retur
 function fmtDate(d){if(!d)return'';try{var x=new Date(d);return x.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'})+' '+x.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}catch(e){return'';}}
 function fmtN(n){return Math.round(n||0).toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ');}
 function timeAgo(d){if(!d)return'';var s=(Date.now()-new Date(d).getTime())/1000;if(s<60)return'à l\u2019instant';if(s<3600)return'il y a '+Math.floor(s/60)+' min';if(s<86400)return'il y a '+Math.floor(s/3600)+' h';return'il y a '+Math.floor(s/86400)+' j';}
-function adminToken(){var s='';try{s=sessionStorage.getItem('sentew_admin')||localStorage.getItem('sentew_admin')||'';}catch(e){}if(!s)return'';try{var o=JSON.parse(s);if(o&&o.token)return o.token;if(typeof o==='string')return o;}catch(e){}if(/^[0-9a-f-]{36}$/i.test(s))return s;return'';}
+function adminToken(){var s='';try{s=sessionStorage.getItem('sentew_admin')||localStorage.getItem('sentew_admin')||'';}catch(e){}if(s){try{var o=JSON.parse(s);if(o&&o.token&&/^[0-9a-f-]{36}$/i.test(o.token))return o.token;if(typeof o==='string'&&/^[0-9a-f-]{36}$/i.test(o))return o;}catch(e){}if(/^[0-9a-f-]{36}$/i.test(s))return s;}return'00000000-0000-0000-0000-000000000000';}
 function arr(x){return Array.isArray(x)?x:[];}
 async function rpc(fn,args){args=args||{};args.p_token=adminToken();try{var r=await fetch(SUPA+'/rest/v1/rpc/'+fn,{method:'POST',headers:Object.assign({},H,{'Content-Type':'application/json'}),body:JSON.stringify(args)});var j=null;try{j=await r.json();}catch(e){}if(!r.ok||(j&&!Array.isArray(j)&&typeof j==='object'&&(j.message||j.hint||j.code)))return{__err:fn+': '+((j&&(j.message||j.hint||j.code))||('HTTP '+r.status))};return j;}catch(e){return{__err:fn+' reseau: '+e.message};}}
 var RPC_READ={'expenses':'admin_list_expenses','invoices':'admin_list_invoices','salaries':'admin_list_salaries','payouts':'admin_list_payouts','budgets':'admin_list_budgets','echeances':'admin_list_echeances','notifications':'admin_list_notifications','deletion_requests':'admin_list_deletion_requests','kyc_documents':'admin_list_kyc_documents'};
@@ -727,11 +727,11 @@ async function loadAll(){
   DATA.vendors=await api('vendors','?select=*&order=created_at.desc');
   DATA.drivers=await api('drivers','?select=*&order=created_at.desc');
   DATA.orders=await api('orders','?select=*&order=created_at.desc&limit=300');
-  try{DATA.expenses=await rpc('admin_list_expenses',{p_limit:100})||[];}catch(e){console.error(e);}
-  try{DATA.payouts=await rpc('admin_list_payouts',{p_limit:50})||[];}catch(e){console.error(e);}
-  try{DATA.salaries=await rpc('admin_list_salaries',{p_limit:100})||[];}catch(e){console.error(e);}
-  try{DATA.invoices=await rpc('admin_list_invoices',{p_limit:100})||[];}catch(e){console.error(e);}
-  try{DATA.dels=await rpc('admin_list_deletion_requests',{p_limit:50})||[];}catch(e){console.error(e);}
+  try{DATA.expenses=DATA.expenses=arr(await rpc('admin_list_expenses',{p_limit:100}));}catch(e){console.error(e);}
+  try{DATA.payouts=DATA.payouts=arr(await rpc('admin_list_payouts',{p_limit:50}));}catch(e){console.error(e);}
+  try{DATA.salaries=DATA.salaries=arr(await rpc('admin_list_salaries',{p_limit:100}));}catch(e){console.error(e);}
+  try{DATA.invoices=DATA.invoices=arr(await rpc('admin_list_invoices',{p_limit:100}));}catch(e){console.error(e);}
+  try{DATA.dels=DATA.dels=arr(await rpc('admin_list_deletion_requests',{p_limit:50}));}catch(e){console.error(e);}
   try{await ['vendors','drivers','orders','expenses','payouts','salaries','invoices','dels'].forEach(function(k){DATA[k]=arr(DATA[k]);});
 loadPhotosIA();}catch(e){console.error('photosIA',e);}
   loadPilotage();
@@ -792,7 +792,7 @@ function loadPilotage(){
   DATA.dels.filter(function(x){return x.status==='pending';}).forEach(function(x){html+='<div class="card2"><div class="row"><div><div class="nm">🗑️ '+esc(x.user_email||'')+'</div><div class="meta">Suppression de compte · '+(x.reason?esc(x.reason)+' · ':'')+fmtDate(x.created_at)+'</div></div><span class="pill rejected">Churn</span></div><div class="actions"><button class="abtn blue" onclick="setDel(\''+x.id+'\',\'contacted\')"><i data-lucide="phone"></i>Contacté</button><button class="abtn danger" onclick="setDel(\''+x.id+'\',\'deleted\')"><i data-lucide="trash-2"></i>Compte supprimé</button></div></div>';});
   $('priorityList').innerHTML=html||'<div class="empty">✅ Aucune demande en attente. Tout est à jour !</div>';
 }
-async function setDel(id,st){await rpc('admin_set_deletion_status',{p_id:id,p_status:st});toast('Demande mise à jour ✅');DATA.dels=await rpc('admin_list_deletion_requests',{p_limit:50})||[];loadPilotage();}
+async function setDel(id,st){await rpc('admin_set_deletion_status',{p_id:id,p_status:st});toast('Demande mise à jour ✅');DATA.dels=DATA.dels=arr(await rpc('admin_list_deletion_requests',{p_limit:50}));loadPilotage();}
 
 /* â•â•â•â•â•â•â•â•â•â• STATISTIQUES â•â•â•â•â•â•â•â•â•â• */
 function renderStats(){
@@ -1030,7 +1030,7 @@ async function addExpense(){
   if(!l||!a){toast('Libellé et montant requis');return;}
   await rpc('admin_add_expense',{p_label:l,p_category:c,p_amount:a});
   toast('Dépense enregistrée ✅');
-  DATA.expenses=await rpc('admin_list_expenses',{p_limit:100})||[];
+  DATA.expenses=DATA.expenses=arr(await rpc('admin_list_expenses',{p_limit:100}));
   renderCompta();
 }
 async function addInvoice(){
@@ -1038,7 +1038,7 @@ async function addInvoice(){
   if(!n||!a){toast('N° de facture et montant requis');return;}
   await rpc('admin_add_invoice',{p_number:n,p_supplier:s,p_label:l,p_type:t,p_amount:a,p_tax:tax});
   toast('Facture enregistrée ✅');
-  DATA.invoices=await rpc('admin_list_invoices',{p_limit:100})||[];
+  DATA.invoices=DATA.invoices=arr(await rpc('admin_list_invoices',{p_limit:100}));
   renderCompta();
 }
 function exportCompta(){
@@ -1124,7 +1124,7 @@ async function addSalary(){
   if(em)body.email=em;
   await rpc('admin_add_salary',{p_employee_name:n,p_role:r,p_period:p,p_base_salary:base,p_bonuses:bonus,p_deductions:ded,p_country:country,p_email:em||''});
   toast('Bulletin créé ✅');
-  DATA.salaries=await rpc('admin_list_salaries',{p_limit:100})||[];
+  DATA.salaries=DATA.salaries=arr(await rpc('admin_list_salaries',{p_limit:100}));
   var created=DATA.salaries.find(function(x){return x.employee_name===n&&x.period===p;});
   if(created&&em)LAST_SAL_EMAIL[created.id]=em;
   renderSalaries();
@@ -1134,7 +1134,7 @@ async function paySalary(id){
   var s=DATA.salaries.find(function(x){return String(x.id)===String(id);});
   if(s){var b=calcBulletinPan(s.country||'SN', s.base_salary,s.bonuses,s.deductions);
     sendDocEmail(s.email||LAST_SAL_EMAIL[id]||'','Votre salaire a été versé 💼','Bonjour '+s.employee_name+',\n\nVotre salaire net de '+fmtN(b.net)+' '+b.currency+' ('+(s.period||'')+') a été versé.\nVotre bulletin PDF signé par la direction vous est remis par l\u2019administration.\n\nSEN TEW SUARL');}
-  toast('Salaire marqué payé ✅');DATA.salaries=await rpc('admin_list_salaries',{p_limit:100})||[];renderSalaries();
+  toast('Salaire marqué payé ✅');DATA.salaries=DATA.salaries=arr(await rpc('admin_list_salaries',{p_limit:100}));renderSalaries();
 }
 function dlBulletin(id){
   var s=DATA.salaries.find(function(x){return String(x.id)===String(id);});if(!s)return;
@@ -1288,7 +1288,7 @@ async function silentRefresh(){
     var d=await api('drivers','?status=eq.pending&select=id');setBadge('nbL',d.length);
     if(!$('pano').classList.contains('hidden')){
       PANO_T++;
-      if(PANO_T>=1){PANO_T=0;DATA.orders=await api('orders','?select=*&order=created_at.desc&limit=300');DATA.vendors=await api('vendors','?select=*&order=created_at.desc');DATA.drivers=await api('drivers','?select=*&order=created_at.desc');DATA.dels=await rpc('admin_list_deletion_requests',{p_limit:50})||[];renderPano();}
+      if(PANO_T>=1){PANO_T=0;DATA.orders=await api('orders','?select=*&order=created_at.desc&limit=300');DATA.vendors=await api('vendors','?select=*&order=created_at.desc');DATA.drivers=await api('drivers','?select=*&order=created_at.desc');DATA.dels=DATA.dels=arr(await rpc('admin_list_deletion_requests',{p_limit:50}));renderPano();}
     }
   }catch(e){}
 }
@@ -1563,7 +1563,7 @@ async function payDriver(id){
   await notify(d.email,title,msg);
   sendDocEmail(d.email,lang==='en'?'Your payment receipt SEN TEW':'Votre reçu de paiement SEN TEW',lang==='en'?('Amount paid: '+fl+' via '+mLbl+'.\nThe PDF receipt signed by management serves as proof of payment.'):('Montant versé : '+fl+' via '+mLbl+'.\nLe reçu PDF signé par la direction fait foi de paiement.'));
   toast('Livreur payé ✅');
-  DATA.payouts=await rpc('admin_list_payouts',{p_limit:50})||[];
+  DATA.payouts=DATA.payouts=arr(await rpc('admin_list_payouts',{p_limit:50}));
   renderPayouts();
 }
 async function payNow(vendorId,email,name,amount,country){
@@ -1591,7 +1591,7 @@ async function payInvoice(id){
   var f=DATA.invoices.find(function(v){return String(v.id)===String(id);});
   if(f&&f.supplier&&String(f.supplier).indexOf('@')>-1){var ttc=(f.amount||0)+(f.tax||0);
     sendDocEmail(f.supplier,'Reçu de paiement - Facture '+(f.number||''),'SEN TEW SUARL a réglé votre facture '+(f.number||'')+' d\u2019un montant de '+fmtN(ttc)+' FCFA.\nLe reçu PDF signé par la direction fait foi de paiement.');}
-  toast('Facture soldée ✅');DATA.invoices=await rpc('admin_list_invoices',{p_limit:100})||[];renderCompta();
+  toast('Facture soldée ✅');DATA.invoices=DATA.invoices=arr(await rpc('admin_list_invoices',{p_limit:100}));renderCompta();
 }
 
 function exportComptaPDF(){
@@ -1754,7 +1754,7 @@ async function payEcheance(id){
     await rpc('admin_add_echeance',{p_label:e.label,p_category:e.category,p_amount:e.amount,p_due_date:d.toISOString().slice(0,10),p_recurring:e.recurring});
     toast('Payée ✅ + prochaine échéance créée ('+d.toISOString().slice(0,10)+')');
   }else{toast('Payée ✅ dépense créée en compta');}
-  DATA.expenses=await rpc('admin_list_expenses',{p_limit:100})||[];
+  DATA.expenses=DATA.expenses=arr(await rpc('admin_list_expenses',{p_limit:100}));
   renderBudget();
 }
 async function delEcheance(id){
