@@ -87,6 +87,19 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
   <span><b>Astuce livreur</b> — Chez le vendeur, demande-lui d'afficher le <b>QR code du colis</b> dans sa page Commandes, puis scanne-le ici. Touche pour tout savoir.</span>
 </div>
 
+
+<div id="panoZone" style="padding:0 14px">
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0">
+  <div style="background:#fff;border-radius:16px;padding:13px;border-left:4px solid #1a56c4;box-shadow:0 2px 8px rgba(10,31,23,.06)"><div id="lkToday" style="font-size:20px;font-weight:900">–</div><div style="font-size:10px;color:#5b7a70;font-weight:700;text-transform:uppercase">Courses aujourd'hui</div></div>
+  <div style="background:#fff;border-radius:16px;padding:13px;border-left:4px solid #b07a1f;box-shadow:0 2px 8px rgba(10,31,23,.06)"><div id="lkGain" style="font-size:20px;font-weight:900">–</div><div style="font-size:10px;color:#5b7a70;font-weight:700;text-transform:uppercase">Gains ce mois (F)</div></div>
+  <div style="background:#fff;border-radius:16px;padding:13px;border-left:4px solid #e63946;box-shadow:0 2px 8px rgba(10,31,23,.06)"><div id="lkCours" style="font-size:20px;font-weight:900">–</div><div style="font-size:10px;color:#5b7a70;font-weight:700;text-transform:uppercase">En cours</div></div>
+  <div style="background:#fff;border-radius:16px;padding:13px;border-left:4px solid #0f6b4e;box-shadow:0 2px 8px rgba(10,31,23,.06)"><div id="lkTotal" style="font-size:20px;font-weight:900">–</div><div style="font-size:10px;color:#5b7a70;font-weight:700;text-transform:uppercase">Total livrées</div></div>
+ </div>
+ <div style="background:#fff;border-radius:16px;padding:13px;margin-bottom:12px;box-shadow:0 2px 8px rgba(10,31,23,.06)">
+  <div style="font-size:11px;font-weight:900;color:#0f6b4e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">📊 Gains des 7 derniers jours</div>
+  <div id="lkChart"></div>
+ </div>
+</div>
 <div id="list"><div class="empty">Chargement…</div></div>
 
 <div class="modal" id="modal">
@@ -154,6 +167,31 @@ function load(){
     document.getElementById('stEarn').textContent = fmtPrix(mine.filter(function(o){ return o.status === 'delivered'; }).length * 1000) + ' F';
     render();
   });
+}
+
+
+function panoLivreurFill(rows){
+  try{
+    var today=new Date().toISOString().slice(0,10);
+    var month=new Date().toISOString().slice(0,7);
+    var t=rows.filter(function(o){return String(o.created_at||'').slice(0,10)===today;}).length;
+    var enc=rows.filter(function(o){return o.status==='assigned'||o.status==='in_delivery'||o.status==='picked_up'||o.status==='in_transit';}).length;
+    var liv=rows.filter(function(o){return o.status==='delivered';});
+    var gain=function(o){return o.delivery_fee||o.driver_fee||Math.round((o.total||0)*0.1);};
+    var gm=liv.filter(function(o){return String(o.delivered_at||o.created_at||'').slice(0,7)===month;}).reduce(function(s,o){return s+gain(o);},0);
+    var e=function(id){return document.getElementById(id);};
+    if(e('lkToday'))e('lkToday').textContent=t;
+    if(e('lkCours'))e('lkCours').textContent=enc;
+    if(e('lkTotal'))e('lkTotal').textContent=liv.length;
+    if(e('lkGain'))e('lkGain').textContent=Math.round(gm).toLocaleString('fr-FR');
+    var days=[];
+    for(var i=6;i>=0;i--){var d=new Date();d.setDate(d.getDate()-i);days.push({key:d.toISOString().slice(0,10),lbl:d.toLocaleDateString('fr-FR',{weekday:'short'}),val:0});}
+    liv.forEach(function(o){var k=String(o.delivered_at||o.created_at||'').slice(0,10);var dd=days.find(function(y){return y.key===k;});if(dd)dd.val+=gain(o);});
+    var max=Math.max.apply(null,days.map(function(x){return x.val;}))||1;
+    if(e('lkChart'))e('lkChart').innerHTML=days.map(function(x){
+      return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="width:52px;font-size:10px;font-weight:800;color:#5b7a70;text-align:right">'+x.lbl+'</div><div style="flex:1;background:#eef4f1;border-radius:6px;height:16px;overflow:hidden"><div style="height:100%;width:'+Math.max(3,Math.round(x.val/max*100))+'%;background:linear-gradient(90deg,#0f6b4e,#3aa87e);border-radius:6px"></div></div><div style="width:70px;font-size:10px;font-weight:800">'+Math.round(x.val).toLocaleString('fr-FR')+' F</div></div>';
+    }).join('');
+  }catch(e){console.log('panoLivreur',e);}
 }
 
 function render(){
@@ -350,6 +388,5 @@ lucide.createIcons();
   }).catch(function(){});
 })();
 </script>
-  <script src="js/i18n.js"></script>
 </body>
 </html>
