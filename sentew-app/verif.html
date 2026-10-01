@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vérification document — SEN TEW SUARL</title>
+<style>
+body{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;background:#f2f6f4;margin:0;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.card{background:#fff;border-radius:22px;padding:34px 26px;max-width:420px;width:100%;text-align:center;box-shadow:0 8px 30px rgba(10,31,23,.12)}
+.logo{font-size:22px;font-weight:900;color:#0f6b4e;letter-spacing:1px}
+.badge{width:74px;height:74px;border-radius:99px;background:#eafaf1;color:#0f6b4e;font-size:38px;display:flex;align-items:center;justify-content:center;margin:18px auto}
+h1{font-size:18px;color:#0a1f17;margin:8px 0}
+.ref{font-family:monospace;font-size:16px;font-weight:800;background:#f2f6f4;border-radius:12px;padding:10px;margin:14px 0;color:#0a1f17}
+.meta{font-size:12px;color:#5b7a70;line-height:1.8}
+.line{border-top:1px dashed #e3ede8;margin:16px 0}
+.foot{font-size:10.5px;color:#8aa69c;margin-top:14px;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">SEN TEW SUARL</div>
+  <div class="badge">✓</div>
+  <h1>Document authentique</h1>
+  <div class="ref" id="ref">—</div>
+  <div class="meta">Ce document a été émis par <b>SEN TEW SUARL</b><br>et vérifié via le système de contrôle officiel.</div>
+  <div class="line"></div>
+  <div class="meta">
+    RCCM : SN.DKR.2026.B.35565<br>
+    NINEA : 013373303<br>
+    Sacré Cœur 3, Villa N°9947, Dakar — Sénégal
+  </div>
+  <div class="foot">Vérifié le <span id="d"></span> · sen-ecosystem.com<br>Si ce document vous semble falsifié, contactez contact@sen-ecosystem.com</div>
+</div>
+<script>
+var p=new URLSearchParams(location.search);
+var doc=p.get('doc')||'—';
+document.getElementById('ref').textContent=doc;
+document.getElementById('d').textContent=new Date().toLocaleString('fr-FR');
+</script>
+</body>
+</html>
