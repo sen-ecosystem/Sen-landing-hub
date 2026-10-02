@@ -218,6 +218,42 @@ function useTier(pts){
   setTimeout(function(){ location.href = 'panier.html'; }, 900);
 }
 
+<script>
+// ===== Branchement solde réel Supabase (loyalty_points) =====
+(function(){
+  var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
+  var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
+  var u=null;
+  try{u=JSON.parse(sessionStorage.getItem('sentew_user')||localStorage.getItem('sentew_user'));}catch(e){}
+  if(!u||!u.email) return; // visiteur non connecté : on garde l'affichage local
+
+  fetch(SUPA_URL+'/rest/v1/rpc/loyalty_balance',{
+    method:'POST',
+    headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify({p_email:u.email})
+  })
+  .then(function(r){return r.json();})
+  .then(function(pts){
+    if(typeof pts!=='number') return;
+    var fmt=function(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,' ');};
+    // Solde réel affiché sur la carte membre
+    var el=document.querySelector('.member .pts');
+    if(el) el.textContent=fmt(pts);
+    // Niveau recalculé selon le vrai solde (Teranga 0 / Jaay 500 / Xeweul 2000)
+    var card=document.querySelector('.member');
+    if(card){
+      card.classList.remove('teranga','jaay','xeweul');
+      if(pts>=2000) card.classList.add('xeweul');
+      else if(pts>=500) card.classList.add('jaay');
+      else card.classList.add('teranga');
+    }
+    var badge=document.querySelector('.member .lvl-badge');
+    if(badge) badge.textContent = pts>=2000 ? '🖤 Xeweul — points ×2' : pts>=500 ? '⚪ Jaay — points ×1,5' : '💚 Teranga — points ×1';
+  })
+  .catch(function(){ /* hors ligne : affichage local conservé */ });
+})();
+</script>
+
 render();
 function renderIcons(){ if (window.lucide) lucide.createIcons(); }
 renderIcons();
