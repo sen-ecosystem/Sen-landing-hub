@@ -218,6 +218,15 @@ function useTier(pts){
   setTimeout(function(){ location.href = 'panier.html'; }, 900);
 }
 
+
+
+render();
+function renderIcons(){ if (window.lucide) lucide.createIcons(); }
+renderIcons();
+window.addEventListener('load', renderIcons);
+setTimeout(renderIcons, 600);
+cartBadge();
+</script>
 <script>
 // ===== Branchement solde réel Supabase (loyalty_points) =====
 (function(){
@@ -252,14 +261,6 @@ function useTier(pts){
   })
   .catch(function(){ /* hors ligne : affichage local conservé */ });
 })();
-</script>
-
-render();
-function renderIcons(){ if (window.lucide) lucide.createIcons(); }
-renderIcons();
-window.addEventListener('load', renderIcons);
-setTimeout(renderIcons, 600);
-cartBadge();
 </script>
 <script src="js/dark-mode.js"></script>
   <script src="js/i18n.js"></script> 
