@@ -55,7 +55,7 @@
   <!-- Langue & région -->
   <h2 class="section-title"><i data-lucide="globe" class="icon icon-sm icon-bleu"></i> LANGUE & RÉGION</h2>
   <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <label style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f5f5f0"><i data-lucide="languages" class="icon icon-md icon-vert"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Langue</span><select style="width:auto;padding:6px 10px;font-size:13px"><option>Français</option><option>English</option><option>Wolof</option></select></label>
+    <label style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f5f5f0"><i data-lucide="languages" class="icon icon-md icon-vert"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Langue</span><select id="langSel" onchange="stSetLang(this.value)" style="width:auto;padding:6px 10px;font-size:13px;border:1.5px solid #e3ede8;border-radius:10px;background:#fbfdfc;font-weight:700;color:#0f6b4e"><option value="fr">Français</option><option value="en">English</option><option value="wo">Wolof</option><option value="ar">العربية</option><option value="pt">Português</option><option value="es">Español</option></select></label>
     <label style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f5f5f0"><i data-lucide="banknote" class="icon icon-md icon-or"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Devise</span><select id="curSel" onchange="stSetCurrency(this.value)" style="width:auto;max-width:60%;padding:6px 10px;font-size:13px;border:1.5px solid #e3ede8;border-radius:10px;background:#fbfdfc;font-weight:700;color:#0f6b4e"></select></label>
     <label style="padding:14px 16px;display:flex;align-items:center;gap:12px"><i data-lucide="moon" class="icon icon-md" style="color:#4a5a52"></i><span style="flex:1;font-size:14px;font-weight:600;color:#0a1f17">Mode sombre</span><input type="checkbox" data-theme-toggle style="width:auto;padding:0"></label>
   </div>
@@ -97,6 +97,6 @@ lucide.createIcons();
   else setTimeout(fillCur,400);
 })();
 </script>
-  <script src="js/i18n.js"></script>
+<script src="js/i18n.js"></script>
 </body>
 </html>
