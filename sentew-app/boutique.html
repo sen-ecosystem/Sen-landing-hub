@@ -55,7 +55,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
   <div class="shop-row">
     <img id="shopAvatar" class="shop-avatar" src="" alt="">
     <div style="flex:1;min-width:0">
-      <div class="shop-name"><span id="shopName">Chargement…</span> <i data-lucide="badge-check" style="color:#0f6b4e;width:18px"></i></div>
+      <div class="shop-name"><span id="shopName">Chargement…</span> <i data-lucide="badge-check" style="color:#0f6b4e;width:18px"></i><span id="officialBadge"></span></div>
       <div class="shop-meta" id="shopMeta"></div>
     </div>
   </div>
@@ -127,6 +127,9 @@ async function init(){
 
     document.title = SHOP.shop_name + ' - SEN TEW';
     document.getElementById('shopName').textContent = SHOP.shop_name;
+    if(SHOP.shop_name==='SEN TEW Official'){
+  document.getElementById('officialBadge').outerHTML=' <span style="background:linear-gradient(135deg,#d4a017,#f0c040);color:#fff;font-size:10px;font-weight:900;padding:3px 9px;border-radius:9px;vertical-align:middle">✅ OFFICIEL</span>';
+}
     document.getElementById('shopMeta').textContent = (SHOP.category||'') + ' · ' + (SHOP.city||'Dakar');
     document.getElementById('shopDesc').textContent = SHOP.description || '';
     if (SHOP.logo_url) document.getElementById('shopAvatar').src = SHOP.logo_url;
@@ -157,7 +160,7 @@ async function init(){
     var others=await supa('vendors','select=slug,shop_name,logo_url,rating,followers,city,category&status=eq.active&slug=neq.'+slug+'&limit=10&order=followers.desc');
     var oh=document.getElementById('otherShops');
     if(!Array.isArray(others)||!others.length){oh.innerHTML='<div style="color:#9aa5a0;font-size:12px;padding:20px">Aucune autre boutique pour le moment.</div>';}
-    else{oh.innerHTML=others.map(function(v){return '<a class="osh-card" href="boutique.html?slug='+v.slug+'"><img src="'+(v.logo_url||'')+'" alt=""><div class="osh-n">'+v.shop_name+'</div><div class="osh-m">'+(v.category||'')+' · '+(v.city||'')+'</div><div class="osh-r">⭐ '+(v.rating||'5.0')+' · '+fmt(v.followers||0)+' abonnés</div></a>';}).join('');lucide.createIcons();}
+    else{oh.innerHTML=others.map(function(v){return '<a class="osh-card" href="boutique.html?slug='+v.slug+'"><img src="'+(v.logo_url||'')+'" alt="">'<div class="osh-n">'+v.shop_name+(v.shop_name==='SEN TEW Official'?' <span style="background:linear-gradient(135deg,#d4a017,#f0c040);color:#fff;font-size:8px;font-weight:900;padding:1px 6px;border-radius:7px">✅ OFFICIEL</span>':'')+'</div>'<div class="osh-m">'+(v.category||'')+' · '+(v.city||'')+'</div><div class="osh-r">⭐ '+(v.rating||'5.0')+' · '+fmt(v.followers||0)+' abonnés</div></a>';}).join('');lucide.createIcons();}
   } catch(e){
     fail('Erreur de connexion');
   }
