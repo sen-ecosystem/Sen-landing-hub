@@ -111,21 +111,16 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
   </div>
 
   <!-- VIDÉO PRODUIT -->
-<div class="photo-zone" id="videoZone" style="margin-top:12px;border-color:#0f6b4e">
-  <div class="pi"><i data-lucide="video"></i></div>
-  <b>Ajoute une vidéo (optionnel)</b>
-  <span>Max 60 s · 25 Mo · verticale ou carrée. Les produits avec vidéo vendent 2× plus.</span>
-</div>
-<input type="file" id="videoInput" accept="video/*" style="display:none">
-<div id="videoPreview" style="margin-top:10px"></div>
-<script>
-document.getElementById('videoZone').addEventListener('click',function(){document.getElementById('videoInput').click();});
-document.getElementById('videoInput').addEventListener('change',function(){
-  var f=this.files[0]; if(!f)return;
-  if(f.size>25*1024*1024){alert('Vidéo trop lourde (max 25 Mo)');this.value='';return;}
-  document.getElementById('videoPreview').innerHTML='<video src="'+URL.createObjectURL(f)+'" style="width:120px;height:120px;border-radius:11px;object-fit:cover;border:2px solid #0f6b4e" muted controls></video>';
-});
-</script>
+  <div class="card">
+    <h3><i data-lucide="video"></i>Vidéo du produit <span style="font-size:9px;background:#d1fae5;color:#065f46;padding:3px 8px;border-radius:8px;margin-left:2px">OPTIONNEL</span></h3>
+    <div class="photo-zone" id="videoZone" style="border-color:#0f6b4e">
+      <div class="pi"><i data-lucide="video"></i></div>
+      <b>Ajoute une vidéo courte</b>
+      <span>Max 60 secondes · 25 Mo · verticale ou carrée. Les produits avec vidéo vendent 2× plus.</span>
+    </div>
+    <input type="file" id="videoInput" accept="video/*" style="display:none">
+    <div id="videoPreview" style="margin-top:10px"></div>
+  </div>
 
       <!-- 📸 PHOTO IA (réservé aux abonnés) -->
     <div class="ai-card">
@@ -241,7 +236,7 @@ document.getElementById('videoInput').addEventListener('change',function(){
   <button class="btn" onclick="window.location.href='produits-vendeur.html'"><i data-lucide="package"></i>Voir mes produits</button>
 </div>
 
-<div class="tip" onclick="alert('Conseils de pro pour vendre vite\n\n• Photo 1 : produit seul, fond clair, lumière du jour\n• Prix promo réel : le client vérifie — une fausse promo détruit ta note\n• Livraison gratuite = badge vert + 2× plus de ventes si ta marge le permet\n• Stock réel : un client qui commande un produit épuisé = litige\n\nⓘ Produits sponsorisés : booste ce produit depuis Promotions dans ton espace.')">ⓘ<span>Astuce : photo claire + promo réelle + livraison gratuite = les 3 leviers n°1 des vendeurs qui réussissent. Clique pour les conseils.</span></div>
+<div class="tip" onclick="alert('Conseils de pro pour vendre vite\n\n• Photo 1 : produit seul, fond clair, lumière du jour\n• Vidéo courte : montre le produit en action, 15-30 secondes suffisent\n• Prix promo réel : le client vérifie — une fausse promo détruit ta note\n• Livraison gratuite = badge vert + 2× plus de ventes si ta marge le permet\n• Stock réel : un client qui commande un produit épuisé = litige\n\nⓘ Produits sponsorisés : booste ce produit depuis Promotions dans ton espace.')">ⓘ<span>Astuce : photo claire + vidéo courte + promo réelle = les vendeurs qui réussissent. Clique pour les conseils.</span></div>
 
 <script>
 lucide.createIcons();
@@ -294,7 +289,6 @@ var AI_USED=parseInt(localStorage.getItem('st_ai_used_month')||'0');
 function renderAiGate(){
   var btn=document.getElementById('aiBtn');
   var quota=AI_QUOTAS[VENDOR_PLAN]||0;
-  /* Marque mon plan dans la comparaison */
   var mine=document.getElementById('plan-'+VENDOR_PLAN);
   if(mine)mine.classList.add('mine');
   if(quota===0){
@@ -374,6 +368,17 @@ document.getElementById('photoInput').addEventListener('change',function(){
   });
 });
 
+/* ===== Vidéo produit (prévisualisation locale) ===== */
+var VIDEO_URL=null;
+document.getElementById('videoZone').onclick=function(){document.getElementById('videoInput').click()};
+document.getElementById('videoInput').addEventListener('change',function(){
+  var f=this.files[0]; if(!f)return;
+  if(f.size>25*1024*1024){showErr('Vidéo trop lourde (max 25 Mo). Compresse-la ou choisis-en une plus courte.');this.value='';return}
+  VIDEO_URL=URL.createObjectURL(f);
+  document.getElementById('videoPreview').innerHTML='<video src="'+VIDEO_URL+'" style="width:100%;max-width:220px;border-radius:11px;border:2px solid #0f6b4e" muted controls playsinline></video>';
+  hideErr();
+});
+
 /* ===== Livraison gratuite ===== */
 var FREE_SHIP=false;
 document.getElementById('shipToggle').onclick=function(){
@@ -422,7 +427,6 @@ document.getElementById('publishBtn').onclick=function(){
 
   var btn=this;btn.disabled=true;btn.innerHTML='Publication en cours…';
 
-  /* Vendeur démo par défaut si non connecté (Aïcha Couture) */
   var vendorId=(USER&&USER.vendor_id)||'11111111-1111-1111-1111-111111111111';
 
   fetch(SUPA_URL+'/rest/v1/products',{
@@ -434,6 +438,7 @@ document.getElementById('publishBtn').onclick=function(){
       category:cat,subcategory:sub||null,
       price:price,old_price:oldPrice,
       images:PHOTO_URLS.length?PHOTO_URLS:['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600'],
+      video_url:VIDEO_URL,
       stock:stock,weight_g:weight,
       free_shipping:FREE_SHIP,
       is_active:true,rating:0,review_count:0,sold_count:0
