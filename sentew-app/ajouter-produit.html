@@ -110,6 +110,23 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
     <div class="photo-preview" id="photoPreview"></div>
   </div>
 
+  <!-- VIDÉO PRODUIT -->
+<div class="photo-zone" id="videoZone" style="margin-top:12px;border-color:#0f6b4e">
+  <div class="pi"><i data-lucide="video"></i></div>
+  <b>Ajoute une vidéo (optionnel)</b>
+  <span>Max 60 s · 25 Mo · verticale ou carrée. Les produits avec vidéo vendent 2× plus.</span>
+</div>
+<input type="file" id="videoInput" accept="video/*" style="display:none">
+<div id="videoPreview" style="margin-top:10px"></div>
+<script>
+document.getElementById('videoZone').addEventListener('click',function(){document.getElementById('videoInput').click();});
+document.getElementById('videoInput').addEventListener('change',function(){
+  var f=this.files[0]; if(!f)return;
+  if(f.size>25*1024*1024){alert('Vidéo trop lourde (max 25 Mo)');this.value='';return;}
+  document.getElementById('videoPreview').innerHTML='<video src="'+URL.createObjectURL(f)+'" style="width:120px;height:120px;border-radius:11px;object-fit:cover;border:2px solid #0f6b4e" muted controls></video>';
+});
+</script>
+
       <!-- 📸 PHOTO IA (réservé aux abonnés) -->
     <div class="ai-card">
       <h4><i data-lucide="sparkles"></i>Photo IA Studio <span style="font-size:9px;background:#8b5cf6;padding:3px 8px;border-radius:8px;margin-left:2px">PRO</span></h4>
