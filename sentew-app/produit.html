@@ -279,6 +279,10 @@ function renderGallery(imgs, videoUrl){
   imgs.forEach(function(u){items.push('<img src="'+u+'" alt="">');});
   t.innerHTML=items.join('');
   d.innerHTML=items.map(function(_,i){return '<i class="'+(i===0?'on':'')+'"></i>';}).join('');
+  t.addEventListener('scroll', function(){
+    var idx=Math.round(t.scrollLeft/t.clientWidth);
+    d.querySelectorAll('i').forEach(function(el,i){el.classList.toggle('on',i===idx);});
+  });
 }
 
 function renderRateBars(p){
