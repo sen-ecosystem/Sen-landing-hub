@@ -352,6 +352,9 @@ function render(p){
 
   if (p.vendors) {
     document.getElementById('sName').textContent = p.vendors.shop_name;
+if(p.vendors.shop_name === 'SEN TEW Official'){
+  document.getElementById('sName').insertAdjacentHTML('afterend',' <span style="background:linear-gradient(135deg,#d4a017,#f0c040);color:#fff;font-size:9px;font-weight:900;padding:2px 7px;border-radius:8px;vertical-align:middle">✅ OFFICIEL</span>');
+}
     document.getElementById('sLogo').src = p.vendors.logo_url || '';
     document.getElementById('sMeta').textContent = '⭐ ' + (p.vendors.rating || '—') + ' · ' + fmtPrix(p.vendors.followers || 0) + ' abonnés';
     document.getElementById('sellerCard').href = lienBoutique(p.vendors);
