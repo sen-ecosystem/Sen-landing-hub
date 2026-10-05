@@ -210,11 +210,13 @@ getVendors().then(function(vendors){
 getProducts().then(function(prods){
   var grid = document.getElementById('grid');
   if (!prods || !prods.length) { grid.innerHTML = '<div class="empty">Aucun produit disponible</div>'; return; }
+  prods.sort(function(a,b){ return (b.is_sponsored?1:0)-(a.is_sponsored?1:0); });
   var html = '', adIdx = 0;
   prods.forEach(function(p, i){
     var promo = p.old_price ? Math.round((1 - p.price/p.old_price)*100) : 0;
     var isFav = favHas(p.id);
     html += '<div class="pcard">' +
+      (p.is_sponsored ? '<span style="position:absolute;top:8px;left:8px;background:rgba(0,0,0,.55);color:#fff;font-size:8px;font-weight:800;padding:3px 7px;border-radius:7px;z-index:5">Sponsorisé</span>' : '') +
       (promo ? '<span class="badge-promo">-' + promo + '%</span>' : '') +
       '<button class="btn-fav' + (isFav?' on':'') + '" data-pid="' + p.id + '"><i data-lucide="heart" style="width:16px"></i></button>' +
       '<img class="pimg" src="' + (p.images && p.images[0] || '') + '" alt="" onclick="location.href=\'' + lienProduit(p) + '\'">' +
