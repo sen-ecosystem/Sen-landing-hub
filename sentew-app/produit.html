@@ -56,7 +56,6 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .seller-card .sn{font-size:15px;font-weight:800;color:#0a1f17;display:flex;align-items:center;gap:5px}
 .seller-card .sm{font-size:11px;color:#6B7280;margin-top:2px}
 .seller-card .go{margin-left:auto;color:#0f6b4e;font-size:12px;font-weight:800}
-/* ===== SECTIONS AVEC APERÇU VISIBLE (toujours ouvertes, "Lire plus") ===== */
 .acc{background:#fff;margin-bottom:8px}
 .acc-head{display:flex;align-items:center;gap:8px;padding:14px 16px 8px}
 .acc-head h2{font-size:13px;font-weight:800;color:#b8860b;letter-spacing:.5px;display:flex;align-items:center;gap:6px;flex:1}
@@ -178,8 +177,6 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
     <span class="go">Voir la boutique ›</span>
   </a>
 
-  <!-- ===== SECTIONS : contenu TOUJOURS visible en aperçu + bouton Lire plus ===== -->
-
   <div class="acc clipped" id="accDesc">
     <div class="acc-head"><h2><i data-lucide="file-text" style="width:15px"></i> DESCRIPTION</h2></div>
     <div class="acc-body">
@@ -261,7 +258,6 @@ var P = null, QTY = 1, SEL_COLOR = null, SEL_SIZE = null;
 var params = new URLSearchParams(location.search);
 var key = params.get('pid') || params.get('id');
 
-// "Lire plus" : déplie la section (le contenu est déjà visible en aperçu)
 function toggleAcc(id, btn){
   var el = document.getElementById(id);
   var nowOpen = el.classList.toggle('clipped') === false;
@@ -311,6 +307,9 @@ function render(p){
     var b = document.getElementById('pBadge');
     b.textContent = '-' + pct + '%'; b.style.display = 'inline-block';
   }
+  if (p.is_eco) {
+    document.getElementById('pBadge').insertAdjacentHTML('afterend','<span style="position:absolute;top:14px;right:70px;background:#16a34a;color:#fff;font-size:10px;font-weight:900;padding:4px 9px;border-radius:9px;z-index:5">🌿 ÉCO</span>');
+  }
   if (p.brand) {
     var br = document.getElementById('pBrand');
     br.textContent = p.brand;
@@ -352,9 +351,9 @@ function render(p){
 
   if (p.vendors) {
     document.getElementById('sName').textContent = p.vendors.shop_name;
-if(p.vendors.shop_name === 'SEN TEW Official'){
-  document.getElementById('sName').insertAdjacentHTML('afterend',' <span style="background:linear-gradient(135deg,#d4a017,#f0c040);color:#fff;font-size:9px;font-weight:900;padding:2px 7px;border-radius:8px;vertical-align:middle">✅ OFFICIEL</span>');
-}
+    if(p.vendors.shop_name === 'SEN TEW Official'){
+      document.getElementById('sName').insertAdjacentHTML('afterend',' <span style="background:linear-gradient(135deg,#d4a017,#f0c040);color:#fff;font-size:9px;font-weight:900;padding:2px 7px;border-radius:8px;vertical-align:middle">✅ OFFICIEL</span>');
+    }
     document.getElementById('sLogo').src = p.vendors.logo_url || '';
     document.getElementById('sMeta').textContent = '⭐ ' + (p.vendors.rating || '—') + ' · ' + fmtPrix(p.vendors.followers || 0) + ' abonnés';
     document.getElementById('sellerCard').href = lienBoutique(p.vendors);
@@ -362,7 +361,6 @@ if(p.vendors.shop_name === 'SEN TEW Official'){
   }
 
   document.getElementById('pDesc').textContent = p.description || 'Aucune description.';
-  // Description courte → pas besoin du bouton
   if ((p.description || '').length < 120) {
     document.getElementById('accDesc').classList.remove('clipped');
     document.querySelector('#accDesc .acc-more').style.display = 'none';
