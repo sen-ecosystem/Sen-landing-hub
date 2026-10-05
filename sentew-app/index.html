@@ -60,6 +60,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .pcard .pimg{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;cursor:pointer;background:#fff}
 .badge-promo{position:absolute;top:8px;left:8px;background:#e63946;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:8px;z-index:2}
+.badge-sponsored{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.55);color:#fff;font-size:8px;font-weight:800;padding:3px 7px;border-radius:7px;z-index:2}
 .btn-fav{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;background:#fff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.12);z-index:2;color:#9aa5a0}
 .btn-fav.on{color:#e63946}
 .btn-fav.on svg{fill:#e63946}
@@ -210,14 +211,14 @@ getVendors().then(function(vendors){
 getProducts().then(function(prods){
   var grid = document.getElementById('grid');
   if (!prods || !prods.length) { grid.innerHTML = '<div class="empty">Aucun produit disponible</div>'; return; }
+  /* Produits sponsorisés en premier (style Amazon "Sponsorisé") */
   prods.sort(function(a,b){ return (b.is_sponsored?1:0)-(a.is_sponsored?1:0); });
   var html = '', adIdx = 0;
   prods.forEach(function(p, i){
     var promo = p.old_price ? Math.round((1 - p.price/p.old_price)*100) : 0;
     var isFav = favHas(p.id);
     html += '<div class="pcard">' +
-      (p.is_sponsored ? '<span style="position:absolute;top:8px;left:8px;background:rgba(0,0,0,.55);color:#fff;font-size:8px;font-weight:800;padding:3px 7px;border-radius:7px;z-index:5">Sponsorisé</span>' : '') +
-      (promo ? '<span class="badge-promo">-' + promo + '%</span>' : '') +
+      (promo ? '<span class="badge-promo">-' + promo + '%</span>' : (p.is_sponsored ? '<span class="badge-sponsored">Sponsorisé</span>' : '')) +
       '<button class="btn-fav' + (isFav?' on':'') + '" data-pid="' + p.id + '"><i data-lucide="heart" style="width:16px"></i></button>' +
       '<img class="pimg" src="' + (p.images && p.images[0] || '') + '" alt="" onclick="location.href=\'' + lienProduit(p) + '\'">' +
       '<div class="pbody">' +
