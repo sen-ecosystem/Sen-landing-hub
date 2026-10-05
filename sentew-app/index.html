@@ -211,7 +211,7 @@ getVendors().then(function(vendors){
 getProducts().then(function(prods){
   var grid = document.getElementById('grid');
   if (!prods || !prods.length) { grid.innerHTML = '<div class="empty">Aucun produit disponible</div>'; return; }
-  /* Produits sponsorisés en premier (style Amazon "Sponsorisé") */
+  /* Produits sponsorisés en premier ("Sponsorisé") */
   prods.sort(function(a,b){ return (b.is_sponsored?1:0)-(a.is_sponsored?1:0); });
   var html = '', adIdx = 0;
   prods.forEach(function(p, i){
