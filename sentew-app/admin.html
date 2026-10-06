@@ -177,7 +177,7 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
 <body>
 
 <div class="topbar">
-  <h1><i data-lucide="shield"></i>SEN TEW Admin <span style="font-size:10px;background:#e8c468;color:#0a1f17;padding:2px 7px;border-radius:10px;vertical-align:middle">v25</span></h1>
+  <h1><i data-lucide="shield"></i>SEN TEW Admin <span style="font-size:10px;background:#e8c468;color:#0a1f17;padding:2px 7px;border-radius:10px;vertical-align:middle">v26</span></h1>
   <div class="top-actions">
     <button class="icobtn" onclick="silentRefresh();toast('Actualisé ✅')"><i data-lucide="refresh-cw"></i></button>
     <button class="icobtn" onclick="logout()"><i data-lucide="log-out"></i></button>
@@ -1196,6 +1196,7 @@ function dlBulletin(id){
   toast('Bulletin téléchargé ⬇️');
 }
 function dlBulletinPDF(id){
+  var ST_LOGO='<img src="https://raw.githubusercontent.com/sen-ecosystem/Sen-landing-hub/main/sentew-app/assets/logo.png" style="height:46px;display:block;margin-bottom:8px">';
   var s=DATA.salaries.find(function(x){return String(x.id)===String(id);});if(!s)return;
   if(!window.jspdf){toast('Chargement du module PDF…');return;}
   var b=calcBulletinPan(s.country||'SN', s.base_salary,s.bonuses,s.deductions);
@@ -1203,7 +1204,7 @@ function dlBulletinPDF(id){
   var GREEN=[15,107,78],DARK=[10,31,23],LIGHT=[242,246,244],RED=[192,57,43],GREY=[91,122,112];
   function fmt(n){return Math.round(n).toLocaleString('fr-FR').replace(/[\u202f\u00a0\u2009]/g,' ')+' '+b.currency;}
   doc.setFillColor.apply(doc,DARK);doc.rect(0,0,210,38,'F');
-  doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,16);
+  doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text(''+ST_LOGO+'SEN TEW SUARL',15,16);
   doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - '+b.country+' - contact@sen-ecosystem.com',15,22);
   doc.setTextColor(74,222,128);doc.setFontSize(12);doc.setFont('helvetica','bold');doc.text('BULLETIN DE PAIE',195,16,{align:'right'});
   doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Periode : '+String(s.period||''),195,22,{align:'right'});
@@ -1475,6 +1476,7 @@ function pdfSignDir(doc,y){
 
 
 async function dlInvoicePDF(id){
+  var ST_LOGO='<img src="https://raw.githubusercontent.com/sen-ecosystem/Sen-landing-hub/main/sentew-app/assets/logo.png" style="height:46px;display:block;margin-bottom:8px">';
   var f=DATA.invoices.find(function(v){return String(v.id)===String(id);});if(!f)return;
   if(!window.jspdf){toast('Chargement du module PDF…');return;}
   await prepQr(f.number||String(id));
@@ -1483,7 +1485,7 @@ async function dlInvoicePDF(id){
   var DARK=[10,31,23],GREEN=[15,107,78],GREY=[91,122,112];
   function fmt(n){return Math.round(n).toLocaleString('fr-FR').replace(/[\u202f\u00a0\u2009]/g,' ')+' F';}
   doc.setFillColor.apply(doc,DARK);doc.rect(0,0,210,34,'F');
-  doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,15);
+  doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text(''+ST_LOGO+'SEN TEW SUARL',15,15);
   doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - Dakar, Senegal',15,21);doc.text('contact@sen-ecosystem.com - sen-ecosystem.com',15,25);
   doc.setTextColor(74,222,128);doc.setFontSize(13);doc.setFont('helvetica','bold');doc.text('FACTURE',195,15,{align:'right'});
   doc.setFillColor.apply(doc,GREEN);doc.rect(0,34,210,2,'F');
@@ -1516,6 +1518,7 @@ doc.line(140,y,140,y+10);
   toast('Facture PDF téléchargée ⬇️');
 }
 function dlRecuPDF(id){
+  var ST_LOGO='<img src="https://raw.githubusercontent.com/sen-ecosystem/Sen-landing-hub/main/sentew-app/assets/logo.png" style="height:46px;display:block;margin-bottom:8px">';
   var f=DATA.invoices.find(function(v){return String(v.id)===String(id);});if(!f)return;
   if(f.status!=='paid'){toast('Le reçu est disponible une fois la facture payée');return;}
   if(!window.jspdf){toast('Chargement du module PDF…');return;}
@@ -1524,7 +1527,7 @@ function dlRecuPDF(id){
   var DARK=[10,31,23],GREEN=[15,107,78],GREY=[91,122,112];
   function fmt(n){return Math.round(n).toLocaleString('fr-FR').replace(/[\u202f\u00a0\u2009]/g,' ')+' F';}
   doc.setFillColor.apply(doc,GREEN);doc.rect(0,0,210,34,'F');
-  doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,15);
+  doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text(''+ST_LOGO+'SEN TEW SUARL',15,15);
   doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - Dakar, Senegal',15,21);doc.text('contact@sen-ecosystem.com - sen-ecosystem.com',15,25);
   doc.setFontSize(14);doc.setFont('helvetica','bold');doc.text('RECU DE PAIEMENT',195,15,{align:'right'});
   doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);doc.setFont('helvetica','normal');
@@ -2004,7 +2007,7 @@ setInterval(silentRefresh,30000);
 </script>
 
 <!-- ═══ FACTURATION PRO v25 — liens de paiement, réconciliation, relances, historique client ═══ -->
-<button id="fpBtn" style="position:fixed;bottom:86px;right:14px;z-index:9000;background:linear-gradient(135deg,#0f6b4e,#10b981);color:#fff;border:none;border-radius:99px;padding:13px 18px;font-weight:900;font-size:12px;box-shadow:0 6px 18px rgba(15,107,78,.4);cursor:pointer">🧾 FACTURATION PRO</button>
+<button id="fpBtn" style="position:fixed;bottom:14px;right:14px;z-index:9000;background:linear-gradient(135deg,#0f6b4e,#10b981);color:#fff;border:none;border-radius:99px;padding:13px 18px;font-weight:900;font-size:12px;box-shadow:0 6px 18px rgba(15,107,78,.4);cursor:pointer">🧾 FACTURATION PRO</button>
 <div id="fpPanel" style="display:none;position:fixed;inset:0;z-index:9001;background:#f5f5f0;overflow-y:auto">
   <div style="background:#0f6b4e;color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0">
     <b style="flex:1;font-size:15px">🧾 Facturation Pro</b>
@@ -2057,7 +2060,13 @@ window.fpCreateLink=function(){
   var cn=document.getElementById('fpClient').value.trim(),ph=document.getElementById('fpPhone').value.trim(),
       am=parseInt(document.getElementById('fpAmount').value)||0,de=document.getElementById('fpDesc').value.trim();
   if(!cn||am<100){alert('Nom client + montant (min 100 F) requis');return}
-  fpPost('payment_links',{client_name:cn,phone:ph,amount:am,description:de,status:'pending'}).then(function(){renderLinks()});
+  var btn=event.target;btn.disabled=true;btn.textContent='Création…';
+  fpPost('payment_links',{client_name:cn,phone:ph,amount:am,description:de,status:'pending'}).then(function(r){
+    btn.disabled=false;btn.textContent='Créer le lien';
+    if(r && (r.code||r.message)){ alert('❌ Enregistrement refusé : '+(r.message||r.code)+'\n\nSi le message parle de "row-level security", exécute le SQL de politique payment_links.'); return; }
+    if(r && r.length){ alert('✅ Lien créé pour '+cn); } else { alert('⚠️ Réponse inattendue — vérifie la liste.'); }
+    renderLinks();
+  }).catch(function(e){ btn.disabled=false;btn.textContent='Créer le lien'; alert('❌ Erreur réseau : '+e); });
 };
 window.fpMarkPaid=function(id){fpPatch('payment_links','id=eq.'+id,{status:'paid',paid_at:new Date().toISOString()}).then(function(){renderLinks()})};
 
@@ -2087,7 +2096,8 @@ function renderReco(){
     var orders=rs[0]||[],links=rs[1]||[];
     var totO=orders.reduce(function(s,x){return s+(x.total||0)},0);
     var totL=links.reduce(function(s,x){return s+(x.amount||0)},0);
-    var comm=Math.round(totO*0.08);
+    var totOff=(window.__fpOrders||[]).filter(function(o){return o.vendor_id==='fc406ba9-cc38-4b4b-84d4-ffe05ef4cfa6'}).reduce(function(a,x){return a+(x.total||0)},0);
+    var comm=Math.round((totO-totOff)*0.08);
     B.innerHTML='<div style="background:#fff;border-radius:12px;padding:14px;margin-bottom:10px"><b style="font-size:13px">⚖️ Réconciliation du mois</b>'
     +'<div style="font-size:12px;margin-top:10px;line-height:2">Commandes encaissées (app) : <b>'+fpFmt(totO)+'</b> ('+orders.length+' cmd)<br>Liens de paiement encaissés : <b>'+fpFmt(totL)+'</b> ('+links.length+' liens)<br>Commission plateforme 8% : <b style="color:#0f6b4e">'+fpFmt(comm)+'</b><br>À reverser aux vendeurs : <b style="color:#b45309">'+fpFmt(totO-comm)+'</b></div></div>'
     +'<button onclick="fpExportReco()" style="width:100%;padding:12px;background:#1a56c4;color:#fff;border:none;border-radius:12px;font-weight:800;cursor:pointer">⬇️ Export réconciliation (CSV)</button>';
@@ -2096,7 +2106,7 @@ function renderReco(){
 }
 window.fpExportReco=function(){
   var rows=[['Type','Reference','Client/Vendeur','Montant','Commission8%','Net','Statut','Date']];
-  (window.__fpOrders||[]).forEach(function(o){rows.push(['Commande',o.id,o.vendor_id,o.total,Math.round((o.total||0)*0.08),(o.total||0)-Math.round((o.total||0)*0.08),o.status,o.created_at])});
+  (window.__fpOrders||[]).forEach(function(o){var cr=o.vendor_id==='fc406ba9-cc38-4b4b-84d4-ffe05ef4cfa6'?0:Math.round((o.total||0)*0.08);rows.push(['Commande',o.id,o.vendor_id,o.total,cr,(o.total||0)-cr,o.status,o.created_at])});
   (window.__fpLinks||[]).forEach(function(l){rows.push(['Lien paiement',l.id,l.client_name,l.amount,'',l.amount,'paid',l.paid_at])});
   dlCSV('reconciliation-'+new Date().toISOString().slice(0,10)+'.csv',rows);
 };
