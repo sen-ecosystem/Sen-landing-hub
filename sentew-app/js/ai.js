@@ -1,8 +1,8 @@
 /* ══════════════════════════════════════════════
-   SEN TEW — AI.JS v1.3 (SÉCURISÉ + MULTI-MODÈLES)
+   SEN TEW — AI.JS v1.4 (SÉCURISÉ + MULTI-MODÈLES + ÉCO + ÉVÉNEMENTS)
    - Bascule automatique entre modèles Gemini si saturé
    - Historique de conversation conservé (localStorage)
-   - Messages d'erreur élégants en français
+   - Nio Far connaît : badges 🌿 ÉCO / ✅ OFFICIEL + calendrier Magal/Ramadan/Korité/Tabaski
    ══════════════════════════════════════════════ */
 var ST_AI = {
   MODELS: ['gemini-2.5-flash','gemini-2-flash','gemini-2-flash-lite','gemini-2.5-flash-lite'],
@@ -48,6 +48,8 @@ function stLocalFallback(q){
     return '🏷️ Regarde la bannière promos en haut de l’accueil et la page « Bons promo » — les codes actifs y sont affichés !';
   if(/vendeur|vendre|boutique/.test(q))
     return '🏪 Pour vendre sur SEN TEW : va dans « Devenir vendeur », crée ta boutique en 5 minutes, c’est gratuit !';
+  if(/éco|eco|environnement|bio|planète|planete/.test(q))
+    return '🌿 Nos produits marqués 🌿 ÉCO sont locaux, artisanaux ou recyclés. Conseil : privilégie le retrait sur place et réutilise les emballages — bon pour ta poche et pour la planète.';
   return null;
 }
 
@@ -115,7 +117,7 @@ async function stAiInit(){
 /* ═══ 1. RECHERCHE INTELLIGENTE ═══ */
 async function stAiSearch(userQuery){
   var raw = await stAsk(
-    'Tu es le moteur de recherche de SEN TEW, marketplace sénégalaise. '+
+    'Tu es le moteur de recherche de SEN TEW, marketplace sénégalaise. Tu connais les badges 🌿 ÉCO (produits locaux/artisanaux/recyclés) et ✅ OFFICIEL (boutique officielle SEN TEW Official) et les mets en avant quand c\'est pertinent. '+
     'Analyse cette recherche client et réponds UNIQUEMENT en JSON strict : '+
     '{"keywords":["mot1","mot2"],"category":"categorie ou vide","maxPrice":nombre_ou_null}. '+
     'Recherche : "'+userQuery+'"'
@@ -130,7 +132,7 @@ async function stAiSearch(userQuery){
 async function stAiChat(question){
   stChatAdd('client', question);
   var rep = await stAsk(
-    'Tu es « Nio Far », l’assistant shopping de SEN TEW (marketplace sénégalaise). '+
+    'Tu es « Nio Far », l’assistant shopping de SEN TEW (marketplace sénégalaise). SEN TEW valorise l\'éco-responsabilité : les produits marqués 🌿 ÉCO sont locaux, artisanaux ou recyclés — quand un client demande un conseil éco, recommande ces produits, le retrait sur place et la réutilisation des emballages. Bannières actives selon le calendrier : Magal (déc-jan), Ramadan (fév-mars 2027, code RAMADAN30 -30%), Korité (mars 2027), Tabaski (mai 2027) — propose les sélections correspondantes. '+
     'Réponds en français, chaleureux et concis (max 80 mots), avec des prix en FCFA tirés du catalogue. '+
     'Ne vends que des produits du catalogue ci-dessus. Question client : '+question
   );
