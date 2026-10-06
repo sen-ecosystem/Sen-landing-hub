@@ -4,13 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>SEN TEW - Marketplace du Sénégal</title>
+<meta name="description" content="SEN TEW — Marketplace sénégalaise : boutiques vérifiées, livraison suivie par QR code, paiement sécurisé, protection acheteur.">
+<meta property="og:title" content="SEN TEW — Marketplace du Sénégal">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://sen-ecosystem.com/sentew-app/index.html">
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="js/supabase.js"></script>
 <script src="js/security-shield.js"></script>
 <script src="js/currency.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-/* ===== Splash screen (logo au lancement) ===== */
 #splash{position:fixed;inset:0;z-index:9999;background:linear-gradient(160deg,#0a1f17 0%,#0f6b4e 55%,#0a1f17 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s ease;}
 #splash.hide{opacity:0;pointer-events:none}
 #splash .sp-logo{width:120px;height:120px;object-fit:contain;animation:spPop .9s cubic-bezier(.34,1.56,.64,1) both;filter:drop-shadow(0 6px 20px rgba(232,196,104,.35));border-radius:24px}
@@ -26,7 +29,6 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .topbar{display:flex;align-items:center;gap:14px;padding:14px 16px;background:#fff;position:sticky;top:0;z-index:40;border-bottom:1px solid #e5e7eb}
 .logo{font-size:19px;font-weight:900;color:#0f6b4e;display:flex;align-items:center;gap:6px;text-decoration:none;flex:1}
 .topbar a.icon,.topbar button.icon{width:38px;height:38px;border-radius:50%;background:#f5f5f0;display:flex;align-items:center;justify-content:center;color:#0f6b4e;text-decoration:none;border:none;cursor:pointer;position:relative}
-/* ===== Bannière promo (fixe, sans bouton fermer) ===== */
 .promo-banner{margin:12px 16px 0;border-radius:16px;overflow:hidden;position:relative;height:74px}
 .promo-slide{position:absolute;inset:0;display:flex;align-items:center;gap:12px;padding:0 18px;color:#fff;text-decoration:none;opacity:0;transition:opacity .6s}
 .promo-slide.on{opacity:1}
@@ -37,11 +39,9 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .promo-dots{position:absolute;bottom:6px;left:0;right:0;display:flex;justify-content:center;gap:5px}
 .promo-dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4)}
 .promo-dots i.on{background:#fff}
-/* ===== Sections ===== */
 .section-head{display:flex;align-items:center;justify-content:space-between;padding:18px 16px 10px}
 .section-head h2{font-size:13px;font-weight:800;color:#b8860b;letter-spacing:.5px;display:flex;align-items:center;gap:6px}
 .section-head a{font-size:12px;font-weight:700;color:#0f6b4e;text-decoration:none}
-/* ===== Live boutiques ===== */
 .live-row{display:flex;gap:16px;overflow-x:auto;padding:4px 16px;scrollbar-width:none}
 .live-row::-webkit-scrollbar{display:none}
 .live-item{display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;flex-shrink:0}
@@ -49,12 +49,10 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .live-item img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2.5px solid #f5f5f0;display:block}
 .live-item .lv{position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);background:#e63946;color:#fff;font-size:8px;font-weight:800;padding:2px 7px;border-radius:8px}
 .live-item span{font-size:11px;font-weight:700;color:#0a1f17;max-width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-/* ===== Catégories ===== */
 .cats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:4px 16px}
 .cat{background:#fff;border-radius:16px;padding:16px 6px;text-align:center;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.05)}
 .cat .ci{width:44px;height:44px;border-radius:14px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center}
 .cat span{font-size:11px;font-weight:700;color:#0a1f17}
-/* ===== Grille produits ===== */
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:4px 12px;align-items:start}
 .pcard{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);position:relative;animation:fadeIn .3s}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -73,7 +71,6 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .pold{font-size:11px;color:#9aa5a0;text-decoration:line-through;margin-left:6px}
 .pmeta{font-size:10px;color:#9aa5a0;margin-top:3px;display:flex;align-items:center;gap:5px}
 .btn-add{width:100%;margin-top:8px;padding:9px;background:#0f6b4e;color:#fff;border:none;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px}
-/* ===== Pub FLASH pleine largeur (tous les 6 produits) ===== */
 .flash-ad{grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:16px;border-radius:16px;color:#fff;text-decoration:none;animation:adGlow 2s infinite}
 @keyframes adGlow{0%,100%{box-shadow:0 4px 14px rgba(0,0,0,.15)}50%{box-shadow:0 4px 22px rgba(230,57,70,.45)}}
 .flash-ad .ai{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -81,7 +78,6 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .flash-ad span{font-size:11px;opacity:.9}
 .flash-ad .go{margin-left:auto;background:#fff;color:#0a1f17;font-size:11px;font-weight:800;padding:7px 12px;border-radius:20px;flex-shrink:0}
 .loading,.empty{grid-column:1/-1;text-align:center;padding:40px 20px;color:#9aa5a0}
-/* ===== Cookies RGPD ===== */
 .cookie-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid #0f6b4e;padding:16px;z-index:200;box-shadow:0 -4px 20px rgba(0,0,0,.12)}
 .cookie-bar h3{font-size:14px;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:8px}
 .cookie-bar p{font-size:12px;color:#4b5563;line-height:1.5;margin-bottom:12px}
@@ -91,12 +87,10 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
 .ck-refuse{background:#fff;color:#6B7280;border-color:#d1d5db !important}
 .ck-pref{background:#fff;color:#0f6b4e}
 .ck-accept{background:#0f6b4e;color:#fff}
-/* ===== Nav ===== */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
 .bottom-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-decoration:none;color:#6B7280;font-size:10px;font-weight:600;position:relative;min-height:44px}
 .bottom-nav a.active{color:#0f6b4e}
 .bottom-nav a svg{width:22px;height:22px}
-
 body.dark-mode,body[data-theme='dark']{--bg:#0e1512;--card:#17221d;--ink:#e8f2ee;--muted:#8fa89f;background:#0e1512;color:#e8f2ee}
 body.dark-mode .card,body.dark-mode .promo-banner,body.dark-mode header.topbar,body.dark-mode .bottom-nav,body.dark-mode .cat,body.dark-mode input,body.dark-mode select,body.dark-mode button.icon{background:#17221d!important;color:#e8f2ee;border-color:#26372f}
 body.dark-mode .bottom-nav a{color:#9fb8ad!important}
@@ -108,7 +102,6 @@ body.dark-mode .live-badge,body.dark-mode .badge-live{color:#fff!important}
 body.dark-mode .vente-flash,body.dark-mode .flash,body.dark-mode .promo-card{color:#f5e6e6!important}
 body.dark-mode a,body.dark-mode h1,body.dark-mode h2,body.dark-mode h3,body.dark-mode .nm{color:#e8f2ee}
 body.dark-mode .meta,body.dark-mode small{color:#8fa89f}
-
 </style>
 </head>
 <body>
@@ -121,33 +114,29 @@ body.dark-mode .meta,body.dark-mode small{color:#8fa89f}
   <button class="icon" data-theme-toggle aria-label="Mode sombre"><i data-lucide="moon"></i></button>
 </header>
 
-<!-- Bannière promo défilante (fixe) -->
 <div class="promo-banner" id="promoBanner"></div>
 
-<!-- Boutiques en live -->
 <div class="section-head">
   <h2><i data-lucide="radio" style="width:15px;color:#e63946"></i> BOUTIQUES EN LIVE</h2>
   <a href="boutiques-live.html">Voir tout ›</a>
 </div>
 <div class="live-row" id="liveRow"><div class="loading">Chargement…</div></div>
 
-<!-- Catégories -->
 <div class="section-head"><h2><i data-lucide="layout-grid" style="width:15px"></i> CATÉGORIES</h2></div>
 <div class="cats">
   <a class="cat" href="categories.html?c=mode"><div class="ci" style="background:#ede9fe;color:#7c3aed"><i data-lucide="shirt"></i></div><span>Mode</span></a>
   <a class="cat" href="categories.html?c=electronique"><div class="ci" style="background:#dbeafe;color:#2563eb"><i data-lucide="smartphone"></i></div><span>Tech</span></a>
   <a class="cat" href="categories.html?c=beaute"><div class="ci" style="background:#fce7f3;color:#db2777"><i data-lucide="sparkles"></i></div><span>Beauté</span></a>
   <a class="cat" href="categories.html?c=maison"><div class="ci" style="background:#fef3c7;color:#b45309"><i data-lucide="home"></i></div><span>Maison</span></a>
+  <a class="cat" href="categories.html?c=alimentation"><div class="ci" style="background:#dcfce7;color:#16a34a"><i data-lucide="wheat"></i></div><span>Local</span></a>
 </div>
 
-<!-- Tendances (produits réels Supabase) -->
 <div class="section-head">
   <h2><i data-lucide="flame" style="width:15px;color:#e63946"></i> TENDANCES</h2>
   <a href="produits.html">Voir tout ›</a>
 </div>
 <div class="grid" id="grid"><div class="loading">Chargement des produits…</div></div>
 
-<!-- Bandeau cookies RGPD -->
 <div class="cookie-bar" id="cookieBar" style="display:none">
   <h3>🍪 Nous respectons ta vie privée</h3>
   <p>Nous utilisons des cookies pour améliorer ton expérience, mesurer l'audience et personnaliser les offres. <a href="mentions-legales.html?tab=cookies">En savoir plus</a></p>
@@ -168,12 +157,22 @@ body.dark-mode .meta,body.dark-mode small{color:#8fa89f}
 </nav>
 
 <script>
-// ===== Bannière promo (3 slides défilantes, fixes) =====
-var PROMOS = [
-  {bg:'linear-gradient(135deg,#0f6b4e,#0a4d38)', icon:'tag',    t:'Code RAMADAN30 · -30%',       s:"Jusqu'à ce soir",       go:"J'EN PROFITE", href:'produits.html'},
-  {bg:'linear-gradient(135deg,#e63946,#ff7b00)', icon:'zap',    t:'VENTE FLASH',                  s:'-30% sur la mode',      go:'VOIR',        href:'categories.html?c=mode'},
-  {bg:'linear-gradient(135deg,#6b46c1,#4c1d95)', icon:'radio',  t:'LIVE SHOPPING EN DIRECT',      s:'Achète en direct',      go:'REGARDER',    href:'boutiques-live.html'}
+var EVENTS = [
+  {start:'2026-12-20', end:'2027-01-05', bg:'linear-gradient(135deg,#7c2d12,#b45309)', icon:'moon', t:'SÉLECTION MAGAL', s:'Coffrets, tissus & cadeaux pour Touba', go:'DÉCOUVRIR', href:'produits.html?ev=magal'},
+  {start:'2027-02-18', end:'2027-03-19', bg:'linear-gradient(135deg,#065f46,#10b981)', icon:'moon', t:'RAMADAN · -30%', s:'Code RAMADAN30 sur tout', go:'PROFITER', href:'produits.html'},
+  {start:'2027-03-19', end:'2027-03-22', bg:'linear-gradient(135deg,#0f6b4e,#e8c468)', icon:'sparkles', t:'KORITÉ · FÊTE EN FAMILLE', s:'Mode, pagnes & coffrets festifs', go:'VOIR', href:'categories.html?c=mode'},
+  {start:'2027-05-15', end:'2027-05-28', bg:'linear-gradient(135deg,#78350f,#d97706)', icon:'gift', t:'TABASKI · GRANDES OFFRES', s:'Tissus, électroménager & coffrets', go:'PRÉPARER', href:'produits.html?ev=tabaski'}
 ];
+var PROMOS = (function(){
+  var today = new Date().toISOString().slice(0,10);
+  var actifs = EVENTS.filter(function(e){ return today >= e.start && today <= e.end; });
+  var base = [
+    {bg:'linear-gradient(135deg,#0f6b4e,#0a4d38)', icon:'tag', t:'SEN TEW · Livraison suivie', s:'QR code sur chaque colis', go:'COMMANDER', href:'produits.html'},
+    {bg:'linear-gradient(135deg,#e63946,#ff7b00)', icon:'zap', t:'VENTE FLASH', s:'Promos du moment', go:'VOIR', href:'categories.html?c=mode'},
+    {bg:'linear-gradient(135deg,#6b46c1,#4c1d95)', icon:'radio', t:'LIVE SHOPPING', s:'Bientôt en direct', go:'DÉCOUVRIR', href:'boutiques-live.html'}
+  ];
+  return actifs.concat(base).slice(0,3);
+})();
 var ADS = [
   {bg:'linear-gradient(135deg,#e63946,#ff7b00)', icon:'zap',   t:'VENTE FLASH -30%',            s:'Code RAMADAN30 · ce soir 23h', go:"J'EN PROFITE ›", href:'categories.html?c=mode'},
   {bg:'linear-gradient(135deg,#0f6b4e,#0a4d38)', icon:'gift',  t:'PARRAINAGE : 500 FCFA OFFERTS', s:'Par ami parrainé',            go:'PARRAINER ›',    href:'parrainage.html'},
@@ -196,7 +195,6 @@ function renderPromo(){
 renderPromo();
 setInterval(function(){ curPromo = (curPromo+1) % PROMOS.length; renderPromo(); }, 4000);
 
-// ===== Boutiques en live (réelles) =====
 getVendors().then(function(vendors){
   var row = document.getElementById('liveRow');
   if (!vendors || !vendors.length) { row.innerHTML = '<div class="empty">Aucun live pour le moment</div>'; return; }
@@ -207,11 +205,9 @@ getVendors().then(function(vendors){
   }).join('');
 });
 
-// ===== Tendances (produits réels) + pub tous les 6 =====
 getProducts().then(function(prods){
   var grid = document.getElementById('grid');
   if (!prods || !prods.length) { grid.innerHTML = '<div class="empty">Aucun produit disponible</div>'; return; }
-  /* Produits sponsorisés en premier ("Sponsorisé") */
   prods.sort(function(a,b){ return (b.is_sponsored?1:0)-(a.is_sponsored?1:0); });
   var html = '', adIdx = 0;
   prods.forEach(function(p, i){
@@ -241,14 +237,12 @@ getProducts().then(function(prods){
   grid.innerHTML = html;
   lucide.createIcons();
 
-  // Favoris
   grid.querySelectorAll('.btn-fav').forEach(function(btn){
     btn.addEventListener('click', function(){
       var p = prods.find(function(x){ return x.id === btn.dataset.pid; });
       if (p) { var on = favToggle(p); btn.classList.toggle('on', on); }
     });
   });
-  // Ajouter au panier
   grid.querySelectorAll('[data-add]').forEach(function(btn){
     btn.addEventListener('click', function(){
       var p = prods.find(function(x){ return x.id === btn.dataset.add; });
@@ -257,7 +251,6 @@ getProducts().then(function(prods){
   });
 });
 
-// ===== Cookies RGPD =====
 if (!localStorage.getItem('sentew_cookies')) {
   document.getElementById('cookieBar').style.display = 'block';
 }
@@ -267,7 +260,6 @@ function cookies(choice){
   toast(choice === 'accept' ? '✓ Cookies acceptés' : '✓ Cookies refusés');
 }
 
-// Icônes : appel robuste (règle le menu du bas cassé)
 function renderIcons(){ if (window.lucide) lucide.createIcons(); }
 renderIcons();
 window.addEventListener('load', renderIcons);
