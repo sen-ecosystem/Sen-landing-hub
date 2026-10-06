@@ -177,7 +177,7 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
 <body>
 
 <div class="topbar">
-  <h1><i data-lucide="shield"></i>SEN TEW Admin <span style="font-size:10px;background:#e8c468;color:#0a1f17;padding:2px 7px;border-radius:10px;vertical-align:middle">v24</span></h1>
+  <h1><i data-lucide="shield"></i>SEN TEW Admin <span style="font-size:10px;background:#e8c468;color:#0a1f17;padding:2px 7px;border-radius:10px;vertical-align:middle">v25</span></h1>
   <div class="top-actions">
     <button class="icobtn" onclick="silentRefresh();toast('Actualisé ✅')"><i data-lucide="refresh-cw"></i></button>
     <button class="icobtn" onclick="logout()"><i data-lucide="log-out"></i></button>
@@ -646,7 +646,31 @@ if(o.method&&m!=='GET')return rr;
 var jj=await rr.json();return Array.isArray(jj)?jj:[];
 }
 function setBadge(id,n){var b=$(id);if(!b)return;if(n>0){b.textContent=n;b.classList.add('on');}else{b.classList.remove('on');}}
-function dlCSV(name,rows){var csv=rows.map(function(r){return r.map(function(c){return '"'+String(c==null?'':c).replace(/"/g,'""')+'"';}).join(',');}).join('\n');var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,﻿'+encodeURIComponent(csv);a.download=name;a.click();}
+function dlCSV(name,rows){
+  var csv='\ufeff'+rows.map(function(r){return r.map(function(c){return '"'+String(c==null?'':c).replace(/"/g,'""')+'"';}).join(',');}).join('\n');
+  try{
+    var blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+    var url=URL.createObjectURL(blob);
+    var w=window.open(url,'_blank');
+    if(!w) throw 0;
+    setTimeout(function(){URL.revokeObjectURL(url);},60000);
+    if(typeof toast==='function')toast('CSV ouvert dans un onglet — Partager puis Enregistrer dans Fichiers');
+  }catch(e){
+    var ov=document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px';
+    var ta=document.createElement('textarea');
+    ta.readOnly=true;ta.style.cssText='flex:1;min-height:220px;font-size:10px;border:1.5px solid #ddd;border-radius:10px;padding:8px';
+    ta.value=csv;ta.onclick=function(){this.select()};
+    var box=document.createElement('div');
+    box.style.cssText='background:#fff;border-radius:16px;padding:16px;width:100%;max-width:420px;max-height:80vh;display:flex;flex-direction:column';
+    var t=document.createElement('b');t.textContent='Export '+name;t.style.cssText='font-size:14px;margin-bottom:8px';
+    var h=document.createElement('p');h.textContent='Sélectionne tout, copie, colle dans Excel/Numbers/Sheets.';h.style.cssText='font-size:11px;color:#666;margin-bottom:8px';
+    var btn=document.createElement('button');btn.textContent='Fermer';btn.style.cssText='margin-top:10px;padding:12px;background:#0f6b4e;color:#fff;border:none;border-radius:10px;font-weight:800;cursor:pointer';
+    btn.onclick=function(){ov.remove()};
+    box.appendChild(t);box.appendChild(h);box.appendChild(ta);box.appendChild(btn);
+    ov.appendChild(box);document.body.appendChild(ov);
+  }
+}
 
 /* â•â•â•â•â•â•â•â•â•â• ÉTAT â•â•â•â•â•â•â•â•â•â• */
 var DATA={vendors:[],drivers:[],orders:[],expenses:[],payouts:[],salaries:[],invoices:[],dels:[],photosIA:[],aiUsage:[]};
@@ -1180,7 +1204,7 @@ function dlBulletinPDF(id){
   function fmt(n){return Math.round(n).toLocaleString('fr-FR').replace(/[\u202f\u00a0\u2009]/g,' ')+' '+b.currency;}
   doc.setFillColor.apply(doc,DARK);doc.rect(0,0,210,38,'F');
   doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,16);
-  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - '+b.country+' - hello.senecosystem@gmail.com',15,22);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - '+b.country+' - contact@sen-ecosystem.com',15,22);
   doc.setTextColor(74,222,128);doc.setFontSize(12);doc.setFont('helvetica','bold');doc.text('BULLETIN DE PAIE',195,16,{align:'right'});
   doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Periode : '+String(s.period||''),195,22,{align:'right'});
   doc.setFillColor.apply(doc,GREEN);doc.rect(0,38,210,2,'F');
@@ -1460,7 +1484,7 @@ async function dlInvoicePDF(id){
   function fmt(n){return Math.round(n).toLocaleString('fr-FR').replace(/[\u202f\u00a0\u2009]/g,' ')+' F';}
   doc.setFillColor.apply(doc,DARK);doc.rect(0,0,210,34,'F');
   doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,15);
-  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - Dakar, Senegal',15,21);doc.text('hello.senecosystem@gmail.com - sen-ecosystem.com',15,25);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - Dakar, Senegal',15,21);doc.text('contact@sen-ecosystem.com - sen-ecosystem.com',15,25);
   doc.setTextColor(74,222,128);doc.setFontSize(13);doc.setFont('helvetica','bold');doc.text('FACTURE',195,15,{align:'right'});
   doc.setFillColor.apply(doc,GREEN);doc.rect(0,34,210,2,'F');
   doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);
@@ -1501,7 +1525,7 @@ function dlRecuPDF(id){
   function fmt(n){return Math.round(n).toLocaleString('fr-FR').replace(/[\u202f\u00a0\u2009]/g,' ')+' F';}
   doc.setFillColor.apply(doc,GREEN);doc.rect(0,0,210,34,'F');
   doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,15);
-  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - Dakar, Senegal',15,21);doc.text('hello.senecosystem@gmail.com - sen-ecosystem.com',15,25);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - Dakar, Senegal',15,21);doc.text('contact@sen-ecosystem.com - sen-ecosystem.com',15,25);
   doc.setFontSize(14);doc.setFont('helvetica','bold');doc.text('RECU DE PAIEMENT',195,15,{align:'right'});
   doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);doc.setFont('helvetica','normal');
   doc.text('Reçu lié à la facture N° : '+(f.number||''),15,48);
@@ -1529,7 +1553,7 @@ function dlPayoutRecuPDF(id){
   var role=p.recipient_type==='driver'?'LIVREUR':'VENDEUR';
   doc.setFillColor.apply(doc,GREEN);doc.rect(0,0,210,34,'F');
   doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,15);
-  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - Dakar, Senegal',15,21);doc.text('hello.senecosystem@gmail.com - sen-ecosystem.com',15,25);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - Dakar, Senegal',15,21);doc.text('contact@sen-ecosystem.com - sen-ecosystem.com',15,25);
   doc.setFontSize(13);doc.setFont('helvetica','bold');doc.text('RECU DE REVERSEMENT',195,15,{align:'right'});
   doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);doc.setFont('helvetica','normal');
   doc.text('Bénéficiaire : '+(p.recipient_name||p.recipient_email||'-'),15,48);
@@ -1559,7 +1583,7 @@ function dlAvoirPDF(o){
   function fmt(n){return Math.round(n).toLocaleString('fr-FR').replace(/[\u202f\u00a0\u2009]/g,' ')+' F';}
   doc.setFillColor.apply(doc,DARK);doc.rect(0,0,210,34,'F');
   doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('SEN TEW SUARL',15,15);
-  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - Dakar, Senegal',15,21);doc.text('hello.senecosystem@gmail.com - sen-ecosystem.com',15,25);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('RCCM SN.DKR.2026.B.35565 - NINEA 013373303 - Dakar, Senegal',15,21);doc.text('contact@sen-ecosystem.com - sen-ecosystem.com',15,25);
   doc.setTextColor(255,120,120);doc.setFontSize(13);doc.setFont('helvetica','bold');doc.text('AVOIR / REMBOURSEMENT',195,15,{align:'right'});
   doc.setFillColor.apply(doc,RED);doc.rect(0,34,210,2,'F');
   doc.setTextColor.apply(doc,DARK);doc.setFontSize(11);doc.setFont('helvetica','normal');
@@ -1978,5 +2002,145 @@ loadAll().catch(function(e){__diag('loadAll: '+((e&&e.message)||e),false);}).the
 silentRefresh();
 setInterval(silentRefresh,30000);
 </script>
+
+<!-- ═══ FACTURATION PRO v25 — liens de paiement, réconciliation, relances, historique client ═══ -->
+<button id="fpBtn" style="position:fixed;bottom:86px;right:14px;z-index:9000;background:linear-gradient(135deg,#0f6b4e,#10b981);color:#fff;border:none;border-radius:99px;padding:13px 18px;font-weight:900;font-size:12px;box-shadow:0 6px 18px rgba(15,107,78,.4);cursor:pointer">🧾 FACTURATION PRO</button>
+<div id="fpPanel" style="display:none;position:fixed;inset:0;z-index:9001;background:#f5f5f0;overflow-y:auto">
+  <div style="background:#0f6b4e;color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0">
+    <b style="flex:1;font-size:15px">🧾 Facturation Pro</b>
+    <button onclick="document.getElementById('fpPanel').style.display='none'" style="background:rgba(255,255,255,.2);color:#fff;border:none;border-radius:9px;padding:7px 12px;font-weight:800;cursor:pointer">✕ Fermer</button>
+  </div>
+  <div style="padding:14px;max-width:560px;margin:0 auto">
+    <div style="display:flex;gap:6px;overflow-x:auto;margin-bottom:12px" id="fpTabs">
+      <button class="fpt on" data-t="links" style="white-space:nowrap;padding:8px 12px;border-radius:99px;border:1.5px solid #0f6b4e;background:#0f6b4e;color:#fff;font-size:11px;font-weight:800;cursor:pointer">🔗 Liens</button>
+      <button class="fpt" data-t="suivi" style="white-space:nowrap;padding:8px 12px;border-radius:99px;border:1.5px solid #ddd;background:#fff;font-size:11px;font-weight:800;cursor:pointer">💰 Suivi règlements</button>
+      <button class="fpt" data-t="reco" style="white-space:nowrap;padding:8px 12px;border-radius:99px;border:1.5px solid #ddd;background:#fff;font-size:11px;font-weight:800;cursor:pointer">⚖️ Réconciliation</button>
+      <button class="fpt" data-t="relance" style="white-space:nowrap;padding:8px 12px;border-radius:99px;border:1.5px solid #ddd;background:#fff;font-size:11px;font-weight:800;cursor:pointer">🔔 Relances</button>
+      <button class="fpt" data-t="clients" style="white-space:nowrap;padding:8px 12px;border-radius:99px;border:1.5px solid #ddd;background:#fff;font-size:11px;font-weight:800;cursor:pointer">👥 Historique clients</button>
+    </div>
+    <div id="fpBody"></div>
+  </div>
+</div>
+<script>
+(function(){
+var SU='https://tjqkruhwmjzgfvtouqza.supabase.co',SK='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
+function fpGet(t,q){return fetch(SU+'/rest/v1/'+t+'?'+q,{headers:{apikey:SK,Authorization:'Bearer '+SK}}).then(function(r){return r.ok?r.json():[]}).catch(function(){return[]})}
+function fpPost(t,b){return fetch(SU+'/rest/v1/'+t,{method:'POST',headers:{apikey:SK,Authorization:'Bearer '+SK,'Content-Type':'application/json',Prefer:'return=representation'},body:JSON.stringify(b)}).then(function(r){return r.json()})}
+function fpPatch(t,q,b){return fetch(SU+'/rest/v1/'+t+'?'+q,{method:'PATCH',headers:{apikey:SK,Authorization:'Bearer '+SK,'Content-Type':'application/json'},body:JSON.stringify(b)})}
+var B=document.getElementById('fpBody');
+function fpFmt(n){return (n||0).toLocaleString('fr-FR')+' F'}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+function renderLinks(){
+  B.innerHTML='<div style="background:#fff;border-radius:14px;padding:14px;margin-bottom:12px"><b style="font-size:13px">➕ Nouveau lien de paiement</b>'
+  +'<input id="fpClient" placeholder="Nom du client" style="width:100%;margin-top:10px;padding:11px;border:1.5px solid #ddd;border-radius:10px;font-size:13px">'
+  +'<input id="fpPhone" placeholder="Téléphone (ex: 77xxxxxxx)" style="width:100%;margin-top:8px;padding:11px;border:1.5px solid #ddd;border-radius:10px;font-size:13px">'
+  +'<input id="fpAmount" type="number" placeholder="Montant FCFA" style="width:100%;margin-top:8px;padding:11px;border:1.5px solid #ddd;border-radius:10px;font-size:13px">'
+  +'<input id="fpDesc" placeholder="Motif (ex: Commande CMD-1234)" style="width:100%;margin-top:8px;padding:11px;border:1.5px solid #ddd;border-radius:10px;font-size:13px">'
+  +'<button onclick="fpCreateLink()" style="width:100%;margin-top:10px;padding:13px;background:#0f6b4e;color:#fff;border:none;border-radius:12px;font-weight:900;cursor:pointer">Créer le lien</button></div><div id="fpList">Chargement…</div>';
+  fpGet('payment_links','order=created_at.desc&limit=50').then(function(rows){
+    document.getElementById('fpList').innerHTML=(rows||[]).map(function(l){
+      var paid=l.status==='paid';
+      var url='https://sen-ecosystem.com/sentew-app/payer.html?id='+l.id;
+      return '<div style="background:#fff;border-radius:12px;padding:12px;margin-bottom:8px;border-left:4px solid '+(paid?'#16a34a':'#d97706')+'">'
+      +'<b>'+esc(l.client_name)+'</b> — '+fpFmt(l.amount)+' <span style="font-size:10px;color:#666">'+esc(l.description||'')+'</span><br>'
+      +'<span style="font-size:10px;font-weight:800;color:'+(paid?'#16a34a':'#d97706')+'">'+(paid?'✅ PAYÉ':'⏳ EN ATTENTE')+'</span><br>'
+      +'<input readonly value="'+url+'" onclick="this.select()" style="width:100%;font-size:10px;padding:6px;border:1px solid #ddd;border-radius:8px;margin-top:6px">'
+      +'<div style="display:flex;gap:6px;margin-top:6px">'
+      +'<a target="_blank" href="https://wa.me/'+(l.phone||'')+'?text='+encodeURIComponent('Bonjour '+(l.client_name||'')+', voici votre lien de paiement SEN TEW de '+fpFmt(l.amount)+' : '+url)+'" style="flex:1;text-align:center;background:#25d366;color:#fff;padding:8px;border-radius:9px;font-size:11px;font-weight:800;text-decoration:none">📲 WhatsApp</a>'
+      +(paid?'':'<button onclick="fpMarkPaid(\''+l.id+'\')" style="flex:1;background:#16a34a;color:#fff;border:none;padding:8px;border-radius:9px;font-size:11px;font-weight:800;cursor:pointer">✓ Marquer payé</button>')
+      +'</div></div>';
+    }).join('')||'<div style="text-align:center;color:#999;padding:20px">Aucun lien créé</div>';
+  });
+}
+window.fpCreateLink=function(){
+  var cn=document.getElementById('fpClient').value.trim(),ph=document.getElementById('fpPhone').value.trim(),
+      am=parseInt(document.getElementById('fpAmount').value)||0,de=document.getElementById('fpDesc').value.trim();
+  if(!cn||am<100){alert('Nom client + montant (min 100 F) requis');return}
+  fpPost('payment_links',{client_name:cn,phone:ph,amount:am,description:de,status:'pending'}).then(function(){renderLinks()});
+};
+window.fpMarkPaid=function(id){fpPatch('payment_links','id=eq.'+id,{status:'paid',paid_at:new Date().toISOString()}).then(function(){renderLinks()})};
+
+function renderSuivi(){
+  B.innerHTML='<div id="fpList">Chargement…</div>';
+  Promise.all([fpGet('payment_links','status=eq.paid&order=paid_at.desc&limit=100'),fpGet('payment_links','status=eq.pending&order=created_at.desc&limit=100')]).then(function(rs){
+    var paid=rs[0]||[],pend=rs[1]||[];
+    var totP=paid.reduce(function(s,x){return s+(x.amount||0)},0);
+    var totW=pend.reduce(function(s,x){return s+(x.amount||0)},0);
+    B.innerHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">'
+    +'<div style="background:#e8f5f0;border-radius:12px;padding:14px;text-align:center"><b style="color:#0f6b4e;font-size:18px">'+fpFmt(totP)+'</b><br><span style="font-size:10px;color:#666">Encaissé ('+paid.length+')</span></div>'
+    +'<div style="background:#fef3c7;border-radius:12px;padding:14px;text-align:center"><b style="color:#b45309;font-size:18px">'+fpFmt(totW)+'</b><br><span style="font-size:10px;color:#666">En attente ('+pend.length+')</span></div></div>'
+    +'<button onclick="fpExportSuivi()" style="width:100%;padding:12px;background:#1a56c4;color:#fff;border:none;border-radius:12px;font-weight:800;margin-bottom:10px;cursor:pointer">⬇️ Export suivi (CSV)</button>'
+    +pend.map(function(l){return '<div style="background:#fff;border-radius:10px;padding:10px;margin-bottom:6px;font-size:12px">⏳ <b>'+esc(l.client_name)+'</b> — '+fpFmt(l.amount)+' <small style="color:#999">'+new Date(l.created_at).toLocaleDateString('fr-FR')+'</small></div>'}).join('');
+    window.__fpPaid=paid;window.__fpPend=pend;
+  });
+}
+window.fpExportSuivi=function(){
+  var rows=[['Client','Telephone','Montant','Motif','Statut','Date']];
+  (window.__fpPaid||[]).concat(window.__fpPend||[]).forEach(function(l){rows.push([l.client_name,l.phone,l.amount,l.description,l.status,l.paid_at||l.created_at])});
+  dlCSV('suivi-reglements-'+new Date().toISOString().slice(0,10)+'.csv',rows);
+};
+
+function renderReco(){
+  B.innerHTML='<div id="fpList">Chargement…</div>';
+  Promise.all([fpGet('orders','select=id,total,vendor_id,status,created_at&order=created_at.desc&limit=200'),fpGet('payment_links','status=eq.paid&select=id,amount,client_name,paid_at')]).then(function(rs){
+    var orders=rs[0]||[],links=rs[1]||[];
+    var totO=orders.reduce(function(s,x){return s+(x.total||0)},0);
+    var totL=links.reduce(function(s,x){return s+(x.amount||0)},0);
+    var comm=Math.round(totO*0.08);
+    B.innerHTML='<div style="background:#fff;border-radius:12px;padding:14px;margin-bottom:10px"><b style="font-size:13px">⚖️ Réconciliation du mois</b>'
+    +'<div style="font-size:12px;margin-top:10px;line-height:2">Commandes encaissées (app) : <b>'+fpFmt(totO)+'</b> ('+orders.length+' cmd)<br>Liens de paiement encaissés : <b>'+fpFmt(totL)+'</b> ('+links.length+' liens)<br>Commission plateforme 8% : <b style="color:#0f6b4e">'+fpFmt(comm)+'</b><br>À reverser aux vendeurs : <b style="color:#b45309">'+fpFmt(totO-comm)+'</b></div></div>'
+    +'<button onclick="fpExportReco()" style="width:100%;padding:12px;background:#1a56c4;color:#fff;border:none;border-radius:12px;font-weight:800;cursor:pointer">⬇️ Export réconciliation (CSV)</button>';
+    window.__fpOrders=orders;window.__fpLinks=links;
+  });
+}
+window.fpExportReco=function(){
+  var rows=[['Type','Reference','Client/Vendeur','Montant','Commission8%','Net','Statut','Date']];
+  (window.__fpOrders||[]).forEach(function(o){rows.push(['Commande',o.id,o.vendor_id,o.total,Math.round((o.total||0)*0.08),(o.total||0)-Math.round((o.total||0)*0.08),o.status,o.created_at])});
+  (window.__fpLinks||[]).forEach(function(l){rows.push(['Lien paiement',l.id,l.client_name,l.amount,'',l.amount,'paid',l.paid_at])});
+  dlCSV('reconciliation-'+new Date().toISOString().slice(0,10)+'.csv',rows);
+};
+
+function renderRelance(){
+  B.innerHTML='<div id="fpList">Chargement…</div>';
+  fpGet('payment_links','status=eq.pending&order=created_at.asc&limit=100').then(function(rows){
+    var now=Date.now();
+    B.innerHTML='<p style="font-size:11px;color:#666;margin-bottom:10px">Relance automatique : les liens en attente sont classés par ancienneté. Un clic envoie la relance WhatsApp pré-remplie.</p>'
+    +((rows||[]).map(function(l){
+      var days=Math.floor((now-new Date(l.created_at).getTime())/86400000);
+      var urg=days>=7?'#dc2626':days>=3?'#d97706':'#16a34a';
+      var msg='Bonjour '+l.client_name+', rappel amical : votre paiement SEN TEW de '+fpFmt(l.amount)+' ('+(l.description||'')+') est en attente depuis '+days+' jour(s). Lien : https://sen-ecosystem.com/sentew-app/payer.html?id='+l.id+' — Merci !';
+      return '<div style="background:#fff;border-radius:12px;padding:12px;margin-bottom:8px;border-left:4px solid '+urg+'">'
+      +'<b>'+esc(l.client_name)+'</b> — '+fpFmt(l.amount)+' <span style="font-size:10px;color:'+urg+';font-weight:800">'+days+'j de retard</span><br>'
+      +'<a target="_blank" href="https://wa.me/'+(l.phone||'')+'?text='+encodeURIComponent(msg)+'" style="display:block;text-align:center;background:#25d366;color:#fff;padding:9px;border-radius:9px;font-size:11px;font-weight:800;text-decoration:none;margin-top:7px">🔔 Relancer sur WhatsApp</a></div>';
+    }).join('')||'<div style="text-align:center;color:#999;padding:20px">Aucune relance nécessaire ✅</div>');
+  });
+}
+
+function renderClients(){
+  B.innerHTML='<div id="fpList">Chargement…</div>';
+  Promise.all([fpGet('payment_links','order=created_at.desc&limit=300'),fpGet('orders','select=id,total,created_at&order=created_at.desc&limit=300')]).then(function(rs){
+    var links=rs[0]||{};
+    var map={};
+    (rs[0]||[]).forEach(function(l){var k=l.client_name||'?';if(!map[k])map[k]={n:0,tot:0,paid:0,last:l.created_at};map[k].n++;map[k].tot+=l.amount||0;if(l.status==='paid')map[k].paid+=l.amount||0;if(l.created_at>map[k].last)map[k].last=l.created_at;});
+    var names=Object.keys(map).sort(function(a,b){return map[b].tot-map[a].tot});
+    B.innerHTML='<p style="font-size:11px;color:#666;margin-bottom:10px">Historique centralisé par client (liens de paiement).</p>'
+    +(names.map(function(n){var c=map[n];
+      return '<div style="background:#fff;border-radius:12px;padding:12px;margin-bottom:8px"><b>'+esc(n)+'</b><br><span style="font-size:11px;color:#666">'+c.n+' opération(s) · Total : <b>'+fpFmt(c.tot)+'</b> · Réglé : <b style="color:#16a34a">'+fpFmt(c.paid)+'</b><br>Dernière activité : '+new Date(c.last).toLocaleDateString('fr-FR')+'</span></div>';
+    }).join('')||'<div style="text-align:center;color:#999;padding:20px">Aucun client</div>');
+  });
+}
+
+var views={links:renderLinks,suivi:renderSuivi,reco:renderReco,relance:renderRelance,clients:renderClients};
+document.getElementById('fpBtn').onclick=function(){document.getElementById('fpPanel').style.display='block';renderLinks();};
+document.getElementById('fpTabs').addEventListener('click',function(e){
+  var b=e.target.closest('.fpt');if(!b)return;
+  document.querySelectorAll('.fpt').forEach(function(x){x.style.background='#fff';x.style.color='#000';x.style.borderColor='#ddd'});
+  b.style.background='#0f6b4e';b.style.color='#fff';b.style.borderColor='#0f6b4e';
+  views[b.dataset.t]();
+});
+})();
+</script>
+
 </body>
 </html>
