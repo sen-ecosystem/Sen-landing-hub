@@ -122,13 +122,13 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
     <div id="videoPreview" style="margin-top:10px"></div>
   </div>
 
-      <!-- 📸 PHOTO IA (réservé aux abonnés) -->
-    <div class="ai-card">
-      <h4><i data-lucide="sparkles"></i>Photo IA Studio <span style="font-size:9px;background:#8b5cf6;padding:3px 8px;border-radius:8px;margin-left:2px">PRO</span></h4>
-      <p>Transforme ta photo prise au téléphone en photo studio professionnelle : fond blanc propre, lumière parfaite, recadrage produit. Comme les grandes marques.</p>
-      <button class="ai-btn" id="aiBtn" type="button"><i data-lucide="wand-2"></i><span id="aiBtnTxt">Améliorer ma photo avec l'IA</span></button>
-      <div class="ai-quota" id="aiQuota"></div>
-    </div>
+  <!-- 📸 PHOTO IA (réservé aux abonnés) -->
+  <div class="ai-card">
+    <h4><i data-lucide="sparkles"></i>Photo IA Studio <span style="font-size:9px;background:#8b5cf6;padding:3px 8px;border-radius:8px;margin-left:2px">PRO</span></h4>
+    <p>Transforme ta photo prise au téléphone en photo studio professionnelle : fond blanc propre, lumière parfaite, recadrage produit. Comme les grandes marques.</p>
+    <button class="ai-btn" id="aiBtn" type="button"><i data-lucide="wand-2"></i><span id="aiBtnTxt">Améliorer ma photo avec l'IA</span></button>
+    <div class="ai-quota" id="aiQuota"></div>
+  </div>
 
   <!-- INFOS -->
   <div class="card">
@@ -215,7 +215,7 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
     </div>
   </div>
 
-    <!-- Comparaison des plans -->
+  <!-- Comparaison des plans -->
   <div class="card plans">
     <h3><i data-lucide="crown"></i>La Photo IA selon ton plan</h3>
     <div class="plan-row" id="plan-gratuit"><div class="pl" style="background:#f3f4f6">🆓</div><div><b>Gratuit</b><span>Photos classiques uniquement</span></div><span class="lock-tag">IA verrouillée 🔒</span></div>
@@ -223,6 +223,17 @@ body{background:#f5f5f0;font-family:'Segoe UI',-apple-system,sans-serif;padding-
     <div class="plan-row" id="plan-gold"><div class="pl" style="background:#fef3c7">🥇</div><div><b>Gold — 15 000 F/mois</b><span>Photo IA : 50 photos/mois + 3 boosts/jour + bannière</span></div><span class="pr">IA ✓✓</span></div>
     <div class="plan-row" id="plan-platinum"><div class="pl" style="background:#ede9fe">💎</div><div><b>Platinum — 35 000 F/mois</b><span>Photo IA illimitée + 10 boosts/jour + priorité live</span></div><span class="pr">IA ∞</span></div>
     <a href="promotions-vendeur.html" style="display:block;text-align:center;font-size:12px;font-weight:800;color:#0f6b4e;text-decoration:none;margin-top:6px">Voir les plans et m'abonner →</a>
+  </div>
+
+  <!-- ÉCO -->
+  <div class="card">
+    <div class="ship-toggle" id="ecoToggle">
+      <div class="tog"></div>
+      <div>
+        <b>🌿 Produit éco-responsable</b>
+        <span>Local, artisanal, recyclé ou emballage biodégradable. Le badge 🌿 ÉCO affiche des conseils éco à tes clients au tap — ça rassure et ça vend.</span>
+      </div>
+    </div>
   </div>
 
   <button class="btn" id="publishBtn"><i data-lucide="rocket"></i>Publier le produit</button>
@@ -247,11 +258,9 @@ function showErr(m){var b=document.getElementById('errBox');b.textContent=m;b.cl
 function hideErr(){document.getElementById('errBox').classList.remove('show')}
 function fmt(n){return (n||0).toLocaleString('fr-FR')+' F'}
 
-/* ===== Vendeur connecté ? ===== */
 var USER=null;
 try{USER=JSON.parse(localStorage.getItem('st_user'))}catch(e){}
 
-/* ===== Sous-catégories dynamiques ===== */
 var SUBS={
   mode:['vetements','chaussures','sacs & accessoires','pagnes & tissus','bijoux'],
   electronique:['smartphones','ordinateurs','audio','tv & video','accessoires'],
@@ -270,9 +279,8 @@ document.getElementById('pCat').addEventListener('change',function(){
   sub.innerHTML='<option value="">Choisir…</option>'+list.map(function(s){return '<option value="'+s+'">'+s.charAt(0).toUpperCase()+s.slice(1)+'</option>'}).join('');
 });
 
-/* ===== PHOTO IA : verrouillage par plan ===== */
-var VENDOR_PLAN='gratuit'; /* lu depuis la base au chargement */
-var AI_QUOTAS={gratuit:0,silver:10,gold:50,platinum:-1}; /* -1 = illimité */
+var VENDOR_PLAN='gratuit';
+var AI_QUOTAS={gratuit:0,silver:10,gold:50,platinum:-1};
 var AI_USED=parseInt(localStorage.getItem('st_ai_used_month')||'0');
 
 (function loadPlan(){
@@ -352,7 +360,6 @@ document.getElementById('aiBtn').onclick=async function(){
   alert('✨ Fiche remplie par l\'IA !\n\nNom, catégorie, description et prix suggérés ont été générés à partir de ta photo. Vérifie et ajuste avant de publier.\n\nQuota utilisé : '+AI_USED+(quota===-1?'':'/'+quota));
 };
 
-/* ===== Photos (prévisualisation locale) ===== */
 var PHOTO_URLS=[];
 document.getElementById('photoZone').onclick=function(){document.getElementById('photoInput').click()};
 document.getElementById('photoInput').addEventListener('change',function(){
@@ -368,7 +375,6 @@ document.getElementById('photoInput').addEventListener('change',function(){
   });
 });
 
-/* ===== Vidéo produit (prévisualisation locale) ===== */
 var VIDEO_URL=null;
 document.getElementById('videoZone').onclick=function(){document.getElementById('videoInput').click()};
 document.getElementById('videoInput').addEventListener('change',function(){
@@ -379,7 +385,11 @@ document.getElementById('videoInput').addEventListener('change',function(){
   hideErr();
 });
 
-/* ===== Livraison gratuite ===== */
+var IS_ECO=false;
+document.getElementById('ecoToggle').onclick=function(){
+  IS_ECO=!IS_ECO;
+  this.classList.toggle('on',IS_ECO);
+};
 var FREE_SHIP=false;
 document.getElementById('shipToggle').onclick=function(){
   FREE_SHIP=!FREE_SHIP;
@@ -387,13 +397,12 @@ document.getElementById('shipToggle').onclick=function(){
   calcMarge();
 };
 
-/* ===== Calculateur de marge en direct ===== */
 function calcMarge(){
   var price=parseInt(document.getElementById('pPrice').value)||0;
   var box=document.getElementById('margeBox');
   if(price<100){box.style.display='none';return}
   box.style.display='block';
-  var comm=Math.round(price*0.08); /* niveau Teranga par défaut */
+  var comm=Math.round(price*0.08);
   var ship=FREE_SHIP?1500:0;
   var net=price-comm-ship;
   document.getElementById('mPrix').textContent=fmt(price);
@@ -406,7 +415,6 @@ function calcMarge(){
 }
 document.getElementById('pPrice').addEventListener('input',calcMarge);
 
-/* ===== PUBLICATION ===== */
 document.getElementById('publishBtn').onclick=function(){
   var name=document.getElementById('pName').value.trim();
   var cat=document.getElementById('pCat').value;
@@ -441,6 +449,7 @@ document.getElementById('publishBtn').onclick=function(){
       video_url:VIDEO_URL,
       stock:stock,weight_g:weight,
       free_shipping:FREE_SHIP,
+      is_eco:IS_ECO,
       is_active:true,rating:0,review_count:0,sold_count:0
     })
   })
@@ -461,6 +470,6 @@ document.getElementById('publishBtn').onclick=function(){
   });
 };
 </script>
-  <script src="js/i18n.js"></script>
+<script src="js/i18n.js"></script>
 </body>
 </html>
