@@ -160,7 +160,16 @@ async function init(){
     var others=[];try{others=await supa('vendors','select=slug,shop_name,logo_url,rating,followers,city,category&status=eq.active&slug=neq.'+slug+'&limit=10&order=followers.desc');}catch(e2){}
     var oh=document.getElementById('otherShops');
     if(!Array.isArray(others)||!others.length){oh.innerHTML='<div style="color:#9aa5a0;font-size:12px;padding:20px">Aucune autre boutique pour le moment.</div>';}
-    else{oh.innerHTML=others.map(function(v){return '<a class="osh-card" href="boutique.html?slug='+v.slug+'"><img src="'+(v.logo_url||'')+'" alt="">'<div class="osh-n">'+v.shop_name+(v.shop_name==='SEN TEW Official'?' <span style="background:linear-gradient(135deg,#d4a017,#f0c040);color:#fff;font-size:8px;font-weight:900;padding:1px 6px;border-radius:7px">✅ OFFICIEL</span>':'')+'</div>'<div class="osh-m">'+(v.category||'')+' · '+(v.city||'')+'</div><div class="osh-r">⭐ '+(v.rating||'5.0')+' · '+fmt(v.followers||0)+' abonnés</div></a>';}).join('');lucide.createIcons();}
+    else{oh.innerHTML=others.map(function(v){
+      var badge = (v.shop_name==='SEN TEW Official') ? ' <span style="background:linear-gradient(135deg,#d4a017,#f0c040);color:#fff;font-size:8px;font-weight:900;padding:1px 6px;border-radius:7px">✅ OFFICIEL</span>' : '';
+      return '<a class="osh-card" href="boutique.html?slug=' + v.slug + '">' +
+        '<img src="' + (v.logo_url||'') + '" alt="">' +
+        '<div class="osh-n">' + v.shop_name + badge + '</div>' +
+        '<div class="osh-m">' + (v.category||'') + ' · ' + (v.city||'') + '</div>' +
+        '<div class="osh-r">⭐ ' + (v.rating||'5.0') + ' · ' + fmt(v.followers||0) + ' abonnés</div>' +
+      '</a>';
+    }).join('');
+    lucide.createIcons();}
   } catch(e){
     fail('Erreur de connexion');
   }
