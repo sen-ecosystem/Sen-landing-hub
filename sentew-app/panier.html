@@ -125,6 +125,11 @@ body{padding-bottom:110px}
 
 .btn-order{position:fixed!important;left:50%!important;transform:translateX(-50%)!important;width:calc(100% - 32px)!important;max-width:440px!important;bottom:calc(58px + env(safe-area-inset-bottom))!important;z-index:98;margin:0!important;box-shadow:0 4px 18px rgba(0,0,0,.25);border-radius:14px!important}
 #page{padding-bottom:200px!important}
+.trust-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 16px 10px;background:#fff;border:1px solid #f0f0ea;border-radius:14px;padding:12px 10px}
+.trust-strip .tb{background:#f0faf5;border:1.5px solid #d3ece0;border-radius:12px;padding:10px 6px;text-align:center}
+.trust-strip .tb .ti{font-size:18px}
+.trust-strip .tb .tt{font-size:9.5px;font-weight:900;color:#0f6b4e;margin-top:3px;line-height:1.25}
+.trust-strip .tb .ts{font-size:8.5px;color:#6B7280;line-height:1.2}
 </style>
 </head>
 <body>
@@ -228,7 +233,8 @@ function render(){
   html += '<div class="tip" onclick="showTip(\'shipping\')"><i data-lucide="info"></i><span><b>3 façons d\'avoir la livraison gratuite</b> — seuil 20 000 F, paiement en ligne, ou produit offert. Touche pour les détails.</span></div>';
 
   // Promo
-  html += '<div class="bloc"><h2><i data-lucide="ticket" style="width:14px"></i> CODE PROMO</h2>';
+  html += '<div class="trust-strip"><div class="tb"><div class="ti">🛡️</div><div class="tt">PROTECTION 48H</div><div class="ts">Réclamation après livraison</div></div><div class="tb"><div class="ti">📦</div><div class="tt">QR COLIS SUIVI</div><div class="ts">Preuve de livraison par scan</div></div><div class="tb"><div class="ti">💳</div><div class="tt">PAIEMENT AGRÉÉ</div><div class="ts">Mobile Money · Carte · Livraison</div></div></div>';
+    html += '<div class="bloc"><h2><i data-lucide="ticket" style="width:14px"></i> CODE PROMO</h2>';
   if (PROMO) {
     html += '<div class="promo-ok"><i data-lucide="badge-check" style="width:15px"></i> <span><b>' + PROMO.code + '</b> · ' + PROMO.label + ' appliqué</span><button onclick="rmPromo()">Retirer</button></div>';
   } else {
