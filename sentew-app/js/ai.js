@@ -5,7 +5,7 @@
    - Nio Far connaît : badges 🌿 ÉCO / ✅ OFFICIEL + calendrier Magal/Ramadan/Korité/Tabaski
    ══════════════════════════════════════════════ */
 var ST_AI = {
-  MODELS: ['gemini-2.5-flash','gemini-2-flash','gemini-2-flash-lite','gemini-2.5-flash-lite'],
+  MODELS:['gemini-2.5-flash','gemini-2.5-flash-lite','gemini-2.0-flash','gemini-2.0-flash-lite','gemini-2.5-flash'],
   CTX: '',
   ready: false
 };
@@ -81,7 +81,7 @@ async function stAsk(prompt){
       if(res.saturated || res.error){ await stSleep(1200); continue; }
     }catch(e){ await stSleep(800); }
   }
-  return '⏳ Nio Far est très demandé en ce moment. Réessaie dans une minute 🙏';
+  return '⏳ Erreur IA : '+(window.stAiLastError||'quota dépassé — réessaie dans 1 min')+' 🙏';
 }
 
 /* ── Charge le catalogue une fois ── */
