@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Live | SEN TEW</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,Arial,sans-serif;background:#0a1f17;color:#fff;min-height:100vh}
+.player{position:relative;background:#000;aspect-ratio:9/16;max-height:62vh;width:100%}
+.player iframe{width:100%;height:100%;border:0;display:block}
+.live-tag{position:absolute;top:12px;left:12px;background:#dc2626;color:#fff;font-size:11px;font-weight:900;padding:5px 12px;border-radius:20px;display:flex;align-items:center;gap:6px;z-index:2;animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.6}}
+.views{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.6);font-size:11px;font-weight:800;padding:5px 12px;border-radius:20px;z-index:2}
+.shop-bar{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#0d2b1f;border-bottom:1px solid #14532d}
+.shop-bar img{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid #4ade80}
+.shop-bar .sn{flex:1;font-size:14px;font-weight:800}
+.shop-bar .sn small{display:block;font-size:11px;color:#86efac;font-weight:600}
+.btn-follow{background:#4ade80;color:#052e16;border:none;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:900;cursor:pointer}
+.section{padding:12px 16px}
+.section h2{font-size:13px;color:#4ade80;letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px}
+.prod{display:flex;gap:12px;background:#0d2b1f;border:1px solid #14532d;border-radius:14px;padding:10px;margin-bottom:10px;text-decoration:none;color:#fff;align-items:center}
+.prod img{width:64px;height:64px;border-radius:10px;object-fit:cover}
+.prod .pi{flex:1}
+.prod .pn{font-size:13px;font-weight:700}
+.prod .pp{font-size:14px;font-weight:900;color:#4ade80;margin-top:3px}
+.prod .pb{background:#dc2626;color:#fff;border:none;padding:9px 14px;border-radius:10px;font-size:12px;font-weight:900;cursor:pointer}
+.chat-box{position:fixed;bottom:0;left:0;right:0;background:#0d2b1f;border-top:1px solid #14532d;padding:10px 14px;display:flex;gap:8px}
+.chat-box input{flex:1;padding:12px;border:2px solid #14532d;border-radius:24px;background:#0a1f17;color:#fff;font-size:13px;outline:none}
+.chat-box button{background:#dc2626;color:#fff;border:none;width:44px;height:44px;border-radius:50%;font-size:18px;cursor:pointer}
+.msgs{padding:0 16px 70px}
+.msg{font-size:12px;background:#0d2b1f;border-radius:12px;padding:8px 12px;margin-bottom:6px;border-left:3px solid #4ade80}
+.msg b{color:#4ade80}
+.empty{color:#6ee7b7;font-size:13px;text-align:center;padding:24px}
+.ended{position:absolute;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;flex-direction:column;gap:8px;text-align:center;padding:20px;z-index:3}
+</style>
+</head>
+<body>
+
+<div class="player">
+  <div class="live-tag" id="liveTag">● EN DIRECT</div>
+  <div class="views" id="views">👁 0</div>
+  <iframe id="player" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+  <div class="ended" id="ended"><div style="font-size:40px">✅</div><p><b>Le direct est terminé.</b><br>La rediffusion arrive bientôt.</p></div>
+</div>
+
+<div class="shop-bar">
+  <img id="shopLogo" src="" alt="">
+  <div class="sn"><span id="shopName">Boutique</span><small id="liveTitle">Live shopping</small></div>
+  <button class="btn-follow" id="btnFollow">+ Suivre</button>
+</div>
+
+<div class="section">
+  <h2>🛍️ Produits du live</h2>
+  <div id="prods"></div>
+</div>
+
+<div class="section">
+  <h2>💬 Commentaires</h2>
+  <div class="msgs" id="msgs"></div>
+</div>
+
+<div class="chat-box">
+  <input id="chatInput" placeholder="Écris un commentaire…" maxlength="200">
+  <button onclick="sendMsg()">➤</button>
+</div>
+
+<script>
+var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
+var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
+function sbH(){return {'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=representation'};}
+function toast(m){var d=document.createElement('div');d.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#14532d;padding:10px 20px;border-radius:20px;font-size:12px;font-weight:700;z-index:99';d.textContent=m;document.body.appendChild(d);setTimeout(function(){d.remove();},2200);}
+
+var params=new URLSearchParams(location.search);
+var liveId=params.get('id');
+var LIVE=null, VENDOR=null;
+
+async function init(){
+  if(!liveId){document.getElementById('prods').innerHTML='<div class="empty">Aucun live sélectionné.</div>';return;}
+  // Charger le live + la boutique
+  var r=await fetch(SUPA_URL+'/rest/v1/live_streams?id=eq.'+liveId+'&select=*,vendors(id,shop_name,logo_url,slug)',{headers:sbH()});
+  var j=await r.json();
+  if(!Array.isArray(j)||!j.length){document.getElementById('prods').innerHTML='<div class="empty">Live introuvable.</div>';return;}
+  LIVE=j[0]; VENDOR=LIVE.vendors||{};
+
+  document.getElementById('shopName').textContent=VENDOR.shop_name||'Boutique';
+  document.getElementById('liveTitle').textContent=LIVE.title||'Live shopping';
+  if(VENDOR.logo_url)document.getElementById('shopLogo').src=VENDOR.logo_url;
+
+  // Lecteur : room_url = lien embed api.video
+  if(LIVE.room_url)document.getElementById('player').src=LIVE.room_url;
+  if(LIVE.status!=='live'){document.getElementById('ended').style.display='flex';document.getElementById('liveTag').style.display='none';}
+
+  // Produits de la boutique
+  var pr=await fetch(SUPA_URL+'/rest/v1/products?select=id,name,price,images,old_price&vendor_id=eq.'+LIVE.vendor_id+'&is_active=eq.true&limit=6',{headers:sbH()});
+  var prods=await pr.json();
+  document.getElementById('prods').innerHTML=(Array.isArray(prods)&&prods.length?prods:[]).map(function(p){
+    var img=(p.images&&p.images[0])||'';
+    var price=(p.price||0).toLocaleString('fr-FR')+' F';
+    return '<div class="prod"><img src="'+img+'" alt=""><div class="pi"><div class="pn">'+p.name+'</div><div class="pp">'+price+'</div></div><button class="pb" onclick="location.href=\'produit.html?pid='+p.id+'\'">Voir</button></div>';
+  }).join('')||'<div class="empty">Aucun produit mis en avant pour ce live.</div>';
+
+  loadFollow(); loadMsgs();
+  // Maj spectateurs toutes les 15s
+  setInterval(updateViews,15000);
+}
+async function updateViews(){
+  try{var r=await fetch(SUPA_URL+'/rest/v1/live_streams?id=eq.'+liveId+'&select=viewers_count,status',{headers:sbH()});var j=await r.json();if(j&&j[0]){document.getElementById('views').textContent='👁 '+(j[0].viewers_count||0);if(j[0].status!=='live'){document.getElementById('ended').style.display='flex';document.getElementById('liveTag').style.display='none';}}}catch(e){}
+}
+// Suivre la boutique
+var USER=null;try{USER=JSON.parse(localStorage.getItem('sentew_user')||'{}');}catch(e){}
+async function loadFollow(){
+  if(!USER.email||!VENDOR.id)return;
+  var r=await fetch(SUPA_URL+'/rest/v1/follows?user_email=eq.'+encodeURIComponent(USER.email)+'&vendor_id=eq.'+VENDOR.id,{headers:sbH()});
+  var j=await r.json();
+  if(Array.isArray(j)&&j.length){var b=document.getElementById('btnFollow');b.textContent='✓ Suivi';b.style.background='#14532d';b.style.color='#86efac';}
+}
+document.getElementById('btnFollow').addEventListener('click',async function(){
+  if(!USER.email){toast('Connecte-toi pour suivre');location.href='profil.html';return;}
+  if(this.textContent.indexOf('✓')>-1)return;
+  await fetch(SUPA_URL+'/rest/v1/follows',{method:'POST',headers:sbH(),body:JSON.stringify({user_email:USER.email,vendor_id:VENDOR.id})});
+  this.textContent='✓ Suivi';this.style.background='#14532d';this.style.color='#86efac';
+  toast('Tu seras notifié des prochains lives 🔔');
+});
+// Chat (table live_messages)
+async function loadMsgs(){
+  try{
+    var r=await fetch(SUPA_URL+'/rest/v1/live_messages?live_id=eq.'+liveId+'&order=created_at.desc&limit=20',{headers:sbH()});
+    var j=await r.json();
+    document.getElementById('msgs').innerHTML=(Array.isArray(j)?j:[]).reverse().map(function(m){return '<div class="msg"><b>'+(m.user_name||'Client')+'</b> '+(m.message||'')+'</div>';}).join('')||'<div class="empty">Sois le premier à commenter !</div>';
+  }catch(e){document.getElementById('msgs').innerHTML='<div class="empty">Sois le premier à commenter !</div>';}
+}
+async function sendMsg(){
+  var inp=document.getElementById('chatInput');var txt=inp.value.trim();if(!txt)return;
+  var name=(USER&&(USER.name||USER.full_name))||'Client';
+  if(!USER.email){toast('Connecte-toi pour commenter');return;}
+  inp.value='';
+  await fetch(SUPA_URL+'/rest/v1/live_messages',{method:'POST',headers:sbH(),body:JSON.stringify({live_id:liveId,user_name:name,message:txt})});
+  loadMsgs();
+}
+document.getElementById('chatInput').addEventListener('keydown',function(e){if(e.key==='Enter')sendMsg();});
+setInterval(loadMsgs,8000);
+init();
+lucide.createIcons();
+</script>
+</body>
+</html>
