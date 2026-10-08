@@ -185,7 +185,7 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
 <body>
 
 <div class="topbar">
-  <h1><i data-lucide="shield"></i>SEN TEW Admin <span style="font-size:10px;background:#e8c468;color:#0a1f17;padding:2px 7px;border-radius:10px;vertical-align:middle">v29</span></h1>
+  <h1><i data-lucide="shield"></i>SEN TEW Admin <span style="font-size:10px;background:#e8c468;color:#0a1f17;padding:2px 7px;border-radius:10px;vertical-align:middle">v32</span></h1>
   <div class="top-actions">
     <button class="icobtn" onclick="silentRefresh();toast('Actualisé ✅')"><i data-lucide="refresh-cw"></i></button>
     <button class="icobtn" onclick="logout()"><i data-lucide="log-out"></i></button>
@@ -203,6 +203,7 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
   <button class="tab" onclick="showTab('compta',this)">Comptabilité</button>
   <button class="tab" onclick="showTab('salaires',this)">Salaires</button>
   <button class="tab" onclick="showTab('photosia',this)">Photos IA</button>
+  <button class="tab" onclick="showTab('live',this)">🔴 LIVE</button>
   <button class="tab" onclick="showTab('pays',this)">Pays</button>
   <button class="tab" onclick="showTab('budget',this)">Budget<span class="nb" id="nbB"></span></button>
   <button class="tab" onclick="showTab('messages',this)">Messages</button>
@@ -656,28 +657,20 @@ var jj=await rr.json();return Array.isArray(jj)?jj:[];
 function setBadge(id,n){var b=$(id);if(!b)return;if(n>0){b.textContent=n;b.classList.add('on');}else{b.classList.remove('on');}}
 function dlCSV(name,rows){
   var csv='\ufeff'+rows.map(function(r){return r.map(function(c){return '"'+String(c==null?'':c).replace(/"/g,'""')+'"';}).join(',');}).join('\n');
+  var fname=(name&&String(name).indexOf('.csv')>-1)?name:(name||'export')+'.csv';
   try{
     var blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
     var url=URL.createObjectURL(blob);
-    var w=window.open(url,'_blank');
-    if(!w) throw 0;
-    setTimeout(function(){URL.revokeObjectURL(url);},60000);
-    if(typeof toast==='function')toast('CSV ouvert dans un onglet — Partager puis Enregistrer dans Fichiers');
-  }catch(e){
-    var ov=document.createElement('div');
-    ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px';
-    var ta=document.createElement('textarea');
-    ta.readOnly=true;ta.style.cssText='flex:1;min-height:220px;font-size:10px;border:1.5px solid #ddd;border-radius:10px;padding:8px';
-    ta.value=csv;ta.onclick=function(){this.select()};
-    var box=document.createElement('div');
-    box.style.cssText='background:#fff;border-radius:16px;padding:16px;width:100%;max-width:420px;max-height:80vh;display:flex;flex-direction:column';
-    var t=document.createElement('b');t.textContent='Export '+name;t.style.cssText='font-size:14px;margin-bottom:8px';
-    var h=document.createElement('p');h.textContent='Sélectionne tout, copie, colle dans Excel/Numbers/Sheets.';h.style.cssText='font-size:11px;color:#666;margin-bottom:8px';
-    var btn=document.createElement('button');btn.textContent='Fermer';btn.style.cssText='margin-top:10px;padding:12px;background:#0f6b4e;color:#fff;border:none;border-radius:10px;font-weight:800;cursor:pointer';
-    btn.onclick=function(){ov.remove()};
-    box.appendChild(t);box.appendChild(h);box.appendChild(ta);box.appendChild(btn);
-    ov.appendChild(box);document.body.appendChild(ov);
-  }
+    var a=document.createElement('a');
+    a.href=url;a.download=fname;a.rel='noopener';a.style.display='none';
+    document.body.appendChild(a);a.click();
+    setTimeout(function(){try{a.remove();}catch(e){}try{URL.revokeObjectURL(url);}catch(e){}},4000);
+    if(typeof toast==='function')toast('✅ '+fname+' — app Fichiers → Téléchargements');
+    return;
+  }catch(e){}
+  var w=window.open('','_blank');
+  if(w){w.document.write('<meta charset="utf-8"><title>'+fname+'</title><pre style="font-size:11px;white-space:pre-wrap">'+csv.replace(/</g,'&lt;')+'</pre>');w.document.close();if(typeof toast==='function')toast('CSV ouvert dans un onglet — Partager → Enregistrer');}
+  else if(typeof toast==='function')toast('❌ Export bloqué par Safari — autorise les pop-ups');
 }
 
 /* â•â•â•â•â•â•â•â•â•â• ÉTAT â•â•â•â•â•â•â•â•â•â• */
@@ -1079,7 +1072,7 @@ async function addExpense(){
 async function addInvoice(){
   var n=$('invNum').value.trim(),s=$('invSup').value.trim(),l=$('invLbl').value.trim(),t=$('invType').value,a=parseFloat($('invAmt').value)||0,tax=parseFloat($('invTax').value)||0;
   if(!n||!a){toast('N° de facture et montant requis');return;}
-  await rpc('admin_add_invoice',{p_number:n,p_supplier:s,p_label:l,p_type:t,p_amount:a,p_tax:tax});
+  var _r=await rpc('admin_add_invoice',{p_number:n,p_supplier:s,p_label:l,p_type:t,p_amount:a,p_tax:tax});if(_r&&_r.__err){toast('❌ '+_r.__err);return;}
   toast('Facture enregistrée ✅');
   DATA.invoices=DATA.invoices=arr(await rpc('admin_list_invoices',{p_limit:100}));
   renderCompta();
@@ -1165,7 +1158,7 @@ async function addSalary(){
   if(!n||!base){toast('Nom et salaire de base requis');return;}
   var body={employee_name:n,role:r,period:p,base_salary:base,bonuses:bonus,deductions:ded,country:country};
   if(em)body.email=em;
-  await rpc('admin_add_salary',{p_employee_name:n,p_role:r,p_period:p,p_base_salary:base,p_bonuses:bonus,p_deductions:ded,p_country:country,p_email:em||''});
+  var _r=await rpc('admin_add_salary',{p_employee_name:n,p_role:r,p_period:p,p_base_salary:base,p_bonuses:bonus,p_deductions:ded,p_country:country,p_email:em||''});if(_r&&_r.__err){toast('❌ '+_r.__err);return;}
   toast('Bulletin créé ✅');
   DATA.salaries=DATA.salaries=arr(await rpc('admin_list_salaries',{p_limit:100}));
   var created=DATA.salaries.find(function(x){return x.employee_name===n&&x.period===p;});
@@ -1880,6 +1873,7 @@ function showTab(id,btn){
   if(id==='reversements')renderPayouts();
   if(id==='compta')renderCompta();
   if(id==='salaires')renderSalaries();
+  if(id==='live')renderLives();
   if(id==='photosia'){loadPhotosIA().then(renderPhotosIA);}
   if(id==='pays')renderPays();
   if(id==='budget')renderBudget();
@@ -2164,7 +2158,7 @@ document.getElementById('fpTabs').addEventListener('click',function(e){
 </script>
 
 
-<!-- ═══ BARRE SELECTION GLOBALE v29 — tout sélectionner / supprimer (corbeille, historique conservé) ═══ -->
+<!-- ═══ BARRE SELECTION GLOBALE v32 — tout sélectionner / supprimer (corbeille, historique conservé) ═══ -->
 <div id="selBar27" style="display:none;position:fixed;bottom:70px;left:10px;right:10px;z-index:9500;background:#0a1f17;color:#fff;border-radius:14px;padding:10px 12px;box-shadow:0 8px 24px rgba(0,0,0,.35);align-items:center;gap:8px">
   <b id="selCount" style="flex:1;font-size:12px">0 sélectionné(s)</b>
   <button onclick="selAll27()" style="background:#fff;color:#0a1f17;border:none;border-radius:9px;padding:8px 10px;font-size:11px;font-weight:800;cursor:pointer">☑ Tout</button>
@@ -2198,6 +2192,62 @@ document.getElementById('fpTabs').addEventListener('click',function(e){
   window.toggleSel=function(ev,table,id){if(origToggle)origToggle(ev,table,id);bar();};
   setInterval(bar,1500);
 })();
+</script>
+
+
+<div class="panel hidden" id="live">
+  <div class="sect"><i data-lucide="radio"></i>Diffusion en direct (api.video)</div>
+  <div class="card2">
+    <div style="padding:12px 14px;background:#ECFDF5;border-left:4px solid #0f6b4e;border-radius:10px;font-size:12.5px;line-height:1.8;color:#052e16">
+      <b>📡 Comment un vendeur passe en direct</b><br>
+      1. Copie le lien ci-dessous et envoie-le au vendeur (WhatsApp)<br>
+      2. Il l'ouvre sur son téléphone → choisit sa boutique → écrit un titre → « Préparer la caméra » → <b>EN DIRECT</b><br>
+      ✅ Aucune appli à installer — aucun réglage technique — abonnés notifiés automatiquement.<br>
+      <small style="color:#92400E;font-weight:700">Mode sandbox api.video (gratuit, filigrane) — production sans filigrane au lancement officiel.</small>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <input class="sin" id="liveVendorLink" readonly value="https://sen-ecosystem.com/sentew-app/live-vendeur.html" style="flex:1;font-size:12px">
+      <button class="abtn" onclick="copyLiveLink()">📋 Copier</button>
+    </div>
+  </div>
+  <div class="sect"><i data-lucide="video"></i>Lives en cours</div>
+  <div class="card2" id="liveList"><div class="empty">Chargement…</div></div>
+  <div class="sect"><i data-lucide="history"></i>Historique</div>
+  <div class="card2" id="liveHistory"><div class="empty">Chargement…</div></div>
+</div>
+<script>
+async function renderLives(){
+  var el=document.getElementById('liveList'),hh=document.getElementById('liveHistory');
+  if(!el)return;
+  try{
+    var r=await fetch(SUPA+'/rest/v1/live_streams?select=*,vendors(shop_name)&order=started_at.desc&limit=30',{headers:H});
+    var j=await r.json();
+    j=Array.isArray(j)?j:[];
+    var on=j.filter(function(l){return l.status==='live';});
+    var off=j.filter(function(l){return l.status!=='live';});
+    el.innerHTML=on.map(function(l){
+      var v=(l.vendors&&l.vendors.shop_name)||'Boutique';
+      return '<div class="row"><span><b style="color:#dc2626">🔴 EN DIRECT</b> — <b>'+v+'</b><br><small>'+(l.title||'')+' · '+(l.viewers_count||0)+' spectateurs</small></span><span><a class="abtn" style="text-decoration:none" href="/sentew-app/live.html?id='+l.id+'" target="_blank">👁 Voir</a><button class="abtn danger" onclick="endLive(String(l.id))">⏹ Terminer</button></span></div>';
+    }).join('')||'<div class="empty">Aucun live en cours.</div>';
+    hh.innerHTML=off.map(function(l){
+      var v=(l.vendors&&l.vendors.shop_name)||'Boutique';
+      var d=l.started_at?new Date(l.started_at).toLocaleDateString('fr-FR'):'';
+      return '<div class="row"><span><b>'+v+'</b> — '+(l.title||'')+'<br><small>'+d+'</small></span></div>';
+    }).join('')||'<div class="empty">Aucun historique.</div>';
+  }catch(e){ el.innerHTML='<div class="empty">Table live_streams manquante — exécute le SQL.</div>'; }
+}
+async function endLive(id){
+  if(!confirm('Terminer ce live ?'))return;
+  await fetch(SUPA+'/rest/v1/live_streams?id=eq.'+id,{method:'PATCH',headers:H,body:JSON.stringify({status:'ended',ended_at:new Date().toISOString()})});
+  toast('Live terminé');renderLives();
+}
+function copyLiveLink(){
+  var i=document.getElementById('liveVendorLink');
+  i.select();i.setSelectionRange(0,99999);
+  try{document.execCommand('copy');}catch(e){}
+  if(navigator.clipboard)navigator.clipboard.writeText(i.value);
+  toast('📋 Lien copié — envoie-le au vendeur');
+}
 </script>
 
 </body>
