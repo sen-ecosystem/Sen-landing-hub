@@ -116,9 +116,17 @@ async function stAiInit(){
 
 /* ═══ 1. RECHERCHE INTELLIGENTE ═══ */
 async function stAiSearch(userQuery){
+  var __ctx='';
+  try{
+    var __h={'apikey':'sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j','Authorization':'Bearer sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j'};
+    var __v=await fetch('https://tjqkruhwmjzgfvtouqza.supabase.co/rest/v1/vendors?select=shop_name,category,city&limit=60',{headers:__h}).then(function(r){return r.json();});
+    var __p=await fetch('https://tjqkruhwmjzgfvtouqza.supabase.co/rest/v1/products?select=name,category&is_active=eq.true&limit=60',{headers:__h}).then(function(r){return r.json();});
+    if(Array.isArray(__v)&&__v.length)__ctx+='BOUTIQUES RÉELLES SEN TEW : '+__v.map(function(v){return v.shop_name+' ('+(v.category||'')+', '+(v.city||'')+')';}).join(' | ')+'. ';
+    if(Array.isArray(__p)&&__p.length)__ctx+='PRODUITS RÉELS EN VENTE : '+__p.map(function(p){return p.name+' ('+(p.category||'')+')';}).join(' | ')+'.';
+  }catch(e){}
   var raw = await stAsk(
     'Tu es le moteur de recherche de SEN TEW, marketplace sénégalaise. Tu connais les badges 🌿 ÉCO (produits locaux/artisanaux/recyclés) et ✅ OFFICIEL (boutique officielle SEN TEW Official) et les mets en avant quand c\'est pertinent. '+
-    'Analyse cette recherche client et réponds UNIQUEMENT en JSON strict : '+
+    'CONTEXTE RÉEL DE LA BASE : '+(__ctx||'aucune donnée')+' — Si la recherche correspond à une de ces boutiques ou un de ces produits, cite-les par leur nom exact. Analyse cette recherche client et réponds UNIQUEMENT en JSON strict : '+
     '{"keywords":["mot1","mot2"],"category":"categorie ou vide","maxPrice":nombre_ou_null}. '+
     'Recherche : "'+userQuery+'"'
   );
