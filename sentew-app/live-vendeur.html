@@ -2,267 +2,200 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Boutique Live - SEN TEW Vendeur</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Live — Vendeur | SEN TEW</title>
 <script src="https://unpkg.com/lucide@latest"></script>
-<script src="js/security-shield.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@api.video/@api.video.live-stream-client"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{overflow-x:hidden;max-width:100vw}
-body{background:#0a1f17;font-family:'Segoe UI',-apple-system,sans-serif;min-height:100vh;padding-bottom:40px;color:#fff}
-.topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;position:sticky;top:0;z-index:50;background:#0a1f17;border-bottom:1px solid rgba(255,255,255,.08)}
-.topbar h1{font-size:16px;font-weight:900;flex:1;display:flex;align-items:center;gap:8px}
-.topbar h1 i{width:18px;height:18px;color:#4ade80}
-.icon-btn{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.1);border:none;display:flex;align-items:center;justify-content:center;color:#fff;text-decoration:none}
-.icon-btn i{width:17px;height:17px}
-/* Prévisualisation caméra */
-.preview{margin:14px;background:#000;border-radius:18px;aspect-ratio:9/14;max-height:52vh;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.preview video{width:100%;height:100%;object-fit:cover}
-.preview .pv-off{text-align:center;color:#9ca3af;padding:20px}
-.preview .pv-off .pi{font-size:40px;margin-bottom:10px}
-.preview .pv-off b{display:block;font-size:14px;color:#fff;margin-bottom:5px}
-.preview .pv-off span{font-size:11px;line-height:1.5}
-/* Badge LIVE */
-.live-badge{position:absolute;top:12px;left:12px;background:#e63946;color:#fff;font-size:10.5px;font-weight:900;padding:5px 12px;border-radius:9px;letter-spacing:1px;display:none;align-items:center;gap:6px}
-.live-badge.on{display:flex}
-.live-badge .dot{width:7px;height:7px;border-radius:50%;background:#fff;animation:pulse 1.2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.live-stats{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);border-radius:11px;padding:8px 11px;font-size:10.5px;font-weight:800;display:none;line-height:1.7}
-.live-stats.on{display:block}
-/* Réseau 4G */
-.net-bar{position:absolute;bottom:12px;left:12px;right:12px;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);border-radius:11px;padding:9px 12px;font-size:10.5px;display:flex;align-items:center;gap:8px}
-.net-bar .nd{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.nd-good{background:#4ade80}.nd-mid{background:#fbbf24}.nd-bad{background:#f87171}
-/* Produits du live */
-.prod-bar{background:#fff;border-radius:16px;margin:0 14px;padding:13px;color:#0a1f17}
-.prod-bar h3{font-size:12.5px;font-weight:900;display:flex;align-items:center;gap:6px;margin-bottom:10px}
-.prod-bar h3 i{width:15px;height:15px;color:#0f6b4e}
-.prod-list{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
-.prod-list::-webkit-scrollbar{display:none}
-.prod-item{flex-shrink:0;width:86px;text-align:center;cursor:pointer;border:2px solid transparent;border-radius:12px;padding:6px 4px;transition:border .2s;position:relative}
-.prod-item.on{border-color:#0f6b4e;background:#f0fdf4}
-.prod-item img{width:58px;height:58px;border-radius:10px;object-fit:cover;background:#f3f4f6}
-.prod-item b{font-size:9px;display:block;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.prod-item span{font-size:9px;font-weight:900;color:#0f6b4e}
-.prod-item .pin{position:absolute;top:-5px;right:-3px;background:#e63946;color:#fff;font-size:8px;font-weight:900;padding:2px 6px;border-radius:7px;display:none}
-.prod-item.on .pin{display:block}
-/* Boutons action */
-.actions{display:flex;gap:9px;margin:14px}
-.abtn{flex:1;padding:16px;border-radius:14px;border:none;font-size:14px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px}
-.abtn i{width:17px;height:17px}
-.abtn-red{background:linear-gradient(135deg,#e63946,#ef4444);color:#fff;box-shadow:0 8px 20px rgba(230,57,70,.35)}
-.abtn-grey{background:rgba(255,255,255,.12);color:#fff}
-.abtn-white{background:#fff;color:#0a1f17}
-/* Card info */
-.card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;margin:0 14px 12px;padding:15px}
-.card h3{font-size:13px;font-weight:900;display:flex;align-items:center;gap:7px;margin-bottom:9px}
-.card h3 i{width:15px;height:15px;color:#4ade80}
-.card p{font-size:11.5px;color:#d1d5db;line-height:1.6}
-.card .qrow{display:flex;justify-content:space-between;font-size:11.5px;color:#d1d5db;padding:6px 0;border-bottom:1px dashed rgba(255,255,255,.1)}
-.card .qrow:last-child{border:none}
-.card .qrow b{color:#4ade80}
-/* Astuce */
-.tip{display:flex;gap:8px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 12px;margin:14px;font-size:11.5px;color:#92400e;cursor:pointer;line-height:1.55}
-.empty-prod{text-align:center;padding:16px;color:#9ca3af;font-size:11px}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,Arial,sans-serif;background:#0a1f17;color:#fff;min-height:100vh}
+.topbar{display:flex;align-items:center;gap:10px;padding:14px 16px;background:#0d2b1f;border-bottom:1px solid #14532d}
+.topbar a{color:#fff;text-decoration:none;font-size:13px;opacity:.8}
+.topbar b{flex:1;font-size:15px}
+.badge-live{background:#dc2626;color:#fff;font-size:10px;font-weight:900;padding:4px 10px;border-radius:20px;display:none;animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.5}}
+.stage{padding:14px}
+.video-wrap{position:relative;background:#000;border-radius:16px;overflow:hidden;aspect-ratio:9/16;max-height:60vh;margin:0 auto;max-width:100%}
+video{width:100%;height:100%;object-fit:cover;display:block}
+.overlay-msg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;background:rgba(0,0,0,.55);text-align:center;padding:20px}
+.overlay-msg .ic{font-size:40px}
+.overlay-msg p{font-size:13px;color:#d1fae5;line-height:1.5}
+.card{background:#0d2b1f;border:1px solid #14532d;border-radius:14px;padding:14px 16px;margin-top:14px}
+.card label{display:block;font-size:11px;color:#86efac;font-weight:800;letter-spacing:.5px;margin-bottom:6px;text-transform:uppercase}
+.card input,.card select{width:100%;padding:12px;border:2px solid #14532d;border-radius:10px;background:#0a1f17;color:#fff;font-size:14px;outline:none}
+.btn{display:block;width:100%;padding:16px;border:none;border-radius:14px;font-size:16px;font-weight:900;cursor:pointer;margin-top:14px;text-align:center}
+.btn-go{background:#dc2626;color:#fff}
+.btn-stop{background:#374151;color:#fff;display:none}
+.btn:disabled{background:#1f2937;color:#6b7280}
+.stat{display:flex;gap:10px;margin-top:12px}
+.stat div{flex:1;background:#0d2b1f;border:1px solid #14532d;border-radius:12px;padding:12px;text-align:center}
+.stat b{display:block;font-size:20px;color:#4ade80}
+.stat span{font-size:10px;color:#86efac}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#14532d;color:#d1fae5;padding:12px 20px;border-radius:30px;font-size:13px;font-weight:700;display:none;z-index:99;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.help{font-size:12px;color:#6ee7b7;line-height:1.7;background:#052e16;border-radius:12px;padding:12px 14px;margin-top:14px}
 </style>
 </head>
 <body>
-
 <div class="topbar">
-  <a class="icon-btn" href="vendeur.html"><i data-lucide="arrow-left"></i></a>
-  <h1><i data-lucide="video"></i>Boutique Live</h1>
-  <a class="icon-btn" href="promotions-vendeur.html"><i data-lucide="crown"></i></a>
+  <a href="vendeur.html">←</a>
+  <b>🔴 Passer en direct</b>
+  <span class="badge-live" id="badgeLive">EN DIRECT</span>
 </div>
 
-<!-- Prévisualisation caméra -->
-<div class="preview" id="preview">
-  <video id="camVideo" autoplay playsinline muted style="display:none"></video>
-  <div class="pv-off" id="pvOff">
-    <div class="pi">🎥</div>
-    <b>Prêt pour ton live ?</b>
-    <span>Autorise la caméra, sélectionne tes produits<br>en bas, puis lance. Les clients te voient<br>et achètent en direct.</span>
+<div class="stage">
+  <div class="video-wrap">
+    <video id="preview" autoplay playsinline muted></video>
+    <div class="overlay-msg" id="overlay">
+      <div class="ic">🎥</div>
+      <p><b>Ta caméra s'allume ici.</b><br>Choisis un titre pour ton live, puis appuie sur « Préparer la caméra ».<br><br>Tes abonnés seront notifiés automatiquement dès que tu es en direct.</p>
+    </div>
   </div>
-  <div class="live-badge" id="liveBadge"><span class="dot"></span>EN DIRECT</div>
-  <div class="live-stats" id="liveStats">
-    👁️ <span id="stViewers">0</span> · ❤️ <span id="stLikes">0</span><br>🛒 <span id="stOrders">0</span> commande(s)
+
+  <div class="card">
+    <label>Titre du live</label>
+    <input id="liveTitle" placeholder="Ex : Nouvelle collection Tabaski 🔥">
+    <label style="margin-top:10px">Ta boutique</label>
+    <select id="vendorSel"></select>
   </div>
-  <div class="net-bar" id="netBar" style="display:none">
-    <span class="nd nd-good" id="netDot"></span>
-    <span id="netTxt">Réseau : vérification…</span>
-    <span style="margin-left:auto;font-weight:800" id="netQual">—</span>
+
+  <div class="stat">
+    <div><b id="stStatus">Prêt</b><span>STATUT</span></div>
+    <div><b id="stTime">00:00</b><span>DURÉE</span></div>
+    <div><b id="stViews">0</b><span>SPECTATEURS</span></div>
+  </div>
+
+  <button class="btn btn-go" id="btnGo">🎥 Préparer la caméra</button>
+  <button class="btn btn-stop" id="btnStop">⏹ Terminer le direct</button>
+
+  <div class="help">
+    💡 <b>Astuce :</b> tiens ton téléphone à la verticale, sois bien éclairé, et montre tes produits un par un. Les clients achètent en direct pendant que tu présentes.
   </div>
 </div>
 
-<!-- Produits du live -->
-<div class="prod-bar">
-  <h3><i data-lucide="package"></i>Produits à présenter en live <span id="prodCount" style="margin-left:auto;font-size:10px;color:#9aa5a0">0 sélectionné</span></h3>
-  <div class="prod-list" id="prodList"><div class="empty-prod">Chargement de tes produits…</div></div>
-</div>
-
-<!-- Actions -->
-<div class="actions">
-  <button class="abtn abtn-grey" id="camBtn"><i data-lucide="camera"></i>Tester caméra</button>
-  <button class="abtn abtn-red" id="liveBtn"><i data-lucide="radio"></i>Lancer le live</button>
-</div>
-
-<!-- Qualité selon réseau (4G adaptatif) -->
-<div class="card">
-  <h3><i data-lucide="signal"></i>Qualité automatique selon le réseau</h3>
-  <div class="qrow"><span>Spectateur en Wi-Fi / 5G</span><b>HD 720p</b></div>
-  <div class="qrow"><span>Spectateur en 4G</span><b>SD 480p fluide</b></div>
-  <div class="qrow"><span>Spectateur en 3G</span><b>360p léger</b></div>
-  <div class="qrow"><span>Connexion très lente</span><b>Photos + commentaires</b></div>
-  <p style="margin-top:9px">Chaque client reçoit la meilleure qualité que sa connexion supporte — <b>personne ne rame</b>, tu ne perds aucune vente à cause du réseau.</p>
-</div>
-
-<!-- Limites du niveau -->
-<div class="card">
-  <h3><i data-lucide="trending-up"></i>Tes droits Live (niveau <span id="lvlName">…</span>)</h3>
-  <div class="qrow"><span>Lives par semaine</span><b id="lvCount">—</b></div>
-  <div class="qrow"><span>Durée maximale</span><b id="lvDuration">—</b></div>
-  <div class="qrow"><span>Produits présentés</span><b id="lvProducts">—</b></div>
-  <div class="qrow"><span>Prix flash en direct</span><b id="lvFlash">—</b></div>
-  <div class="qrow"><span>Rediffusion 30 jours</span><b id="lvReplay">—</b></div>
-</div>
-
-<div class="tip" onclick="alert('Réussir son live (méthode des pros)\n\n1. Annonce le live la veille dans ta boutique\n2. Prépare 3-5 produits avec PRIX FLASH valables uniquement pendant le live\n3. Montre chaque produit en main, porté si possible\n4. Réponds aux commentaires à voix haute\n5. Termine par : « Commandez maintenant, livraison aujourd\'hui à Dakar »\n\nⓘ Les vendeurs qui livenet chaque semaine vendent en moyenne 3× plus.')"><span>ⓘ</span><span>Astuce : les vendeurs qui font un live chaque semaine vendent <b>3× plus</b>. Clique pour la méthode complète.</span></div>
+<div class="toast" id="toast"></div>
 
 <script>
-lucide.createIcons();
+// ═══ CONFIG SUPABASE (publique, lecture seule côté client) ═══
 var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
 var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
-function esc(s){var d=document.createElement('div');d.textContent=String(s==null?'':s);return d.innerHTML}
-function fmt(n){return (n||0).toLocaleString('fr-FR')}
+// La clé api.video N'EST PAS ici — elle est lue depuis Supabase (table app_config), jamais écrite dans ce fichier public.
 
-var USER=null;
-try{USER=JSON.parse(localStorage.getItem('st_user'))}catch(e){}
-var VENDOR_ID=(USER&&USER.vendor_id)||'11111111-1111-1111-1111-111111111111';
+var streamClient=null, liveStreamId=null, dbId=null, timer=null, seconds=0, streaming=false;
 
-/* ===== Droits Live par niveau ===== */
-var LEVEL_KEY='jaay'; /* Teranga n'arrive pas ici (verrou dans vendeur.html) */
-var LIVE_RIGHTS={
-  jaay:{count:'1 live / semaine',duration:'30 minutes',products:'5 produits max',flash:'1 prix flash',replay:'Non',maxProd:5},
-  xeweul:{count:'Illimité',duration:'Sans limite',products:'Illimité',flash:'Illimités',replay:'Oui — 30 jours',maxProd:99}
-};
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(function(){t.style.display='none';},2600);}
+function sbH(){return {'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=representation'};}
 
-/* Détection du niveau réel du vendeur */
-fetch(SUPA_URL+'/rest/v1/vendors?id=eq.'+VENDOR_ID+'&select=shop_name,is_verified,plan',{
-  headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}})
-.then(function(r){return r.json()})
-.then(function(rows){
-  if(rows&&rows.length&&rows[0].is_verified)LEVEL_KEY='xeweul';
-  var R=LIVE_RIGHTS[LEVEL_KEY];
-  document.getElementById('lvlName').textContent=LEVEL_KEY==='xeweul'?'Xeweul ✓':'Jaay';
-  document.getElementById('lvCount').textContent=R.count;
-  document.getElementById('lvDuration').textContent=R.duration;
-  document.getElementById('lvProducts').textContent=R.products;
-  document.getElementById('lvFlash').textContent=R.flash;
-  document.getElementById('lvReplay').textContent=R.replay;
-}).catch(function(){});
-
-/* ===== Mes produits (sélection pour le live) ===== */
-var SELECTED=[];
-fetch(SUPA_URL+'/rest/v1/products?vendor_id=eq.'+VENDOR_ID+'&is_active=eq.true&select=id,name,price,images&order=sold_count.desc&limit=12',{
-  headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}})
-.then(function(r){return r.json()})
-.then(function(rows){
-  var list=rows||[];
-  if(!list.length){document.getElementById('prodList').innerHTML='<div class="empty-prod">Aucun produit — ajoute-en d\'abord.</div>';return}
-  document.getElementById('prodList').innerHTML=list.map(function(p){
-    return '<div class="prod-item" data-id="'+p.id+'" onclick="toggleProd(this)">'+
-      '<span class="pin">LIVE</span>'+
-      '<img src="'+((p.images||[])[0]||'')+'" onerror="this.style.background=\'#e5e7eb\';this.src=\'\'">'+
-      '<b>'+esc(p.name)+'</b><span>'+fmt(p.price)+' F</span></div>';
-  }).join('');
-}).catch(function(){});
-
-function toggleProd(el){
-  var id=el.dataset.id;
-  var R=LIVE_RIGHTS[LEVEL_KEY];
-  if(el.classList.contains('on')){
-    el.classList.remove('on');
-    SELECTED=SELECTED.filter(function(x){return x!==id});
-  }else{
-    if(SELECTED.length>=R.maxProd){
-      alert('Niveau '+(LEVEL_KEY==='xeweul'?'Xeweul':'Jaay')+' : '+R.maxProd+' produits maximum par live.\n\n'+(LEVEL_KEY==='jaay'?'💡 Passe Xeweul ✓ (RCCM/NINEA) pour présenter sans limite.':''));
-      return;
-    }
-    el.classList.add('on');
-    SELECTED.push(id);
-  }
-  document.getElementById('prodCount').textContent=SELECTED.length+' sélectionné'+(SELECTED.length>1?'s':'');
-}
-
-/* ===== Caméra ===== */
-var STREAM=null;
-document.getElementById('camBtn').onclick=async function(){
+// Charger la clé api.video depuis Supabase (jamais codée en dur dans GitHub)
+async function getApiKey(){
   try{
-    STREAM=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:true});
-    var v=document.getElementById('camVideo');
-    v.srcObject=STREAM;v.style.display='block';
-    document.getElementById('pvOff').style.display='none';
-    document.getElementById('netBar').style.display='flex';
-    checkNetwork();
-    this.innerHTML='<i data-lucide="camera-off"></i>Caméra OK ✓';
-    lucide.createIcons();
-  }catch(e){
-    alert('Caméra non autorisée.\n\nAutorise la caméra dans les réglages de ton navigateur, puis réessaie.');
-  }
-};
-
-/* ===== Détection réseau + qualité adaptative ===== */
-function checkNetwork(){
-  var conn=navigator.connection||{};
-  var type=conn.effectiveType||'4g';
-  var down=conn.downlink||0;
-  var dot=document.getElementById('netDot'),txt=document.getElementById('netTxt'),qual=document.getElementById('netQual');
-  if(type==='4g'&&down>=1.5){
-    dot.className='nd nd-good';txt.textContent='Réseau : 4G excellent';qual.textContent='HD 720p ✓';
-  }else if(type==='4g'||(type==='3g'&&down>=0.8)){
-    dot.className='nd nd-mid';txt.textContent='Réseau : '+type.toUpperCase()+' correct';qual.textContent='SD 480p ✓';
-  }else{
-    dot.className='nd nd-bad';txt.textContent='Réseau faible — rapproche-toi d\'une fenêtre';qual.textContent='360p';
-  }
-  if(conn.addEventListener)conn.addEventListener('change',checkNetwork);
+    var r=await fetch(SUPA_URL+'/rest/v1/app_config?key=eq.apivideo_key&select=value',{headers:sbH()});
+    var j=await r.json();
+    return (j&&j[0]&&j[0].value)||'';
+  }catch(e){return '';}
 }
 
-/* ===== Lancer / Arrêter le live ===== */
-var LIVE=false,viewers=0,likes=0,orders=0,liveTimer=null;
-document.getElementById('liveBtn').onclick=function(){
-  if(!LIVE){
-    if(!STREAM){alert('Teste d\'abord la caméra (bouton à gauche).');return}
-    if(!SELECTED.length){alert('Sélectionne au moins 1 produit à présenter (en bas).');return}
-    LIVE=true;
-    document.getElementById('liveBadge').classList.add('on');
-    document.getElementById('liveStats').classList.add('on');
-    this.className='abtn abtn-white';
-    this.innerHTML='<i data-lucide="square"></i>Terminer le live';
-    lucide.createIcons();
-    /* Simulation des statistiques en attendant le vrai streaming (Cloudflare Stream au lancement) */
-    liveTimer=setInterval(function(){
-      viewers=Math.min(viewers+Math.floor(Math.random()*4),87);
-      likes+=Math.floor(Math.random()*6);
-      if(Math.random()>0.85)orders++;
-      document.getElementById('stViewers').textContent=viewers;
-      document.getElementById('stLikes').textContent=likes;
-      document.getElementById('stOrders').textContent=orders;
-    },2000);
-  }else{
-    clearInterval(liveTimer);
-    LIVE=false;
-    document.getElementById('liveBadge').classList.remove('on');
-    if(STREAM){STREAM.getTracks().forEach(function(t){t.stop()});STREAM=null}
-    alert('🎉 Live terminé !\n\nBilan :\n👁️ '+viewers+' spectateurs\n❤️ '+likes+' j\'aime\n🛒 '+orders+' commande(s)\n\n'+((LIVE_RIGHTS[LEVEL_KEY]||{}).replay==='Oui — 30 jours'?'📼 Ta rediffusion est sauvegardée 30 jours (niveau Xeweul).':'💡 Niveau Xeweul : la rediffusion aurait été sauvegardée 30 jours.'));
-    document.getElementById('liveStats').classList.remove('on');
-    document.getElementById('camVideo').style.display='none';
-    document.getElementById('pvOff').style.display='block';
-    document.getElementById('netBar').style.display='none';
-    this.className='abtn abtn-red';
-    this.innerHTML='<i data-lucide="radio"></i>Lancer le live';
-    lucide.createIcons();
+// Charger les boutiques du vendeur
+async function loadVendors(){
+  var sel=document.getElementById('vendorSel');
+  try{
+    var u=JSON.parse(localStorage.getItem('sentew_user')||'{}');
+    var q='select=id,shop_name&is_active=eq.true&order=shop_name.asc';
+    if(u.email) q+='&email=eq.'+encodeURIComponent(u.email);
+    var r=await fetch(SUPA_URL+'/rest/v1/vendors?'+q,{headers:sbH()});
+    var vs=await r.json();
+    if(!Array.isArray(vs)||!vs.length){
+      var r2=await fetch(SUPA_URL+'/rest/v1/vendors?select=id,shop_name&is_active=eq.true&order=shop_name.asc',{headers:sbH()});
+      vs=await r2.json();
+    }
+    sel.innerHTML=(vs||[]).map(function(v){return '<option value="'+v.id+'" data-name="'+v.shop_name+'">'+v.shop_name+'</option>';}).join('')||'<option value="">Aucune boutique</option>';
+  }catch(e){sel.innerHTML='<option value="">Erreur chargement</option>';}
+}
+
+// Préparer caméra + créer le live
+document.getElementById('btnGo').addEventListener('click', async function(){
+  var title=document.getElementById('liveTitle').value.trim();
+  var sel=document.getElementById('vendorSel');
+  var vid=sel.value, vname=sel.options[sel.selectedIndex].getAttribute('data-name')||'';
+  if(!vid){toast('Choisis ta boutique');return;}
+  if(!title){toast('Écris un titre pour ton live');return;}
+
+  this.disabled=true; this.textContent='⏳ Préparation…';
+  try{
+    // 1. Caméra
+    var stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:720}},audio:true});
+    document.getElementById('preview').srcObject=stream;
+    document.getElementById('overlay').style.display='none';
+
+    // 2. Créer le live api.video (via la clé lue depuis Supabase)
+    var apiKey=await getApiKey();
+    if(!apiKey){throw 'nokey';}
+    var cr=await fetch('https://sandbox.api.video/live-streams',{
+      method:'POST',
+      headers:{'Authorization':'Bearer '+apiKey,'Content-Type':'application/json'},
+      body:JSON.stringify({name:'SEN TEW — '+vname+' — '+title, record:true, _public:true})
+    });
+    var live=await cr.json();
+    if(!live.liveStreamId){throw 'nolive';}
+    liveStreamId=live.liveStreamId;
+    var embedUrl=(live._links&&live._links.player)||('https://embed.api.video/live/'+liveStreamId);
+
+    // 3. Enregistrer dans Supabase → déclenche la notif abonnés (trigger SQL)
+    var sr=await fetch(SUPA_URL+'/rest/v1/live_streams',{
+      method:'POST',headers:sbH(),
+      body:JSON.stringify({vendor_id:vid,title:title,room_url:embedUrl,status:'live',viewers_count:0})
+    });
+    var srow=await sr.json();
+    dbId=(srow&&srow[0]&&srow[0].id)||null;
+
+    // 4. Démarrer la diffusion depuis le navigateur
+    streamClient=new LiveStreamClient({streamKey:live.streamKey, rtmpServerUrl:live.rtmpServerUrl||'rtmp://sandbox-live-stream.api.video/s'});
+    // sandbox utilise ws.live.api.video pour le broadcast navigateur
+    streamClient=new LiveStreamClient({streamKey:live.streamKey});
+
+    // Boutons
+    document.getElementById('btnGo').style.display='none';
+    var bStop=document.getElementById('btnStop'); bStop.style.display='block';
+    this.style.display='none';
+
+    // Démarrer le stream
+    streamClient.start();
+    streaming=true;
+    document.getElementById('badgeLive').style.display='inline-block';
+    document.getElementById('stStatus').textContent='EN DIRECT';
+    document.getElementById('stStatus').style.color='#dc2626';
+    timer=setInterval(function(){seconds++;var m=String(Math.floor(seconds/60)).padStart(2,'0'),s=String(seconds%60).padStart(2,'0');document.getElementById('stTime').textContent=m+':'+s;},1000);
+    toast('🔴 Tu es en direct ! Tes abonnés sont notifiés.');
+  }catch(e){
+    console.error(e);
+    toast(e==='nokey'?'Clé vidéo non configurée (dis-le à l\u2019admin)':'Caméra refusée ou erreur — réessaie');
+    this.disabled=false; this.textContent='🎥 Préparer la caméra';
   }
-};
+});
+
+// Terminer
+document.getElementById('btnStop').addEventListener('click', async function(){
+  if(!confirm('Terminer ce direct ?'))return;
+  try{
+    if(streamClient)streamClient.stop();
+    if(dbId)await fetch(SUPA_URL+'/rest/v1/live_streams?id=eq.'+dbId,{method:'PATCH',headers:sbH(),body:JSON.stringify({status:'ended',ended_at:new Date().toISOString()})});
+  }catch(e){}
+  clearInterval(timer);
+  var v=document.getElementById('preview');
+  if(v.srcObject)v.srcObject.getTracks().forEach(function(t){t.stop();});
+  document.getElementById('overlay').style.display='flex';
+  document.getElementById('overlay').innerHTML='<div class="ic">✅</div><p><b>Direct terminé.</b><br>Merci ! La rediffusion sera disponible.</p>';
+  document.getElementById('badgeLive').style.display='none';
+  document.getElementById('stStatus').textContent='Terminé';
+  this.style.display='none';
+  document.getElementById('btnGo').style.display='block';
+  document.getElementById('btnGo').disabled=false;
+  document.getElementById('btnGo').textContent='🎥 Nouveau direct';
+  streaming=false;seconds=0;
+});
+
+window.addEventListener('beforeunload',function(e){if(streaming){e.preventDefault();e.returnValue='';}});
+lucide.createIcons();
+loadVendors();
 </script>
-<script src="js/i18n.js"></script>  
 </body>
 </html>
