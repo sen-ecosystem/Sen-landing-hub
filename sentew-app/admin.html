@@ -185,7 +185,7 @@ label.lb{display:block;font-size:11px;font-weight:800;color:#0a1f17;margin:10px 
 <body>
 
 <div class="topbar">
-  <h1><i data-lucide="shield"></i>SEN TEW Admin <span style="font-size:10px;background:#e8c468;color:#0a1f17;padding:2px 7px;border-radius:10px;vertical-align:middle">v32</span></h1>
+  <h1><i data-lucide="shield"></i>SEN TEW Admin <span style="font-size:10px;background:#e8c468;color:#0a1f17;padding:2px 7px;border-radius:10px;vertical-align:middle">v29</span></h1>
   <div class="top-actions">
     <button class="icobtn" onclick="silentRefresh();toast('Actualisé ✅')"><i data-lucide="refresh-cw"></i></button>
     <button class="icobtn" onclick="logout()"><i data-lucide="log-out"></i></button>
@@ -656,8 +656,9 @@ var jj=await rr.json();return Array.isArray(jj)?jj:[];
 }
 function setBadge(id,n){var b=$(id);if(!b)return;if(n>0){b.textContent=n;b.classList.add('on');}else{b.classList.remove('on');}}
 function dlCSV(name,rows){
-  var csv='\ufeff'+rows.map(function(r){return r.map(function(c){return '"'+String(c==null?'':c).replace(/"/g,'""')+'"';}).join(',');}).join('\n');
+  var csv='﻿'+rows.map(function(r){return r.map(function(c){return '"'+String(c==null?'':c).replace(/"/g,'""')+'"';}).join(',');}).join('\n');
   var fname=(name&&String(name).indexOf('.csv')>-1)?name:(name||'export')+'.csv';
+  try{if(navigator.clipboard)navigator.clipboard.writeText(csv);}catch(e){}
   try{
     var blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
     var url=URL.createObjectURL(blob);
@@ -665,12 +666,8 @@ function dlCSV(name,rows){
     a.href=url;a.download=fname;a.rel='noopener';a.style.display='none';
     document.body.appendChild(a);a.click();
     setTimeout(function(){try{a.remove();}catch(e){}try{URL.revokeObjectURL(url);}catch(e){}},4000);
-    if(typeof toast==='function')toast('✅ '+fname+' — app Fichiers → Téléchargements');
-    return;
   }catch(e){}
-  var w=window.open('','_blank');
-  if(w){w.document.write('<meta charset="utf-8"><title>'+fname+'</title><pre style="font-size:11px;white-space:pre-wrap">'+csv.replace(/</g,'&lt;')+'</pre>');w.document.close();if(typeof toast==='function')toast('CSV ouvert dans un onglet — Partager → Enregistrer');}
-  else if(typeof toast==='function')toast('❌ Export bloqué par Safari — autorise les pop-ups');
+  if(typeof toast==='function')toast('✅ CSV copié + téléchargé ('+fname+') — colle-le dans Notes/Excel si besoin');
 }
 
 /* â•â•â•â•â•â•â•â•â•â• ÉTAT â•â•â•â•â•â•â•â•â•â• */
@@ -1072,7 +1069,8 @@ async function addExpense(){
 async function addInvoice(){
   var n=$('invNum').value.trim(),s=$('invSup').value.trim(),l=$('invLbl').value.trim(),t=$('invType').value,a=parseFloat($('invAmt').value)||0,tax=parseFloat($('invTax').value)||0;
   if(!n||!a){toast('N° de facture et montant requis');return;}
-  var _r=await rpc('admin_add_invoice',{p_number:n,p_supplier:s,p_label:l,p_type:t,p_amount:a,p_tax:tax});if(_r&&_r.__err){toast('❌ '+_r.__err);return;}
+  var _r=await rpc('admin_add_invoice',{p_number:n,p_supplier:s,p_label:l,p_type:t,p_amount:a,p_tax:tax,p_invoice_date:new Date().toISOString().slice(0,10)});
+  if(_r&&_r.__err){toast('❌ '+_r.__err);return;}
   toast('Facture enregistrée ✅');
   DATA.invoices=DATA.invoices=arr(await rpc('admin_list_invoices',{p_limit:100}));
   renderCompta();
@@ -2158,7 +2156,7 @@ document.getElementById('fpTabs').addEventListener('click',function(e){
 </script>
 
 
-<!-- ═══ BARRE SELECTION GLOBALE v32 — tout sélectionner / supprimer (corbeille, historique conservé) ═══ -->
+<!-- ═══ BARRE SELECTION GLOBALE v29 — tout sélectionner / supprimer (corbeille, historique conservé) ═══ -->
 <div id="selBar27" style="display:none;position:fixed;bottom:70px;left:10px;right:10px;z-index:9500;background:#0a1f17;color:#fff;border-radius:14px;padding:10px 12px;box-shadow:0 8px 24px rgba(0,0,0,.35);align-items:center;gap:8px">
   <b id="selCount" style="flex:1;font-size:12px">0 sélectionné(s)</b>
   <button onclick="selAll27()" style="background:#fff;color:#0a1f17;border:none;border-radius:9px;padding:8px 10px;font-size:11px;font-weight:800;cursor:pointer">☑ Tout</button>
@@ -2200,10 +2198,10 @@ document.getElementById('fpTabs').addEventListener('click',function(e){
   <div class="card2">
     <div style="padding:12px 14px;background:#ECFDF5;border-left:4px solid #0f6b4e;border-radius:10px;font-size:12.5px;line-height:1.8;color:#052e16">
       <b>📡 Comment un vendeur passe en direct</b><br>
-      1. Copie le lien ci-dessous et envoie-le au vendeur (WhatsApp)<br>
-      2. Il l'ouvre sur son téléphone → choisit sa boutique → écrit un titre → « Préparer la caméra » → <b>EN DIRECT</b><br>
-      ✅ Aucune appli à installer — aucun réglage technique — abonnés notifiés automatiquement.<br>
-      <small style="color:#92400E;font-weight:700">Mode sandbox api.video (gratuit, filigrane) — production sans filigrane au lancement officiel.</small>
+      1. Copie le lien ci-dessous → envoie-le au vendeur (WhatsApp)<br>
+      2. Il l'ouvre → choisit sa boutique → écrit un titre → « Préparer la caméra » → <b>EN DIRECT</b><br>
+      ✅ Aucune appli — aucun réglage — abonnés notifiés automatiquement.<br>
+      <small style="color:#92400E;font-weight:700">Mode sandbox api.video (gratuit, filigrane) — production au lancement officiel.</small>
     </div>
     <div style="display:flex;gap:8px;margin-top:12px">
       <input class="sin" id="liveVendorLink" readonly value="https://sen-ecosystem.com/sentew-app/live-vendeur.html" style="flex:1;font-size:12px">
@@ -2221,8 +2219,7 @@ async function renderLives(){
   if(!el)return;
   try{
     var r=await fetch(SUPA+'/rest/v1/live_streams?select=*,vendors(shop_name)&order=started_at.desc&limit=30',{headers:H});
-    var j=await r.json();
-    j=Array.isArray(j)?j:[];
+    var j=await r.json(); j=Array.isArray(j)?j:[];
     var on=j.filter(function(l){return l.status==='live';});
     var off=j.filter(function(l){return l.status!=='live';});
     el.innerHTML=on.map(function(l){
