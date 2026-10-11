@@ -1,5 +1,22 @@
+/* ── v7 : recherche locale garantie (marche même sans quota Gemini) ── */
+async function stAiLocalSearch(q){
+  q=(q||'').toLowerCase().trim(); if(!q) return [];
+  var out=[];
+  try{
+    var r=await fetch(ST_AI.SUPA+'/rest/v1/products?select=id,name,price,category,images,vendors(shop_name)&is_active=eq.true&limit=80',{headers:{apikey:ST_AI.KEY,Authorization:'Bearer '+ST_AI.KEY}});
+    var ps=await r.json(); ps=Array.isArray(ps)?ps:[];
+    var words=q.split(/\s+/).filter(function(w){return w.length>1;});
+    out=ps.map(function(p){
+      var hay=((p.name||'')+' '+(p.category||'')+' '+((p.vendors&&p.vendors.shop_name)||'')).toLowerCase();
+      var score=0; words.forEach(function(w){ if(hay.indexOf(w)>-1) score+=2; });
+      if(hay.indexOf(q)>-1) score+=5;
+      return {p:p,score:score};
+    }).filter(function(x){return x.score>0;}).sort(function(a,b){return b.score-a.score;}).map(function(x){return x.p;});
+  }catch(e){}
+  return out;
+}
 /* ══════════════════════════════════════════════
-   SEN TEW — AI.JS v1.4 (SÉCURISÉ + MULTI-MODÈLES + ÉCO + ÉVÉNEMENTS)
+   SEN TEW — AI.JS v1.7 (SÉCURISÉ + MULTI-MODÈLES + ÉCO + ÉVÉNEMENTS)
    - Bascule automatique entre modèles Gemini si saturé
    - Historique de conversation conservé (localStorage)
    - Nio Far connaît : badges 🌿 ÉCO / ✅ OFFICIEL + calendrier Magal/Ramadan/Korité/Tabaski
@@ -81,7 +98,9 @@ async function stAsk(prompt){
       if(res.saturated || res.error){ await stSleep(1200); continue; }
     }catch(e){ await stSleep(800); }
   }
-  return '⏳ Erreur IA : '+(window.stAiLastError||'quota dépassé — réessaie dans 1 min')+' 🙏';
+  var _local=await stAiLocalSearch((window.__lastSearchQuery||''));
+if(_local.length){return '🛍️ J\'ai trouvé '+_local.length+' produit(s) correspondant(s) : '+_local.slice(0,5).map(function(p){return p.name+' ('+(p.price||0).toLocaleString('fr-FR')+' F'+((p.vendors&&p.vendors.shop_name)?' — '+p.vendors.shop_name:'')+')';}).join(' · ');}
+return '⏳ Erreur IA : '+(window.stAiLastError||'quota dépassé — réessaie dans 1 min')+' 🙏';
 }
 
 /* ── Charge le catalogue une fois ── */
