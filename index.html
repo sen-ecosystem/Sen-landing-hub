@@ -303,19 +303,18 @@
 </footer>
 
 <!-- COOKIE BANNER -->
-<div id="cookieBanner" class="cookie-banner">
-  <div class="cookie-content">
-    <span class="cookie-icon">🍪</span>
-    <div class="cookie-text">
-      <strong>Cookies & Confidentialité</strong>
-      <p>Nous utilisons des cookies essentiels au fonctionnement du site. En continuant, vous acceptez notre <a href="confidentialite.html" style="color:#D4A574">politique de confidentialité</a>.</p>
-    </div>
-    <div class="cookie-buttons">
-      <button onclick="acceptCookies()" class="btn-primary">Accepter</button>
-      <button onclick="rejectCookies()" class="btn-secondary">Refuser</button>
-    </div>
+<div id="ck" style="position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid #0f6b4e;padding:16px;z-index:9999;display:none;box-shadow:0 -4px 20px rgba(0,0,0,.15)">
+  <b style="color:#0a1f17;font-size:14px"> Cookies & Confidentialité</b>
+  <p style="color:#555;font-size:12px;margin:6px 0 12px">Nous utilisons des cookies essentiels au fonctionnement du site. En continuant, vous acceptez notre <a href="confidentialite.html" style="color:#0f6b4e">politique de confidentialité</a>.</p>
+  <div style="display:flex;gap:8px">
+    <button onclick="ckOk(1)" style="flex:1;padding:12px;background:#0f6b4e;color:#fff;border:none;border-radius:10px;font-weight:800">Tout accepter</button>
+    <button onclick="ckOk(0)" style="flex:1;padding:12px;background:#fff;color:#0f6b4e;border:2px solid #0f6b4e;border-radius:10px;font-weight:800">Refuser</button>
   </div>
 </div>
+<script>
+function ckOk(v){localStorage.setItem('sentew_cookies',v?'all':'none');document.getElementById('ck').style.display='none';}
+if(!localStorage.getItem('sentew_cookies'))document.getElementById('ck').style.display='block';
+</script>
 
 <script>
 function acceptCookies(){localStorage.setItem('sen_cookies','accepted');document.getElementById('cookieBanner').style.display='none';}
