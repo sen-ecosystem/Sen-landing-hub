@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SEN ECOSYSTEM — Commerce. Finance. Une Afrique connectée.</title>
+<link rel="icon" type="image/png" href="https://sen-ecosystem.com/images/file_1782932114484.png">
+<link rel="apple-touch-icon" href="https://sen-ecosystem.com/images/file_1782932114484.png">
+<title>SEN TEW — Marketplace du Sénégal | SEN ECOSYSTEM</title>
 <meta name="description" content="SEN ECOSYSTEM : la plateforme digitale panafricaine. SEN TEW, marketplace e-commerce, disponible maintenant. SENBANC et SENCRYPT, bientot disponibles.">
 <link rel="stylesheet" href="css/main.css">
 <link rel="stylesheet" href="css/pages.css">
 <link rel="canonical" href="https://www.sen-ecosystem.com/">
-<link rel="icon" href="https://sen-ecosystem.com/images/file_1782932114484.png">
 </head>
 <body oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
 
@@ -36,7 +37,7 @@
 </header>
 
 <!-- HERO -->
-<section class="hero">
+<section data-aos="fade-up" class="hero">
   <div class="container hero-grid">
     <div>
       <span class="hero-badge">🌍 La nouvelle génération du commerce africain</span>
@@ -54,7 +55,7 @@
 </section>
 
 <!-- AMBITION -->
-<section class="stats">
+<section data-aos="fade-up" class="stats">
   <div class="container stats-grid">
     <div class="stat-item"><h3>1.4Md</h3><p>Africains à connecter</p></div>
     <div class="stat-item"><h3>54</h3><p>Pays à couvrir</p></div>
@@ -64,7 +65,7 @@
 </section>
 
 <!-- 3 PILIERS -->
-<section class="pillars" id="pillars">
+<section data-aos="fade-up" class="pillars" id="pillars">
   <div class="container">
     <div class="section-title">
       <span class="tag">3 produits, 1 écosystème</span>
@@ -121,7 +122,7 @@
 </section>
 
 <!-- IA -->
-<section class="ai-section" id="ai">
+<section data-aos="fade-up" class="ai-section" id="ai">
   <div class="container">
     <div class="section-title">
       <span class="tag">🤖 Intelligence Artificielle</span>
@@ -149,7 +150,7 @@
 </section>
 
 <!-- CONFIANCE -->
-<section class="security-section">
+<section data-aos="fade-up" class="security-section">
   <div class="container">
     <div class="section-title">
       <span class="tag">🛡️ La confiance d'abord</span>
@@ -182,7 +183,7 @@
 </section>
 
 <!-- PAIEMENTS -->
-<section class="payments" id="payments">
+<section data-aos="fade-up" class="payments" id="payments">
   <div class="container">
     <div class="section-title">
       <span class="tag">💳 Paiements</span>
@@ -199,7 +200,7 @@
 </section>
 
 <!-- FAQ -->
-<section class="faq-section" id="faq">
+<section data-aos="fade-up" class="faq-section" id="faq">
   <div class="container">
     <div class="section-title">
       <span class="tag">FAQ</span>
@@ -235,7 +236,7 @@
 </section>
 
 <!-- NEWSLETTER -->
-<section class="newsletter-section">
+<section data-aos="fade-up" class="newsletter-section">
   <div class="container">
     <div class="newsletter-box">
       <h2>📬 Rejoignez les pionniers</h2>
@@ -250,7 +251,7 @@
 </section>
 
 <!-- CTA FINAL -->
-<section class="cta-final" id="contact">
+<section data-aos="fade-up" class="cta-final" id="contact">
   <div class="container">
     <h2>L'avenir de l'Afrique s'écrit maintenant</h2>
     <p>Rejoignez la première génération SEN. Faites partie de l'histoire.</p>
@@ -303,18 +304,19 @@
 </footer>
 
 <!-- COOKIE BANNER -->
-<div id="ck" style="position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid #0f6b4e;padding:16px;z-index:9999;display:none;box-shadow:0 -4px 20px rgba(0,0,0,.15)">
-  <b style="color:#0a1f17;font-size:14px"> Cookies & Confidentialité</b>
-  <p style="color:#555;font-size:12px;margin:6px 0 12px">Nous utilisons des cookies essentiels au fonctionnement du site. En continuant, vous acceptez notre <a href="confidentialite.html" style="color:#0f6b4e">politique de confidentialité</a>.</p>
-  <div style="display:flex;gap:8px">
-    <button onclick="ckOk(1)" style="flex:1;padding:12px;background:#0f6b4e;color:#fff;border:none;border-radius:10px;font-weight:800">Tout accepter</button>
-    <button onclick="ckOk(0)" style="flex:1;padding:12px;background:#fff;color:#0f6b4e;border:2px solid #0f6b4e;border-radius:10px;font-weight:800">Refuser</button>
+<div id="cookieBanner" class="cookie-banner">
+  <div class="cookie-content">
+    <span class="cookie-icon">🍪</span>
+    <div class="cookie-text">
+      <strong>Cookies & Confidentialité</strong>
+      <p>Nous utilisons des cookies essentiels au fonctionnement du site. En continuant, vous acceptez notre <a href="confidentialite.html" style="color:#D4A574">politique de confidentialité</a>.</p>
+    </div>
+    <div class="cookie-buttons">
+      <button onclick="acceptCookies()" class="btn-primary">Accepter</button>
+      <button onclick="rejectCookies()" class="btn-secondary">Refuser</button>
+    </div>
   </div>
 </div>
-<script>
-function ckOk(v){localStorage.setItem('sentew_cookies',v?'all':'none');document.getElementById('ck').style.display='none';}
-if(!localStorage.getItem('sentew_cookies'))document.getElementById('ck').style.display='block';
-</script>
 
 <script>
 function acceptCookies(){localStorage.setItem('sen_cookies','accepted');document.getElementById('cookieBanner').style.display='none';}
@@ -330,8 +332,23 @@ function changeLang(lang){
   alert('Langue : '+lang.toUpperCase()+' — traduction complète bientôt disponible.');
 }
 </script>
+
+<!-- ═══ BANNIÈRE COOKIES PRO ═══ -->
+<div id="ck" style="position:fixed;bottom:14px;left:14px;right:14px;max-width:430px;margin:0 auto;background:rgba(10,31,23,.97);backdrop-filter:blur(10px);border:1px solid rgba(74,222,128,.25);border-radius:18px;padding:16px;z-index:99999;display:none;box-shadow:0 10px 40px rgba(0,0,0,.35);transform:translateY(130%);transition:transform .5s cubic-bezier(.22,1,.36,1)">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">🍪</span><b style="color:#4ade80;font-size:13px;letter-spacing:.5px">COOKIES & CONFIDENTIALITÉ</b></div>
+  <p style="color:#d1fae5;font-size:12px;line-height:1.55;margin:0 0 12px">Nous utilisons des cookies essentiels au fonctionnement et à l'amélioration de ton expérience. En continuant, tu acceptes notre <a href="confidentialite.html" style="color:#4ade80;text-decoration:underline">politique de confidentialité</a>.</p>
+  <div style="display:flex;gap:8px">
+    <button onclick="ckOk(1)" style="flex:1.3;padding:12px;background:linear-gradient(135deg,#16a34a,#0f6b4e);color:#fff;border:none;border-radius:11px;font-weight:800;font-size:13px;cursor:pointer">✓ Tout accepter</button>
+    <button onclick="ckOk(0)" style="flex:1;padding:12px;background:transparent;color:#86efac;border:1.5px solid #14532d;border-radius:11px;font-weight:700;font-size:13px;cursor:pointer">Essentiels</button>
+  </div>
+</div>
 <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>AOS.init({duration:800,once:true});</script>
+<script>
+if(window.AOS)AOS.init({duration:800,once:true,offset:60});
+function ckOk(v){var c=document.getElementById('ck');c.style.transform='translateY(130%)';setTimeout(function(){c.style.display='none';},500);try{localStorage.setItem('sentew_cookies',v?'all':'essential');}catch(e){}}
+(function(){try{if(!localStorage.getItem('sentew_cookies')){setTimeout(function(){var c=document.getElementById('ck');if(c){c.style.display='block';requestAnimationFrame(function(){requestAnimationFrame(function(){c.style.transform='translateY(0)';});});}},900);}}catch(e){}})();
+</script>
+
 </body>
 </html>
