@@ -213,10 +213,10 @@ async function toggleRec(){
   var btn=document.getElementById('btnRec');
   if(recorder&&recorder.state==='recording'){ stopRec(); return; }
   try{
-    mediaStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:720},height:{ideal:1280}},audio:true});
+    mediaStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:1080},height:{ideal:1920}},audio:true});
   }catch(e){ toast('❌ Caméra refusée — autorise l’accès'); return; }
   // composition : canvas 720x1280 avec vidéo + logo + infos
-  var cv=document.createElement('canvas'); cv.width=720; cv.height=1280;
+  var cv=document.createElement('canvas'); cv.width=1080; cv.height=1920;
   var cx=cv.getContext('2d');
   var hidden=document.createElement('video');
   hidden.srcObject=mediaStream; hidden.muted=true; hidden.playsInline=true;
@@ -229,21 +229,21 @@ async function toggleRec(){
   function frame(){
     if(!mediaStream)return;
     var vw=hidden.videoWidth||720, vh=hidden.videoHeight||1280;
-    var ir=vw/vh, cr=720/1280, dw,dh,dx,dy;
-    if(ir>cr){dh=1280;dw=1280*ir;dx=(720-dw)/2;dy=0;}else{dw=720;dh=720/ir;dx=0;dy=(1280-dh)/2;}
-    cx.fillStyle='#000'; cx.fillRect(0,0,720,1280);
+    var ir=vw/vh, cr=1080/1920, dw,dh,dx,dy;
+    if(ir>cr){dh=1920;dw=1920*ir;dx=(1080-dw)/2;dy=0;}else{dw=1080;dh=1080/ir;dx=0;dy=(1920-dh)/2;}
+    cx.fillStyle='#000'; cx.fillRect(0,0,1080,1920);
     cx.drawImage(hidden,dx,dy,dw,dh);
     if(infOn&&p){
-      cx.fillStyle='rgba(10,31,23,.85)'; cx.fillRect(0,1280-120,720,120);
-      cx.fillStyle='#4ade80'; cx.font='900 40px Arial'; cx.textAlign='left'; cx.textBaseline='middle';
-      cx.fillText((p.price||0).toLocaleString('fr-FR')+' F', 26, 1280-60);
-      cx.fillStyle='#fff'; cx.font='700 28px Arial';
+      cx.fillStyle='rgba(10,31,23,.85)'; cx.fillRect(0,1920-180,1080,180);
+      cx.fillStyle='#4ade80'; cx.font='900 60px Arial'; cx.textAlign='left'; cx.textBaseline='middle';
+      cx.fillText((p.price||0).toLocaleString('fr-FR')+' F', 40, 1920-90);
+      cx.fillStyle='#fff'; cx.font='700 42px Arial';
       var nm=p.name.length>30?p.name.slice(0,30)+'…':p.name;
-      cx.fillText(nm, 26, 1280-150);
+      cx.fillText(nm, 40, 1920-225);
     }
     if(vdOn&&LOGO.complete&&LOGO.naturalWidth){
-      var lw=130, lh=lw*LOGO.naturalHeight/LOGO.naturalWidth;
-      cx.globalAlpha=0.9; cx.drawImage(LOGO,720-lw-18,18,lw,lh); cx.globalAlpha=1;
+      var lw=200, lh=lw*LOGO.naturalHeight/LOGO.naturalWidth;
+      cx.globalAlpha=0.92; cx.drawImage(LOGO,1080-lw-28,28,lw,lh); cx.globalAlpha=1;
     }
     compAnim=requestAnimationFrame(frame);
   }
@@ -253,9 +253,11 @@ async function toggleRec(){
   cvs.getVideoTracks().forEach(function(t){mix.addTrack(t);});
   mediaStream.getAudioTracks().forEach(function(t){mix.addTrack(t);});
   var mime='video/mp4';
+  if(typeof MediaRecorder==='undefined'){toast('❌ Ton navigateur ne supporte pas l\u2019enregistrement — mets iOS à jour');if(mediaStream){mediaStream.getTracks().forEach(function(t){t.stop();});mediaStream=null;}return;}
   if(!MediaRecorder.isTypeSupported(mime)) mime='video/webm';
+  if(!MediaRecorder.isTypeSupported(mime)){toast('❌ Format vidéo non supporté par ce navigateur');if(mediaStream){mediaStream.getTracks().forEach(function(t){t.stop();});mediaStream=null;}return;}
   chunks=[];
-  recorder=new MediaRecorder(mix,{mimeType:mime,videoBitsPerSecond:2500000});
+  recorder=new MediaRecorder(mix,{mimeType:mime,videoBitsPerSecond:6000000});
   recorder.ondataavailable=function(e){if(e.data&&e.data.size)chunks.push(e.data);};
   recorder.onstop=function(){
     vidBlob=new Blob(chunks,{type:mime});
