@@ -6,61 +6,92 @@
 <title>Ouvrir un litige - SEN TEW</title>
 <link rel="stylesheet" href="css/app.css?v=51">
 <script src="https://unpkg.com/lucide@latest"></script>
+<style>
+.step{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid #f0f0ea}
+.step:last-child{border:none}
+.step .n{width:26px;height:26px;min-width:26px;border-radius:50%;background:#0f6b4e;color:#fff;font-weight:900;font-size:12px;display:flex;align-items:center;justify-content:center}
+.step p{margin:0;font-size:13px;color:#374151;line-height:1.5}
+.success{display:none;text-align:center;padding:20px 10px}
+.success .big{font-size:52px;margin-bottom:10px}
+.success .code{font-size:22px;font-weight:900;color:#0f6b4e;letter-spacing:2px;margin:10px 0}
+.success .box{background:#FAFAF7;border-left:4px solid #D4A574;border-radius:10px;padding:14px 16px;text-align:left;font-size:12.5px;line-height:1.7;color:#374151;margin:16px 0}
+.pv{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.pv img{width:64px;height:64px;border-radius:10px;object-fit:cover;border:2px solid #e3ede8}
+.warn{background:#FEF3C7;border-left:4px solid #F59E0B;border-radius:10px;padding:12px 14px;font-size:12.5px;color:#92400E;line-height:1.6;margin-top:8px}
+</style>
 </head>
 <body class="light-mode">
 
 <header class="topbar">
   <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
   <h1>Ouvrir un litige</h1>
-  <button class="icon-btn" onclick="location.href='support.html'"><i data-lucide="help-circle"></i></button>
+  <button class="icon-btn" onclick="location.href='aide.html'"><i data-lucide="help-circle"></i></button>
 </header>
 
-<main class="container">
+<main class="container" id="formZone">
   <div class="section-card" style="background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;">
     <h2 style="color:#fff;"><i data-lucide="alert-triangle"></i> Litige vendeur</h2>
-    <p style="color:#fecaca;">Médiation SEN TEW sous 72h</p>
+    <p style="color:#fecaca;">Médiation SEN TEW — réponse sous 72 h</p>
   </div>
 
   <div class="section-card">
-    <h3>Étapes du litige</h3>
-    <ol style="padding-left:20px;">
-      <li>Contact vendeur (48h obligatoires)</li>
-      <li>Ouverture litige avec preuves</li>
-      <li>Médiation SEN TEW</li>
-      <li>Décision + remboursement si nécessaire</li>
-    </ol>
+    <h3>📋 Comment ça marche</h3>
+    <div class="step"><div class="n">1</div><p><b>Signale le problème sous 48 h</b> après la livraison (protection acheteur SEN TEW).</p></div>
+    <div class="step"><div class="n">2</div><p><b>Emballe le colis proprement</b>, article intact avec accessoires — tu as <b>7 jours</b> pour le renvoyer.</p></div>
+    <div class="step"><div class="n">3</div><p><b>Le livreur vient le retirer chez toi</b> — il scanne le QR retour (preuve automatique).</p></div>
+    <div class="step"><div class="n">4</div><p><b>Le vendeur contrôle sous 48 h</b> et choisit : <b>échange</b> (nouveau colis, livraison offerte) ou <b>remboursement sous 48 h ouvrées</b>.</p></div>
+    <div class="warn">⚠️ Ton argent reste bloqué chez SEN TEW tant que le litige n'est pas tranché. Si le vendeur refuse sans motif valable, l'équipe SEN TEW arbitre en ta faveur après vérification des preuves.</div>
   </div>
 
   <div class="section-card">
     <h3>Commande concernée</h3>
-    <select class="form-input">
-      <option>Commande #ST24071 - Moussa Tech</option>
-      <option>Commande #ST24072 - Fatou Fashion</option>
-    </select>
+    <select class="form-input" id="dOrder"><option value="">— Chargement de tes commandes…</option></select>
   </div>
 
   <div class="section-card">
     <h3>Type de litige</h3>
-    <select class="form-input">
+    <select class="form-input" id="dType">
+      <option>Produit non conforme à la description</option>
+      <option>Article défectueux ou cassé à la réception</option>
+      <option>Colis jamais reçu (&gt; 7 jours après expédition)</option>
+      <option>Erreur du vendeur (taille, couleur, modèle)</option>
       <option>Vendeur ne répond pas</option>
       <option>Produit contrefait</option>
-      <option>Fraude avérée</option>
-      <option>Remboursement refusé</option>
+      <option>Je demande un échange</option>
+      <option>Je demande un remboursement</option>
     </select>
   </div>
 
   <div class="section-card">
-    <h3>Détails</h3>
-    <textarea rows="5" class="form-input" placeholder="Détaillez le litige et joignez preuves..."></textarea>
-    <button class="btn-outline" style="width:100%;margin-top:8px;">
-      <i data-lucide="paperclip"></i> Joindre preuves (max 5)
+    <h3>Détails & preuves</h3>
+    <textarea rows="5" class="form-input" id="dDetails" placeholder="Décris précisément le problème (état du colis, ce qui ne va pas, échanges avec le vendeur…)" maxlength="1000"></textarea>
+    <input type="file" id="dPhotos" accept="image/*" multiple style="display:none">
+    <button class="btn-outline" style="width:100%;margin-top:8px" onclick="document.getElementById('dPhotos').click()">
+      <i data-lucide="paperclip"></i> Joindre preuves (max 3 photos)
     </button>
+    <div class="pv" id="pv"></div>
+    <div class="warn" style="margin-top:10px">📸 Les photos prouvent l'état de l'article. Envoie-les aussi à <b>contact@sen-ecosystem.com</b> avec ton numéro de litige.</div>
   </div>
 
-  <button class="btn-primary" onclick="submitDispute()" style="width:100%;padding:16px;background:linear-gradient(135deg,#dc2626,#991b1b);">
+  <button class="btn-primary" id="btnSend" onclick="submitDispute()" style="width:100%;padding:16px;background:linear-gradient(135deg,#dc2626,#991b1b);">
     <i data-lucide="send"></i> Ouvrir le litige
   </button>
 </main>
+
+<main class="container"><div class="success" id="okZone">
+  <div class="big">⚖️</div>
+  <h2>Litige enregistré</h2>
+  <p style="color:#6B7280;font-size:13px">Numéro de dossier :</p>
+  <div class="code" id="okCode">LT-XXXXXX</div>
+  <div class="box">
+    ✅ <b>Réponse SEN TEW sous 72 h</b> (notification + email).<br>
+    📦 <b>7 jours</b> pour remballer proprement l'article (intact, accessoires inclus).<br>
+    🛵 Le livreur passera le retirer — <b>ne remets le colis qu'après son scan du QR retour</b>.<br>
+    💰 Échange ou remboursement sous <b>48 h ouvrées</b> après contrôle du vendeur.<br>
+    📧 Envoie tes photos à <b>contact@sen-ecosystem.com</b> en citant ce numéro.
+  </div>
+  <button class="btn-primary" style="width:100%;padding:14px" onclick="location.href='commandes.html'">Voir mes commandes</button>
+</div></main>
 
 <nav class="bottom-nav">
   <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
@@ -70,11 +101,79 @@
   <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
 </nav>
 
+<script src="js/supabase.js"></script>
+<script src="js/security-shield.js"></script>
+<script src="js/i18n.js"></script>
 <script>
-  lucide.createIcons();
-  function submitDispute(){alert('⚖️ Litige ouvert. Numéro : LT'+Date.now()+'. Réponse sous 72h.');location.href='support.html';}
+var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
+var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
+function H(){return {'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=representation'};}
+var USER=null; try{USER=JSON.parse(localStorage.getItem('sentew_user')||'null');}catch(e){}
+var NB_PHOTOS=0, MY_ORDERS=[];
+
+document.getElementById('dPhotos').addEventListener('change',function(e){
+  var files=[].slice.call(e.target.files).slice(0,3);
+  var pv=document.getElementById('pv'); pv.innerHTML=''; NB_PHOTOS=files.length;
+  files.forEach(function(f){ var r=new FileReader(); r.onload=function(ev){ var i=document.createElement('img'); i.src=ev.target.result; pv.appendChild(i); }; r.readAsDataURL(f); });
+});
+
+async function loadOrders(){
+  var sel=document.getElementById('dOrder');
+  if(!USER||!USER.email){ sel.innerHTML='<option value="">⚠️ Connecte-toi d\'abord (Profil)</option>'; return; }
+  try{
+    var q=encodeURIComponent(USER.email);
+    var r=await fetch(SUPA_URL+'/rest/v1/orders?select=id,tracking_code,total,status,created_at,items&or=(user_email.eq.'+q+',customer_email.eq.'+q+')&order=created_at.desc&limit=30',{headers:H()});
+    var j=await r.json(); MY_ORDERS=Array.isArray(j)?j:[];
+    if(!MY_ORDERS.length){ sel.innerHTML='<option value="">Aucune commande trouvée</option>'; return; }
+    sel.innerHTML='<option value="">— Choisis la commande —</option>'+MY_ORDERS.map(function(o){
+      var nom=''; try{ var it=typeof o.items==='string'?JSON.parse(o.items):o.items; if(it&&it[0])nom=it[0].name||''; }catch(e){}
+      var d=o.created_at?new Date(o.created_at).toLocaleDateString('fr-FR'):'';
+      return '<option value="'+o.id+'">'+(o.tracking_code||('#'+String(o.id).slice(0,8)))+' · '+nom+' · '+(o.total||0).toLocaleString('fr-FR')+' F · '+d+'</option>';
+    }).join('');
+  }catch(e){ sel.innerHTML='<option value="">Erreur de chargement — réessaie</option>'; }
+}
+
+async function submitDispute(){
+  if(!USER||!USER.email){ alert('⚠️ Connecte-toi d\'abord (Profil) pour ouvrir un litige.'); location.href='profil.html'; return; }
+  var oid=document.getElementById('dOrder').value;
+  var type=document.getElementById('dType').value;
+  var details=document.getElementById('dDetails').value.trim();
+  if(!oid){ alert('Choisis la commande concernée.'); return; }
+  if(details.length<20){ alert('Décris le problème (20 caractères minimum).'); return; }
+  var ord=MY_ORDERS.find(function(o){return String(o.id)===String(oid);})||{};
+  var code='LT-'+Date.now().toString(36).toUpperCase();
+  var btn=document.getElementById('btnSend'); btn.disabled=true; btn.textContent='⏳ Enregistrement…';
+  try{
+    var r=await fetch(SUPA_URL+'/rest/v1/disputes',{method:'POST',headers:H(),body:JSON.stringify({
+      code:code, order_id:oid, tracking_code:ord.tracking_code||null,
+      user_email:USER.email, type:type, details:details,
+      photos_count:NB_PHOTOS, status:'ouvert', amount:ord.total||0
+    })});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    // Notification admin
+    fetch(SUPA_URL+'/rest/v1/notifications',{method:'POST',headers:H(),body:JSON.stringify({
+      audience:'admin', type:'litige',
+      title:'⚖️ Litige '+code+' — '+type,
+      message:'Commande '+(ord.tracking_code||oid)+' · '+USER.email+' · '+(ord.total||0)+' F'
+    })}).catch(function(){});
+    // Notification client
+    fetch(SUPA_URL+'/rest/v1/notifications',{method:'POST',headers:H(),body:JSON.stringify({
+      audience:'user', user_email:USER.email, type:'litige',
+      title:'⚖️ Litige '+code+' enregistré',
+      message:'Médiation SEN TEW sous 72 h. Garde ton colis emballé, le livreur passera le retirer avec scan QR.'
+    })}).catch(function(){});
+    document.getElementById('okCode').textContent=code;
+    document.getElementById('formZone').style.display='none';
+    document.getElementById('okZone').style.display='block';
+    window.scrollTo(0,0);
+  }catch(e){
+    btn.disabled=false; btn.innerHTML='<i data-lucide="send"></i> Ouvrir le litige';
+    alert('❌ Erreur d\'enregistrement : '+(e.message||e)+'\nSi ça persiste, écris à contact@sen-ecosystem.com');
+    if(window.lucide)lucide.createIcons();
+  }
+}
+loadOrders();
+lucide.createIcons();
 </script>
-<script src="js/buttons-audit.js?v=51"></script>
-  <script src="js/i18n.js"></script>
 </body>
 </html>
