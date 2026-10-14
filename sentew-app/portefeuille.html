@@ -2,63 +2,143 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Remboursement - SEN TEW</title>
-<link rel="stylesheet" href="css/app.css?v=51">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portefeuille — SEN TEW</title>
+<script src="js/security-shield.js"></script>
+<link rel="stylesheet" href="css/app.css?v=50">
 <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="light-mode">
 
 <header class="topbar">
-  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
-  <h1>Remboursement</h1>
-  <button class="icon-btn" onclick="location.href='aide.html'"><i data-lucide="help-circle"></i></button>
+  <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left" class="icon icon-md icon-vert"></i></button>
+  <h1><i data-lucide="wallet" class="icon icon-md icon-or"></i> Portefeuille</h1>
+  <button class="icon-btn"><i data-lucide="settings" class="icon icon-md icon-vert"></i></button>
 </header>
 
-<main class="container">
-  <div class="section-card" style="background:linear-gradient(135deg,#0f6b4e,#0a4d38);color:#fff;">
-    <h2 style="color:#fff;">Demande de remboursement</h2>
-    <p style="color:#d4a574;">Traitement sous 48h ouvrées</p>
+<main style="padding:16px;padding-bottom:100px">
+
+  <!-- Solde hero visible -->
+  <section class="solde-hero wallet-hero hero-emerald-gold" style="padding:24px;margin-bottom:20px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <span style="display:flex;align-items:center;gap:6px;color:rgba(255,255,255,0.9) !important;font-size:13px"><i data-lucide="wallet" style="width:16px;height:16px;color:#fff"></i> Solde disponible</span>
+      <button style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);width:32px;height:32px;border-radius:50%;color:#fff;backdrop-filter:blur(10px)"><i data-lucide="eye" style="width:16px;height:16px;color:#fff"></i></button>
+    </div>
+    <h2 class="solde-value wallet-amount" style="font-size:36px;font-weight:900;color:#fff !important;margin:8px 0"><span id="wBalance">…</span></h2>
+    <p class="solde-eur" style="color:rgba(255,255,255,0.85) !important;font-size:13px;margin-bottom:16px">≈ 22,95 € · ≈ 25,05 $</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <button style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:#fff !important;padding:12px;border-radius:10px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;backdrop-filter:blur(10px)" onclick="wReload()"><i data-lucide="plus" style="width:16px;height:16px;color:#fff"></i> Recharger</button>
+      <button style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:#fff !important;padding:12px;border-radius:10px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;backdrop-filter:blur(10px)" onclick="wWithdraw()"><i data-lucide="arrow-up-right" style="width:16px;height:16px;color:#fff"></i> Retirer</button>
+    </div>
+  </section>
+
+  <!-- Ajouter des fonds -->
+  <h2 class="section-title"><i data-lucide="credit-card" class="icon icon-sm icon-vert"></i> AJOUTER DES FONDS</h2>
+
+  <div class="fund-option active">
+    <div class="fund-logo" style="background:linear-gradient(135deg,#00d4ff,#0099cc);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="waves" style="width:22px;height:22px;color:#fff"></i></div>
+    <div class="fund-info">
+      <strong>Wave</strong>
+      <small>Instantané · Frais 1%</small>
+    </div>
+    <i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i>
   </div>
 
-  <div class="section-card"><h3><i data-lucide="package" style="color:#0f6b4e;"></i> Sélectionnez la commande</h3><div id="orderList"><p style="color:#4a5a52;font-size:13px">Chargement de vos commandes…</p></div></div><div class="section-card">
-    <h3><i data-lucide="alert-circle" style="color:#0f6b4e;"></i> Motif</h3>
-    <select id="motif" class="form-input">
-      <option>Produit défectueux</option>
-      <option>Non conforme à la description</option>
-      <option>Colis endommagé</option>
-      <option>Non reçu</option>
-      <option>Autre</option>
-    </select>
+  <div class="fund-option">
+    <div class="fund-logo" style="background:linear-gradient(135deg,#f97316,#ea580c);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="circle" style="width:22px;height:22px;color:#fff"></i></div>
+    <div class="fund-info">
+      <strong>Orange Money</strong>
+      <small>Instantané · Frais 1.5%</small>
+    </div>
+    <i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i>
   </div>
 
-  <div class="section-card">
-    <h3><i data-lucide="edit-3" style="color:#0f6b4e;"></i> Description</h3>
-    <textarea rows="4" class="form-input" placeholder="Décrivez le problème..."></textarea>
-    <button class="btn-outline" onclick="document.getElementById('photos').click()" style="width:100%;margin-top:8px;">
-      <i data-lucide="camera"></i> Ajouter photos
-    </button>
-    <input type="file" id="photos" multiple accept="image/*" style="display:none;">
+  <div class="fund-option">
+    <div class="fund-logo" style="background:linear-gradient(135deg,#635bff,#4d47cc);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="credit-card" style="width:22px;height:22px;color:#fff"></i></div>
+    <div class="fund-info">
+      <strong>Mobile Money ou carte bancaire (paiement sécurisé)</strong>
+      <small>Visa · Mastercard · Frais 2%</small>
+    </div>
+    <i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i>
   </div>
 
-  <button class="btn-primary" onclick="submitRefund()" style="width:100%;padding:16px;font-size:16px;">
-    Envoyer la demande
-  </button>
-</main>
+  <!-- Ce mois-ci -->
+  <h2 class="section-title" style="margin-top:20px"><i data-lucide="bar-chart-2" class="icon icon-sm icon-or"></i> CE MOIS-CI</h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+    <div class="gains-box entrees" style="background:#d1fae5;border-radius:12px;padding:16px;text-align:center;border:1px solid rgba(15,107,78,0.2)">
+      <div style="color:#065f46;font-size:12px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:4px"><i data-lucide="arrow-down" style="width:12px;height:12px"></i> Entrées</div>
+      <strong id="wIn" style="font-size:20px;color:#065f46;font-weight:900">+0 FCFA</strong>
+    </div>
+    <div class="gains-box sorties" style="background:#fee2e2;border-radius:12px;padding:16px;text-align:center;border:1px solid rgba(239,68,68,0.2)">
+      <div style="color:#7f1d1d;font-size:12px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:4px"><i data-lucide="arrow-up" style="width:12px;height:12px"></i> Sorties</div>
+      <strong id="wOut" style="font-size:20px;color:#7f1d1d;font-weight:900">−0 FCFA</strong>
+    </div>
+  </div>
+
+  <!-- Historique -->
+  <h2 class="section-title"><i data-lucide="clock" class="icon icon-sm icon-vert"></i> DERNIÈRES OPÉRATIONS</h2>
+
+  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
+    <div style="display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid #f5f5f0">
+      <div style="width:36px;height:36px;background:rgba(15,107,78,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="arrow-down" class="icon icon-sm icon-vert"></i></div>
+      <div style="flex:1"><strong style="color:#0a1f17;font-size:14px">Rechargement Wave</strong><br><small style="color:#4a5a52">Aujourd'hui 10:32</small></div>
+      <strong style="color:#0f6b4e;font-size:14px">+10 000</strong>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid #f5f5f0">
+      <div style="width:36px;height:36px;background:rgba(239,68,68,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="shopping-bag" class="icon icon-sm icon-rouge"></i></div>
+      <div id="wTx"><p style="color:#4a5a52;font-size:13px">Chargement…</p></div></main>
 
 <nav class="bottom-nav">
-  <a href="index.html"><i data-lucide="home"></i><span>Accueil</span></a>
-  <a href="recherche-ia.html"><i data-lucide="search"></i><span>Recherche</span></a>
-  <a href="panier.html"><i data-lucide="shopping-cart"></i><span>Panier</span></a>
-  <a href="favoris.html"><i data-lucide="heart"></i><span>Favoris</span></a>
-  <a href="profil.html"><i data-lucide="user"></i><span>Profil</span></a>
+  <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
+  <a href="recherche-ia.html"><i data-lucide="search" class="icon icon-md"></i><span>Rechercher</span></a>
+  <a href="panier.html"><i data-lucide="shopping-cart" class="icon icon-md"></i><span>Panier</span></a>
+  <a href="favoris.html"><i data-lucide="heart" class="icon icon-md"></i><span>Favoris</span></a>
+  <a href="profil.html" class="active"><i data-lucide="user" class="icon icon-md"></i><span>Profil</span></a>
 </nav>
 
+<script src="js/dark-mode.js?v=50"></script>
+<script>lucide.createIcons();</script>
+  <script src="js/buttons-audit.js?v=51"></script>
 <script>
-  lucide.createIcons();
-  function selectOrder(id){alert('Commande ' + id + ' sélectionnée');}
-  function submitRefund(){alert('✅ Demande envoyée ! Vous recevrez un email de confirmation.');location.href='commandes.html';}
-<script src="js/buttons-audit.js?v=51"></script>
+window.addEventListener('load', function(){
+  /* Œil : masquer/afficher le solde */
+  document.querySelectorAll('[class*="eye"], i[data-lucide="eye"], [class*="balance"] button').forEach(function(e){
+    var btn=e.closest('button')||e;
+    btn.style.cursor='pointer';
+    var hidden=false, real='';
+    btn.onclick=function(){
+      var bal=document.querySelector('[class*="amount"], [class*="solde"], [class*="balance"]');
+      document.querySelectorAll('div, span, h1, h2').forEach(function(el){
+        if(el.children.length===0 && /FCFA/i.test(el.textContent) && /\d/.test(el.textContent) && el.textContent.length<25){
+          if(!hidden){real=el.textContent; el.textContent='••••••';}
+          else{el.textContent=real;}
+        }
+      });
+      hidden=!hidden;
+    };
+  });
+  document.querySelectorAll('button, a, [class*="btn"], [class*="method"], [class*="card"], [class*="row"]').forEach(function(b){
+    var t=b.textContent.trim();
+    b.style.cursor='pointer';
+    if(/^\+?\s*recharger/i.test(t)){
+      b.onclick=function(){
+        var m=prompt('💰 Montant à recharger (FCFA) :','10000');
+        if(m && parseInt(m)>0) alert('✅ Recharge de '+parseInt(m).toLocaleString()+' FCFA lancée !\nChoisis Wave, Orange Money ou Carte ci-dessous.');
+      };
+    }
+    else if(/retirer/i.test(t)){
+      b.onclick=function(){
+        var m=prompt('💸 Montant à retirer (FCFA) :','5000');
+        if(m && parseInt(m)>0) alert('✅ Retrait de '+parseInt(m).toLocaleString()+' FCFA demandé !\nRéception Wave sous 24h.');
+      };
+    }
+    else if(/^wave/i.test(t)) b.onclick=function(){alert('🌊 Wave sélectionné\nInstantané · Frais 1%');};
+    else if(/orange money/i.test(t)) b.onclick=function(){alert('🟠 Orange Money sélectionné\nInstantané · Frais 1.5%');};
+    else if(/carte bancaire/i.test(t)) b.onclick=function(){alert('💳 Carte bancaire sélectionnée\nVisa · Mastercard · Frais 2%');};
+  });
+});
+</script>
   <script src="js/i18n.js"></script>
 <script>
 const SUPA_URL="https://tjqkruhwmjzgfvtouqza.supabase.co",SUPA_KEY="sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j";
@@ -68,6 +148,25 @@ async function sbPost(t,b){const r=await fetch(SUPA_URL+"/rest/v1/"+t,{method:"P
 function getEmail(){try{const u=JSON.parse(localStorage.getItem("sentew_user")||sessionStorage.getItem("sentew_user")||"{}");return u.email||"";}catch(e){return localStorage.getItem("sentew_email")||"";}}
 function fmt(n){return (Math.round(+n||0)).toLocaleString("fr-FR")+" FCFA";}
 function toast(m,ok){const t=document.createElement("div");t.textContent=m;t.style.cssText="position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:"+(ok===false?"#7f1d1d":"#0f6b4e")+";color:#fff;padding:12px 20px;border-radius:12px;z-index:9999;font-weight:700;font-size:14px";document.body.appendChild(t);setTimeout(()=>t.remove(),3500);}
+</script>
+<script>
+async function loadWallet(){
+  const em=getEmail();
+  const bal=document.getElementById("wBalance"),tx=document.getElementById("wTx");
+  if(!em){bal.textContent="—";tx.innerHTML='<p style="color:#4a5a52;font-size:13px">Connecte-toi pour voir ton portefeuille.</p>';return;}
+  const rows=await sbGet("wallet_transactions","select=*&user_email=eq."+encodeURIComponent(em)+"&order=created_at.desc&limit=30");
+  let total=0,inn=0,out=0;
+  rows.forEach(r=>{const a=+r.amount||0;total+=a;if(a>0)inn+=a;else out+=-a;});
+  bal.textContent=fmt(total);
+  document.getElementById("wIn").textContent="+"+fmt(inn);
+  document.getElementById("wOut").textContent="−"+fmt(out);
+  if(!rows.length){tx.innerHTML='<p style="color:#4a5a52;font-size:13px">Aucune opération pour le moment. Tes recharges, paiements et remboursements apparaîtront ici.</p>';return;}
+  tx.innerHTML=rows.map(r=>{const a=+r.amount||0;const d=r.created_at?new Date(r.created_at).toLocaleDateString("fr-FR"):"";
+    return '<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #eef2f0"><div style="flex:1"><strong style="color:#0a1f17;font-size:14px">'+(r.label||"Opération")+'</strong><br><small style="color:#4a5a52">'+d+'</small></div><strong style="color:'+(a>=0?"#065f46":"#7f1d1d")+';font-size:14px">'+(a>=0?"+":"−")+fmt(Math.abs(a))+'</strong></div>';}).join("");
+}
+function wReload(){toast("Recharge bientôt disponible via paiement sécurisé. En attendant : contact@sen-ecosystem.com");}
+function wWithdraw(){const em=getEmail();if(!em){toast("Connecte-toi d abord.",false);return;}toast("Retrait : écris à contact@sen-ecosystem.com avec ton numéro Mobile Money. Traitement chaque lundi.");}
+document.addEventListener("DOMContentLoaded",loadWallet);
 </script>
 </body>
 </html>
