@@ -131,43 +131,13 @@ html[data-theme="dark"] .promo-code-title .copy-btn{background:#232a33;color:#e8
 
 <!-- BONS CADEAUX -->
 <div class="section" id="bons">
+  <div id="myGifts"></div>
   <div class="section-title"><i data-lucide="gift"></i> Vos bons cadeaux (2)</div>
 
-  <div class="gift-card">
-    <div class="gift-bow"><i data-lucide="gift"></i></div>
-    <div class="gift-inner">
-      <div class="gift-brand"><i data-lucide="crown"></i> AFRICAN MARKETPLACE</div>
-      <div class="gift-amount">SEN TEW - 50 000 FCFA</div>
-      <div class="gift-footer">
-        <div class="gift-block">
-          <small><i data-lucide="calendar"></i> Expire le</small>
-          <strong>31/12/2026</strong>
-        </div>
-        <div class="gift-block">
-          <small><i data-lucide="key-round"></i> Code</small>
-          <strong>ST50K-8X7P-L2QZ <button class="copy-btn" onclick="copyCode('ST50K-8X7P-L2QZ')"><i data-lucide="copy"></i> Copier</button></strong>
-        </div>
-      </div>
-    </div>
+  
   </div>
 
-  <div class="gift-card green">
-    <div class="gift-bow"><i data-lucide="gift"></i></div>
-    <div class="gift-inner">
-      <div class="gift-brand"><i data-lucide="crown"></i> AFRICAN MARKETPLACE</div>
-      <div style="font-size:14px;color:#fff;margin-bottom:4px">Carte cadeau</div>
-      <div class="gift-amount">25 000 FCFA</div>
-      <div class="gift-footer">
-        <div class="gift-block">
-          <small><i data-lucide="calendar"></i> Expire</small>
-          <strong>31/12/2026</strong>
-        </div>
-        <div class="gift-block">
-          <small><i data-lucide="key-round"></i> Code</small>
-          <strong>ST25K-M9PL-3ZQ2 <button class="copy-btn" onclick="copyCode('ST25K-M9PL-3ZQ2')"><i data-lucide="copy"></i> Copier</button></strong>
-        </div>
-      </div>
-    </div>
+  
   </div>
 
   <div class="offer-block">
@@ -187,41 +157,7 @@ html[data-theme="dark"] .promo-code-title .copy-btn{background:#232a33;color:#e8
 <div class="section" id="promo" style="display:none">
   <div class="section-title"><i data-lucide="tag"></i> Codes actifs (3)</div>
 
-  <div class="promo-item">
-    <div class="promo-info">
-      <div class="promo-code-title">RAMADAN30 <button class="copy-btn" onclick="copyCode('RAMADAN30')"><i data-lucide="copy"></i></button></div>
-      <div class="promo-desc">Catégorie Mode uniquement</div>
-      <div class="promo-valid"><i data-lucide="calendar"></i> Valable jusqu'au 31/08/2026</div>
-    </div>
-    <div class="promo-right">
-      <div class="promo-reduc">-30%</div>
-      <button class="use-btn" onclick="usePromo('RAMADAN30')"><i data-lucide="check"></i> Utiliser</button>
-    </div>
-  </div>
-
-  <div class="promo-item">
-    <div class="promo-info">
-      <div class="promo-code-title">NOUVEAU10 <button class="copy-btn" onclick="copyCode('NOUVEAU10')"><i data-lucide="copy"></i></button></div>
-      <div class="promo-desc">Sur votre premier achat</div>
-      <div class="promo-valid"><i data-lucide="infinity"></i> Valable illimité</div>
-    </div>
-    <div class="promo-right">
-      <div class="promo-reduc">-10%</div>
-      <button class="use-btn" onclick="usePromo('NOUVEAU10')"><i data-lucide="check"></i> Utiliser</button>
-    </div>
-  </div>
-
-  <div class="promo-item" style="border-left-color:var(--o)">
-    <div class="promo-info">
-      <div class="promo-code-title" style="color:var(--o)">LIVRAISON0 <button class="copy-btn" onclick="copyCode('LIVRAISON0')"><i data-lucide="copy"></i></button></div>
-      <div class="promo-desc">Livraison gratuite dès 10 000 FCFA</div>
-      <div class="promo-valid"><i data-lucide="calendar"></i> Valable jusqu'au 30/09/2026</div>
-    </div>
-    <div class="promo-right">
-      <div class="promo-reduc" style="color:var(--o);font-size:16px">GRATUIT</div>
-      <button class="use-btn" style="background:var(--o)" onclick="usePromo('LIVRAISON0')"><i data-lucide="check"></i> Utiliser</button>
-    </div>
-  </div>
+  <div id="promoList"></div>
 
   <div class="add-code">
     <label><i data-lucide="plus-circle"></i> Ajouter un code promo</label>
@@ -234,49 +170,14 @@ html[data-theme="dark"] .promo-code-title .copy-btn{background:#232a33;color:#e8
 
 <!-- COUPONS (cliquables vers la boutique) -->
 <div class="section" id="coupons" style="display:none">
-  <div class="section-title"><i data-lucide="ticket"></i> Vos coupons (4)</div>
+  <div class="section-title"><i data-lucide="ticket"></i> <span id="couponTitle">Vos coupons</span></div>
+  <div id="couponList"></div>
 
-  <button class="coupon" onclick="useCoupon('Aïcha Couture',1)">
-    <div class="coupon-avatar" style="background:linear-gradient(135deg,#e91e63,#c2185b)">A</div>
-    <div class="coupon-body">
-      <div class="coupon-type"><i data-lucide="store"></i> Coupon vendeur</div>
-      <div class="coupon-name">Aïcha Couture</div>
-      <div class="coupon-valid">Valable jusqu'au 30/09/2026</div>
-      <div class="coupon-hint"><i data-lucide="mouse-pointer-click"></i> Toucher pour utiliser</div>
-    </div>
-    <div class="coupon-value">
-      <div class="big">-15%</div>
-      <small>Sur toute la boutique</small>
-    </div>
-  </button>
+  
 
-  <button class="coupon" onclick="useCoupon('Fatou Ndiaye Fashion',4)">
-    <div class="coupon-avatar" style="background:linear-gradient(135deg,#ffb300,#ff8f00)">F</div>
-    <div class="coupon-body">
-      <div class="coupon-type"><i data-lucide="store"></i> Coupon vendeur</div>
-      <div class="coupon-name">Fatou Ndiaye Fashion</div>
-      <div class="coupon-valid">Valable jusqu'au 15/08/2026</div>
-      <div class="coupon-hint"><i data-lucide="mouse-pointer-click"></i> Toucher pour utiliser</div>
-    </div>
-    <div class="coupon-value">
-      <div class="big">-20%</div>
-      <small>Boubou wax</small>
-    </div>
-  </button>
+  
 
-  <button class="coupon" onclick="useCoupon('TechSen Store',2)">
-    <div class="coupon-avatar" style="background:linear-gradient(135deg,#1976d2,#0d47a1)">T</div>
-    <div class="coupon-body">
-      <div class="coupon-type"><i data-lucide="store"></i> Coupon vendeur</div>
-      <div class="coupon-name">TechSen Store</div>
-      <div class="coupon-valid">Valable jusqu'au 31/12/2026</div>
-      <div class="coupon-hint"><i data-lucide="mouse-pointer-click"></i> Toucher pour utiliser</div>
-    </div>
-    <div class="coupon-value">
-      <div class="big">-5000</div>
-      <small>FCFA dès 50k</small>
-    </div>
-  </button>
+  
 
   <button class="coupon" style="border-color:var(--r);border-width:2px" onclick="location.href='parrainage.html'">
     <div class="coupon-avatar" style="background:linear-gradient(135deg,#ff6b35,#e31b23)"><i data-lucide="users" style="width:22px;height:22px;color:#fff"></i></div>
@@ -306,46 +207,62 @@ html[data-theme="dark"] .promo-code-title .copy-btn{background:#232a33;color:#e8
 <script src="js/dark-mode.js"></script>
 <script>
 lucide.createIcons();
-function showTab(id,btn){
-  ['bons','promo','coupons'].forEach(function(t){document.getElementById(t).style.display='none';});
-  document.getElementById(id).style.display='block';
-  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
-  btn.classList.add('active');
-  lucide.createIcons();
+const SUPA_URL="https://tjqkruhwmjzgfvtouqza.supabase.co",SUPA_KEY="sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j";
+const H={"apikey":SUPA_KEY,"Authorization":"Bearer "+SUPA_KEY,"Content-Type":"application/json"};
+async function sbGet(t,q){const r=await fetch(SUPA_URL+"/rest/v1/"+t+"?"+q,{headers:H});return r.ok?await r.json():[];}
+function getEmail(){try{const u=JSON.parse(localStorage.getItem("sentew_user")||sessionStorage.getItem("sentew_user")||"{}");return u.email||"";}catch(e){return localStorage.getItem("sentew_email")||"";}}
+function showTab(id,btn){['bons','promo','coupons'].forEach(function(t){document.getElementById(t).style.display='none';});document.getElementById(id).style.display='block';document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});btn.classList.add('active');lucide.createIcons();}
+function toast(m){const t=document.createElement("div");t.textContent=m;t.style.cssText="position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#0f6b4e;color:#fff;padding:12px 20px;border-radius:12px;z-index:9999;font-weight:700;font-size:13px;max-width:88%";document.body.appendChild(t);setTimeout(()=>t.remove(),3000);}
+function copyCode(c){if(navigator.clipboard){navigator.clipboard.writeText(c);}toast('Code « '+c+' » copié');}
+function copyCodeSilent(c){if(navigator.clipboard){navigator.clipboard.writeText(c);}}
+
+async function loadGifts(){
+  const em=getEmail(),box=document.getElementById("myGifts");
+  if(!em){box.innerHTML='';return;}
+  const g=await sbGet("gift_cards","select=*&owner_email=eq."+encodeURIComponent(em)+"&status=eq.active&order=created_at.desc");
+  if(!g.length){box.innerHTML='';return;}
+  box.innerHTML='<div class="section-title"><i data-lucide="gift"></i> Mes cartes cadeaux</div>'+g.map(x=>
+   '<div class="gift-card" style="background:linear-gradient(135deg,#0f6b4e,#0a4d38);border-radius:16px;padding:18px;margin-bottom:12px;color:#fff"><div style="font-size:13px;opacity:.85">Carte cadeau</div><div class="gift-amount">'+(+x.amount).toLocaleString("fr-FR")+' FCFA</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><strong>'+x.code+'</strong><button class="copy-btn" onclick="copyCode(\''+x.code+'\')"><i data-lucide="copy"></i> Copier</button></div></div>').join("");
+  if(window.lucide)lucide.createIcons();
 }
-function copyCode(c){
-  if(navigator.clipboard){navigator.clipboard.writeText(c);}
-  alert('✅ Code "'+c+'" copié dans le presse-papier');
+
+async function loadPromos(){
+  const box=document.getElementById("promoList");
+  const p=await sbGet("promo_codes","select=*&active=eq.true&order=created_at.desc");
+  if(!p.length){box.innerHTML='<p style="color:#666;font-size:13px">Aucun code promo actif pour le moment. Revenez bientôt !</p>';return;}
+  box.innerHTML=p.map(x=>{const off=x.percent?('-'+x.percent+'%'):(x.amount?('-'+(+x.amount).toLocaleString("fr-FR")+' F'):(x.type==='shipping'?'GRATUIT':'PROMO'));
+   const valid=x.expires_at?('Valable jusqu\'au '+new Date(x.expires_at).toLocaleDateString("fr-FR")):'Valable illimité';
+   return '<div class="promo-item"><div class="promo-info"><div class="promo-code-title">'+x.code+' <button class="copy-btn" onclick="copyCode(\''+x.code+'\')"><i data-lucide="copy"></i></button></div><div class="promo-desc">'+(x.description||'Réduction sur vos achats')+'</div><div class="promo-valid"><i data-lucide="calendar"></i> '+valid+'</div></div><div class="promo-right"><div class="promo-reduc">'+off+'</div><button class="use-btn" onclick="usePromo(\''+x.code+'\')"><i data-lucide="check"></i> Utiliser</button></div></div>';}).join("");
+  if(window.lucide)lucide.createIcons();
 }
-function copyCodeSilent(c){
-  if(navigator.clipboard){navigator.clipboard.writeText(c);}
+
+async function loadCoupons(){
+  const em=getEmail(),box=document.getElementById("couponList"),ti=document.getElementById("couponTitle");
+  if(!em){box.innerHTML='<p style="color:#666;font-size:13px">Connecte-toi pour voir tes coupons.</p>';return;}
+  const c=await sbGet("coupons","select=*,vendors(name,slug)&user_email=eq."+encodeURIComponent(em)+"&used=eq.false");
+  ti.textContent='Vos coupons ('+c.length+')';
+  if(!c.length){box.innerHTML='<p style="color:#666;font-size:13px">Aucun coupon pour le moment. Parraine un ami ou suis les lives pour en gagner !</p>';return;}
+  box.innerHTML=c.map(x=>{const vn=(x.vendors&&x.vendors.name)||'Boutique';const slug=(x.vendors&&x.vendors.slug)||'';const val=x.percent?('-'+x.percent+'%'):('-'+(+x.amount||0).toLocaleString("fr-FR")+' FCFA');
+   return '<button class="coupon" onclick="useCoupon(\''+slug+'\',\''+x.code+'\')"><div class="coupon-avatar" style="background:linear-gradient(135deg,#0f6b4e,#0a4d38)">'+vn.charAt(0)+'</div><div class="coupon-body"><div class="coupon-type"><i data-lucide="store"></i> Coupon vendeur</div><div class="coupon-name">'+vn+'</div><div class="coupon-valid">'+(x.expires_at?('Valable jusqu\'au '+new Date(x.expires_at).toLocaleDateString("fr-FR")):'Valable illimité')+'</div><div class="coupon-hint"><i data-lucide="mouse-pointer-click"></i> Toucher pour utiliser</div></div><div class="coupon-value"><div class="big">'+val+'</div><small>'+(x.scope||'Sur la boutique')+'</small></div></button>';}).join("");
+  if(window.lucide)lucide.createIcons();
 }
-function usePromo(code){
-  copyCodeSilent(code);
-  alert('✅ Code "'+code+'" appliqué !\n\nIl sera utilisé automatiquement au moment du paiement.');
-  location.href='produits.html?promo='+code;
+
+function usePromo(code){copyCodeSilent(code);toast('Code « '+code+' » appliqué — il sera utilisé au paiement.');localStorage.setItem('sentew_promo',code);setTimeout(()=>location.href='panier.html',900);}
+function useCoupon(slug,code){copyCodeSilent(code);localStorage.setItem('sentew_coupon',code);location.href='boutique.html?slug='+slug;}
+function buyGift(){toast('Achat de carte cadeau : activation bientôt. Contact : contact@sen-ecosystem.com');}
+
+async function addCode(){
+  const inp=document.getElementById('newCode');const c=inp.value.trim().toUpperCase();
+  if(!c){toast('Entrez un code');return;}
+  const p=await sbGet("promo_codes","select=*&code=eq."+encodeURIComponent(c)+"&active=eq.true&limit=1");
+  if(!p.length){toast('Code « '+c+' » invalide ou expiré.');return;}
+  copyCodeSilent(c);localStorage.setItem('sentew_promo',c);
+  toast('Code « '+c+' » appliqué — valable au paiement.');
+  inp.value='';
 }
-function useCoupon(nom,id){
-  alert('🎫 Coupon "'+nom+'" activé !\n\nRedirection vers la boutique...');
-  location.href='boutique.html?id='+id;
-}
-function buyGift(){
-  var amt = document.querySelector('.amount-btn.active .val').textContent;
-  alert('🎁 Achat carte cadeau '+amt+' FCFA\n\nRedirection vers le paiement...');
-  location.href='checkout.html?gift='+amt;
-}
-function addCode(){
-  var c = document.getElementById('newCode').value.trim();
-  if(!c){ alert('⚠️ Entrez un code'); return; }
-  alert('✅ Code "'+c+'" appliqué !');
-  document.getElementById('newCode').value='';
-}
-document.querySelectorAll('.amount-btn').forEach(function(b){
-  b.addEventListener('click',function(){
-    document.querySelectorAll('.amount-btn').forEach(function(x){x.classList.remove('active');});
-    b.classList.add('active');
-  });
-});
+
+document.addEventListener("DOMContentLoaded",function(){loadGifts();loadPromos();loadCoupons();});
+document.querySelectorAll('.amount-btn').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('.amount-btn').forEach(function(x){x.classList.remove('active');});b.classList.add('active');});});
 </script>
 <script src="js/buttons-audit.js?v=51"></script>
   <script src="js/i18n.js"></script>
