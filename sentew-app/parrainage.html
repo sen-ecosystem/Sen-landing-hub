@@ -32,7 +32,7 @@
   <section style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:18px;text-align:center;margin-bottom:16px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
     <p style="color:#4a5a52;font-size:13px;margin-bottom:10px">Votre code de parrainage</p>
     <div style="background:rgba(15,107,78,0.08);border:2px dashed #0f6b4e;border-radius:12px;padding:16px;margin-bottom:14px">
-      <strong style="color:#0f6b4e;font-size:22px;font-weight:900;letter-spacing:3px">SENTEW-L543</strong>
+      <strong id="refCode" style="color:#0f6b4e;font-size:22px;font-weight:900;letter-spacing:3px">…</strong>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
       <button class="btn-primary" style="padding:12px;display:flex;align-items:center;justify-content:center;gap:8px"><i data-lucide="copy" class="icon icon-sm icon-blanc"></i> Copier</button>
@@ -58,7 +58,7 @@
   <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:8px;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
     <div style="display:flex;gap:12px;padding:12px;border-bottom:1px solid #f5f5f0">
       <div style="width:36px;height:36px;background:rgba(15,107,78,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;color:#0f6b4e">1</div>
-      <div><strong style="color:#0a1f17">Partagez votre code</strong><br><small style="color:#4a5a52">Envoyez SENTEW-L543 à vos amis</small></div>
+      <div><strong style="color:#0a1f17">Partagez votre code</strong><br><small style="color:#4a5a52">Envoyez votre code à vos amis</small></div>
     </div>
     <div style="display:flex;gap:12px;padding:12px;border-bottom:1px solid #f5f5f0">
       <div style="width:36px;height:36px;background:rgba(15,107,78,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;color:#0f6b4e">2</div>
@@ -85,7 +85,8 @@
   <script src="js/buttons-audit.js?v=51"></script>
 <script>
 window.addEventListener('load', function(){
-  var code='SENTEW-L543';
+  var _em=(function(){try{const u=JSON.parse(localStorage.getItem('sentew_user')||sessionStorage.getItem('sentew_user')||'{}');return u.email||'';}catch(e){return localStorage.getItem('sentew_email')||'';}})();
+  var code='SENTEW-'+(_em?_em.replace(/[^a-zA-Z]/g,'').slice(0,4).toUpperCase():'AMI')+Math.floor(100+Math.random()*900);
   document.querySelectorAll('button, a, [class*="btn"]').forEach(function(b){
     var t=b.textContent.trim();
     b.style.cursor='pointer';
@@ -97,6 +98,7 @@ window.addEventListener('load', function(){
     }
     if(/partager/i.test(t)){
       b.onclick=function(){
+        var el=document.getElementById('refCode');if(el)el.textContent=code;
         var txt='🎁 Rejoins SEN TEW, la marketplace africaine ! Utilise mon code '+code+' : https://sen-ecosystem.com/sentew-app/register.html?ref='+code;
         if(navigator.share) navigator.share({title:'SEN TEW Parrainage',text:txt}).catch(function(){});
         else if(navigator.clipboard){navigator.clipboard.writeText(txt); b.textContent='✓ Lien copié !'; setTimeout(function(){b.innerHTML='🔗 Partager';},2000);}
