@@ -12,69 +12,43 @@
 <header class="topbar">
   <button class="btn-back" onclick="history.back()"><i data-lucide="arrow-left" class="icon icon-md icon-vert"></i></button>
   <h1><i data-lucide="map-pin" class="icon icon-md icon-rouge"></i> Mes adresses</h1>
-  <button class="icon-btn"><i data-lucide="plus" class="icon icon-md icon-vert"></i></button>
+  <button class="icon-btn" onclick="openForm()"><i data-lucide="plus" class="icon icon-md icon-vert"></i></button>
 </header>
 
 <main style="padding-bottom:100px">
 
   <div style="padding:16px 16px 0">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><i data-lucide="map-pin" class="icon icon-sm" style="color:#4a5a52"></i><span style="font-size:13px;color:#4a5a52;font-weight:600">Position actuelle</span></div>
-    <p style="color:#0a1f17;font-size:14px;line-height:1.5">52 Rue Mohamed V<br>Dakar-Plateau, Sénégal</p>
-    <button class="btn-primary" style="width:100%;margin-top:10px;padding:12px;display:flex;align-items:center;justify-content:center;gap:8px"><i data-lucide="navigation" class="icon icon-sm icon-blanc"></i> Utiliser ma position actuelle</button>
+    <p id="gpsInfo" style="color:#0a1f17;font-size:14px;line-height:1.5">Active le GPS pour détecter ta position et pré-remplir une nouvelle adresse.</p>
+    <button class="btn-primary" onclick="useGPS()" style="width:100%;margin-top:10px;padding:12px;display:flex;align-items:center;justify-content:center;gap:8px"><i data-lucide="navigation" class="icon icon-sm icon-blanc"></i> Utiliser ma position actuelle</button>
   </div>
 
   <h2 class="section-title"><i data-lucide="pin" class="icon icon-sm icon-or"></i> MES ADRESSES ENREGISTRÉES</h2>
-
-  <!-- Carte Maison -->
-  <article class="card-adresse">
-    <header style="display:flex;justify-content:space-between;align-items:center">
-      <span style="display:flex;align-items:center;gap:6px;color:#a67c3a;font-weight:700"><i data-lucide="home" class="icon icon-sm icon-or"></i> Maison</span>
-      <span class="badge-defaut">Par défaut</span>
-    </header>
-    <p class="nom">Karim Niang</p>
-    <p>52 Rue Mohamed V, App. 4B</p>
-    <p>Dakar-Plateau, 11000</p>
-    <p style="display:flex;align-items:center;gap:6px"><span style="font-size:16px">🇸🇳</span> Sénégal · <a href="tel:+221774567890">+221 77 456 78 90</a></p>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#e5e5e0;margin:12px -16px -16px;border-top:1px solid #e5e5e0">
-      <button style="background:#fff;padding:12px;color:#3b82f6;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="edit-3" class="icon icon-sm icon-bleu"></i> Modifier</button>
-      <button style="background:#fff;padding:12px;color:#0f6b4e;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="check-circle" class="icon icon-sm icon-vert"></i> Défaut</button>
-      <button style="background:#fff;padding:12px;color:#ef4444;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="trash-2" class="icon icon-sm icon-rouge"></i> Suppr.</button>
-    </div>
-  </article>
-
-  <!-- Carte Bureau -->
-  <article class="card-adresse">
-    <header style="display:flex;justify-content:space-between;align-items:center">
-      <span style="display:flex;align-items:center;gap:6px;color:#a67c3a;font-weight:700"><i data-lucide="briefcase" class="icon icon-sm icon-or"></i> Bureau</span>
-    </header>
-    <p class="nom">Karim Niang</p>
-    <p>Immeuble Fahd, Bd Djily Mbaye</p>
-    <p>Dakar-Plateau, 12500</p>
-    <p style="display:flex;align-items:center;gap:6px"><span style="font-size:16px">🇸🇳</span> Sénégal · <a href="tel:+221338219000">+221 33 821 90 00</a></p>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#e5e5e0;margin:12px -16px -16px;border-top:1px solid #e5e5e0">
-      <button style="background:#fff;padding:12px;color:#3b82f6;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="edit-3" class="icon icon-sm icon-bleu"></i> Modifier</button>
-      <button style="background:#fff;padding:12px;color:#0f6b4e;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="check-circle" class="icon icon-sm icon-vert"></i> Défaut</button>
-      <button style="background:#fff;padding:12px;color:#ef4444;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="trash-2" class="icon icon-sm icon-rouge"></i> Suppr.</button>
-    </div>
-  </article>
-
-  <!-- Carte Famille (mère) -->
-  <article class="card-adresse">
-    <header style="display:flex;justify-content:space-between;align-items:center">
-      <span style="display:flex;align-items:center;gap:6px;color:#a67c3a;font-weight:700"><i data-lucide="users" class="icon icon-sm icon-or"></i> Famille</span>
-    </header>
-    <p class="nom">Aïssatou Niang (Mère)</p>
-    <p>Villa 47, Grand Yoff</p>
-    <p>Dakar, 15000</p>
-    <p style="display:flex;align-items:center;gap:6px"><span style="font-size:16px">🇸🇳</span> Sénégal · <a href="tel:+221769876543">+221 76 987 65 43</a></p>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#e5e5e0;margin:12px -16px -16px;border-top:1px solid #e5e5e0">
-      <button style="background:#fff;padding:12px;color:#3b82f6;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="edit-3" class="icon icon-sm icon-bleu"></i> Modifier</button>
-      <button style="background:#fff;padding:12px;color:#0f6b4e;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="check-circle" class="icon icon-sm icon-vert"></i> Défaut</button>
-      <button style="background:#fff;padding:12px;color:#ef4444;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="trash-2" class="icon icon-sm icon-rouge"></i> Suppr.</button>
-    </div>
-  </article>
+  <div id="addrList"><p style="color:#4a5a52;font-size:13px;padding:0 16px">Chargement…</p></div>
 
 </main>
+
+<!-- FORMULAIRE AJOUT / MODIFICATION -->
+<div id="addrForm" style="display:none;position:fixed;inset:0;background:rgba(10,31,23,.5);z-index:999;align-items:flex-end">
+  <div style="background:#fff;border-radius:22px 22px 0 0;padding:22px 20px 30px;width:100%;max-height:88vh;overflow-y:auto">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <h3 id="formTitle" style="margin:0;color:#0a1f17">Nouvelle adresse</h3>
+      <button onclick="closeForm()" style="background:none;border:none;font-size:22px;color:#4a5a52;cursor:pointer">×</button>
+    </div>
+    <input type="hidden" id="fId">
+    <label style="font-size:12px;font-weight:700;color:#4a5a52">Nom de l'adresse</label>
+    <input id="fLabel" placeholder="Ex : Maison, Bureau, Famille…" style="width:100%;padding:12px;border:1px solid #e5e5e0;border-radius:10px;margin:6px 0 12px;font-size:14px">
+    <label style="font-size:12px;font-weight:700;color:#4a5a52">Nom du destinataire</label>
+    <input id="fName" placeholder="Ex : Prénom Nom" style="width:100%;padding:12px;border:1px solid #e5e5e0;border-radius:10px;margin:6px 0 12px;font-size:14px">
+    <label style="font-size:12px;font-weight:700;color:#4a5a52">Rue et numéro</label>
+    <input id="fStreet" placeholder="Ex : 52 Rue Mohamed V, App. 4B" style="width:100%;padding:12px;border:1px solid #e5e5e0;border-radius:10px;margin:6px 0 12px;font-size:14px">
+    <label style="font-size:12px;font-weight:700;color:#4a5a52">Ville / Quartier</label>
+    <input id="fCity" placeholder="Ex : Dakar-Plateau" style="width:100%;padding:12px;border:1px solid #e5e5e0;border-radius:10px;margin:6px 0 12px;font-size:14px">
+    <label style="font-size:12px;font-weight:700;color:#4a5a52">Téléphone</label>
+    <input id="fPhone" placeholder="Ex : +221 77 000 00 00" style="width:100%;padding:12px;border:1px solid #e5e5e0;border-radius:10px;margin:6px 0 12px;font-size:14px">
+    <button class="btn-primary" onclick="saveAddr()" style="width:100%;padding:14px;font-size:15px">Enregistrer l'adresse</button>
+  </div>
+</div>
 
 <nav class="bottom-nav">
   <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
@@ -86,54 +60,100 @@
 
 <script src="js/dark-mode.js?v=50"></script>
 <script>lucide.createIcons();</script>
-  <script src="js/buttons-audit.js?v=51"></script>
+<script src="js/buttons-audit.js?v=51"></script>
+<script src="js/i18n.js"></script>
 <script>
-window.addEventListener('load', function(){
-  document.querySelectorAll('button, a, [class*="btn"], [class*="action"], .icon-btn').forEach(function(b){
-    var t=b.textContent.trim();
-    b.style.cursor='pointer';
-    if(/position actuelle/i.test(t)){
-      b.onclick=function(){
-        if(navigator.geolocation){
-          b.textContent='📍 Localisation en cours...';
-          navigator.geolocation.getCurrentPosition(
-            function(){ b.textContent='✅ Position détectée : Dakar-Plateau'; },
-            function(){ b.textContent='⚠️ Active le GPS de ton téléphone'; }
-          );
-        } else b.textContent='⚠️ GPS non disponible';
-      };
-    }
-    else if(t==='+' || /ajouter|nouvelle adresse/i.test(t)){
-      b.onclick=function(){
-        var nom=prompt('📌 Nom de l\'adresse (ex: Maison, Bureau) :');
-        if(!nom) return;
-        var rue=prompt('🏠 Rue et numéro :');
-        if(!rue) return;
-        var ville=prompt('🏙️ Ville :','Dakar')||'Dakar';
-        alert('✅ Adresse "'+nom+'" ajoutée :\n'+rue+', '+ville);
-      };
-    }
-    else if(/modifier/i.test(t)) b.onclick=function(){alert('✏️ Modification de l\'adresse (formulaire bientôt connecté à ton compte).');};
-    else if(/défaut/i.test(t)){
-      b.onclick=function(){
-        document.querySelectorAll('[class*="default"], [class*="badge"]').forEach(function(d){
-          if(/défaut/i.test(d.textContent)) d.style.display='none';
-        });
-        b.textContent='✓ Par défaut';
-        alert('✅ Cette adresse est maintenant ton adresse par défaut');
-      };
-    }
-    else if(/suppr/i.test(t)){
-      b.onclick=function(){
-        if(confirm('🗑️ Supprimer cette adresse ?')){
-          var card=b.closest('[class*="card"], [class*="address"], article, [class*="item"]');
-          if(card) card.remove();
-        }
-      };
-    }
-  });
-});
+const SUPA_URL="https://tjqkruhwmjzgfvtouqza.supabase.co",SUPA_KEY="sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j";
+const H={"apikey":SUPA_KEY,"Authorization":"Bearer "+SUPA_KEY,"Content-Type":"application/json"};
+async function sbGet(t,q){const r=await fetch(SUPA_URL+"/rest/v1/"+t+"?"+q,{headers:H});return r.ok?await r.json():[];}
+async function sbPost(t,b){const r=await fetch(SUPA_URL+"/rest/v1/"+t,{method:"POST",headers:Object.assign({},H,{"Prefer":"return=representation"}),body:JSON.stringify(b)});return r.ok;}
+async function sbPatch(t,q,b){const r=await fetch(SUPA_URL+"/rest/v1/"+t+"?"+q,{method:"PATCH",headers:H,body:JSON.stringify(b)});return r.ok;}
+async function sbDel(t,q){const r=await fetch(SUPA_URL+"/rest/v1/"+t+"?"+q,{method:"DELETE",headers:H});return r.ok;}
+function getEmail(){try{const u=JSON.parse(localStorage.getItem("sentew_user")||sessionStorage.getItem("sentew_user")||"{}");return u.email||"";}catch(e){return localStorage.getItem("sentew_email")||"";}}
+function toast(m,ok){const t=document.createElement("div");t.textContent=m;t.style.cssText="position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:"+(ok===false?"#7f1d1d":"#0f6b4e")+";color:#fff;padding:12px 20px;border-radius:12px;z-index:9999;font-weight:700;font-size:13px;max-width:88%";document.body.appendChild(t);setTimeout(()=>t.remove(),3000);}
+
+const ICONS={maison:'home',bureau:'briefcase',famille:'users',autre:'map-pin'};
+function iconFor(l){l=(l||'').toLowerCase();for(const k in ICONS){if(l.indexOf(k)>-1)return ICONS[k];}return 'map-pin';}
+
+async function loadAddr(){
+  const em=getEmail(),box=document.getElementById("addrList");
+  if(!em){box.innerHTML='<p style="color:#7f1d1d;font-size:13px;padding:0 16px">Connecte-toi (Profil) pour gérer tes adresses.</p>';return;}
+  const a=await sbGet("addresses","select=*&user_email=eq."+encodeURIComponent(em)+"&order=is_default.desc,created_at.asc");
+  if(!a.length){box.innerHTML='<p style="color:#4a5a52;font-size:13px;padding:0 16px">Aucune adresse enregistrée. Touche + pour en ajouter une.</p>';return;}
+  box.innerHTML=a.map(x=>
+   '<article class="card-adresse" style="margin-bottom:12px">'
+   +'<header style="display:flex;justify-content:space-between;align-items:center"><span style="display:flex;align-items:center;gap:6px;color:#a67c3a;font-weight:700"><i data-lucide="'+iconFor(x.label)+'" class="icon icon-sm icon-or"></i> '+(x.label||'Adresse')+'</span>'+(x.is_default?'<span class="badge-defaut">Par défaut</span>':'')+'</header>'
+   +'<p class="nom">'+(x.name||'')+'</p>'
+   +'<p>'+(x.street||'')+'</p>'
+   +'<p>'+(x.city||'')+'</p>'
+   +(x.phone?'<p style="display:flex;align-items:center;gap:6px"><i data-lucide="phone" class="icon icon-sm" style="color:#4a5a52"></i> <a href="tel:'+x.phone.replace(/\s/g,'')+'">'+x.phone+'</a></p>':'')
+   +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#e5e5e0;margin:12px -16px -16px;border-top:1px solid #e5e5e0">'
+   +'<button onclick=\'editAddr('+JSON.stringify(x.id)+')\' style="background:#fff;padding:12px;color:#3b82f6;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="edit-3" class="icon icon-sm icon-bleu"></i> Modifier</button>'
+   +'<button onclick=\'setDefault('+JSON.stringify(x.id)+')\' style="background:#fff;padding:12px;color:#0f6b4e;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="check-circle" class="icon icon-sm icon-vert"></i> Défaut</button>'
+   +'<button onclick=\'delAddr('+JSON.stringify(x.id)+')\' style="background:#fff;padding:12px;color:#ef4444;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="trash-2" class="icon icon-sm icon-rouge"></i> Suppr.</button>'
+   +'</div></article>').join("");
+  if(window.lucide)lucide.createIcons();
+  window._addrCache=a;
+}
+
+function openForm(a){
+  document.getElementById('formTitle').textContent=a?'Modifier l\'adresse':'Nouvelle adresse';
+  document.getElementById('fId').value=a?a.id:'';
+  document.getElementById('fLabel').value=a?a.label||'':'';
+  document.getElementById('fName').value=a?a.name||'':'';
+  document.getElementById('fStreet').value=a?a.street||'':'';
+  document.getElementById('fCity').value=a?a.city||'':'';
+  document.getElementById('fPhone').value=a?a.phone||'':'';
+  const f=document.getElementById('addrForm');f.style.display='flex';
+}
+function closeForm(){document.getElementById('addrForm').style.display='none';}
+function editAddr(id){const a=(window._addrCache||[]).find(x=>x.id===id);if(a)openForm(a);}
+
+async function saveAddr(){
+  const em=getEmail();if(!em){toast('Connecte-toi d abord.',false);return;}
+  const id=document.getElementById('fId').value;
+  const d={user_email:em,label:document.getElementById('fLabel').value.trim()||'Adresse',
+    name:document.getElementById('fName').value.trim(),street:document.getElementById('fStreet').value.trim(),
+    city:document.getElementById('fCity').value.trim(),phone:document.getElementById('fPhone').value.trim()};
+  if(!d.name||!d.street||!d.city){toast('Nom, rue et ville sont obligatoires.',false);return;}
+  let ok;
+  if(id){ok=await sbPatch('addresses','id=eq.'+id,d);}
+  else{
+    const existing=await sbGet('addresses','select=id&user_email=eq.'+encodeURIComponent(em)+'&limit=1');
+    if(!existing.length)d.is_default=true;
+    ok=await sbPost('addresses',d);
+  }
+  if(ok){toast('Adresse enregistrée.');closeForm();loadAddr();}
+  else toast('Erreur d enregistrement. Réessaie.',false);
+}
+
+async function setDefault(id){
+  const em=getEmail();
+  await sbPatch('addresses','user_email=eq.'+encodeURIComponent(em),{is_default:false});
+  const ok=await sbPatch('addresses','id=eq.'+id,{is_default:true});
+  if(ok){toast('Adresse par défaut mise à jour.');loadAddr();}
+}
+async function delAddr(id){
+  if(!confirm('Supprimer cette adresse ?'))return;
+  const ok=await sbDel('addresses','id=eq.'+id);
+  if(ok){toast('Adresse supprimée.');loadAddr();}
+}
+
+function useGPS(){
+  const info=document.getElementById('gpsInfo');
+  if(!navigator.geolocation){info.textContent='GPS non disponible sur cet appareil.';return;}
+  info.textContent='Localisation en cours…';
+  navigator.geolocation.getCurrentPosition(
+    function(pos){
+      info.textContent='Position détectée ('+pos.coords.latitude.toFixed(4)+', '+pos.coords.longitude.toFixed(4)+'). Complète le nom et la rue dans le formulaire.';
+      openForm();
+      document.getElementById('fCity').value='Dakar';
+    },
+    function(){info.textContent='Active la localisation dans les réglages de ton téléphone, puis réessaie.';}
+  );
+}
+
+document.addEventListener('DOMContentLoaded',loadAddr);
 </script>
-  <script src="js/i18n.js"></script>
 </body>
 </html>
