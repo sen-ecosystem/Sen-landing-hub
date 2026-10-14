@@ -108,5 +108,16 @@ window.addEventListener('load', function(){
 });
 </script>
  <script src="js/i18n.js"></script> 
+<script>
+setTimeout(function(){
+  document.querySelectorAll('div,span,p').forEach(function(el){
+    if(el.children.length===0 && (el.textContent.trim()==='...'||el.textContent.trim()==='…') && el.closest('[class*="code"],[class*="ref"],[id*="code"]')){
+      var em="";try{em=(JSON.parse(localStorage.getItem("sentew_user")||sessionStorage.getItem("sentew_user")||"{}").email)||"";}catch(e){}
+      if(em){var base=em.split("@")[0].replace(/[^a-z0-9]/gi,"").toUpperCase().slice(0,4)||"USER";el.textContent="SENTEW-"+base+(em.length%97);}
+      else{el.textContent="CONNECTE-TOI";el.style.fontSize="13px";el.title="Connecte-toi pour obtenir ton code personnel";}
+    }
+  });
+},1500);
+</script>
 </body>
 </html>
