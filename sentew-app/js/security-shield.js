@@ -42,8 +42,8 @@ function isLocked(){
 }
 function lockDevice(reason){
   var l=getLock();
-  l.level=(l.level||0)+1;
-  l.until=Date.now()+CFG.lockMinutes*60*1000*l.level;
+  l.level=1;
+  l.until=Date.now()+CFG.lockMinutes*60*1000;
   setLock(l);
   logEvent('DEVICE_LOCKED','Niveau '+l.level+' — '+reason);
   showLockScreen(l.until);
@@ -57,9 +57,12 @@ function showLockScreen(until){
     +'<div style="font-size:44px">🛡️</div>'
     +'<h2 style="margin:12px 0 8px;font-size:19px">Accès temporairement suspendu</h2>'
     +'<p style="font-size:13px;color:#5b7a70;line-height:1.6">Une activité inhabituelle a été détectée sur cet appareil. Réessaie dans quelques minutes.</p>'
+    +'<button onclick="stShieldUnlock()" style="margin-top:14px;width:100%;padding:12px;background:#0f6b4e;color:#fff;border:none;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer">Déverrouiller</button>'
     +'</div>';
   document.body.appendChild(d);
 }
+
+window.stShieldUnlock=function(){localStorage.removeItem(CFG.lockKey);var d=document.getElementById('st-shield-lock');if(d)d.remove();};
 
 /* ---------- 2. RATE LIMITING ---------- */
 function countAction(){
