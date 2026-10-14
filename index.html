@@ -304,24 +304,11 @@
 </footer>
 
 <!-- COOKIE BANNER -->
-<div id="cookieBanner" class="cookie-banner">
-  <div class="cookie-content">
-    <span class="cookie-icon">🍪</span>
-    <div class="cookie-text">
-      <strong>Cookies & Confidentialité</strong>
-      <p>Nous utilisons des cookies essentiels au fonctionnement du site. En continuant, vous acceptez notre <a href="confidentialite.html" style="color:#D4A574">politique de confidentialité</a>.</p>
-    </div>
-    <div class="cookie-buttons">
-      <button onclick="acceptCookies()" class="btn-primary">Accepter</button>
-      <button onclick="rejectCookies()" class="btn-secondary">Refuser</button>
-    </div>
-  </div>
+
 </div>
 
 <script>
-function acceptCookies(){localStorage.setItem('sen_cookies','accepted');document.getElementById('cookieBanner').style.display='none';}
-function rejectCookies(){localStorage.setItem('sen_cookies','rejected');document.getElementById('cookieBanner').style.display='none';}
-if(localStorage.getItem('sen_cookies')){document.getElementById('cookieBanner').style.display='none';}
+
 document.addEventListener('keydown',function(e){
   if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&(e.key==='I'||e.key==='J'||e.key==='C'))||(e.ctrlKey&&e.key==='U')||(e.ctrlKey&&e.key==='S')){
     e.preventDefault();return false;
@@ -335,7 +322,7 @@ function changeLang(lang){
 
 <!-- ═══ BANNIÈRE COOKIES PRO ═══ -->
 <div id="ck" style="position:fixed;bottom:14px;left:14px;right:14px;max-width:430px;margin:0 auto;background:rgba(10,31,23,.97);backdrop-filter:blur(10px);border:1px solid rgba(74,222,128,.25);border-radius:18px;padding:16px;z-index:99999;display:none;box-shadow:0 10px 40px rgba(0,0,0,.35);transform:translateY(130%);transition:transform .5s cubic-bezier(.22,1,.36,1)">
-  <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">🍪</span><b style="color:#4ade80;font-size:13px;letter-spacing:.5px">COOKIES & CONFIDENTIALITÉ</b></div>
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><b style="color:#4ade80;font-size:13px;letter-spacing:.5px">COOKIES & CONFIDENTIALITÉ</b></div>
   <p style="color:#d1fae5;font-size:12px;line-height:1.55;margin:0 0 12px">Nous utilisons des cookies essentiels au fonctionnement et à l'amélioration de ton expérience. En continuant, tu acceptes notre <a href="confidentialite.html" style="color:#4ade80;text-decoration:underline">politique de confidentialité</a>.</p>
   <div style="display:flex;gap:8px">
     <button onclick="ckOk(1)" style="flex:1.3;padding:12px;background:linear-gradient(135deg,#16a34a,#0f6b4e);color:#fff;border:none;border-radius:11px;font-weight:800;font-size:13px;cursor:pointer">✓ Tout accepter</button>
