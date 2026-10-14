@@ -22,10 +22,10 @@
   <section class="solde-hero wallet-hero hero-emerald-gold" style="padding:24px;margin-bottom:20px">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
       <span style="display:flex;align-items:center;gap:6px;color:rgba(255,255,255,0.9) !important;font-size:13px"><i data-lucide="wallet" style="width:16px;height:16px;color:#fff"></i> Solde disponible</span>
-      <button style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);width:32px;height:32px;border-radius:50%;color:#fff;backdrop-filter:blur(10px)"><i data-lucide="eye" style="width:16px;height:16px;color:#fff"></i></button>
+      <button id="eyeBtn" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);width:32px;height:32px;border-radius:50%;color:#fff;backdrop-filter:blur(10px)"><i data-lucide="eye" style="width:16px;height:16px;color:#fff"></i></button>
     </div>
     <h2 class="solde-value wallet-amount" style="font-size:36px;font-weight:900;color:#fff !important;margin:8px 0"><span id="wBalance">…</span></h2>
-    <p class="solde-eur" style="color:rgba(255,255,255,0.85) !important;font-size:13px;margin-bottom:16px">≈ 22,95 € · ≈ 25,05 $</p>
+    <p class="solde-eur" style="color:rgba(255,255,255,0.85) !important;font-size:13px;margin-bottom:16px"><span id="wEquiv"></span></p>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
       <button style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:#fff !important;padding:12px;border-radius:10px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;backdrop-filter:blur(10px)" onclick="wReload()"><i data-lucide="plus" style="width:16px;height:16px;color:#fff"></i> Recharger</button>
       <button style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:#fff !important;padding:12px;border-radius:10px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;backdrop-filter:blur(10px)" onclick="wWithdraw()"><i data-lucide="arrow-up-right" style="width:16px;height:16px;color:#fff"></i> Retirer</button>
@@ -35,7 +35,7 @@
   <!-- Ajouter des fonds -->
   <h2 class="section-title"><i data-lucide="credit-card" class="icon icon-sm icon-vert"></i> AJOUTER DES FONDS</h2>
 
-  <div class="fund-option active">
+  <div class="fund-option active" onclick="wPay('Wave')" style="cursor:pointer">
     <div class="fund-logo" style="background:linear-gradient(135deg,#00d4ff,#0099cc);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="waves" style="width:22px;height:22px;color:#fff"></i></div>
     <div class="fund-info">
       <strong>Wave</strong>
@@ -44,7 +44,7 @@
     <i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i>
   </div>
 
-  <div class="fund-option">
+  <div class="fund-option" onclick="wPay('Orange Money')" style="cursor:pointer">
     <div class="fund-logo" style="background:linear-gradient(135deg,#f97316,#ea580c);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="circle" style="width:22px;height:22px;color:#fff"></i></div>
     <div class="fund-info">
       <strong>Orange Money</strong>
@@ -53,7 +53,7 @@
     <i data-lucide="chevron-right" class="icon icon-sm" style="color:#4a5a52"></i>
   </div>
 
-  <div class="fund-option">
+  <div class="fund-option" onclick="wPay('Carte bancaire')" style="cursor:pointer">
     <div class="fund-logo" style="background:linear-gradient(135deg,#635bff,#4d47cc);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="credit-card" style="width:22px;height:22px;color:#fff"></i></div>
     <div class="fund-info">
       <strong>Mobile Money ou carte bancaire (paiement sécurisé)</strong>
@@ -79,15 +79,8 @@
   <!-- Historique -->
   <h2 class="section-title"><i data-lucide="clock" class="icon icon-sm icon-vert"></i> DERNIÈRES OPÉRATIONS</h2>
 
-  <div style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(15,107,78,0.05)">
-    <div style="display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid #f5f5f0">
-      <div style="width:36px;height:36px;background:rgba(15,107,78,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="arrow-down" class="icon icon-sm icon-vert"></i></div>
-      <div style="flex:1"><strong style="color:#0a1f17;font-size:14px">Rechargement Wave</strong><br><small style="color:#4a5a52">Aujourd'hui 10:32</small></div>
-      <strong style="color:#0f6b4e;font-size:14px">+10 000</strong>
-    </div>
-    <div style="display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid #f5f5f0">
-      <div style="width:36px;height:36px;background:rgba(239,68,68,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="shopping-bag" class="icon icon-sm icon-rouge"></i></div>
-      <div id="wTx"><p style="color:#4a5a52;font-size:13px">Chargement…</p></div></main>
+  <div id="wTx" style="background:#fff;border:1px solid #e5e5e0;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(15,107,78,0.05)"><p style="color:#4a5a52;font-size:13px;padding:14px;margin:0">Chargement…</p></div>
+</main>
 
 <nav class="bottom-nav">
   <a href="index.html"><i data-lucide="home" class="icon icon-md"></i><span>Accueil</span></a>
@@ -100,45 +93,7 @@
 <script src="js/dark-mode.js?v=50"></script>
 <script>lucide.createIcons();</script>
   <script src="js/buttons-audit.js?v=51"></script>
-<script>
-window.addEventListener('load', function(){
-  /* Œil : masquer/afficher le solde */
-  document.querySelectorAll('[class*="eye"], i[data-lucide="eye"], [class*="balance"] button').forEach(function(e){
-    var btn=e.closest('button')||e;
-    btn.style.cursor='pointer';
-    var hidden=false, real='';
-    btn.onclick=function(){
-      var bal=document.querySelector('[class*="amount"], [class*="solde"], [class*="balance"]');
-      document.querySelectorAll('div, span, h1, h2').forEach(function(el){
-        if(el.children.length===0 && /FCFA/i.test(el.textContent) && /\d/.test(el.textContent) && el.textContent.length<25){
-          if(!hidden){real=el.textContent; el.textContent='••••••';}
-          else{el.textContent=real;}
-        }
-      });
-      hidden=!hidden;
-    };
-  });
-  document.querySelectorAll('button, a, [class*="btn"], [class*="method"], [class*="card"], [class*="row"]').forEach(function(b){
-    var t=b.textContent.trim();
-    b.style.cursor='pointer';
-    if(/^\+?\s*recharger/i.test(t)){
-      b.onclick=function(){
-        var m=prompt('💰 Montant à recharger (FCFA) :','10000');
-        if(m && parseInt(m)>0) alert('✅ Recharge de '+parseInt(m).toLocaleString()+' FCFA lancée !\nChoisis Wave, Orange Money ou Carte ci-dessous.');
-      };
-    }
-    else if(/retirer/i.test(t)){
-      b.onclick=function(){
-        var m=prompt('💸 Montant à retirer (FCFA) :','5000');
-        if(m && parseInt(m)>0) alert('✅ Retrait de '+parseInt(m).toLocaleString()+' FCFA demandé !\nRéception Wave sous 24h.');
-      };
-    }
-    else if(/^wave/i.test(t)) b.onclick=function(){alert('🌊 Wave sélectionné\nInstantané · Frais 1%');};
-    else if(/orange money/i.test(t)) b.onclick=function(){alert('🟠 Orange Money sélectionné\nInstantané · Frais 1.5%');};
-    else if(/carte bancaire/i.test(t)) b.onclick=function(){alert('💳 Carte bancaire sélectionnée\nVisa · Mastercard · Frais 2%');};
-  });
-});
-</script>
+
   <script src="js/i18n.js"></script>
 <script>
 const SUPA_URL="https://tjqkruhwmjzgfvtouqza.supabase.co",SUPA_KEY="sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j";
@@ -150,23 +105,33 @@ function fmt(n){return (Math.round(+n||0)).toLocaleString("fr-FR")+" FCFA";}
 function toast(m,ok){const t=document.createElement("div");t.textContent=m;t.style.cssText="position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:"+(ok===false?"#7f1d1d":"#0f6b4e")+";color:#fff;padding:12px 20px;border-radius:12px;z-index:9999;font-weight:700;font-size:14px";document.body.appendChild(t);setTimeout(()=>t.remove(),3500);}
 </script>
 <script>
+let _wVisible=true,_wReal="";
 async function loadWallet(){
   const em=getEmail();
   const bal=document.getElementById("wBalance"),tx=document.getElementById("wTx");
-  if(!em){bal.textContent="—";tx.innerHTML='<p style="color:#4a5a52;font-size:13px">Connecte-toi pour voir ton portefeuille.</p>';return;}
+  if(!em){bal.textContent="—";tx.innerHTML='<p style="color:#4a5a52;font-size:13px;padding:14px;margin:0">Connecte-toi pour voir ton portefeuille.</p>';return;}
   const rows=await sbGet("wallet_transactions","select=*&user_email=eq."+encodeURIComponent(em)+"&order=created_at.desc&limit=30");
   let total=0,inn=0,out=0;
   rows.forEach(r=>{const a=+r.amount||0;total+=a;if(a>0)inn+=a;else out+=-a;});
-  bal.textContent=fmt(total);
+  _wReal=fmt(total);bal.textContent=_wReal;
   document.getElementById("wIn").textContent="+"+fmt(inn);
-  document.getElementById("wOut").textContent="−"+fmt(out);
-  if(!rows.length){tx.innerHTML='<p style="color:#4a5a52;font-size:13px">Aucune opération pour le moment. Tes recharges, paiements et remboursements apparaîtront ici.</p>';return;}
+  document.getElementById("wOut").textContent="\u2212 "+fmt(out);
+  const eq=document.getElementById("wEquiv");
+  if(eq)eq.textContent=total>0?("\u2248 "+(total/655.957).toFixed(2).replace(".",",")+" \u20AC \u00B7 \u2248 "+(total/598).toFixed(2).replace(".",",")+" $"):"";
+  if(!rows.length){tx.innerHTML='<p style="color:#4a5a52;font-size:13px;padding:14px;margin:0">Aucune opération pour le moment. Tes recharges, paiements et remboursements apparaîtront ici.</p>';return;}
   tx.innerHTML=rows.map(r=>{const a=+r.amount||0;const d=r.created_at?new Date(r.created_at).toLocaleDateString("fr-FR"):"";
-    return '<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #eef2f0"><div style="flex:1"><strong style="color:#0a1f17;font-size:14px">'+(r.label||"Opération")+'</strong><br><small style="color:#4a5a52">'+d+'</small></div><strong style="color:'+(a>=0?"#065f46":"#7f1d1d")+';font-size:14px">'+(a>=0?"+":"−")+fmt(Math.abs(a))+'</strong></div>';}).join("");
+    return '<div style="display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid #f5f5f0"><div style="width:36px;height:36px;background:rgba(15,107,78,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center"><i data-lucide="'+(a>=0?"arrow-down":"arrow-up")+'" style="width:16px;height:16px;color:'+(a>=0?"#0f6b4e":"#dc2626")+'"></i></div><div style="flex:1"><strong style="color:#0a1f17;font-size:14px">'+(r.label||"Opération")+'</strong><br><small style="color:#4a5a52">'+d+'</small></div><strong style="color:'+(a>=0?"#0f6b4e":"#dc2626")+';font-size:14px">'+(a>=0?"+":"\u2212 ")+fmt(Math.abs(a))+'</strong></div>';}).join("");
+  if(window.lucide)lucide.createIcons();
 }
+function wToggleEye(){const bal=document.getElementById("wBalance");if(!bal)return;if(_wVisible){bal.textContent="\u2022\u2022\u2022\u2022\u2022\u2022";}else{bal.textContent=_wReal||"\u2026";}_wVisible=!_wVisible;}
 function wReload(){toast("Recharge bientôt disponible via paiement sécurisé. En attendant : contact@sen-ecosystem.com");}
 function wWithdraw(){const em=getEmail();if(!em){toast("Connecte-toi d abord.",false);return;}toast("Retrait : écris à contact@sen-ecosystem.com avec ton numéro Mobile Money. Traitement chaque lundi.");}
-document.addEventListener("DOMContentLoaded",loadWallet);
+function wPay(m){toast(m+" sélectionné — activation bientôt. Contact : contact@sen-ecosystem.com");}
+document.addEventListener("DOMContentLoaded",function(){
+  loadWallet();
+  const eb=document.getElementById("eyeBtn");
+  if(eb)eb.addEventListener("click",function(e){e.stopPropagation();wToggleEye();});
+});
 </script>
 </body>
 </html>
