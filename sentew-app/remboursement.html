@@ -21,29 +21,33 @@
     <p style="color:#d4a574;">Traitement sous 48h ouvrées</p>
   </div>
 
-  <div class="section-card"><h3><i data-lucide="package" style="color:#0f6b4e;"></i> Sélectionnez la commande</h3><div id="orderList"><p style="color:#4a5a52;font-size:13px">Chargement de vos commandes…</p></div></div><div class="section-card">
+  <div class="section-card">
+    <h3><i data-lucide="package" style="color:#0f6b4e;"></i> Sélectionnez la commande</h3>
+    <div id="orderList"><p style="color:#4a5a52;font-size:13px">Chargement de vos commandes…</p></div>
+  </div>
+
+  <div class="section-card">
     <h3><i data-lucide="alert-circle" style="color:#0f6b4e;"></i> Motif</h3>
     <select id="motif" class="form-input">
       <option>Produit défectueux</option>
-      <option>Non conforme à la description</option>
-      <option>Colis endommagé</option>
-      <option>Non reçu</option>
-      <option>Autre</option>
+      <option>Produit non conforme</option>
+      <option>Produit endommagé</option>
+      <option>Colis incomplet</option>
+      <option>Autre motif</option>
     </select>
   </div>
 
   <div class="section-card">
     <h3><i data-lucide="edit-3" style="color:#0f6b4e;"></i> Description</h3>
-    <textarea rows="4" class="form-input" placeholder="Décrivez le problème..."></textarea>
-    <button class="btn-outline" onclick="document.getElementById('photos').click()" style="width:100%;margin-top:8px;">
-      <i data-lucide="camera"></i> Ajouter photos
-    </button>
-    <input type="file" id="photos" multiple accept="image/*" style="display:none;">
+    <textarea id="desc" class="form-input" rows="4" placeholder="Décrivez le problème…"></textarea>
   </div>
 
-  <button class="btn-primary" onclick="submitRefund()" style="width:100%;padding:16px;font-size:16px;">
-    Envoyer la demande
-  </button>
+  <div class="section-card" onclick="document.getElementById('refundPhotos').click()" style="cursor:pointer;text-align:center;border:2px dashed #0f6b4e">
+    <i data-lucide="camera" style="color:#0f6b4e;"></i> Ajouter photos
+    <input type="file" id="refundPhotos" accept="image/*" multiple style="display:none" onchange="prevPhotos(this)">
+  </div>
+
+  <button class="btn-primary" onclick="submitRefund()" style="width:100%;padding:15px;font-size:15px;margin:6px 0 20px">Envoyer la demande</button>
 </main>
 
 <nav class="bottom-nav">
@@ -55,19 +59,42 @@
 </nav>
 
 <script>
-  lucide.createIcons();
-  function selectOrder(id){alert('Commande ' + id + ' sélectionnée');}
-  function submitRefund(){alert('✅ Demande envoyée ! Vous recevrez un email de confirmation.');location.href='commandes.html';}
-<script src="js/buttons-audit.js?v=51"></script>
-  <script src="js/i18n.js"></script>
-<script>
+lucide.createIcons();
 const SUPA_URL="https://tjqkruhwmjzgfvtouqza.supabase.co",SUPA_KEY="sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j";
 const H={"apikey":SUPA_KEY,"Authorization":"Bearer "+SUPA_KEY,"Content-Type":"application/json"};
 async function sbGet(t,q){const r=await fetch(SUPA_URL+"/rest/v1/"+t+"?"+q,{headers:H});return r.ok?await r.json():[];}
 async function sbPost(t,b){const r=await fetch(SUPA_URL+"/rest/v1/"+t,{method:"POST",headers:Object.assign({},H,{"Prefer":"return=representation"}),body:JSON.stringify(b)});return r.ok;}
 function getEmail(){try{const u=JSON.parse(localStorage.getItem("sentew_user")||sessionStorage.getItem("sentew_user")||"{}");return u.email||"";}catch(e){return localStorage.getItem("sentew_email")||"";}}
 function fmt(n){return (Math.round(+n||0)).toLocaleString("fr-FR")+" FCFA";}
-function toast(m,ok){const t=document.createElement("div");t.textContent=m;t.style.cssText="position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:"+(ok===false?"#7f1d1d":"#0f6b4e")+";color:#fff;padding:12px 20px;border-radius:12px;z-index:9999;font-weight:700;font-size:14px";document.body.appendChild(t);setTimeout(()=>t.remove(),3500);}
+function toast(m,ok){const t=document.createElement("div");t.textContent=m;t.style.cssText="position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:"+(ok===false?"#7f1d1d":"#0f6b4e")+";color:#fff;padding:12px 20px;border-radius:12px;z-index:9999;font-weight:700;font-size:13px;max-width:88%";document.body.appendChild(t);setTimeout(function(){t.remove();},3200);}
+let SEL=null;
+async function loadOrders(){
+  const em=getEmail(),box=document.getElementById("orderList");
+  if(!em){box.innerHTML='<p style="color:#7f1d1d;font-size:13px">Connecte-toi d abord (Profil) pour voir tes commandes.</p>';return;}
+  let o=[];
+  try{o=await sbGet("orders","select=*&user_email=eq."+encodeURIComponent(em)+"&order=created_at.desc&limit=20");}catch(e){}
+  if(!o.length){box.innerHTML='<p style="color:#4a5a52;font-size:13px">Aucune commande trouvée. Le remboursement concerne une commande livrée sous 48 h.</p>';return;}
+  box.innerHTML=o.map(function(x){const code=x.tracking_code||x.code||(""+x.id);const title=(x.items&&x.items[0]&&(x.items[0].name||x.items[0].title))||x.product_name||"Commande";const amt=x.total||x.amount||0;
+   return '<div class="setting-row" data-code="'+code+'" data-amt="'+(+amt)+'" onclick="selOrder(this)" style="cursor:pointer"><div><strong>Commande #'+code+'</strong><br><small>'+title+' — '+fmt(amt)+'</small></div><i data-lucide="chevron-right"></i></div>';}).join("");
+  if(window.lucide)lucide.createIcons();
+}
+function selOrder(el){document.querySelectorAll("[data-code]").forEach(function(e){e.style.border="";});el.style.border="2px solid #0f6b4e";el.style.borderRadius="10px";SEL={code:el.dataset.code,amt:+el.dataset.amt};}
+function prevPhotos(inp){const n=Math.min(inp.files.length,3);if(n)toast(n+" photo(s) jointe(s).");}
+async function submitRefund(){
+  if(!SEL){toast("Sélectionne d abord la commande concernée.",false);return;}
+  const motif=(document.getElementById("motif")||{}).value||"";
+  const desc=(document.getElementById("desc")||{}).value||"";
+  if(desc.trim().length<10){toast("Décris le problème (10 caractères min).",false);return;}
+  const em=getEmail();if(!em){toast("Connecte-toi d abord.",false);return;}
+  const code="RB-"+Date.now().toString(36).toUpperCase();
+  const ok=await sbPost("disputes",{code:code,order_id:SEL.code,tracking_code:SEL.code,user_email:em,type:"remboursement",details:motif+" — "+desc,amount:SEL.amt,status:"ouvert"});
+  if(!ok){toast("Envoi impossible. Écris à contact@sen-ecosystem.com",false);return;}
+  try{await sbPost("notifications",{user_email:"admin",audience:"admin",title:"Demande de remboursement "+code,body:"Commande "+SEL.code+" · "+fmt(SEL.amt)+" · "+motif,is_read:false,created_at:new Date().toISOString()});}catch(e){}
+  try{await sbPost("notifications",{user_email:em,audience:"user",title:"Remboursement "+code+" reçu",body:"Traitement sous 48 h ouvrées. Le livreur retirera le colis (scan QR) si retour nécessaire.",is_read:false,created_at:new Date().toISOString()});}catch(e){}
+  toast("Demande "+code+" envoyée. Traitement sous 48 h ouvrées.");
+  setTimeout(function(){location.href="commandes.html";},1800);
+}
+document.addEventListener("DOMContentLoaded",loadOrders);
 </script>
 </body>
 </html>
