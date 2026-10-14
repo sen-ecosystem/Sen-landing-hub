@@ -12,7 +12,7 @@
 <header class="topbar">
   <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
   <h1>Remboursement</h1>
-  <button class="icon-btn" onclick="location.href='support.html'"><i data-lucide="help-circle"></i></button>
+  <button class="icon-btn" onclick="location.href='aide.html'"><i data-lucide="help-circle"></i></button>
 </header>
 
 <main class="container">
@@ -21,19 +21,7 @@
     <p style="color:#d4a574;">Traitement sous 48h ouvrées</p>
   </div>
 
-  <div class="section-card">
-    <h3><i data-lucide="package" style="color:#0f6b4e;"></i> Sélectionnez la commande</h3>
-    <div class="setting-row" onclick="selectOrder('ST24071')">
-      <div><strong>Commande #ST24071</strong><br><small>iPhone 15 Pro - 850 000 FCFA</small></div>
-      <i data-lucide="chevron-right"></i>
-    </div>
-    <div class="setting-row" onclick="selectOrder('ST24072')">
-      <div><strong>Commande #ST24072</strong><br><small>AirPods Pro - 145 000 FCFA</small></div>
-      <i data-lucide="chevron-right"></i>
-    </div>
-  </div>
-
-  <div class="section-card">
+  <div class="section-card"><h3><i data-lucide="package" style="color:#0f6b4e;"></i> Sélectionnez la commande</h3><div id="orderList"><p style="color:#4a5a52;font-size:13px">Chargement de vos commandes…</p></div></div><div class="section-card">
     <h3><i data-lucide="alert-circle" style="color:#0f6b4e;"></i> Motif</h3>
     <select id="motif" class="form-input">
       <option>Produit défectueux</option>
@@ -72,5 +60,14 @@
   function submitRefund(){alert('✅ Demande envoyée ! Vous recevrez un email de confirmation.');location.href='commandes.html';}
 <script src="js/buttons-audit.js?v=51"></script>
   <script src="js/i18n.js"></script>
+<script>
+const SUPA_URL="https://tjqkruhwmjzgfvtouqza.supabase.co",SUPA_KEY="sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j";
+const H={"apikey":SUPA_KEY,"Authorization":"Bearer "+SUPA_KEY,"Content-Type":"application/json"};
+async function sbGet(t,q){const r=await fetch(SUPA_URL+"/rest/v1/"+t+"?"+q,{headers:H});return r.ok?await r.json():[];}
+async function sbPost(t,b){const r=await fetch(SUPA_URL+"/rest/v1/"+t,{method:"POST",headers:Object.assign({},H,{"Prefer":"return=representation"}),body:JSON.stringify(b)});return r.ok;}
+function getEmail(){try{const u=JSON.parse(localStorage.getItem("sentew_user")||sessionStorage.getItem("sentew_user")||"{}");return u.email||"";}catch(e){return localStorage.getItem("sentew_email")||"";}}
+function fmt(n){return (Math.round(+n||0)).toLocaleString("fr-FR")+" FCFA";}
+function toast(m,ok){const t=document.createElement("div");t.textContent=m;t.style.cssText="position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:"+(ok===false?"#7f1d1d":"#0f6b4e")+";color:#fff;padding:12px 20px;border-radius:12px;z-index:9999;font-weight:700;font-size:14px";document.body.appendChild(t);setTimeout(()=>t.remove(),3500);}
+</script>
 </body>
 </html>
