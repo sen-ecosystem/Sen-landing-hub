@@ -132,13 +132,11 @@ html[data-theme="dark"] .promo-code-title .copy-btn{background:#232a33;color:#e8
 <!-- BONS CADEAUX -->
 <div class="section" id="bons">
   <div id="myGifts"></div>
-  <div class="section-title"><i data-lucide="gift"></i> Vos bons cadeaux (2)</div>
+  <div class="section-title"><i data-lucide="gift"></i> <span id="giftTitle">VOS BONS CADEAUX</span></div>
 
   
-  </div>
 
   
-  </div>
 
   <div class="offer-block">
     <div class="offer-title"><i data-lucide="gift"></i> Offrir un bon cadeau</div>
@@ -155,9 +153,14 @@ html[data-theme="dark"] .promo-code-title .copy-btn{background:#232a33;color:#e8
 
 <!-- CODES PROMO -->
 <div class="section" id="promo" style="display:none">
-  <div class="section-title"><i data-lucide="tag"></i> Codes actifs (3)</div>
-
   <div id="promoList"></div>
+  <div class="section-title"><i data-lucide="tag"></i> <span id="promoTitle">CODES ACTIFS</span></div>
+
+  
+
+  
+
+  
 
   <div class="add-code">
     <label><i data-lucide="plus-circle"></i> Ajouter un code promo</label>
@@ -179,19 +182,7 @@ html[data-theme="dark"] .promo-code-title .copy-btn{background:#232a33;color:#e8
 
   
 
-  <button class="coupon" style="border-color:var(--r);border-width:2px" onclick="location.href='parrainage.html'">
-    <div class="coupon-avatar" style="background:linear-gradient(135deg,#ff6b35,#e31b23)"><i data-lucide="users" style="width:22px;height:22px;color:#fff"></i></div>
-    <div class="coupon-body">
-      <div class="coupon-type"><i data-lucide="users"></i> Coupon parrainage</div>
-      <div class="coupon-name">Invitation ami</div>
-      <div class="coupon-valid expiring">⚠️ Expire dans 3 jours</div>
-      <div class="coupon-hint"><i data-lucide="mouse-pointer-click"></i> Toucher pour utiliser</div>
-    </div>
-    <div class="coupon-value">
-      <div class="big">-1000</div>
-      <small>FCFA</small>
-    </div>
-  </button>
+  
 
   <button class="parrain-btn" onclick="location.href='parrainage.html'"><i data-lucide="users"></i> Parrainer un ami (+2000 FCFA)</button>
 </div>
@@ -221,7 +212,7 @@ async function loadGifts(){
   if(!em){box.innerHTML='';return;}
   const g=await sbGet("gift_cards","select=*&owner_email=eq."+encodeURIComponent(em)+"&status=eq.active&order=created_at.desc");
   if(!g.length){box.innerHTML='';return;}
-  box.innerHTML='<div class="section-title"><i data-lucide="gift"></i> Mes cartes cadeaux</div>'+g.map(x=>
+  var gt=document.getElementById("giftTitle");if(gt)gt.textContent="VOS BONS CADEAUX ("+g.length+")";box.innerHTML='<div class="section-title"><i data-lucide="gift"></i> Mes cartes cadeaux</div>'+g.map(x=>
    '<div class="gift-card" style="background:linear-gradient(135deg,#0f6b4e,#0a4d38);border-radius:16px;padding:18px;margin-bottom:12px;color:#fff"><div style="font-size:13px;opacity:.85">Carte cadeau</div><div class="gift-amount">'+(+x.amount).toLocaleString("fr-FR")+' FCFA</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><strong>'+x.code+'</strong><button class="copy-btn" onclick="copyCode(\''+x.code+'\')"><i data-lucide="copy"></i> Copier</button></div></div>').join("");
   if(window.lucide)lucide.createIcons();
 }
@@ -230,7 +221,7 @@ async function loadPromos(){
   const box=document.getElementById("promoList");
   const p=await sbGet("promo_codes","select=*&active=eq.true&order=created_at.desc");
   if(!p.length){box.innerHTML='<p style="color:#666;font-size:13px">Aucun code promo actif pour le moment. Revenez bientôt !</p>';return;}
-  box.innerHTML=p.map(x=>{const off=x.percent?('-'+x.percent+'%'):(x.amount?('-'+(+x.amount).toLocaleString("fr-FR")+' F'):(x.type==='shipping'?'GRATUIT':'PROMO'));
+  var pt=document.getElementById("promoTitle");if(pt)pt.textContent="CODES ACTIFS ("+p.length+")";box.innerHTML=p.map(x=>{const off=x.percent?('-'+x.percent+'%'):(x.amount?('-'+(+x.amount).toLocaleString("fr-FR")+' F'):(x.type==='shipping'?'GRATUIT':'PROMO'));
    const valid=x.expires_at?('Valable jusqu\'au '+new Date(x.expires_at).toLocaleDateString("fr-FR")):'Valable illimité';
    return '<div class="promo-item"><div class="promo-info"><div class="promo-code-title">'+x.code+' <button class="copy-btn" onclick="copyCode(\''+x.code+'\')"><i data-lucide="copy"></i></button></div><div class="promo-desc">'+(x.description||'Réduction sur vos achats')+'</div><div class="promo-valid"><i data-lucide="calendar"></i> '+valid+'</div></div><div class="promo-right"><div class="promo-reduc">'+off+'</div><button class="use-btn" onclick="usePromo(\''+x.code+'\')"><i data-lucide="check"></i> Utiliser</button></div></div>';}).join("");
   if(window.lucide)lucide.createIcons();
