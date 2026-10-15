@@ -64,7 +64,7 @@ video#pv{width:100%;border-radius:12px;background:#000;display:none;margin-top:8
       <div class="fmt" data-f="9:16" onclick="setFmt(this)">9:16<br><small>Statut/TikTok</small></div>
     </div>
     <label>Luminosité</label>
-    <input type="range" id="phBright" min="60" max="150" value="100" style="width:100%" oninput="drawPhoto()">
+    <input type="range" id="phBright" min="60" max="150" value="100" style="width:100%" oninput="br=this.value/100;drawPhoto()">
     <div class="opt"><span>Filigrane SEN TEW</span><div class="tgl on" id="tglWm" onclick="this.classList.toggle('on');drawPhoto()"></div></div>
     <div class="opt"><span>Bandeau prix + nom produit</span><div class="tgl on" id="tglInfo" onclick="this.classList.toggle('on');drawPhoto()"></div></div>
   </div>
