@@ -169,7 +169,7 @@ function drawPhoto(){
   }
   // filigrane
   if(document.getElementById('tglWm').classList.contains('on')&&LOGO.complete&&LOGO.naturalWidth){
-    var lw=Math.round(W*0.22), lh=Math.round(lw*LOGO.naturalHeight/LOGO.naturalWidth);
+    var lw=Math.round(W*0.12), lh=Math.round(lw*LOGO.naturalHeight/LOGO.naturalWidth);
     cx.globalAlpha=0.9;
     cx.drawImage(LOGO, W-lw-24, 24, lw, lh);
     cx.globalAlpha=1;
@@ -252,9 +252,9 @@ async function toggleRec(){
   var mix=new MediaStream();
   cvs.getVideoTracks().forEach(function(t){mix.addTrack(t);});
   mediaStream.getAudioTracks().forEach(function(t){mix.addTrack(t);});
-  var mime='video/mp4';
-  if(typeof MediaRecorder==='undefined'){toast('❌ Ton navigateur ne supporte pas l\u2019enregistrement — mets iOS à jour');if(mediaStream){mediaStream.getTracks().forEach(function(t){t.stop();});mediaStream=null;}return;}
-  if(!MediaRecorder.isTypeSupported(mime)) mime='video/webm';
+  var mime=MediaRecorder.isTypeSupported('video/mp4')?'video/mp4':'video/webm';
+  if(typeof MediaRecorder==='undefined'){var eb=document.getElementById('recErr')||document.body.appendChild(Object.assign(document.createElement('p'),{id:'recErr',style:'color:#7f1d1d;font-size:13px;padding:8px'}));eb.textContent='❌ Enregistrement non supporté par ce navigateur — mets iOS à jour (Réglages > Général > Mise à jour).';toast('❌ Enregistrement non supporté — mets iOS à jour');if(mediaStream){mediaStream.getTracks().forEach(function(t){t.stop();});mediaStream=null;}return;}
+  if(!MediaRecorder.isTypeSupported(mime)) mime='video/mp4';
   if(!MediaRecorder.isTypeSupported(mime)){toast('❌ Format vidéo non supporté par ce navigateur');if(mediaStream){mediaStream.getTracks().forEach(function(t){t.stop();});mediaStream=null;}return;}
   chunks=[];
   recorder=new MediaRecorder(mix,{mimeType:mime,videoBitsPerSecond:6000000});
