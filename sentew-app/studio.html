@@ -1,0 +1,137 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Studio Vendeur — SEN TEW</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0a1f17;color:#fff;font-family:system-ui;min-height:100vh}
+header{padding:14px 16px;display:flex;align-items:center;gap:12px;background:#0a1f17;position:sticky;top:0;z-index:9;border-bottom:1px solid #1f4a38}
+h1{font-size:17px;margin:0}.tag{margin-left:auto;background:#0f6b4e;padding:4px 12px;border-radius:14px;font-size:11px;font-weight:800}
+main{max-width:520px;margin:0 auto;padding:14px 14px 90px}
+.card{background:#122b21;border:1px solid #1f4a38;border-radius:16px;padding:16px;margin-bottom:14px}
+h2{font-size:12px;color:#4ade80;letter-spacing:.5px;margin:0 0 12px}
+select,input[type=text]{width:100%;padding:13px;border-radius:12px;background:#0a1f17;border:1px solid #1f4a38;color:#fff;font-size:14px}
+.row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #1f4a38;font-size:14px}
+.row:last-child{border:none}
+.sw{width:46px;height:26px;border-radius:20px;background:#1f4a38;position:relative;cursor:pointer;transition:.2s;border:none}
+.sw::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s}
+.sw.on{background:#22c55e}.sw.on::after{left:23px}
+canvas,video{width:100%;border-radius:14px;background:#000;display:block}
+.btn{width:100%;padding:15px;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;margin-top:10px}
+.btn-g{background:linear-gradient(135deg,#0f6b4e,#12875f);color:#fff}
+.btn-r{background:linear-gradient(135deg,#e02424,#c0392b);color:#fff}
+.btn-w{background:#25d366;color:#06281c}
+.btn-o{background:transparent;border:1.5px solid #1f4a38;color:#cfe5da}
+input[type=range]{width:100%;accent-color:#4ade80}
+#timer{font-size:44px;font-weight:800;color:#4ade80;text-align:center;font-variant-numeric:tabular-nums}
+.msg{font-size:13px;color:#f0b429;margin-top:10px;display:none}
+.tabs{display:flex;gap:8px;margin-bottom:14px}
+.tabs button{flex:1;padding:12px;border-radius:12px;border:1px solid #1f4a38;background:#122b21;color:#9db8ad;font-weight:700;cursor:pointer;font-size:13px}
+.tabs button.on{background:#0f6b4e;color:#fff;border-color:#0f6b4e}
+#iaRes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+#iaRes img{width:100%;border-radius:10px}
+small.hint{color:#7d968b;font-size:11px;line-height:1.5;display:block;margin-top:8px}
+</style></head>
+<body>
+<header><a href="vendeur.html" style="color:#fff"><i data-lucide="arrow-left" class="icon"></i></a><h1>🎬 Studio Vendeur</h1><span class="tag">SEN TEW</span></header>
+<main>
+<div class="tabs"><button id="tPh" class="on" onclick="tab('ph')">📸 Photo</button><button id="tVd" onclick="tab('vd')">🎥 Vidéo</button><button id="tIa" onclick="tab('ia')">✨ IA</button></div>
+
+<!-- PHOTO -->
+<div id="pPh">
+<div class="card"><h2>1. PRODUIT & PHOTO</h2>
+<select id="prod"><option value="">— Sans produit lié —</option></select>
+<div style="display:flex;gap:8px;margin-top:10px">
+<button class="btn btn-o" style="margin-top:0" onclick="document.getElementById('camIn').click()">📷 Prendre</button>
+<button class="btn btn-o" style="margin-top:0" onclick="document.getElementById('fileIn').click()">🖼 Importer</button></div>
+<input type="file" id="camIn" accept="image/*" capture="environment" style="display:none">
+<input type="file" id="fileIn" accept="image/*" style="display:none"></div>
+<div class="card"><h2>2. RÉGLAGES</h2>
+<div class="row"><span>Format</span><select id="fmt" style="width:130px;padding:8px"><option value="1:1">1:1 Boutique</option><option value="4:5">4:5 Instagram</option><option value="9:16">9:16 Statut</option></select></div>
+<div class="row"><span>Luminosité <b id="brVal">100%</b></span><input type="range" id="bright" min="50" max="160" value="100" style="width:150px"></div>
+<div class="row"><span>Logo SEN TEW (coin, discret)</span><button class="sw on" id="swLogo" onclick="this.classList.toggle('on');draw()"></button></div>
+<div class="row"><span>Titre + prix en bas</span><button class="sw on" id="swPrice" onclick="this.classList.toggle('on');draw()"></button></div></div>
+<div class="card"><canvas id="cv" width="900" height="900"></canvas>
+<button class="btn btn-g" onclick="savePhoto()">⬇ Enregistrer la photo</button>
+<button class="btn btn-w" onclick="sharePhoto()">📤 Partager (WhatsApp, Statut…)</button></div>
+</div>
+
+<!-- VIDEO -->
+<div id="pVd" style="display:none">
+<div class="card"><h2>1. PRODUIT</h2><select id="prodV"><option value="">— Sans produit lié —</option></select></div>
+<div class="card"><h2>2. ENREGISTRER (max 60 s)</h2>
+<div class="row"><span>Titre + prix en bas</span><button class="sw on" id="swPriceV"></button></div>
+<video id="prev" autoplay playsinline muted style="aspect-ratio:9/16;max-height:52vh;object-fit:cover"></video>
+<div style="background:#0a1f17;border-radius:14px;padding:14px;margin-top:12px;text-align:center">
+<div id="timer">00:00</div><small class="hint">Durée max : 60 secondes</small></div>
+<button class="btn btn-r" id="recBtn" onclick="toggleRec()">⏺ Démarrer l'enregistrement</button>
+<div id="vMsg" class="msg"></div>
+<small class="hint">La vidéo garde le titre + prix SEN TEW. Partage-la sur WhatsApp, TikTok, Statut — le lien ramène les clients dans l'app.</small></div>
+<div class="card" id="vOut" style="display:none"><video id="res" controls playsinline></video>
+<button class="btn btn-g" onclick="dlVideo()">⬇ Enregistrer la vidéo</button>
+<button class="btn btn-w" onclick="shareVideo()">📤 Partager</button></div>
+</div>
+
+<!-- IA -->
+<div id="pIa" style="display:none">
+<div class="card"><h2>✨ STUDIO IA (Gemini)</h2>
+<input type="text" id="iaPrompt" placeholder="Ex : boubou wax doré sur mannequin, fond studio">
+<button class="btn btn-g" id="iaBtn" onclick="genIA()">✨ Générer une image produit</button>
+<small class="hint" id="iaHint">Propulsé par Google Gemini. Configure ta clé dans la page Config IA.</small>
+<div id="iaRes"></div>
+<div id="iaMsg" class="msg"></div></div>
+</div>
+<div id="msg" class="msg" style="text-align:center"></div>
+</main>
+<script>
+var SUPA="https://tjqkruhwmjzgfvtouqza.supabase.co",KEY="sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j";
+var IMG=null,STREAM=null,REC=null,CHUNKS=[],T0=0,TIV=null,VURL=null;
+function H(){return {'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json'};}
+function $(i){return document.getElementById(i);}
+function toast(m,err){var t=$('msg');t.textContent=m;t.style.display='block';t.style.color=err?'#ff8a7a':'#f0b429';setTimeout(function(){t.style.display='none';},3500);}
+function tab(t){['ph','vd','ia'].forEach(function(x){$('p'+x[0].toUpperCase()+x[1]).style.display=x===t?'block':'none';$('t'+x[0].toUpperCase()+x[1]).classList.toggle('on',x===t);});if(t==='vd')initCam();}
+function getEmail(){try{var u=JSON.parse(localStorage.getItem('sentew_user')||'null');return u&&u.email?u.email:(localStorage.getItem('sentew_email')||'');}catch(e){return '';}}
+function loadProds(){fetch(SUPA+'/rest/v1/products?select=id,name,price&limit=50',{headers:H()}).then(function(r){return r.json();}).then(function(a){['prod','prodV'].forEach(function(id){(a||[]).forEach(function(p){var o=document.createElement('option');o.value=p.id;o.textContent=p.name+' — '+Math.round(p.price||0).toLocaleString('fr-FR')+' F';o.dataset.name=p.name;o.dataset.price=p.price;$(id).appendChild(o);});});}).catch(function(){});}
+function selInfo(id){var o=$(id).selectedOptions[0];return o&&o.value?{name:o.dataset.name,price:o.dataset.price}:null;}
+
+/* PHOTO */
+function loadImg(f){var rd=new FileReader();rd.onload=function(e){var im=new Image();im.onload=function(){IMG=im;draw();};im.src=e.target.result;};rd.readAsDataURL(f);}
+$('camIn').addEventListener('change',function(){if(this.files[0])loadImg(this.files[0]);});
+$('fileIn').addEventListener('change',function(){if(this.files[0])loadImg(this.files[0]);});
+$('bright').addEventListener('input',function(){$('brVal').textContent=this.value+'%';draw();});
+$('fmt').addEventListener('change',draw);
+function draw(){if(!IMG)return;var f=$('fmt').value.split(':'),r=+f[0]/+f[1],cv=$('cv'),W=900,Hh=Math.round(900/r);cv.width=W;cv.height=Hh;var c=cv.getContext('2d');
+c.filter='brightness('+( $('bright').value/100 )+')';
+var s=Math.max(W/IMG.width,Hh/IMG.height),w=IMG.width*s,h=IMG.height*s;
+c.drawImage(IMG,(W-w)/2,(Hh-h)/2,w,h);c.filter='none';
+var p=selInfo('prod');
+if($('swPrice').classList.contains('on')&&p){c.fillStyle='rgba(0,0,0,.55)';c.fillRect(0,Hh-90,W,90);c.fillStyle='#fff';c.font='bold 34px system-ui';c.fillText(String(p.name).slice(0,26),24,Hh-48);c.fillStyle='#4ade80';c.font='bold 30px system-ui';c.fillText(Math.round(p.price).toLocaleString('fr-FR')+' F',24,Hh-16);}
+if($('swLogo').classList.contains('on')){var lg=new Image();lg.crossOrigin='anonymous';lg.onload=function(){var lw=Math.round(W*0.12),lh=lw*(lg.height/lg.width);c.globalAlpha=.92;c.drawImage(lg,W-lw-18,18,lw,lh);c.globalAlpha=1;};lg.src='https://raw.githubusercontent.com/sen-ecosystem/Sen-landing-hub/main/sentew-app/assets/logo.png';}}
+function savePhoto(){if(!IMG){toast('Prends ou importe une photo d\'abord',1);return;}$('cv').toBlob(function(b){var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='sentew-produit.png';a.click();toast('Photo enregistrée ✅');},'image/png');}
+function sharePhoto(){if(!IMG){toast('Aucune photo',1);return;}$('cv').toBlob(function(b){var p=selInfo('prod');var txt=(p?p.name+' — '+Math.round(p.price).toLocaleString('fr-FR')+' F ':'')+'sur SEN TEW : https://www.sen-ecosystem.com/sentew-app/';var f=new File([b],'sentew.png',{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],text:txt}).catch(function(){});}else{window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');}},'image/png');}
+
+/* VIDEO */
+function initCam(){if(STREAM)return;navigator.mediaDevices.getUserMedia({video:{facingMode:'environment',width:{ideal:1080},height:{ideal:1920}},audio:true}).then(function(st){STREAM=st;$('prev').srcObject=st;}).catch(function(e){vm('Caméra refusée — autorise l\'accès dans Réglages Safari');});}
+function vm(m){var t=$('vMsg');t.textContent=m;t.style.display='block';}
+function pickMime(){var list=['video/mp4;codecs=avc1.42E01E,mp4a.40.2','video/mp4','video/webm;codecs=vp9,opus','video/webm'];for(var i=0;i<list.length;i++){if(window.MediaRecorder&&MediaRecorder.isTypeSupported(list[i]))return list[i];}return '';}
+function toggleRec(){if(REC&&REC.state==='recording'){REC.stop();return;}
+if(!STREAM){initCam();vm('Autorise la caméra puis reclique Démarrer');return;}
+var mime=pickMime();if(!mime){vm('Ton iPhone ne supporte pas l\'enregistrement intégré — mets iOS à jour (Réglages → Général → Mise à jour).');return;}
+try{CHUNKS=[];REC=new MediaRecorder(STREAM,{mimeType:mime,videoBitsPerSecond:6000000});}catch(e){vm('Enregistrement impossible sur cet appareil');return;}
+REC.ondataavailable=function(e){if(e.data.size)CHUNKS.push(e.data);};
+REC.onstop=function(){clearInterval(TIV);$('recBtn').textContent='⏺ Démarrer l\'enregistrement';$('recBtn').className='btn btn-r';
+var blob=new Blob(CHUNKS,{type:mime.split(';')[0]});VURL=URL.createObjectURL(blob);$('res').src=VURL;$('vOut').style.display='block';vm('');};
+REC.start(250);T0=Date.now();$('recBtn').textContent='⏹ Arrêter';$('recBtn').className='btn btn-g';
+TIV=setInterval(function(){var s=Math.floor((Date.now()-T0)/1000);$('timer').textContent='0'+Math.floor(s/60)+':'+('0'+(s%60)).slice(-2);if(s>=60)REC.stop();},250);}
+function dlVideo(){if(!VURL)return;var a=document.createElement('a');a.href=VURL;a.download='sentew-video.mp4';a.click();}
+function shareVideo(){var p=selInfo('prodV');var txt=(p?p.name+' — '+Math.round(p.price).toLocaleString('fr-FR')+' F ':'')+'Vidéo SEN TEW : https://www.sen-ecosystem.com/sentew-app/';window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');}
+
+/* IA */
+function iaKey(){try{return localStorage.getItem('sentew_gemini_key')||'';}catch(e){return '';}}
+function genIA(){var p=$('iaPrompt').value.trim();if(!p){toast('Décris l\'image à générer',1);return;}var k=iaKey();if(!k){var m=$('iaMsg');m.style.display='block';m.textContent='Clé Gemini manquante : ouvre config-ia.html, colle ta clé (aistudio.google.com — gratuit), puis reviens.';return;}
+var b=$('iaBtn');b.disabled=true;b.textContent='⏳ Génération…';
+fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-preview-image-generation:generateContent?key='+k,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:'Professional product photo for e-commerce: '+p+', studio lighting, clean background'}]}],generationConfig:{responseModalities:['IMAGE','TEXT']}})})
+.then(function(r){return r.json();}).then(function(j){b.disabled=false;b.textContent='✨ Générer une image produit';
+var parts=j&&j.candidates&&j.candidates[0]&&j.candidates[0].content&&j.candidates[0].content.parts||[];
+var found=false;parts.forEach(function(pt){if(pt.inlineData){found=true;var im=document.createElement('img');im.src='data:'+pt.inlineData.mimeType+';base64,'+pt.inlineData.data;im.onclick=function(){var a=document.createElement('a');a.href=im.src;a.download='sentew-ia.png';a.click();};$('iaRes').appendChild(im);}});
+if(!found){var m=$('iaMsg');m.style.display='block';m.textContent=(j.error&&j.error.message)?('Gemini : '+j.error.message):'Aucune image retournée — quota gratuit peut-être épuisé (crée une 2e clé sur aistudio.google.com).';}})
+.catch(function(e){b.disabled=false;b.textContent='✨ Générer une image produit';var m=$('iaMsg');m.style.display='block';m.textContent='Erreur réseau Gemini';});}
+document.addEventListener('DOMContentLoaded',function(){lucide.createIcons();loadProds();});
+</script></body></html>
