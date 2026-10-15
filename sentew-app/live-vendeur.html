@@ -1,208 +1,53 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Live — Vendeur | SEN TEW</title>
-<script src="https://unpkg.com/lucide@latest"></script>
-<script src="https://cdn.jsdelivr.net/npm/@api.video/live-stream-client"></script>
-<script>if(typeof LiveStreamClient==='undefined')document.write('<script src="https:\/\/unpkg.com\/@api.video\/live-stream-client@1"><\/script>');</script>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{font-family:-apple-system,Arial,sans-serif;background:#0a1f17;color:#fff;min-height:100vh}
-.topbar{display:flex;align-items:center;gap:10px;padding:14px 16px;background:#0d2b1f;border-bottom:1px solid #14532d}
-.topbar a{color:#fff;text-decoration:none;font-size:13px;opacity:.8}
-.topbar b{flex:1;font-size:15px}
-.badge-live{background:#dc2626;color:#fff;font-size:10px;font-weight:900;padding:4px 10px;border-radius:20px;display:none;animation:blink 1s infinite}
-@keyframes blink{50%{opacity:.5}}
-.stage{padding:14px}
-.video-wrap{position:relative;background:#000;border-radius:16px;overflow:hidden;aspect-ratio:9/16;max-height:60vh;margin:0 auto;max-width:100%}
-video{width:100%;height:100%;object-fit:cover;display:block}
-.overlay-msg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;background:rgba(0,0,0,.55);text-align:center;padding:20px}
-.overlay-msg .ic{font-size:40px}
-.overlay-msg p{font-size:13px;color:#d1fae5;line-height:1.5}
-.card{background:#0d2b1f;border:1px solid #14532d;border-radius:14px;padding:14px 16px;margin-top:14px}
-.card label{display:block;font-size:11px;color:#86efac;font-weight:800;letter-spacing:.5px;margin-bottom:6px;text-transform:uppercase}
-.card input,.card select{width:100%;padding:12px;border:2px solid #14532d;border-radius:10px;background:#0a1f17;color:#fff;font-size:14px;outline:none}
-.btn{display:block;width:100%;padding:16px;border:none;border-radius:14px;font-size:16px;font-weight:900;cursor:pointer;margin-top:14px;text-align:center}
-.btn-go{background:#dc2626;color:#fff}
-.btn-stop{background:#374151;color:#fff;display:none}
-.btn:disabled{background:#1f2937;color:#6b7280}
-.stat{display:flex;gap:10px;margin-top:12px}
-.stat div{flex:1;background:#0d2b1f;border:1px solid #14532d;border-radius:12px;padding:12px;text-align:center}
-.stat b{display:block;font-size:20px;color:#4ade80}
-.stat span{font-size:10px;color:#86efac}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#14532d;color:#d1fae5;padding:12px 20px;border-radius:30px;font-size:13px;font-weight:700;display:none;z-index:99;box-shadow:0 4px 20px rgba(0,0,0,.4)}
-.help{font-size:12px;color:#6ee7b7;line-height:1.7;background:#052e16;border-radius:12px;padding:12px 14px;margin-top:14px}
-</style>
-</head>
-<body>
-<div class="topbar">
-  <a href="vendeur.html">←</a>
-  <b>🔴 Passer en direct</b>
-  <span class="badge-live" id="badgeLive">EN DIRECT</span>
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Live Vendeur — SEN TEW</title><link rel="stylesheet" href="css/app.css?v=51"><script src="https://unpkg.com/lucide@latest"></script></head><body style="background:#0a1f17;min-height:100vh;color:#fff">
+<header style="padding:16px;display:flex;align-items:center;gap:12px">
+<a href="vendeur.html" style="color:#fff;text-decoration:none"><i data-lucide="arrow-left" class="icon"></i></a>
+<h1 style="font-size:17px;font-weight:700;margin:0">🔴 Lancer un live</h1></header>
+<main style="max-width:520px;margin:0 auto;padding:8px 16px 60px">
+<div id="step1">
+<label style="font-size:12px;color:#9db8ad">Boutique</label>
+<select id="shop" style="width:100%;margin:6px 0 14px;padding:13px;border-radius:12px;background:#122b21;border:1px solid #1f4a38;color:#fff;font-size:14px"><option>Chargement…</option></select>
+<label style="font-size:12px;color:#9db8ad">Titre du live</label>
+<input id="title" placeholder="Ex : Nouvelle collection Wax 🔥" style="width:100%;margin:6px 0 14px;padding:13px;border-radius:12px;background:#122b21;border:1px solid #1f4a38;color:#fff;font-size:14px;box-sizing:border-box">
+<button onclick="createLive()" style="width:100%;padding:15px;border:none;border-radius:14px;background:linear-gradient(135deg,#e02424,#c0392b);color:#fff;font-size:15px;font-weight:800;cursor:pointer">🔴 Créer mon live</button>
 </div>
-
-<div class="stage">
-  <div class="video-wrap">
-    <video id="preview" autoplay playsinline muted></video>
-    <div class="overlay-msg" id="overlay">
-      <div class="ic">🎥</div>
-      <p><b>Ta caméra s'allume ici.</b><br>Choisis un titre pour ton live, puis appuie sur « Préparer la caméra ».<br><br>Tes abonnés seront notifiés automatiquement dès que tu es en direct.</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <label>Titre du live</label>
-    <input id="liveTitle" placeholder="Ex : Nouvelle collection Tabaski 🔥">
-    <label style="margin-top:10px">Ta boutique</label>
-    <select id="vendorSel"></select>
-  </div>
-
-  <div class="stat">
-    <div><b id="stStatus">Prêt</b><span>STATUT</span></div>
-    <div><b id="stTime">00:00</b><span>DURÉE</span></div>
-    <div><b id="stViews">0</b><span>SPECTATEURS</span></div>
-  </div>
-
-  <button class="btn btn-go" id="btnGo">🎥 Préparer la caméra</button>
-  <button class="btn btn-stop" id="btnStop">⏹ Terminer le direct</button>
-
-  <div class="help">
-    💡 <b>Astuce :</b> tiens ton téléphone à la verticale, sois bien éclairé, et montre tes produits un par un. Les clients achètent en direct pendant que tu présentes.
-  </div>
+<div id="step2" style="display:none">
+<div style="background:#122b21;border:1px solid #1f4a38;border-radius:16px;padding:16px;margin-bottom:14px">
+<div style="font-weight:800;font-size:14px;margin-bottom:10px">📱 Dans l'app Larix Broadcaster (gratuite) :</div>
+<div style="font-size:13px;line-height:2;color:#cfe5da">1. Ouvre Larix → ⚙️ Réglages → Connexions → <b>+</b> → RTMP<br>2. Colle cette adresse :</div>
+<div style="background:#0a1f17;border-radius:10px;padding:10px;margin:8px 0;display:flex;align-items:center;gap:8px">
+<code id="rtmp" style="font-size:11px;color:#4ade80;word-break:break-all;flex:1"></code>
+<button onclick="cp('rtmp')" style="background:#0f6b4e;border:none;color:#fff;padding:8px 12px;border-radius:8px;font-size:12px;cursor:pointer">Copier</button></div>
+<div style="font-size:13px;color:#cfe5da">3. Appuie sur le bouton rouge de Larix → <b>tu es en direct</b> 🎥</div></div>
+<div style="background:#122b21;border:1px solid #1f4a38;border-radius:16px;padding:16px;margin-bottom:14px">
+<div style="font-weight:800;font-size:14px;margin-bottom:8px">🔗 Lien spectateurs à partager :</div>
+<div style="background:#0a1f17;border-radius:10px;padding:10px;display:flex;align-items:center;gap:8px">
+<code id="watch" style="font-size:11px;color:#4ade80;word-break:break-all;flex:1"></code>
+<button onclick="cp('watch')" style="background:#0f6b4e;border:none;color:#fff;padding:8px 12px;border-radius:8px;font-size:12px;cursor:pointer">Copier</button></div>
+<button onclick="shareLive()" style="width:100%;margin-top:10px;padding:13px;border:none;border-radius:12px;background:#25d366;color:#06281c;font-weight:800;font-size:14px;cursor:pointer">📤 Partager sur WhatsApp</button></div>
+<button onclick="endLive()" style="width:100%;padding:14px;border:1.5px solid #c0392b;border-radius:14px;background:transparent;color:#ff8a7a;font-weight:700;font-size:14px;cursor:pointer">⏹ Terminer le live</button>
 </div>
-
-<div class="toast" id="toast"></div>
-
+<div id="msg" style="margin-top:14px;font-size:13px;color:#f0b429;display:none"></div></main>
 <script>
-// ═══ CONFIG SUPABASE (publique, lecture seule côté client) ═══
-var SUPA_URL='https://tjqkruhwmjzgfvtouqza.supabase.co';
-var SUPA_KEY='sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
-// La clé api.video N'EST PAS ici — elle est lue depuis Supabase (table app_config), jamais écrite dans ce fichier public.
-
-var streamClient=null, liveStreamId=null, dbId=null, timer=null, seconds=0, streaming=false;
-
-function toast(m){var t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(function(){t.style.display='none';},2600);}
-function sbH(){return {'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=representation'};}
-
-// Charger la clé api.video depuis Supabase (jamais codée en dur dans GitHub)
-async function getApiKey(){
-  try{
-    var r=await fetch(SUPA_URL+'/rest/v1/app_config?key=eq.apivideo_key&select=value',{headers:sbH()});
-    var j=await r.json();
-    return (j&&j[0]&&j[0].value)||'';
-  }catch(e){return '';}
-}
-
-// Charger les boutiques du vendeur
-async function loadVendors(){
-  var sel=document.getElementById('vendorSel');
-  try{
-    var u=JSON.parse(localStorage.getItem('sentew_user')||'{}');
-    var q='select=id,shop_name&is_active=eq.true&order=shop_name.asc';
-    if(u.email) q+='&email=eq.'+encodeURIComponent(u.email);
-    var r=await fetch(SUPA_URL+'/rest/v1/vendors?'+q,{headers:sbH()});
-    var vs=await r.json();
-    if(!Array.isArray(vs)||!vs.length){
-      var r2=await fetch(SUPA_URL+'/rest/v1/vendors?select=id,shop_name&is_active=eq.true&order=shop_name.asc',{headers:sbH()});
-      vs=await r2.json();
-    }
-    sel.innerHTML=(vs||[]).map(function(v){return '<option value="'+v.id+'" data-name="'+v.shop_name+'">'+v.shop_name+'</option>';}).join('')||'<option value="">Aucune boutique</option>';
-  }catch(e){sel.innerHTML='<option value="">Erreur chargement</option>';}
-}
-
-// Préparer caméra + créer le live
-document.getElementById('btnGo').addEventListener('click', async function(){
-  var title=document.getElementById('liveTitle').value.trim();
-  var sel=document.getElementById('vendorSel');
-  var vid=sel.value, vname=sel.options[sel.selectedIndex].getAttribute('data-name')||'';
-  if(!vid){toast('Choisis ta boutique');return;}
-  if(!title){toast('Écris un titre pour ton live');return;}
-
-  this.disabled=true; this.textContent='⏳ Préparation…';
-  try{
-    // 1. Caméra
-    var stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:720}},audio:true});
-    document.getElementById('preview').srcObject=stream;
-    document.getElementById('overlay').style.display='none';
-
-    // 2. Créer le live api.video (via la clé lue depuis Supabase)
-    var apiKey=await getApiKey();
-    if(!apiKey){throw 'nokey';}
-    var cr=await fetch('https://sandbox.api.video/live-streams',{
-      method:'POST',
-      headers:{'Authorization':'Bearer '+apiKey,'Content-Type':'application/json'},
-      body:JSON.stringify({name:'SEN TEW — '+vname+' — '+title, record:true, _public:true})
-    });
-    var live=await cr.json();
-    if(!live.liveStreamId){throw 'nolive';}
-    liveStreamId=live.liveStreamId;
-    var embedUrl=(live._links&&live._links.player)||('https://embed.api.video/live/'+liveStreamId);
-
-    // 3. Enregistrer dans Supabase → déclenche la notif abonnés (trigger SQL)
-    var sr=await fetch(SUPA_URL+'/rest/v1/live_streams',{
-      method:'POST',headers:sbH(),
-      body:JSON.stringify({vendor_id:vid,title:title,room_url:embedUrl,status:'live',viewers_count:0})
-    });
-    var srow=await sr.json();
-    dbId=(srow&&srow[0]&&srow[0].id)||null;
-
-    // 4. Démarrer la diffusion depuis le navigateur
-    streamClient=new LiveStreamClient({streamKey:live.streamKey, rtmpServerUrl:live.rtmpServerUrl||'rtmp://sandbox-live-stream.api.video/s'});
-    // sandbox utilise ws.live.api.video pour le broadcast navigateur
-    streamClient=new LiveStreamClient({streamKey:live.streamKey});
-
-    // Boutons
-    document.getElementById('btnGo').style.display='none';
-    var bStop=document.getElementById('btnStop'); bStop.style.display='block';
-    this.style.display='none';
-
-    // Démarrer le stream
-    streamClient.start();
-    streaming=true;
-    document.getElementById('badgeLive').style.display='inline-block';
-    document.getElementById('stStatus').textContent='EN DIRECT';
-    document.getElementById('stStatus').style.color='#dc2626';
-    timer=setInterval(function(){seconds++;var m=String(Math.floor(seconds/60)).padStart(2,'0'),s=String(seconds%60).padStart(2,'0');document.getElementById('stTime').textContent=m+':'+s;},1000);
-    toast('🔴 Tu es en direct ! Tes abonnés sont notifiés.');
-  }catch(e){
-    console.error(e);
-    var msg='';
-if(e==='nokey') msg='Clé vidéo non configurée (dis-le à l\u2019admin)';
-else if(e&&e.name==='NotAllowedError') msg='Caméra refusée — appuie sur Autoriser quand Safari demande';
-else if(e&&e.name==='NotFoundError') msg='Aucune caméra trouvée';
-else if(typeof LiveStreamClient==='undefined') msg='Module vidéo non chargé — vérifie ta connexion puis réessaie';
-else msg='Erreur : '+(e&&e.message?e.message:'réessaie');
-toast(msg);
-    this.disabled=false; this.textContent='🎥 Préparer la caméra';
-  }
-});
-
-// Terminer
-document.getElementById('btnStop').addEventListener('click', async function(){
-  if(!confirm('Terminer ce direct ?'))return;
-  try{
-    if(streamClient)streamClient.stop();
-    if(dbId)await fetch(SUPA_URL+'/rest/v1/live_streams?id=eq.'+dbId,{method:'PATCH',headers:sbH(),body:JSON.stringify({status:'ended',ended_at:new Date().toISOString()})});
-  }catch(e){}
-  clearInterval(timer);
-  var v=document.getElementById('preview');
-  if(v.srcObject)v.srcObject.getTracks().forEach(function(t){t.stop();});
-  document.getElementById('overlay').style.display='flex';
-  document.getElementById('overlay').innerHTML='<div class="ic">✅</div><p><b>Direct terminé.</b><br>Merci ! La rediffusion sera disponible.</p>';
-  document.getElementById('badgeLive').style.display='none';
-  document.getElementById('stStatus').textContent='Terminé';
-  this.style.display='none';
-  document.getElementById('btnGo').style.display='block';
-  document.getElementById('btnGo').disabled=false;
-  document.getElementById('btnGo').textContent='🎥 Nouveau direct';
-  streaming=false;seconds=0;
-});
-
-window.addEventListener('beforeunload',function(e){if(streaming){e.preventDefault();e.returnValue='';}});
-lucide.createIcons();
-loadVendors();
-</script>
-</body>
-</html>
+var SUPA="https://tjqkruhwmjzgfvtouqza.supabase.co",KEY="sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j",LIVE=null;
+function H(){return {'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json'};}
+function toast(m){var t=document.getElementById('msg');t.textContent=m;t.style.display='block';setTimeout(function(){t.style.display='none';},4000);}
+function cp(id){var v=document.getElementById(id).textContent;if(navigator.clipboard)navigator.clipboard.writeText(v);toast('Copié ✓');}
+function getEmail(){try{var u=JSON.parse(localStorage.getItem('sentew_user')||'null');return u&&u.email?u.email:(localStorage.getItem('sentew_email')||'');}catch(e){return localStorage.getItem('sentew_email')||'';}}
+function apiKey(){return fetch(SUPA+'/rest/v1/app_config?key=eq.apivideo_key&select=value',{headers:H()}).then(function(r){return r.json();}).then(function(a){return a[0]?a[0].value:'';});}
+function loadShops(){fetch(SUPA+'/rest/v1/vendors?select=id,shop_name,slug&order=shop_name',{headers:H()}).then(function(r){return r.json();}).then(function(a){var s=document.getElementById('shop');s.innerHTML='';(a||[]).forEach(function(v){var o=document.createElement('option');o.value=v.slug||v.id;o.textContent=v.shop_name;o.dataset.vid=v.id;s.appendChild(o);});if(!a||!a.length)s.innerHTML='<option value="">Aucune boutique</option>';}).catch(function(){toast('Boutiques introuvables');});}
+function createLive(){var t=document.getElementById('title').value.trim();if(!t){toast('Ajoute un titre');return;}
+toast('Création du live…');
+apiKey().then(function(k){if(!k){toast('Clé vidéo manquante — contacte l\'admin');throw 'k';}
+return fetch('https://ws.api.video/live-streams',{method:'POST',headers:{'Authorization':'Bearer '+k,'Content-Type':'application/json'},body:JSON.stringify({name:t,record:false})});}).then(function(r){return r.json();}).then(function(j){
+if(!j.liveStreamId){toast('Erreur création live');return;}
+LIVE=j;var slug=document.getElementById('shop').value;
+document.getElementById('rtmp').textContent='rtmp://broadcast.api.video/s/'+j.streamKey;
+var w=location.origin+location.pathname.replace('live-vendeur.html','')+'live.html?v='+j.liveStreamId+'&t='+encodeURIComponent(t)+'&s='+encodeURIComponent(slug);
+document.getElementById('watch').textContent=w;
+try{fetch(SUPA+'/rest/v1/live_streams',{method:'POST',headers:H(),body:JSON.stringify({title:t,vendor:slug,playback_url:'https://live.api.video/'+j.liveStreamId+'.m3u8',watch_url:w,status:'live'})});}catch(e){}
+document.getElementById('step1').style.display='none';document.getElementById('step2').style.display='block';toast('Live prêt ✅ Ouvre Larix');window.scrollTo(0,0);
+}).catch(function(e){if(e!=='k')toast('Erreur réseau — réessaie');});}
+function shareLive(){var w=document.getElementById('watch').textContent;var t=document.getElementById('title').value;window.open('https://wa.me/?text='+encodeURIComponent('🔴 EN DIRECT : '+t+'\nRegarde maintenant sur SEN TEW : '+w),'_blank');}
+function endLive(){if(!LIVE)return;apiKey().then(function(k){fetch('https://ws.api.video/live-streams/'+LIVE.liveStreamId,{method:'DELETE',headers:{'Authorization':'Bearer '+k}});});try{fetch(SUPA+"/rest/v1/live_streams?watch_url=eq."+encodeURIComponent(document.getElementById('watch').textContent),{method:'PATCH',headers:H(),body:JSON.stringify({status:'ended'})});}catch(e){}document.getElementById('step2').style.display='none';document.getElementById('step1').style.display='block';toast('Live terminé');}
+document.addEventListener('DOMContentLoaded',function(){lucide.createIcons();loadShops();});
+</script></body></html>
