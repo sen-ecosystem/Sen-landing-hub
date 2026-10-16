@@ -54,4 +54,4 @@ function share(){var u=location.href;if(navigator.share)navigator.share({title:T
 function follow(){var b=document.getElementById('fbtn');b.textContent='✓ Suivi';b.style.background='#0f6b4e';b.style.color='#fff';}
 function loadProd(){if(!SLUG)return;fetch(SUPA+'/rest/v1/products?vendor_slug=eq.'+encodeURIComponent(SLUG)+'&select=id,name,price,image_url&limit=8',{headers:H()}).then(function(r){return r.json();}).then(function(a){var p=document.getElementById('prod');(a||[]).forEach(function(x){var d=document.createElement('a');d.className='pc';d.href='produit.html?id='+x.id;d.innerHTML=(x.image_url?'<img src="'+x.image_url+'">':'')+'<div><b>'+String(x.name||'').slice(0,22)+'</b><span>'+Math.round(x.price||0).toLocaleString('fr-FR')+' F</span></div>';p.appendChild(d);});}).catch(function(){});}
 document.addEventListener('DOMContentLoaded',function(){start();loadCm();setInterval(loadCm,3000);loadProd();});
-</script></body></html>
+</script><script src="js/i18n.js"></script></body></html>
