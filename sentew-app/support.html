@@ -11,9 +11,9 @@
 <a href="litige.html" style="background:linear-gradient(135deg,#b3402a,#c0392b);border-radius:16px;padding:18px 14px;text-decoration:none;display:block;grid-column:span 2">
 <div style="font-size:26px">⚠️</div><div style="color:#fff;font-weight:700;font-size:14px;margin-top:8px">Signaler un problème</div><div style="color:rgba(255,255,255,.75);font-size:11px">Litige vendeur · réponse sous 72 h</div></a>
 </div>
-<a href="/cdn-cgi/l/email-protection#d2b1bdbca6b3b1a692a1b7bcffb7b1bda1aba1a6b7bffcb1bdbfeda1a7b0b8b7b1a6ef81a7a2a2bda0a6f7e0e281979cf7e0e2869785" style="background:#fff;border:1.5px solid #0f6b4e;border-radius:16px;padding:16px;text-decoration:none;display:flex;align-items:center;gap:12px;margin-bottom:20px">
+<a href="#" onclick="goSupport(event)" style="background:#fff;border:1.5px solid #0f6b4e;border-radius:16px;padding:16px;text-decoration:none;display:flex;align-items:center;gap:12px;margin-bottom:20px">
 <div style="width:40px;height:40px;border-radius:12px;background:#e8f5ef;display:flex;align-items:center;justify-content:center"><i data-lucide="mail" class="icon" style="color:#0f6b4e"></i></div>
-<div><div style="font-weight:700;font-size:14px;color:#0a1f17">Écrire au support</div><div style="font-size:12px;color:#4a5a52"><span class="__cf_email__" data-cfemail="ccafa3a2b8adafb88cbfa9a2e1a9afa3bfb5bfb8a9a1e2afa3a1">[email&#160;protected]</span> · réponse sous 24 h ouvrées</div></div>
+<div><div style="font-weight:700;font-size:14px;color:#0a1f17">Écrire au support</div><div style="font-size:12px;color:#4a5a52"><span id="supMail">Chargement…</span> · réponse sous 24 h ouvrées</div></div>
 <i data-lucide="chevron-right" class="icon" style="margin-left:auto;color:#4a5a52"></i></a>
 <h2 style="font-size:13px;font-weight:800;color:#0f6b4e;letter-spacing:.5px;margin:0 0 10px">QUESTIONS FRÉQUENTES</h2>
 <div style="display:flex;flex-direction:column;gap:8px">
@@ -22,4 +22,7 @@
 <details style="background:#fff;border-radius:12px;padding:14px"><summary style="font-weight:600;cursor:pointer">Comment être remboursé ?</summary><p style="font-size:13px;color:#4a5a52;margin-top:8px">Signale le problème sous 48 h après livraison depuis ta commande. Après validation, remboursement sous 48 h ouvrées.</p></details>
 <details style="background:#fff;border-radius:12px;padding:14px"><summary style="font-weight:600;cursor:pointer">Quels moyens de paiement ?</summary><p style="font-size:13px;color:#4a5a52;margin-top:8px">Mobile Money, cartes bancaires (3D Secure) et paiement à la livraison dans les zones couvertes.</p></details>
 </details></div></main>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>lucide.createIcons();</script></body></html>
+<script>lucide.createIcons();</script><script>
+function goSupport(e){e.preventDefault();var m=['contact','sen-ecosystem.com'].join('@');location.href='mailto:'+m+'?subject=Support%20SEN%20TEW';}
+(function(){var m=['contact','sen-ecosystem.com'].join('@');var e1=document.getElementById('supMail');if(e1)e1.textContent=m;var e2=document.getElementById('supMail2');if(e2)e2.textContent=m;})();
+</script></body></html>
