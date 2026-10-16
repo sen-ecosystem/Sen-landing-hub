@@ -135,6 +135,19 @@ var D = {
   'Notifs':       {en:'Alerts',      wo:'Xibaar',     ar:'تنبيهات',       pt:'Alertas',       es:'Avisos'},
   'Solde disponible':{en:'Available balance',wo:'Koppar bu fékk',ar:'الرصيد المتاح',pt:'Saldo disponível',es:'Saldo disponible'},
   'Recharger':    {en:'Top up',      wo:'Yokk koppar',ar:'شحن',           pt:'Carregar',      es:'Recargar'},
+  'Studio Vendeur': {en:'Seller Studio', wo:'Studio Jëfandikukat', ar:'استوديو البائع', pt:'Estúdio do Vendedor', es:'Estudio del Vendedor'},
+'Lancer un live': {en:'Start a live', wo:'Tambali live', ar:'بدء بث مباشر', pt:'Iniciar live', es:'Iniciar en vivo'},
+'Passer EN DIRECT': {en:'GO LIVE', wo:'Dugg LIVE', ar:'بث مباشر', pt:'ENTRAR AO VIVO', es:'ENTRAR EN DIRECTO'},
+'Terminer le live': {en:'End live', wo:'Jeexal live', ar:'إنهاء البث', pt:'Terminar live', es:'Terminar en vivo'},
+'Centre d\'aide': {en:'Help Center', wo:'Bérab Ndimbal', ar:'مركز المساعدة', pt:'Central de Ajuda', es:'Centro de Ayuda'},
+'Signaler un problème': {en:'Report a problem', wo:'Waxal ab jafe-jafe', ar:'الإبلاغ عن مشكلة', pt:'Reportar problema', es:'Reportar un problema'},
+'Remboursement': {en:'Refund', wo:'Dellu koppar', ar:'استرداد', pt:'Reembolso', es:'Reembolso'},
+'Prendre': {en:'Take photo', wo:'Jël nataal', ar:'التقط', pt:'Tirar foto', es:'Tomar foto'},
+'Importer': {en:'Import', wo:'Yeb', ar:'استيراد', pt:'Importar', es:'Importar'},
+'Luminosité': {en:'Brightness', wo:'Leer', ar:'السطوع', pt:'Brilho', es:'Brillo'},
+'Démarrer l\'enregistrement': {en:'Start recording', wo:'Tambali enregistrement', ar:'بدء التسجيل', pt:'Iniciar gravação', es:'Iniciar grabación'},
+'Commenter…': {en:'Comment…', wo:'Waxal…', ar:'علّق…', pt:'Comentar…', es:'Comentar…'},
+'Partager': {en:'Share', wo:'Seddeli', ar:'مشاركة', pt:'Partilhar', es:'Compartir'},
   'Retirer':      {en:'Withdraw',    wo:'Dindi',      ar:'سحب',           pt:'Levantar',      es:'Retirar'}
 };
 
