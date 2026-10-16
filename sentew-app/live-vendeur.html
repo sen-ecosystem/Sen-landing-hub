@@ -78,4 +78,4 @@ function endLive(){if(PC){try{PC.close();}catch(e){}}if(STREAM){STREAM.getTracks
 try{fetch(SUPA+'/rest/v1/live_streams?watch_url=eq.'+encodeURIComponent(WATCH),{method:'PATCH',headers:H(),body:JSON.stringify({status:'ended'})});}catch(e){}
 $('step3').style.display='none';$('step1').style.display='block';$('step2').style.display='none';toast('Live terminé');}
 document.addEventListener('DOMContentLoaded',function(){lucide.createIcons();loadShops();loadKeys();});
-</script></body></html>
+</script><script src="js/i18n.js"></script></body></html>
