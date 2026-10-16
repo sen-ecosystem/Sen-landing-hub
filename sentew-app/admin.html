@@ -2250,5 +2250,39 @@ function copyLiveLink(){
 }
 </script>
 
-</body>
+
+<div id="tab-archives" class="tabpane" style="display:none">
+<h3 style="margin:6px 0 10px">🗄 Archives</h3>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+<button class="btn-sm" onclick="loadArchives('lives')">Lives terminés</button>
+<button class="btn-sm" onclick="loadArchives('invoices')">Factures</button>
+<button class="btn-sm" onclick="loadArchives('payslips')">Bulletins</button>
+<input type="month" id="archMonth" onchange="renderArchives()" style="padding:8px;border-radius:8px;border:1px solid #d4ddd8">
+</div>
+<div id="archList" style="font-size:13px;color:#4a5a52">Choisis une catégorie.</div>
+</div>
+<script>
+var ARCH={type:null,rows:[]};
+function loadArchives(t){ARCH.type=t;var el=document.getElementById('archList');el.textContent='Chargement…';
+var map={lives:{t:'live_streams',f:'status=eq.ended'},invoices:{t:'invoices',f:''},payslips:{t:'salaries',f:''}};
+var m=map[t];if(!m)return;
+sbGet(m.t+'?select=*'+(m.f?'&'+m.f:'')+'&order=created_at.desc&limit=100').then(function(a){ARCH.rows=a||[];renderArchives();}).catch(function(){el.textContent='Erreur de chargement.';});}
+function renderArchives(){var el=document.getElementById('archList');var mo=document.getElementById('archMonth')?document.getElementById('archMonth').value:'';
+var rows=ARCH.rows.filter(function(r){if(!mo)return true;return String(r.created_at||r.period||'').slice(0,7)===mo;});
+if(!rows.length){el.textContent='Aucune archive pour ce filtre.';return;}
+el.innerHTML=rows.map(function(r){var d=String(r.created_at||'').slice(0,10);
+if(ARCH.type==='lives')return '<div style="padding:8px;border-bottom:1px solid #e8eeea">📺 <b>'+(r.title||'Live')+'</b> · '+(r.vendor||'')+' · '+d+' · <span style="color:#c0392b">terminé</span></div>';
+if(ARCH.type==='invoices')return '<div style="padding:8px;border-bottom:1px solid #e8eeea">🧾 <b>'+(r.number||r.id)+'</b> · '+(r.client_name||r.customer||'')+' · '+Math.round(r.total||0).toLocaleString('fr-FR')+' F · '+d+'</div>';
+return '<div style="padding:8px;border-bottom:1px solid #e8eeea">💼 <b>'+(r.employee_name||'')+'</b> · '+(r.period||'')+' · '+Math.round(r.base_salary||0).toLocaleString('fr-FR')+' F</div>';}).join('');}
+</script><script>
+function financeAuto(){var el=document.getElementById('finAuto');if(!el)return;el.textContent='Calcul…';
+Promise.all([sbGet('orders?select=total,status,created_at'),sbGet('invoices?select=total,status')]).then(function(r){
+var o=r[0]||[],inv=r[1]||[];var ca=0,pend=0;o.forEach(function(x){if(x.status!=='annule')ca+=(x.total||0);});
+inv.forEach(function(x){if(x.status==='impaye'||x.status==='unpaid')pend+=(x.total||0);});
+var com=Math.round(ca*0.08);
+el.innerHTML='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0">'
++'<div style="background:#e8f5ef;border-radius:12px;padding:12px;text-align:center"><div style="font-size:11px;color:#4a5a52">CA total</div><div style="font-weight:800;color:#0f6b4e">'+Math.round(ca).toLocaleString('fr-FR')+' F</div></div>'
++'<div style="background:#e8f5ef;border-radius:12px;padding:12px;text-align:center"><div style="font-size:11px;color:#4a5a52">Commission 8%</div><div style="font-weight:800;color:#0f6b4e">'+com.toLocaleString('fr-FR')+' F</div></div>'
++'<div style="background:#fdf1ec;border-radius:12px;padding:12px;text-align:center"><div style="font-size:11px;color:#4a5a52">Impayés</div><div style="font-weight:800;color:#c0392b">'+Math.round(pend).toLocaleString('fr-FR')+' F</div></div></div>';}).catch(function(){el.textContent='Finance auto indisponible.';});}
+</script><div id="finAuto" style="margin:6px 0"></div></body>
 </html>
