@@ -315,10 +315,25 @@ document.addEventListener('keydown',function(e){
     e.preventDefault();return false;
   }
 });
+<script>
+var SITE_D={
+fr:null,
+en:{'Marketplace':'Marketplace','Boutiques':'Shops','Catégories':'Categories','Nos services':'Our services','Contact':'Contact','Ouvrir l\'app':'Open the app','Entreprise':'Company','Légal':'Legal','Confidentialité':'Privacy','Mentions légales':'Legal notice','FAQ':'FAQ'},
+wo:{'Marketplace':'Markete','Boutiques':'Bitik','Catégories':'Xeet','Nos services':'Ñu jëfandikoo','Contact':'Jokkoo','Ouvrir l\'app':'Ubbi app bi','Entreprise':'Kër-gi','Légal':'Yoon wi','Confidentialité':'Sutura','Mentions légales':'Xibaar yoon','FAQ':'FAQ'}
+};
+var ORIG={};
 function changeLang(lang){
-  localStorage.setItem('sen_lang',lang);
-  alert('Langue : '+lang.toUpperCase()+' — traduction complète bientôt disponible.');
+  localStorage.setItem('st_lang',lang);
+  document.documentElement.lang=lang;
+  var walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null),node;
+  while(node=walker.nextNode()){
+    var t=node.nodeValue.trim(); if(!t||t.length>120)continue;
+    if(lang==='fr'){ if(ORIG[node.nodeValue]) node.nodeValue=ORIG[node.nodeValue]; continue; }
+    var d=SITE_D[lang]; if(!d)continue;
+    if(d[t]){ if(!ORIG[node.nodeValue])ORIG[node.nodeValue]=node.nodeValue; node.nodeValue=node.nodeValue.replace(t,d[t]); }
+  }
 }
+(function(){var l=localStorage.getItem('st_lang');if(l&&l!=='fr')changeLang(l);var s=document.querySelector('.lang-switch');if(s)s.value=l||'fr';})();
 </script>
 
 <!-- ═══ BANNIÈRE COOKIES PRO ═══ -->
