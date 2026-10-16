@@ -322,19 +322,7 @@ en:{'Marketplace':'Marketplace','Boutiques':'Shops','Catégories':'Categories','
 wo:{'Marketplace':'Markete','Boutiques':'Bitik','Catégories':'Xeet','Nos services':'Ñu jëfandikoo','Contact':'Jokkoo','Ouvrir l\'app':'Ubbi app bi','Entreprise':'Kër-gi','Légal':'Yoon wi','Confidentialité':'Sutura','Mentions légales':'Xibaar yoon','FAQ':'FAQ'}
 };
 var ORIG={};
-function changeLang(lang){
-  localStorage.setItem('st_lang',lang);
-  document.documentElement.lang=lang;
-  var walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null),node;
-  while(node=walker.nextNode()){
-    var t=node.nodeValue.trim(); if(!t||t.length>120)continue;
-    if(lang==='fr'){ if(ORIG[node.nodeValue]) node.nodeValue=ORIG[node.nodeValue]; continue; }
-    var d=SITE_D[lang]; if(!d)continue;
-    if(d[t]){ if(!ORIG[node.nodeValue])ORIG[node.nodeValue]=node.nodeValue; node.nodeValue=node.nodeValue.replace(t,d[t]); }
-  }
 }
-(function(){var l=localStorage.getItem('st_lang');if(l&&l!=='fr')changeLang(l);var s=document.querySelector('.lang-switch');if(s)s.value=l||'fr';})();
-</script>
 
 <!-- ═══ BANNIÈRE COOKIES PRO ═══ -->
 <div id="ck" style="position:fixed;bottom:14px;left:14px;right:14px;max-width:520px;margin:0 auto;background:rgba(10,31,23,.98);backdrop-filter:blur(12px);border:1px solid rgba(74,222,128,.3);border-radius:18px;padding:18px;z-index:99999;display:none;box-shadow:0 12px 44px rgba(0,0,0,.45);transform:translateY(130%);transition:transform .5s cubic-bezier(.22,1,.36,1)">
@@ -388,6 +376,13 @@ function restoreFr(){
   }
   var sel=document.querySelector('.lang-switch');if(sel)sel.value='fr';
 }
+(function(){try{var l=localStorage.getItem('st_lang');if(l&&l!=='fr'){document.addEventListener('DOMContentLoaded',function(){changeLang(l);});}}catch(e){}})();
+</script>
+<script>
+var SITE_D={"Produits":{"en":"Products","wo":"Njëng"},"FAQ":{"en":"FAQ","wo":"Laajte"},"Contact":{"en":"Contact","wo":"Jokkoo"},"Africains à connecter":{"en":"Africans to connect","wo":"Afrik yu ñu ëpp a jokkoo"},"Pays à couvrir":{"en":"Countries to cover","wo":"Réew yu ñu ëpp a féete"},"Questions fréquentes":{"en":"Frequently asked questions","wo":"Laajte yu ëpp"},"Entreprise":{"en":"Company","wo":"Kër-gi"},"Légal":{"en":"Legal","wo":"Yoon wi"},"Confidentialité":{"en":"Privacy","wo":"Sutura"},"Mentions légales":{"en":"Legal notice","wo":"Mentions légales"},"Tout refuser":{"en":"Reject all","wo":"Déedéet lépp"},"Tout accepter":{"en":"Accept all","wo":"Jëlewi lépp"},"Préférences":{"en":"Preferences","wo":"Tànnef yi"},"Enregistrer mes choix":{"en":"Save my choices","wo":"Denc sama tànnef"}};
+var SITE_ORIG={};
+function changeLang(lang){try{localStorage.setItem('st_lang',lang);}catch(e){}document.documentElement.lang=lang;document.documentElement.dir=(lang==='ar')?'rtl':'ltr';if(lang==='fr'){restoreFr();return;}var walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null),node;while(node=walker.nextNode()){var t=node.nodeValue.trim();if(!t||t.length>200)continue;var d=SITE_D[t];if(!d)continue;var tr=d[lang];if(!tr)continue;if(!SITE_ORIG[node.nodeValue])SITE_ORIG[node.nodeValue]=node.nodeValue;node.nodeValue=node.nodeValue.replace(t,tr);}var sel=document.querySelector('.lang-switch');if(sel)sel.value=lang;}
+function restoreFr(){var walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null),node;while(node=walker.nextNode()){if(SITE_ORIG[node.nodeValue])node.nodeValue=SITE_ORIG[node.nodeValue];}var sel=document.querySelector('.lang-switch');if(sel)sel.value='fr';}
 (function(){try{var l=localStorage.getItem('st_lang');if(l&&l!=='fr'){document.addEventListener('DOMContentLoaded',function(){changeLang(l);});}}catch(e){}})();
 </script>
 </body>
