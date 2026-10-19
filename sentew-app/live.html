@@ -1,57 +1,140 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Live — SEN TEW</title><link rel="stylesheet" href="css/app.css?v=51"><script src="https://unpkg.com/lucide@latest"></script></head><style>
-html,body{margin:0;height:100%;background:#000;overflow:hidden;font-family:system-ui}
-#vid{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
-.top{position:absolute;top:0;left:0;right:0;padding:14px;display:flex;align-items:center;gap:10px;background:linear-gradient(rgba(0,0,0,.55),transparent);z-index:5}
-.badge{background:#e02424;color:#fff;font-size:11px;font-weight:800;padding:4px 10px;border-radius:20px;animation:pu 1.5s infinite}
-@keyframes pu{50%{opacity:.6}}
-.ttl{color:#fff;font-size:14px;font-weight:700;flex:1;text-shadow:0 1px 4px #000}
-.rail{position:absolute;right:10px;bottom:150px;display:flex;flex-direction:column;gap:18px;z-index:5;align-items:center}
-.rail button{background:rgba(255,255,255,.14);border:none;width:48px;height:48px;border-radius:50%;font-size:22px;cursor:pointer;backdrop-filter:blur(6px)}
-.cnt{color:#fff;font-size:11px;font-weight:700}
-.cbox{position:absolute;left:0;right:0;bottom:70px;max-height:200px;overflow-y:auto;padding:0 12px;z-index:4;display:flex;flex-direction:column;gap:6px;mask-image:linear-gradient(transparent,#000 15%)}
-.cm{background:rgba(0,0,0,.45);color:#fff;font-size:12.5px;padding:7px 11px;border-radius:14px;max-width:78%;backdrop-filter:blur(4px)}
-.cm b{color:#4ade80}
-.inp{position:absolute;left:10px;right:10px;bottom:12px;display:flex;gap:8px;z-index:5}
-.inp input{flex:1;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:24px;padding:12px 16px;font-size:13px;backdrop-filter:blur(6px);outline:none}
-.inp input::placeholder{color:rgba(255,255,255,.55)}
-.inp button{background:#0f6b4e;border:none;color:#fff;border-radius:24px;padding:0 18px;font-weight:700;cursor:pointer}
-.prod{position:absolute;left:10px;bottom:60px;z-index:5;display:flex;gap:8px;overflow-x:auto;max-width:calc(100% - 20px)}
-.pc{background:rgba(255,255,255,.92);border-radius:12px;padding:8px 10px;display:flex;gap:8px;align-items:center;min-width:180px;text-decoration:none;color:#0a1f17}
-.pc img{width:36px;height:36px;border-radius:8px;object-fit:cover}
-.pc b{font-size:12px;display:block}.pc span{font-size:11px;color:#0f6b4e;font-weight:800}
-.heart{position:absolute;bottom:160px;font-size:24px;animation:fl 1.6s ease-out forwards;z-index:6;pointer-events:none}
-@keyframes fl{to{transform:translateY(-320px) scale(1.6);opacity:0}}
-#off{display:none;position:absolute;inset:0;z-index:9;background:rgba(0,0,0,.9);color:#fff;text-align:center;padding-top:45%}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Live — SEN TEW</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI',sans-serif}
+body{background:#000;color:#fff;height:100dvh;overflow:hidden}
+#video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover}
+#topBar{position:fixed;top:0;left:0;right:0;padding:12px;display:flex;align-items:center;gap:8px;z-index:10;background:linear-gradient(#000a,transparent)}
+#topBar a{color:#fff;text-decoration:none;font-size:22px}
+.live-badge{background:#e33;padding:5px 12px;border-radius:8px;font-weight:700;font-size:13px;display:flex;align-items:center;gap:5px}
+.vinfo{display:flex;align-items:center;gap:8px;background:#0007;padding:5px 10px;border-radius:30px}
+.vinfo img{width:32px;height:32px;border-radius:50%}
+.vinfo b{font-size:13px}
+.follow{background:#0b6b3a;border:none;color:#fff;padding:7px 14px;border-radius:20px;font-weight:700;font-size:12px;cursor:pointer}
+#viewers{margin-left:auto;background:#0008;padding:6px 12px;border-radius:8px;font-size:13px}
+#title{position:fixed;top:60px;left:12px;right:12px;font-size:14px;font-weight:600;z-index:10;text-shadow:0 1px 4px #000}
+#comments{position:fixed;left:10px;bottom:150px;width:75%;max-height:36vh;overflow-y:auto;z-index:10;display:flex;flex-direction:column;gap:6px;mask-image:linear-gradient(transparent,#000 18%)}
+.cmt{background:#0009;padding:7px 12px;border-radius:14px;font-size:13px;width:fit-content;max-width:100%;animation:in .25s}
+.cmt b{color:#ffd76a;margin-right:5px}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+#hearts{position:fixed;right:80px;bottom:180px;z-index:9;pointer-events:none}
+.heart{position:absolute;font-size:26px;animation:up 2.4s ease-out forwards}
+@keyframes up{0%{opacity:1;transform:translateY(0) scale(.7)}100%{opacity:0;transform:translateY(-240px) scale(1.3)}}
+#sideBar{position:fixed;right:10px;bottom:160px;display:flex;flex-direction:column;gap:16px;z-index:10;text-align:center}
+.side-btn{background:#0008;border:none;color:#fff;width:50px;height:50px;border-radius:50%;font-size:22px;cursor:pointer}
+.side-btn small{display:block;font-size:10px}
+#products{position:fixed;left:0;right:0;bottom:76px;display:flex;gap:10px;padding:0 12px;overflow-x:auto;z-index:10}
+.prod{background:#fff;color:#111;border-radius:12px;padding:8px;min-width:140px;display:flex;gap:8px;align-items:center;cursor:pointer}
+.prod img{width:46px;height:46px;border-radius:8px;object-fit:cover}
+.prod b{font-size:12px;display:block}
+.prod span{color:#0b6b3a;font-weight:700;font-size:12px}
+#inputBar{position:fixed;left:0;right:0;bottom:0;padding:12px;display:flex;gap:8px;z-index:11;background:linear-gradient(transparent,#000c)}
+#cmtInput{flex:1;background:#ffffff18;border:none;border-radius:24px;padding:12px 16px;color:#fff;font-size:14px}
+#cmtInput::placeholder{color:#aaa}
+#btnSend{background:#0b6b3a;border:none;color:#fff;width:46px;height:46px;border-radius:50%;font-size:18px;cursor:pointer}
+#offline{position:fixed;inset:0;background:#0b1410;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:30;text-align:center;padding:20px}
+#report{position:fixed;top:60px;right:12px;z-index:10;background:#0008;border:none;color:#f88;padding:6px 10px;border-radius:8px;font-size:11px;cursor:pointer}
 </style>
+</head>
 <body>
-<video id="vid" playsinline autoplay muted></video>
-<div class="top"><span class="badge">🔴 LIVE</span><span class="ttl" id="ttl">Live SEN TEW</span><button onclick="follow()" id="fbtn" style="background:#4ade80;border:none;color:#06281c;font-weight:800;font-size:12px;padding:8px 14px;border-radius:20px;cursor:pointer">+ Suivre</button></div>
-<div class="rail">
-<button onclick="like()">❤️</button><div class="cnt" id="lk">0</div>
-<button onclick="share()">📤</button><div class="cnt">Partager</div>
+<video id="video" autoplay playsinline controls></video>
+<div id="topBar">
+  <a href="index.html">←</a>
+  <span class="live-badge">● LIVE</span>
+  <div class="vinfo"><img src="https://raw.githubusercontent.com/sen-ecosystem/Sen-landing-hub/main/sentew-app/assets/logo.png"><b id="vName">—</b></div>
+  <button class="follow" id="btnFollow" onclick="follow()">+ Suivre</button>
+  <span id="viewers">👁 0</span>
 </div>
-<div class="prod" id="prod"></div>
-<div class="cbox" id="cbox"></div>
-<div class="inp"><input id="cm" placeholder="Commenter…" onkeydown="if(event.key==='Enter')send()"><button onclick="send()">➤</button></div>
-<div id="off"><div style="font-size:40px">📺</div><h2 id="offt">Live terminé ou indisponible</h2><a href="index.html" style="color:#4ade80">← Retour à la boutique</a></div>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<button id="report" onclick="report()">⚠️ Signaler</button>
+<div id="title"></div>
+<div id="comments"></div>
+<div id="hearts"></div>
+<div id="sideBar">
+  <button class="side-btn" onclick="addHeart()">❤️<small id="likeCount">0</small></button>
+  <button class="side-btn" onclick="shareLive()">📤<small>Partager</small></button>
+</div>
+<div id="products"></div>
+<div id="inputBar">
+  <input id="cmtInput" placeholder="Écris un commentaire…" maxlength="200">
+  <button id="btnSend" onclick="sendComment()">➤</button>
+</div>
+<div id="offline">
+  <div style="font-size:44px">🔴</div>
+  <h2>Live terminé ou indisponible</h2>
+  <p style="color:#8aa">Ce live n'est pas en cours. Découvre les boutiques sur SEN TEW.</p>
+  <a href="index.html" style="background:#0b6b3a;color:#fff;padding:12px 24px;border-radius:12px;text-decoration:none;font-weight:700">Ouvrir l'app</a>
+</div>
 <script>
-var SUPA="https://tjqkruhwmjzgfvtouqza.supabase.co",KEY="sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j";
-var P=new URLSearchParams(location.search),VID=P.get('v')||'',LID=P.get('id')||'',TTL=P.get('t')||'Live SEN TEW',SLUG=P.get('s')||'';
-var LIDKEY=LID||VID, likes=0, hls=null;
-document.getElementById('ttl').textContent=TTL;
-function H(){return {'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json'};}
-function play(u){var v=document.getElementById('vid');if(Hls.isSupported()){hls=new Hls();hls.loadSource(u);hls.attachMedia(v);hls.on(Hls.Events.ERROR,function(e,d){if(d.fatal)off();});}else if(v.canPlayType('application/vnd.apple.mpegurl')){v.src=u;}else off();v.play().catch(function(){});}
-function off(){document.getElementById('off').style.display='block';}
-var WHEPU=P.get('whep')||'';
-function playWhep(u){var pc=new RTCPeerConnection();pc.addTransceiver('video',{direction:'recvonly'});pc.addTransceiver('audio',{direction:'recvonly'});var v=document.getElementById('vid');pc.ontrack=function(e){v.srcObject=e.streams[0];v.play().catch(function(){});};pc.createOffer().then(function(o){return pc.setLocalDescription(o);}).then(function(){return new Promise(function(res){if(pc.iceGatheringState==='complete')res();else{pc.addEventListener('icegatheringstatechange',function(){if(pc.iceGatheringState==='complete')res();});setTimeout(res,3000);}});}).then(function(){return fetch(u,{method:'POST',headers:{'Content-Type':'application/sdp'},body:pc.localDescription.sdp});}).then(function(r){return r.text();}).then(function(sdp){return pc.setRemoteDescription({type:'answer',sdp:sdp});}).catch(off);}
-function start(){if(WHEPU){playWhep(WHEPU);}else if(VID){play('https://live.api.video/'+VID+'.m3u8');}else if(LID){fetch(SUPA+'/rest/v1/live_streams?id=eq.'+LID+'&select=*',{headers:H()}).then(function(r){return r.json();}).then(function(a){var l=a&&a[0];if(!l||l.status!=='live'){off();return;}document.getElementById('ttl').textContent=l.title||TTL;play(l.playback_url);}).catch(off);}else off();}
-function me(){try{var u=JSON.parse(localStorage.getItem('sentew_user')||'null');return (u&&(u.name||u.email))||'Client';}catch(e){return 'Client';}}
-function like(){likes++;document.getElementById('lk').textContent=likes;var h=document.createElement('div');h.className='heart';h.textContent=['❤️','💚','🧡'][likes%3];h.style.right=(20+Math.random()*40)+'px';document.body.appendChild(h);setTimeout(function(){h.remove();},1600);try{fetch(SUPA+'/rest/v1/live_messages',{method:'POST',headers:H(),body:JSON.stringify({live_id:LIDKEY,user_name:me(),message:'__like__'})});}catch(e){}}
-function send(){var i=document.getElementById('cm'),m=i.value.trim();if(!m)return;i.value='';fetch(SUPA+'/rest/v1/live_messages',{method:'POST',headers:H(),body:JSON.stringify({live_id:LIDKEY,user_name:me(),message:m})}).then(loadCm);}
-function loadCm(){fetch(SUPA+'/rest/v1/live_messages?live_id=eq.'+encodeURIComponent(LIDKEY)+'&order=created_at.desc&limit=30',{headers:H()}).then(function(r){return r.json();}).then(function(a){var b=document.getElementById('cbox');b.innerHTML='';var lk=0;(a||[]).slice().reverse().forEach(function(m){if(m.message==='__like__'){lk++;return;}var d=document.createElement('div');d.className='cm';d.innerHTML='<b>'+String(m.user_name||'Client').replace(/</g,'')+'</b> '+String(m.message||'').replace(/</g,'');b.appendChild(d);});if(lk>likes){likes=lk;document.getElementById('lk').textContent=likes;}b.scrollTop=1e5;}).catch(function(){});}
-function share(){var u=location.href;if(navigator.share)navigator.share({title:TTL,url:u});else if(navigator.clipboard){navigator.clipboard.writeText(u);alert('Lien copié ✓');}}
-function follow(){var b=document.getElementById('fbtn');b.textContent='✓ Suivi';b.style.background='#0f6b4e';b.style.color='#fff';}
-function loadProd(){if(!SLUG)return;fetch(SUPA+'/rest/v1/products?vendor_slug=eq.'+encodeURIComponent(SLUG)+'&select=id,name,price,image_url&limit=8',{headers:H()}).then(function(r){return r.json();}).then(function(a){var p=document.getElementById('prod');(a||[]).forEach(function(x){var d=document.createElement('a');d.className='pc';d.href='produit.html?id='+x.id;d.innerHTML=(x.image_url?'<img src="'+x.image_url+'">':'')+'<div><b>'+String(x.name||'').slice(0,22)+'</b><span>'+Math.round(x.price||0).toLocaleString('fr-FR')+' F</span></div>';p.appendChild(d);});}).catch(function(){});}
-document.addEventListener('DOMContentLoaded',function(){start();loadCm();setInterval(loadCm,3000);loadProd();});
-</script><script src="js/i18n.js"></script></body></html>
+const SUPA_URL="https://tjqkruhwmjzgfvtouqza.supabase.co";
+const SUPA_KEY="sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j";
+const HLS="https://customer-k4ked423d85xz498.cloudflarestream.com/22984669988fefcad250cafac0644829/manifest/video.m3u8";
+const sb=supabase.createClient(SUPA_URL,SUPA_KEY);
+const $=id=>document.getElementById(id);
+let liveId=new URLSearchParams(location.search).get("id");
+let likes=0,myName=localStorage.getItem("st_name")||"Client"+Math.floor(Math.random()*900+100);
+
+function sanitize(t){return /(\+?\d[\d\s.\-]{6,}\d)|wa\.me|whatsapp|t\.me|telegram/i.test(t);}
+function addComment(a,t,cls){const d=document.createElement("div");d.className="cmt"+(cls?" "+cls:"");d.innerHTML="<b>"+a+"</b>"+t;const c=$("comments");c.appendChild(d);c.scrollTop=c.scrollHeight;while(c.children.length>25)c.removeChild(c.firstChild);}
+function addHeart(){likes++;$("likeCount").textContent=likes;
+ const h=document.createElement("span");h.className="heart";h.textContent="❤️";h.style.left=(Math.random()*40)+"px";$("hearts").appendChild(h);setTimeout(()=>h.remove(),2400);
+ if(liveId)sb.from("live_likes").insert({live_id:liveId}).then(()=>{});}
+async function sendComment(){
+ const t=$("cmtInput").value.trim();if(!t)return;
+ if(sanitize(t)){addComment("Système","🔒 Les numéros et liens externes sont masqués.","sys");$("cmtInput").value="";return;}
+ if(liveId)await sb.from("live_comments").insert({live_id:liveId,author:myName,text:t});
+ addComment(myName,t);$("cmtInput").value="";
+}
+function follow(){$("btnFollow").textContent="✓ Suivi";$("btnFollow").style.background="#333";}
+function shareLive(){const url=location.href;if(navigator.share)navigator.share({title:"Live SEN TEW",url});else{navigator.clipboard.writeText(url);}}
+async function report(){
+ if(!liveId)return;
+ await sb.from("live_reports").insert({live_id:liveId});
+ // 5 signalements = suspension auto du live
+ const {count}=await sb.from("live_reports").select("*",{count:"exact",head:true}).eq("live_id",liveId);
+ if(count>=5)await sb.from("live_streams").update({status:"suspended"}).eq("id",liveId);
+ addComment("Système","Signalement envoyé. Merci.","sys");
+}
+async function init(){
+ // Charger le live
+ if(liveId){
+   const {data}=await sb.from("live_streams").select("*").eq("id",liveId).single();
+   if(data){
+     $("vName").textContent=data.vendor||"—";
+     $("title").textContent=data.title||"";
+     if(data.status!=="live"){$("offline").style.display="flex";return;}
+     loadProducts(data.shop_id);
+   }
+ }
+ // Vidéo HLS
+ const v=$("video");
+ if(Hls.isSupported()){const h=new Hls({lowLatencyMode:true});h.loadSource(HLS);h.attachMedia(v);}
+ else if(v.canPlayType("application/vnd.apple.mpegurl"))v.src=HLS;
+ else{$("offline").style.display="flex";}
+ // S'abonner aux commentaires/likes
+ if(liveId){
+   sb.channel("lv-"+liveId)
+    .on("postgres_changes",{event:"INSERT",schema:"public",table:"live_comments",filter:"live_id=eq."+liveId},p=>{const c=p.new;if(sanitize(c.text||""))return;addComment(c.author||"Client",c.text);})
+    .on("postgres_changes",{event:"INSERT",schema:"public",table:"live_likes",filter:"live_id=eq."+liveId},()=>{likes++;$("likeCount").textContent=likes;const h=document.createElement("span");h.className="heart";h.textContent="❤️";h.style.left=(Math.random()*40)+"px";$("hearts").appendChild(h);setTimeout(()=>h.remove(),2400);})
+    .subscribe();
+   // Enregistrer ce spectateur
+   await sb.from("live_viewers").insert({live_id:liveId});
+   setInterval(async()=>{const{count}=await sb.from("live_viewers").select("*",{count:"exact",head:true}).eq("live_id",liveId);$("viewers").textContent="👁 "+(count||0);},8000);
+ }
+}
+async function loadProducts(shopId){
+ if(!shopId)return;
+ const{data}=await sb.from("products").select("id,name,price,image_url").eq("shop_id",shopId).limit(10);
+ const bar=$("products");bar.innerHTML="";
+ (data||[]).forEach(p=>{const d=document.createElement("div");d.className="prod";d.onclick=()=>location.href="produit.html?id="+p.id;
+  d.innerHTML=(p.image_url?`<img src="${p.image_url}">`:"")+`<div><b>${p.name}</b><span>${Number(p.price).toLocaleString("fr-FR")} F</span></div>`;bar.appendChild(d);});
+}
+init();
+</script>
+</body>
+</html>
