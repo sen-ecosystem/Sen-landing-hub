@@ -1,12 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Finaliser - SEN TEW</title>
-  <link rel="stylesheet" href="css/app.css?v=52">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Finaliser - SEN TEW</title>
+<link href="css/app.css?v=52" rel="stylesheet"/>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
     body { background: #f5f5f0; margin: 0; font-family: -apple-system, sans-serif; padding-bottom: 100px; }
     .topbar { display: flex; align-items: center; gap: 12px; padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; }
     .topbar h1 { color: #0f6b4e; font-size: 18px; margin: 0; }
@@ -34,108 +35,20 @@
   </style>
 </head>
 <body class="light-mode">
-
 <header class="topbar">
-  <button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
-  <h1>Finaliser</h1>
-</header>
+<button class="icon-btn" onclick="history.back()"><i data-lucide="arrow-left"></i></button>
+<h1>Finaliser</h1>
+</header><main aria-live="polite" class="card" role="status"><h3>Finalisation des commandes temporairement indisponible</h3><p style="line-height:1.6;font-size:15px">La consultation du catalogue reste disponible. La finalisation des commandes, y compris le paiement à la livraison, sera proposée après validation du service.</p><p style="line-height:1.6;font-size:15px;margin-top:12px">Aucun paiement n’est demandé sur cette page et aucune commande n’y est confirmée. Pour toute question, contactez notre assistance depuis le bouton ci-dessous.</p><p style="margin-top:18px"><a href="panier.html" style="color:#0f6b4e;font-weight:700">Retour au panier</a></p></main>
 
-<div class="steps">
-  <div class="step done">
-    <div class="step-num"><i data-lucide="check" style="width:14px;height:14px"></i></div>
-    <div>Panier</div>
-  </div>
-  <div class="step active">
-    <div class="step-num">2</div>
-    <div>Livraison</div>
-  </div>
-  <div class="step">
-    <div class="step-num">3</div>
-    <div>Paiement</div>
-  </div>
-</div>
 
-<div class="card">
-  <h3><i data-lucide="map-pin"></i> Adresse <a href="adresses.html" class="change">Changer</a></h3>
-  <div style="font-size:13px">
-    <strong>Karim Niang</strong><br>
-    Sacré-Cœur 3, Villa 9947<br>
-    Dakar · +221 77 123 45 67
-  </div>
-</div>
 
-<div class="card">
-  <h3><i data-lucide="truck"></i> Mode livraison</h3>
-  <div class="pay-option active" onclick="selectMode(this)">
-    <div class="pay-radio"></div>
-    <div class="pay-icon"><i data-lucide="zap"></i></div>
-    <div class="pay-name">Express (24h)</div>
-    <div style="font-weight:700;color:#0f6b4e">1 500 FCFA</div>
-  </div>
-  <div class="pay-option" onclick="selectMode(this)">
-    <div class="pay-radio"></div>
-    <div class="pay-icon"><i data-lucide="truck"></i></div>
-    <div class="pay-name">Standard (3-5j)</div>
-    <div style="font-weight:700;color:#0f6b4e">Gratuit</div>
-  </div>
-</div>
 
-<div class="card">
-  <h3><i data-lucide="credit-card"></i> Paiement</h3>
-  <div class="pay-option active" onclick="selectPay(this)">
-    <div class="pay-radio"></div>
-    <div class="pay-icon"><i data-lucide="smartphone"></i></div>
-    <div class="pay-name">Wave</div>
-  </div>
-  <div class="pay-option" onclick="selectPay(this)">
-    <div class="pay-radio"></div>
-    <div class="pay-icon"><i data-lucide="smartphone"></i></div>
-    <div class="pay-name">Orange Money</div>
-  </div>
-  <div class="pay-option" onclick="selectPay(this)">
-    <div class="pay-radio"></div>
-    <div class="pay-icon"><i data-lucide="credit-card"></i></div>
-    <div class="pay-name">Carte bancaire</div>
-  </div>
-  <div class="pay-option" onclick="selectPay(this)">
-    <div class="pay-radio"></div>
-    <div class="pay-icon"><i data-lucide="banknote"></i></div>
-    <div class="pay-name">Cash à la livraison</div>
-  </div>
-</div>
 
-<div class="card">
-  <h3><i data-lucide="receipt"></i> Récapitulatif</h3>
-  <div class="summary-row"><span>Sous-total</span><span>850 000 FCFA</span></div>
-  <div class="summary-row"><span>Livraison</span><span>1 500 FCFA</span></div>
-  <div class="summary-row" style="color:#dc2626"><span>WELCOME -20%</span><span>-170 000 FCFA</span></div>
-  <div class="summary-row total"><span>Total</span><span>681 500 FCFA</span></div>
-</div>
-
-<div class="bottom-cta">
-  <button class="btn-pay" onclick="pay()">
-    <i data-lucide="lock" style="width:16px;height:16px"></i> Payer 681 500 FCFA
-  </button>
-</div>
-
-<script>
-  lucide.createIcons();
-  function selectMode(e) {
-    document.querySelectorAll('.pay-option').forEach((el, i) => { if (i < 2) el.classList.remove('active'); });
-    e.classList.add('active');
-  }
-  function selectPay(e) {
-    document.querySelectorAll('.pay-option').forEach((el, i) => { if (i >= 2) el.classList.remove('active'); });
-    e.classList.add('active');
-  }
-  function pay() {
-    alert('🔒 Redirection Wave...');
-    setTimeout(() => {
-      alert('✅ Paiement confirmé !');
-      location.href = 'commandes.html';
-    }, 1000);
-  }
+<div class="bottom-cta"><a class="btn-pay" href="support.html" style="text-decoration:none;box-sizing:border-box;">Contacter l’assistance</a></div>
+<script>if (window.lucide) lucide.createIcons();
+// Garde temporaire : aucune commande ni aucun paiement n'est validé ici.
+function pay() { window.location.href = 'support.html'; }
 </script>
-  <script src="js/i18n.js"></script>
+<script src="js/i18n.js"></script>
 </body>
 </html>
