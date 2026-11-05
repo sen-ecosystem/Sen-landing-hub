@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-VLT/AkGhjoGCzgkR9UzaORiB+Gqxhx6IOaW1V9fI7qw=' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; connect-src https://tjqkruhwmjzgfvtouqza.supabase.co wss://tjqkruhwmjzgfvtouqza.supabase.co; img-src data:; base-uri 'none'; form-action 'none'; object-src 'none'">
+<title>SEN TEW — Configuration de l’authentification admin</title>
+<style>
+:root{color-scheme:light;--green:#103f31;--gold:#b99b54;--ink:#17382f;--bg:#f2f6f3}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,sans-serif}header{background:var(--green);color:#fff;border-bottom:4px solid var(--gold);padding:24px}header div{max-width:620px;margin:auto}header strong{font-size:24px}header small{display:block;color:#f0dbab}main{max-width:660px;margin:28px auto;padding:0 18px 48px}.card{background:#fff;padding:25px;border:1px solid #dbe5de;border-radius:18px;margin:18px 0;box-shadow:0 5px 20px #103f3108}h1{font-size:24px;margin:0 0 10px}h2{font-size:20px;margin:0 0 12px}p{margin:10px 0}label{display:block;font-weight:650;margin:18px 0 7px}input,select{width:100%;min-height:48px;padding:12px;border:1px solid #9bad9e;border-radius:9px;font:inherit;background:white;color:var(--ink)}button{width:100%;min-height:48px;padding:13px 16px;border:0;border-radius:10px;font:inherit;font-weight:700;cursor:pointer;margin-top:18px;background:var(--green);color:white}button.secondary{color:var(--green);border:1px solid #9bad9e;background:white}button:disabled{opacity:.55;cursor:wait}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:3px}.message{padding:16px;border-radius:10px;border:1px solid #c4d5cb;background:#e9f1ec;margin:18px 0;white-space:pre-line;overflow-wrap:anywhere}.message.error{background:#fff0ee;border-color:#dca39a;color:#7b2521}.message.success{background:#e4f5e8;border-color:#83b18d}.muted{font-size:14px;color:#56685d}.warning{border-left:4px solid var(--gold);padding-left:14px}.account{font-weight:700;overflow-wrap:anywhere}.qr{width:220px;max-width:100%;height:auto;display:block;margin:20px auto;border:10px solid white}code{display:block;word-break:break-all;background:#f0f3ef;padding:14px;border-radius:8px;font-size:17px}#code{font-size:26px;letter-spacing:6px;text-align:center}#progress{font-weight:700;color:var(--green)}[hidden]{display:none!important}.status{display:inline-block;background:#e6f4e9;color:#16442b;padding:5px 10px;border-radius:20px;font-size:14px;font-weight:700}footer{font-size:13px;text-align:center;color:#5e7064}@media(max-width:420px){.card{padding:19px}header{padding:19px}main{padding:0 12px 35px}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.8/dist/umd/supabase.js" integrity="sha384-l7yJnh/cWKcqeTC5adHUdc5b+J4Kb2QTGRSkCQehn1YT5xEFlrgwnXOYuvrtI1F6" crossorigin="anonymous" defer></script>
+</head>
+<body>
+<header><div><strong>SEN TEW Admin</strong><small>Configuration de la connexion sécurisée · étape de transition</small></div></header>
+<main>
+<h1>Identité et double authentification</h1>
+<p class="warning">Cette page prépare la nouvelle authentification. Elle n’ouvre pas encore le tableau de bord et ne sécurise pas, à elle seule, les anciennes fonctions administratives.</p>
+<div id="message" class="message" role="status" aria-live="polite" hidden></div>
+<p id="progress" role="status" hidden>Vérification en cours…</p>
+<section id="loginPanel" class="card">
+<h2>1. Compte Supabase Auth</h2>
+<form id="loginForm">
+<label for="email">Adresse administrateur</label>
+<input id="email" type="email" autocomplete="username" value="admin@sen-ecosystem.com" required autocapitalize="none" spellcheck="false">
+<label for="password">Mot de passe du nouveau compte</label>
+<input id="password" type="password" autocomplete="current-password" required>
+<button type="submit">Vérifier mon identité</button>
+</form>
+<p class="muted">Ni le mot de passe de Google Workspace ni l’ancien mot de passe SEN TEW ne sont demandés, sauf si tu as réutilisé le même — ce qui est déconseillé.</p>
+</section>
+<section id="sessionPanel" class="card" hidden>
+<h2>Compte reconnu</h2><p id="account" class="account"></p>
+<button id="signOut" type="button" class="secondary">Déconnecter cette session</button>
+</section>
+<section id="setupActions" class="card" hidden>
+<h2>2. Ajouter une application d’authentification</h2>
+<p>Utilise une application compatible avec les codes temporaires TOTP, par exemple Google Authenticator, Microsoft Authenticator ou un gestionnaire de mots de passe compatible.</p>
+<p class="muted">Conserve l’accès à cette application et prépare sa sauvegarde selon ses propres fonctions. Cette page ne fournit pas de codes de récupération.</p>
+<button id="startSetup" type="button">Configurer mon second facteur</button>
+</section>
+<section id="mfaPanel" class="card" hidden>
+<h2 id="mfaTitle">2. Double authentification</h2>
+<div id="qrBox" hidden>
+<p>Scanne ce QR dans ton application d’authentification. Sur un seul téléphone, utilise la clé de configuration manuelle.</p>
+<img id="qr" class="qr" alt="QR secret d’enrôlement : ne pas partager">
+<button id="revealSecret" type="button" class="secondary">Afficher / masquer la clé manuelle</button>
+<div id="secretBox" hidden><p class="muted">Clé secrète à ajouter uniquement à ton application d’authentification. Ne pas envoyer de capture.</p><code id="secret"></code></div>
+</div>
+<form id="mfaForm">
+<div id="factorChoice" hidden><label for="factorSelect">Application enregistrée</label><select id="factorSelect"></select></div>
+<label for="code">Code à 6 chiffres</label>
+<input id="code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required>
+<button type="submit">Valider et vérifier côté serveur</button>
+</form>
+<p class="muted">Un code est temporaire. En cas d’échec, vérifie l’heure automatique de ton appareil. Ne partage pas le QR, la clé ou les codes.</p>
+</section>
+<section id="readyPanel" class="card" hidden>
+<span class="status">Contrôle serveur validé pour cette session</span>
+<h2>Identité + second facteur reconnus</h2>
+<p>Le registre reconnaît ce compte administrateur et le serveur confirme une session avec double authentification.</p>
+<p class="warning"><strong>Étape suivante :</strong> raccorder les opérations administratives à cette vérification et retirer l’ancien parcours non sécurisé après validation de la transition. L’ancienne page n’est pas automatiquement protégée par ce résultat.</p>
+<button id="refreshContext" type="button" class="secondary">Revérifier mon statut serveur</button>
+</section>
+<noscript><p class="message error">JavaScript est nécessaire pour se connecter et vérifier la double authentification.</p></noscript>
+<footer>SEN TEW SUARL · Aucun secret serveur n’est inclus dans cette page.<br>La session de cette page est conservée dans le stockage de session du navigateur.</footer>
+</main>
+<script>(() => {
+'use strict';
+const $ = id => document.getElementById(id);
+let sb = null;
+let busy = false;
+let pendingFactor = null;
+let setupSecret = '';
+let verifiedFactors = [];
+function show(id, visible) { $(id).hidden = !visible; }
+function notice(text, kind = 'info') {
+  $('message').textContent = text;
+  $('message').className = 'message ' + kind;
+  show('message', Boolean(text));
+}
+function errorText(error) {
+  if (error && (error.status === 429 || /rate|too_many/i.test(error.code || ''))) return 'Trop de tentatives. Patiente quelques minutes avant de recommencer.';
+  if (error && /fetch|network|timeout/i.test(error.message || '')) return 'Connexion réseau interrompue. Réessaie lorsque le réseau est disponible.';
+  return 'Opération refusée ou service indisponible. Vérifie les informations et réessaie. Aucun droit administrateur n’a été ajouté par cette page.';
+}
+function wipeSecret() {
+  setupSecret = '';
+  $('secret').textContent = '';
+  $('qr').removeAttribute('src');
+  show('secretBox', false);
+  show('qrBox', false);
+  $('code').value = '';
+}
+function setBusy(value) {
+  busy = value;
+  document.querySelectorAll('button').forEach(b => { b.disabled = value; });
+  $('progress').hidden = !value;
+}
+async function run(action) {
+  if (busy || !sb) return;
+  setBusy(true);
+  notice('');
+  try { await action(); }
+  catch (error) { notice(errorText(error), 'error'); }
+  finally { setBusy(false); }
+}
+function showLogin() {
+  wipeSecret(); pendingFactor = null; verifiedFactors = [];
+  show('loginPanel', true); show('sessionPanel', false);
+  show('mfaPanel', false); show('readyPanel', false); show('setupActions', false);
+  $('password').value = '';
+}
+async function readContext() {
+  const result = await sb.rpc('sentew_admin_context');
+  if (result.error) throw result.error;
+  const c = result.data;
+  if (!c || typeof c !== 'object' || typeof c.is_admin !== 'boolean') throw new Error('Invalid server context');
+  return c;
+}
+async function renderSession() {
+  const { data, error } = await sb.auth.getUser();
+  if (error || !data || !data.user) {
+    await sb.auth.signOut({ scope: 'local' });
+    showLogin();
+    notice('Connecte-toi avec le compte Supabase Auth créé pour l’administration.');
+    return;
+  }
+  const context = await readContext();
+  if (context.is_admin !== true) {
+    await sb.auth.signOut({ scope: 'local' });
+    showLogin();
+    notice('Ce compte ne figure pas parmi les administrateurs autorisés côté serveur.', 'error');
+    return;
+  }
+  show('loginPanel', false); show('sessionPanel', true);
+  $('account').textContent = data.user.email || 'Compte connecté';
+  show('readyPanel', false); show('mfaPanel', false); show('setupActions', false);
+  if (context.access_allowed === true && context.mfa_verified === true) {
+    wipeSecret(); pendingFactor = null;
+    show('readyPanel', true);
+    notice('Identité et double authentification reconnues par le serveur.', 'success');
+    return;
+  }
+  const factors = await sb.auth.mfa.listFactors();
+  if (factors.error) throw factors.error;
+  verifiedFactors = (factors.data.totp || []).filter(f => f.status === 'verified');
+  pendingFactor = null;
+  wipeSecret();
+  $('factorSelect').replaceChildren();
+  if (verifiedFactors.length) {
+    verifiedFactors.forEach(f => {
+      const o = document.createElement('option'); o.value = f.id;
+      o.textContent = f.friendly_name || 'Application d’authentification';
+      $('factorSelect').appendChild(o);
+    });
+    $('mfaTitle').textContent = 'Valider la double authentification';
+    show('factorChoice', verifiedFactors.length > 1);
+    show('mfaPanel', true);
+    notice('Saisis le code actuel de ton application d’authentification.');
+  } else {
+    show('setupActions', true);
+    notice('Le mot de passe est validé. Configure maintenant un second facteur pour ce compte.');
+  }
+}
+$('loginForm').addEventListener('submit', event => {
+  event.preventDefault();
+  run(async () => {
+    const email = $('email').value.trim().toLowerCase();
+    const password = $('password').value;
+    if (!email || !password) { notice('Adresse e-mail et mot de passe requis.', 'error'); return; }
+    try {
+      const { error } = await sb.auth.signInWithPassword({ email, password });
+      if (error) {
+        if (error.status === 429) throw error;
+        notice('Connexion refusée. Vérifie l’adresse et le mot de passe de ton compte Supabase Auth.', 'error');
+        return;
+      }
+      await renderSession();
+    } finally { $('password').value = ''; }
+  });
+});
+$('startSetup').addEventListener('click', () => run(async () => {
+  const context = await readContext();
+  if (context.is_admin !== true) throw new Error('Not authorized');
+  const existing = await sb.auth.mfa.listFactors();
+  if (existing.error) throw existing.error;
+  if ((existing.data.totp || []).some(f => f.status === 'verified')) { await renderSession(); return; }
+  const { data, error } = await sb.auth.mfa.enroll({
+    factorType: 'totp', friendlyName: 'SEN TEW Admin ' + Date.now(), issuer: 'SEN TEW'
+  });
+  if (error) throw error;
+  if (!data || !data.totp || !data.id) throw new Error('Invalid enrollment');
+  pendingFactor = data.id; setupSecret = data.totp.secret;
+  const qr = data.totp.qr_code;
+  if (typeof qr !== 'string') throw new Error('Missing QR');
+  if (qr.startsWith('data:image/svg+xml')) $('qr').src = qr;
+  else if (qr.trim().startsWith('<svg')) $('qr').src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(qr);
+  else throw new Error('Unexpected QR format');
+  show('setupActions', false); show('qrBox', true); show('factorChoice', false); show('mfaPanel', true);
+  $('mfaTitle').textContent = 'Confirmer la configuration';
+  notice('Ajoute ce compte dans ton application d’authentification, puis saisis son code. Ne partage ni le QR ni la clé.');
+}));
+$('revealSecret').addEventListener('click', () => {
+  if (!setupSecret || busy) return;
+  const reveal = $('secretBox').hidden;
+  $('secret').textContent = reveal ? setupSecret : '';
+  show('secretBox', reveal);
+});
+$('mfaForm').addEventListener('submit', event => {
+  event.preventDefault();
+  run(async () => {
+    const code = $('code').value.replace(/\s/g, '');
+    if (!/^\d{6}$/.test(code)) { notice('Saisis les 6 chiffres du code actuel.', 'error'); return; }
+    const factorId = pendingFactor || $('factorSelect').value;
+    if (!factorId) { notice('Aucun facteur disponible. Reconnecte-toi pour reprendre la configuration.', 'error'); return; }
+    const result = await sb.auth.mfa.challengeAndVerify({ factorId, code });
+    $('code').value = '';
+    if (result.error) {
+      if (result.error.status === 429) throw result.error;
+      notice('Code refusé ou expiré. Vérifie l’heure automatique de ton appareil et utilise un nouveau code.', 'error');
+      return;
+    }
+    wipeSecret(); pendingFactor = null;
+    await renderSession();
+  });
+});
+$('refreshContext').addEventListener('click', () => run(renderSession));
+$('signOut').addEventListener('click', () => run(async () => {
+  const { error } = await sb.auth.signOut({ scope: 'local' });
+  if (error) throw error;
+  showLogin(); notice('Session Supabase fermée dans cet onglet. L’ancienne administration utilise un système distinct.');
+}));
+async function boot() {
+  if (location.protocol !== 'https:' && !['localhost','127.0.0.1'].includes(location.hostname)) {
+    notice('Ouvre cette page depuis le site HTTPS après son installation, pas depuis un fichier local.', 'error');
+    return;
+  }
+  try {
+    if (!window.supabase || !window.supabase.createClient) throw new Error('SDK unavailable');
+    sb = window.supabase.createClient(
+      'https://tjqkruhwmjzgfvtouqza.supabase.co',
+      'sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j',
+      { auth: { persistSession: true, storage: window.sessionStorage, storageKey: 'sentew-admin-auth-v1', autoRefreshToken: true, detectSessionInUrl: false } }
+    );
+    await run(async () => {
+      const { data, error } = await sb.auth.getSession();
+      if (error) throw error;
+      if (data.session) await renderSession();
+      else notice('Utilise le mot de passe du nouveau compte Supabase Auth, pas celui de l’ancien identifiant admin.');
+    });
+  } catch (error) { notice('Initialisation impossible. Vérifie le réseau et autorise le stockage de session pour ce site.', 'error'); }
+}
+window.addEventListener('pagehide', wipeSecret);
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', boot, { once: true });
+} else { boot(); }
+})();</script>
+</body></html>
