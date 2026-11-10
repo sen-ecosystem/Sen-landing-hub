@@ -258,4 +258,118 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', boot, { once: true });
 } else { boot(); }
 })();</script>
+  <script>
+(() => {
+'use strict';
+const routes = [
+  ['Budgets', 'sentew_admin_list_budgets', {p_limit: 1}],
+  ['Dépenses', 'sentew_admin_list_expenses', {p_limit: 1}],
+  ['Factures', 'sentew_admin_list_invoices', {p_limit: 1}],
+  ['Échéances', 'sentew_admin_list_echeances', {p_limit: 1}],
+  ['Salaires', 'sentew_admin_list_salaries', {p_limit: 1}],
+  ['Reversements enregistrés', 'sentew_admin_list_payouts', {p_limit: 1}],
+  ['Notifications', 'sentew_admin_list_notifications', {p_audience: 'all', p_limit: 1}],
+  ['Demandes de suppression', 'sentew_admin_list_deletion_requests', {p_limit: 1}]
+];
+const base = 'https://tjqkruhwmjzgfvtouqza.supabase.co/rest/v1/rpc/';
+const apiKey = 'sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
+function install() {
+  const panel = document.getElementById('readyPanel');
+  if (!panel || document.getElementById('checkAdminReads')) return;
+  const title = document.createElement('h2');
+  title.textContent = 'Raccordement des consultations';
+  const note = document.createElement('p');
+  note.textContent = 'Contrôle de lecture uniquement : aucune donnée modifiée et aucun transfert d’argent. Les montants et données personnelles ne sont pas affichés ici.';
+  const button = document.createElement('button');
+  button.id = 'checkAdminReads';
+  button.type = 'button';
+  button.textContent = 'Vérifier les 8 consultations sécurisées';
+  const report = document.createElement('div');
+  report.id = 'adminReadReport';
+  report.className = 'message';
+  report.setAttribute('role', 'status');
+  report.setAttribute('aria-live', 'polite');
+  report.hidden = true;
+  report.style.whiteSpace = 'pre-line';
+  panel.append(title, note, button, report);
+  let busy = false;
+  let controller = null;
+  let generation = 0;
+  function clear() {
+    generation += 1;
+    if (controller) controller.abort();
+    report.textContent = '';
+    report.hidden = true;
+  }
+  new MutationObserver(() => {
+    if (panel.hidden) clear();
+  }).observe(panel, {attributes: true, attributeFilter: ['hidden']});
+  window.addEventListener('pagehide', clear);
+  document.getElementById('signOut').addEventListener('click', clear);
+  button.addEventListener('click', async () => {
+    if (busy || panel.hidden) return;
+    busy = true;
+    button.disabled = true;
+    const version = ++generation;
+    controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 30000);
+    report.hidden = false;
+    report.textContent = 'Vérification de la session et des consultations…';
+    async function call(name, args, token) {
+      const response = await fetch(base + name, {
+        method: 'POST',
+        cache: 'no-store',
+        credentials: 'omit',
+        signal: controller.signal,
+        headers: {
+          apikey: apiKey,
+          Authorization: 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(args)
+      });
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      return response.json();
+    }
+    try {
+      const session = JSON.parse(sessionStorage.getItem('sentew-admin-auth-v1') || 'null');
+      if (!session || typeof session.access_token !== 'string') {
+        throw new Error('Session absente. Reconnecte-toi sur cette page.');
+      }
+      const token = session.access_token;
+      const context = await call('sentew_admin_context', {}, token);
+      if (!context || context.access_allowed !== true || context.mfa_verified !== true) {
+        throw new Error('Accès refusé. Revérifie ton identité et la double authentification.');
+      }
+      const results = await Promise.all(routes.map(async ([label, name, args]) => {
+        try {
+          const data = await call(name, args, token);
+          if (!Array.isArray(data)) throw new Error('Réponse inattendue');
+          return {ok: true, text: label + ' : accès validé' + (data.length ? '' : ' — aucune donnée')};
+        } catch (error) {
+          const detail = /^HTTP [0-9]{3}$/.test(error.message) ? error.message : 'réseau ou réponse à vérifier';
+          return {ok: false, text: label + ' : échec — ' + detail};
+        }
+      }));
+      if (version !== generation || panel.hidden) return;
+      const count = results.filter(r => r.ok).length;
+      report.textContent = count + '/8 consultations validées.\n\n' + results.map(r => r.text).join('\n');
+    } catch (error) {
+      if (version !== generation || panel.hidden) return;
+      report.textContent = error.name === 'AbortError'
+        ? 'Délai dépassé. Réessaie lorsque le réseau est disponible.'
+        : (error.message.startsWith('Session absente.') || error.message.startsWith('Accès refusé.')
+          ? error.message : 'Vérification impossible. Revérifie ton statut serveur puis réessaie.');
+    } finally {
+      clearTimeout(timer);
+      busy = false;
+      button.disabled = false;
+    }
+  });
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', install, {once: true});
+} else { install(); }
+})();
+</script>
 </body></html>
