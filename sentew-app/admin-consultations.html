@@ -1,4 +1,37 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-SjyCNeIH2ffEZ0LwidkQe4BuPUancZa2WH4QbgzZWk4=' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; connect-src https://tjqkruhwmjzgfvtouqza.supabase.co wss://tjqkruhwmjzgfvtouqza.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'"><title>Administration — consultations sécurisées SEN TEW</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.8/dist/umd/supabase.js" integrity="sha384-l7yJnh/cWKcqeTC5adHUdc5b+J4Kb2QTGRSkCQehn1YT5xEFlrgwnXOYuvrtI1F6" crossorigin="anonymous" defer></script><style>*{box-sizing:border-box}body{margin:0;background:#f4f6f2;color:#163d30;font:16px/1.6 system-ui}header{background:#103f31;color:white;border-bottom:3px solid #b99b54;padding:24px}main{max-width:1100px;margin:auto;padding:22px}.card{background:white;border:1px solid #d9e1d9;border-radius:12px;padding:20px;margin-bottom:20px}h1{font-size:26px;margin:8px 0}h2{font-size:19px}a{color:inherit}button,select{font:inherit;padding:12px;border-radius:8px;border:1px solid #657d70;margin:6px 6px 6px 0;max-width:100%}button{background:#103f31;color:white;cursor:pointer}button:disabled{opacity:.6}#message{overflow-wrap:anywhere}#rows{overflow:auto;max-height:65vh}table{border-collapse:collapse;font-size:13px;min-width:100%}th,td{padding:10px;border:1px solid #d9e1d9;text-align:left;max-width:350px;overflow-wrap:anywhere}th{background:#edf2ec;position:sticky;top:0}p{margin:10px 0}.note{border-left:3px solid #b99b54;padding-left:14px}[hidden]{display:none!important}</style></head><body><header><strong>SEN TEW · ADMINISTRATION</strong><h1>Consultations sécurisées</h1><span>Transition — lecture seule</span></header><main><section class="card"><p class="note">Cette page utilise les fonctions serveur protégées par le compte administrateur et la double authentification. Elle ne sécurise pas l’ancien tableau de bord et n’active aucune modification.</p><p>Les reversements affichés sont des écritures internes : leur présence ne prouve pas un transfert bancaire ou mobile money.</p><a href="admin-auth.html">Revenir à la connexion sécurisée</a><br><label for="section">Rubrique</label><br><select id="section"><option value="budgets">Budgets</option><option value="expenses">Dépenses</option><option value="invoices">Factures</option><option value="echeances">Échéances</option><option value="salaries">Salaires</option><option value="payouts">Reversements enregistrés</option><option value="notifications">Notifications</option><option value="deletion_requests">Demandes de suppression</option></select><button id="load">Consulter</button><button id="logout">Se déconnecter</button><p id="message" role="status" aria-live="polite">Vérification…</p></section><section id="workspace" class="card" hidden><h2>Données de la rubrique</h2><p>100 enregistrements maximum. Cette vue n’est pas un relevé exhaustif et ne calcule aucun total financier.</p><div id="rows" tabindex="0" aria-label="Tableau défilant"></div></section><noscript>JavaScript est nécessaire pour vérifier les droits d’accès.</noscript></main><script>window.addEventListener("DOMContentLoaded",()=>{
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-SjyCNeIH2ffEZ0LwidkQe4BuPUancZa2WH4QbgzZWk4=' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; connect-src https://tjqkruhwmjzgfvtouqza.supabase.co wss://tjqkruhwmjzgfvtouqza.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'"><title>Administration — consultations sécurisées SEN TEW</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.8/dist/umd/supabase.js" integrity="sha384-l7yJnh/cWKcqeTC5adHUdc5b+J4Kb2QTGRSkCQehn1YT5xEFlrgwnXOYuvrtI1F6" crossorigin="anonymous" defer></script><style>*{box-sizing:border-box}body{margin:0;background:#f4f6f2;color:#163d30;font:16px/1.6 system-ui}header{background:#103f31;color:white;border-bottom:3px solid #b99b54;padding:24px}main{max-width:1100px;margin:auto;padding:22px}.card{background:white;border:1px solid #d9e1d9;border-radius:12px;padding:20px;margin-bottom:20px}h1{font-size:26px;margin:8px 0}h2{font-size:19px}a{color:inherit}button,select{font:inherit;padding:12px;border-radius:8px;border:1px solid #657d70;margin:6px 6px 6px 0;max-width:100%}button{background:#103f31;color:white;cursor:pointer}button:disabled{opacity:.6}#message{overflow-wrap:anywhere}#rows{overflow:auto;max-height:65vh}table{border-collapse:collapse;font-size:13px;min-width:100%}th,td{padding:10px;border:1px solid #d9e1d9;text-align:left;max-width:350px;overflow-wrap:anywhere}th{background:#edf2ec;position:sticky;top:0}p{margin:10px 0}.note{border-left:3px solid #b99b54;padding-left:14px}[hidden]{display:none!important}</style><style>
+/* Tableaux lisibles avec défilement horizontal */
+#rows {
+  width: 100%;
+  max-width: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+#rows table {
+  width: max-content;
+  min-width: 100%;
+  table-layout: auto;
+}
+
+#rows th,
+#rows td {
+  min-width: 140px;
+  max-width: 360px;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
+  vertical-align: top;
+}
+
+#rows th {
+  white-space: nowrap;
+}
+
+#rows th:first-child,
+#rows td:first-child {
+  min-width: 260px;
+}
+</style></head><body><header><strong>SEN TEW · ADMINISTRATION</strong><h1>Consultations sécurisées</h1><span>Transition — lecture seule</span></header><main><section class="card"><p class="note">Cette page utilise les fonctions serveur protégées par le compte administrateur et la double authentification. Elle ne sécurise pas l’ancien tableau de bord et n’active aucune modification.</p><p>Les reversements affichés sont des écritures internes : leur présence ne prouve pas un transfert bancaire ou mobile money.</p><a href="admin-auth.html">Revenir à la connexion sécurisée</a><br><label for="section">Rubrique</label><br><select id="section"><option value="budgets">Budgets</option><option value="expenses">Dépenses</option><option value="invoices">Factures</option><option value="echeances">Échéances</option><option value="salaries">Salaires</option><option value="payouts">Reversements enregistrés</option><option value="notifications">Notifications</option><option value="deletion_requests">Demandes de suppression</option></select><button id="load">Consulter</button><button id="logout">Se déconnecter</button><p id="message" role="status" aria-live="polite">Vérification…</p></section><section id="workspace" class="card" hidden><h2>Données de la rubrique</h2><p>100 enregistrements maximum. Cette vue n’est pas un relevé exhaustif et ne calcule aucun total financier.</p><div id="rows" tabindex="0" aria-label="Tableau défilant"></div></section><noscript>JavaScript est nécessaire pour vérifier les droits d’accès.</noscript></main><script>window.addEventListener("DOMContentLoaded",()=>{
 'use strict';
 const $=id=>document.getElementById(id);
 const sections={budgets:'Budgets',expenses:'Dépenses',invoices:'Factures',echeances:'Échéances',salaries:'Salaires',payouts:'Reversements enregistrés',notifications:'Notifications',deletion_requests:'Demandes de suppression'};
