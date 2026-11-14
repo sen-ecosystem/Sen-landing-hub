@@ -1,0 +1,52 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-SjyCNeIH2ffEZ0LwidkQe4BuPUancZa2WH4QbgzZWk4=' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; connect-src https://tjqkruhwmjzgfvtouqza.supabase.co wss://tjqkruhwmjzgfvtouqza.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'"><title>Administration — consultations sécurisées SEN TEW</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.8/dist/umd/supabase.js" integrity="sha384-l7yJnh/cWKcqeTC5adHUdc5b+J4Kb2QTGRSkCQehn1YT5xEFlrgwnXOYuvrtI1F6" crossorigin="anonymous" defer></script><style>*{box-sizing:border-box}body{margin:0;background:#f4f6f2;color:#163d30;font:16px/1.6 system-ui}header{background:#103f31;color:white;border-bottom:3px solid #b99b54;padding:24px}main{max-width:1100px;margin:auto;padding:22px}.card{background:white;border:1px solid #d9e1d9;border-radius:12px;padding:20px;margin-bottom:20px}h1{font-size:26px;margin:8px 0}h2{font-size:19px}a{color:inherit}button,select{font:inherit;padding:12px;border-radius:8px;border:1px solid #657d70;margin:6px 6px 6px 0;max-width:100%}button{background:#103f31;color:white;cursor:pointer}button:disabled{opacity:.6}#message{overflow-wrap:anywhere}#rows{overflow:auto;max-height:65vh}table{border-collapse:collapse;font-size:13px;min-width:100%}th,td{padding:10px;border:1px solid #d9e1d9;text-align:left;max-width:350px;overflow-wrap:anywhere}th{background:#edf2ec;position:sticky;top:0}p{margin:10px 0}.note{border-left:3px solid #b99b54;padding-left:14px}[hidden]{display:none!important}</style></head><body><header><strong>SEN TEW · ADMINISTRATION</strong><h1>Consultations sécurisées</h1><span>Transition — lecture seule</span></header><main><section class="card"><p class="note">Cette page utilise les fonctions serveur protégées par le compte administrateur et la double authentification. Elle ne sécurise pas l’ancien tableau de bord et n’active aucune modification.</p><p>Les reversements affichés sont des écritures internes : leur présence ne prouve pas un transfert bancaire ou mobile money.</p><a href="admin-auth.html">Revenir à la connexion sécurisée</a><br><label for="section">Rubrique</label><br><select id="section"><option value="budgets">Budgets</option><option value="expenses">Dépenses</option><option value="invoices">Factures</option><option value="echeances">Échéances</option><option value="salaries">Salaires</option><option value="payouts">Reversements enregistrés</option><option value="notifications">Notifications</option><option value="deletion_requests">Demandes de suppression</option></select><button id="load">Consulter</button><button id="logout">Se déconnecter</button><p id="message" role="status" aria-live="polite">Vérification…</p></section><section id="workspace" class="card" hidden><h2>Données de la rubrique</h2><p>100 enregistrements maximum. Cette vue n’est pas un relevé exhaustif et ne calcule aucun total financier.</p><div id="rows" tabindex="0" aria-label="Tableau défilant"></div></section><noscript>JavaScript est nécessaire pour vérifier les droits d’accès.</noscript></main><script>window.addEventListener("DOMContentLoaded",()=>{
+'use strict';
+const $=id=>document.getElementById(id);
+const sections={budgets:'Budgets',expenses:'Dépenses',invoices:'Factures',echeances:'Échéances',salaries:'Salaires',payouts:'Reversements enregistrés',notifications:'Notifications',deletion_requests:'Demandes de suppression'};
+let sb,allowed=false,generation=0;
+function clear(){generation++;$('rows').replaceChildren();$('workspace').hidden=true;allowed=false;}
+function message(text){$('message').textContent=text;}
+async function guard(){
+ const {data:session,error:sessionError}=await sb.auth.getSession();
+ if(sessionError||!session.session)throw Error('Connexion requise. Reviens à la connexion sécurisée dans ce même onglet.');
+ const {data,error}=await sb.rpc('sentew_admin_context');
+ if(error)throw Error('Vérification serveur impossible. Aucun accès accordé.');
+ if(data?.access_allowed!==true||data?.mfa_verified!==true)throw Error('Accès refusé : compte administrateur et double authentification requis.');
+ allowed=true;return true;
+}
+async function load(){
+ clear();const ticket=generation;$('load').disabled=true;message('Vérification serveur…');
+ try{
+ await guard();if(ticket!==generation)return;
+ const section=$('section').value;
+ const {data,error}=await sb.rpc('sentew_admin_list_'+section,{p_limit:100,...(section==='notifications'?{p_audience:'all'}:{})});
+ if(ticket!==generation)return;
+ if(error)throw Error('Consultation refusée ou indisponible. Aucune donnée affichée.');
+ if(!Array.isArray(data))throw Error('Réponse serveur inattendue.');
+ const table=document.createElement('table');
+ if(data.length){
+ const keys=[...new Set(data.flatMap(row=>Object.keys(row)))];
+ const header=document.createElement('tr');for(const key of keys){const th=document.createElement('th');th.textContent=key;header.append(th);}table.append(header);
+ for(const row of data){const tr=document.createElement('tr');for(const key of keys){const td=document.createElement('td');const value=row[key];td.textContent=value==null?'—':typeof value==='object'?JSON.stringify(value):String(value);tr.append(td);}table.append(tr);}
+ $('rows').append(table);
+ }else{const p=document.createElement('p');p.textContent='Consultation réussie — aucun enregistrement.';$('rows').append(p);}
+ $('workspace').hidden=false;message(sections[section]+' : '+data.length+' enregistrement(s) affiché(s), au maximum 100.');
+ }catch(e){if(ticket===generation){clear();message(e.message||'Accès impossible.');}}
+ finally{$('load').disabled=false;}
+}
+$('load').onclick=load;
+$('section').onchange=()=>{clear();message('Clique sur Consulter pour charger cette rubrique.');};
+$('logout').onclick=async()=>{clear();try{const {error}=await sb.auth.signOut({scope:'local'});if(error)throw error;location.replace('admin-auth.html');}catch(e){message('Déconnexion non confirmée. Réessaie avant de fermer cet onglet.');}};
+window.addEventListener('pagehide',clear);
+document.addEventListener('visibilitychange',()=>{if(document.hidden){clear();message('Données masquées. Clique sur Consulter pour revérifier ton accès.');}});
+window.addEventListener('pageshow',event=>{if(event.persisted){clear();message('Clique sur Consulter pour vérifier ton accès.');}});
+async function init(){
+ try{
+ if(location.protocol!=='https:')throw Error('Ouvre cette page sur le site HTTPS, pas comme fichier local.');
+ sb=window.supabase.createClient('https://tjqkruhwmjzgfvtouqza.supabase.co','sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j',{auth:{persistSession:true,storage:sessionStorage,storageKey:'sentew-admin-auth-v1',autoRefreshToken:true,detectSessionInUrl:false}});
+ sb.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT'){clear();message('Session fermée. Reconnecte-toi.');}});
+ await load();
+ }catch(e){clear();message(e.message||'Initialisation impossible.');}
+}
+init();
+
+});</script></body></html>
