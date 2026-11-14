@@ -1,4 +1,4 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-SjyCNeIH2ffEZ0LwidkQe4BuPUancZa2WH4QbgzZWk4=' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; connect-src https://tjqkruhwmjzgfvtouqza.supabase.co wss://tjqkruhwmjzgfvtouqza.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'"><title>Administration — consultations sécurisées SEN TEW</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.8/dist/umd/supabase.js" integrity="sha384-l7yJnh/cWKcqeTC5adHUdc5b+J4Kb2QTGRSkCQehn1YT5xEFlrgwnXOYuvrtI1F6" crossorigin="anonymous" defer></script><style>*{box-sizing:border-box}body{margin:0;background:#f4f6f2;color:#163d30;font:16px/1.6 system-ui}header{background:#103f31;color:white;border-bottom:3px solid #b99b54;padding:24px}main{max-width:1100px;margin:auto;padding:22px}.card{background:white;border:1px solid #d9e1d9;border-radius:12px;padding:20px;margin-bottom:20px}h1{font-size:26px;margin:8px 0}h2{font-size:19px}a{color:inherit}button,select{font:inherit;padding:12px;border-radius:8px;border:1px solid #657d70;margin:6px 6px 6px 0;max-width:100%}button{background:#103f31;color:white;cursor:pointer}button:disabled{opacity:.6}#message{overflow-wrap:anywhere}#rows{overflow:auto;max-height:65vh}table{border-collapse:collapse;font-size:13px;min-width:100%}th,td{padding:10px;border:1px solid #d9e1d9;text-align:left;max-width:350px;overflow-wrap:anywhere}th{background:#edf2ec;position:sticky;top:0}p{margin:10px 0}.note{border-left:3px solid #b99b54;padding-left:14px}[hidden]{display:none!important}</style><style>
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-T4ow6lxTyLGjPh91MGtTVjrcO1kgREMi/DuFdVrv7Qc=' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; connect-src https://tjqkruhwmjzgfvtouqza.supabase.co wss://tjqkruhwmjzgfvtouqza.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'"><title>Administration — consultations sécurisées SEN TEW</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.8/dist/umd/supabase.js" integrity="sha384-l7yJnh/cWKcqeTC5adHUdc5b+J4Kb2QTGRSkCQehn1YT5xEFlrgwnXOYuvrtI1F6" crossorigin="anonymous" defer></script><style>*{box-sizing:border-box}body{margin:0;background:#f4f6f2;color:#163d30;font:16px/1.6 system-ui}header{background:#103f31;color:white;border-bottom:3px solid #b99b54;padding:24px}main{max-width:1100px;margin:auto;padding:22px}.card{background:white;border:1px solid #d9e1d9;border-radius:12px;padding:20px;margin-bottom:20px}h1{font-size:26px;margin:8px 0}h2{font-size:19px}a{color:inherit}button,select{font:inherit;padding:12px;border-radius:8px;border:1px solid #657d70;margin:6px 6px 6px 0;max-width:100%}button{background:#103f31;color:white;cursor:pointer}button:disabled{opacity:.6}#message{overflow-wrap:anywhere}#rows{overflow:auto;max-height:65vh}table{border-collapse:collapse;font-size:13px;min-width:100%}th,td{padding:10px;border:1px solid #d9e1d9;text-align:left;max-width:350px;overflow-wrap:anywhere}th{background:#edf2ec;position:sticky;top:0}p{margin:10px 0}.note{border-left:3px solid #b99b54;padding-left:14px}[hidden]{display:none!important}</style><style>
 /* Tableaux lisibles avec défilement horizontal */
 #rows {
   width: 100%;
@@ -31,12 +31,15 @@
 #rows td:first-child {
   min-width: 260px;
 }
-</style></head><body><header><strong>SEN TEW · ADMINISTRATION</strong><h1>Consultations sécurisées</h1><span>Transition — lecture seule</span></header><main><section class="card"><p class="note">Cette page utilise les fonctions serveur protégées par le compte administrateur et la double authentification. Elle ne sécurise pas l’ancien tableau de bord et n’active aucune modification.</p><p>Les reversements affichés sont des écritures internes : leur présence ne prouve pas un transfert bancaire ou mobile money.</p><a href="admin-auth.html">Revenir à la connexion sécurisée</a><br><label for="section">Rubrique</label><br><select id="section"><option value="budgets">Budgets</option><option value="expenses">Dépenses</option><option value="invoices">Factures</option><option value="echeances">Échéances</option><option value="salaries">Salaires</option><option value="payouts">Reversements enregistrés</option><option value="notifications">Notifications</option><option value="deletion_requests">Demandes de suppression</option></select><button id="load">Consulter</button><button id="logout">Se déconnecter</button><p id="message" role="status" aria-live="polite">Vérification…</p></section><section id="workspace" class="card" hidden><h2>Données de la rubrique</h2><p>100 enregistrements maximum. Cette vue n’est pas un relevé exhaustif et ne calcule aucun total financier.</p><div id="rows" tabindex="0" aria-label="Tableau défilant"></div></section><noscript>JavaScript est nécessaire pour vérifier les droits d’accès.</noscript></main><script>window.addEventListener("DOMContentLoaded",()=>{
+</style><style>#expenseForm fieldset{border:0;padding:0;margin:0;min-width:0}#expenseForm label{display:block;margin:12px 0 5px}#expenseForm input:not([type=checkbox]),#expenseForm textarea{display:block;width:100%;max-width:600px;font:inherit;padding:12px;border:1px solid #657d70;border-radius:8px;box-sizing:border-box}#expenseForm .confirmation{max-width:650px}#expenseResult{overflow-wrap:anywhere}#unlockExpense{background:#755717}</style></head><body><header><strong>SEN TEW · ADMINISTRATION</strong><h1>Consultations sécurisées</h1><span>Transition — consultations et ajout de dépense</span></header><main><section class="card"><p class="note">Cette page utilise les fonctions serveur protégées par le compte administrateur et la double authentification. Elle ne sécurise pas les autres opérations de l’ancien tableau de bord. Seul l’ajout de dépense est activé ici ; aucun paiement ni suppression ne peut être exécuté depuis cette page.</p><p>Les reversements affichés sont des écritures internes : leur présence ne prouve pas un transfert bancaire ou mobile money.</p><a href="admin-auth.html">Revenir à la connexion sécurisée</a><br><label for="section">Rubrique</label><br><select id="section"><option value="budgets">Budgets</option><option value="expenses">Dépenses</option><option value="invoices">Factures</option><option value="echeances">Échéances</option><option value="salaries">Salaires</option><option value="payouts">Reversements enregistrés</option><option value="notifications">Notifications</option><option value="deletion_requests">Demandes de suppression</option></select><button id="load">Consulter</button><button id="logout">Se déconnecter</button><p id="message" role="status" aria-live="polite">Vérification…</p></section><section id="expensePanel" class="card" hidden><h2>Ajouter une dépense</h2><p>Enregistrement comptable interne uniquement : cette action ne déclenche aucun paiement. Ne saisis pas de dépense fictive pour tester.</p><form id="expenseForm"><fieldset id="expenseFields"><label for="expenseLabel">Libellé</label><input id="expenseLabel" required maxlength="200" autocomplete="off"><label for="expenseCategory">Catégorie</label><input id="expenseCategory" required maxlength="100" autocomplete="off"><label for="expenseAmount">Montant en FCFA</label><input id="expenseAmount" required type="number" min="1" step="1" inputmode="numeric"><label for="expenseDate">Date de la dépense</label><input id="expenseDate" required type="date"><label for="expenseNote">Note facultative — sans mot de passe ni coordonnées bancaires</label><textarea id="expenseNote" maxlength="2000" rows="3"></textarea><label class="confirmation"><input id="expenseConfirm" type="checkbox" required> Je confirme que cette dépense réelle et son montant sont corrects.</label><button id="saveExpense" type="submit">Enregistrer la dépense</button></fieldset></form><p id="expenseResult" role="status" aria-live="polite"></p><p>En cas de réponse incertaine, consulte les dépenses avant tout nouvel envoi pour éviter un doublon. Les 100 lignes affichées ne sont pas un registre exhaustif.</p><button id="unlockExpense" type="button" hidden>Après vérification du registre, autoriser une nouvelle saisie</button></section><section id="workspace" class="card" hidden><h2>Données de la rubrique</h2><p>100 enregistrements maximum. Cette vue n’est pas un relevé exhaustif et ne calcule aucun total financier.</p><div id="rows" tabindex="0" aria-label="Tableau défilant"></div></section><noscript>JavaScript est nécessaire pour vérifier les droits d’accès.</noscript></main><script>window.addEventListener("DOMContentLoaded",()=>{
 'use strict';
 const $=id=>document.getElementById(id);
 const sections={budgets:'Budgets',expenses:'Dépenses',invoices:'Factures',echeances:'Échéances',salaries:'Salaires',payouts:'Reversements enregistrés',notifications:'Notifications',deletion_requests:'Demandes de suppression'};
-let sb,allowed=false,generation=0;
-function clear(){generation++;$('rows').replaceChildren();$('workspace').hidden=true;allowed=false;}
+let sb,allowed=false,generation=0,writing=false;
+const pendingKey="sentew-expense-unconfirmed-v1";
+let uncertain=false;
+try{uncertain=sessionStorage.getItem(pendingKey)==="1";}catch(e){uncertain=true;}
+function clear(){generation++;$('expensePanel').hidden=true;$('expenseConfirm').checked=false;$('rows').replaceChildren();$('workspace').hidden=true;allowed=false;}
 function message(text){$('message').textContent=text;}
 async function guard(){
  const {data:session,error:sessionError}=await sb.auth.getSession();
@@ -62,10 +65,54 @@ async function load(){
  for(const row of data){const tr=document.createElement('tr');for(const key of keys){const td=document.createElement('td');const value=row[key];td.textContent=value==null?'—':typeof value==='object'?JSON.stringify(value):String(value);tr.append(td);}table.append(tr);}
  $('rows').append(table);
  }else{const p=document.createElement('p');p.textContent='Consultation réussie — aucun enregistrement.';$('rows').append(p);}
- $('workspace').hidden=false;message(sections[section]+' : '+data.length+' enregistrement(s) affiché(s), au maximum 100.');
+ $('workspace').hidden=false;$('expensePanel').hidden=section!=='expenses';syncExpense();message(sections[section]+' : '+data.length+' enregistrement(s) affiché(s), au maximum 100.');
  }catch(e){if(ticket===generation){clear();message(e.message||'Accès impossible.');}}
  finally{$('load').disabled=false;}
 }
+
+function syncExpense(){
+ $('expenseFields').disabled=writing||uncertain;
+ $('unlockExpense').hidden=!uncertain||writing;
+ if(uncertain)$('expenseResult').textContent='Un envoi précédent n’a pas de résultat confirmé dans cette page. Vérifie le registre avant de saisir à nouveau.';
+}
+function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+$('expenseDate').value=today();
+$('unlockExpense').onclick=()=>{
+ if(!window.confirm('Confirme avoir vérifié le registre complet des dépenses et le résultat du précédent envoi. Si le résultat reste inconnu, annule et ne renvoie rien.'))return;
+ try{sessionStorage.removeItem(pendingKey);}catch(e){return;}
+ uncertain=false;$('expenseResult').textContent='Nouvelle saisie autorisée après ta vérification manuelle.';syncExpense();
+};
+$('expenseForm').addEventListener('submit',async event=>{
+ event.preventDefault();
+ if(writing||uncertain||!allowed||$('section').value!=='expenses')return;
+ if(!$('expenseForm').reportValidity())return;
+ const amount=Number($('expenseAmount').value);
+ if(!Number.isSafeInteger(amount)||amount<=0){$('expenseResult').textContent='Saisis un montant entier positif en FCFA.';return;}
+ const payload={p_label:$('expenseLabel').value.trim(),p_category:$('expenseCategory').value.trim(),p_amount:amount,p_expense_date:$('expenseDate').value,p_note:$('expenseNote').value.trim()||null};
+ if(!payload.p_label||!payload.p_category){$('expenseResult').textContent='Renseigne un libellé et une catégorie.';return;}
+ const ticket=generation;writing=true;syncExpense();$('section').disabled=true;$('load').disabled=true;
+ let attempted=false,success=false;
+ $('expenseResult').textContent='Vérification serveur avant enregistrement…';
+ try{
+ await guard();
+ if(ticket!==generation||document.hidden)throw Error('Accès à revérifier avant tout enregistrement.');
+ // No business data are stored here: this marker only prevents blind retries.
+ sessionStorage.setItem(pendingKey,'1');uncertain=true;attempted=true;
+ const {data,error}=await sb.rpc('sentew_admin_add_expense',payload);
+ if(error)throw Error('Enregistrement non confirmé. Vérifie le registre avant tout nouvel envoi.');
+ if(typeof data!=='string'||!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(data))throw Error('Réponse inattendue : résultat à vérifier dans le registre.');
+ sessionStorage.removeItem(pendingKey);uncertain=false;success=true;
+ $('expenseForm').reset();$('expenseDate').value=today();
+ $('expenseResult').textContent='Dépense enregistrée. Référence : '+data+'. Aucun paiement effectué.';
+ }catch(e){
+ if(!attempted)uncertain=false;
+ $('expenseResult').textContent=e.message||'Enregistrement non confirmé. Ne renvoie pas sans vérifier le registre.';
+ }finally{
+ writing=false;$('section').disabled=false;$('load').disabled=false;syncExpense();
+ }
+ if(success&&ticket===generation&&!document.hidden)await load();
+});
+
 $('load').onclick=load;
 $('section').onchange=()=>{clear();message('Clique sur Consulter pour charger cette rubrique.');};
 $('logout').onclick=async()=>{clear();try{const {error}=await sb.auth.signOut({scope:'local'});if(error)throw error;location.replace('admin-auth.html');}catch(e){message('Déconnexion non confirmée. Réessaie avant de fermer cet onglet.');}};
