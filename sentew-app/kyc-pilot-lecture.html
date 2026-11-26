@@ -1,1 +1,31 @@
-
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-aD9tK7eKPnPT54yCEh4wUEs7ZJajYNYE6rwgJ4kd/0o=' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; connect-src https://tjqkruhwmjzgfvtouqza.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><title>Test de lecture KYC — SEN TEW</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.8/dist/umd/supabase.js" integrity="sha384-l7yJnh/cWKcqeTC5adHUdc5b+J4Kb2QTGRSkCQehn1YT5xEFlrgwnXOYuvrtI1F6" crossorigin="anonymous" defer></script><style>body{font:1rem/1.55 system-ui;background:#eef3ef;color:#12362b;margin:0;padding:1rem}main{max-width:34rem;margin:2rem auto;background:white;border-radius:1rem;padding:1.25rem}button{font:inherit;background:#095844;color:white;border:0;border-radius:.5rem;padding:.7rem 1rem}a{color:#095844}[hidden]{display:none!important}</style></head><body><main><h1>Test de lecture KYC</h1><p>Page temporaire : seul le PDF fictif <code>test-depot-kyc.pdf</code> peut être demandé.</p><p><a href="admin-auth.html">Revenir à la connexion sécurisée</a></p><button type="button" id="test">Tester la lecture du PDF fictif</button><p id="status" role="status">En attente du test.</p><a id="pdf" hidden download="test-depot-kyc.pdf">Enregistrer le PDF fictif</a></main><script>
+document.addEventListener('DOMContentLoaded',()=>{
+ const button=document.querySelector('#test'), status=document.querySelector('#status'), link=document.querySelector('#pdf');
+ let url=null, generation=0;
+ function clear(){generation++;if(url) URL.revokeObjectURL(url);url=null;link.removeAttribute('href');link.hidden=true;button.disabled=false;}
+ window.addEventListener('pagehide',clear);
+ if(!window.supabase||location.protocol!=='https:'){status.textContent='Initialisation impossible. Ouvre la page publiée en HTTPS.';button.disabled=true;return;}
+ const sb=window.supabase.createClient('https://tjqkruhwmjzgfvtouqza.supabase.co',
+      'sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j',{auth:{persistSession:true,storage:sessionStorage,storageKey:'sentew-admin-auth-v1',autoRefreshToken:true,detectSessionInUrl:false}});
+ sb.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT'){clear();status.textContent='Session terminée.';}});
+ button.addEventListener('click',async()=>{
+  clear();const n=generation;button.disabled=true;status.textContent='Vérification de la session…';
+  try{
+   const session=await sb.auth.getSession();
+   if(session.error||!session.data?.session){if(n===generation)status.textContent='Aucune session SEN TEW dans cet onglet. Connecte-toi d’abord.';return;}
+   const ctx=await sb.rpc('sentew_admin_context');
+   if(n!==generation)return;
+   if(ctx.error||ctx.data?.access_allowed!==true||ctx.data?.mfa_verified!==true){status.textContent='Accès non confirmé : session administrateur avec double authentification requise.';return;}
+   const {data,error}=await sb.storage.from('sentew-kyc-pilot').download('test-depot-kyc.pdf');
+   if(n!==generation)return;
+   if(error||!data){status.textContent='PDF non récupéré : accès refusé, fichier absent ou service indisponible.';return;}
+   const header=await data.slice(0,5).text();
+   if(n!==generation)return;
+   if(header!=='%PDF-'){status.textContent='Le fichier reçu ne commence pas par une signature PDF.';return;}
+   url=URL.createObjectURL(new Blob([data],{type:'application/pdf'}));link.href=url;link.hidden=false;
+   status.textContent='OK — PDF pilote récupéré avec la session admin et la double authentification.';
+  }catch{if(n===generation)status.textContent='Test interrompu. Recharge la page puis réessaie.';}
+  finally{if(n===generation)button.disabled=false;}
+ });
+});
+</script></body></html>
