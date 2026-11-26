@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-BY2n0f6wOETATej4HuPH+Twf0bGp7k9OdExc4DmyoaQ='; style-src 'unsafe-inline'; connect-src https://tjqkruhwmjzgfvtouqza.supabase.co; base-uri 'none'; form-action 'none'"><title>SEN TEW — Pilote dépôt KYC</title><style>body{font:1rem system-ui;color:#162c24;background:#f0f6f2;margin:0;padding:1rem}main{max-width:32rem;margin:2rem auto;padding:1.3rem;background:white;border-radius:1rem}label,input,button{display:block}label{margin-top:1rem}input,button{box-sizing:border-box;width:100%;margin-top:.4rem;padding:.65rem;font:inherit}button{background:#075442;color:white;border:0;border-radius:.5rem;margin-top:1.3rem}#message{font-weight:700;min-height:2.5rem}</style></head>
+<body><main><h1>Pilote dépôt KYC</h1><p>Utilise uniquement le compte vendeur de test et un PDF fictif sans données personnelles. N’utilise pas ton compte admin.</p><form autocomplete="off"><label>Adresse du compte test<input name="email" type="email" required autocapitalize="none"></label><label>Mot de passe Supabase du compte test<input name="password" type="password" required autocomplete="off"></label><label>PDF fictif (moins de 1 Mo)<input name="pdf" type="file" accept="application/pdf,.pdf" required></label><button type="submit">Se connecter et déposer le PDF fictif</button></form><p id="message" role="status"></p></main><script>'use strict';
+const origin = 'https://tjqkruhwmjzgfvtouqza.supabase.co';
+const key = 'sb_publishable_XCdjFFvg7Wys68uFf4Bs5A_5XHpDz9j';
+const uid = '4e7dc44c-6f77-4f6d-87a2-ae98f20e3e03';
+const form = document.querySelector('form');
+const message = document.querySelector('#message');
+const button = form.querySelector('button');
+const base = {apikey:key};
+form.addEventListener('submit', async event => {
+  event.preventDefault();
+  if (button.disabled) return;
+  button.disabled = true;
+  let token;
+  try {
+    const file = form.elements.namedItem('pdf').files[0];
+    if (!file || file.type !== 'application/pdf' || file.size <= 0 || file.size > 1000000 || await file.slice(0,5).text() !== '%PDF-') {
+      message.textContent = 'Choisis un vrai fichier PDF fictif, de moins de 1 Mo.'; return;
+    }
+    message.textContent = 'Connexion au compte de test…';
+    const request = fetch(origin+'/auth/v1/token?grant_type=password', {method:'POST', credentials:'omit', cache:'no-store', headers:{...base,'Content-Type':'application/json'}, body:JSON.stringify({email:form.email.value.trim(),password:form.password.value})});
+    form.password.value = '';
+    const login = await request;
+    if (!login.ok) { message.textContent = 'Connexion refusée (HTTP '+login.status+'). Vérifie les identifiants du compte de test.'; return; }
+    const session = await login.json();
+    token = session.access_token;
+    if (!token || session.user?.id !== uid) { message.textContent = 'Ce n’est pas le compte candidat du pilote. Aucun fichier envoyé.'; return; }
+    message.textContent = 'Dépôt du PDF fictif…';
+    const upload = await fetch(origin+'/storage/v1/object/sentew-kyc-pilot/test-depot-kyc.pdf', {method:'POST',credentials:'omit',cache:'no-store',headers:{...base,Authorization:'Bearer '+token,'Content-Type':'application/pdf','x-upsert':'false'},body:file});
+    if (!upload.ok) { const detail=await upload.json().catch(()=>null); const code=String(detail?.statusCode??''); message.textContent = 'Dépôt non confirmé (HTTP '+upload.status+(/^[0-9]{3}$/.test(code)?', code Storage '+code:'')+'). N’efface aucun fichier ; transmets ce message.'; return; }
+    form.reset();
+    message.textContent = 'OK — PDF fictif déposé avec la session du candidat.';
+  } catch { message.textContent = 'Le test n’a pas pu être confirmé. Vérifie la connexion réseau.'; }
+  finally { if (token) { try { await fetch(origin+'/auth/v1/logout?scope=local',{method:'POST',credentials:'omit',headers:{...base,Authorization:'Bearer '+token},signal:AbortSignal.timeout(4000)}); } catch {} } button.disabled=false; }
+});</script></body></html>
